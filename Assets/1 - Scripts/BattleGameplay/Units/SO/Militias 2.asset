@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd9b355280ff1ea40874f23fb931751d, type: 3}
+  m_Name: Militias 2
+  m_EditorClassIdentifier: 
+  unitName: Defender
+  unitGO: {fileID: 4387482535749053680, guid: cc78e8712785a1444aa235793b8c9bf5, type: 3}
+  unitIcon: {fileID: -3155761069584523039, guid: e756201b1c0648f4b9607dc384c97567, type: 3}
+  UnitHome: 0
+  UnitType: 0
+  health: 30
+  physicAttack: 3
+  physicDefence: 3
+  magicAttack: 1
+  magicDefence: 1
+  speedAttack: 1.75
+  size: 1
+  level: 2
+  UnitAbility: 0
+  attackTool: {fileID: 394755954311998102, guid: aaa8f49f3f3fb474080b0b787f2ae961, type: 3}
+  coinsPrice: 111
+  foodPrice: 222
+  woodPrice: 333
+  ironPrice: 345
+  stonePrice: 34
+  magicPrice: 5

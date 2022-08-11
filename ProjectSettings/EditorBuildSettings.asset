@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 0
+    path: Assets/Scenes/MainMenu.unity
+    guid: 32beb6d6fb582a24ba4953e27f528b64
+  - enabled: 1
+    path: Assets/Scenes/GlobalMode.unity
+    guid: fb525b5b81ffd3442a28e15e2751a6f6
+  - enabled: 0
+    path: Assets/Scenes/BattleMode.unity
+    guid: e61a1b17df8c77e428d4cd5a306c4ff9
+  m_configObjects: {}

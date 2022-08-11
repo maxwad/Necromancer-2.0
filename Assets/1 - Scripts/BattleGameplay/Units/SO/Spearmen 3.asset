@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd9b355280ff1ea40874f23fb931751d, type: 3}
+  m_Name: Spearmen 3
+  m_EditorClassIdentifier: 
+  unitName: Duelist
+  unitGO: {fileID: 4387482535749053680, guid: c2afcf460fb228841b8bdf0f34d933fa, type: 3}
+  unitIcon: {fileID: -6843328530170947977, guid: e756201b1c0648f4b9607dc384c97567, type: 3}
+  UnitHome: 0
+  UnitType: 3
+  health: 34
+  physicAttack: 4
+  physicDefence: 4
+  magicAttack: 3
+  magicDefence: 3
+  speedAttack: 1.5
+  size: 1
+  level: 3
+  UnitAbility: 3
+  attackTool: {fileID: 4421521410223311930, guid: 676584de6f412b741bac0840b94f0816, type: 3}
+  coinsPrice: 100
+  foodPrice: 765
+  woodPrice: 56
+  ironPrice: 65
+  stonePrice: 87
+  magicPrice: 76

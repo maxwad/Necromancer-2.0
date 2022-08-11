@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5af00e5f0857c3345a0d62138f725e96, type: 3}
+  m_Name: Werewolf
+  m_EditorClassIdentifier: 
+  enemyName: Werewolf
+  EnemiesType: 5
+  enemyGO: {fileID: 3384413393282376287, guid: 48c05a18defe97e429432194918e2e2f, type: 3}
+  enemyIcon: {fileID: 5366457973745487733, guid: 4d7a02af42c41584d9d5e709e3d22033, type: 3}
+  health: 9
+  physicAttack: 3
+  physicDefence: 3
+  magicAttack: 1
+  magicDefence: 1
+  speedAttack: 1
+  size: 1
+  EnemyAbility: 0
+  attackTool: {fileID: 0}
+  coinsPrice: 500
+  foodPrice: 500
+  woodPrice: 500
+  ironPrice: 500
+  stonePrice: 500
+  magicPrice: 500
+  exp: 1

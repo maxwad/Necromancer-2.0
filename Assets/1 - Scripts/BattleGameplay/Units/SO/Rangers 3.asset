@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd9b355280ff1ea40874f23fb931751d, type: 3}
+  m_Name: Rangers 3
+  m_EditorClassIdentifier: 
+  unitName: Raider
+  unitGO: {fileID: 4387482535749053680, guid: 8287f0b32cd023a44b93e64ea4f07225, type: 3}
+  unitIcon: {fileID: -192181715012131653, guid: e756201b1c0648f4b9607dc384c97567, type: 3}
+  UnitHome: 0
+  UnitType: 1
+  health: 40
+  physicAttack: 7
+  physicDefence: 7
+  magicAttack: 3
+  magicDefence: 4
+  speedAttack: 1.5
+  size: 1
+  level: 3
+  UnitAbility: 5
+  attackTool: {fileID: 4421521410223311930, guid: ca44c805e3b0f45459a198ac42386b96, type: 3}
+  coinsPrice: 877
+  foodPrice: 766
+  woodPrice: 76
+  ironPrice: 777
+  stonePrice: 87
+  magicPrice: 86

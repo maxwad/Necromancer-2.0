@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd9b355280ff1ea40874f23fb931751d, type: 3}
+  m_Name: Monks 1
+  m_EditorClassIdentifier: 
+  unitName: Monk
+  unitGO: {fileID: 4387482535749053680, guid: 580ccd906fa69804d91d5a8e23be6bc9, type: 3}
+  unitIcon: {fileID: 3554242101514492605, guid: e756201b1c0648f4b9607dc384c97567, type: 3}
+  UnitHome: 0
+  UnitType: 4
+  health: 20
+  physicAttack: 2
+  physicDefence: 2
+  magicAttack: 3
+  magicDefence: 3
+  speedAttack: 2
+  size: 1
+  level: 1
+  UnitAbility: 1
+  attackTool: {fileID: 3522437187258658667, guid: 9c7e287e49b080e488f4467e15a7ffeb, type: 3}
+  coinsPrice: 667
+  foodPrice: 9
+  woodPrice: 884
+  ironPrice: 545
+  stonePrice: 54
+  magicPrice: 54

@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Enemy
+  - Obstacle
+  - Squad
+  - BonusBox
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - PlayerTR
+  - Water
+  - UI
+  - PlayerBounds
+  - EnemyTR
+  - EnemyBounds
+  - PlayerWeapon
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Player
+    uniqueID: 2641532255
+    locked: 0
+  - name: Enemy
+    uniqueID: 3605625997
+    locked: 0

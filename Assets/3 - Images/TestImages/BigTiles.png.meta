@@ -1,0 +1,3906 @@
+fileFormatVersion: 2
+guid: d8a8f95d89a1f8c4d95d09d6be12b615
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -539682981113024524
+    second: BigTiles_0
+  - first:
+      213: 2421769830579836717
+    second: BigTiles_1
+  - first:
+      213: 4612413997436502767
+    second: BigTiles_2
+  - first:
+      213: 3218369359026067680
+    second: BigTiles_3
+  - first:
+      213: -5412411539723911474
+    second: BigTiles_4
+  - first:
+      213: 8130372442593577474
+    second: BigTiles_5
+  - first:
+      213: 1570380324783098929
+    second: BigTiles_6
+  - first:
+      213: 8959798941351712156
+    second: BigTiles_7
+  - first:
+      213: -2382598594214777550
+    second: BigTiles_8
+  - first:
+      213: 6256661356781392455
+    second: BigTiles_9
+  - first:
+      213: -3391408301146641491
+    second: BigTiles_10
+  - first:
+      213: 2610744795918242499
+    second: BigTiles_11
+  - first:
+      213: 5889590245226849209
+    second: BigTiles_12
+  - first:
+      213: -8629168504378598497
+    second: BigTiles_13
+  - first:
+      213: -2483507364247265947
+    second: BigTiles_14
+  - first:
+      213: 4494617834799742250
+    second: BigTiles_15
+  - first:
+      213: 2939719156438469576
+    second: BigTiles_16
+  - first:
+      213: 1478553954280424499
+    second: BigTiles_17
+  - first:
+      213: -3620521341601916778
+    second: BigTiles_18
+  - first:
+      213: 8556340035650959058
+    second: BigTiles_19
+  - first:
+      213: 3604200992637391610
+    second: BigTiles_20
+  - first:
+      213: -7765473574268714032
+    second: BigTiles_21
+  - first:
+      213: -4834695626286630925
+    second: BigTiles_22
+  - first:
+      213: -3811583748021106651
+    second: BigTiles_23
+  - first:
+      213: -8581300652615375759
+    second: BigTiles_24
+  - first:
+      213: -160734693351752549
+    second: BigTiles_25
+  - first:
+      213: -246837629313140669
+    second: BigTiles_26
+  - first:
+      213: 7288343617981837058
+    second: BigTiles_27
+  - first:
+      213: -4078827408256465169
+    second: BigTiles_28
+  - first:
+      213: -5153153473754714125
+    second: BigTiles_29
+  - first:
+      213: -95019371974352999
+    second: BigTiles_30
+  - first:
+      213: -10372458341224824
+    second: BigTiles_31
+  - first:
+      213: 4794360599094857432
+    second: BigTiles_32
+  - first:
+      213: 7376876987784050030
+    second: BigTiles_33
+  - first:
+      213: 282587856981186317
+    second: BigTiles_34
+  - first:
+      213: -1652190823107157828
+    second: BigTiles_35
+  - first:
+      213: -3227551243643823909
+    second: BigTiles_36
+  - first:
+      213: 8565051218200129419
+    second: BigTiles_37
+  - first:
+      213: 1202327602014530630
+    second: BigTiles_38
+  - first:
+      213: 7889972704880477346
+    second: BigTiles_39
+  - first:
+      213: -2069946102607720003
+    second: BigTiles_40
+  - first:
+      213: 1342494890791763479
+    second: BigTiles_41
+  - first:
+      213: -5976994682681445745
+    second: BigTiles_42
+  - first:
+      213: 4877517373847914483
+    second: BigTiles_43
+  - first:
+      213: 9204682290505763305
+    second: BigTiles_44
+  - first:
+      213: 4157273558189685777
+    second: BigTiles_45
+  - first:
+      213: 5386783546506533549
+    second: BigTiles_46
+  - first:
+      213: -3773047412756480626
+    second: BigTiles_47
+  - first:
+      213: -8770252421712735537
+    second: BigTiles_48
+  - first:
+      213: 4469763061130766993
+    second: BigTiles_49
+  - first:
+      213: 1265501727142343591
+    second: BigTiles_50
+  - first:
+      213: -3659839999039496689
+    second: BigTiles_51
+  - first:
+      213: -3189150801677715689
+    second: BigTiles_52
+  - first:
+      213: -4805380110469668118
+    second: BigTiles_53
+  - first:
+      213: -5605711422649555401
+    second: BigTiles_54
+  - first:
+      213: 7803748420496901330
+    second: BigTiles_55
+  - first:
+      213: 645778125719756509
+    second: BigTiles_56
+  - first:
+      213: -1440393587417823009
+    second: BigTiles_57
+  - first:
+      213: 7386440788363287599
+    second: BigTiles_58
+  - first:
+      213: 6498288218494984136
+    second: BigTiles_59
+  - first:
+      213: 8981316896336385449
+    second: BigTiles_60
+  - first:
+      213: -6823552876302308536
+    second: BigTiles_61
+  - first:
+      213: -3146738094798674347
+    second: BigTiles_62
+  - first:
+      213: 5511524779953464609
+    second: BigTiles_63
+  - first:
+      213: 7917230575864847978
+    second: BigTiles_64
+  - first:
+      213: -5867843453326870092
+    second: BigTiles_65
+  - first:
+      213: -2813572765682641351
+    second: BigTiles_66
+  - first:
+      213: -1391232090523084866
+    second: BigTiles_67
+  - first:
+      213: 531411013927688754
+    second: BigTiles_68
+  - first:
+      213: -7291489527715671522
+    second: BigTiles_69
+  - first:
+      213: -3534799283585186149
+    second: BigTiles_70
+  - first:
+      213: 4228366985323979868
+    second: BigTiles_71
+  - first:
+      213: -2071447710647651411
+    second: BigTiles_72
+  - first:
+      213: -1559543958354508776
+    second: BigTiles_73
+  - first:
+      213: 4952567867116280103
+    second: BigTiles_74
+  - first:
+      213: -2449303496822314210
+    second: BigTiles_75
+  - first:
+      213: -476200267292605555
+    second: BigTiles_76
+  - first:
+      213: -1399254230508184759
+    second: BigTiles_77
+  - first:
+      213: -9152325903600421343
+    second: BigTiles_78
+  - first:
+      213: -5964361695983814044
+    second: BigTiles_79
+  - first:
+      213: 8359768794703163848
+    second: BigTiles_80
+  - first:
+      213: 8924134139924011707
+    second: BigTiles_81
+  - first:
+      213: -7821937175398424495
+    second: BigTiles_82
+  - first:
+      213: -3548923351037493649
+    second: BigTiles_83
+  - first:
+      213: -3408901516616497155
+    second: BigTiles_84
+  - first:
+      213: -3419936138649270618
+    second: BigTiles_85
+  - first:
+      213: -4961578008007192784
+    second: BigTiles_86
+  - first:
+      213: 2154026594531048
+    second: BigTiles_87
+  - first:
+      213: 182526966021041320
+    second: BigTiles_88
+  - first:
+      213: 2078694213009021137
+    second: BigTiles_89
+  - first:
+      213: 8804341078710187889
+    second: BigTiles_90
+  - first:
+      213: 8487417212613987426
+    second: BigTiles_91
+  - first:
+      213: -2704496565806576059
+    second: BigTiles_92
+  - first:
+      213: -134253851005806108
+    second: BigTiles_93
+  - first:
+      213: -2126237098920359681
+    second: BigTiles_94
+  - first:
+      213: -5217328402339519328
+    second: BigTiles_95
+  - first:
+      213: 2261102282377793429
+    second: BigTiles_96
+  - first:
+      213: -7582191430399742599
+    second: BigTiles_97
+  - first:
+      213: -6034928067237981399
+    second: BigTiles_98
+  - first:
+      213: 862011087989360220
+    second: BigTiles_99
+  - first:
+      213: 3675425788419528200
+    second: BigTiles_100
+  - first:
+      213: 5468764048636338996
+    second: BigTiles_101
+  - first:
+      213: -3695148937399295070
+    second: BigTiles_102
+  - first:
+      213: 3431416643831947745
+    second: BigTiles_103
+  - first:
+      213: 6860596676838996864
+    second: BigTiles_104
+  - first:
+      213: 6087987451193025154
+    second: BigTiles_105
+  - first:
+      213: -7043940750322506677
+    second: BigTiles_106
+  - first:
+      213: -4946210978411523489
+    second: BigTiles_107
+  - first:
+      213: 5842322710305660697
+    second: BigTiles_108
+  - first:
+      213: -785046872442351284
+    second: BigTiles_109
+  - first:
+      213: 3106823965934679863
+    second: BigTiles_110
+  - first:
+      213: 5111572540764360261
+    second: BigTiles_111
+  - first:
+      213: -993990752235248224
+    second: BigTiles_112
+  - first:
+      213: 4148544039125027034
+    second: BigTiles_113
+  - first:
+      213: -3893727004348149715
+    second: BigTiles_114
+  - first:
+      213: -3624731932435766695
+    second: BigTiles_115
+  - first:
+      213: -9172352344718776626
+    second: BigTiles_116
+  - first:
+      213: -776654062606080989
+    second: BigTiles_117
+  - first:
+      213: 2201272879701498190
+    second: BigTiles_118
+  - first:
+      213: 767746181089759404
+    second: BigTiles_119
+  - first:
+      213: -2373061801848518050
+    second: BigTiles_120
+  - first:
+      213: 676304449421895157
+    second: BigTiles_121
+  - first:
+      213: -8407652943407213006
+    second: BigTiles_122
+  - first:
+      213: 5635928325126650884
+    second: BigTiles_123
+  - first:
+      213: -1637879914278799305
+    second: BigTiles_124
+  - first:
+      213: 5608206704135056512
+    second: BigTiles_125
+  - first:
+      213: 3066071230770364960
+    second: BigTiles_126
+  - first:
+      213: 3456548870475185490
+    second: BigTiles_127
+  - first:
+      213: 2690885402634678914
+    second: BigTiles_128
+  - first:
+      213: 2546227462562442256
+    second: BigTiles_129
+  - first:
+      213: 2167043378688290793
+    second: BigTiles_130
+  - first:
+      213: 8774665220917930309
+    second: BigTiles_131
+  - first:
+      213: -6158934243811626787
+    second: BigTiles_132
+  - first:
+      213: -7825166261046483461
+    second: BigTiles_133
+  - first:
+      213: -6179652374512264791
+    second: BigTiles_134
+  - first:
+      213: 3354556603382802541
+    second: BigTiles_135
+  - first:
+      213: 1109181097831375392
+    second: BigTiles_136
+  - first:
+      213: -7058036045861839317
+    second: BigTiles_137
+  - first:
+      213: 7754563544917731794
+    second: BigTiles_138
+  - first:
+      213: -85890283430542192
+    second: BigTiles_139
+  - first:
+      213: 8820977361472566792
+    second: BigTiles_140
+  - first:
+      213: -7605195641330463457
+    second: BigTiles_141
+  - first:
+      213: -3772527839506992228
+    second: BigTiles_142
+  - first:
+      213: 5130720000088805472
+    second: BigTiles_143
+  - first:
+      213: 8260503961473367815
+    second: BigTiles_144
+  - first:
+      213: -1086782257659290640
+    second: BigTiles_145
+  - first:
+      213: -2154845142761237482
+    second: BigTiles_146
+  - first:
+      213: -5039703007260393941
+    second: BigTiles_147
+  - first:
+      213: 1048998622126271023
+    second: BigTiles_148
+  - first:
+      213: -777257037844862578
+    second: BigTiles_149
+  - first:
+      213: 7753839204777849277
+    second: BigTiles_150
+  - first:
+      213: 2214430046039079004
+    second: BigTiles_151
+  - first:
+      213: -1421645113661049075
+    second: BigTiles_152
+  - first:
+      213: 5193189914956903662
+    second: BigTiles_153
+  - first:
+      213: -5736671474907896713
+    second: BigTiles_154
+  - first:
+      213: -1720080109248895886
+    second: BigTiles_155
+  - first:
+      213: -555962755563366736
+    second: BigTiles_156
+  - first:
+      213: 11057137687896011
+    second: BigTiles_157
+  - first:
+      213: 6979526964103633175
+    second: BigTiles_158
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 90
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: BigTiles_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3816
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4ff2f632039a288f0800000000000000
+      internalID: -539682981113024524
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_1
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 3816
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d27187f64dadb9120800000000000000
+      internalID: 2421769830579836717
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_2
+      rect:
+        serializedVersion: 2
+        x: 488
+        y: 3816
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe20e32d716920040800000000000000
+      internalID: 4612413997436502767
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_3
+      rect:
+        serializedVersion: 2
+        x: 732
+        y: 3816
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0e810c061e1f9ac20800000000000000
+      internalID: 3218369359026067680
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_4
+      rect:
+        serializedVersion: 2
+        x: 976
+        y: 3816
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ecef78c716043e4b0800000000000000
+      internalID: -5412411539723911474
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_5
+      rect:
+        serializedVersion: 2
+        x: 1220
+        y: 3816
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 20a4a64f8a2e4d070800000000000000
+      internalID: 8130372442593577474
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_6
+      rect:
+        serializedVersion: 2
+        x: 1464
+        y: 3816
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 13c85fcc59c1bc510800000000000000
+      internalID: 1570380324783098929
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_7
+      rect:
+        serializedVersion: 2
+        x: 1708
+        y: 3816
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c9590368aa9975c70800000000000000
+      internalID: 8959798941351712156
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_8
+      rect:
+        serializedVersion: 2
+        x: 1952
+        y: 3816
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 23dab7db33f4feed0800000000000000
+      internalID: -2382598594214777550
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_9
+      rect:
+        serializedVersion: 2
+        x: 2196
+        y: 3816
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7425ed2da5024d650800000000000000
+      internalID: 6256661356781392455
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_10
+      rect:
+        serializedVersion: 2
+        x: 2440
+        y: 3816
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dabe7d95e1c4fe0d0800000000000000
+      internalID: -3391408301146641491
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_11
+      rect:
+        serializedVersion: 2
+        x: 2684
+        y: 3816
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3c218ef3f8a3b3420800000000000000
+      internalID: 2610744795918242499
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3532
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9b32a57af170cb150800000000000000
+      internalID: 5889590245226849209
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_13
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 3532
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f9b568de6f80f3880800000000000000
+      internalID: -8629168504378598497
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_14
+      rect:
+        serializedVersion: 2
+        x: 488
+        y: 3532
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 56d99fcd53fc88dd0800000000000000
+      internalID: -2483507364247265947
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_15
+      rect:
+        serializedVersion: 2
+        x: 732
+        y: 3532
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a2dbf547b17106e30800000000000000
+      internalID: 4494617834799742250
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_16
+      rect:
+        serializedVersion: 2
+        x: 976
+        y: 3532
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8cb0dea5ffafbc820800000000000000
+      internalID: 2939719156438469576
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_17
+      rect:
+        serializedVersion: 2
+        x: 1220
+        y: 3532
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 334422adcf0e48410800000000000000
+      internalID: 1478553954280424499
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_18
+      rect:
+        serializedVersion: 2
+        x: 1464
+        y: 3532
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 698d81ca50351cdc0800000000000000
+      internalID: -3620521341601916778
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_19
+      rect:
+        serializedVersion: 2
+        x: 1708
+        y: 3532
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2d6bd62dde93eb670800000000000000
+      internalID: 8556340035650959058
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_20
+      rect:
+        serializedVersion: 2
+        x: 1952
+        y: 3532
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: af21349f4b1b40230800000000000000
+      internalID: 3604200992637391610
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_21
+      rect:
+        serializedVersion: 2
+        x: 2196
+        y: 3532
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0d3c70d6dee7b3490800000000000000
+      internalID: -7765473574268714032
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_22
+      rect:
+        serializedVersion: 2
+        x: 2440
+        y: 3532
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3f7fc0671f5b7ecb0800000000000000
+      internalID: -4834695626286630925
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_23
+      rect:
+        serializedVersion: 2
+        x: 2684
+        y: 3532
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 528cc8b96c88a1bc0800000000000000
+      internalID: -3811583748021106651
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_24
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3248
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 174680aa58819e880800000000000000
+      internalID: -8581300652615375759
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_25
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 3248
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b9cffa3e5a4f4cdf0800000000000000
+      internalID: -160734693351752549
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_26
+      rect:
+        serializedVersion: 2
+        x: 488
+        y: 3248
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3483793eb7e039cf0800000000000000
+      internalID: -246837629313140669
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_27
+      rect:
+        serializedVersion: 2
+        x: 732
+        y: 3248
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 20feaceb7e5652560800000000000000
+      internalID: 7288343617981837058
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_28
+      rect:
+        serializedVersion: 2
+        x: 976
+        y: 3248
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe60fbe25181567c0800000000000000
+      internalID: -4078827408256465169
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_29
+      rect:
+        serializedVersion: 2
+        x: 1220
+        y: 3248
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3ffa7cbd7325c78b0800000000000000
+      internalID: -5153153473754714125
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_30
+      rect:
+        serializedVersion: 2
+        x: 1464
+        y: 3248
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 99f10b6726c6eaef0800000000000000
+      internalID: -95019371974352999
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_31
+      rect:
+        serializedVersion: 2
+        x: 1708
+        y: 3248
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 88eaf19dd462bdff0800000000000000
+      internalID: -10372458341224824
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_32
+      rect:
+        serializedVersion: 2
+        x: 1952
+        y: 3248
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8de8d22309df88240800000000000000
+      internalID: 4794360599094857432
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_33
+      rect:
+        serializedVersion: 2
+        x: 2196
+        y: 3248
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e653f98398eef5660800000000000000
+      internalID: 7376876987784050030
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_34
+      rect:
+        serializedVersion: 2
+        x: 2440
+        y: 3248
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d07d331a824fbe300800000000000000
+      internalID: 282587856981186317
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_35
+      rect:
+        serializedVersion: 2
+        x: 2684
+        y: 3248
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cb0a987333d3219e0800000000000000
+      internalID: -1652190823107157828
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_36
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2964
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bd85d348e3f6533d0800000000000000
+      internalID: -3227551243643823909
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_37
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 2964
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b8f68df04bc2dd670800000000000000
+      internalID: 8565051218200129419
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_38
+      rect:
+        serializedVersion: 2
+        x: 488
+        y: 2964
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 64c29b575968fa010800000000000000
+      internalID: 1202327602014530630
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_39
+      rect:
+        serializedVersion: 2
+        x: 732
+        y: 2964
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2a4cde94f50de7d60800000000000000
+      internalID: 7889972704880477346
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_40
+      rect:
+        serializedVersion: 2
+        x: 976
+        y: 2964
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: db1dcd99cf21643e0800000000000000
+      internalID: -2069946102607720003
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_41
+      rect:
+        serializedVersion: 2
+        x: 1220
+        y: 2964
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 71e7b668dff71a210800000000000000
+      internalID: 1342494890791763479
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_42
+      rect:
+        serializedVersion: 2
+        x: 1464
+        y: 2964
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f82bf5ae0037d0da0800000000000000
+      internalID: -5976994682681445745
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_43
+      rect:
+        serializedVersion: 2
+        x: 1708
+        y: 2964
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3f74006953c60b340800000000000000
+      internalID: 4877517373847914483
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_44
+      rect:
+        serializedVersion: 2
+        x: 1952
+        y: 2964
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9e9cce356c99dbf70800000000000000
+      internalID: 9204682290505763305
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_45
+      rect:
+        serializedVersion: 2
+        x: 2196
+        y: 2964
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 11c3506664a91b930800000000000000
+      internalID: 4157273558189685777
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_46
+      rect:
+        serializedVersion: 2
+        x: 2440
+        y: 2964
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: daad07b5813b1ca40800000000000000
+      internalID: 5386783546506533549
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_48
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2680
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fc29d45a3edc94680800000000000000
+      internalID: -8770252421712735537
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_49
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 2680
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 19aacd082d9c70e30800000000000000
+      internalID: 4469763061130766993
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_50
+      rect:
+        serializedVersion: 2
+        x: 488
+        y: 2680
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7a376fcad17ff8110800000000000000
+      internalID: 1265501727142343591
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_51
+      rect:
+        serializedVersion: 2
+        x: 732
+        y: 2680
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f0e1c7a59e2a53dc0800000000000000
+      internalID: -3659839999039496689
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_52
+      rect:
+        serializedVersion: 2
+        x: 976
+        y: 2680
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 717f8d22e3cddb3d0800000000000000
+      internalID: -3189150801677715689
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_53
+      rect:
+        serializedVersion: 2
+        x: 1220
+        y: 2680
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ae26ab0ef3cdf4db0800000000000000
+      internalID: -4805380110469668118
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_54
+      rect:
+        serializedVersion: 2
+        x: 1464
+        y: 2680
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 736af9359238432b0800000000000000
+      internalID: -5605711422649555401
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_55
+      rect:
+        serializedVersion: 2
+        x: 1708
+        y: 2680
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2d4cb38a7db7c4c60800000000000000
+      internalID: 7803748420496901330
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_56
+      rect:
+        serializedVersion: 2
+        x: 1952
+        y: 2680
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dde5e3ba8c346f800800000000000000
+      internalID: 645778125719756509
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_57
+      rect:
+        serializedVersion: 2
+        x: 2196
+        y: 2680
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fd8c53de9a1b20ce0800000000000000
+      internalID: -1440393587417823009
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_58
+      rect:
+        serializedVersion: 2
+        x: 2440
+        y: 2680
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f2c99d013c8e18660800000000000000
+      internalID: 7386440788363287599
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_60
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2396
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9a51855d12c04ac70800000000000000
+      internalID: 8981316896336385449
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_61
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 2396
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 84be7edcfcedd41a0800000000000000
+      internalID: -6823552876302308536
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_62
+      rect:
+        serializedVersion: 2
+        x: 488
+        y: 2396
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 556e55aff5a8454d0800000000000000
+      internalID: -3146738094798674347
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_63
+      rect:
+        serializedVersion: 2
+        x: 732
+        y: 2396
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 125a3e7069edc7c40800000000000000
+      internalID: 5511524779953464609
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_64
+      rect:
+        serializedVersion: 2
+        x: 976
+        y: 2396
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a6e194fe247afdd60800000000000000
+      internalID: 7917230575864847978
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_65
+      rect:
+        serializedVersion: 2
+        x: 1220
+        y: 2396
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4b9b9d6e77b319ea0800000000000000
+      internalID: -5867843453326870092
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_66
+      rect:
+        serializedVersion: 2
+        x: 1464
+        y: 2396
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 936d5cff97e24f8d0800000000000000
+      internalID: -2813572765682641351
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_67
+      rect:
+        serializedVersion: 2
+        x: 1708
+        y: 2396
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eb75f34e8c951bce0800000000000000
+      internalID: -1391232090523084866
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_68
+      rect:
+        serializedVersion: 2
+        x: 1952
+        y: 2396
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 23ad3ea6083ff5700800000000000000
+      internalID: 531411013927688754
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_69
+      rect:
+        serializedVersion: 2
+        x: 2196
+        y: 2396
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e12d60118ec6fca90800000000000000
+      internalID: -7291489527715671522
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_70
+      rect:
+        serializedVersion: 2
+        x: 2440
+        y: 2396
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b96899d97ced1fec0800000000000000
+      internalID: -3534799283585186149
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_71
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2112
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c54a93cce5d2eaa30800000000000000
+      internalID: 4228366985323979868
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_72
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 2112
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: da3fc0c384db043e0800000000000000
+      internalID: -2071447710647651411
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_73
+      rect:
+        serializedVersion: 2
+        x: 488
+        y: 2112
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8144cae58036b5ae0800000000000000
+      internalID: -1559543958354508776
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_74
+      rect:
+        serializedVersion: 2
+        x: 732
+        y: 2112
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 729da7d3c3e0bb440800000000000000
+      internalID: 4952567867116280103
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_75
+      rect:
+        serializedVersion: 2
+        x: 976
+        y: 2112
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e1ba8c45273520ed0800000000000000
+      internalID: -2449303496822314210
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_76
+      rect:
+        serializedVersion: 2
+        x: 1220
+        y: 2112
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d83041241623469f0800000000000000
+      internalID: -476200267292605555
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_77
+      rect:
+        serializedVersion: 2
+        x: 1464
+        y: 2112
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 94bd810e0b9d49ce0800000000000000
+      internalID: -1399254230508184759
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_78
+      rect:
+        serializedVersion: 2
+        x: 1708
+        y: 2112
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1267a4fe4186cf080800000000000000
+      internalID: -9152325903600421343
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_79
+      rect:
+        serializedVersion: 2
+        x: 1952
+        y: 2112
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 46a30f653a45a3da0800000000000000
+      internalID: -5964361695983814044
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_80
+      rect:
+        serializedVersion: 2
+        x: 2196
+        y: 2112
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8c17da44d6dd30470800000000000000
+      internalID: 8359768794703163848
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_81
+      rect:
+        serializedVersion: 2
+        x: 2440
+        y: 2112
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bba5b1ad7b4e8db70800000000000000
+      internalID: 8924134139924011707
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_82
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1828
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 15064f4d495e27390800000000000000
+      internalID: -7821937175398424495
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_83
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 1828
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f6e3256e301bfbec0800000000000000
+      internalID: -3548923351037493649
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_84
+      rect:
+        serializedVersion: 2
+        x: 488
+        y: 1828
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: df788cbb12621b0d0800000000000000
+      internalID: -3408901516616497155
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_85
+      rect:
+        serializedVersion: 2
+        x: 732
+        y: 1828
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6a60a459332f980d0800000000000000
+      internalID: -3419936138649270618
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_86
+      rect:
+        serializedVersion: 2
+        x: 976
+        y: 1828
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 03f475bd61fe42bb0800000000000000
+      internalID: -4961578008007192784
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_87
+      rect:
+        serializedVersion: 2
+        x: 1220
+        y: 1828
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8e6f0066317a70000800000000000000
+      internalID: 2154026594531048
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_88
+      rect:
+        serializedVersion: 2
+        x: 1464
+        y: 1828
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8ac2d9bfe47788200800000000000000
+      internalID: 182526966021041320
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_89
+      rect:
+        serializedVersion: 2
+        x: 1708
+        y: 1828
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1d810139f5109dc10800000000000000
+      internalID: 2078694213009021137
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_90
+      rect:
+        serializedVersion: 2
+        x: 1952
+        y: 1828
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 17776ed409d4f2a70800000000000000
+      internalID: 8804341078710187889
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_91
+      rect:
+        serializedVersion: 2
+        x: 2196
+        y: 1828
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 26c84629cfc59c570800000000000000
+      internalID: 8487417212613987426
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_92
+      rect:
+        serializedVersion: 2
+        x: 2440
+        y: 1828
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 54ec5d2d3b2b77ad0800000000000000
+      internalID: -2704496565806576059
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_93
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1544
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4e9121575d8032ef0800000000000000
+      internalID: -134253851005806108
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_94
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 1544
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ff84892bf961e72e0800000000000000
+      internalID: -2126237098920359681
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_95
+      rect:
+        serializedVersion: 2
+        x: 488
+        y: 1544
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0a42ffde5735897b0800000000000000
+      internalID: -5217328402339519328
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_96
+      rect:
+        serializedVersion: 2
+        x: 732
+        y: 1544
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 59f04f5cb8c016f10800000000000000
+      internalID: 2261102282377793429
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_97
+      rect:
+        serializedVersion: 2
+        x: 976
+        y: 1544
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 97d2304f015a6c690800000000000000
+      internalID: -7582191430399742599
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_98
+      rect:
+        serializedVersion: 2
+        x: 1220
+        y: 1544
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 923de33b5e0af3ca0800000000000000
+      internalID: -6034928067237981399
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_99
+      rect:
+        serializedVersion: 2
+        x: 1464
+        y: 1544
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c56cd04748a76fb00800000000000000
+      internalID: 862011087989360220
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_100
+      rect:
+        serializedVersion: 2
+        x: 1708
+        y: 1544
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8065e05084cb10330800000000000000
+      internalID: 3675425788419528200
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_101
+      rect:
+        serializedVersion: 2
+        x: 1952
+        y: 1544
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 433656f6de3f4eb40800000000000000
+      internalID: 5468764048636338996
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_102
+      rect:
+        serializedVersion: 2
+        x: 2196
+        y: 1544
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2a327228e9138bcc0800000000000000
+      internalID: -3695148937399295070
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_103
+      rect:
+        serializedVersion: 2
+        x: 2440
+        y: 1544
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1e167f3d147de9f20800000000000000
+      internalID: 3431416643831947745
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_104
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1260
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 08bb63e145cb53f50800000000000000
+      internalID: 6860596676838996864
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_105
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 1260
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2826561d450ec7450800000000000000
+      internalID: 6087987451193025154
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_106
+      rect:
+        serializedVersion: 2
+        x: 488
+        y: 1260
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b44e02e3535ee3e90800000000000000
+      internalID: -7043940750322506677
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_107
+      rect:
+        serializedVersion: 2
+        x: 732
+        y: 1260
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f52d4af32578b5bb0800000000000000
+      internalID: -4946210978411523489
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_108
+      rect:
+        serializedVersion: 2
+        x: 976
+        y: 1260
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 91f57f21d89141150800000000000000
+      internalID: 5842322710305660697
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_109
+      rect:
+        serializedVersion: 2
+        x: 1220
+        y: 1260
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c41da046704fa15f0800000000000000
+      internalID: -785046872442351284
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_110
+      rect:
+        serializedVersion: 2
+        x: 1464
+        y: 1260
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 737f435bfe7ad1b20800000000000000
+      internalID: 3106823965934679863
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_111
+      rect:
+        serializedVersion: 2
+        x: 1708
+        y: 1260
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 54e86efb424ffe640800000000000000
+      internalID: 5111572540764360261
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_112
+      rect:
+        serializedVersion: 2
+        x: 1952
+        y: 1260
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0a5aefe5da2a432f0800000000000000
+      internalID: -993990752235248224
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_113
+      rect:
+        serializedVersion: 2
+        x: 2196
+        y: 1260
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ad88c1bd2d6929930800000000000000
+      internalID: 4148544039125027034
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_114
+      rect:
+        serializedVersion: 2
+        x: 2440
+        y: 1260
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d209b7d5be3b6f9c0800000000000000
+      internalID: -3893727004348149715
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_115
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 976
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 952a629138d52bdc0800000000000000
+      internalID: -3624731932435766695
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_116
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 976
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ec6e052c32245b080800000000000000
+      internalID: -9172352344718776626
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_117
+      rect:
+        serializedVersion: 2
+        x: 488
+        y: 976
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3242005be35c835f0800000000000000
+      internalID: -776654062606080989
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_118
+      rect:
+        serializedVersion: 2
+        x: 732
+        y: 976
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e491f40750e7c8e10800000000000000
+      internalID: 2201272879701498190
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_119
+      rect:
+        serializedVersion: 2
+        x: 976
+        y: 976
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ca09481851597aa00800000000000000
+      internalID: 767746181089759404
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_120
+      rect:
+        serializedVersion: 2
+        x: 1220
+        y: 976
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e5a45ce3dd0311fd0800000000000000
+      internalID: -2373061801848518050
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_121
+      rect:
+        serializedVersion: 2
+        x: 1464
+        y: 976
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5f5eec34057b26900800000000000000
+      internalID: 676304449421895157
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_122
+      rect:
+        serializedVersion: 2
+        x: 1708
+        y: 976
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 23612719134025b80800000000000000
+      internalID: -8407652943407213006
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_123
+      rect:
+        serializedVersion: 2
+        x: 1952
+        y: 976
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 40c7cb683f6d63e40800000000000000
+      internalID: 5635928325126650884
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_124
+      rect:
+        serializedVersion: 2
+        x: 2196
+        y: 976
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7383aa455e41549e0800000000000000
+      internalID: -1637879914278799305
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_125
+      rect:
+        serializedVersion: 2
+        x: 2440
+        y: 976
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 08c2feaa84a54dd40800000000000000
+      internalID: 5608206704135056512
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_126
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 692
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 022cc162a8fdc8a20800000000000000
+      internalID: 3066071230770364960
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_127
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 692
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 25d737552e028ff20800000000000000
+      internalID: 3456548870475185490
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_128
+      rect:
+        serializedVersion: 2
+        x: 488
+        y: 692
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 282f25b4402f75520800000000000000
+      internalID: 2690885402634678914
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_129
+      rect:
+        serializedVersion: 2
+        x: 732
+        y: 692
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 01ce06ff264065320800000000000000
+      internalID: 2546227462562442256
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_130
+      rect:
+        serializedVersion: 2
+        x: 976
+        y: 692
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9efe39fa872e21e10800000000000000
+      internalID: 2167043378688290793
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_131
+      rect:
+        serializedVersion: 2
+        x: 1220
+        y: 692
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 549a9cb378fd5c970800000000000000
+      internalID: 8774665220917930309
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_132
+      rect:
+        serializedVersion: 2
+        x: 1464
+        y: 692
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dd07e9acfe1178aa0800000000000000
+      internalID: -6158934243811626787
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_133
+      rect:
+        serializedVersion: 2
+        x: 1708
+        y: 692
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bf5e3fdbebc676390800000000000000
+      internalID: -7825166261046483461
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_134
+      rect:
+        serializedVersion: 2
+        x: 1952
+        y: 692
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9a91cc518e67d3aa0800000000000000
+      internalID: -6179652374512264791
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_135
+      rect:
+        serializedVersion: 2
+        x: 2196
+        y: 692
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d68a2932577cd8e20800000000000000
+      internalID: 3354556603382802541
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_136
+      rect:
+        serializedVersion: 2
+        x: 2440
+        y: 692
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 02221dfe45a946f00800000000000000
+      internalID: 1109181097831375392
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_137
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 408
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b2e90828c91dc0e90800000000000000
+      internalID: -7058036045861839317
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_138
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 408
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2d9e30b657ebd9b60800000000000000
+      internalID: 7754563544917731794
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_139
+      rect:
+        serializedVersion: 2
+        x: 488
+        y: 408
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 09407760e3bdecef0800000000000000
+      internalID: -85890283430542192
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_140
+      rect:
+        serializedVersion: 2
+        x: 732
+        y: 408
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 806b55abc286a6a70800000000000000
+      internalID: 8820977361472566792
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_141
+      rect:
+        serializedVersion: 2
+        x: 976
+        y: 408
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f1d0627bbdae47690800000000000000
+      internalID: -7605195641330463457
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_142
+      rect:
+        serializedVersion: 2
+        x: 1220
+        y: 408
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c93f9eceae945abc0800000000000000
+      internalID: -3772527839506992228
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_143
+      rect:
+        serializedVersion: 2
+        x: 1464
+        y: 408
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 060194708aaf33740800000000000000
+      internalID: 5130720000088805472
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_144
+      rect:
+        serializedVersion: 2
+        x: 1708
+        y: 408
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 70fb351469433a270800000000000000
+      internalID: 8260503961473367815
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_145
+      rect:
+        serializedVersion: 2
+        x: 1952
+        y: 408
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0fb55007b49fae0f0800000000000000
+      internalID: -1086782257659290640
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_146
+      rect:
+        serializedVersion: 2
+        x: 2196
+        y: 408
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6149dbf62c37812e0800000000000000
+      internalID: -2154845142761237482
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_147
+      rect:
+        serializedVersion: 2
+        x: 2440
+        y: 408
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b2eb6cef0d06f0ab0800000000000000
+      internalID: -5039703007260393941
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_148
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 124
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f2ae5b160bace8e00800000000000000
+      internalID: 1048998622126271023
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_149
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 124
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e89a51897d0a635f0800000000000000
+      internalID: -777257037844862578
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_150
+      rect:
+        serializedVersion: 2
+        x: 488
+        y: 124
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: db1f746dcab2b9b60800000000000000
+      internalID: 7753839204777849277
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_151
+      rect:
+        serializedVersion: 2
+        x: 732
+        y: 124
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c587c12f46c3bbe10800000000000000
+      internalID: 2214430046039079004
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_152
+      rect:
+        serializedVersion: 2
+        x: 976
+        y: 124
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d0730932d4d454ce0800000000000000
+      internalID: -1421645113661049075
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_153
+      rect:
+        serializedVersion: 2
+        x: 1220
+        y: 124
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ee4b52486bae11840800000000000000
+      internalID: 5193189914956903662
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_154
+      rect:
+        serializedVersion: 2
+        x: 1464
+        y: 124
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 774aff010bf3360b0800000000000000
+      internalID: -5736671474907896713
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_155
+      rect:
+        serializedVersion: 2
+        x: 1708
+        y: 124
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2742107014c0128e0800000000000000
+      internalID: -1720080109248895886
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_156
+      rect:
+        serializedVersion: 2
+        x: 1952
+        y: 124
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0b65c46c1d2d848f0800000000000000
+      internalID: -555962755563366736
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_157
+      rect:
+        serializedVersion: 2
+        x: 2196
+        y: 124
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bcf9e1c7868472000800000000000000
+      internalID: 11057137687896011
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BigTiles_158
+      rect:
+        serializedVersion: 2
+        x: 2440
+        y: 124
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 71958a37bc24cd060800000000000000
+      internalID: 6979526964103633175
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

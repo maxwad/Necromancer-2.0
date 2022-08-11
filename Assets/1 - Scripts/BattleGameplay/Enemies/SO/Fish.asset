@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5af00e5f0857c3345a0d62138f725e96, type: 3}
+  m_Name: Fish
+  m_EditorClassIdentifier: 
+  enemyName: Fish
+  EnemiesType: 4
+  enemyGO: {fileID: 7807448034713493280, guid: 94a8d5984844b3c40826cbfaa8a21998, type: 3}
+  enemyIcon: {fileID: 2884737313679868233, guid: 4d7a02af42c41584d9d5e709e3d22033, type: 3}
+  health: 10
+  physicAttack: 3
+  physicDefence: 3
+  magicAttack: 1
+  magicDefence: 1
+  speedAttack: 1
+  size: 1
+  EnemyAbility: 0
+  attackTool: {fileID: 0}
+  coinsPrice: 500
+  foodPrice: 500
+  woodPrice: 500
+  ironPrice: 500
+  stonePrice: 500
+  magicPrice: 500
+  exp: 1
