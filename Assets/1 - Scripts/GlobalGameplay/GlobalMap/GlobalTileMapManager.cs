@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using TMPro;
 using static NameManager;
 
 public class GlobalTileMapManager : MonoBehaviour
@@ -18,6 +19,10 @@ public class GlobalTileMapManager : MonoBehaviour
     public Tile fogTile;
     public Tile roadTile;
     public Tile finishTile;
+    //public Tile testTile;
+
+    //public TMP_Text coordinates;
+    //private List<TMP_Text> coordList = new List<TMP_Text>();
 
     private GMPlayerMovement player;
     private CursorManager cursorManager;
@@ -25,6 +30,9 @@ public class GlobalTileMapManager : MonoBehaviour
     List<Vector2> pathPoints = new List<Vector2>();
     private bool isGoalCellFinded = false;
     private GMHexCell targetCell;
+
+    private float movementPointsMax = 0;
+    private float currentMovementPoints = 0;
 
     private struct NeighborData
     {
@@ -46,6 +54,14 @@ public class GlobalTileMapManager : MonoBehaviour
         cursorManager = GlobalStorage.instance.cursorManager;
         Initialize();
     }
+
+    private void GetParameters() 
+    {
+        float[] parameters = player.GetParametres();
+        movementPointsMax = parameters[0];
+        currentMovementPoints = parameters[1];
+    }
+
 
     public void Initialize()
     {
@@ -149,6 +165,7 @@ public class GlobalTileMapManager : MonoBehaviour
 
     private void HandleClick()
     {
+        GetParameters();
         startPoint = roadMap.WorldToCell(player.transform.position);
 
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -183,6 +200,12 @@ public class GlobalTileMapManager : MonoBehaviour
         List<GMHexCell> neighborsQueue = new List<GMHexCell>();
         List<GMHexCell> roadBack = new List<GMHexCell>();
 
+        //foreach(var item in coordList)
+        //{
+        //    Destroy(item.gameObject);
+        //}
+        //coordList.Clear();
+
         if(player.IsMoving() == true)
         {
             while(player.IsMoving() == true)
@@ -190,6 +213,7 @@ public class GlobalTileMapManager : MonoBehaviour
                 yield return new WaitForSeconds(0.01f);
             }
             startCell = roadMap.WorldToCell(player.transform.position);
+            //movementPointsMax++;
         }
 
         GMHexCell firstPathCell = roads[startCell.x, startCell.y];
@@ -251,13 +275,33 @@ public class GlobalTileMapManager : MonoBehaviour
             }
             roadBack.Reverse();
 
-            for(int i = 0; i < roadBack.Count; i++)
-{
+            float colorBound = currentMovementPoints;
+
+            for(int i = 0; i < roadBack.Count; i++){
+                
                 Tile currentTile = roadTile;
+
+                if(currentMovementPoints == 0) 
+                {
+                    if(i != 0) currentTile = finishTile;
+                    currentMovementPoints = movementPointsMax;
+                } 
+
                 if(i == roadBack.Count - 1) currentTile = finishTile;
+
+                if(i > colorBound && currentTile != finishTile)
+                    currentTile.color = UnityEngine.Color.red;
+                else
+                    currentTile.color = UnityEngine.Color.white;
 
                 overlayMap.SetTile(roadBack[i].coordinates, currentTile);
                 pathPoints.Add(roadMap.CellToWorld(roadBack[i].coordinates));
+
+                //TMP_Text text = Instantiate(coordinates, pathPoints[i], Quaternion.identity);
+                //text.text = "" + overlayMap.WorldToCell(pathPoints[i]).x + " " + overlayMap.WorldToCell(pathPoints[i]).y;
+                //coordList.Add(text);
+
+                currentMovementPoints--;
             }
 
             isGoalCellFinded = true;                      
@@ -291,6 +335,55 @@ public class GlobalTileMapManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void RefreshPath(int passedPoints, float remainingPoints)
+    {
+        overlayMap.ClearAllTiles();
+        //foreach(var item in coordList)
+        //{
+        //    Destroy(item.gameObject);
+        //}
+        //coordList.Clear();
+
+        //Debug.Log("REFRESH пройдено = " + passedPoints + "; доступно = " + remainingPoints + " ; осталось = " + (pathPoints.Count - passedPoints));
+        float newPointsCount = remainingPoints;
+        float countTurns = 0;
+
+        for(int i = passedPoints; i < pathPoints.Count; i++)
+        {
+            Tile currentTile = roadTile;                    
+
+            if(i == pathPoints.Count - 1) currentTile = finishTile;
+
+            if(newPointsCount == 0)
+            {
+                if(i != 0) currentTile = finishTile;
+                newPointsCount = movementPointsMax;
+                countTurns++;
+            }
+
+            if(newPointsCount == 0)
+            {
+                if(i != 0) currentTile = finishTile;
+                newPointsCount = movementPointsMax;
+            }
+
+            if(currentTile != finishTile)
+            {
+                if(newPointsCount > 0 && countTurns == 0)
+                    currentTile.color = UnityEngine.Color.white;
+                else
+                    currentTile.color = UnityEngine.Color.red;
+            }
+
+            //TMP_Text text = Instantiate(coordinates, pathPoints[i], Quaternion.identity);
+            //text.text = "" + overlayMap.WorldToCell(pathPoints[i]).x + " " + overlayMap.WorldToCell(pathPoints[i]).y;
+            //coordList.Add(text);
+            overlayMap.SetTile(overlayMap.WorldToCell(pathPoints[i]), currentTile);
+            newPointsCount--;
+        }
+
     }
 
     private void LateUpdate()

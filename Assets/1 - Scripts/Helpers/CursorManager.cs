@@ -20,8 +20,8 @@ public class CursorManager : MonoBehaviour
 
     private void Start()
     {
-        Cursor.lockState = CursorLockMode.Confined;
-        Cursor.SetCursor(cursorDefault, Vector2.zero, UnityEngine.CursorMode.ForceSoftware);
+        //Cursor.lockState = CursorLockMode.Confined;
+        //Cursor.SetCursor(cursorDefault, Vector2.zero, UnityEngine.CursorMode.ForceSoftware);
     }
 
     //private void LateUpdate()
@@ -38,6 +38,8 @@ public class CursorManager : MonoBehaviour
 
     public void ChangeCursor(CursorView newCursor)
     {
+        return; // delete in build
+
         if(canIChange == true)
         {
             switch(newCursor)
