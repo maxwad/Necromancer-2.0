@@ -17,11 +17,15 @@ public class GMPlayerMovement : MonoBehaviour
     private bool cancelMovement = false;
     private bool iAmMoving = false;
 
-    private GlobalTileMapManager globalMap;
+    private GlobalMapPathfinder globalMap;
     private int passedPoints = 0;
+
+    private SpriteRenderer sprite;
+    private Vector2 previousPosition = Vector2.zero;
 
     private void Start()
     {
+        sprite = GetComponent<SpriteRenderer>();
         playerStats = GlobalStorage.instance.player.GetComponent<PlayerStats>();
         SetParameters();
         currentMovementPoints = movementPointsMax;
@@ -29,7 +33,13 @@ public class GMPlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Return)) NewTurn();
+        if(Input.GetKeyDown(KeyCode.Return)) 
+        {
+            if(MenuManager.isGamePaused == false && MenuManager.isMiniPause == false && GlobalStorage.instance.isGlobalMode == true)
+            {
+                NewTurn();
+            }
+        }        
     }
 
     private void SetParameters()
@@ -57,7 +67,7 @@ public class GMPlayerMovement : MonoBehaviour
         if(stats == PlayersStats.RadiusView) viewRadius = value;
     }
 
-    public void MoveOnTheWay(Vector2[] pathPoints, GlobalTileMapManager map)
+    public void MoveOnTheWay(Vector2[] pathPoints, GlobalMapPathfinder map)
     {
         globalMap = map;
         if(iAmMoving == false && pathPoints.Length != 0) StartCoroutine(Movement(pathPoints));
@@ -77,12 +87,15 @@ public class GMPlayerMovement : MonoBehaviour
 
         for(int i = 1; i < pathPoints.Length; i++)
         {
+            if(i == 1) previousPosition = pathPoints[0];
+            sprite.flipX = previousPosition.x - pathPoints[i].x < 0 ? true : false;
+
             if(currentMovementPoints == 0) break;
             currentMovementPoints--;
             passedPoints++;
 
             globalMap.ClearRoadTile(pathPoints[i - 1]);
-            globalMap.CheckFog(pathPoints[i - 1], viewRadius);
+            globalMap.CheckFog(viewRadius);
 
             Vector2 distance = pathPoints[i] - (Vector2)transform.position;
             Vector2 step = distance / (defaultCountSteps / speed);
@@ -94,6 +107,7 @@ public class GMPlayerMovement : MonoBehaviour
             }
                         
             transform.position = pathPoints[i];
+            previousPosition = pathPoints[i - 1];
 
             if(cancelMovement == true) 
             {

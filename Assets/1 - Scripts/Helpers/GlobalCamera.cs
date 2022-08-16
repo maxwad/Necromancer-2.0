@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class GlobalCamera : MonoBehaviour
@@ -7,6 +8,7 @@ public class GlobalCamera : MonoBehaviour
     public float minZOffset = 10;
     public float maxZOffset = 50;
     private float zoom = 0.25f;
+    private float edgeGap = 10;
 
     public float moveSpeedMin = 25f;
     public float moveSpeedMax = 300f;
@@ -14,8 +16,10 @@ public class GlobalCamera : MonoBehaviour
     public float rotationSpeed = 90f;
     private float rotationAngle;
 
-    public float maxPositionX = 800;
-    public float maxPositionY = 550;
+    public float minPositionX = 10;
+    public float minPositionY = 5; 
+    public float maxPositionX = 1010;
+    public float maxPositionY = 585;
 
     private Camera mainCamera;
 
@@ -36,8 +40,42 @@ public class GlobalCamera : MonoBehaviour
 
             float deltaX = Input.GetAxisRaw("Horizontal");
             float deltaY = Input.GetAxisRaw("Vertical");
-            if(deltaX != 0 || deltaY != 0) ChangePosition(deltaX, deltaY);
+            if(deltaX != 0 || deltaY != 0) ChangePosition(deltaX, deltaY, moveSpeedMax);
+
+            //CheckMouseNearEdge();
         }
+    }
+
+    private void CheckMouseNearEdge()
+    {
+        float deltaX = 0;
+        float deltaY = 0;
+
+        if(Input.mousePosition.x < edgeGap) 
+        {
+            deltaX = -1f;
+            deltaY = 0f;
+        }
+
+        if(Input.mousePosition.x > Screen.width - edgeGap)
+        {
+            deltaX = 1f;
+            deltaY = 0f;
+        }
+
+        if(Input.mousePosition.y < edgeGap)
+        {
+            deltaX = 0f;
+            deltaY = -1f;
+        }
+
+        if(Input.mousePosition.y > Screen.height - edgeGap)
+        {
+            deltaX = 0f;
+            deltaY = 1f;
+        }
+
+        ChangePosition(deltaX, deltaY, moveSpeedMax / 2);
     }
 
     private void ChangeRotation(float deltaRotation)
@@ -50,9 +88,9 @@ public class GlobalCamera : MonoBehaviour
         transform.localRotation = Quaternion.Euler(0f, 0f, rotationAngle);
     }
 
-    private void ChangePosition(float deltaX, float deltaY)
+    private void ChangePosition(float deltaX, float deltaY, float speed)
     {
-        float distance = Mathf.Lerp(moveSpeedMin, moveSpeedMax, zoom) * Time.deltaTime;
+        float distance = Mathf.Lerp(moveSpeedMin, speed, zoom) * Time.deltaTime;
         Vector3 direction = transform.localRotation * new Vector3(deltaX, deltaY, 0).normalized;
 
         Vector3 position = transform.position;
@@ -64,8 +102,8 @@ public class GlobalCamera : MonoBehaviour
 
     private Vector3 ClampPosition(Vector3 position)
     {
-        position.x = Mathf.Clamp(position.x, 0f, maxPositionX);         
-        position.y = Mathf.Clamp(position.y, 0f, maxPositionY);
+        position.x = Mathf.Clamp(position.x, minPositionX, maxPositionX);         
+        position.y = Mathf.Clamp(position.y, minPositionY, maxPositionY);
         return position;
     }
 

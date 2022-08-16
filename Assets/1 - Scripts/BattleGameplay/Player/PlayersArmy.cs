@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 using TMPro;
 using static NameManager;
 using System;
@@ -48,6 +47,9 @@ public class PlayersArmy : MonoBehaviour
         }
 
         CreateRealUnitsInReserve();
+
+        //end of loading Units and Army
+        GlobalStorage.instance.canILoadNextStep = true;
     }
 
     private void CreateRealUnitsInReserve()

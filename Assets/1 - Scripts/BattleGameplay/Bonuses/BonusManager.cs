@@ -28,8 +28,16 @@ public class BonusManager : MonoBehaviour
     private GameObject currentBonus;
     public List<GameObject> bonusesOnTheMap = new List<GameObject>();
 
+    private bool isEnoughTempExp = false;
+    private BonusType alternativeBonusType = BonusType.Gold;
+
     public void CreateBonus(bool isThisFromBoss, BonusType type, Vector3 position, float value = 0)
     {
+        if(isEnoughTempExp == true && type == BonusType.TempExp)
+        {
+            type = alternativeBonusType;
+        }
+
         switch (type)
         {
             case BonusType.Health:
@@ -123,13 +131,20 @@ public class BonusManager : MonoBehaviour
         return null;
     }
 
+    private void ExpEnough(bool mode)
+    {
+        isEnoughTempExp = mode;
+    }
+
     private void OnEnable()
     {
         EventManager.ChangePlayer += ClearBonusList;
+        EventManager.ExpEnough += ExpEnough;
     }
 
     private void OnDisable()
     {
         EventManager.ChangePlayer -= ClearBonusList;
+        EventManager.ExpEnough -= ExpEnough;
     }
 }

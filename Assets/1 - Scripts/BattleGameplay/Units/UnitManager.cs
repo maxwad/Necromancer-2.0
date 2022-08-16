@@ -15,12 +15,16 @@ public class UnitManager : MonoBehaviour
 
     private UnitBoostManager boostManager;
 
-    private void Start()
+    private void Awake()
     {
-        boostManager = GlobalStorage.instance.unitBoostManager;
-
-        StartCreatingPlayersArmy();
+        boostManager = GlobalStorage.instance.unitBoostManager;        
     }
+
+    public void LoadUnits()
+    {
+        StartCreatingPlayersArmy();
+        //we return signal to next step load in PlayersArmy script
+    } 
 
     #region Start army creation 
     private void StartCreatingPlayersArmy()
@@ -95,7 +99,7 @@ public class UnitManager : MonoBehaviour
             {
                 army[i] = null;
             }
-        }              
+        }         
         
         return army;
     }

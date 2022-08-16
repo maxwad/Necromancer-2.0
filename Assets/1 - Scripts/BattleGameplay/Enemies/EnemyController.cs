@@ -40,7 +40,6 @@ public class EnemyController : MonoBehaviour
     private float pushForce = 4000f;
 
     public BonusType bonusType;
-    private BonusType alternativeBonusType = BonusType.Gold;
 
     private EnemyMovement movementScript;
 
@@ -209,12 +208,6 @@ public class EnemyController : MonoBehaviour
 
     private void CreateBonus()
     {
-        if(GlobalStorage.instance.isEnoughTempExp == true && bonusType == BonusType.TempExp)
-        {
-            GlobalStorage.instance.bonusManager.CreateBonus(isBoss, alternativeBonusType, transform.position, exp);
-            return;
-        }
-
         GlobalStorage.instance.bonusManager.CreateBonus(isBoss, bonusType, transform.position, exp);
     }
 

@@ -21,6 +21,7 @@ public class GlobalStorage : MonoBehaviour
     public InfirmaryManager infirmaryManager;
     public SpellManager spellManager;
     public CursorManager cursorManager;
+    public GlobalMapTileManager gmManager;
 
     [Header("Player")]
     public GameObject player;
@@ -40,6 +41,8 @@ public class GlobalStorage : MonoBehaviour
     [HideInInspector] public bool isGlobalMode = true;
     [HideInInspector] public bool isEnoughTempExp = false;
 
+    [HideInInspector] public bool canILoadNextStep = true;
+
     void Awake()
     {
         if (instance == null)
@@ -48,24 +51,35 @@ public class GlobalStorage : MonoBehaviour
             Destroy(gameObject);
     }
 
+    private void Start()
+    {
+        StartCoroutine(LoadTheGame());
+    }
+
+    private IEnumerator LoadTheGame()
+    {
+        canILoadNextStep = false;
+        gmManager.Load();        
+
+        while(canILoadNextStep == false)
+        {
+            yield return null;
+        }
+
+        canILoadNextStep = false;
+        unitManager.LoadUnits();        
+
+        while(canILoadNextStep == false)
+        {
+            yield return null;
+        }
+
+        Debug.Log("GAME IS LOADED!");        
+    }
+
     public void ChangePlayMode(bool mode)
     {
         isGlobalMode = mode;
         EventManager.OnChangePlayModeEvent(mode);
-    }
-
-    private void ExpEnough(bool mode)
-    {
-        isEnoughTempExp = mode;
-    }
-
-    private void OnEnable()
-    {
-        EventManager.ExpEnough += ExpEnough;
-    }
-
-    private void OnDisable()
-    {
-        EventManager.ExpEnough -= ExpEnough;
     }
 }

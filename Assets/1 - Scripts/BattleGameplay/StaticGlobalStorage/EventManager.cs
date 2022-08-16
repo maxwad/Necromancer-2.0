@@ -275,7 +275,7 @@ public static class EventManager
     //calls when we rich max level in the battle
     //
     //SUBSCRIBERS:
-    // - GlobalStorage
+    // - BonusManager
     //
     //ACTIVATION:
     // - HeroController
