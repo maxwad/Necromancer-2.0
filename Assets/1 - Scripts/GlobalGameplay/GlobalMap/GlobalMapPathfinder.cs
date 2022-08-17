@@ -31,6 +31,10 @@ public class GlobalMapPathfinder : MonoBehaviour
 
     private Vector3Int startPoint;
 
+    public GameObject stepsCounterPrefab;
+    private int stepsCounter = 0;
+    private Dictionary<Vector2, GameObject> counterDict = new Dictionary<Vector2, GameObject>();
+
     private void Awake()
     {
         player = GlobalStorage.instance.globalPlayer.GetComponent<GMPlayerMovement>();
@@ -91,6 +95,7 @@ public class GlobalMapPathfinder : MonoBehaviour
         List<GMHexCell> neighborsQueue = new List<GMHexCell>();
         List<GMHexCell> roadBack = new List<GMHexCell>();
 
+        ClearSteps();
         //foreach(var item in coordList)
         //{
         //    Destroy(item.gameObject);
@@ -104,7 +109,6 @@ public class GlobalMapPathfinder : MonoBehaviour
                 yield return new WaitForSeconds(0.01f);
             }
             startCell = roadMap.WorldToCell(player.transform.position);
-            //movementPointsMax++;
         }
 
         GMHexCell firstPathCell = roads[startCell.x, startCell.y];
@@ -112,7 +116,6 @@ public class GlobalMapPathfinder : MonoBehaviour
 
         bool isSearching = true;
         bool isDeadEnd = false;
-
 
         overlayMap.ClearAllTiles();
 
@@ -162,7 +165,6 @@ public class GlobalMapPathfinder : MonoBehaviour
             {
                 roadBack.Add(QueueDict[currentBackCell].source);
                 currentBackCell = QueueDict[currentBackCell].source;
-
             }
             roadBack.Reverse();
 
@@ -181,9 +183,9 @@ public class GlobalMapPathfinder : MonoBehaviour
                 if(i == roadBack.Count - 1) currentTile = finishTile;
 
                 if(i > colorBound && currentTile != finishTile)
-                    currentTile.color = UnityEngine.Color.red;
+                    currentTile.color = Color.red;
                 else
-                    currentTile.color = UnityEngine.Color.white;
+                    currentTile.color = Color.white;
 
                 overlayMap.SetTile(roadBack[i].coordinates, currentTile);
                 pathPoints.Add(roadMap.CellToWorld(roadBack[i].coordinates));
@@ -192,17 +194,22 @@ public class GlobalMapPathfinder : MonoBehaviour
                 //text.text = "" + overlayMap.WorldToCell(pathPoints[i]).x + " " + overlayMap.WorldToCell(pathPoints[i]).y;
                 //coordList.Add(text);
 
+                if(currentTile == finishTile)
+                {
+                    stepsCounter++;
+                    AddStep(pathPoints[pathPoints.Count - 1], stepsCounter);
+                }
                 currentMovementPoints--;
             }
 
-            isGoalCellFinded = true;                      
+            isGoalCellFinded = true;
+            ShowSteps();
         }
         else
         {
             isGoalCellFinded = false;
             Debug.Log("Dead End");
-        }
-        
+        }        
     }
 
     public void ClearRoadTile(Vector2 point)
@@ -213,7 +220,6 @@ public class GlobalMapPathfinder : MonoBehaviour
     public void CheckFog(float radius)
     {
         Vector3Int center = fogMap.WorldToCell(player.transform.position);
-        //Tile t = fogMap.SetColor();
 
         for(float x = -radius; x < radius; x++)
         {
@@ -228,20 +234,33 @@ public class GlobalMapPathfinder : MonoBehaviour
         }
     }
 
-    public void RefreshPath(int passedPoints, float remainingPoints)
+    public void RefreshPath(Vector2 currentPosition, float remainingPoints)
     {
         overlayMap.ClearAllTiles();
+        ClearSteps();
+
         //foreach(var item in coordList)
         //{
         //    Destroy(item.gameObject);
         //}
         //coordList.Clear();
 
-        //Debug.Log("REFRESH пройдено = " + passedPoints + "; доступно = " + remainingPoints + " ; осталось = " + (pathPoints.Count - passedPoints));
+
         float newPointsCount = remainingPoints;
         float countTurns = 0;
 
-        for(int i = passedPoints; i < pathPoints.Count; i++)
+        int startIndex = 0;
+
+        for(int i = 0; i < pathPoints.Count; i++)
+        {
+            if(pathPoints[i] == currentPosition)
+            {
+                startIndex = i;
+                break;
+            }
+        }
+
+        for(int i = startIndex; i < pathPoints.Count; i++)
         {
             Tile currentTile = roadTile;                    
 
@@ -267,6 +286,11 @@ public class GlobalMapPathfinder : MonoBehaviour
                 else
                     currentTile.color = Color.red;
             }
+            else
+            {
+                stepsCounter++;
+                AddStep(pathPoints[i], stepsCounter);
+            }
 
             //TMP_Text text = Instantiate(coordinates, pathPoints[i], Quaternion.identity);
             //text.text = "" + overlayMap.WorldToCell(pathPoints[i]).x + " " + overlayMap.WorldToCell(pathPoints[i]).y;
@@ -274,6 +298,59 @@ public class GlobalMapPathfinder : MonoBehaviour
             overlayMap.SetTile(overlayMap.WorldToCell(pathPoints[i]), currentTile);
             newPointsCount--;
         }
+        ShowSteps();
+    }
 
+    private void AddStep(Vector2 position, int count)
+    {
+        string text = count > 99 ? "99+" : count.ToString();
+
+        GameObject counterStep = Instantiate(stepsCounterPrefab, position, Quaternion.identity);
+        counterStep.GetComponentInChildren<TMP_Text>().text = text;
+        counterStep.SetActive(false);
+
+        counterDict.Add(position, counterStep);
+        counterStep.transform.SetParent(roadMap.transform);
+    }
+
+    private void ShowSteps()
+    {
+
+        if(counterDict.Count <= 1)
+            return;
+        else
+        {
+            foreach(var step in counterDict)
+                step.Value.SetActive(true);
+        }
+    }
+
+    public void RefreshSteps(Vector2 playerPosition)
+    {
+        if(counterDict.ContainsKey(playerPosition) == true)
+        {
+            Destroy(counterDict[playerPosition]);
+            counterDict.Remove(playerPosition);
+
+            GameObject newStep;
+            int previousCount = 0;
+
+            foreach(var step in counterDict)
+            {
+                previousCount++;
+                newStep = step.Value;
+                string text = previousCount > 99 ? "99+" : previousCount.ToString();
+                newStep.GetComponentInChildren<TMP_Text>().text = text;
+            }
+        }
+    }
+
+    private void ClearSteps()
+    {
+        foreach(var step in counterDict)
+            Destroy(step.Value);
+
+        counterDict.Clear();
+        stepsCounter = 0;
     }
 }

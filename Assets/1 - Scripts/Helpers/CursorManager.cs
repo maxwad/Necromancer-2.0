@@ -24,13 +24,6 @@ public class CursorManager : MonoBehaviour
         //Cursor.SetCursor(cursorDefault, Vector2.zero, UnityEngine.CursorMode.ForceSoftware);
     }
 
-    //private void LateUpdate()
-    //{
-    //    Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-    //    mousePos.z = 0;
-    //    cursor.transform.localPosition = mousePos;
-    //}
-
     private void CursorMode(bool mode)
     {
         canIChange = mode;

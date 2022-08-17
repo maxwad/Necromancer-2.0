@@ -18,7 +18,7 @@ public class GlobalCamera : MonoBehaviour
 
     public float minPositionX = 10;
     public float minPositionY = 5; 
-    public float maxPositionX = 1010;
+    public float maxPositionX = 970;
     public float maxPositionY = 585;
 
     private Camera mainCamera;

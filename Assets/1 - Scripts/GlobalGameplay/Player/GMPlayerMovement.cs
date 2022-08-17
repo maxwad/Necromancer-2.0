@@ -18,10 +18,12 @@ public class GMPlayerMovement : MonoBehaviour
     private bool iAmMoving = false;
 
     private GlobalMapPathfinder globalMap;
-    private int passedPoints = 0;
 
     private SpriteRenderer sprite;
     private Vector2 previousPosition = Vector2.zero;
+    private Vector2 currentPosition = Vector2.zero;
+
+    private Coroutine newTurnCoroutine;
 
     private void Start()
     {
@@ -37,7 +39,7 @@ public class GMPlayerMovement : MonoBehaviour
         {
             if(MenuManager.isGamePaused == false && MenuManager.isMiniPause == false && GlobalStorage.instance.isGlobalMode == true)
             {
-                NewTurn();
+                if(newTurnCoroutine == null) newTurnCoroutine = StartCoroutine(NewTurn());
             }
         }        
     }
@@ -53,11 +55,19 @@ public class GMPlayerMovement : MonoBehaviour
         return new float[] {movementPointsMax, currentMovementPoints};
     }
 
-    public void NewTurn()
+    public IEnumerator NewTurn()
     {
         StopMoving();
+
+        while(iAmMoving == true)
+        {
+            yield return null;
+        }
+
         currentMovementPoints = movementPointsMax;
-        if(globalMap != null) globalMap.RefreshPath(passedPoints, currentMovementPoints);
+        if(globalMap != null) globalMap.RefreshPath(currentPosition, currentMovementPoints);
+
+        newTurnCoroutine = null;
     }
 
     private void UpgradeParameters(PlayersStats stats, float value)
@@ -83,16 +93,15 @@ public class GMPlayerMovement : MonoBehaviour
     {
         yield return new WaitForSeconds(0.2f);
         iAmMoving = true;
-        passedPoints = 0;
+        currentPosition = pathPoints[0];
 
         for(int i = 1; i < pathPoints.Length; i++)
         {
             if(i == 1) previousPosition = pathPoints[0];
-            sprite.flipX = previousPosition.x - pathPoints[i].x < 0 ? true : false;
+            sprite.flipX = previousPosition.x - pathPoints[i].x < 0 ? true : false;            
 
             if(currentMovementPoints == 0) break;
             currentMovementPoints--;
-            passedPoints++;
 
             globalMap.ClearRoadTile(pathPoints[i - 1]);
             globalMap.CheckFog(viewRadius);
@@ -108,21 +117,16 @@ public class GMPlayerMovement : MonoBehaviour
                         
             transform.position = pathPoints[i];
             previousPosition = pathPoints[i - 1];
+            currentPosition = pathPoints[i];
+            globalMap.RefreshSteps(pathPoints[i]);
 
-            if(cancelMovement == true) 
-            {
-                //if we break a movement we need new path, so we have to make counter = 0
-                passedPoints = 0;
-                break;
-            }
-            
+            if(cancelMovement == true) break;            
         }
 
         if(cancelMovement == false && currentMovementPoints != 0) globalMap.ClearRoadTile(pathPoints[pathPoints.Length - 1]);
 
         iAmMoving = false;
         cancelMovement = false;
-        //passedPoints = 0;
     }
 
     public bool IsMoving()
