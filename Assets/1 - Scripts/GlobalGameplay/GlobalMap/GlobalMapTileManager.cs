@@ -18,6 +18,9 @@ public struct NeighborData
 
 public class GlobalMapTileManager : MonoBehaviour
 {
+    public Tile fogTile;
+    private GMHexCell[,] roads;
+
     [Header("TileMaps")]
     public Tilemap mapBG;
     public Tilemap fogMap;
@@ -42,14 +45,15 @@ public class GlobalMapTileManager : MonoBehaviour
     public List<Vector3> resoursesPoints;
 
     private List<Vector3> emptyPoints = new List<Vector3>();
+    private List<Vector3> convertedEmptyPoints = new List<Vector3>();
     private List<Vector3Int> tempPoints = new List<Vector3Int>();
 
     [Header("BuildingsCounters")]
     public int castlesCount = 5;
     public int tombsCount = 12;
 
-    public Tile fogTile;
-    private GMHexCell[,] roads;
+    [Header("Buildings")]
+    public List<GameObject> allBuildingsOnTheMap = new List<GameObject>();
 
     GlobalMapPathfinder gmPathfinder;
     private CursorManager cursorManager;
@@ -187,6 +191,8 @@ public class GlobalMapTileManager : MonoBehaviour
 
         GameObject arena = Instantiate(arenaPrefab, arenaPoint, Quaternion.identity);
         arena.transform.SetParent(arenaMap.transform);
+
+        allBuildingsOnTheMap.Add(arena);
     }
 
 
@@ -220,6 +226,8 @@ public class GlobalMapTileManager : MonoBehaviour
         {
             GameObject castle = Instantiate(castlePrefab, castlesPoints[i], Quaternion.identity);
             castle.transform.SetParent(castlesMap.transform);
+
+            allBuildingsOnTheMap.Add(castle);
         }
     }
 
@@ -253,6 +261,8 @@ public class GlobalMapTileManager : MonoBehaviour
         {
             GameObject tomb = Instantiate(tombPrefab, tombsPoints[i], Quaternion.identity);
             tomb.transform.SetParent(tombsMap.transform);
+
+            allBuildingsOnTheMap.Add(tomb);
         }
     }
 
@@ -278,16 +288,33 @@ public class GlobalMapTileManager : MonoBehaviour
             GameObject randomBuilding = resoursesPrefabs[Random.Range(0, resoursesPrefabs.Count)];
             GameObject resBuilding = Instantiate(randomBuilding, resoursesPoints[i], Quaternion.identity);
             resBuilding.transform.SetParent(resoursesMap.transform);
+
+            allBuildingsOnTheMap.Add(resBuilding);
         }
     }
 
     private void FillEmptyPoints()
     {
         for(int i = 0; i < emptyPoints.Count; i++)
-        {
-            GameObject bonfire = Instantiate(bonfirePrefab, emptyPoints[i], Quaternion.identity);
+{
+            Vector3 point = SearchRealEmptyCellNearRoad(emptyPoints[i]);
+            GameObject bonfire = Instantiate(bonfirePrefab, point, Quaternion.identity);
             bonfire.transform.SetParent(bonfiresMap.transform);
+
+            allBuildingsOnTheMap.Add(bonfire);
         }
+
+
+        Debug.Log(allBuildingsOnTheMap.Count);
+    }
+
+    private Vector3 SearchRealEmptyCellNearRoad(Vector3 point)
+    {
+        Vector3Int pos = roadMap.WorldToCell(point);
+
+        
+
+        return point;
     }
 
     #endregion

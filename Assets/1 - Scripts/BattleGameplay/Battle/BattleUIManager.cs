@@ -341,8 +341,7 @@ public class BattleUIManager : MonoBehaviour
                 }   
 
                 Button button = Instantiate(buttonSpell);
-                button.GetComponent<SpellButtonController>().SetSpellOnButton(currentSpells[i]);
-                button.GetComponent<SpellButtonController>().InitializeButton(slotNumber);
+                button.GetComponent<SpellButtonController>().InitializeButton(currentSpells[i], slotNumber);
                 currentSpellsButtons.Add(button);
                 button.transform.SetParent(spellButtonContainer.transform);
             }
@@ -354,8 +353,7 @@ public class BattleUIManager : MonoBehaviour
                 if(i == numberOfSpell)
                 {
                     Button button = Instantiate(buttonSpell);
-                    button.GetComponent<SpellButtonController>().SetSpellOnButton(currentSpells[i]);
-                    button.GetComponent<SpellButtonController>().InitializeButton();
+                    button.GetComponent<SpellButtonController>().InitializeButton(currentSpells[i]);
                     currentSpellsButtons.Add(button);
                     button.transform.SetParent(spellButtonContainer.transform);
 
