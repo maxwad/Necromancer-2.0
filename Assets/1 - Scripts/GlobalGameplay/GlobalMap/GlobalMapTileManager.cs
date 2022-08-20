@@ -19,6 +19,7 @@ public struct NeighborData
 public class GlobalMapTileManager : MonoBehaviour
 {
     public Tile fogTile;
+    public Tile testTile;
     private GMHexCell[,] roads;
 
     [Header("TileMaps")]
@@ -187,6 +188,8 @@ public class GlobalMapTileManager : MonoBehaviour
                 arenaPoint = arenaMap.CellToWorld(tempPoints[i]);
             else
                 emptyPoints.Add(arenaMap.CellToWorld(tempPoints[i]));
+
+            arenaMap.SetTile(tempPoints[i], null);
         }
 
         GameObject arena = Instantiate(arenaPrefab, arenaPoint, Quaternion.identity);
@@ -206,7 +209,10 @@ public class GlobalMapTileManager : MonoBehaviour
             {
                 Vector3Int position = new Vector3Int(x, y, 0);
 
-                if(castlesMap.HasTile(position) == true) tempPoints.Add(position);
+                if(castlesMap.HasTile(position) == true) {
+                    tempPoints.Add(position);
+                    castlesMap.SetTile(position, null);
+                }                
             }
         }
 
@@ -231,6 +237,7 @@ public class GlobalMapTileManager : MonoBehaviour
         }
     }
 
+
     private void BuildTombs()
     {
         tempPoints.Clear();
@@ -241,7 +248,11 @@ public class GlobalMapTileManager : MonoBehaviour
             {
                 Vector3Int position = new Vector3Int(x, y, 0);
 
-                if(tombsMap.HasTile(position) == true) tempPoints.Add(position);
+                if(tombsMap.HasTile(position) == true)
+                {                    
+                    tempPoints.Add(position);
+                    tombsMap.SetTile(position, null);
+                }
             }
         }
 
@@ -266,6 +277,7 @@ public class GlobalMapTileManager : MonoBehaviour
         }
     }
 
+
     private void BuildResourses()
     {
         int countOfPoints = 0;
@@ -279,6 +291,7 @@ public class GlobalMapTileManager : MonoBehaviour
                 {
                     countOfPoints++;
                     resoursesPoints.Add(resoursesMap.CellToWorld(position));
+                    resoursesMap.SetTile(position, null);
                 }
             }
         }
@@ -293,12 +306,26 @@ public class GlobalMapTileManager : MonoBehaviour
         }
     }
 
+
     private void FillEmptyPoints()
     {
+        for(int x = 0; x < bonfiresMap.size.x; x++)
+        {
+            for(int y = 0; y < bonfiresMap.size.y; y++)
+            {
+                Vector3Int position = new Vector3Int(x, y, 0);
+                if(bonfiresMap.HasTile(position) == true)
+                {
+                    bonfiresMap.SetTile(position, null);
+                }
+            }
+        }
+
         for(int i = 0; i < emptyPoints.Count; i++)
 {
-            Vector3 point = SearchRealEmptyCellNearRoad(emptyPoints[i]);
-            GameObject bonfire = Instantiate(bonfirePrefab, point, Quaternion.identity);
+            Vector3Int point = SearchRealEmptyCellNearRoad(true, emptyPoints[i]);
+            
+            GameObject bonfire = Instantiate(bonfirePrefab, bonfiresMap.CellToWorld(point), Quaternion.identity);
             bonfire.transform.SetParent(bonfiresMap.transform);
 
             allBuildingsOnTheMap.Add(bonfire);
@@ -308,15 +335,92 @@ public class GlobalMapTileManager : MonoBehaviour
         Debug.Log(allBuildingsOnTheMap.Count);
     }
 
-    private Vector3 SearchRealEmptyCellNearRoad(Vector3 point)
+    private Vector3Int SearchRealEmptyCellNearRoad(bool mode, Vector3 point)
     {
+        //mode = true - cell nearest road
+        //mode = false - road
+
+
         Vector3Int pos = roadMap.WorldToCell(point);
 
-        
+        if(mode == true) 
+        {
+            arenaMap.SetTile(pos, null);
+        }
 
-        return point;
+        bool isFinded = false;
+        int checkCount = 0;
+        List<Vector3Int> neighborsQueue = new List<Vector3Int>();
+
+        neighborsQueue.Add(pos);
+
+        while(isFinded == false)
+        {
+            if(checkCount >= neighborsQueue.Count)
+            {
+                Debug.Log("SMTH WRONG");
+                break;
+            }
+
+            for(int i = checkCount; i < neighborsQueue.Count; i++)
+            {
+                Vector3Int[] neighbors = GetNeihgborsArray(neighborsQueue[i]);
+                pos = neighborsQueue[i];
+
+                for(int l = 0; l < neighbors.Length; l++)
+                {
+                    if(roadMap.HasTile(neighbors[l]))
+                    {
+                        if(mode == false) pos = neighbors[l];
+                        isFinded = true;
+                        break;
+                    }
+                    else
+                    {        
+                        if(neighborsQueue.Contains(neighbors[l]) == false)
+                        {
+                            neighborsQueue.Add(neighbors[l]);
+                        }
+                    }
+                }
+                checkCount++;
+                if(isFinded == true) break;
+            }
+        }
+        mapBG.SetTile(pos, fogTile);
+
+
+        Vector3Int[] GetNeihgborsArray(Vector3Int point)
+        {
+            Vector3Int[] neihgborsArray = new Vector3Int[6];
+
+            neihgborsArray[0] = new Vector3Int(point.x + 1, point.y, point.z);
+            neihgborsArray[1] = new Vector3Int(point.x - 1, point.y, point.z);
+
+            if((point.y % 2) == 0)
+            {
+                neihgborsArray[2] = new Vector3Int(point.x, point.y + 1, point.z);
+                neihgborsArray[3] = new Vector3Int(point.x, point.y - 1, point.z);
+                neihgborsArray[4] = new Vector3Int(point.x - 1, point.y - 1, point.z);
+                neihgborsArray[5] = new Vector3Int(point.x - 1, point.y + 1, point.z);
+            }
+            else
+            {
+                neihgborsArray[2] = new Vector3Int(point.x + 1, point.y + 1, point.z);
+                neihgborsArray[3] = new Vector3Int(point.x + 1, point.y - 1, point.z);
+                neihgborsArray[4] = new Vector3Int(point.x, point.y - 1, point.z);
+                neihgborsArray[5] = new Vector3Int(point.x, point.y + 1, point.z);
+            }
+
+            return neihgborsArray;
+        }
+
+        return pos;
     }
 
+    //public Tilemap arenaMap;
+    //public Tilemap castlesMap;
+    //public Tilemap tombsMap;
     #endregion
 
     private void SendDataToPathfinder()
