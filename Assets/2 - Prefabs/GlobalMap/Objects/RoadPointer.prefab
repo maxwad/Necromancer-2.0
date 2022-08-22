@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 85004263045622683}
   - component: {fileID: 85004263045622684}
   - component: {fileID: 85004263045622682}
+  - component: {fileID: -7849341166801222392}
   m_Layer: 0
   m_Name: RoadPointer
   m_TagString: Untagged
@@ -100,3 +101,15 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: -0.15}
   m_Size: {x: 0.58, y: 0.95}
   m_Direction: 0
+--- !u!114 &-7849341166801222392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 85004263045622685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb3ddc64c2e8b774aa147bf5ed605f5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

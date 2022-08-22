@@ -15,10 +15,6 @@ public class GlobalMapPathfinder : MonoBehaviour
 
     public Tile roadTile;
     public Tile finishTile;
-    //public Tile testTile;
-
-    //public TMP_Text coordinates;
-    //private List<TMP_Text> coordList = new List<TMP_Text>();
 
     private GMPlayerMovement player;
 
@@ -30,10 +26,15 @@ public class GlobalMapPathfinder : MonoBehaviour
     private float currentMovementPoints = 0;
 
     private Vector3Int startPoint;
+    private Vector3Int destinationPoint;
 
     public GameObject stepsCounterPrefab;
     private int stepsCounter = 0;
     private Dictionary<Vector2, GameObject> counterDict = new Dictionary<Vector2, GameObject>();
+
+    public Dictionary<GameObject, Vector3> enterPointsDict = new Dictionary<GameObject, Vector3>();
+    public GameObject focusObject = null;
+    private bool shouldIClearPath = false;
 
     private void Awake()
     {
@@ -53,27 +54,45 @@ public class GlobalMapPathfinder : MonoBehaviour
         {
             if(MenuManager.isGamePaused == false && MenuManager.isMiniPause == false && GlobalStorage.instance.isGlobalMode == true)
             {
-                HandleClick();
+                Click();
             }
         }                
     }
-
-    private void HandleClick()
+    public void Click() 
     {
-        GetParameters();
-        startPoint = roadMap.WorldToCell(player.transform.position);
-
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector3Int positionOnRoad = roadMap.WorldToCell(mousePosition);
 
-        if(positionOnRoad != startPoint &&
-            positionOnRoad.x < roadMap.size.x && positionOnRoad.x >= 0 &&
-            positionOnRoad.y < roadMap.size.y && positionOnRoad.y >= 0)
+        RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
+        
+        if(hit.collider != null && hit.collider.GetComponent<ClickableObject>() != null)
+        {            
+            destinationPoint = roadMap.WorldToCell(enterPointsDict[hit.collider.gameObject]);
+            focusObject = hit.collider.gameObject;
+        }
+        else
         {
-            GMHexCell checkCell = roads[positionOnRoad.x, positionOnRoad.y];
+            destinationPoint = roadMap.WorldToCell(mousePosition);
+            focusObject = null;
+        }
+
+        HandleClick();
+    }
+
+    public void HandleClick()
+    {
+        GetParameters();        
+        startPoint = roadMap.WorldToCell(player.transform.position);           
+
+        if(destinationPoint != startPoint &&
+            destinationPoint.x < roadMap.size.x && destinationPoint.x >= 0 &&
+            destinationPoint.y < roadMap.size.y && destinationPoint.y >= 0)
+        {
+            GMHexCell checkCell = roads[destinationPoint.x, destinationPoint.y];
 
             if(checkCell != null)
             {
+                shouldIClearPath = false;
+
                 if(isGoalCellFinded == true && targetCell == checkCell)
                 {
                     player.MoveOnTheWay(pathPoints.ToArray(), this);
@@ -82,9 +101,16 @@ public class GlobalMapPathfinder : MonoBehaviour
                 else
                 {
                     player.StopMoving();
-                    targetCell = roads[positionOnRoad.x, positionOnRoad.y];
-                    StartCoroutine(PathFinding(startPoint, positionOnRoad));
+                    targetCell = roads[destinationPoint.x, destinationPoint.y];
+                    StartCoroutine(PathFinding(startPoint, destinationPoint));
                 }
+            }
+            else
+            {
+                shouldIClearPath = true;
+                player.StopMoving();
+                ClearSteps();
+                overlayMap.ClearAllTiles();
             }
         }
     }
@@ -94,13 +120,6 @@ public class GlobalMapPathfinder : MonoBehaviour
         Dictionary<GMHexCell, NeighborData> QueueDict = new Dictionary<GMHexCell, NeighborData>();
         List<GMHexCell> neighborsQueue = new List<GMHexCell>();
         List<GMHexCell> roadBack = new List<GMHexCell>();
-
-        ClearSteps();
-        //foreach(var item in coordList)
-        //{
-        //    Destroy(item.gameObject);
-        //}
-        //coordList.Clear();
 
         if(player.IsMoving() == true)
         {
@@ -117,6 +136,7 @@ public class GlobalMapPathfinder : MonoBehaviour
         bool isSearching = true;
         bool isDeadEnd = false;
 
+        ClearSteps();
         overlayMap.ClearAllTiles();
 
         QueueDict.Add(firstPathCell, new NeighborData());
@@ -190,10 +210,6 @@ public class GlobalMapPathfinder : MonoBehaviour
                 overlayMap.SetTile(roadBack[i].coordinates, currentTile);
                 pathPoints.Add(roadMap.CellToWorld(roadBack[i].coordinates));
 
-                //TMP_Text text = Instantiate(coordinates, pathPoints[i], Quaternion.identity);
-                //text.text = "" + overlayMap.WorldToCell(pathPoints[i]).x + " " + overlayMap.WorldToCell(pathPoints[i]).y;
-                //coordList.Add(text);
-
                 if(currentTile == finishTile)
                 {
                     stepsCounter++;
@@ -236,6 +252,8 @@ public class GlobalMapPathfinder : MonoBehaviour
 
     public void RefreshPath(Vector2 currentPosition, float remainingPoints)
     {
+        if(shouldIClearPath == true) return;
+
         overlayMap.ClearAllTiles();
         ClearSteps();
 

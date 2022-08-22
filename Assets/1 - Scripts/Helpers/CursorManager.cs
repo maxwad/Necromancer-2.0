@@ -6,6 +6,7 @@ public class CursorManager : MonoBehaviour
 {
     private bool canIChange = true;
 
+    CursorView cursorView = CursorView.Default;
     //public GameObject cursor;
     //private SpriteRenderer sprite;
 
@@ -18,10 +19,37 @@ public class CursorManager : MonoBehaviour
 
     private Vector2 position;
 
+    private GlobalMapTileManager gmManager;
+    private ClickableObject currentObject = null;
+
     private void Start()
     {
         //Cursor.lockState = CursorLockMode.Confined;
         //Cursor.SetCursor(cursorDefault, Vector2.zero, UnityEngine.CursorMode.ForceSoftware);
+        gmManager = GlobalStorage.instance.gmManager;
+    }
+
+    private void LateUpdate()
+    {
+        return; // delete in build
+
+        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector3Int positionOnTileMap;
+
+        positionOnTileMap = gmManager.mapBG.WorldToCell(mousePosition);
+        if(gmManager.mapBG.HasTile(positionOnTileMap) == true) cursorView = CursorView.Default;
+
+        positionOnTileMap = gmManager.roadMap.WorldToCell(mousePosition);
+        if(gmManager.roadMap.HasTile(positionOnTileMap) == true) cursorView = CursorView.Movement;
+
+        if(currentObject != null) cursorView = currentObject.cursor;
+
+        positionOnTileMap = gmManager.fogMap.WorldToCell(mousePosition);
+        if(gmManager.fogMap.HasTile(positionOnTileMap) == true) cursorView = CursorView.Default;
+
+        if(EventSystem.current.IsPointerOverGameObject() == true) cursorView = CursorView.Default;
+
+        ChangeCursor(cursorView);
     }
 
     private void CursorMode(bool mode)
@@ -29,10 +57,13 @@ public class CursorManager : MonoBehaviour
         canIChange = mode;
     }
 
+    public void SetObject(ClickableObject obj)
+    {
+        currentObject = obj;
+    }
+
     public void ChangeCursor(CursorView newCursor)
     {
-        return; // delete in build
-
         if(canIChange == true)
         {
             switch(newCursor)
@@ -64,9 +95,7 @@ public class CursorManager : MonoBehaviour
         else
         {
             cursorPict = cursorDefault;
-        }
-
-        if(EventSystem.current.IsPointerOverGameObject() == true) cursorPict = cursorDefault;
+        }        
 
         position = Vector2.zero;
         if(cursorPict == cursorMovement) position = new Vector2(cursorPict.width / 3.5f, cursorPict.height / 3.3f);

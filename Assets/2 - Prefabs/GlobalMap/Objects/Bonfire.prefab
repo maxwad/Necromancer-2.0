@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 4450114875376718765}
   - component: {fileID: 1501791768281728513}
   - component: {fileID: 4117717560179863935}
+  - component: {fileID: 1831199754991823921}
+  - component: {fileID: -8822262582893159684}
   m_Layer: 0
   m_Name: Bonfire
   m_TagString: Untagged
@@ -100,3 +102,32 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 2.35, y: 2.35}
   m_Direction: 0
+--- !u!114 &1831199754991823921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1479575089880212057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a24be4621a224594d936a1f2093eadd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  header: Camp
+  content: There's definitely something going on here.
+  visitedStatus: Visited
+  notVisitedStatus: Not visited
+--- !u!114 &-8822262582893159684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1479575089880212057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb3ddc64c2e8b774aa147bf5ed605f5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cursor: 3

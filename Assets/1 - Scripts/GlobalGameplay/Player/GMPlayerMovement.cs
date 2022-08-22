@@ -17,7 +17,7 @@ public class GMPlayerMovement : MonoBehaviour
     private bool cancelMovement = false;
     private bool iAmMoving = false;
 
-    private GlobalMapPathfinder globalMap;
+    private GlobalMapPathfinder gmPathFinder;
 
     private SpriteRenderer sprite;
     private Vector2 previousPosition = Vector2.zero;
@@ -65,7 +65,7 @@ public class GMPlayerMovement : MonoBehaviour
         }
 
         currentMovementPoints = movementPointsMax;
-        if(globalMap != null) globalMap.RefreshPath(currentPosition, currentMovementPoints);
+        if(gmPathFinder != null) gmPathFinder.RefreshPath(currentPosition, currentMovementPoints);
 
         newTurnCoroutine = null;
     }
@@ -79,7 +79,7 @@ public class GMPlayerMovement : MonoBehaviour
 
     public void MoveOnTheWay(Vector2[] pathPoints, GlobalMapPathfinder map)
     {
-        globalMap = map;
+        gmPathFinder = map;
         if(iAmMoving == false && pathPoints.Length != 0) StartCoroutine(Movement(pathPoints));
         else StopMoving();     
     }
@@ -103,8 +103,8 @@ public class GMPlayerMovement : MonoBehaviour
             if(currentMovementPoints == 0) break;
             currentMovementPoints--;
 
-            globalMap.ClearRoadTile(pathPoints[i - 1]);
-            globalMap.CheckFog(viewRadius);
+            gmPathFinder.ClearRoadTile(pathPoints[i - 1]);
+            gmPathFinder.CheckFog(viewRadius);
 
             Vector2 distance = pathPoints[i] - (Vector2)transform.position;
             Vector2 step = distance / (defaultCountSteps / speed);
@@ -118,12 +118,12 @@ public class GMPlayerMovement : MonoBehaviour
             transform.position = pathPoints[i];
             previousPosition = pathPoints[i - 1];
             currentPosition = pathPoints[i];
-            globalMap.RefreshSteps(pathPoints[i]);
+            gmPathFinder.RefreshSteps(pathPoints[i]);
 
-            if(cancelMovement == true) break;            
+            if(cancelMovement == true) break;
         }
 
-        if(cancelMovement == false && currentMovementPoints != 0) globalMap.ClearRoadTile(pathPoints[pathPoints.Length - 1]);
+        if(cancelMovement == false && currentMovementPoints != 0) gmPathFinder.ClearRoadTile(pathPoints[pathPoints.Length - 1]);
 
         iAmMoving = false;
         cancelMovement = false;

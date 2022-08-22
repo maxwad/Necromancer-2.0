@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 6743434480412419530}
   - component: {fileID: 2085970968262885165}
   - component: {fileID: 6456557869478074336}
+  - component: {fileID: 746853197673516948}
+  - component: {fileID: -9139183998644911855}
   m_Layer: 0
   m_Name: Tomb
   m_TagString: Untagged
@@ -100,3 +102,32 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: -0.25390244}
   m_Size: {x: 1.3686028, y: 2.4655228}
   m_Direction: 0
+--- !u!114 &746853197673516948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8934158126753734808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a24be4621a224594d936a1f2093eadd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  header: Tomb
+  content: You can visit it for Reward here.
+  visitedStatus: Visited
+  notVisitedStatus: Not visited
+--- !u!114 &-9139183998644911855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8934158126753734808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb3ddc64c2e8b774aa147bf5ed605f5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cursor: 4

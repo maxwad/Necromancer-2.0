@@ -3,6 +3,8 @@ using UnityEngine.Tilemaps;
 using System.Collections;
 using System.Collections.Generic;
 using static NameManager;
+using static UnityEditor.PlayerSettings;
+using System.Drawing;
 
 public struct NeighborData
 {
@@ -40,14 +42,14 @@ public class GlobalMapTileManager : MonoBehaviour
     public List<GameObject> resoursesPrefabs;
 
     [Header("Points")]
-    public Vector3 arenaPoint;
-    public List<Vector3> castlesPoints;
-    public List<Vector3> tombsPoints;
-    public List<Vector3> resoursesPoints;
+    private Vector3 arenaPoint;
+    private List<Vector3> castlesPoints = new List<Vector3>();
+    private List<Vector3> tombsPoints = new List<Vector3>();
+    private List<Vector3> resoursesPoints = new List<Vector3>();
 
     private List<Vector3> emptyPoints = new List<Vector3>();
-    private List<Vector3> convertedEmptyPoints = new List<Vector3>();
     private List<Vector3Int> tempPoints = new List<Vector3Int>();
+    private Dictionary<GameObject, Vector3> enterPointsDict = new Dictionary<GameObject, Vector3>();
 
     [Header("BuildingsCounters")]
     public int castlesCount = 5;
@@ -57,12 +59,10 @@ public class GlobalMapTileManager : MonoBehaviour
     public List<GameObject> allBuildingsOnTheMap = new List<GameObject>();
 
     GlobalMapPathfinder gmPathfinder;
-    private CursorManager cursorManager;
     private float startRadiusWithoutFog = 30;
 
     public void Load()
     {
-        cursorManager = GlobalStorage.instance.cursorManager;
         roads = new GMHexCell[roadMap.size.x, roadMap.size.y];
         gmPathfinder = GetComponent<GlobalMapPathfinder>();
 
@@ -75,7 +75,7 @@ public class GlobalMapTileManager : MonoBehaviour
         BuildTombs();
         BuildResourses();
         FillEmptyPoints();
-
+        CreateEnterPoints();
         SendDataToPathfinder();
 
         // end of loading map
@@ -330,9 +330,6 @@ public class GlobalMapTileManager : MonoBehaviour
 
             allBuildingsOnTheMap.Add(bonfire);
         }
-
-
-        Debug.Log(allBuildingsOnTheMap.Count);
     }
 
     private Vector3Int SearchRealEmptyCellNearRoad(bool mode, Vector3 point)
@@ -340,13 +337,9 @@ public class GlobalMapTileManager : MonoBehaviour
         //mode = true - cell nearest road
         //mode = false - road
 
-
         Vector3Int pos = roadMap.WorldToCell(point);
 
-        if(mode == true) 
-        {
-            arenaMap.SetTile(pos, null);
-        }
+        if(mode == true) arenaMap.SetTile(pos, null);
 
         bool isFinded = false;
         int checkCount = 0;
@@ -387,8 +380,7 @@ public class GlobalMapTileManager : MonoBehaviour
                 if(isFinded == true) break;
             }
         }
-        mapBG.SetTile(pos, fogTile);
-
+        //mapBG.SetTile(pos, fogTile);
 
         Vector3Int[] GetNeihgborsArray(Vector3Int point)
         {
@@ -418,34 +410,27 @@ public class GlobalMapTileManager : MonoBehaviour
         return pos;
     }
 
-    //public Tilemap arenaMap;
-    //public Tilemap castlesMap;
-    //public Tilemap tombsMap;
+    private void CreateEnterPoints()
+    {
+        Vector3 pos = Vector3.zero;
+
+        for(int i = 0; i < allBuildingsOnTheMap.Count; i++)
+        {
+            Vector3Int enterPoint = SearchRealEmptyCellNearRoad(false, allBuildingsOnTheMap[i].transform.position);
+            //mapBG.SetTile(enterPoint, fogTile);
+            pos = roadMap.CellToWorld(enterPoint);
+            enterPointsDict.Add(allBuildingsOnTheMap[i], pos);
+        }
+    }
+
+
     #endregion
 
     private void SendDataToPathfinder()
     {
         gmPathfinder.roads = roads;
         gmPathfinder.CheckFog(startRadiusWithoutFog);
-    }
-
-    private void LateUpdate()
-    {
-        CursorView cursorView = CursorView.Default;
-
-        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector3Int positionOnTileMap;
-
-        positionOnTileMap = mapBG.WorldToCell(mousePosition);
-        if(mapBG.HasTile(positionOnTileMap) == true) cursorView = CursorView.Default;
-
-        positionOnTileMap = roadMap.WorldToCell(mousePosition);
-        if(roadMap.HasTile(positionOnTileMap) == true) cursorView = CursorView.Movement;
-
-        positionOnTileMap = fogMap.WorldToCell(mousePosition);
-        if(fogMap.HasTile(positionOnTileMap) == true) cursorView = CursorView.Default;
-
-        if(cursorManager != null) cursorManager.ChangeCursor(cursorView);
+        gmPathfinder.enterPointsDict = enterPointsDict;
     }
 
 }

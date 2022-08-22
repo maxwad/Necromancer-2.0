@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 4251203375914601953}
   - component: {fileID: 4251203375914601952}
   - component: {fileID: 4251203375914601959}
+  - component: {fileID: -3159276846399366235}
+  - component: {fileID: -6642758912041990523}
   m_Layer: 0
   m_Name: Quarry
   m_TagString: Untagged
@@ -100,3 +102,32 @@ CapsuleCollider2D:
   m_Offset: {x: -0.017255021, y: -0.28182957}
   m_Size: {x: 1.4301335, y: 2.3734}
   m_Direction: 0
+--- !u!114 &-3159276846399366235
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4251203375914601958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a24be4621a224594d936a1f2093eadd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  header: Quarry
+  content: Resource Building. Stone.
+  visitedStatus: 'Owner: you'
+  notVisitedStatus: 'Owner: unknown'
+--- !u!114 &-6642758912041990523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4251203375914601958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb3ddc64c2e8b774aa147bf5ed605f5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cursor: 4

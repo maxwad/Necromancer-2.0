@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 7794436420652577594}
   - component: {fileID: 7794436420652577592}
   - component: {fileID: 7794436420652577593}
+  - component: {fileID: -742177117779575509}
+  - component: {fileID: 1537579545641050235}
   m_Layer: 0
   m_Name: Arena
   m_TagString: Untagged
@@ -100,3 +102,32 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: -0.17690335}
   m_Size: {x: 2, y: 2.7661958}
   m_Direction: 0
+--- !u!114 &-742177117779575509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7794436420652577595}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a24be4621a224594d936a1f2093eadd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  header: Arena
+  content: You can fight for Reward here.
+  visitedStatus: 
+  notVisitedStatus: 
+--- !u!114 &1537579545641050235
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7794436420652577595}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb3ddc64c2e8b774aa147bf5ed605f5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cursor: 4

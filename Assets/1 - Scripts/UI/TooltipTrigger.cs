@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,20 +8,24 @@ public class TooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 {
     public string header;
     public string content;
-    public string positiveStatus;
-    public string negativeStatus;
+    public string visitedStatus;
+    public string notVisitedStatus;
 
     private string status;
 
-    private float timeDelay = 0.1f;
+    private float timeDelay = 1f;
     private float currentWaitTime = 0;
     private bool isWaiting = false;
     private bool isTooltipOpen = false;
 
-    private void Awake()
+    private GlobalMapTileManager gmManager;
+
+    private void Start()
     {
         SetStatus(false);
+        gmManager = GlobalStorage.instance.gmManager;
     }
+
 
     private void Update()
     {
@@ -39,7 +44,7 @@ public class TooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void SetStatus(bool mode)
     {
-        status = (mode == false) ? negativeStatus : positiveStatus;
+        status = (mode == false) ? notVisitedStatus : visitedStatus;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -49,24 +54,33 @@ public class TooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        isTooltipOpen = false;
         if(isWaiting == false) TooltipManager.Hide();
 
+        isTooltipOpen = false;
+        isWaiting = false;
         currentWaitTime = 0;
     }
 
     private void OnMouseEnter()
     {
         if(EventSystem.current.IsPointerOverGameObject()) return;
+        if(CheckTheFog() == true) return;  
 
         isWaiting = true;
     }
 
+    private bool CheckTheFog()
+    {
+        Vector3Int checkPosition = gmManager.fogMap.WorldToCell(transform.position);
+        return gmManager.fogMap.HasTile(checkPosition);        
+    }
+
     private void OnMouseExit()
     {
-        isTooltipOpen = false;
         if(isWaiting == false) TooltipManager.Hide();
 
+        isTooltipOpen = false;
+        isWaiting = false;
         currentWaitTime = 0;
     }
 

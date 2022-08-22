@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class GlobalCamera : MonoBehaviour
 {
@@ -21,6 +22,10 @@ public class GlobalCamera : MonoBehaviour
     public float maxPositionX = 970;
     public float maxPositionY = 585;
 
+    private bool isDrag = false;
+    private Vector3 origin;
+    private Vector3 difference;
+
     private Camera mainCamera;
 
     private void Awake()
@@ -28,7 +33,7 @@ public class GlobalCamera : MonoBehaviour
         Camera mainCamera = Camera.main;
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         if(MenuManager.isGamePaused != true && MenuManager.isMiniPause != true)
         {
@@ -41,6 +46,23 @@ public class GlobalCamera : MonoBehaviour
             float deltaX = Input.GetAxisRaw("Horizontal");
             float deltaY = Input.GetAxisRaw("Vertical");
             if(deltaX != 0 || deltaY != 0) ChangePosition(deltaX, deltaY, moveSpeedMax);
+
+            if(Input.GetMouseButton(2))
+            {
+                difference = mainCamera.ScreenToWorldPoint(Input.mousePosition) - mainCamera.transform.position;
+
+                if(isDrag == false)
+                {
+                    isDrag = true;
+                    origin = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+                }
+            }
+            else
+            {
+                isDrag = false;
+            }
+
+            if(isDrag == true) mainCamera.transform.position = ClampPosition(origin - difference);
 
             //CheckMouseNearEdge();
         }
