@@ -2,25 +2,40 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using static NameManager;
 
 public class ClickableObject : MonoBehaviour
 {
-    private GlobalMapPathfinder gmPathFinder;
+    public TypeOfObjectOnTheMap objectType;
+    public bool openByClick = true;
+    public bool openByMove = true;
+    private ObjectsInfoUI objectsInfo;
+
+    [HideInInspector] public TooltipTrigger tooltip;
     private CursorManager cursorManager;
     public CursorView cursor = CursorView.Default;
 
     private void Start()
-    {
-        gmPathFinder = GlobalStorage.instance.gmManager.GetComponent<GlobalMapPathfinder>();
+    {        
         cursorManager = GlobalStorage.instance.cursorManager;
+        tooltip = GetComponent<TooltipTrigger>();
+        objectsInfo = GlobalStorage.instance.objectsInfoUI;
     }
 
-    private void OnMouseDown()
+    public void ActivateUIWindow(bool mode)
     {
-        if(EventSystem.current.IsPointerOverGameObject()) return;
+        //mode = true - by rigth click
+        //mode = false - by movement
 
-        //gmPathFinder.HandleClick(gameObject);
+        if(EventSystem.current.IsPointerOverGameObject()) return;
+        if(GlobalStorage.instance.isModalWindowOpen == false)
+        {
+            if(openByClick == false && mode == true) return;
+            if(openByMove == false && mode == false) return;
+
+            objectsInfo?.OpenWindow(mode, this);
+        }
     }
 
     private void OnMouseEnter()
@@ -32,5 +47,4 @@ public class ClickableObject : MonoBehaviour
     {
         cursorManager.SetObject(null);
     }
-
 }

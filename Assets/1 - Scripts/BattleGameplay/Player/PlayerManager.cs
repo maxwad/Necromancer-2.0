@@ -21,8 +21,8 @@ public class PlayerManager : MonoBehaviour
 
     private void Update()
     {
-        if (MenuManager.isGamePaused == false && Input.GetKeyDown(KeyCode.I))
-        {
+        if(MenuManager.isGamePaused == false && Input.GetKeyDown(KeyCode.I))
+        {            
             playersArmyWindow.OpenWindow();
         }
     }

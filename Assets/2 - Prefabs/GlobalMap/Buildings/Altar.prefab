@@ -130,4 +130,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb3ddc64c2e8b774aa147bf5ed605f5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectType: 9
+  tooltip: {fileID: 0}
   cursor: 4
+  openByClick: 1
+  openByMove: 1

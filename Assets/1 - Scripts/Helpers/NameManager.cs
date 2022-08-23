@@ -198,6 +198,26 @@ public static class NameManager
     {
         NE, E, SE, SW, W, NW
     }
+
+    public enum TypeOfObjectOnTheMap
+    {
+        PlayersCastle,
+        NecromancerCastle,
+        Castle,
+        ResoursesFarm,
+        ResoursesQuarry,
+        ResoursesMine,
+        ResoursesSawmill,
+        Outpost,
+        Camp,
+        Altar,
+        Portal,
+        RoadPointer,
+        Arena,
+        Tomb
+    }
+
+
     #endregion
 
     #region Helpers

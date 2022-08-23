@@ -54,11 +54,19 @@ public class GlobalMapPathfinder : MonoBehaviour
         {
             if(MenuManager.isGamePaused == false && MenuManager.isMiniPause == false && GlobalStorage.instance.isGlobalMode == true)
             {
-                Click();
+                LClick();
             }
-        }                
+        }
+
+        if(Input.GetMouseButtonDown(1))
+        {
+            if(MenuManager.isGamePaused == false && MenuManager.isMiniPause == false && GlobalStorage.instance.isGlobalMode == true)
+            {
+                RClick();
+            }
+        }
     }
-    public void Click() 
+    public void LClick() 
     {
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
@@ -74,8 +82,20 @@ public class GlobalMapPathfinder : MonoBehaviour
             destinationPoint = roadMap.WorldToCell(mousePosition);
             focusObject = null;
         }
-
+        //roadMap.SetTile(destinationPoint, finishTile);
         HandleClick();
+    }
+
+    public void RClick()
+    {
+        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+        RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
+
+        if(hit.collider != null && hit.collider.GetComponent<ClickableObject>() != null)
+        {
+            hit.collider.GetComponent<ClickableObject>().ActivateUIWindow(true);
+        }
     }
 
     public void HandleClick()
@@ -108,11 +128,15 @@ public class GlobalMapPathfinder : MonoBehaviour
             else
             {
                 shouldIClearPath = true;
+                targetCell = null;
                 player.StopMoving();
                 ClearSteps();
                 overlayMap.ClearAllTiles();
             }
         }
+
+        if(destinationPoint == startPoint) player.CheckPosition();
+ 
     }
 
     private IEnumerator PathFinding(Vector3Int startCell, Vector3Int goalCell)

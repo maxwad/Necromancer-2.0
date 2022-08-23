@@ -33,6 +33,7 @@ public class GlobalMapTileManager : MonoBehaviour
     public Tilemap tombsMap;
     public Tilemap resoursesMap;
     public Tilemap bonfiresMap;
+    public Tilemap environmentMap;
 
     [Header("Prefabs")]
     public GameObject arenaPrefab;
@@ -55,8 +56,7 @@ public class GlobalMapTileManager : MonoBehaviour
     public int castlesCount = 5;
     public int tombsCount = 12;
 
-    [Header("Buildings")]
-    public List<GameObject> allBuildingsOnTheMap = new List<GameObject>();
+    private List<GameObject> allBuildingsOnTheMap = new List<GameObject>();
 
     GlobalMapPathfinder gmPathfinder;
     private float startRadiusWithoutFog = 30;
@@ -74,7 +74,9 @@ public class GlobalMapTileManager : MonoBehaviour
         BuildCastles();
         BuildTombs();
         BuildResourses();
-        FillEmptyPoints();
+        BuildBonfires();
+        RegisterRestObjects();
+
         CreateEnterPoints();
         SendDataToPathfinder();
 
@@ -307,8 +309,18 @@ public class GlobalMapTileManager : MonoBehaviour
     }
 
 
-    private void FillEmptyPoints()
+    private void BuildBonfires()
     {
+        int count = 0;
+        foreach(Transform child in bonfiresMap.transform)
+        {
+            if(child.GetComponent<ClickableObject>() != null)
+            {
+                allBuildingsOnTheMap.Add(child.gameObject);
+                count++;
+            }
+        }
+
         for(int x = 0; x < bonfiresMap.size.x; x++)
         {
             for(int y = 0; y < bonfiresMap.size.y; y++)
@@ -329,6 +341,40 @@ public class GlobalMapTileManager : MonoBehaviour
             bonfire.transform.SetParent(bonfiresMap.transform);
 
             allBuildingsOnTheMap.Add(bonfire);
+        }
+    }
+    
+    private void RegisterRestObjects()
+    {
+        foreach(Transform child in environmentMap.transform)
+        {
+            if(child.GetComponent<ClickableObject>() != null)
+            {
+                allBuildingsOnTheMap.Add(child.gameObject);
+            }
+            else
+            {
+                foreach(Transform underChild in child.transform)
+                {
+                    if(underChild.GetComponent<ClickableObject>() != null)
+                    {
+                        allBuildingsOnTheMap.Add(underChild.gameObject);
+                    }
+                }
+            }
+        }
+    }
+
+    private void CreateEnterPoints()
+    {
+        Vector3 pos = Vector3.zero;
+
+        for(int i = 0; i < allBuildingsOnTheMap.Count; i++)
+        {
+            Vector3Int enterPoint = SearchRealEmptyCellNearRoad(false, allBuildingsOnTheMap[i].transform.position);
+            //mapBG.SetTile(enterPoint, fogTile);
+            pos = roadMap.CellToWorld(enterPoint);
+            enterPointsDict.Add(allBuildingsOnTheMap[i], pos);
         }
     }
 
@@ -369,7 +415,7 @@ public class GlobalMapTileManager : MonoBehaviour
                         break;
                     }
                     else
-                    {        
+                    {
                         if(neighborsQueue.Contains(neighbors[l]) == false)
                         {
                             neighborsQueue.Add(neighbors[l]);
@@ -410,20 +456,6 @@ public class GlobalMapTileManager : MonoBehaviour
         return pos;
     }
 
-    private void CreateEnterPoints()
-    {
-        Vector3 pos = Vector3.zero;
-
-        for(int i = 0; i < allBuildingsOnTheMap.Count; i++)
-        {
-            Vector3Int enterPoint = SearchRealEmptyCellNearRoad(false, allBuildingsOnTheMap[i].transform.position);
-            //mapBG.SetTile(enterPoint, fogTile);
-            pos = roadMap.CellToWorld(enterPoint);
-            enterPointsDict.Add(allBuildingsOnTheMap[i], pos);
-        }
-    }
-
-
     #endregion
 
     private void SendDataToPathfinder()
@@ -432,5 +464,4 @@ public class GlobalMapTileManager : MonoBehaviour
         gmPathfinder.CheckFog(startRadiusWithoutFog);
         gmPathfinder.enterPointsDict = enterPointsDict;
     }
-
 }

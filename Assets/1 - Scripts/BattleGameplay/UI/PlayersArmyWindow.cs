@@ -109,12 +109,16 @@ public class PlayersArmyWindow : MonoBehaviour
     {
         if (isWindowOpened == false)
         {
-            playerArmyUI.SetActive(true);
-            isWindowOpened = true;
+            if(GlobalStorage.instance.isModalWindowOpen == false)
+            {
+                playerArmyUI.SetActive(true);
+                isWindowOpened = true;
 
-            UpdateArmyWindow();
+                UpdateArmyWindow();
 
-            MenuManager.instance.MiniPauseOn();
+                MenuManager.instance.MiniPauseOn();
+                GlobalStorage.instance.isModalWindowOpen = true;
+            }            
         }            
         else
             CloseWindow();
@@ -127,6 +131,7 @@ public class PlayersArmyWindow : MonoBehaviour
 
         playerArmyUI.SetActive(false);
         isWindowOpened = false;
+        GlobalStorage.instance.isModalWindowOpen = false;
         MenuManager.instance.MiniPauseOff();
 
         //TODO: here we should clear info about canceled battle

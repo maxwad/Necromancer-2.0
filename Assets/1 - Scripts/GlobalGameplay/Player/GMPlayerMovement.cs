@@ -1,7 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 using static NameManager;
 
 public class GMPlayerMovement : MonoBehaviour
@@ -92,6 +92,7 @@ public class GMPlayerMovement : MonoBehaviour
     private IEnumerator Movement(Vector2[] pathPoints)
     {
         yield return new WaitForSeconds(0.2f);
+
         iAmMoving = true;
         currentPosition = pathPoints[0];
 
@@ -123,10 +124,25 @@ public class GMPlayerMovement : MonoBehaviour
             if(cancelMovement == true) break;
         }
 
-        if(cancelMovement == false && currentMovementPoints != 0) gmPathFinder.ClearRoadTile(pathPoints[pathPoints.Length - 1]);
+        if(cancelMovement == false && currentMovementPoints != 0) {
+            gmPathFinder.ClearRoadTile(pathPoints[pathPoints.Length - 1]);
+        } 
 
         iAmMoving = false;
         cancelMovement = false;
+
+        CheckPosition();
+    }
+
+    public void CheckPosition()
+    {
+        if(gmPathFinder.focusObject != null)
+        {
+            if(gmPathFinder.enterPointsDict[gmPathFinder.focusObject] == (Vector3)currentPosition)
+            {
+                gmPathFinder.focusObject.GetComponent<ClickableObject>().ActivateUIWindow(false);
+            }
+        }
     }
 
     public bool IsMoving()

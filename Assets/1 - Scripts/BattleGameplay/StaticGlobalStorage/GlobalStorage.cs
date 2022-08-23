@@ -13,7 +13,6 @@ public class GlobalStorage : MonoBehaviour
     public UnitBoostManager unitBoostManager;
     public PlayerBoostManager playerBoostManager;
     public BattleManager battleManager;
-    public BattleUIManager battleIUManager;
     public PlayerManager playerManager;
     public ObjectsPoolManager objectsPoolManager;
     public BonusManager bonusManager;
@@ -22,6 +21,10 @@ public class GlobalStorage : MonoBehaviour
     public SpellManager spellManager;
     public CursorManager cursorManager;
     public GlobalMapTileManager gmManager;
+
+    [Header("UI")]
+    public BattleUIManager battleIUManager;
+    public ObjectsInfoUI objectsInfoUI;
 
     [Header("Player")]
     public GameObject player;
@@ -33,13 +36,15 @@ public class GlobalStorage : MonoBehaviour
     public GameObject globalMap;
     public GameObject battleMap;
 
-
     [Header("Containers")]
     public GameObject effectsContainer;
     public GameObject bonusesContainer;
 
     [HideInInspector] public bool isGlobalMode = true;
+
     [HideInInspector] public bool isEnoughTempExp = false;
+
+    [HideInInspector] public bool isModalWindowOpen = false;
 
     [HideInInspector] public bool canILoadNextStep = true;
 

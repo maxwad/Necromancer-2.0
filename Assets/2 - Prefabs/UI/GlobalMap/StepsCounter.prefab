@@ -94,7 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3579893574874189119}
   m_Layer: 0
-  m_Name: TurnCounter
+  m_Name: StepsCounter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
