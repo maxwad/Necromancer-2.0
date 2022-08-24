@@ -13,7 +13,7 @@ public class PlayerManager : MonoBehaviour
 
     private void Start()
     {
-        globalPlayer = GlobalStorage.instance.globalPlayer;
+        globalPlayer = GlobalStorage.instance.globalPlayer.gameObject;
         battlePlayer = GlobalStorage.instance.battlePlayer.gameObject;
 
         globalMap = GlobalStorage.instance.globalMap;

@@ -59,8 +59,8 @@ public class PlayerStats : MonoBehaviour
     ////0 - can't see; 1 - general information; 2 - exemplary information; 3 - accurate information
     //[SerializeField] private float enemyViewBase = 0;
 
-    ////0 - can't use; 1 - ordinary portal; 2 - portal to town; 3 - portal to hero's army
-    //[SerializeField] private float portalSkillBase = 0;
+    ////0 - can't use; 1 - to random portal; 2 - portal directly; 3 - portal to town
+    [SerializeField] private float portalSkillBase = 3;
 
     ////0 - can't use; 1 - ordinary resources; 2 - spell; 3 - magic
     //[SerializeField] private float extraResourcesRewardBase = 0;
@@ -215,6 +215,8 @@ public class PlayerStats : MonoBehaviour
                     break;
 
                 case PlayersStats.Portal:
+                    baseValue = portalSkillBase;
+                    maxValue = portalSkillBase;
                     break;
 
                 case PlayersStats.ExtraResourcesReward:
@@ -269,7 +271,7 @@ public class PlayerStats : MonoBehaviour
     public float GetStartParametersBeforeBattle(PlayersStats stat)
     {
 
-        Debug.Log(allStatsDict.Count);
+        //Debug.Log(allStatsDict.Count);
         return allStatsDict[stat].maxValue;
     }
 

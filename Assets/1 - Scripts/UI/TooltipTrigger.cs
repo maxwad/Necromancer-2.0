@@ -11,7 +11,7 @@ public class TooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     public string visitedStatus;
     public string notVisitedStatus;
 
-    private string status;
+    public string status;
 
     private float timeDelay = 1f;
     private float currentWaitTime = 0;

@@ -57,7 +57,7 @@ public class CursorManager : MonoBehaviour
         canIChange = mode;
     }
 
-    public void SetObject(ClickableObject obj)
+    public void SetCurrentObjectUnderMouse(ClickableObject obj)
     {
         currentObject = obj;
     }

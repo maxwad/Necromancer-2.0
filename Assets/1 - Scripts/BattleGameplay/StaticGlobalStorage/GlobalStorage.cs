@@ -21,14 +21,14 @@ public class GlobalStorage : MonoBehaviour
     public SpellManager spellManager;
     public CursorManager cursorManager;
     public GlobalMapTileManager gmManager;
+    public PortalsManager portalsManager;
 
     [Header("UI")]
     public BattleUIManager battleIUManager;
-    public ObjectsInfoUI objectsInfoUI;
 
     [Header("Player")]
     public GameObject player;
-    public GameObject globalPlayer;
+    public GMPlayerMovement globalPlayer;
     public BattleArmyController battlePlayer;
     public HeroController hero;
 

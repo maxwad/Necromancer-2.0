@@ -3,8 +3,6 @@ using UnityEngine.Tilemaps;
 using System.Collections;
 using System.Collections.Generic;
 using static NameManager;
-using static UnityEditor.PlayerSettings;
-using System.Drawing;
 
 public struct NeighborData
 {
@@ -362,12 +360,12 @@ public class GlobalMapTileManager : MonoBehaviour
                     }
                 }
             }
-        }
+        }        
     }
 
     private void CreateEnterPoints()
     {
-        Vector3 pos = Vector3.zero;
+        Vector3 pos;
 
         for(int i = 0; i < allBuildingsOnTheMap.Count; i++)
         {
@@ -375,6 +373,7 @@ public class GlobalMapTileManager : MonoBehaviour
             //mapBG.SetTile(enterPoint, fogTile);
             pos = roadMap.CellToWorld(enterPoint);
             enterPointsDict.Add(allBuildingsOnTheMap[i], pos);
+            SortingBuildings(allBuildingsOnTheMap[i], pos);
         }
     }
 
@@ -456,6 +455,49 @@ public class GlobalMapTileManager : MonoBehaviour
         return pos;
     }
 
+    private void SortingBuildings(GameObject building, Vector3 position)
+    {
+        ClickableObject obj = building.GetComponent<ClickableObject>();
+
+        if(obj == null) return;
+
+        switch(obj.objectType)
+        {
+            case TypeOfObjectOnTheMap.PlayersCastle:
+                break;
+            case TypeOfObjectOnTheMap.NecromancerCastle:
+                break;
+            case TypeOfObjectOnTheMap.Castle:
+                break;
+            case TypeOfObjectOnTheMap.ResoursesFarm:
+                break;
+            case TypeOfObjectOnTheMap.ResoursesQuarry:
+                break;
+            case TypeOfObjectOnTheMap.ResoursesMine:
+                break;
+            case TypeOfObjectOnTheMap.ResoursesSawmill:
+                break;
+            case TypeOfObjectOnTheMap.Outpost:
+                break;
+            case TypeOfObjectOnTheMap.Camp:
+                break;
+            case TypeOfObjectOnTheMap.Altar:
+                break;
+
+            case TypeOfObjectOnTheMap.Portal:
+                GlobalStorage.instance.portalsManager.AddPortal(building, position);
+                break;
+
+            case TypeOfObjectOnTheMap.RoadPointer:
+                break;
+            case TypeOfObjectOnTheMap.Arena:
+                break;
+            case TypeOfObjectOnTheMap.Tomb:
+                break;
+            default:
+                break;
+        }
+    }
     #endregion
 
     private void SendDataToPathfinder()

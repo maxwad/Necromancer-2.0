@@ -150,6 +150,11 @@ public class GMPlayerMovement : MonoBehaviour
         return iAmMoving;
     }
 
+    public void TeleportTo(Vector2 newPosition)
+    {
+        transform.position = newPosition;
+    }
+
     private void OnEnable()
     {
         EventManager.NewBoostedStat += UpgradeParameters;

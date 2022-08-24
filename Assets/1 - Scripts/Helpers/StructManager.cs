@@ -3,6 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using static NameManager;
 
+public struct Building
+{
+    public GameObject building;
+    public Vector3 position;
+    public bool isVisited;
+    public string status;
+
+    public Building(GameObject obj, Vector3 pos)
+    {
+        building = obj;
+        position = pos;
+        isVisited = false;
+        status = "not visited";
+    }
+}
+
 public static class StructManager
 {
     public struct AttackSettings

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using TMPro;
+using UnityEngine.EventSystems;
 
 public class GlobalMapPathfinder : MonoBehaviour
 {
@@ -38,7 +39,7 @@ public class GlobalMapPathfinder : MonoBehaviour
 
     private void Awake()
     {
-        player = GlobalStorage.instance.globalPlayer.GetComponent<GMPlayerMovement>();
+        player = GlobalStorage.instance.globalPlayer;
     }
 
     private void GetParameters() 
@@ -54,6 +55,7 @@ public class GlobalMapPathfinder : MonoBehaviour
         {
             if(MenuManager.isGamePaused == false && MenuManager.isMiniPause == false && GlobalStorage.instance.isGlobalMode == true)
             {
+                if(EventSystem.current.IsPointerOverGameObject()) return;
                 LClick();
             }
         }
@@ -130,8 +132,7 @@ public class GlobalMapPathfinder : MonoBehaviour
                 shouldIClearPath = true;
                 targetCell = null;
                 player.StopMoving();
-                ClearSteps();
-                overlayMap.ClearAllTiles();
+                ClearSteps();                
             }
         }
 
@@ -160,8 +161,7 @@ public class GlobalMapPathfinder : MonoBehaviour
         bool isSearching = true;
         bool isDeadEnd = false;
 
-        ClearSteps();
-        overlayMap.ClearAllTiles();
+        ClearSteps();        
 
         QueueDict.Add(firstPathCell, new NeighborData());
 
@@ -277,16 +277,8 @@ public class GlobalMapPathfinder : MonoBehaviour
     public void RefreshPath(Vector2 currentPosition, float remainingPoints)
     {
         if(shouldIClearPath == true) return;
-
-        overlayMap.ClearAllTiles();
+                
         ClearSteps();
-
-        //foreach(var item in coordList)
-        //{
-        //    Destroy(item.gameObject);
-        //}
-        //coordList.Clear();
-
 
         float newPointsCount = remainingPoints;
         float countTurns = 0;
@@ -334,9 +326,6 @@ public class GlobalMapPathfinder : MonoBehaviour
                 AddStep(pathPoints[i], stepsCounter);
             }
 
-            //TMP_Text text = Instantiate(coordinates, pathPoints[i], Quaternion.identity);
-            //text.text = "" + overlayMap.WorldToCell(pathPoints[i]).x + " " + overlayMap.WorldToCell(pathPoints[i]).y;
-            //coordList.Add(text);
             overlayMap.SetTile(overlayMap.WorldToCell(pathPoints[i]), currentTile);
             newPointsCount--;
         }
@@ -394,5 +383,7 @@ public class GlobalMapPathfinder : MonoBehaviour
 
         counterDict.Clear();
         stepsCounter = 0;
+
+        overlayMap.ClearAllTiles();
     }
 }
