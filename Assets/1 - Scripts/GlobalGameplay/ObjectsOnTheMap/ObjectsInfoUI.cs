@@ -8,16 +8,12 @@ public class ObjectsInfoUI : MonoBehaviour
     public TMP_Text caption;
     public TMP_Text status;
 
-    [HideInInspector] public bool isOpenedByClick = false;
-
     public void Initialize(bool mode, ClickableObject obj)
     {
-        //mode = true - by rigth click
-        //mode = false - by movement and we need a player
+        //mode = true - by rigth click; mode = false - by movement and we need a player
 
         caption.text = obj.tooltip.header;        
         status.text = (mode == true) ? "opened by r-click" : "opened by movement";
-        isOpenedByClick = mode;
     }
 
     public void CloseWindow()

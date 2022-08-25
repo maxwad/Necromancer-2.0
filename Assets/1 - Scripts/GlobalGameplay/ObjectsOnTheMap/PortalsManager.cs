@@ -4,33 +4,71 @@ using UnityEngine;
 
 public class PortalsManager : MonoBehaviour
 {
+    public GameObject uiPanel;
+    private ObjectsInfoUI commonInfo;
+    private PortalsInfoUI portalsInfo;
+
     [HideInInspector] public Dictionary<GameObject, Vector3> portalsDict = new Dictionary<GameObject, Vector3>();
 
     [HideInInspector] public List<Building> portals = new List<Building>();
+
+    private GameObject currentPortal;
+
+    private Building castle;
+
+    private Vector3 backPosition = Vector3.zero;
+
+    [Header("Cost of Teleport")]
+    public float randomTeleportCost = 20f;
+    public float toCertainTeleportCost = 30f;
+    public float toCastleTeleport = 10f;
+
+    public void OpenWindow(bool mode, ClickableObject obj)   
+    {
+        currentPortal = obj.gameObject;
+        if(portals.Count == 0) CreatePortalsList();
+
+        uiPanel.SetActive(true);
+
+        if(commonInfo == null) commonInfo = uiPanel.GetComponent<ObjectsInfoUI>();
+        if(portalsInfo == null) portalsInfo = uiPanel.GetComponent<PortalsInfoUI>();
+
+        commonInfo.Initialize(mode, obj);
+        portalsInfo.Initialize(mode);
+    }
+
 
     public void AddPortal(GameObject building, Vector3 position)
     {
         portalsDict.Add(building, position);
     }
 
-    public Dictionary<GameObject, Vector3> CheckPortal(GameObject portal)
+
+    public void SetCastle(GameObject building, Vector3 position)
     {
-        Dictionary<GameObject, Vector3> visitedPortals = new Dictionary<GameObject, Vector3>();
+        castle = new Building(building, position);
+    }
 
-        if(portals.Count == 0) CreatePortalsList();
 
-        for(int i = 0; i < portals.Count; i++)
+    public Dictionary<GameObject, Vector3> CheckPortal( bool mode)
+    {
+        Dictionary<GameObject, Vector3> visitedPortals = new Dictionary<GameObject, Vector3>();        
+
+        if(mode == true)
         {
-            if(portals[i].building == portal)
+            for(int i = 0; i < portals.Count; i++)
             {
-                Building newPortal = portals[i];
-                newPortal.isVisited = true;
-                newPortal.status = "Portal is unlocked";
-                portals[i] = newPortal;
+                if(portals[i].building == currentPortal)
+                {
+                    Building newPortal = portals[i];
+                    newPortal.isVisited = true;
+                    newPortal.status = "Portal is unlocked";
+                    portals[i] = newPortal;
 
-                portals[i].building.GetComponent<TooltipTrigger>()?.SetStatus(true);
+                    portals[i].building.GetComponent<TooltipTrigger>()?.SetStatus(true);
+                }
             }
-        }
+        }        
 
         foreach(var item in portals)
         {
@@ -54,5 +92,42 @@ public class PortalsManager : MonoBehaviour
         {
             portals.Add(new Building(portal.Key, portal.Value));
         }
+    }
+
+    public void TeleportTo(Vector3 newPosition)
+    {
+
+        Debug.Log("Click on " + newPosition);
+    }
+
+    public void TeleportToRandomPortal()
+    {
+        int index = Random.Range(0, portals.Count);
+        if(portals[index].building == currentPortal)
+        {
+            TeleportToRandomPortal();
+        }
+        else
+        {
+            Vector2 position = portals[index].position;
+            GlobalStorage.instance.globalPlayer.TeleportTo(position);
+        }
+    }
+
+    public void TeleportToCastle()
+    {
+        backPosition = GlobalStorage.instance.globalPlayer.transform.position;
+        GlobalStorage.instance.globalPlayer.TeleportTo(castle.position);
+    }
+
+    public void BackToPath()
+    {
+        if(backPosition != Vector3.zero) GlobalStorage.instance.globalPlayer.TeleportTo(backPosition);
+        backPosition = Vector3.zero;
+    }
+
+    public bool IsThereBackPosition()
+    {
+        return (backPosition == Vector3.zero) ? false : true;
     }
 }

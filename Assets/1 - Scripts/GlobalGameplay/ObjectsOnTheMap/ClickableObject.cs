@@ -5,9 +5,8 @@ using static NameManager;
 public class ClickableObject : MonoBehaviour
 {
     public TypeOfObjectOnTheMap objectType;
-    public bool openByClick = true;
-    public bool openByMove = true;
-    public GameObject uiPanel;
+    public bool canBeOpenedByClick = true;
+    public bool canBeOpenedByMove = true;
 
     [HideInInspector] public TooltipTrigger tooltip;
     private CursorManager cursorManager;
@@ -21,28 +20,71 @@ public class ClickableObject : MonoBehaviour
 
     public void ActivateUIWindow(bool mode)
     {
-        //mode = true - by rigth click
-        //mode = false - by movement
-        if(uiPanel == null) return;
+        //mode = true - by rigth click; mode = false - by movement
 
         if(EventSystem.current.IsPointerOverGameObject()) return;
 
         if(GlobalStorage.instance.isModalWindowOpen == false)
         {
-            if(openByClick == false && mode == true) return;
-            if(openByMove == false && mode == false) return;
+            if(canBeOpenedByClick == false && mode == true) return;
+            if(canBeOpenedByMove == false && mode == false) return;
 
             GlobalStorage.instance.isModalWindowOpen = true;
 
-            Invoke("OpenWindow", 0.1f);
-            uiPanel.GetComponent<ObjectsInfoUI>()?.Initialize(mode, this);            
+            CallManagerYouNeed(objectType, mode);            
         }
     }
 
-    private void OpenWindow()
+    private void CallManagerYouNeed(TypeOfObjectOnTheMap type, bool mode)
     {
-        // we need this delay for right value isOpenedByMovement in ObjectsInfoUI script
-        uiPanel.SetActive(true);
+        switch(type)
+        {
+            case TypeOfObjectOnTheMap.PlayersCastle:
+                break;
+
+            case TypeOfObjectOnTheMap.NecromancerCastle:
+                break;
+
+            case TypeOfObjectOnTheMap.Castle:
+                break;
+
+            case TypeOfObjectOnTheMap.ResoursesFarm:
+                break;
+
+            case TypeOfObjectOnTheMap.ResoursesQuarry:
+                break;
+
+            case TypeOfObjectOnTheMap.ResoursesMine:
+                break;
+
+            case TypeOfObjectOnTheMap.ResoursesSawmill:
+                break;
+
+            case TypeOfObjectOnTheMap.Outpost:
+                break;
+
+            case TypeOfObjectOnTheMap.Camp:
+                break;
+
+            case TypeOfObjectOnTheMap.Altar:
+                break;
+
+            case TypeOfObjectOnTheMap.Portal:
+                GlobalStorage.instance.portalsManager.OpenWindow(mode, this);
+                break;
+
+            case TypeOfObjectOnTheMap.RoadPointer:
+                break;
+
+            case TypeOfObjectOnTheMap.Arena:
+                break;
+
+            case TypeOfObjectOnTheMap.Tomb:
+                break;
+
+            default:
+                break;
+        }
     }
 
     private void OnMouseEnter()

@@ -464,7 +464,9 @@ public class GlobalMapTileManager : MonoBehaviour
         switch(obj.objectType)
         {
             case TypeOfObjectOnTheMap.PlayersCastle:
+                GlobalStorage.instance.portalsManager.SetCastle(building, position);
                 break;
+
             case TypeOfObjectOnTheMap.NecromancerCastle:
                 break;
             case TypeOfObjectOnTheMap.Castle:

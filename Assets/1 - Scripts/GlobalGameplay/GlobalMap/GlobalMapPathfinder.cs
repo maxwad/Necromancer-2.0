@@ -56,6 +56,9 @@ public class GlobalMapPathfinder : MonoBehaviour
             if(MenuManager.isGamePaused == false && MenuManager.isMiniPause == false && GlobalStorage.instance.isGlobalMode == true)
             {
                 if(EventSystem.current.IsPointerOverGameObject()) return;
+
+                if(GlobalStorage.instance.isModalWindowOpen == true) return;
+
                 LClick();
             }
         }
@@ -72,6 +75,7 @@ public class GlobalMapPathfinder : MonoBehaviour
     {
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
+        
         RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
         
         if(hit.collider != null && hit.collider.GetComponent<ClickableObject>() != null)
@@ -376,14 +380,19 @@ public class GlobalMapPathfinder : MonoBehaviour
         }
     }
 
-    private void ClearSteps()
+    public void ClearSteps()
     {
         foreach(var step in counterDict)
             Destroy(step.Value);
 
         counterDict.Clear();
         stepsCounter = 0;
-
         overlayMap.ClearAllTiles();
+    }
+
+    public void DestroyPath()
+    {
+        targetCell = null;
+        ClearSteps();
     }
 }

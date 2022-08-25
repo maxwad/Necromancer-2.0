@@ -29,6 +29,7 @@ public class GMPlayerMovement : MonoBehaviour
     {
         sprite = GetComponent<SpriteRenderer>();
         playerStats = GlobalStorage.instance.player.GetComponent<PlayerStats>();
+        gmPathFinder = GlobalStorage.instance.globalMap.GetComponent<GlobalMapPathfinder>();
         SetParameters();
         currentMovementPoints = movementPointsMax;
     }
@@ -152,7 +153,10 @@ public class GMPlayerMovement : MonoBehaviour
 
     public void TeleportTo(Vector2 newPosition)
     {
+        gmPathFinder.DestroyPath();
         transform.position = newPosition;
+        currentPosition = newPosition;
+        Camera.main.transform.position = new Vector3(newPosition.x, newPosition.y, Camera.main.transform.position.z);
     }
 
     private void OnEnable()
