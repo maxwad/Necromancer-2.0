@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 using static NameManager;
 
 public class BattleArmyController : MonoBehaviour
@@ -12,6 +9,8 @@ public class BattleArmyController : MonoBehaviour
     [HideInInspector] public Vector2 currentDirection;
     [HideInInspector] public bool currentFacing = false;
     private bool isMovementInverted = false;
+
+    PlayerStats playerStats;
 
     private void Start()
     {
@@ -61,11 +60,6 @@ public class BattleArmyController : MonoBehaviour
         GlobalStorage.instance.hero.gameObject.GetComponent<HeroMovement>().Dizziness(mode);
     }
 
-    private void SetStartSpeed(PlayersStats stats, float value)
-    {        
-        if(stats == PlayersStats.Speed) speed = value;
-    }
-
     private void UpgradeSpeed(PlayersStats stats, float value)
     {
         if(stats == PlayersStats.Speed) speed = value;        
@@ -73,13 +67,15 @@ public class BattleArmyController : MonoBehaviour
 
     private void OnEnable()
     {
-        EventManager.SetStartPlayerStat += SetStartSpeed;
+        if(playerStats == null) playerStats = GlobalStorage.instance.player.GetComponent<PlayerStats>();
+
+        speed = playerStats.GetStartParameter(PlayersStats.Speed);
+
         EventManager.NewBoostedStat += UpgradeSpeed;
     }
 
     private void OnDisable()
     {
-        EventManager.SetStartPlayerStat -= SetStartSpeed;
         EventManager.NewBoostedStat -= UpgradeSpeed;
     }
 }

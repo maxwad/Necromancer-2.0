@@ -25,6 +25,7 @@ public class GlobalStorage : MonoBehaviour
 
     [Header("UI")]
     public BattleUIManager battleIUManager;
+    public PlayerGMInterface gmInterface;
 
     [Header("Player")]
     public GameObject player;

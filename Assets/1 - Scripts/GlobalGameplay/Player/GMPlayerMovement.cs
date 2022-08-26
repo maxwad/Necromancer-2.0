@@ -151,11 +151,13 @@ public class GMPlayerMovement : MonoBehaviour
         return iAmMoving;
     }
 
-    public void TeleportTo(Vector2 newPosition)
+    public void TeleportTo(Vector2 newPosition, float cost)
     {
         gmPathFinder.DestroyPath();
         transform.position = newPosition;
         currentPosition = newPosition;
+        gmPathFinder.CheckFog(viewRadius);
+        playerStats.ChangeMana(-cost);
         Camera.main.transform.position = new Vector3(newPosition.x, newPosition.y, Camera.main.transform.position.z);
     }
 

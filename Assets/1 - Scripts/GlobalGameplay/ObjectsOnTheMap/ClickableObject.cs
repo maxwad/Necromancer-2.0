@@ -29,8 +29,6 @@ public class ClickableObject : MonoBehaviour
             if(canBeOpenedByClick == false && mode == true) return;
             if(canBeOpenedByMove == false && mode == false) return;
 
-            GlobalStorage.instance.isModalWindowOpen = true;
-
             CallManagerYouNeed(objectType, mode);            
         }
     }

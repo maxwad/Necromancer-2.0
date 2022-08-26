@@ -174,8 +174,6 @@ public static class EventManager
     //
     //SUBSCRIBERS:
     // - HeroController
-    // - BattleArmyController
-    // - InfirmaryManager
     // - 
     //ACTIVATION:
     // - PlayerStats
@@ -203,13 +201,14 @@ public static class EventManager
     //
     //SUBSCRIBERS:
     // - BattleUIManager
+    // - gmInterface
     //
     //ACTIVATION:
     // - HeroController
     //
-    public delegate void UpgradeManaEvent(float maxValue, float currentValue);
-    public static event UpgradeManaEvent UpgradeMana;
-    public static void OnUpgradeManaEvent(float maxValue, float currentValue) => UpgradeMana?.Invoke(maxValue, currentValue);
+    public delegate void UpgradeStatCurrentValueEvent(PlayersStats stat, float maxValue, float currentValue);
+    public static event UpgradeStatCurrentValueEvent UpgradeStatCurrentValue;
+    public static void OnUpgradeStatCurrentValueEvent(PlayersStats stat, float maxValue, float currentValue) => UpgradeStatCurrentValue?.Invoke(stat, maxValue, currentValue);
 
 
 

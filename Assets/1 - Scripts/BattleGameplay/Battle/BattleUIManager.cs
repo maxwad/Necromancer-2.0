@@ -265,12 +265,14 @@ public class BattleUIManager : MonoBehaviour
 
     private void FillMana(float max = 0, float current = 0)
     {
+        if(playerStats == null) playerStats = GlobalStorage.instance.player.GetComponent<PlayerStats>();
+
         Color blinkColor = manaUpColor;
 
         if(max == 0)
         {
             currentMaxManaCount = playerStats.GetStartParameter(PlayersStats.Mana);
-            currentManaCount = GlobalStorage.instance.hero.currentMana;
+            currentManaCount = playerStats.GetCurrentParameter(PlayersStats.Mana); 
         }
         else
         {
@@ -283,15 +285,14 @@ public class BattleUIManager : MonoBehaviour
         float widthMana = currentManaCount / currentMaxManaCount;
 
         manaScale.fillAmount = widthMana;
-
         manaInfo.text = currentManaCount.ToString();
 
         Blink(false, manaScale, blinkColor, normalManaColor, 10);
     }
 
-    private void UpdateManaUI(float maxValue, float currentValue)
+    private void UpdateManaUI(PlayersStats stat, float maxValue, float currentValue)
     {
-        FillMana(maxValue, currentValue);
+        if(stat == PlayersStats.Mana) FillMana(maxValue, currentValue);
     }
 
     #endregion
@@ -386,21 +387,21 @@ public class BattleUIManager : MonoBehaviour
 
     private void OnEnable()
     {
-        EventManager.ChangePlayer      += Inizialize;
-        EventManager.UpdateInfirmaryUI += UpdateInfirmaryUI;
-        EventManager.UpgradeMana       += UpdateManaUI;
-        EventManager.UpgradeGold       += UpdateGoldUI;
-        EventManager.EnemiesCount      += GetStartCountEnemies;
-        EventManager.EnemyDestroyed    += FillEnemiesBar;
+        EventManager.ChangePlayer             += Inizialize;
+        EventManager.UpdateInfirmaryUI        += UpdateInfirmaryUI;
+        EventManager.UpgradeStatCurrentValue  += UpdateManaUI;
+        EventManager.UpgradeGold              += UpdateGoldUI;
+        EventManager.EnemiesCount             += GetStartCountEnemies;
+        EventManager.EnemyDestroyed           += FillEnemiesBar;
     }
 
     private void OnDisable()
     {
-        EventManager.ChangePlayer      -= Inizialize;
-        EventManager.UpdateInfirmaryUI -= UpdateInfirmaryUI;
-        EventManager.UpgradeMana       -= UpdateManaUI;
-        EventManager.UpgradeGold       -= UpdateGoldUI;
-        EventManager.EnemiesCount      -= GetStartCountEnemies;
-        EventManager.EnemyDestroyed    -= FillEnemiesBar;
+        EventManager.ChangePlayer             -= Inizialize;
+        EventManager.UpdateInfirmaryUI        -= UpdateInfirmaryUI;
+        EventManager.UpgradeStatCurrentValue  -= UpdateManaUI;
+        EventManager.UpgradeGold              -= UpdateGoldUI;
+        EventManager.EnemiesCount             -= GetStartCountEnemies;
+        EventManager.EnemyDestroyed           -= FillEnemiesBar;
     }
 }

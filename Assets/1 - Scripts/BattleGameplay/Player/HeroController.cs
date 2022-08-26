@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using static NameManager;
+using System;
 
 public class HeroController : MonoBehaviour
 {
@@ -61,7 +62,6 @@ public class HeroController : MonoBehaviour
         normalColor = unitSprite.color;
 
         //ATTENTION! It happens when game starts and NEVER AGAIN!
-        playerStatsScript = GlobalStorage.instance.player.GetComponent<PlayerStats>();
         currentMaxLevel   = playerStatsScript.GetStartParameter(PlayersStats.Level);
         currentHealth     = playerStatsScript.GetStartParameter(PlayersStats.Health);
         searchRadius      = playerStatsScript.GetStartParameter(PlayersStats.SearchRadius);
@@ -115,7 +115,7 @@ public class HeroController : MonoBehaviour
 
             case PlayersStats.Mana:
                 maxCurrentMana = value;
-                EventManager.OnUpgradeManaEvent(maxCurrentMana, currentMana);
+                //EventManager.OnUpgradeStatCurrentValueEvent(stat, maxCurrentMana, currentMana);
                 break;
 
             case PlayersStats.SearchRadius:
@@ -175,6 +175,7 @@ public class HeroController : MonoBehaviour
 
         ShowDamage(damage, colorDamage);
         UpdateHealthBar();
+        EventManager.OnUpgradeStatCurrentValueEvent(PlayersStats.Health, maxCurrentHealth, currentHealth);
 
         if (currentHealth <= 0)
         {
@@ -224,6 +225,7 @@ public class HeroController : MonoBehaviour
 
             //TODO: Call some event
             UpdateHealthBar();
+            EventManager.OnUpgradeStatCurrentValueEvent(PlayersStats.Health, maxCurrentHealth, currentHealth);
         }
     }
 
@@ -231,28 +233,18 @@ public class HeroController : MonoBehaviour
     {
         if(type == BonusType.Mana && isDead == false)
         {
-            // if we wont to add not value but percent
-            if(value < 1) value = maxCurrentMana * value;
-
-            if(currentMana + value > maxCurrentMana)
-                currentMana = maxCurrentMana;
-            else
-                currentMana += value;
-
-            EventManager.OnUpgradeManaEvent(maxCurrentMana, currentMana);
+            playerStatsScript.ChangeMana(value);            
         }
     }
 
     public void SpendMana(float value)
     {
-        if(isDead == false)
-        {
-            if(value <= currentMana)
-            {
-                currentMana -= value;
-                EventManager.OnUpgradeManaEvent(maxCurrentMana, currentMana);
-            }
-        }
+        if(isDead == false) playerStatsScript.ChangeMana(-value);
+    }
+
+    private void UpgradeStatCurrentValue(PlayersStats stat, float maxValue, float currentValue)
+    {
+        if(stat == PlayersStats.Mana) currentMana = currentValue;
     }
 
     private void AddTempExp(BonusType type, float value)
@@ -288,7 +280,6 @@ public class HeroController : MonoBehaviour
                         }
                     }
                 }
-
             }           
         }
 
@@ -318,7 +309,7 @@ public class HeroController : MonoBehaviour
 
         if(mode == false)
         {
-            currentMaxLevel = GlobalStorage.instance.player.GetComponent<PlayerStats>().GetStartParameter(PlayersStats.Level);
+            currentMaxLevel = playerStatsScript.GetStartParameter(PlayersStats.Level);
             EventManager.OnExpEnoughEvent(false);
             UpgradeTempExpGoal();
         }
@@ -326,7 +317,12 @@ public class HeroController : MonoBehaviour
 
     private void OnEnable()
     {
+        if(playerStatsScript == null) playerStatsScript = GlobalStorage.instance.player.GetComponent<PlayerStats>();
+
         ResetTempLevel(false);
+
+        currentHealth = playerStatsScript.GetCurrentParameter(PlayersStats.Health);
+        currentMana = playerStatsScript.GetCurrentParameter(PlayersStats.Mana);
 
         EventManager.BonusPickedUp += AddHealth;
         EventManager.BonusPickedUp += AddMana;
@@ -334,6 +330,7 @@ public class HeroController : MonoBehaviour
         EventManager.SetStartPlayerStat += SetStartParameters;
         EventManager.NewBoostedStat += UpgradeStat;
         EventManager.ChangePlayer += ResetTempLevel;
+        EventManager.UpgradeStatCurrentValue += UpgradeStatCurrentValue;
     }
 
     private void OnDisable()
@@ -344,5 +341,6 @@ public class HeroController : MonoBehaviour
         EventManager.SetStartPlayerStat -= SetStartParameters;
         EventManager.NewBoostedStat -= UpgradeStat;
         EventManager.ChangePlayer -= ResetTempLevel;
+        EventManager.UpgradeStatCurrentValue -= UpgradeStatCurrentValue;
     }
 }

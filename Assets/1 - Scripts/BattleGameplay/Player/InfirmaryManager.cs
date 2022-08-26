@@ -9,6 +9,14 @@ public class InfirmaryManager : MonoBehaviour
 
     public List<UnitsTypes> injuredList = new List<UnitsTypes>();
 
+    PlayerStats playerStats;
+
+    private void Start()
+    {
+        playerStats = GlobalStorage.instance.player.GetComponent<PlayerStats>();
+        currentCapacity = playerStats.GetStartParameter(PlayersStats.Infirmary);
+    }
+
     private void SetStartInfarmary(PlayersStats type, float value)
     {
         if(type == PlayersStats.Infirmary) currentCapacity = value;
@@ -82,14 +90,12 @@ public class InfirmaryManager : MonoBehaviour
 
     private void OnEnable()
     {
-        EventManager.SetStartPlayerStat += SetStartInfarmary;
         EventManager.WeLostOneUnit += AddUnitToInfirmary;
         EventManager.RemoveUnitFromInfirmary += RemoveUnitFromInfirmary;
     }
 
     private void OnDisable()
     {
-        EventManager.SetStartPlayerStat -= SetStartInfarmary;
         EventManager.WeLostOneUnit -= AddUnitToInfirmary;
         EventManager.RemoveUnitFromInfirmary -= RemoveUnitFromInfirmary;
     }
