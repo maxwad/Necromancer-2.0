@@ -34,6 +34,9 @@ public class PortalsInfoUI : MonoBehaviour
     private float portalsKnowledge = 0;
     private PortalsManager portalsManager;
 
+    [SerializeField] private TMP_Text caption;
+    [SerializeField] private TMP_Text status;
+
     private Dictionary<GameObject, Vector3> openedPortals = new Dictionary<GameObject, Vector3>();
     private List<Building> allPortals = new List<Building>();
 
@@ -70,9 +73,16 @@ public class PortalsInfoUI : MonoBehaviour
 
     public void Initialize(bool mode)
     {
+        isAccessAllowed = !mode;
+
         if(isStartingParametersCreated == false) CreateStartParameters();
 
-        isAccessAllowed = !mode;
+        if(portalsManager.currentPortal == null)
+            caption.text = "Portable Portal";
+        else
+            caption.text = portalsManager.currentPortal.gameObject.name;
+        status.text = (isAccessAllowed == false) ? "opened by r-click" : "opened by movement";
+
         portalsKnowledge = GlobalStorage.instance.player.GetComponent<PlayerStats>().GetStartParameter(PlayersStats.Portal);
         player.GetComponent<RectTransform>().anchoredPosition = CalculateIconPosition(GlobalStorage.instance.globalPlayer.transform.position);
 
@@ -119,9 +129,6 @@ public class PortalsInfoUI : MonoBehaviour
 
                     portal.mainButton.onClick.AddListener(() => portalsManager.TeleportTo(portal.position));
                     portal.buttonOnTheMap.onClick.AddListener(() => portalsManager.TeleportTo(portal.position));
-
-                    portal.mainButton.onClick.AddListener(portalsManager.CloseWindow);
-                    portal.buttonOnTheMap.onClick.AddListener(portalsManager.CloseWindow);
                 }
 
                 if(portal.portal == portalsManager.currentPortal)
@@ -198,6 +205,7 @@ public class PortalsInfoUI : MonoBehaviour
         mapUISize.y = buttonMap.GetComponent<RectTransform>().rect.height;
 
         portalsManager = GlobalStorage.instance.portalsManager;
+
         allPortals = portalsManager.GetAllPortals();
 
         for(int i = 0; i < allPortals.Count; i++)
@@ -256,5 +264,10 @@ public class PortalsInfoUI : MonoBehaviour
         float currentMana = playerStats.GetCurrentParameter(PlayersStats.Mana);
 
         return (currentMana >= cost);
+    }
+
+    public void CloseWindow()
+    {
+        portalsManager.CloseWindow();
     }
 }

@@ -154,11 +154,44 @@ public class GMPlayerMovement : MonoBehaviour
     public void TeleportTo(Vector2 newPosition, float cost)
     {
         gmPathFinder.DestroyPath();
+        playerStats.ChangeMana(-cost);
+
+        StartCoroutine(Telepartation(newPosition));        
+    }
+
+    private IEnumerator Telepartation(Vector2 newPosition)
+    {
+        WaitForSecondsRealtime delay = new WaitForSecondsRealtime(0.01f);
+        MenuManager.isGamePaused = true;
+        MenuManager.canIOpenMenu = false;
+
+        SpriteRenderer playerSprite = GetComponent<SpriteRenderer>();
+        Color currentColor = playerSprite.color;
+        float alfa = currentColor.a;
+
+        while(alfa > 0)
+        {
+            alfa -= 0.02f;
+            currentColor.a = alfa;
+            playerSprite.color = currentColor;
+            yield return delay;
+        }
+
+        Camera.main.transform.position = new Vector3(newPosition.x, newPosition.y, Camera.main.transform.position.z);
+        gmPathFinder.CheckFog(viewRadius);
         transform.position = newPosition;
         currentPosition = newPosition;
-        gmPathFinder.CheckFog(viewRadius);
-        playerStats.ChangeMana(-cost);
-        Camera.main.transform.position = new Vector3(newPosition.x, newPosition.y, Camera.main.transform.position.z);
+
+        while(alfa < 1)
+        {
+            alfa += 0.02f;
+            currentColor.a = alfa;
+            playerSprite.color = currentColor;
+            yield return delay;
+        }
+
+        MenuManager.isGamePaused = false;
+        MenuManager.canIOpenMenu = true;
     }
 
     private void OnEnable()

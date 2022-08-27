@@ -35,6 +35,7 @@ public class ClickableObject : MonoBehaviour
 
     private void CallManagerYouNeed(TypeOfObjectOnTheMap type, bool mode)
     {
+        bool isThereManager = false;
         switch(type)
         {
             case TypeOfObjectOnTheMap.PlayersCastle:
@@ -69,6 +70,7 @@ public class ClickableObject : MonoBehaviour
 
             case TypeOfObjectOnTheMap.Portal:
                 GlobalStorage.instance.portalsManager.OpenWindow(mode, this);
+                isThereManager = true;
                 break;
 
             case TypeOfObjectOnTheMap.RoadPointer:
@@ -83,6 +85,8 @@ public class ClickableObject : MonoBehaviour
             default:
                 break;
         }
+
+        if(isThereManager == false) GlobalStorage.instance.commonUIManager.OpenWindow(mode, this);
     }
 
     private void OnMouseEnter()

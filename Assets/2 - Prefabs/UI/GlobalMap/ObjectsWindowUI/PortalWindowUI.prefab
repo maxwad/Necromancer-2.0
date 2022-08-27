@@ -637,7 +637,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4976439727669244338}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ObjectsInfoUI, Assembly-CSharp
         m_MethodName: CloseWindow
         m_Mode: 1
@@ -831,7 +831,6 @@ GameObject:
   - component: {fileID: 4783132266164361774}
   - component: {fileID: 4055089175395990260}
   - component: {fileID: 9163514242690337793}
-  - component: {fileID: 4976439727669244338}
   - component: {fileID: 4585331196783449192}
   m_Layer: 5
   m_Name: PortalWindowUI
@@ -921,20 +920,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &4976439727669244338
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3091619707512277201}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ee4bd6a7e31dc94792436810ea2cd51, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  caption: {fileID: 4059361206835795421}
-  status: {fileID: 7999313904461621167}
 --- !u!114 &4585331196783449192
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -947,6 +932,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e649f030b86a9314297916e018cf7110, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  caption: {fileID: 4059361206835795421}
+  status: {fileID: 7999313904461621167}
   buttonPlace: {fileID: 6768234689732579001}
   buttonMap: {fileID: 6216670453367810410}
   buttonPrefab: {fileID: 1746991367800018803, guid: 6f8eb9cb32ba22f48a36828f0855c2bc, type: 3}
@@ -1698,7 +1685,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4976439727669244338}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ObjectsInfoUI, Assembly-CSharp
         m_MethodName: CloseWindow
         m_Mode: 1
@@ -3005,8 +2992,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4976439727669244338}
-        m_TargetAssemblyTypeName: ObjectsInfoUI, Assembly-CSharp
+      - m_Target: {fileID: 4585331196783449192}
+        m_TargetAssemblyTypeName: PortalsInfoUI, Assembly-CSharp
         m_MethodName: CloseWindow
         m_Mode: 1
         m_Arguments:
