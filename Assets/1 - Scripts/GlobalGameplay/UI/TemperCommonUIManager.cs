@@ -8,24 +8,38 @@ public class TemperCommonUIManager : MonoBehaviour
     public GameObject uiPanel;
     public TMP_Text caption;
     public TMP_Text status;
+    public GameObject uiPanelMini;
+    public TMP_Text captionMini;
+    public TMP_Text statusMini;
 
-    public void OpenWindow(bool mode, ClickableObject obj)
+    public void OpenWindow(bool modeClick, bool modeNormalUISize, ClickableObject obj)
     {
         GlobalStorage.instance.isModalWindowOpen = true;
-        uiPanel.SetActive(true);
 
-        Initialize(mode, obj);
+        if(modeNormalUISize == true)
+            uiPanel.SetActive(true);
+        else
+            uiPanelMini.SetActive(true);
+
+        Initialize(modeClick, modeNormalUISize, obj);
     }
 
-    public void Initialize(bool mode, ClickableObject obj)
+    public void Initialize(bool modeClick, bool modeNormalUISize, ClickableObject obj)
     {
         //mode = true - by rigth click; mode = false - by movement and we need a player
-        //
         string captionText = obj.gameObject.GetComponent<TooltipTrigger>().header;
         if(captionText.Length == 0) captionText = obj.gameObject.name;
 
-        caption.text = captionText;
-        status.text = (mode == true) ? "opened by r-click" : "opened by movement";
+        if(modeNormalUISize == true)
+        {
+            caption.text = captionText;
+            status.text = (modeClick == true) ? "opened by r-click" : "opened by movement";
+        }
+        else
+        {
+            captionMini.text = captionText;
+            statusMini.text = (modeClick == true) ? "opened by r-click" : "opened by movement";
+        }
     }
 
     public void CloseWindow()
@@ -33,6 +47,7 @@ public class TemperCommonUIManager : MonoBehaviour
         GlobalStorage.instance.isModalWindowOpen = false;
 
         uiPanel.SetActive(false);
+        uiPanelMini.SetActive(false);
     }
 
 }

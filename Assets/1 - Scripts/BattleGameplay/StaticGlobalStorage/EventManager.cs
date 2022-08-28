@@ -216,13 +216,14 @@ public static class EventManager
     //
     //SUBSCRIBERS:
     // - BattleUIManager
+    // - GMInterface
     //
     //ACTIVATION:
     // - ResourcesManager
     //
-    public delegate void UpgradeGoldEvent(float currentValue);
-    public static event UpgradeGoldEvent UpgradeGold;
-    public static void OnUpgradeGoldEvent(float currentValue) => UpgradeGold?.Invoke(currentValue);
+    public delegate void UpgradeResourcesEvent();
+    public static event UpgradeResourcesEvent UpgradeResources;
+    public static void OnUpgradeResourcesEvent() => UpgradeResources?.Invoke();
     #endregion
 
 

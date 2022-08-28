@@ -9,6 +9,7 @@ public class BattleUIManager : MonoBehaviour
 {
     public Canvas uiCanvas;
     private PlayerStats playerStats;
+    private ResourcesManager resourcesManager;
 
     [Header("Left Column Exp")]
     [SerializeField] private RectTransform currentScaleValue;
@@ -116,6 +117,8 @@ public class BattleUIManager : MonoBehaviour
     public void Inizialize(bool mode)
     {
         playerStats = GlobalStorage.instance.player.GetComponent<PlayerStats>();
+        resourcesManager = GlobalStorage.instance.resourcesManager;
+
         uiCanvas.gameObject.SetActive(!mode);
 
         currentScaleValueImage = currentScaleValue.GetComponent<Image>();
@@ -298,23 +301,11 @@ public class BattleUIManager : MonoBehaviour
     #endregion
 
     #region Gold
-    private void FillGold(float current = 0)
+    private void FillGold()
     {
-        if(current == 0)
-        {
-            currentGoldCount = GlobalStorage.instance.resourcesManager.Gold;
-        }
-        else
-        {
-            currentGoldCount = current;
-        }               
+        if(resourcesManager == null) resourcesManager = GlobalStorage.instance.resourcesManager;
 
-        goldInfo.text = currentGoldCount.ToString();
-    }
-
-    private void UpdateGoldUI(float currentValue)
-    {
-        FillGold(currentValue);
+        goldInfo.text = resourcesManager.GetAllResources()[ResourceType.Gold].ToString();
     }
 
     #endregion
@@ -390,7 +381,7 @@ public class BattleUIManager : MonoBehaviour
         EventManager.ChangePlayer             += Inizialize;
         EventManager.UpdateInfirmaryUI        += UpdateInfirmaryUI;
         EventManager.UpgradeStatCurrentValue  += UpdateManaUI;
-        EventManager.UpgradeGold              += UpdateGoldUI;
+        EventManager.UpgradeResources         += FillGold;
         EventManager.EnemiesCount             += GetStartCountEnemies;
         EventManager.EnemyDestroyed           += FillEnemiesBar;
     }
@@ -400,7 +391,7 @@ public class BattleUIManager : MonoBehaviour
         EventManager.ChangePlayer             -= Inizialize;
         EventManager.UpdateInfirmaryUI        -= UpdateInfirmaryUI;
         EventManager.UpgradeStatCurrentValue  -= UpdateManaUI;
-        EventManager.UpgradeGold              -= UpdateGoldUI;
+        EventManager.UpgradeResources         -= FillGold;
         EventManager.EnemiesCount             -= GetStartCountEnemies;
         EventManager.EnemyDestroyed           -= FillEnemiesBar;
     }

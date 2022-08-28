@@ -77,11 +77,19 @@ public class GlobalMapPathfinder : MonoBehaviour
 
         
         RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
-        
-        if(hit.collider != null && hit.collider.GetComponent<ClickableObject>() != null)
-        {            
-            destinationPoint = roadMap.WorldToCell(enterPointsDict[hit.collider.gameObject]);
-            focusObject = hit.collider.gameObject;
+        ClickableObject checkingObject;
+        if(hit.collider != null && (checkingObject = hit.collider.GetComponent<ClickableObject>()) != null)
+        {
+            if(checkingObject.isNormalUIWindow == true)
+            {
+                destinationPoint = roadMap.WorldToCell(enterPointsDict[hit.collider.gameObject]);
+                focusObject = hit.collider.gameObject;
+            }
+            else
+            {
+                destinationPoint = roadMap.WorldToCell(mousePosition);
+                focusObject = null;
+            }            
         }
         else
         {

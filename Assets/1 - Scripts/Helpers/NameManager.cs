@@ -214,7 +214,8 @@ public static class NameManager
         Portal,
         RoadPointer,
         Arena,
-        Tomb
+        Tomb,
+        Resource
     }
 
 

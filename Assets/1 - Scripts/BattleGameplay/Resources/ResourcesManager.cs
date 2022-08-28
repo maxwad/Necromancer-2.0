@@ -11,7 +11,7 @@ public class ResourcesManager : MonoBehaviour
     public float Wood { private set; get; } = 10;
     public float Iron { private set; get; } = 10;
     public float Magic { private set; get; } = 0;
-
+    public float Nothing { private set; get; } = 0;    
 
     private void Update()
     {
@@ -20,13 +20,26 @@ public class ResourcesManager : MonoBehaviour
             DecreaseResource(ResourceType.Gold, 10);
     }
 
+    public Dictionary<ResourceType, float> GetAllResources()
+    {
+        return new Dictionary<ResourceType, float>() 
+        { 
+            [ResourceType.Gold]    = Gold,
+            [ResourceType.Food]    = Food,
+            [ResourceType.Stone]   = Stone,
+            [ResourceType.Wood]    = Wood,
+            [ResourceType.Iron]    = Iron,
+            [ResourceType.Magic]   = Magic,
+            [ResourceType.Nothing] = Nothing
+        };
+    }
+
     private void AddResource(ResourceType type, float value)
     {
         switch(type)
         {
             case ResourceType.Gold:
                 Gold += value;
-                EventManager.OnUpgradeGoldEvent(Gold);
                 break;
 
             case ResourceType.Food:
@@ -54,15 +67,13 @@ public class ResourcesManager : MonoBehaviour
             default:
                 break;
         }
+
+        EventManager.OnUpgradeResourcesEvent();
     }
 
     private void AddResourceAsBonus(BonusType type, float value)
     {
-        if(type == BonusType.Gold)
-        {
-            Gold += value;
-            EventManager.OnUpgradeGoldEvent(Gold);
-        }
+        if(type == BonusType.Gold) AddResource(ResourceType.Gold, value);
     }
 
     private bool DecreaseResource(ResourceType type, float value)
@@ -73,34 +84,38 @@ public class ResourcesManager : MonoBehaviour
             {
                 case ResourceType.Gold:
                     Gold -= value;
-                    EventManager.OnUpgradeGoldEvent(Gold);
-                    return true;
+                    break;
 
                 case ResourceType.Food:
                     Food -= value;
-                    return true;
+                    break;
 
                 case ResourceType.Stone:
                     Stone -= value;
-                    return true;
+                    break;
 
                 case ResourceType.Wood:
                     Wood -= value;
-                    return true;
+                    break;
 
                 case ResourceType.Iron:
                     Iron -= value;
-                    return true;
+                    break;
 
                 case ResourceType.Magic:
                     Magic -= value;
-                    return true;
+                    break;
 
                 case ResourceType.Nothing:
                     break;
+
                 default:
                     break;
             }
+
+            EventManager.OnUpgradeResourcesEvent();
+            return true;
+            
         }
 
         return false;

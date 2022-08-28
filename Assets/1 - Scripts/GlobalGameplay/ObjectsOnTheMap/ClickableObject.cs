@@ -5,6 +5,7 @@ using static NameManager;
 public class ClickableObject : MonoBehaviour
 {
     public TypeOfObjectOnTheMap objectType;
+    public bool isNormalUIWindow = true;
     public bool canBeOpenedByClick = true;
     public bool canBeOpenedByMove = true;
 
@@ -18,7 +19,7 @@ public class ClickableObject : MonoBehaviour
         tooltip = GetComponent<TooltipTrigger>();
     }
 
-    public void ActivateUIWindow(bool mode)
+    public void ActivateUIWindow(bool modeClick)
     {
         //mode = true - by rigth click; mode = false - by movement
 
@@ -26,14 +27,14 @@ public class ClickableObject : MonoBehaviour
 
         if(GlobalStorage.instance.isModalWindowOpen == false)
         {
-            if(canBeOpenedByClick == false && mode == true) return;
-            if(canBeOpenedByMove == false && mode == false) return;
+            if(canBeOpenedByClick == false && modeClick == true) return;
+            if(canBeOpenedByMove == false && modeClick == false) return;
 
-            CallManagerYouNeed(objectType, mode);            
+            CallManagerYouNeed(objectType, modeClick, isNormalUIWindow);            
         }
     }
 
-    private void CallManagerYouNeed(TypeOfObjectOnTheMap type, bool mode)
+    private void CallManagerYouNeed(TypeOfObjectOnTheMap type, bool modeClick, bool modeUISize)
     {
         bool isThereManager = false;
         switch(type)
@@ -69,7 +70,7 @@ public class ClickableObject : MonoBehaviour
                 break;
 
             case TypeOfObjectOnTheMap.Portal:
-                GlobalStorage.instance.portalsManager.OpenWindow(mode, this);
+                GlobalStorage.instance.portalsManager.OpenWindow(modeClick, this);
                 isThereManager = true;
                 break;
 
@@ -86,7 +87,7 @@ public class ClickableObject : MonoBehaviour
                 break;
         }
 
-        if(isThereManager == false) GlobalStorage.instance.commonUIManager.OpenWindow(mode, this);
+        if(isThereManager == false) GlobalStorage.instance.commonUIManager.OpenWindow(modeClick, modeUISize, this);
     }
 
     private void OnMouseEnter()

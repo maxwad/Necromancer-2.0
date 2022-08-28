@@ -18,6 +18,7 @@ public class GMPlayerMovement : MonoBehaviour
     private bool iAmMoving = false;
 
     private GlobalMapPathfinder gmPathFinder;
+    private GMPlayerPositionChecker positionChecker;
 
     private SpriteRenderer sprite;
     private Vector2 previousPosition = Vector2.zero;
@@ -30,6 +31,7 @@ public class GMPlayerMovement : MonoBehaviour
         sprite = GetComponent<SpriteRenderer>();
         playerStats = GlobalStorage.instance.player.GetComponent<PlayerStats>();
         gmPathFinder = GlobalStorage.instance.globalMap.GetComponent<GlobalMapPathfinder>();
+        positionChecker = GetComponent<GMPlayerPositionChecker>();
         SetParameters();
         currentMovementPoints = movementPointsMax;
     }
@@ -137,13 +139,7 @@ public class GMPlayerMovement : MonoBehaviour
 
     public void CheckPosition()
     {
-        if(gmPathFinder.focusObject != null)
-        {
-            if(gmPathFinder.enterPointsDict[gmPathFinder.focusObject] == (Vector3)currentPosition)
-            {
-                gmPathFinder.focusObject.GetComponent<ClickableObject>().ActivateUIWindow(false);
-            }
-        }
+        positionChecker.CheckPosition(currentPosition);        
     }
 
     public bool IsMoving()
