@@ -149,11 +149,13 @@ public static class NameManager
         MedicAltar,
 
         MedicTry,
-        EnemyView,
+        Curiosity,
         Portal,
         ExtraResourcesReward,
         ManaRegeneration,
-        HeroArmyToEnemy
+        HeroArmyToEnemy,
+
+        GlobalExp
     }
 
     public enum Spells
@@ -215,7 +217,8 @@ public static class NameManager
         RoadPointer,
         Arena,
         Tomb,
-        Resource
+        Resource,
+        Enemy
     }
 
 

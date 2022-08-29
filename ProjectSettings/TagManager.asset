@@ -8,6 +8,7 @@ TagManager:
   - Obstacle
   - Squad
   - BonusBox
+  - Resource
   layers:
   - Default
   - TransparentFX

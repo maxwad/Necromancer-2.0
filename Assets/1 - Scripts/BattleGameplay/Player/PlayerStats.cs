@@ -9,6 +9,8 @@ public class PlayerStats : MonoBehaviour
     #region Battle Parameters
 
     [Header("Battle Parameters")]
+    [SerializeField] private float globalExp = 0;
+
     [SerializeField] private float levelBase = 5;
 
     [SerializeField] private float healthBase = 500f;
@@ -56,8 +58,8 @@ public class PlayerStats : MonoBehaviour
     //3, 4
     [SerializeField] private float medicTryBase = 3;
 
-    ////0 - can't see; 1 - general information; 2 - exemplary information; 3 - accurate information
-    //[SerializeField] private float enemyViewBase = 0;
+    //0 - can't see; 1 - general information; 2 - exemplary information; 3 - accurate information
+    [SerializeField] private float curiosityBase = 0;
 
     ////0 - can't use; 1 - to random portal; 2 - portal directly; 3 - portal to town
     [SerializeField] private float portalSkillBase = 3;
@@ -134,6 +136,12 @@ public class PlayerStats : MonoBehaviour
 
             switch(itemStat)
             {
+                case PlayersStats.GlobalExp:
+                    baseValue = globalExp;
+                    maxValue = globalExp;
+                    //Create new ExpScript for handling xp
+                    break;
+
                 case PlayersStats.Level:
                     baseValue = levelBase;
                     maxValue = levelBase;
@@ -218,7 +226,9 @@ public class PlayerStats : MonoBehaviour
                     maxValue = medicTryBase;
                     break;
 
-                case PlayersStats.EnemyView:
+                case PlayersStats.Curiosity:
+                    baseValue = curiosityBase;
+                    maxValue = curiosityBase;
                     break;
 
                 case PlayersStats.Portal:

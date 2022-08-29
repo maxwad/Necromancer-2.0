@@ -116,7 +116,7 @@ public class BattleUIManager : MonoBehaviour
 
     public void Inizialize(bool mode)
     {
-        playerStats = GlobalStorage.instance.player.GetComponent<PlayerStats>();
+        playerStats = GlobalStorage.instance.playerStats;
         resourcesManager = GlobalStorage.instance.resourcesManager;
 
         uiCanvas.gameObject.SetActive(!mode);
@@ -268,7 +268,7 @@ public class BattleUIManager : MonoBehaviour
 
     private void FillMana(float max = 0, float current = 0)
     {
-        if(playerStats == null) playerStats = GlobalStorage.instance.player.GetComponent<PlayerStats>();
+        if(playerStats == null) playerStats = GlobalStorage.instance.playerStats;
 
         Color blinkColor = manaUpColor;
 

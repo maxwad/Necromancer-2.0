@@ -9,12 +9,10 @@ public class ResourceObject : MonoBehaviour
 
     public float quantity;
 
-    public float maxQuantity = 10;
+    public float maxQuantity = 100;
 
     private void Awake()
     {
-        quantity = Random.Range(0, maxQuantity + 1);
+        quantity = Mathf.Round(Random.Range(0, maxQuantity + 1));
     }
-
-
 }

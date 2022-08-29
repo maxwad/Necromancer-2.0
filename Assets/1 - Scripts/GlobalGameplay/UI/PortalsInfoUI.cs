@@ -83,7 +83,7 @@ public class PortalsInfoUI : MonoBehaviour
             caption.text = portalsManager.currentPortal.gameObject.name;
         status.text = (isAccessAllowed == false) ? "opened by r-click" : "opened by movement";
 
-        portalsKnowledge = GlobalStorage.instance.player.GetComponent<PlayerStats>().GetStartParameter(PlayersStats.Portal);
+        portalsKnowledge = GlobalStorage.instance.playerStats.GetCurrentParameter(PlayersStats.Portal);
         player.GetComponent<RectTransform>().anchoredPosition = CalculateIconPosition(GlobalStorage.instance.globalPlayer.transform.position);
 
         openedPortals = portalsManager.CheckPortal(isAccessAllowed);
@@ -217,7 +217,7 @@ public class PortalsInfoUI : MonoBehaviour
         randomTeleport.onClick.RemoveAllListeners();
         randomTeleport.onClick.AddListener(portalsManager.TeleportToRandomPortal);
 
-        playerStats = GlobalStorage.instance.player.GetComponent<PlayerStats>();
+        playerStats = GlobalStorage.instance.playerStats;
         player = Instantiate(playerPrefab, buttonMap.transform);
 
         isStartingParametersCreated = true;

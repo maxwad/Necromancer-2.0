@@ -12,4 +12,5 @@ public static class TagManager
     public static string T_OBSTACLE = "Obstacle";
 
     public static string A_RUN = "bRunning";
+    public static string T_Resource = "Resource";
 }

@@ -317,7 +317,7 @@ public class HeroController : MonoBehaviour
 
     private void OnEnable()
     {
-        if(playerStatsScript == null) playerStatsScript = GlobalStorage.instance.player.GetComponent<PlayerStats>();
+        if(playerStatsScript == null) playerStatsScript = GlobalStorage.instance.playerStats;
 
         ResetTempLevel(false);
 

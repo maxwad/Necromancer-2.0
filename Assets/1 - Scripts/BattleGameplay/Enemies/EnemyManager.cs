@@ -12,11 +12,13 @@ public class EnemyManager : MonoBehaviour
 
     private UnitBoostManager boostManager;
 
-    private void Start()
+    public void LoadEnemies()
     {
         boostManager = GlobalStorage.instance.unitBoostManager;
 
         GetAllEnemiesBase();
+
+        GlobalStorage.instance.canILoadNextStep = true;
     }
 
     private void GetAllEnemiesBase()

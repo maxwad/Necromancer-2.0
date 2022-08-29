@@ -13,6 +13,7 @@ public class GlobalStorage : MonoBehaviour
     public UnitBoostManager unitBoostManager;
     public PlayerBoostManager playerBoostManager;
     public BattleManager battleManager;
+    public EnemyManager enemyManager;
     public PlayerManager playerManager;
     public ObjectsPoolManager objectsPoolManager;
     public BonusManager bonusManager;
@@ -26,6 +27,8 @@ public class GlobalStorage : MonoBehaviour
     [Header("UI")]
     public BattleUIManager battleIUManager;
     public GMInterface gmInterface;
+    public ResourcesEventUI resourcesEventUI;
+    public EnemyArmyUI enemyArmyUI;
     public TemperCommonUIManager commonUIManager;
 
     [Header("Player")]
@@ -33,6 +36,7 @@ public class GlobalStorage : MonoBehaviour
     public GMPlayerMovement globalPlayer;
     public BattleArmyController battlePlayer;
     public HeroController hero;
+    public PlayerStats playerStats;
 
     [Header("Maps")]
     public GameObject globalMap;
@@ -50,6 +54,8 @@ public class GlobalStorage : MonoBehaviour
 
     [HideInInspector] public bool canILoadNextStep = true;
 
+    [HideInInspector] public bool isGameLoaded = false;
+
     void Awake()
     {
         if (instance == null)
@@ -66,21 +72,28 @@ public class GlobalStorage : MonoBehaviour
     private IEnumerator LoadTheGame()
     {
         canILoadNextStep = false;
-        gmManager.Load();        
-
+        gmManager.Load();
         while(canILoadNextStep == false)
         {
             yield return null;
         }
 
         canILoadNextStep = false;
-        unitManager.LoadUnits();        
-
+        unitManager.LoadUnits();
         while(canILoadNextStep == false)
         {
             yield return null;
         }
 
+        canILoadNextStep = false;
+        enemyManager.LoadEnemies();
+        while(canILoadNextStep == false)
+        {
+            yield return null;
+        }
+
+
+        isGameLoaded = true;
         Debug.Log("GAME IS LOADED!");        
     }
 

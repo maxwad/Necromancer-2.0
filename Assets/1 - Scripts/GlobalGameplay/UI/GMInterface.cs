@@ -28,7 +28,7 @@ public class GMInterface : MonoBehaviour
 
     private void Start()
     {
-        playerStats = GlobalStorage.instance.player.GetComponent<PlayerStats>();
+        playerStats = GlobalStorage.instance.playerStats;
         resourcesManager = GlobalStorage.instance.resourcesManager;
 
         FillMana();

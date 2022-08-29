@@ -67,7 +67,7 @@ public class BattleArmyController : MonoBehaviour
 
     private void OnEnable()
     {
-        if(playerStats == null) playerStats = GlobalStorage.instance.player.GetComponent<PlayerStats>();
+        if(playerStats == null) playerStats = GlobalStorage.instance.playerStats;
 
         speed = playerStats.GetStartParameter(PlayersStats.Speed);
 

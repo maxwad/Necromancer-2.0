@@ -3,21 +3,44 @@ using System.Collections.Generic;
 using UnityEngine;
 using static NameManager;
 
+public class Army
+{
+    public List<GameObject> squadList = new List<GameObject>();
+    public List<int> quantityList = new List<int>();
+    public bool isThisASiege = false;
+    // more parameters
+}
 public class BattleManager : MonoBehaviour
 {
+    [SerializeField] private int sizeMapX = 50;
+    [SerializeField] private int sizeMapY = 50;
+    private int positionZ = 40; // we should send double size of Z because dividing by 2
+
+    [Header("Army")]
+    [SerializeField] private EnemySpawner enemySpawner;
+
     //for testing!
     public List<GameObject> falsEnemyArmy;
     public List<int> falseEnemiesQuantity;
 
     public List<GameObject> allEnemiesList = new List<GameObject>();
-    private List<int> enemiesQuantity = new List<int>();
-    private List<GameObject> enemiesArmy = new List<GameObject>();
+    private Army currentArmy = new Army();
+    private List<GameObject> currentEnemies = new List<GameObject>();
+    private List<int> currentEnemiesQuantity = new List<int>();
 
-    [SerializeField] private int sizeMapX = 50;
-    [SerializeField] private int sizeMapY = 50;
-    private int positionZ = 40; // we should send double size of Z because dividing by 2
 
-    [SerializeField] private EnemySpawner enemySpawner;
+    private List<Army> allArmies = new List<Army>();
+
+    private float playerLevel;
+    private float countOfSquad;
+    float sizeOfSquadMultiplier;
+    float enemyQuantityDivider = 2;
+    float enemySizeDivider = 5;
+    float enemyPortion = 300;
+    float percentGap = 0.2f;
+
+
+    #region Starting Initialisation
 
     public void SetAllEnemiesList(List<GameObject> enemies)
     {
@@ -34,8 +57,8 @@ public class BattleManager : MonoBehaviour
                 Enemy enemy = allEnemiesList[i].GetComponent<Enemy>();
                 if (enemy.EnemiesType == itemType)
                 {
-                    enemiesArmy.Add(allEnemiesList[i]);
-                    enemiesQuantity.Add(quantity[i]);
+                    currentEnemies.Add(allEnemiesList[i]);
+                    currentEnemiesQuantity.Add(quantity[i]);
                 }
             }            
         }
@@ -46,13 +69,13 @@ public class BattleManager : MonoBehaviour
         GlobalStorage.instance.ChangePlayMode(false);
 
         //for testing!
-        if (enemiesArmy.Count == 0)
+        if (currentEnemies.Count == 0)
         {
-            enemiesArmy = falsEnemyArmy;
-            enemiesQuantity = falseEnemiesQuantity;
+            currentEnemies = falsEnemyArmy;
+            currentEnemiesQuantity = falseEnemiesQuantity;
         }
 
-        enemySpawner.Initialize(enemiesArmy, enemiesQuantity);
+        enemySpawner.Initialize(currentEnemies, currentEnemiesQuantity);
     }
 
     public Vector3Int GetBattleMapSize()
@@ -74,22 +97,47 @@ public class BattleManager : MonoBehaviour
     
     public void ClearEnemyArmy()
     {
-        enemiesArmy.Clear();
-        enemiesQuantity.Clear();
+        currentEnemies.Clear();
+        currentEnemiesQuantity.Clear();
     }
 
-    //public void ChangePlayer(bool mode)
-    //{
-    //    Debug.Log("SwitchPlayer");
-    //}
+    #endregion
 
-    //private void OnEnable()
-    //{
-    //    EventManager.ChangePlayMode += ChangePlayer;
-    //}
+    #region Army's Generation
 
-    //private void OnDisable()
-    //{
-    //    EventManager.ChangePlayMode -= ChangePlayer;
-    //}
+    public Army GenerateArmy()
+    { 
+        playerLevel = GlobalStorage.instance.playerStats.GetCurrentParameter(PlayersStats.Level);
+
+        countOfSquad = Mathf.Ceil(playerLevel / enemyQuantityDivider);
+        sizeOfSquadMultiplier = Mathf.Ceil(playerLevel / enemySizeDivider);
+
+        Army newArmy = new Army();
+
+        for(int i = 0; i < countOfSquad; i++)
+        {
+            int randomIndex = UnityEngine.Random.Range(0, allEnemiesList.Count);
+            GameObject randomSquad = allEnemiesList[randomIndex];
+            newArmy.squadList.Add(randomSquad);
+
+            int randomQuantity = (int)sizeOfSquadMultiplier * Mathf.RoundToInt(
+                UnityEngine.Random.Range((enemyPortion - enemyPortion * percentGap), (enemyPortion + enemyPortion * percentGap))
+                );
+            newArmy.quantityList.Add(randomQuantity);
+        }
+
+        allArmies.Add(newArmy);
+        return newArmy;
+    }
+
+    public void PrepairToTheBattle(Army army)
+    {
+        currentArmy = army;
+
+        ClearEnemyArmy();
+        currentEnemies = army.squadList;
+        currentEnemiesQuantity = army.quantityList;
+    }
+
+    #endregion
 }

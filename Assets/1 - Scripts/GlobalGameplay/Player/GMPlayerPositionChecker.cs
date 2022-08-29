@@ -26,7 +26,12 @@ public class GMPlayerPositionChecker : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log(collision.name + "trig");
+        if(collision.CompareTag(TagManager.T_Resource) == true)
+        {
+            ResourceObject obj = collision.GetComponent<ResourceObject>();
+            EventManager.OnResourcePickedUpEvent(obj.resourceType, obj.quantity);
+            Destroy(collision.gameObject);
+        }
     }
 
 }

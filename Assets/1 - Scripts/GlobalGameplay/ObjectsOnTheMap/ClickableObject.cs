@@ -83,6 +83,17 @@ public class ClickableObject : MonoBehaviour
             case TypeOfObjectOnTheMap.Tomb:
                 break;
 
+            case TypeOfObjectOnTheMap.Resource:
+                GlobalStorage.instance.resourcesEventUI.OpenWindow(this);
+                isThereManager = true;
+                break;
+
+            case TypeOfObjectOnTheMap.Enemy:
+                GlobalStorage.instance.enemyArmyUI.OpenWindow(modeClick, this);
+                isThereManager = true;
+                break;
+
+
             default:
                 break;
         }

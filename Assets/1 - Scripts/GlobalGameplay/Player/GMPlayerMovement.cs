@@ -29,7 +29,7 @@ public class GMPlayerMovement : MonoBehaviour
     private void Start()
     {
         sprite = GetComponent<SpriteRenderer>();
-        playerStats = GlobalStorage.instance.player.GetComponent<PlayerStats>();
+        playerStats = GlobalStorage.instance.playerStats;
         gmPathFinder = GlobalStorage.instance.globalMap.GetComponent<GlobalMapPathfinder>();
         positionChecker = GetComponent<GMPlayerPositionChecker>();
         SetParameters();
