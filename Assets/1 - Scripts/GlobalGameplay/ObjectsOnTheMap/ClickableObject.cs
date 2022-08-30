@@ -89,7 +89,7 @@ public class ClickableObject : MonoBehaviour
                 break;
 
             case TypeOfObjectOnTheMap.Enemy:
-                GlobalStorage.instance.enemyArmyUI.OpenWindow(modeClick, this);
+                GlobalStorage.instance.enemyArmyUI.OpenWindow(modeClick, gameObject.GetComponent<EnemyArmyOnTheMap>());
                 isThereManager = true;
                 break;
 

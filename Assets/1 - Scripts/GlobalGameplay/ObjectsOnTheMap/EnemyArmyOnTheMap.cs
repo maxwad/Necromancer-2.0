@@ -34,8 +34,6 @@ public class EnemyArmyOnTheMap : MonoBehaviour
         {
             commonCount += currentEnemiesQuantityList[i];
         }
-
-        Debug.Log("Count of army = " + commonCount);
     }
 
     public void GenerateNewArmy()
@@ -45,14 +43,15 @@ public class EnemyArmyOnTheMap : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.CompareTag(TagManager.T_PLAYER) == true)
+        if(collision.CompareTag(TagManager.T_GM_PLAYER) == true)
         {
             PrepairToTheBattle();
         }
     }
+
     private void PrepairToTheBattle()
     {
-        battleManager.PrepairToTheBattle(army);
+        battleManager.PrepairToTheBattle(army, this);
     }
 
 }

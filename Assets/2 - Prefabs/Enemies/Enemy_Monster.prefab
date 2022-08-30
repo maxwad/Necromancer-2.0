@@ -175,7 +175,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isBoss: 0
   enemiesType: 2
-  health: 30
+  icon: {fileID: 1511843784806208459, guid: 4d7a02af42c41584d9d5e709e3d22033, type: 3}
+  health: 6
   magicAttack: 1
   physicAttack: 3
   magicDefence: 1
@@ -187,7 +188,6 @@ MonoBehaviour:
   exp: 1
   currentHealth: 0
   damageNote: {fileID: 4223726373541259902, guid: dc8112cb6cbc981458351f24ddb13002, type: 3}
-  deathPrefab: {fileID: 3877275003630577787, guid: 8e2dbf07adabe6f458d623574390b341, type: 3}
   bonusType: 3
 --- !u!1 &7041218063843486970
 GameObject:

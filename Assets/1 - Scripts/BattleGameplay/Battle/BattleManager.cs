@@ -130,13 +130,15 @@ public class BattleManager : MonoBehaviour
         return newArmy;
     }
 
-    public void PrepairToTheBattle(Army army)
+    public void PrepairToTheBattle(Army army, EnemyArmyOnTheMap currentEnemyArmy)
     {
         currentArmy = army;
 
-        ClearEnemyArmy();
+        //ClearEnemyArmy();
         currentEnemies = army.squadList;
         currentEnemiesQuantity = army.quantityList;
+
+        GlobalStorage.instance.enemyArmyUI.OpenWindow(false, currentEnemyArmy);
     }
 
     #endregion

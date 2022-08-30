@@ -127,17 +127,12 @@ public class MenuManager : MonoBehaviour
     }
 
 
-    public void MiniPauseOn()
+    public void MiniPause(bool mode)
     {
-        isMiniPause = true;
-        Time.timeScale = 0f;
+        isMiniPause = mode;
+        Time.timeScale = (mode == true) ? 0f : 1.0f;
     }
 
-    public void MiniPauseOff()
-    {
-        isMiniPause = false;
-        Time.timeScale = 1.0f;
-    }
 
     //public void ReloadGame()
     //{

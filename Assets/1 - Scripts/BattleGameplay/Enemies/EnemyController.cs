@@ -9,17 +9,18 @@ public class EnemyController : MonoBehaviour
     [HideInInspector] public bool isBoss = false;
     private Enemy originalStats;
 
-    [SerializeField] public EnemiesTypes enemiesType;
-    [SerializeField] private float health;
-    [SerializeField] private float magicAttack;
-    [SerializeField] private float physicAttack;
-    [SerializeField] private float magicDefence;
-    [SerializeField] private float physicDefence;
-    [SerializeField] private float speedAttack;
-    [SerializeField] private float size;
-    [SerializeField] private EnemyAbilities EnemyAbility;
+    public EnemiesTypes enemiesType;
+    public Sprite icon;
+    public float health;
+    public float magicAttack;
+    public float physicAttack;
+    public float magicDefence;
+    public float physicDefence;
+    public float speedAttack;
+    public float size;
+    public EnemyAbilities EnemyAbility;
 
-    [SerializeField] private GameObject attackTool;
+    public GameObject attackTool;
 
     public int exp;
 
@@ -75,6 +76,7 @@ public class EnemyController : MonoBehaviour
         if(originalStats == null) originalStats = stats;
 
         enemiesType   = originalStats.EnemiesType;
+        icon          = originalStats.enemyIcon;
 
         health        = originalStats.health;
         magicAttack   = originalStats.magicAttack;

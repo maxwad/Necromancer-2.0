@@ -65,9 +65,18 @@ public class BattleUIManager : MonoBehaviour
     private float maxEnemiesCount = 0;
     private float currentEnemiesCount = 0;
 
+    [Header("Leave Battle")]
+    [SerializeField] private GameObject leaveBlock;
+    private bool isLeaveBlockOpened = false;
+
 
     private void Update()
     {
+        if(Input.GetKeyDown(KeyCode.Backspace))
+        {
+            if(GlobalStorage.instance.isGlobalMode == false) OpenLeaveBlock(!isLeaveBlockOpened);
+        }
+
         if(GlobalStorage.instance.isGlobalMode == false) Spelling();
     }
 
@@ -173,6 +182,20 @@ public class BattleUIManager : MonoBehaviour
             panel.color = Color.Lerp(panel.color, normalColor, time / divider);
             yield return new WaitForSeconds(blinkTime);
         }
+    }
+
+    public void OpenLeaveBlock(bool mode)
+    {        
+        isLeaveBlockOpened = mode;
+        GlobalStorage.instance.isModalWindowOpen = mode;
+        MenuManager.instance.MiniPause(mode);
+        leaveBlock.SetActive(mode);
+    }
+
+    public void LeaveTheBattle()
+    {
+        OpenLeaveBlock(false);
+        GlobalStorage.instance.battleManager.FinishTheBattle();
     }
 
     #endregion

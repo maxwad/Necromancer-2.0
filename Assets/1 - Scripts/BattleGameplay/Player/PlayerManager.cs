@@ -31,14 +31,14 @@ public class PlayerManager : MonoBehaviour
     {
         if (mode == false)
         {
-            globalPlayer.SetActive(false);
+            //globalPlayer.SetActive(false);
             //globalMap.SetActive(false);
 
             battlePlayer.SetActive(true);
         }
         else
         {
-            globalPlayer.SetActive(true);
+            //globalPlayer.SetActive(true);
             //globalMap.SetActive(true);
 
             battlePlayer.SetActive(false);
