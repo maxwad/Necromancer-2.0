@@ -30,12 +30,13 @@ public class EnemyArmyUI : MonoBehaviour
     public GameObject enemySlotPrefab;
     public GameObject placeForEnemySlots;
     public GameObject placeForEnemyCard;
+    public GameObject autoBattleButton;
 
 
     private List<GameObject> allEnemiesList = new List<GameObject>();
     private List<GameObject> allSlotsList = new List<GameObject>();
     private List<GameObject> allCardsList = new List<GameObject>();
-    private List<GameObject> currentSlotsList = new List<GameObject>();
+
 
 
     private float playerCuriosity;
@@ -108,12 +109,19 @@ public class EnemyArmyUI : MonoBehaviour
         {
             buttonsPassiveDetail.SetActive(true);
             buttonsActiveDetail.SetActive(false);
+            autoBattleButton.SetActive(false);
         }
         else
         {
             buttonsPassiveDetail.SetActive(false);
             buttonsActiveDetail.SetActive(true);
+
+            if(playerCuriosity == 3)
+                autoBattleButton.SetActive(true);
+            else
+                autoBattleButton.SetActive(true);
         }
+
 
         FillSlotsField();
     }
@@ -210,14 +218,19 @@ public class EnemyArmyUI : MonoBehaviour
         GlobalStorage.instance.battleManager.InitializeBattle();
     }
 
+    public void AutoBattle()
+    {
+        GlobalStorage.instance.battleManager.AutoBattle();
+    }
+
     public void StepBack()
     {
-        //GlobalStorage.instance.battleManager.InitializeBattle();
+        GlobalStorage.instance.globalPlayer.GetComponent<GMPlayerMovement>().StepBack();
         CloseWindow();
     }
 
     public void ToTheHeroArmy()
     {
-           
+        GlobalStorage.instance.playerManager.playersArmyWindow.OpenFromBattleWindow();
     }
 }

@@ -56,7 +56,7 @@ public class SpellButtonController : MonoBehaviour
     {
         if(isDisabled == true) return;
 
-        if(MenuManager.isGamePaused == true || MenuManager.isMiniPause == true) return;
+        if(MenuManager.instance.IsTherePauseOrMiniPause() == true) return;
 
         hero.SpendMana(spell.manaCost);
         spellLibrary.ActivateSpell(spell.spellType, true, spell.value, spell.actionTime);

@@ -61,7 +61,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.7176471, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -94,6 +94,7 @@ MonoBehaviour:
   quantity: {fileID: 3041277862954818600}
   backlight: {fileID: 3041277861506722947}
   grey: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
+  red: {r: 0.7176471, g: 0, b: 0, a: 1}
 --- !u!1 &3041277862164199513
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,6 +12,7 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] private float globalExp = 0;
 
     [SerializeField] private float levelBase = 5;
+    [SerializeField] private float levelMax = 30;
 
     [SerializeField] private float healthBase = 500f;
 
@@ -90,7 +91,7 @@ public class PlayerStats : MonoBehaviour
             playerStat   = stat;
 
             baseValue    = baseV;
-            currentValue = baseValue;
+            currentValue = baseV;
             boostValue   = boost;
             maxValue     = max;
             boostType    = type;
@@ -307,11 +308,11 @@ public class PlayerStats : MonoBehaviour
     }
 
 
-    public float GetStartParametersBeforeBattle(PlayersStats stat)
-    {
-        //Debug.Log(allStatsDict.Count);
-        return allStatsDict[stat].maxValue;
-    }
+    //public float GetStartParametersBeforeBattle(PlayersStats stat)
+    //{
+    //    //Debug.Log(allStatsDict.Count);
+    //    return allStatsDict[stat].currentValue;
+    //}
 
     public void ChangeMana(float value)
     {

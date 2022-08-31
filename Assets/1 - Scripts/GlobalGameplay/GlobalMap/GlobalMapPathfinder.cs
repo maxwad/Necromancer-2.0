@@ -53,7 +53,7 @@ public class GlobalMapPathfinder : MonoBehaviour
     {
         if(Input.GetMouseButtonDown(0)) 
         {
-            if(MenuManager.isGamePaused == false && MenuManager.isMiniPause == false && GlobalStorage.instance.isGlobalMode == true)
+            if(MenuManager.instance.IsTherePauseOrMiniPause() == false && GlobalStorage.instance.isGlobalMode == true)
             {
                 if(EventSystem.current.IsPointerOverGameObject()) return;
 
@@ -65,7 +65,7 @@ public class GlobalMapPathfinder : MonoBehaviour
 
         if(Input.GetMouseButtonDown(1))
         {
-            if(MenuManager.isGamePaused == false && MenuManager.isMiniPause == false && GlobalStorage.instance.isGlobalMode == true)
+            if(MenuManager.instance.IsTherePauseOrMiniPause() == false && GlobalStorage.instance.isGlobalMode == true)
             {
                 RClick();
             }

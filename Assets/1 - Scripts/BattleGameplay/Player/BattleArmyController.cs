@@ -19,7 +19,7 @@ public class BattleArmyController : MonoBehaviour
 
     private void Update()
     {
-        if (MenuManager.isGamePaused == false && MenuManager.isMiniPause == false)
+        if (MenuManager.instance.IsTherePauseOrMiniPause() == false)
         {
             float horizontalMovement = Input.GetAxisRaw("Horizontal");
             float verticalMovement = Input.GetAxisRaw("Vertical");

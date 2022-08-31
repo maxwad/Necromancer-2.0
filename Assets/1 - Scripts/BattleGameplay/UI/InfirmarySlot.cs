@@ -11,6 +11,7 @@ public class InfirmarySlot : MonoBehaviour
     public Image backlight;
 
     public Color grey;
+    public Color red;
 
     private void Start()
     {
@@ -26,7 +27,7 @@ public class InfirmarySlot : MonoBehaviour
 
     public void FillTheInfarmarySlot(Sprite unitIcon, int count)
     {
-        backlight.color = Color.red;
+        backlight.color = red;
 
         icon.enabled = true;
 

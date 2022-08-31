@@ -11,10 +11,10 @@ public class MenuManager : MonoBehaviour
 {
     public static MenuManager instance;
 
-    public static bool canIOpenMenu = true;
-    public static bool isMainMenu;
-    public static bool isGamePaused;
-    public static bool isMiniPause = false;
+    public bool canIOpenMenu = true;
+    public bool isMainMenu;
+    public bool isGamePaused;
+    public bool isMiniPause = false;
     private bool isSettingsOpen = false;
 
     public GameObject pauseMenuUI;
@@ -87,6 +87,13 @@ public class MenuManager : MonoBehaviour
 
             CheckSubMenu();
         }
+    }
+
+    public bool IsTherePauseOrMiniPause()
+    {
+        if(isGamePaused == true) return true;
+        if(isMiniPause == true) return true;
+        return false;
     }
 
     private void CheckPause()

@@ -209,6 +209,8 @@ public class HeroController : MonoBehaviour
         GameObject death = Instantiate(deathPrefab, transform.position, Quaternion.identity);
         death.transform.SetParent(GlobalStorage.instance.effectsContainer.transform);
         gameObject.SetActive(false);
+
+        GlobalStorage.instance.battleIUManager.ShowDefeatBlock();
     }
 
     private void AddHealth(BonusType type, float value)

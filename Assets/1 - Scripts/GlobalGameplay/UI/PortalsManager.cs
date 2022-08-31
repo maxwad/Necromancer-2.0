@@ -28,7 +28,7 @@ public class PortalsManager : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.T))
         {
-            if(MenuManager.isGamePaused == false && MenuManager.isMiniPause == false && GlobalStorage.instance.isGlobalMode == true)
+            if(MenuManager.instance.IsTherePauseOrMiniPause() == false && GlobalStorage.instance.isGlobalMode == true)
             {
                 if(isPortalWindowOpened == false)
                     OpenWindow(true, null);

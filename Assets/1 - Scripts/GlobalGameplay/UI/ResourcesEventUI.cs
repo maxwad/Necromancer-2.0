@@ -9,7 +9,7 @@ public class ResourcesEventUI : MonoBehaviour
 {
     public GameObject uiPanel;
     private GameObject currentResource;
-    private bool isResurceEventWindowOpened = true;
+    //private bool isResurceEventWindowOpened = true;
 
     public TMP_Text caption;
     public Image resourceImage;
@@ -18,7 +18,7 @@ public class ResourcesEventUI : MonoBehaviour
     public void OpenWindow(ClickableObject obj)
     {
         GlobalStorage.instance.isModalWindowOpen = true;
-        isResurceEventWindowOpened = true;
+        //isResurceEventWindowOpened = true;
 
         currentResource = (obj == null) ? null : obj.gameObject;
 
@@ -47,7 +47,7 @@ public class ResourcesEventUI : MonoBehaviour
     public void CloseWindow()
     {
         GlobalStorage.instance.isModalWindowOpen = false;
-        isResurceEventWindowOpened = false;
+        //isResurceEventWindowOpened = false;
 
         uiPanel.SetActive(false);
     }

@@ -35,7 +35,7 @@ public class GlobalCamera : MonoBehaviour
 
     private void LateUpdate()
     {
-        if(MenuManager.isGamePaused != true && MenuManager.isMiniPause != true)
+        if(MenuManager.instance.IsTherePauseOrMiniPause() == false)
         {
             float zoomDelta = Input.GetAxis("Mouse ScrollWheel");
             if(zoomDelta != 0f) ChangeZoom(zoomDelta);

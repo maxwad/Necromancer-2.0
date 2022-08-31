@@ -10,6 +10,7 @@ public class BattleUIManager : MonoBehaviour
     public Canvas uiCanvas;
     private PlayerStats playerStats;
     private ResourcesManager resourcesManager;
+    private bool isBattleOver = false;
 
     [Header("Left Column Exp")]
     [SerializeField] private RectTransform currentScaleValue;
@@ -48,7 +49,7 @@ public class BattleUIManager : MonoBehaviour
 
     [Header("Gold")]
     [SerializeField] private TMP_Text goldInfo;
-    private float currentGoldCount;
+    //private float currentGoldCount;
 
     [Header("Spells")]
     [SerializeField] private Button buttonSpell;
@@ -65,9 +66,13 @@ public class BattleUIManager : MonoBehaviour
     private float maxEnemiesCount = 0;
     private float currentEnemiesCount = 0;
 
-    [Header("Leave Battle")]
+    [Header("End of Battle")]
     [SerializeField] private GameObject leaveBlock;
     private bool isLeaveBlockOpened = false;
+    [SerializeField] private GameObject victoryBlock;
+    [SerializeField] private CanvasGroup victoryCanvasGroup;
+    [SerializeField] private GameObject defeatBlock;
+    [SerializeField] private CanvasGroup defeatCanvasGroup;
 
 
     private void Update()
@@ -185,7 +190,9 @@ public class BattleUIManager : MonoBehaviour
     }
 
     public void OpenLeaveBlock(bool mode)
-    {        
+    {
+        if(isBattleOver == true) return;
+
         isLeaveBlockOpened = mode;
         GlobalStorage.instance.isModalWindowOpen = mode;
         MenuManager.instance.MiniPause(mode);
@@ -195,7 +202,55 @@ public class BattleUIManager : MonoBehaviour
     public void LeaveTheBattle()
     {
         OpenLeaveBlock(false);
-        GlobalStorage.instance.battleManager.FinishTheBattle();
+        GlobalStorage.instance.battleManager.FinishTheBattle(-1);
+    }
+
+    public void ShowVictoryBlock()
+    {
+        isBattleOver = true;
+        StartCoroutine(VictoryBlockAppearing());
+
+        IEnumerator VictoryBlockAppearing()
+        {
+            victoryBlock.SetActive(true);
+            victoryCanvasGroup.alpha = 0;
+
+            while(victoryCanvasGroup.alpha < 1)
+            {
+                victoryCanvasGroup.alpha += 0.01f;
+                yield return null;
+            }
+        }
+    }
+
+    public void Victory()
+    {
+        victoryBlock.SetActive(false);
+        GlobalStorage.instance.battleManager.FinishTheBattle(1);
+    }
+
+    public void ShowDefeatBlock()
+    {
+        isBattleOver = true;
+        StartCoroutine(DefeatBlockAppearing());
+
+        IEnumerator DefeatBlockAppearing()
+        {
+            defeatBlock.SetActive(true);
+            defeatCanvasGroup.alpha = 0;
+
+            while(defeatCanvasGroup.alpha < 1)
+            {
+                defeatCanvasGroup.alpha += 0.01f;
+                yield return null;
+            }
+        }
+    }
+
+    public void Defeat()
+    {
+        defeatBlock.SetActive(false);
+        GlobalStorage.instance.battleManager.FinishTheBattle(0);
     }
 
     #endregion

@@ -40,7 +40,7 @@ public class GMPlayerMovement : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Return)) 
         {
-            if(MenuManager.isGamePaused == false && MenuManager.isMiniPause == false && GlobalStorage.instance.isGlobalMode == true)
+            if(MenuManager.instance.IsTherePauseOrMiniPause() == false && GlobalStorage.instance.isGlobalMode == true)
             {
                 if(newTurnCoroutine == null) newTurnCoroutine = StartCoroutine(NewTurn());
             }
@@ -147,6 +147,29 @@ public class GMPlayerMovement : MonoBehaviour
         return iAmMoving;
     }
 
+    public void StepBack()
+    {
+        StartCoroutine(GoBack());
+
+        IEnumerator GoBack()
+        {
+            while(iAmMoving == true)
+            {
+                yield return null;
+            }
+
+            for(float t = 0; t < defaultCountSteps / speed; t++)
+            {
+                Vector2 distance = previousPosition - currentPosition;
+                Vector2 step = distance / (defaultCountSteps / speed);
+                transform.position += (Vector3)step;
+                yield return new WaitForSeconds(0.01f);
+            }
+
+            currentPosition = previousPosition;
+        }
+    }
+
     public void TeleportTo(Vector2 newPosition, float cost)
     {
         gmPathFinder.DestroyPath();
@@ -158,8 +181,8 @@ public class GMPlayerMovement : MonoBehaviour
     private IEnumerator Telepartation(Vector2 newPosition)
     {
         WaitForSecondsRealtime delay = new WaitForSecondsRealtime(0.01f);
-        MenuManager.isGamePaused = true;
-        MenuManager.canIOpenMenu = false;
+        MenuManager.instance.isGamePaused = true;
+        MenuManager.instance.canIOpenMenu = false;
 
         SpriteRenderer playerSprite = GetComponent<SpriteRenderer>();
         Color currentColor = playerSprite.color;
@@ -186,8 +209,8 @@ public class GMPlayerMovement : MonoBehaviour
             yield return delay;
         }
 
-        MenuManager.isGamePaused = false;
-        MenuManager.canIOpenMenu = true;
+        MenuManager.instance.isGamePaused = false;
+        MenuManager.instance.canIOpenMenu = true;
     }
 
     private void OnEnable()

@@ -182,6 +182,12 @@ public class EnemySpawner : MonoBehaviour
         enemiesOnTheMap.Remove(enemy);
         removeQuantity++;
 
+        //end of battle
+        if(removeQuantity == maxQuantity)
+        {
+            canISpawn = false;
+            GlobalStorage.instance.battleIUManager.ShowVictoryBlock();
+        }
         SpawnControl();        
     }     
 

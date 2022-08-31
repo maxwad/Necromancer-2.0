@@ -5,12 +5,12 @@ using UnityEngine;
 public class GMPlayerPositionChecker : MonoBehaviour
 {
     private GlobalMapPathfinder gmPathFinder;
-    private Collider2D playerCollider;
+    private GMPlayerMovement gmMovement;
 
     private void Start()
     {
         gmPathFinder = GlobalStorage.instance.globalMap.GetComponent<GlobalMapPathfinder>();
-        playerCollider = GetComponent<Collider2D>();
+        gmMovement = GlobalStorage.instance.globalPlayer.GetComponent<GMPlayerMovement>();
     }
 
     public void CheckPosition(Vector3 currentPosition)
@@ -31,6 +31,13 @@ public class GMPlayerPositionChecker : MonoBehaviour
             ResourceObject obj = collision.GetComponent<ResourceObject>();
             EventManager.OnResourcePickedUpEvent(obj.resourceType, obj.quantity);
             Destroy(collision.gameObject);
+        }
+
+        if(collision.CompareTag(TagManager.T_GM_ENEMY) == true)
+        {
+            gmMovement.StopMoving();
+            gmPathFinder.DestroyPath();
+            collision.gameObject.GetComponent<EnemyArmyOnTheMap>().PrepairToTheBattle();
         }
     }
 

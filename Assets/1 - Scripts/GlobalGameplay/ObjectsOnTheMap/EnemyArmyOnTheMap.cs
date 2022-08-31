@@ -36,20 +36,13 @@ public class EnemyArmyOnTheMap : MonoBehaviour
         }
     }
 
+    //for new Month
     public void GenerateNewArmy()
     {
         StartCoroutine(Initialize());
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if(collision.CompareTag(TagManager.T_GM_PLAYER) == true)
-        {
-            PrepairToTheBattle();
-        }
-    }
-
-    private void PrepairToTheBattle()
+    public void PrepairToTheBattle()
     {
         battleManager.PrepairToTheBattle(army, this);
     }

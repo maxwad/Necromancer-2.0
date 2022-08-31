@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-    [SerializeField] private PlayersArmyWindow playersArmyWindow;
+    public PlayersArmyWindow playersArmyWindow;
 
     private GameObject globalPlayer;
     private GameObject battlePlayer;
@@ -21,7 +21,7 @@ public class PlayerManager : MonoBehaviour
 
     private void Update()
     {
-        if(MenuManager.isGamePaused == false && Input.GetKeyDown(KeyCode.I))
+        if(MenuManager.instance.isGamePaused == false && Input.GetKeyDown(KeyCode.I))
         {            
             playersArmyWindow.OpenWindow();
         }

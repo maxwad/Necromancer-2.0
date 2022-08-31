@@ -21,15 +21,8 @@ public class PlayersArmyWindow : MonoBehaviour
     [SerializeField] private InfirmarySlot[] infirmarySlots;
     [SerializeField] private TMP_Text infirmaryCount;
 
-
-    [Header("Buttons")]
-    [SerializeField] private Button fightButton;
-    [SerializeField] private Button closeWindow;
-    [SerializeField] private TMP_Text fightButtonText;
-    private string toTheBattleText = "Fight!";
-    private string toTheGlobalText = "Escape...";
-
     [HideInInspector] public bool isWindowOpened = false;
+    [HideInInspector] public bool isWindowOpenedFromBattleWindow = false;
 
     #region Schemes
     public void CreateReserveScheme(Unit[] army)
@@ -76,40 +69,30 @@ public class PlayersArmyWindow : MonoBehaviour
                 infirmarySlots[slotIndex].FillTheInfarmarySlot(unit.unitIcon, count);
                 slotIndex++;
             }
-        }
-        
+        }        
+    }
+
+    private void UpdateArmyWindow()
+    {
+        CreateReserveScheme(GlobalStorage.instance.player.GetComponent<PlayersArmy>().reserveArmy);
+        CreateArmyScheme(GlobalStorage.instance.player.GetComponent<PlayersArmy>().playersArmy);
+        CreateInfirmaryScheme();
+
+        if(GlobalStorage.instance.isGlobalMode == true)
+            reserveVeil.SetActive(false);
+        else
+            reserveVeil.SetActive(true);
     }
 
     #endregion
 
-    #region Buttons
-    private void ToTheBattle()
-    {
-        fightButton.onClick.RemoveAllListeners();
-        fightButton.onClick.AddListener(ToTheGlobal);
-        fightButtonText.text = toTheGlobalText;
-
-        GlobalStorage.instance.battleManager.InitializeBattle();
-        //TODO: may be here we need to give info about army future battle to the battle manager
-        CloseWindow();
-    }
-
-    private void ToTheGlobal()
-    {
-        fightButton.onClick.RemoveAllListeners();
-        fightButton.onClick.AddListener(ToTheBattle);
-        fightButtonText.text = toTheBattleText;
-
-        GlobalStorage.instance.battleManager.FinishTheBattle();
-        CloseWindow();
-    }
-
+    #region Helpers
 
     public void OpenWindow()
     {
         if (isWindowOpened == false)
         {
-            if(GlobalStorage.instance.isModalWindowOpen == false)
+            if(GlobalStorage.instance.isModalWindowOpen == false || isWindowOpenedFromBattleWindow == true)
             {
                 playerArmyUI.SetActive(true);
                 isWindowOpened = true;
@@ -131,36 +114,24 @@ public class PlayersArmyWindow : MonoBehaviour
 
         playerArmyUI.SetActive(false);
         isWindowOpened = false;
-        GlobalStorage.instance.isModalWindowOpen = false;
         MenuManager.instance.MiniPause(false);
 
-        //TODO: here we should clear info about canceled battle
-    }
-
-    private void UpdateArmyWindow()
-    {
-        CreateReserveScheme(GlobalStorage.instance.player.GetComponent<PlayersArmy>().reserveArmy);
-        CreateArmyScheme(GlobalStorage.instance.player.GetComponent<PlayersArmy>().playersArmy);
-        CreateInfirmaryScheme();
-
-        if(GlobalStorage.instance.isGlobalMode == true)
-            reserveVeil.SetActive(false);
+        if(isWindowOpenedFromBattleWindow == false)
+        {
+            GlobalStorage.instance.isModalWindowOpen = false;            
+        }
         else
-            reserveVeil.SetActive(true);
+        {
+            isWindowOpenedFromBattleWindow = false;
+        }
+        
     }
 
-    #endregion
-
-    private void Awake()
+    public void OpenFromBattleWindow()
     {
-        fightButton.onClick.AddListener(ToTheBattle);
-        fightButtonText.text = toTheBattleText;
-        closeWindow.onClick.AddListener(CloseWindow);
+        isWindowOpenedFromBattleWindow = true;
+        OpenWindow();
     }
 
-    private void OnDestroy()
-    {
-        fightButton.onClick.RemoveListener(ToTheBattle);
-        closeWindow.onClick.RemoveListener(CloseWindow);
-    }
+    #endregion       
 }

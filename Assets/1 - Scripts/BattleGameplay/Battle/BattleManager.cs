@@ -25,6 +25,7 @@ public class BattleManager : MonoBehaviour
 
     public List<GameObject> allEnemiesList = new List<GameObject>();
     private Army currentArmy = new Army();
+    private GameObject currentEnemySquad;
     private List<GameObject> currentEnemies = new List<GameObject>();
     private List<int> currentEnemiesQuantity = new List<int>();
 
@@ -33,11 +34,12 @@ public class BattleManager : MonoBehaviour
 
     private float playerLevel;
     private float countOfSquad;
-    float sizeOfSquadMultiplier;
-    float enemyQuantityDivider = 2;
-    float enemySizeDivider = 5;
-    float enemyPortion = 300;
-    float percentGap = 0.2f;
+    private float sizeOfSquadMultiplier;
+    private float maxCountOfSquad = 12; //because enemy UI window size allow only 12 squads
+    private float enemyQuantityDivider = 2;
+    private float enemySizeDivider = 5;
+    private float enemyPortion = 10;
+    private float percentGap = 0.2f;
 
 
     #region Starting Initialisation
@@ -90,26 +92,47 @@ public class BattleManager : MonoBehaviour
         sizeMapY = heigth;
     }
 
-    public void FinishTheBattle()
-    {
+    public void FinishTheBattle(int result)
+    { //true - ok; false - stepback
+        if(result == 1)
+        {
+            //reward window
+            //delete from ememyList om global map
+            Destroy(currentEnemySquad);
+            Debug.Log("Victory");
+        }
+
+        if(result == 0)
+        {
+            GlobalStorage.instance.globalPlayer.GetComponent<GMPlayerMovement>().StepBack();
+            Debug.Log("Retreat");
+        }
+
+        if(result == -1)
+        {
+            GlobalStorage.instance.globalPlayer.GetComponent<GMPlayerMovement>().StepBack();
+            Debug.Log("Escape");
+        }
+
         GlobalStorage.instance.ChangePlayMode(true);
     }
     
-    public void ClearEnemyArmy()
-    {
-        currentEnemies.Clear();
-        currentEnemiesQuantity.Clear();
-    }
+    //public void ClearEnemyArmy()
+    //{
+    //    currentEnemies.Clear();
+    //    currentEnemiesQuantity.Clear();
+    //}
 
     #endregion
 
-    #region Army's Generation
 
     public Army GenerateArmy()
     { 
         playerLevel = GlobalStorage.instance.playerStats.GetCurrentParameter(PlayersStats.Level);
 
         countOfSquad = Mathf.Ceil(playerLevel / enemyQuantityDivider);
+        if(countOfSquad > maxCountOfSquad) countOfSquad = maxCountOfSquad;
+
         sizeOfSquadMultiplier = Mathf.Ceil(playerLevel / enemySizeDivider);
 
         Army newArmy = new Army();
@@ -133,7 +156,7 @@ public class BattleManager : MonoBehaviour
     public void PrepairToTheBattle(Army army, EnemyArmyOnTheMap currentEnemyArmy)
     {
         currentArmy = army;
-
+        currentEnemySquad = currentEnemyArmy.gameObject;
         //ClearEnemyArmy();
         currentEnemies = army.squadList;
         currentEnemiesQuantity = army.quantityList;
@@ -141,5 +164,10 @@ public class BattleManager : MonoBehaviour
         GlobalStorage.instance.enemyArmyUI.OpenWindow(false, currentEnemyArmy);
     }
 
-    #endregion
+    public void AutoBattle()
+    {
+        //here will be the AutobattleScript
+
+        Debug.Log("Autobattle");
+    }
 }
