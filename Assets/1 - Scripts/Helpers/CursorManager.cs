@@ -24,14 +24,14 @@ public class CursorManager : MonoBehaviour
 
     private void Start()
     {
-        //Cursor.lockState = CursorLockMode.Confined;
-        //Cursor.SetCursor(cursorDefault, Vector2.zero, UnityEngine.CursorMode.ForceSoftware);
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.SetCursor(cursorDefault, Vector2.zero, UnityEngine.CursorMode.ForceSoftware);
         gmManager = GlobalStorage.instance.gmManager;
     }
 
     private void LateUpdate()
     {
-        return; // delete in build
+        //return; // delete in build
 
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector3Int positionOnTileMap;

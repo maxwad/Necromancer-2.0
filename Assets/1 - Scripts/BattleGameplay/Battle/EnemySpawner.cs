@@ -6,8 +6,8 @@ using static NameManager;
 public class EnemySpawner : MonoBehaviour
 {
     private List<GameObject> enemiesList;
-    private List<int> enemiesQuantityList;
-    private int commonQuantity = 0;
+    public List<int> enemiesQuantityList = new List<int>();
+    private int currentCommonQuantity = 0;
     private int maxQuantity = 0;
     private int removeQuantity = 0;
     //[SerializeField] private GameObject enemiesContainer;
@@ -41,20 +41,25 @@ public class EnemySpawner : MonoBehaviour
     public void Initialize(List<GameObject> enemiesPrefabs, List<int> quantity)
     {
         enemiesList = enemiesPrefabs;
-        enemiesQuantityList = quantity;
+
+        enemiesQuantityList.Clear();
+        foreach(var item in quantity)
+        {
+            enemiesQuantityList.Add(item);
+        }
         waitNextEnemyFast = new WaitForSeconds(waitNextEnemyTimeFast);
         waitNextEnemySlow = new WaitForSeconds(waitNextEnemyTimeSlow);
         waitNextEnemyStop = new WaitForSeconds(waitNextEnemyTimeStop);
         waitNextEnemy = waitNextEnemyFast;
 
-        commonQuantity = 0;
+        currentCommonQuantity = 0;
 
         for(int i = 0; i < enemiesQuantityList.Count; i++)
-            commonQuantity += enemiesQuantityList[i];
+            currentCommonQuantity += enemiesQuantityList[i];
 
-        maxQuantity = commonQuantity;
+        maxQuantity = currentCommonQuantity;
 
-        EventManager.OnEnemiesCountEvent(commonQuantity);
+        EventManager.OnEnemiesCountEvent(currentCommonQuantity);
     }
 
     private void Update()
@@ -88,7 +93,7 @@ public class EnemySpawner : MonoBehaviour
 
         while (canISpawn == true)
         {      
-            if (commonQuantity == 0)
+            if (currentCommonQuantity == 0)
             {
                 canISpawn = false;
                 if(spawnCoroutine != null) StopCoroutine(spawnCoroutine);
@@ -103,7 +108,7 @@ public class EnemySpawner : MonoBehaviour
                 int randomIndex = 0;
                 bool finded = false;
 
-                while (finded == false && commonQuantity != 0)
+                while (finded == false && currentCommonQuantity != 0)
                 {
                     randomIndex = Random.Range(0, enemiesList.Count);
                     if (enemiesQuantityList[randomIndex] != 0)
@@ -123,7 +128,7 @@ public class EnemySpawner : MonoBehaviour
                 enemy.SetActive(true);
 
                 //Create boss
-                if(commonQuantity <= maxQuantity / 2 && isBossCreated == false)
+                if(currentCommonQuantity <= maxQuantity / 2 && isBossCreated == false)
                 {
                     enemy.GetComponent<EnemyController>().MakeBoss();
                     isBossCreated = true;
@@ -131,7 +136,7 @@ public class EnemySpawner : MonoBehaviour
 
                 enemiesOnTheMap.Add(enemy);
                 enemiesQuantityList[randomIndex]--;
-                commonQuantity--;
+                currentCommonQuantity--;
             }
 
             yield return waitNextEnemy;
@@ -195,9 +200,9 @@ public class EnemySpawner : MonoBehaviour
     {
         //sometimes we have difference between data and i don't know why, i had chacked everithing
         //SOLVED, NEED TO OBSERVE
-        if((removeQuantity + commonQuantity + enemiesOnTheMap.Count) != maxQuantity)
+        if((removeQuantity + currentCommonQuantity + enemiesOnTheMap.Count) != maxQuantity)
         {
-            int difference = (removeQuantity + commonQuantity + enemiesOnTheMap.Count) - maxQuantity;
+            int difference = (removeQuantity + currentCommonQuantity + enemiesOnTheMap.Count) - maxQuantity;
 
             Debug.Log("CONTROL " + difference);
         }       

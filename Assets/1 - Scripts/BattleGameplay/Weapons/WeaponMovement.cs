@@ -108,11 +108,6 @@ public class WeaponMovement : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private void OnDestroy()
-    {
-        weaponStorage.isWeaponWork = false;
-    }
-
     #endregion
 
     #region Movement
@@ -189,17 +184,14 @@ public class WeaponMovement : MonoBehaviour
 
         IEnumerator Resize()
         {
-            float lifetime = 2f;
+            float lifetime = controller.speedAttack;
             float currentSize;
             float sizeStep = 0.075f;
 
-            while(true)
-            {                
+              
                 gameObject.transform.localScale = new Vector3(0, 0, 0);
                 currentSize = 0;
-                GetComponent<WeaponDamage>().ClearEnemyList();
-
-                yield return new WaitForSeconds(controller.speedAttack);
+                GetComponent<WeaponDamage>().ClearEnemyList();                
 
                 while(currentSize <= lifetime)
                 {
@@ -207,8 +199,10 @@ public class WeaponMovement : MonoBehaviour
                     currentSize += sizeStep;
 
                     gameObject.transform.localScale = new Vector3(currentSize, currentSize, currentSize);
-                }                
-            }            
+                }
+                gameObject.transform.localScale = new Vector3(0, 0, 0);
+                //yield return new WaitForSeconds(controller.speedAttack);
+                       
         }
     }
 
@@ -344,4 +338,19 @@ public class WeaponMovement : MonoBehaviour
     }
 
     #endregion
+
+    //private void DestroyWeapon(bool mode)
+    //{
+    //    if(mode == true) Destroy(gameObject);
+    //}
+
+    //private void OnEnable()
+    //{
+    //    EventManager.ChangePlayer += DestroyWeapon;
+    //}
+
+    //private void OnDisable()
+    //{
+    //    EventManager.ChangePlayer += DestroyWeapon;
+    //}
 }

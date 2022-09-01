@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static StructManager;
 
 public class AttackController : MonoBehaviour
 {
@@ -9,7 +8,6 @@ public class AttackController : MonoBehaviour
     private UnitController unitController;
 
     private float startAttackDelay = 1f;
-    private SpriteRenderer sprite;
 
     private Coroutine attack;
 
@@ -17,22 +15,17 @@ public class AttackController : MonoBehaviour
     {
         unitController = GetComponent<UnitController>();
         weaponStorage = GetComponent<WeaponStorage>();
-        sprite = GetComponent<SpriteRenderer>();
-
-        startAttackDelay = Random.Range(startAttackDelay * 10 - startAttackDelay, startAttackDelay * 10 + startAttackDelay) / 10;
-
-        if (attack != null) StopCoroutine(attack);
-        attack = StartCoroutine(Attack());
     }
 
     private void OnEnable()
     {
-        if (attack != null)
-        {
-            StopCoroutine(attack);
-            startAttackDelay = Random.Range(startAttackDelay * 10 - startAttackDelay, startAttackDelay * 10 + startAttackDelay) / 10;
-            attack = StartCoroutine(Attack());
-        }
+        startAttackDelay = Random.Range(startAttackDelay * 10 - startAttackDelay, startAttackDelay * 10 + startAttackDelay) / 10;
+        attack = StartCoroutine(Attack());
+    }
+
+    private void OnDisable()
+    {
+        StopCoroutine(attack);
     }
 
     private IEnumerator Attack()

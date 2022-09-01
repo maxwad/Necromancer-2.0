@@ -38,7 +38,7 @@ public class BattleManager : MonoBehaviour
     private float maxCountOfSquad = 12; //because enemy UI window size allow only 12 squads
     private float enemyQuantityDivider = 2;
     private float enemySizeDivider = 5;
-    private float enemyPortion = 10;
+    private float enemyPortion = 20;
     private float percentGap = 0.2f;
 
 
@@ -105,7 +105,7 @@ public class BattleManager : MonoBehaviour
         if(result == 0)
         {
             GlobalStorage.instance.globalPlayer.GetComponent<GMPlayerMovement>().StepBack();
-            Debug.Log("Retreat");
+            Debug.Log("Defeat");
         }
 
         if(result == -1)

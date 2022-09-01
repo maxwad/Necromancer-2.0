@@ -136,6 +136,7 @@ public class BattleUIManager : MonoBehaviour
         uiCanvas.gameObject.SetActive(!mode);
 
         currentScaleValueImage = currentScaleValue.GetComponent<Image>();
+        isBattleOver = false;
 
         if(mode == false) ResetCanvas();
     }

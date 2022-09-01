@@ -36,7 +36,7 @@ public class EnemyArmyUI : MonoBehaviour
     private List<GameObject> allEnemiesList = new List<GameObject>();
     private List<GameObject> allSlotsList = new List<GameObject>();
     private List<GameObject> allCardsList = new List<GameObject>();
-
+    private List<GameObject> currentSlotsList = new List<GameObject>();
 
 
     private float playerCuriosity;
@@ -61,9 +61,8 @@ public class EnemyArmyUI : MonoBehaviour
         if(currentEnemyArmy != null)
         {
             playerCuriosity = GlobalStorage.instance.playerStats.GetCurrentParameter(PlayersStats.Curiosity);
+            if(allEnemiesList.Count == 0) allEnemiesList = GlobalStorage.instance.battleManager.allEnemiesList;
 
-            if(allSlotsList.Count == 0) CreateAllSlots();
-            
             if(playerCuriosity < 2) 
                 ShowMinimumInfo();
             else
@@ -122,7 +121,6 @@ public class EnemyArmyUI : MonoBehaviour
                 autoBattleButton.SetActive(true);
         }
 
-
         FillSlotsField();
     }
 
@@ -130,22 +128,23 @@ public class EnemyArmyUI : MonoBehaviour
     {
         foreach(RectTransform slot in placeForEnemySlots.transform)
         {
-            slot.gameObject.SetActive(false);
+            Destroy(slot.gameObject);
+            allSlotsList.Clear();
         }
 
         foreach(RectTransform card in placeForEnemyCard.transform)
         {
-            card.gameObject.SetActive(false);
+            Destroy(card.gameObject);
+            allCardsList.Clear();
         }
 
         for(int i = 0; i < currentEnemiesList.Count; i++)
         {
             for(int k = 0; k < allEnemiesList.Count; k++)
             {
-                if(allEnemiesList[k] == currentEnemiesList[i])
+                if(currentEnemiesList[i] == allEnemiesList[k])
                 {
-                    allSlotsList[k].SetActive(true);
-                    allSlotsList[k].GetComponent<EnemySlotUI>().SetAmount(currentEnemiesQuantityList[i]);
+                    CreateSlot(allEnemiesList[k].GetComponent<EnemyController>(), i , currentEnemiesQuantityList[i]);
                     break;
                 }
             }
@@ -164,21 +163,15 @@ public class EnemyArmyUI : MonoBehaviour
         allCardsList[index].GetComponent<EnemyCardUI>().Initialize(null, showMode);
     }
 
-    private void CreateAllSlots()
+    private void CreateSlot(EnemyController enemy, int index, int amount)
     {
-        allEnemiesList = GlobalStorage.instance.battleManager.allEnemiesList;
-        for(int i = 0; i < allEnemiesList.Count; i++)
-        {
-            EnemyController enemy = allEnemiesList[i].GetComponent<EnemyController>();
+        EnemyCardUI card = CreateCard(enemy);
+        GameObject enemySlot = Instantiate(enemySlotPrefab, placeForEnemySlots.transform);
 
-            EnemyCardUI card = CreateCard(enemy);
-            GameObject enemySlot = Instantiate(enemySlotPrefab, placeForEnemySlots.transform);
-
-            EnemySlotUI slotUI = enemySlot.GetComponent<EnemySlotUI>();
-            slotUI.Initialize(i, enemy.icon, card, enemy.enemiesType);
-            enemySlot.SetActive(false);
-            allSlotsList.Add(enemySlot);
-        }
+        EnemySlotUI slotUI = enemySlot.GetComponent<EnemySlotUI>();
+        slotUI.Initialize(index, enemy.icon, card, enemy.enemiesType);
+        slotUI.SetAmount(amount);
+        allSlotsList.Add(enemySlot);
     }
 
     private EnemyCardUI CreateCard(EnemyController enemy)

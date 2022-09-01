@@ -4,7 +4,7 @@ using static NameManager;
 
 public class WeaponStorage : MonoBehaviour
 {
-    [HideInInspector] public bool isWeaponWork = false;
+    [HideInInspector] public bool isBibleWork = false;
 
     public void Attack(UnitController unitController)
     {
@@ -15,7 +15,8 @@ public class WeaponStorage : MonoBehaviour
                 break;
 
             case UnitsAbilities.Garlic:
-                if(isWeaponWork == false) GarlicAction(unitController);
+                GarlicAction(unitController);
+                
                 break;
 
             case UnitsAbilities.Axe:
@@ -27,7 +28,7 @@ public class WeaponStorage : MonoBehaviour
                 break;
 
             case UnitsAbilities.Bible:
-                if(isWeaponWork == false) BibleAction(unitController);
+                if(isBibleWork == false) BibleAction(unitController);
                 break;
 
             case UnitsAbilities.Bow:
@@ -104,8 +105,6 @@ public class WeaponStorage : MonoBehaviour
 
     private void GarlicAction(UnitController unitController) 
     {
-        isWeaponWork = true;
-
         GameObject weapon = CreateWeapon(unitController);
         weapon.GetComponent<WeaponMovement>().ActivateWeapon(unitController);
     }
@@ -164,7 +163,7 @@ public class WeaponStorage : MonoBehaviour
 
     private void BibleAction(UnitController unitController)
     {
-        isWeaponWork = true;
+        isBibleWork = true;
 
         float bibleAngleLvl2_2 = 180;
 

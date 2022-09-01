@@ -120,7 +120,9 @@ public static class EventManager
     // - HeroController
     // - SpellLibrary
     // - BonusManager
-    //
+    // - WeaponMovement
+    // - GMInterface
+    // 
     //ACTIVATION:
     // - CameraManager
     //

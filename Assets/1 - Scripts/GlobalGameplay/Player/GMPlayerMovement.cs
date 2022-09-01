@@ -196,10 +196,10 @@ public class GMPlayerMovement : MonoBehaviour
             yield return delay;
         }
 
-        Camera.main.transform.position = new Vector3(newPosition.x, newPosition.y, Camera.main.transform.position.z);
-        gmPathFinder.CheckFog(viewRadius);
+        Camera.main.transform.position = new Vector3(newPosition.x, newPosition.y, Camera.main.transform.position.z);        
         transform.position = newPosition;
         currentPosition = newPosition;
+        gmPathFinder.CheckFog(viewRadius);
 
         while(alfa < 1)
         {
