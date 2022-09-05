@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 540452006622279659}
   - component: {fileID: 366806163}
   - component: {fileID: 8395255345275223802}
+  - component: {fileID: -6352899553311332723}
   m_Layer: 0
   m_Name: FortressNecromancer
   m_TagString: Untagged
@@ -118,6 +119,7 @@ MonoBehaviour:
   content: The Fortress of your Enemy.
   visitedStatus: 
   notVisitedStatus: 
+  status: 
 --- !u!114 &8395255345275223802
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -131,7 +133,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectType: 1
-  openByClick: 1
-  openByMove: 1
+  isNormalUIWindow: 1
+  canBeOpenedByClick: 1
+  canBeOpenedByMove: 1
   tooltip: {fileID: 0}
   cursor: 4
+--- !u!114 &-6352899553311332723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 540452006622279669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e4cda32f6763524ca97808827e25361, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner: 1
+  isGuardNeeded: 0
+  probabilityGuard: 100

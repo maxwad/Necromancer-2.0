@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 85004263045622682}
   - component: {fileID: -3477544873591068831}
   - component: {fileID: -7849341166801222392}
+  - component: {fileID: -6361575551329449286}
   m_Layer: 0
   m_Name: RoadPointer
   m_TagString: Untagged
@@ -118,6 +119,7 @@ MonoBehaviour:
   content: Visit to increase your path points
   visitedStatus: Visited
   notVisitedStatus: Not visited
+  status: 
 --- !u!114 &-7849341166801222392
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -131,7 +133,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectType: 11
-  openByClick: 1
-  openByMove: 1
+  isNormalUIWindow: 1
+  canBeOpenedByClick: 1
+  canBeOpenedByMove: 1
   tooltip: {fileID: 0}
   cursor: 3
+--- !u!114 &-6361575551329449286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 85004263045622685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e4cda32f6763524ca97808827e25361, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner: 2
+  isGuardNeeded: 1
+  probabilityGuard: 20

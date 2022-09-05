@@ -86,7 +86,7 @@ public class GlobalStorage : MonoBehaviour
         }
 
         canILoadNextStep = false;
-        enemyManager.LoadEnemies();
+        enemyManager.InitializeEnemies();
         while(canILoadNextStep == false)
         {
             yield return null;

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6456557869478074336}
   - component: {fileID: 746853197673516948}
   - component: {fileID: -9139183998644911855}
+  - component: {fileID: -7613203699498214213}
   m_Layer: 0
   m_Name: Tomb
   m_TagString: Untagged
@@ -118,6 +119,7 @@ MonoBehaviour:
   content: You can visit it for Reward here.
   visitedStatus: Visited
   notVisitedStatus: Not visited
+  status: 
 --- !u!114 &-9139183998644911855
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -131,7 +133,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectType: 13
-  openByClick: 1
-  openByMove: 1
+  isNormalUIWindow: 1
+  canBeOpenedByClick: 1
+  canBeOpenedByMove: 1
   tooltip: {fileID: 0}
   cursor: 4
+--- !u!114 &-7613203699498214213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8934158126753734808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e4cda32f6763524ca97808827e25361, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner: 1
+  isGuardNeeded: 0
+  probabilityGuard: 100

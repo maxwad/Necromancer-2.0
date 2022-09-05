@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2478802792906842422}
   - component: {fileID: 993880544987642446}
   - component: {fileID: 5247850057944779182}
+  - component: {fileID: 2114311765730546969}
   m_Layer: 0
   m_Name: Sawmill
   m_TagString: Untagged
@@ -118,6 +119,7 @@ MonoBehaviour:
   content: Resource Building. Wood.
   visitedStatus: 'Owner: you'
   notVisitedStatus: 'Owner: unknown'
+  status: 
 --- !u!114 &5247850057944779182
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -131,7 +133,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectType: 6
-  openByClick: 1
-  openByMove: 1
+  isNormalUIWindow: 1
+  canBeOpenedByClick: 1
+  canBeOpenedByMove: 1
   tooltip: {fileID: 0}
   cursor: 4
+--- !u!114 &2114311765730546969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2478802792906842421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e4cda32f6763524ca97808827e25361, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner: 2
+  isGuardNeeded: 1
+  probabilityGuard: 75

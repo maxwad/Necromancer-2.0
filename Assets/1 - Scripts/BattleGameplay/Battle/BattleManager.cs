@@ -126,8 +126,10 @@ public class BattleManager : MonoBehaviour
     #endregion
 
 
-    public Army GenerateArmy()
+    public Army GenerateArmy(ArmyStrength armyStrength)
     { 
+        //we need to separate different strenght od army
+
         playerLevel = GlobalStorage.instance.playerStats.GetCurrentParameter(PlayersStats.Level);
 
         countOfSquad = Mathf.Ceil(playerLevel / enemyQuantityDivider);

@@ -37,7 +37,7 @@ public class GMPlayerPositionChecker : MonoBehaviour
         {
             gmMovement.StopMoving();
             gmPathFinder.DestroyPath();
-            collision.gameObject.GetComponent<EnemyArmyOnTheMap>().PrepairToTheBattle();
+            //collision.gameObject.GetComponent<EnemyArmyOnTheMap>().PrepairToTheBattle();
         }
     }
 

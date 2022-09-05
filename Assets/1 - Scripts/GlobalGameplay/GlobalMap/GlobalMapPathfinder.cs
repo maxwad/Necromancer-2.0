@@ -275,7 +275,7 @@ public class GlobalMapPathfinder : MonoBehaviour
 
         for(float x = -radius; x < radius; x++)
         {
-            for(float y = -radius; y <= radius+1; y++)
+            for(float y = -radius; y <= radius + 1; y++)
             {
                 Vector3Int checkPosition = new Vector3Int((int)x, (int)y, 0) + center;
                 if(Vector3Int.Distance(checkPosition, center) < radius)

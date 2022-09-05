@@ -194,6 +194,7 @@ public static class NameManager
         Army, Reserve
     }
 
+
     #region GlobalMap
 
     public enum NeighborsDirection
@@ -221,6 +222,15 @@ public static class NameManager
         Enemy
     }
 
+    public enum TypeOfObjectsOwner 
+    { 
+        Player, Enemy, Nobody
+    }
+
+    public enum ArmyStrength
+    {
+        Low, Middle, High, Extremely
+    }
 
     #endregion
 

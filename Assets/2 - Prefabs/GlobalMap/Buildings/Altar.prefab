@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2298590583029160482}
   - component: {fileID: -1753705664072012426}
   - component: {fileID: 3876701718727417131}
+  - component: {fileID: -2272536319136016892}
   m_Layer: 0
   m_Name: Altar
   m_TagString: Untagged
@@ -118,6 +119,7 @@ MonoBehaviour:
   content: You can heal your Units here.
   visitedStatus: 
   notVisitedStatus: 
+  status: 
 --- !u!114 &3876701718727417131
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -131,7 +133,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectType: 9
+  isNormalUIWindow: 1
+  canBeOpenedByClick: 1
+  canBeOpenedByMove: 1
   tooltip: {fileID: 0}
   cursor: 4
-  openByClick: 1
-  openByMove: 1
+--- !u!114 &-2272536319136016892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2298590583029160480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e4cda32f6763524ca97808827e25361, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner: 2
+  isGuardNeeded: 0
+  probabilityGuard: 100

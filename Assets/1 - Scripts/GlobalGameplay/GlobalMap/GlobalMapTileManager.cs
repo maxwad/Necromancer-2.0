@@ -26,33 +26,17 @@ public class GlobalMapTileManager : MonoBehaviour
     public Tilemap mapBG;
     public Tilemap fogMap;
     public Tilemap roadMap;
-    public Tilemap arenaMap;
-    public Tilemap castlesMap;
-    public Tilemap tombsMap;
-    public Tilemap resoursesMap;
-    public Tilemap bonfiresMap;
-    public Tilemap environmentMap;
-
-    [Header("Prefabs")]
-    public GameObject arenaPrefab;
-    public GameObject castlePrefab;
-    public GameObject tombPrefab;
-    public GameObject bonfirePrefab;
-    public List<GameObject> resoursesPrefabs;
-
-    [Header("Points")]
-    private Vector3 arenaPoint;
-    private List<Vector3> castlesPoints = new List<Vector3>();
-    private List<Vector3> tombsPoints = new List<Vector3>();
-    private List<Vector3> resoursesPoints = new List<Vector3>();
 
     private List<Vector3> emptyPoints = new List<Vector3>();
-    private List<Vector3Int> tempPoints = new List<Vector3Int>();
     private Dictionary<GameObject, Vector3> enterPointsDict = new Dictionary<GameObject, Vector3>();
 
-    [Header("BuildingsCounters")]
-    public int castlesCount = 5;
-    public int tombsCount = 12;
+    [Header("Builders")]
+    [HideInInspector] public ArenaBuilder arenaBuilder;
+    [HideInInspector] public CastleBuilder castleBuilder;
+    [HideInInspector] public TombBuilder tombBuilder;
+    [HideInInspector] public ResourceBuilder resourceBuilder;
+    [HideInInspector] public CampBuilder campBuilder;
+    [HideInInspector] public EnvironmentRegister environmentRegister;
 
     private List<GameObject> allBuildingsOnTheMap = new List<GameObject>();
 
@@ -64,16 +48,23 @@ public class GlobalMapTileManager : MonoBehaviour
         roads = new GMHexCell[roadMap.size.x, roadMap.size.y];
         gmPathfinder = GetComponent<GlobalMapPathfinder>();
 
+        arenaBuilder = GetComponent<ArenaBuilder>();
+        castleBuilder = GetComponent<CastleBuilder>();
+        tombBuilder = GetComponent<TombBuilder>();
+        resourceBuilder = GetComponent<ResourceBuilder>();
+        campBuilder = GetComponent<CampBuilder>();
+        environmentRegister = GetComponent<EnvironmentRegister>();
+
         CreateRoadCells();
         CreateFogCells();
         SetHeighbors();
 
-        BuildArena();
-        BuildCastles();
-        BuildTombs();
-        BuildResourses();
-        BuildBonfires();
-        RegisterRestObjects();
+        arenaBuilder.Build(this);
+        castleBuilder.Build(this);
+        tombBuilder.Build(this);
+        resourceBuilder.Build(this);
+        campBuilder.Build(this);
+        environmentRegister.Registration(this);
 
         CreateEnterPoints();
         SendDataToPathfinder();
@@ -166,201 +157,26 @@ public class GlobalMapTileManager : MonoBehaviour
 
     #region Generating
 
-    private void BuildArena()
+    public void AddPointToEmptyPoints(Vector3 point)
     {
-        tempPoints.Clear();
-
-        for(int x = 0; x < arenaMap.size.x; x++)
-        {
-            for(int y = 0; y < arenaMap.size.y; y++)
-            {
-                Vector3Int position = new Vector3Int(x, y, 0);
-
-                if(arenaMap.HasTile(position) == true) tempPoints.Add(position);
-            }
-        }
-
-        int randomPosition = Random.Range(0, tempPoints.Count);
-
-        for(int i = 0; i < tempPoints.Count; i++)
-        {
-            if(i == randomPosition)
-                arenaPoint = arenaMap.CellToWorld(tempPoints[i]);
-            else
-                emptyPoints.Add(arenaMap.CellToWorld(tempPoints[i]));
-
-            arenaMap.SetTile(tempPoints[i], null);
-        }
-
-        GameObject arena = Instantiate(arenaPrefab, arenaPoint, Quaternion.identity);
-        arena.transform.SetParent(arenaMap.transform);
-
-        allBuildingsOnTheMap.Add(arena);
+        emptyPoints.Add(point);
     }
 
 
-    private void BuildCastles()
+    public void AddBuildingToAllOnTheMap(GameObject building)
     {
-        tempPoints.Clear();
-
-        for(int x = 0; x < castlesMap.size.x; x++)
-        {
-            for(int y = 0; y < castlesMap.size.y; y++)
-            {
-                Vector3Int position = new Vector3Int(x, y, 0);
-
-                if(castlesMap.HasTile(position) == true) {
-                    tempPoints.Add(position);
-                    castlesMap.SetTile(position, null);
-                }                
-            }
-        }
-
-        while(castlesPoints.Count < castlesCount)
-        {
-            int randomPosition = Random.Range(0, tempPoints.Count);
-            castlesPoints.Add(castlesMap.CellToWorld(tempPoints[randomPosition]));
-            tempPoints.RemoveAt(randomPosition);
-        }
-
-        for(int i = 0; i < tempPoints.Count; i++)
-        {
-            emptyPoints.Add(castlesMap.CellToWorld(tempPoints[i]));
-        }
-
-        for(int i = 0; i < castlesPoints.Count; i++)
-        {
-            GameObject castle = Instantiate(castlePrefab, castlesPoints[i], Quaternion.identity);
-            castle.transform.SetParent(castlesMap.transform);
-
-            allBuildingsOnTheMap.Add(castle);
-        }
+        allBuildingsOnTheMap.Add(building);
     }
 
 
-    private void BuildTombs()
+    public List<Vector3> GetEmptyPoints()
     {
-        tempPoints.Clear();
-
-        for(int x = 0; x < tombsMap.size.x; x++)
-        {
-            for(int y = 0; y < tombsMap.size.y; y++)
-            {
-                Vector3Int position = new Vector3Int(x, y, 0);
-
-                if(tombsMap.HasTile(position) == true)
-                {                    
-                    tempPoints.Add(position);
-                    tombsMap.SetTile(position, null);
-                }
-            }
-        }
-
-        while(tombsPoints.Count < tombsCount)
-        {
-            int randomPosition = Random.Range(0, tempPoints.Count);
-            tombsPoints.Add(tombsMap.CellToWorld(tempPoints[randomPosition]));
-            tempPoints.RemoveAt(randomPosition);
-        }
-
-        for(int i = 0; i < tempPoints.Count; i++)
-        {
-            emptyPoints.Add(tombsMap.CellToWorld(tempPoints[i]));
-        }
-
-        for(int i = 0; i < tombsPoints.Count; i++)
-        {
-            GameObject tomb = Instantiate(tombPrefab, tombsPoints[i], Quaternion.identity);
-            tomb.transform.SetParent(tombsMap.transform);
-
-            allBuildingsOnTheMap.Add(tomb);
-        }
+        return emptyPoints;
     }
 
-
-    private void BuildResourses()
+    public Dictionary<GameObject, Vector3> GetEnterPoints()
     {
-        int countOfPoints = 0;
-
-        for(int x = 0; x < resoursesMap.size.x; x++)
-        {
-            for(int y = 0; y < resoursesMap.size.y; y++)
-            {
-                Vector3Int position = new Vector3Int(x, y, 0);
-                if(resoursesMap.HasTile(position) == true)
-                {
-                    countOfPoints++;
-                    resoursesPoints.Add(resoursesMap.CellToWorld(position));
-                    resoursesMap.SetTile(position, null);
-                }
-            }
-        }
-
-        for(int i = 0; i < resoursesPoints.Count; i++)
-        {
-            GameObject randomBuilding = resoursesPrefabs[Random.Range(0, resoursesPrefabs.Count)];
-            GameObject resBuilding = Instantiate(randomBuilding, resoursesPoints[i], Quaternion.identity);
-            resBuilding.transform.SetParent(resoursesMap.transform);
-
-            allBuildingsOnTheMap.Add(resBuilding);
-        }
-    }
-
-
-    private void BuildBonfires()
-    {
-        int count = 0;
-        foreach(Transform child in bonfiresMap.transform)
-        {
-            if(child.GetComponent<ClickableObject>() != null)
-            {
-                allBuildingsOnTheMap.Add(child.gameObject);
-                count++;
-            }
-        }
-
-        for(int x = 0; x < bonfiresMap.size.x; x++)
-        {
-            for(int y = 0; y < bonfiresMap.size.y; y++)
-            {
-                Vector3Int position = new Vector3Int(x, y, 0);
-                if(bonfiresMap.HasTile(position) == true)
-                {
-                    bonfiresMap.SetTile(position, null);
-                }
-            }
-        }
-
-        for(int i = 0; i < emptyPoints.Count; i++)
-{
-            Vector3Int point = SearchRealEmptyCellNearRoad(true, emptyPoints[i]);
-            
-            GameObject bonfire = Instantiate(bonfirePrefab, bonfiresMap.CellToWorld(point), Quaternion.identity);
-            bonfire.transform.SetParent(bonfiresMap.transform);
-
-            allBuildingsOnTheMap.Add(bonfire);
-        }
-    }
-    
-    private void RegisterRestObjects()
-    {
-        foreach(Transform child in environmentMap.transform)
-        {
-            if(child.GetComponent<ClickableObject>() != null)
-            {
-                allBuildingsOnTheMap.Add(child.gameObject);
-            }
-            else
-            {
-                foreach(Transform underChild in child.transform)
-                {
-                    if(underChild.GetComponent<ClickableObject>() != null)
-                    {
-                        allBuildingsOnTheMap.Add(underChild.gameObject);
-                    }
-                }
-            }
-        }        
+        return enterPointsDict;
     }
 
     private void CreateEnterPoints()
@@ -370,21 +186,19 @@ public class GlobalMapTileManager : MonoBehaviour
         for(int i = 0; i < allBuildingsOnTheMap.Count; i++)
         {
             Vector3Int enterPoint = SearchRealEmptyCellNearRoad(false, allBuildingsOnTheMap[i].transform.position);
-            //mapBG.SetTile(enterPoint, fogTile);
             pos = roadMap.CellToWorld(enterPoint);
             enterPointsDict.Add(allBuildingsOnTheMap[i], pos);
             SortingBuildings(allBuildingsOnTheMap[i], pos);
         }
     }
 
-    private Vector3Int SearchRealEmptyCellNearRoad(bool mode, Vector3 point)
+
+    public Vector3Int SearchRealEmptyCellNearRoad(bool mode, Vector3 point)
     {
         //mode = true - cell nearest road
         //mode = false - road
 
         Vector3Int pos = roadMap.WorldToCell(point);
-
-        if(mode == true) arenaMap.SetTile(pos, null);
 
         bool isFinded = false;
         int checkCount = 0;
@@ -455,6 +269,7 @@ public class GlobalMapTileManager : MonoBehaviour
         return pos;
     }
 
+
     private void SortingBuildings(GameObject building, Vector3 position)
     {
         ClickableObject obj = building.GetComponent<ClickableObject>();
@@ -501,6 +316,7 @@ public class GlobalMapTileManager : MonoBehaviour
         }
     }
     #endregion
+
 
     private void SendDataToPathfinder()
     {

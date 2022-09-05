@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static NameManager;
 
 public class EnemyArmyOnTheMap : MonoBehaviour
 {
@@ -10,6 +11,16 @@ public class EnemyArmyOnTheMap : MonoBehaviour
     public List<int> currentEnemiesQuantityList = new List<int>();
     private Army army;
     [HideInInspector] public int commonCount = 0;
+
+    public ArmyStrength armyStrength = ArmyStrength.Low;
+
+    private SpriteRenderer sprite;
+
+    private void Start()
+    {
+        sprite = GetComponent<SpriteRenderer>();
+        sprite.color = new Color(Random.value, Random.value, Random.value);
+    }
 
     private void OnEnable()
     {
@@ -25,7 +36,7 @@ public class EnemyArmyOnTheMap : MonoBehaviour
 
         if(battleManager == null) battleManager = GlobalStorage.instance.battleManager;
 
-        army = battleManager.GenerateArmy();
+        army = battleManager.GenerateArmy(armyStrength);
 
         currentEnemiesList = army.squadList;
         currentEnemiesQuantityList = army.quantityList;
