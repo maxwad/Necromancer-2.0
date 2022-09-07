@@ -300,6 +300,18 @@ public static class EventManager
     public static event EnemiesCountEvent EnemiesCount;
     public static void OnEnemiesCountEvent(int count) => EnemiesCount?.Invoke(count);
 
+
+    //calls when  player win the battle
+    //
+    //SUBSCRIBERS:
+    // - BonusController
+    //
+    //ACTIVATION:
+    // - BattleUIManager
+    //
+    public delegate void VictoryEvent();
+    public static event VictoryEvent Victory;
+    public static void OnVictoryEvent() => Victory?.Invoke();
     #endregion
 
 

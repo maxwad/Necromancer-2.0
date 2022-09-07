@@ -129,11 +129,13 @@ public class BonusController : MonoBehaviour
 
     private void OnEnable()
     {
+        EventManager.Victory += ActivatateBonus;
         EventManager.EndOfBattle += DestroyMe;
     }
 
     private void OnDisable()
     {
+        EventManager.Victory -= ActivatateBonus;
         EventManager.EndOfBattle -= DestroyMe;
     }
 }

@@ -7,6 +7,7 @@ using static NameManager;
 public class EnemyArragement : MonoBehaviour
 {
     private GlobalMapTileManager gmManager;
+    private EnemyManager enemyManager;
     public Tilemap enemiesMap;
     public Tilemap roadMap;
 
@@ -15,21 +16,25 @@ public class EnemyArragement : MonoBehaviour
     public int distanceBetweenEnemies = 15;
     public int countEnemiesPerVertical = 3;
     public int enemiesGap = 5;
-    public int randomStartPointX;
+    private int randomStartPointX;
     public Tile fogTile;
     //public Tile testTile;
 
     private Dictionary<GameObject, Vector3> enterPointsDict = new Dictionary<GameObject, Vector3>();
     private Dictionary<EnemyArmyOnTheMap, Vector3> enemiesPointsDict = new Dictionary<EnemyArmyOnTheMap, Vector3>();
 
-    public void GenerateEnemiesOnTheMap()
+    public void GenerateEnemiesOnTheMap(EnemyManager manager)
     {
+        if(enemyManager == null) enemyManager = manager;
+
         if(gmManager == null) gmManager = GlobalStorage.instance.gmManager;
 
         enterPointsDict = gmManager.GetEnterPoints();
 
         GenerateEnterEnemies();
         GenerateRandomEnemies();
+
+        manager.SetEnemiesPointsDict(enemiesPointsDict);
     }
 
     #region USUAL ENEMIES
@@ -75,8 +80,7 @@ public class EnemyArragement : MonoBehaviour
     {
         int width = roadMap.size.x;
         int height = roadMap.size.y;
-
-        randomStartPointX = Random.Range(10, 20);
+        randomStartPointX = Random.Range(10, 20); 
 
         List<Vector3> tempWorldPositions = new List<Vector3>();
         List<Vector3Int> tempCellPositions = new List<Vector3Int>();
@@ -94,41 +98,39 @@ public class EnemyArragement : MonoBehaviour
                     Vector3 checkPosition = roadMap.CellToWorld(cellPosition);
                     tempCellPositions.Add(cellPosition);
                     tempWorldPositions.Add(checkPosition);                    
-                }
+                }                
             }
 
             int verticalEnemyCount = tempWorldPositions.Count / countEnemiesPerVertical;
-            int maxSearchIndex = enterPointsDict.Count;
+            verticalEnemyCount = (verticalEnemyCount == 0) ? 1 : verticalEnemyCount;            
 
-            for(int i = Random.Range(0, 10); i < tempCellPositions.Count; i += verticalEnemyCount)
+            for(int i = 0; i < tempCellPositions.Count; i += verticalEnemyCount)
             {
-                //roadMap.SetTile(tempCellPositions[i], testTile);
-                if(CheckPosition(tempWorldPositions[i], maxSearchIndex) == true)
+                //roadMap.SetTile(tempCellPositions[i], testTile);                
+                if(CheckPosition(tempWorldPositions[i]) == true)
                 {
-                    CreateEnemy(tempWorldPositions[i]);                    
+                    CreateEnemy(tempWorldPositions[i]);
                 }
             }
-
         }
     }
 
-    private bool CheckPosition(Vector3 position, int maxCheckCount)
+    private bool CheckPosition(Vector3 position)
     {
         bool isPositionFree = false;        
         int currentSearchIndex = 0;
-
         foreach(var point in enterPointsDict)
         {
             if(Vector3.Distance(point.Value, position) < enemiesGap)
             {
                 //roadMap.SetTile(roadMap.WorldToCell(position), fogTile);
-                return false;
+                isPositionFree = false;
+                break;
             }
             else
             {
                 isPositionFree = true;
-                currentSearchIndex++;
-                if(currentSearchIndex > maxCheckCount) break;
+                currentSearchIndex++;                
             }
         }
 

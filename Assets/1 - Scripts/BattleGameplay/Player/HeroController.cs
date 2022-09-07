@@ -43,9 +43,6 @@ public class HeroController : MonoBehaviour
     [SerializeField] private GameObject deathPrefab;
 
     [Space]
-    [SerializeField] private SpriteRenderer healthBar;
-
-    [Space]
     private BattleUIManager battleUIManager;
     private bool isFigthingStarted = false;
     private Coroutine autoLevelUp;
@@ -110,7 +107,6 @@ public class HeroController : MonoBehaviour
 
             case PlayersStats.Health:
                 maxCurrentHealth = value;
-                UpdateHealthBar();
                 break;
 
             case PlayersStats.Mana:
@@ -172,24 +168,15 @@ public class HeroController : MonoBehaviour
         //TODO: we need to create some damage formula
         float damage = Mathf.Round(physicalDamage + magicDamage);
         currentHealth -= damage;
+        if(currentHealth < 0) currentHealth = 0;
 
         ShowDamage(damage, colorDamage);
-        UpdateHealthBar();
         EventManager.OnUpgradeStatCurrentValueEvent(PlayersStats.Health, maxCurrentHealth, currentHealth);
 
         if (currentHealth <= 0)
         {
             Dead();
         }
-    }
-
-    private void UpdateHealthBar()
-    {
-        healthBar.transform.localScale = new Vector3(
-            currentHealth / maxCurrentHealth, 
-            healthBar.transform.localScale.y, 
-            healthBar.transform.localScale.z
-            );
     }
 
     private void ShowDamage(float damageValue, Color colorDamage)
@@ -225,8 +212,6 @@ public class HeroController : MonoBehaviour
             else
                 currentHealth += value;
 
-            //TODO: Call some event
-            UpdateHealthBar();
             EventManager.OnUpgradeStatCurrentValueEvent(PlayersStats.Health, maxCurrentHealth, currentHealth);
         }
     }

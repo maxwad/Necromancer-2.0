@@ -61,7 +61,7 @@ public class EnemyArmyUI : MonoBehaviour
         if(currentEnemyArmy != null)
         {
             playerCuriosity = GlobalStorage.instance.playerStats.GetCurrentParameter(PlayersStats.Curiosity);
-            if(allEnemiesList.Count == 0) allEnemiesList = GlobalStorage.instance.battleManager.allEnemiesList;
+            if(allEnemiesList.Count == 0) allEnemiesList = GlobalStorage.instance.enemyManager.finalEnemiesListGO;
 
             if(playerCuriosity < 2) 
                 ShowMinimumInfo();
@@ -218,7 +218,7 @@ public class EnemyArmyUI : MonoBehaviour
 
     public void StepBack()
     {
-        GlobalStorage.instance.globalPlayer.GetComponent<GMPlayerMovement>().StepBack();
+        //GlobalStorage.instance.globalPlayer.GetComponent<GMPlayerMovement>().StepBack();
         CloseWindow();
     }
 

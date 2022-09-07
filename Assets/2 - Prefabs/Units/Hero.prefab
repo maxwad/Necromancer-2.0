@@ -321,7 +321,6 @@ MonoBehaviour:
   defence: 0
   luck: 0
   deathPrefab: {fileID: 3877275003630577787, guid: 8e2dbf07adabe6f458d623574390b341, type: 3}
-  healthBar: {fileID: 4183452908567873976}
   damageNote: {fileID: 4223726373541259902, guid: dc8112cb6cbc981458351f24ddb13002, type: 3}
 --- !u!1 &7035051583508418664
 GameObject:
@@ -339,7 +338,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8401260412480495661
 Transform:
   m_ObjectHideFlags: 0

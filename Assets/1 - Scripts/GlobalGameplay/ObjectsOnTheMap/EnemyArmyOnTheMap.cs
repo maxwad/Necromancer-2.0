@@ -6,6 +6,7 @@ using static NameManager;
 public class EnemyArmyOnTheMap : MonoBehaviour
 {
     private BattleManager battleManager;
+    private EnemyManager enemyManager;
 
     public List<GameObject> currentEnemiesList = new List<GameObject>();
     public List<int> currentEnemiesQuantityList = new List<int>();
@@ -35,8 +36,9 @@ public class EnemyArmyOnTheMap : MonoBehaviour
         }
 
         if(battleManager == null) battleManager = GlobalStorage.instance.battleManager;
+        if(enemyManager == null) enemyManager = GlobalStorage.instance.enemyManager;
 
-        army = battleManager.GenerateArmy(armyStrength);
+        army = enemyManager.GenerateArmy(armyStrength);
 
         currentEnemiesList = army.squadList;
         currentEnemiesQuantityList = army.quantityList;

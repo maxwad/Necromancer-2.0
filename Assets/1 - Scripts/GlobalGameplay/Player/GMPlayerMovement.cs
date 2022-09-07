@@ -101,7 +101,12 @@ public class GMPlayerMovement : MonoBehaviour
 
         for(int i = 1; i < pathPoints.Length; i++)
         {
-            if(i == 1) previousPosition = pathPoints[0];
+            if(i == 1) 
+            {
+                previousPosition = pathPoints[0];
+                if(CheckEnemy(pathPoints[i]) == true) break;
+            }
+            
             sprite.flipX = previousPosition.x - pathPoints[i].x < 0 ? true : false;            
 
             if(currentMovementPoints == 0) break;
@@ -125,6 +130,11 @@ public class GMPlayerMovement : MonoBehaviour
             gmPathFinder.RefreshSteps(pathPoints[i]);
 
             if(cancelMovement == true) break;
+
+            if(i + 1 < pathPoints.Length)
+            {
+                if(CheckEnemy(pathPoints[i + 1]) == true) break;               
+            }
         }
 
         if(cancelMovement == false && currentMovementPoints != 0) {
@@ -137,9 +147,14 @@ public class GMPlayerMovement : MonoBehaviour
         CheckPosition();
     }
 
+    public bool CheckEnemy(Vector2 position)
+    {
+        return positionChecker.CheckEnemy(position);        
+    }
+
     public void CheckPosition()
     {
-        positionChecker.CheckPosition(currentPosition);        
+        positionChecker.CheckPosition(currentPosition);
     }
 
     public bool IsMoving()
@@ -147,28 +162,28 @@ public class GMPlayerMovement : MonoBehaviour
         return iAmMoving;
     }
 
-    public void StepBack()
-    {
-        StartCoroutine(GoBack());
+    //public void StepBack()
+    //{
+    //    StartCoroutine(GoBack());
 
-        IEnumerator GoBack()
-        {
-            while(iAmMoving == true)
-            {
-                yield return null;
-            }
+    //    IEnumerator GoBack()
+    //    {
+    //        while(iAmMoving == true)
+    //        {
+    //            yield return null;
+    //        }
 
-            for(float t = 0; t < defaultCountSteps / speed; t++)
-            {
-                Vector2 distance = previousPosition - currentPosition;
-                Vector2 step = distance / (defaultCountSteps / speed);
-                transform.position += (Vector3)step;
-                yield return new WaitForSeconds(0.01f);
-            }
+    //        for(float t = 0; t < defaultCountSteps / speed; t++)
+    //        {
+    //            Vector2 distance = previousPosition - currentPosition;
+    //            Vector2 step = distance / (defaultCountSteps / speed);
+    //            transform.position += (Vector3)step;
+    //            yield return new WaitForSeconds(0.01f);
+    //        }
 
-            currentPosition = previousPosition;
-        }
-    }
+    //        currentPosition = previousPosition;
+    //    }
+    //}
 
     public void TeleportTo(Vector2 newPosition, float cost)
     {

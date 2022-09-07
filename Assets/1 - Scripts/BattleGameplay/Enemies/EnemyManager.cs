@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static NameManager;
 
 public class EnemyManager : MonoBehaviour
 {
@@ -13,17 +14,23 @@ public class EnemyManager : MonoBehaviour
     private UnitBoostManager boostManager;
 
     private EnemyArragement enemyArragement;
+    private Dictionary<EnemyArmyOnTheMap, Vector3> enemiesPointsDict = new Dictionary<EnemyArmyOnTheMap, Vector3>();
+
+    private EnemySquadGenerator enemySquadGenerator;
 
     public void InitializeEnemies()
     {
         boostManager = GlobalStorage.instance.unitBoostManager;
         enemyArragement = GetComponent<EnemyArragement>();
+        enemySquadGenerator = GetComponent<EnemySquadGenerator>();
 
         GetAllEnemiesBase();
-        enemyArragement.GenerateEnemiesOnTheMap();
+        enemyArragement.GenerateEnemiesOnTheMap(this);
 
         GlobalStorage.instance.canILoadNextStep = true;
     }
+
+    #region CREATE ENEMY (GO)
 
     private void GetAllEnemiesBase()
     {
@@ -38,10 +45,10 @@ public class EnemyManager : MonoBehaviour
         foreach (Enemy item in allEnemiesBase)
             allBoostEnemies.Add(boostManager.AddBonusStatsToEnemy(item));
 
-        GetFinalEnemiesList();
+        GetFinalEnemiesListGO();
     }
 
-    private void GetFinalEnemiesList()
+    private void GetFinalEnemiesListGO()
     {
         foreach (Enemy item in allBoostEnemies)
         {
@@ -50,7 +57,45 @@ public class EnemyManager : MonoBehaviour
             finalEnemiesListGO.Add(enemy);            
         }
 
-        GlobalStorage.instance.battleManager.SetAllEnemiesList(finalEnemiesListGO);
+        enemySquadGenerator.SetAllEnemiesList(finalEnemiesListGO);
     }
 
+    #endregion
+
+    public void SetEnemiesPointsDict(Dictionary<EnemyArmyOnTheMap, Vector3> points)
+    {
+        enemiesPointsDict = points;
+    }
+
+    public void DeleteArmy(EnemyArmyOnTheMap enemyGO, Army army)
+    {
+        Destroy(enemyGO.gameObject);
+        enemiesPointsDict.Remove(enemyGO);
+        enemySquadGenerator.RemoveArmy(army);
+    }
+
+    public EnemyArmyOnTheMap CheckPositionInEnemyPoints(Vector3 position)
+    {
+        EnemyArmyOnTheMap enemyArmy = null;
+        foreach(var army in enemiesPointsDict)
+        {
+            if(army.Value == position) 
+            {
+                enemyArmy = army.Key;
+                break;
+            }
+        }
+        return enemyArmy;
+    }
+
+    public void ReGenerateEnemiesGO()
+    {
+
+    }
+
+    public Army GenerateArmy(ArmyStrength strength)
+    {
+        Army army = enemySquadGenerator.GenerateArmy(strength);
+        return army;
+    }
 }

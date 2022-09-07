@@ -18,6 +18,7 @@ public class GlobalMapPathfinder : MonoBehaviour
     public Tile finishTile;
 
     private GMPlayerMovement player;
+    private GMPlayerPositionChecker positionChecker;
 
     List<Vector2> pathPoints = new List<Vector2>();
     private bool isGoalCellFinded = false;
@@ -40,6 +41,7 @@ public class GlobalMapPathfinder : MonoBehaviour
     private void Awake()
     {
         player = GlobalStorage.instance.globalPlayer;
+        positionChecker = player.GetComponent<GMPlayerPositionChecker>();
     }
 
     private void GetParameters() 
@@ -225,6 +227,7 @@ public class GlobalMapPathfinder : MonoBehaviour
             roadBack.Reverse();
 
             float colorBound = currentMovementPoints;
+            bool enemyOnTheRoad = false;
 
             for(int i = 0; i < roadBack.Count; i++){
                 
@@ -238,10 +241,13 @@ public class GlobalMapPathfinder : MonoBehaviour
 
                 if(i == roadBack.Count - 1) currentTile = finishTile;
 
-                if(i > colorBound && currentTile != finishTile)
-                    currentTile.color = Color.red;
-                else
-                    currentTile.color = Color.white;
+                currentTile.color = Color.white;
+
+                if(i > colorBound) currentTile.color = Color.red;
+
+                Vector3 position = overlayMap.CellToWorld(roadBack[i].coordinates);
+                if(positionChecker.CheckEnemy(position, false) == true) enemyOnTheRoad = true;
+                if(enemyOnTheRoad == true) currentTile.color = Color.red;
 
                 overlayMap.SetTile(roadBack[i].coordinates, currentTile);
                 pathPoints.Add(roadMap.CellToWorld(roadBack[i].coordinates));
@@ -293,9 +299,11 @@ public class GlobalMapPathfinder : MonoBehaviour
         ClearSteps();
 
         float newPointsCount = remainingPoints;
-        float countTurns = 0;
 
+        float colorBound = newPointsCount;
+        float renderedTiles = 0;
         int startIndex = 0;
+        bool enemyOnTheRoad = false;
 
         for(int i = 0; i < pathPoints.Count; i++)
         {
@@ -308,7 +316,7 @@ public class GlobalMapPathfinder : MonoBehaviour
 
         for(int i = startIndex; i < pathPoints.Count; i++)
         {
-            Tile currentTile = roadTile;                    
+            Tile currentTile = roadTile;
 
             if(i == pathPoints.Count - 1) currentTile = finishTile;
 
@@ -316,23 +324,16 @@ public class GlobalMapPathfinder : MonoBehaviour
             {
                 if(i != 0) currentTile = finishTile;
                 newPointsCount = movementPointsMax;
-                countTurns++;
             }
 
-            if(newPointsCount == 0)
-            {
-                if(i != 0) currentTile = finishTile;
-                newPointsCount = movementPointsMax;
-            }
+            currentTile.color = Color.white;
 
-            if(currentTile != finishTile)
-            {
-                if(newPointsCount > 0 && countTurns == 0)
-                    currentTile.color = Color.white;
-                else
-                    currentTile.color = Color.red;
-            }
-            else
+            if(renderedTiles > colorBound) currentTile.color = Color.red;
+
+            if(positionChecker.CheckEnemy(pathPoints[i], false) == true) enemyOnTheRoad = true;
+            if(enemyOnTheRoad == true) currentTile.color = Color.red;                
+
+            if(currentTile == finishTile)
             {
                 stepsCounter++;
                 AddStep(pathPoints[i], stepsCounter);
@@ -340,6 +341,7 @@ public class GlobalMapPathfinder : MonoBehaviour
 
             overlayMap.SetTile(overlayMap.WorldToCell(pathPoints[i]), currentTile);
             newPointsCount--;
+            renderedTiles++;
         }
         ShowSteps();
     }
