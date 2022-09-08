@@ -25,6 +25,9 @@ public class GMInterface : MonoBehaviour
     [SerializeField] private TMP_Text ironCount;
     [SerializeField] private TMP_Text magicCount;
 
+    [Header("Moves")]
+    [SerializeField] private TMP_Text currentMovesCount;
+
 
     private void Start()
     {
@@ -99,11 +102,16 @@ public class GMInterface : MonoBehaviour
         }
     }
 
+    private void UpdateCurrentMoves(PlayersStats stat, float maxValue, float currentValue)
+    {
+        if(stat == PlayersStats.MovementDistance) currentMovesCount.text = currentValue.ToString();
+    }
 
     private void OnEnable()
     {
         EventManager.UpgradeStatCurrentValue += UpdateManaUI;
         EventManager.UpgradeResources += FillResources;
+        EventManager.UpgradeStatCurrentValue += UpdateCurrentMoves;
         EventManager.ChangePlayer += EnableUI;
     }
 
@@ -111,6 +119,7 @@ public class GMInterface : MonoBehaviour
     {
         EventManager.ChangePlayer -= EnableUI;
         EventManager.UpgradeResources -= FillResources;
+        EventManager.UpgradeStatCurrentValue -= UpdateCurrentMoves;
         EventManager.UpgradeStatCurrentValue -= UpdateManaUI;
     }
 }

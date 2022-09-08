@@ -20,7 +20,7 @@ public class SpellButtonController : MonoBehaviour
     private Coroutine coroutine;
     private float checkTimeMana = 0.2f;
     private float checkTimeDelay = 0.1f;
-    private WaitForSeconds checkMana;
+    private WaitForSeconds checkManaPeriod;
     private WaitForSeconds checkDelay;
 
     private HeroController hero;
@@ -58,6 +58,8 @@ public class SpellButtonController : MonoBehaviour
 
         if(MenuManager.instance.IsTherePauseOrMiniPause() == true) return;
 
+        if(hero.isDead == true) return;
+
         hero.SpendMana(spell.manaCost);
         spellLibrary.ActivateSpell(spell.spellType, true, spell.value, spell.actionTime);
 
@@ -72,11 +74,11 @@ public class SpellButtonController : MonoBehaviour
 
     private IEnumerator CheckDisabling()
     {
-        checkMana = new WaitForSeconds(checkTimeMana);
+        checkManaPeriod = new WaitForSeconds(checkTimeMana);
 
         while(true)
         {
-            yield return checkMana;
+            yield return checkManaPeriod;
 
             disabledBecauseMana = CheckMana();
 

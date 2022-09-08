@@ -33,7 +33,7 @@ public class PlayerStats : MonoBehaviour
 
     [Header("Global Parameters")]
     [Space]
-    [SerializeField] private float movementDistanceBase = 20f;
+    [SerializeField] private float movementDistanceBase = 10f;
 
     [SerializeField] private float radiusViewBase = 10;
 
@@ -185,8 +185,6 @@ public class PlayerStats : MonoBehaviour
                 case PlayersStats.Infirmary:
                     baseValue = infarmaryBase;
                     maxValue = infarmaryBase;
-                    //this information we need before the battle
-                    //EventManager.OnSetStartPlayerStatEvent(itemStat, maxValue);
                     break;
 
                 case PlayersStats.MovementDistance:
@@ -273,27 +271,34 @@ public class PlayerStats : MonoBehaviour
         allStatsDict[stat] = currentStat;
     }
 
-    private void SendStartParameters(bool mode)
+    //private void SendStartParameters(bool mode)
+    //{
+    //    //we need to delay sending because not all scripts subscribed on event in call moment.
+    //    //if(mode == false) Invoke("SendingParameters", 0.1f);
+    //    //SendingParameters();
+    //}
+
+    public void GetAllStartParameters()
     {
-        //we need to delay sending because not all scripts subscribed on event in call moment.
-        //if(mode == false) Invoke("SendingParameters", 0.1f);
         SendingParameters();
+
     }
 
     // method only for Invoke
     private void SendingParameters()
     {
-        foreach(PlayersStats itemStat in Enum.GetValues(typeof(PlayersStats))) 
-        {
-            if(itemStat == PlayersStats.Health || itemStat == PlayersStats.Mana)
-            {
-                EventManager.OnSetStartPlayerStatEvent(itemStat, allStatsDict[itemStat].currentValue);
-            }
-            else
-            {
-                EventManager.OnSetStartPlayerStatEvent(itemStat, allStatsDict[itemStat].maxValue);
-            }
-        }
+        foreach(PlayersStats itemStat in Enum.GetValues(typeof(PlayersStats)))
+            EventManager.OnSetStartPlayerStatEvent(itemStat, allStatsDict[itemStat].maxValue);
+        //{
+        //    if(itemStat == PlayersStats.Health || itemStat == PlayersStats.Mana)
+        //    {
+        //        EventManager.OnSetStartPlayerStatEvent(itemStat, allStatsDict[itemStat].currentValue);
+        //    }
+        //    else
+        //    {
+        //        EventManager.OnSetStartPlayerStatEvent(itemStat, allStatsDict[itemStat].maxValue);
+        //    }
+        //}
     }
 
     //for starting current values in HeroController, BattleUIManager, GMPlayerMovement
@@ -307,54 +312,17 @@ public class PlayerStats : MonoBehaviour
         return allStatsDict[stat].currentValue;
     }
 
-
-    //public float GetStartParametersBeforeBattle(PlayersStats stat)
-    //{
-    //    //Debug.Log(allStatsDict.Count);
-    //    return allStatsDict[stat].currentValue;
-    //}
-
-    public void ChangeMana(float value)
-    {
-        Stat currentStat = allStatsDict[PlayersStats.Mana];
-
-        if(value <= 0)
-        {
-            if(Mathf.Abs(value) <= currentStat.currentValue)
-            {
-                currentStat.SetCurrentValue(currentStat.currentValue - Mathf.Abs(value));
-            }
-        }
-        else
-        {            
-            float currentMana = currentStat.currentValue;
-            // if we wont to add not value but percent
-            if(value < 1) value = currentMana * value;
-
-            if(currentMana + value > currentStat.maxValue)
-                currentMana = currentStat.maxValue;
-            else
-                currentMana += value;
-
-            currentStat.SetCurrentValue(currentMana);
-        }
-
-        allStatsDict[PlayersStats.Mana] = currentStat;
-
-        EventManager.OnUpgradeStatCurrentValueEvent(PlayersStats.Mana, currentStat.maxValue, currentStat.currentValue);
-    }
-
     private void OnEnable()
     {
         EventManager.SetBoostToStat += UpdateBoost;
-        EventManager.ChangePlayer += SendStartParameters;
+        //EventManager.ChangePlayer += SendStartParameters;
         EventManager.UpgradeStatCurrentValue += UpgradeStatCurrentValue;
     }
 
     private void OnDisable()
     {
         EventManager.SetBoostToStat -= UpdateBoost;
-        EventManager.ChangePlayer -= SendStartParameters;
+        //EventManager.ChangePlayer -= SendStartParameters;
         EventManager.UpgradeStatCurrentValue -= UpgradeStatCurrentValue;
     }
 }

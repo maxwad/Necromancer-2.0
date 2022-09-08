@@ -322,6 +322,6 @@ public class GlobalMapTileManager : MonoBehaviour
     {
         gmPathfinder.roads = roads;
         gmPathfinder.CheckFog(startRadiusWithoutFog);
-        gmPathfinder.enterPointsDict = enterPointsDict;
+        gmPathfinder.SetEnterPoints(enterPointsDict);
     }
 }

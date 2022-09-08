@@ -34,6 +34,7 @@ public class GMPlayerMovement : MonoBehaviour
         positionChecker = GetComponent<GMPlayerPositionChecker>();
         SetParameters();
         currentMovementPoints = movementPointsMax;
+        currentPosition = gameObject.transform.position;
     }
 
     private void Update()
@@ -45,6 +46,11 @@ public class GMPlayerMovement : MonoBehaviour
                 if(newTurnCoroutine == null) newTurnCoroutine = StartCoroutine(NewTurn());
             }
         }        
+    }
+
+    public Vector3 GetCurrentPosition()
+    {
+        return currentPosition;
     }
 
     private void SetParameters()
@@ -68,6 +74,7 @@ public class GMPlayerMovement : MonoBehaviour
         }
 
         currentMovementPoints = movementPointsMax;
+        EventManager.OnUpgradeStatCurrentValueEvent(PlayersStats.MovementDistance, movementPointsMax, currentMovementPoints);
         if(gmPathFinder != null) gmPathFinder.RefreshPath(currentPosition, currentMovementPoints);
 
         newTurnCoroutine = null;
@@ -82,7 +89,8 @@ public class GMPlayerMovement : MonoBehaviour
 
     public void MoveOnTheWay(Vector2[] pathPoints, GlobalMapPathfinder map)
     {
-        gmPathFinder = map;
+        if(gmPathFinder == null) gmPathFinder = map;
+
         if(iAmMoving == false && pathPoints.Length != 0) StartCoroutine(Movement(pathPoints));
         else StopMoving();     
     }
@@ -94,8 +102,6 @@ public class GMPlayerMovement : MonoBehaviour
 
     private IEnumerator Movement(Vector2[] pathPoints)
     {
-        yield return new WaitForSeconds(0.2f);
-
         iAmMoving = true;
         currentPosition = pathPoints[0];
 
@@ -111,6 +117,7 @@ public class GMPlayerMovement : MonoBehaviour
 
             if(currentMovementPoints == 0) break;
             currentMovementPoints--;
+            EventManager.OnUpgradeStatCurrentValueEvent(PlayersStats.MovementDistance, movementPointsMax, currentMovementPoints);
 
             gmPathFinder.ClearRoadTile(pathPoints[i - 1]);
             gmPathFinder.CheckFog(viewRadius);
@@ -188,7 +195,8 @@ public class GMPlayerMovement : MonoBehaviour
     public void TeleportTo(Vector2 newPosition, float cost)
     {
         gmPathFinder.DestroyPath();
-        playerStats.ChangeMana(-cost);
+        GlobalStorage.instance.hero.SpendMana(cost);
+        //playerStats.ChangeMana(-cost);
 
         StartCoroutine(Telepartation(newPosition));        
     }

@@ -52,7 +52,9 @@ public class BattleManager : MonoBehaviour
     }
 
     public void FinishTheBattle(int result)
-    { 
+    {
+        GlobalStorage.instance.ChangePlayMode(true);
+
         if(result == 1)
         {
             //reward window
@@ -63,6 +65,7 @@ public class BattleManager : MonoBehaviour
         if(result == 0)
         {
             //GlobalStorage.instance.globalPlayer.GetComponent<GMPlayerMovement>().StepBack();
+            EventManager.OnDefeatEvent();
             Debug.Log("Defeat");
         }
 
@@ -70,9 +73,7 @@ public class BattleManager : MonoBehaviour
         {
             //GlobalStorage.instance.globalPlayer.GetComponent<GMPlayerMovement>().StepBack();
             Debug.Log("Escape");
-        }
-
-        GlobalStorage.instance.ChangePlayMode(true);
+        }       
     }
     
     //public void ClearEnemyArmy()

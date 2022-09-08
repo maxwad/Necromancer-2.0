@@ -134,7 +134,8 @@ public class BattleUIManager : MonoBehaviour
                 break;
         }
 
-        if(currentSpellIndex != -1) currentSpellsButtons[currentSpellIndex].GetComponent<SpellButtonController>().ActivateSpell();
+        if(currentSpellIndex != -1 && currentHealthCount != 0) 
+            currentSpellsButtons[currentSpellIndex].GetComponent<SpellButtonController>().ActivateSpell();
     }
 
     public void Inizialize(bool mode)
@@ -400,6 +401,7 @@ public class BattleUIManager : MonoBehaviour
     {
         if(playerStats == null) playerStats = GlobalStorage.instance.playerStats;
 
+        //Debug.Log(currentHealthCount + " = " + current);
         Color blinkColor = healthUpColor;
 
         if(max == 0)

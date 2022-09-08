@@ -8,7 +8,7 @@ public class CameraSwitcher : MonoBehaviour
     // Start options:
     // x:0, y: 0, z: -10
     // size: 10
-
+    [HideInInspector] public bool isSwitching = false;
     [SerializeField] private GameObject veil;
     [SerializeField] private Image fadeScreen;
 
@@ -48,6 +48,7 @@ public class CameraSwitcher : MonoBehaviour
         WaitForSecondsRealtime bigWait = new WaitForSecondsRealtime(0.25f);
 
         veil.SetActive(true);
+        isSwitching = true;
 
         float alfa = 0;
         Color currentColor = fadeScreen.color;
@@ -97,6 +98,7 @@ public class CameraSwitcher : MonoBehaviour
         }
 
         veil.SetActive(false);
+        isSwitching = false;
     }
 
 

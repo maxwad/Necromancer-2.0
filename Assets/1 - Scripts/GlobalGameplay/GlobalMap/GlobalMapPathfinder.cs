@@ -32,7 +32,7 @@ public class GlobalMapPathfinder : MonoBehaviour
 
     public GameObject stepsCounterPrefab;
     private int stepsCounter = 0;
-    private Dictionary<Vector2, GameObject> counterDict = new Dictionary<Vector2, GameObject>();
+    private Dictionary<Vector2, GameObject> counterStepDict = new Dictionary<Vector2, GameObject>();
 
     public Dictionary<GameObject, Vector3> enterPointsDict = new Dictionary<GameObject, Vector3>();
     public GameObject focusObject = null;
@@ -44,11 +44,9 @@ public class GlobalMapPathfinder : MonoBehaviour
         positionChecker = player.GetComponent<GMPlayerPositionChecker>();
     }
 
-    private void GetParameters() 
+    public void SetEnterPoints(Dictionary<GameObject, Vector3> points)
     {
-        float[] parameters = player.GetParametres();
-        movementPointsMax = parameters[0];
-        currentMovementPoints = parameters[1];
+        enterPointsDict = points;
     }
 
     private void Update()
@@ -99,7 +97,7 @@ public class GlobalMapPathfinder : MonoBehaviour
             focusObject = null;
         }
         //roadMap.SetTile(destinationPoint, finishTile);
-        HandleClick();
+        StartCoroutine(HandleClick());
     }
 
     public void RClick()
@@ -114,14 +112,20 @@ public class GlobalMapPathfinder : MonoBehaviour
         }
     }
 
-    public void HandleClick()
+    public IEnumerator HandleClick()
     {
-        GetParameters();        
-        startPoint = roadMap.WorldToCell(player.transform.position);           
+        if(player.IsMoving() == true)
+        {
+            player.StopMoving();
+            while(player.IsMoving() == true)
+            {
+                yield return null;
+            }
+        }
 
-        if(destinationPoint != startPoint &&
-            destinationPoint.x < roadMap.size.x && destinationPoint.x >= 0 &&
-            destinationPoint.y < roadMap.size.y && destinationPoint.y >= 0)
+        GetParameters();
+        startPoint = roadMap.WorldToCell(player.GetCurrentPosition());
+        if(destinationPoint != startPoint && CheckBounds(destinationPoint) == true)
         {
             GMHexCell checkCell = roads[destinationPoint.x, destinationPoint.y];
 
@@ -136,38 +140,37 @@ public class GlobalMapPathfinder : MonoBehaviour
                 }
                 else
                 {
-                    player.StopMoving();
                     targetCell = roads[destinationPoint.x, destinationPoint.y];
-                    StartCoroutine(PathFinding(startPoint, destinationPoint));
+                    PathFinding(startPoint, destinationPoint);
                 }
             }
             else
             {
                 shouldIClearPath = true;
                 targetCell = null;
-                player.StopMoving();
                 ClearSteps();                
             }
         }
 
         if(destinationPoint == startPoint) player.CheckPosition();
- 
+
+        bool CheckBounds(Vector3Int cell)
+        {
+            return cell.x < roadMap.size.x && cell.x >= 0 && cell.y < roadMap.size.y && cell.y >= 0;
+        }
+        void GetParameters()
+        {
+            float[] parameters = player.GetParametres();
+            movementPointsMax = parameters[0];
+            currentMovementPoints = parameters[1];
+        }
     }
 
-    private IEnumerator PathFinding(Vector3Int startCell, Vector3Int goalCell)
+    private void PathFinding(Vector3Int startCell, Vector3Int goalCell)
     {
         Dictionary<GMHexCell, NeighborData> QueueDict = new Dictionary<GMHexCell, NeighborData>();
         List<GMHexCell> neighborsQueue = new List<GMHexCell>();
         List<GMHexCell> roadBack = new List<GMHexCell>();
-
-        if(player.IsMoving() == true)
-        {
-            while(player.IsMoving() == true)
-            {
-                yield return new WaitForSeconds(0.01f);
-            }
-            startCell = roadMap.WorldToCell(player.transform.position);
-        }
 
         GMHexCell firstPathCell = roads[startCell.x, startCell.y];
         pathPoints.Clear();
@@ -233,13 +236,13 @@ public class GlobalMapPathfinder : MonoBehaviour
                 
                 Tile currentTile = roadTile;
 
-                if(currentMovementPoints == 0) 
+                if(i == roadBack.Count - 1) currentTile = finishTile;
+
+                if(currentMovementPoints == 0)
                 {
                     if(i != 0) currentTile = finishTile;
                     currentMovementPoints = movementPointsMax;
-                } 
-
-                if(i == roadBack.Count - 1) currentTile = finishTile;
+                }
 
                 currentTile.color = Color.white;
 
@@ -270,28 +273,6 @@ public class GlobalMapPathfinder : MonoBehaviour
         }        
     }
 
-    public void ClearRoadTile(Vector2 point)
-    {
-        overlayMap.SetTile(roadMap.WorldToCell(point), null);
-    }
-
-    public void CheckFog(float radius)
-    {
-        Vector3Int center = fogMap.WorldToCell(player.transform.position);
-
-        for(float x = -radius; x < radius; x++)
-        {
-            for(float y = -radius; y <= radius + 1; y++)
-            {
-                Vector3Int checkPosition = new Vector3Int((int)x, (int)y, 0) + center;
-                if(Vector3Int.Distance(checkPosition, center) < radius)
-                {
-                    fogMap.SetTile(checkPosition, null);
-                }
-            }
-        }
-    }
-
     public void RefreshPath(Vector2 currentPosition, float remainingPoints)
     {
         if(shouldIClearPath == true) return;
@@ -317,7 +298,6 @@ public class GlobalMapPathfinder : MonoBehaviour
         for(int i = startIndex; i < pathPoints.Count; i++)
         {
             Tile currentTile = roadTile;
-
             if(i == pathPoints.Count - 1) currentTile = finishTile;
 
             if(newPointsCount == 0)
@@ -354,33 +334,33 @@ public class GlobalMapPathfinder : MonoBehaviour
         counterStep.GetComponentInChildren<TMP_Text>().text = text;
         counterStep.SetActive(false);
 
-        counterDict.Add(position, counterStep);
+        counterStepDict.Add(position, counterStep);
         counterStep.transform.SetParent(roadMap.transform);
     }
 
     private void ShowSteps()
     {
 
-        if(counterDict.Count <= 1)
+        if(counterStepDict.Count <= 1)
             return;
         else
         {
-            foreach(var step in counterDict)
+            foreach(var step in counterStepDict)
                 step.Value.SetActive(true);
         }
     }
 
     public void RefreshSteps(Vector2 playerPosition)
     {
-        if(counterDict.ContainsKey(playerPosition) == true)
+        if(counterStepDict.ContainsKey(playerPosition) == true)
         {
-            Destroy(counterDict[playerPosition]);
-            counterDict.Remove(playerPosition);
+            Destroy(counterStepDict[playerPosition]);
+            counterStepDict.Remove(playerPosition);
 
             GameObject newStep;
             int previousCount = 0;
 
-            foreach(var step in counterDict)
+            foreach(var step in counterStepDict)
             {
                 previousCount++;
                 newStep = step.Value;
@@ -390,12 +370,35 @@ public class GlobalMapPathfinder : MonoBehaviour
         }
     }
 
+
+    public void ClearRoadTile(Vector2 point)
+    {
+        overlayMap.SetTile(roadMap.WorldToCell(point), null);
+    }
+
+    public void CheckFog(float radius)
+    {
+        Vector3Int center = fogMap.WorldToCell(player.transform.position);
+
+        for(float x = -radius; x < radius; x++)
+        {
+            for(float y = -radius; y <= radius + 1; y++)
+            {
+                Vector3Int checkPosition = new Vector3Int((int)x, (int)y, 0) + center;
+                if(Vector3Int.Distance(checkPosition, center) < radius)
+                {
+                    fogMap.SetTile(checkPosition, null);
+                }
+            }
+        }
+    }
+
     public void ClearSteps()
     {
-        foreach(var step in counterDict)
+        foreach(var step in counterStepDict)
             Destroy(step.Value);
 
-        counterDict.Clear();
+        counterStepDict.Clear();
         stepsCounter = 0;
         overlayMap.ClearAllTiles();
     }

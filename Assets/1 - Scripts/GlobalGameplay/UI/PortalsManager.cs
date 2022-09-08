@@ -140,6 +140,11 @@ public class PortalsManager : MonoBehaviour
         CloseWindow();
     }
 
+    public void ResurrectionTeleport()
+    {
+        GlobalStorage.instance.globalPlayer.TeleportTo(castle.position, 0);
+    }
+
     public void BackToPath()
     {
         if(backPosition != Vector3.zero) GlobalStorage.instance.globalPlayer.TeleportTo(backPosition, toBackTeleport);

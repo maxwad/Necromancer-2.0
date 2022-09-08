@@ -33,7 +33,7 @@ public class HeroController : MonoBehaviour
     private PlayerStats playerStatsScript;
 
     [Space]
-    private bool isDead = false;
+    [HideInInspector] public bool isDead = false;
     [Space]
     private SpriteRenderer unitSprite;
     private Color normalColor;
@@ -58,13 +58,13 @@ public class HeroController : MonoBehaviour
         unitSprite = GetComponent<SpriteRenderer>();
         normalColor = unitSprite.color;
 
-        //ATTENTION! It happens when game starts and NEVER AGAIN!
-        currentMaxLevel   = playerStatsScript.GetStartParameter(PlayersStats.Level);
-        currentHealth     = playerStatsScript.GetStartParameter(PlayersStats.Health);
-        searchRadius      = playerStatsScript.GetStartParameter(PlayersStats.SearchRadius);
-        currentMana       = playerStatsScript.GetStartParameter(PlayersStats.Mana);
-        defence           = playerStatsScript.GetStartParameter(PlayersStats.Defence);
-        luck              = playerStatsScript.GetStartParameter(PlayersStats.Luck);
+        ////ATTENTION! It happens when game starts and NEVER AGAIN!
+        //currentMaxLevel   = playerStatsScript.GetStartParameter(PlayersStats.Level);
+        ////currentHealth     = playerStatsScript.GetStartParameter(PlayersStats.Health);
+        //searchRadius      = playerStatsScript.GetStartParameter(PlayersStats.SearchRadius);
+        ////currentMana       = playerStatsScript.GetStartParameter(PlayersStats.Mana);
+        //defence           = playerStatsScript.GetStartParameter(PlayersStats.Defence);
+        //luck              = playerStatsScript.GetStartParameter(PlayersStats.Luck);
 
         battleUIManager = GlobalStorage.instance.battleIUManager;
 
@@ -79,7 +79,7 @@ public class HeroController : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.Space) == true)
         {
-            SpendMana(-5);
+            AddMana(BonusType.Mana, 5);
         }
     }
 
@@ -111,7 +111,6 @@ public class HeroController : MonoBehaviour
 
             case PlayersStats.Mana:
                 maxCurrentMana = value;
-                //EventManager.OnUpgradeStatCurrentValueEvent(stat, maxCurrentMana, currentMana);
                 break;
 
             case PlayersStats.SearchRadius:
@@ -218,15 +217,35 @@ public class HeroController : MonoBehaviour
 
     public void AddMana(BonusType type, float value)
     {
-        if(type == BonusType.Mana && isDead == false)
-        {
-            playerStatsScript.ChangeMana(value);            
-        }
+        if(type == BonusType.Mana && isDead == false) ChangeMana(value);
     }
 
     public void SpendMana(float value)
     {
-        if(isDead == false) playerStatsScript.ChangeMana(-value);
+        if(isDead == false) ChangeMana(-value);
+    }
+
+    private void ChangeMana(float value)
+    {
+        if(value <= 0)
+        {
+            if(Mathf.Abs(value) <= currentMana)
+            {
+                currentMana -= Mathf.Abs(value);
+            }
+        }
+        else
+        {
+            // if we wont to add not value but percent
+            if(value < 1) value = maxCurrentMana * value;
+
+            if(currentMana + value > maxCurrentMana)
+                currentMana = maxCurrentMana;
+            else
+                currentMana += value;
+        }
+
+        EventManager.OnUpgradeStatCurrentValueEvent(PlayersStats.Mana, maxCurrentMana, currentMana);
     }
 
     private void UpgradeStatCurrentValue(PlayersStats stat, float maxValue, float currentValue)
@@ -302,15 +321,17 @@ public class HeroController : MonoBehaviour
         }
     }
 
+    public void Resurrection()
+    {
+        gameObject.SetActive(true);
+        isDead = false;
+        AddHealth(BonusType.Health, maxCurrentHealth);
+
+        Debug.Log("HERO IS RESURRECTED");
+    }
+
     private void OnEnable()
     {
-        if(playerStatsScript == null) playerStatsScript = GlobalStorage.instance.playerStats;
-
-        ResetTempLevel(false);
-
-        currentHealth = playerStatsScript.GetCurrentParameter(PlayersStats.Health);
-        currentMana = playerStatsScript.GetCurrentParameter(PlayersStats.Mana);
-
         EventManager.BonusPickedUp += AddHealth;
         EventManager.BonusPickedUp += AddMana;
         EventManager.BonusPickedUp += AddTempExp;
@@ -318,6 +339,14 @@ public class HeroController : MonoBehaviour
         EventManager.NewBoostedStat += UpgradeStat;
         EventManager.ChangePlayer += ResetTempLevel;
         EventManager.UpgradeStatCurrentValue += UpgradeStatCurrentValue;
+
+        if(playerStatsScript == null) playerStatsScript = GlobalStorage.instance.playerStats;
+
+        ResetTempLevel(false);
+
+        playerStatsScript.GetAllStartParameters();
+        currentHealth = playerStatsScript.GetCurrentParameter(PlayersStats.Health);
+        currentMana = playerStatsScript.GetCurrentParameter(PlayersStats.Mana);
     }
 
     private void OnDisable()
