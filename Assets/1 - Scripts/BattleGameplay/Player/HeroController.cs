@@ -273,7 +273,7 @@ public class HeroController : MonoBehaviour
                         battleUIManager.TempLevelUp(currentTempLevel);
                         currentTempLevel++;
 
-                        EventManager.OnUpgradeTempLevelEvent(currentTempLevel);
+                        //EventManager.OnUpgradeTempLevelEvent(currentTempLevel);
                         if(currentTempLevel != currentMaxLevel)
                         {
                             currentTempExp = 0;
@@ -326,8 +326,6 @@ public class HeroController : MonoBehaviour
         gameObject.SetActive(true);
         isDead = false;
         AddHealth(BonusType.Health, maxCurrentHealth);
-
-        Debug.Log("HERO IS RESURRECTED");
     }
 
     private void OnEnable()

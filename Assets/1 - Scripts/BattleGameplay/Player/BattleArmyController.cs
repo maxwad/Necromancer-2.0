@@ -57,7 +57,8 @@ public class BattleArmyController : MonoBehaviour
     public void MovementInverting(bool mode)
     {
         isMovementInverted = mode;
-        GlobalStorage.instance.hero.gameObject.GetComponent<HeroMovement>().Dizziness(mode);
+        if(GlobalStorage.instance.hero != null)
+            GlobalStorage.instance.hero.gameObject.GetComponent<HeroMovement>().Dizziness(mode);
     }
 
     private void UpgradeSpeed(PlayersStats stats, float value)

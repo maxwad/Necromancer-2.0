@@ -27,6 +27,10 @@ public class GMInterface : MonoBehaviour
 
     [Header("Moves")]
     [SerializeField] private TMP_Text currentMovesCount;
+    [SerializeField] private TMP_Text leftDaysCount;
+    [SerializeField] private TMP_Text currentDayCount;
+    [SerializeField] private TMP_Text currentWeekCount;
+    [SerializeField] private TMP_Text currentMonthCount;
 
 
     private void Start()
@@ -105,6 +109,14 @@ public class GMInterface : MonoBehaviour
     private void UpdateCurrentMoves(PlayersStats stat, float maxValue, float currentValue)
     {
         if(stat == PlayersStats.MovementDistance) currentMovesCount.text = currentValue.ToString();
+    }
+
+    public void UpdateCalendar(CalendarData data)
+    {
+        leftDaysCount.text = data.daysLeft.ToString();
+        currentDayCount.text = data.currentDay.ToString();
+        currentWeekCount.text = data.currentWeek.ToString();
+        currentMonthCount.text = data.currentMonth.ToString();
     }
 
     private void OnEnable()

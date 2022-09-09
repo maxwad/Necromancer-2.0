@@ -391,5 +391,18 @@ public static class EventManager
     public static event SpellImmortalEvent SpellImmortal;
     public static void OnSpellImmortalEvent(bool mode) => SpellImmortal?.Invoke(mode);
 
+
+    //calls when we end move on Global Map
+    //
+    //SUBSCRIBERS:
+    // - GMPlayerMovement
+    //
+    //ACTIVATION:
+    // - CalendarManager
+    //
+    public delegate void NewMoveEvent();
+    public static event NewMoveEvent NewMove;
+    public static void OnNewMoveEvent() => NewMove?.Invoke();
+
     #endregion
 }

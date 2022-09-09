@@ -59,20 +59,17 @@ public class BattleManager : MonoBehaviour
         {
             //reward window
             GlobalStorage.instance.enemyManager.DeleteArmy(currrentEnemyArmyOnTheMap, currentArmy);
-            Debug.Log("Victory");
         }
 
         if(result == 0)
         {
-            //GlobalStorage.instance.globalPlayer.GetComponent<GMPlayerMovement>().StepBack();
             EventManager.OnDefeatEvent();
-            Debug.Log("Defeat");
+            GlobalStorage.instance.player.GetComponent<PlayersArmy>().DefeatDamage();
         }
 
         if(result == -1)
         {
-            //GlobalStorage.instance.globalPlayer.GetComponent<GMPlayerMovement>().StepBack();
-            Debug.Log("Escape");
+            GlobalStorage.instance.player.GetComponent<PlayersArmy>().EscapeDamage();
         }       
     }
     

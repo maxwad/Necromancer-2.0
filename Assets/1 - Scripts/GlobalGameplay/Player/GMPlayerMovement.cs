@@ -37,17 +37,6 @@ public class GMPlayerMovement : MonoBehaviour
         currentPosition = gameObject.transform.position;
     }
 
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.Return)) 
-        {
-            if(MenuManager.instance.IsTherePauseOrMiniPause() == false && GlobalStorage.instance.isGlobalMode == true)
-            {
-                if(newTurnCoroutine == null) newTurnCoroutine = StartCoroutine(NewTurn());
-            }
-        }        
-    }
-
     public Vector3 GetCurrentPosition()
     {
         return currentPosition;
@@ -64,21 +53,26 @@ public class GMPlayerMovement : MonoBehaviour
         return new float[] {movementPointsMax, currentMovementPoints};
     }
 
-    public IEnumerator NewTurn()
+    private void NewTurn() 
     {
-        StopMoving();
+        StartCoroutine(StartNewTurn());
 
-        while(iAmMoving == true)
+        IEnumerator StartNewTurn()
         {
-            yield return null;
+            StopMoving();
+
+            while(iAmMoving == true)
+            {
+                yield return null;
+            }
+
+            currentMovementPoints = movementPointsMax;
+            EventManager.OnUpgradeStatCurrentValueEvent(PlayersStats.MovementDistance, movementPointsMax, currentMovementPoints);
+            if(gmPathFinder != null) gmPathFinder.RefreshPath(currentPosition, currentMovementPoints);
+
+            newTurnCoroutine = null;
         }
-
-        currentMovementPoints = movementPointsMax;
-        EventManager.OnUpgradeStatCurrentValueEvent(PlayersStats.MovementDistance, movementPointsMax, currentMovementPoints);
-        if(gmPathFinder != null) gmPathFinder.RefreshPath(currentPosition, currentMovementPoints);
-
-        newTurnCoroutine = null;
-    }
+    }    
 
     private void UpgradeParameters(PlayersStats stats, float value)
     {
@@ -169,34 +163,10 @@ public class GMPlayerMovement : MonoBehaviour
         return iAmMoving;
     }
 
-    //public void StepBack()
-    //{
-    //    StartCoroutine(GoBack());
-
-    //    IEnumerator GoBack()
-    //    {
-    //        while(iAmMoving == true)
-    //        {
-    //            yield return null;
-    //        }
-
-    //        for(float t = 0; t < defaultCountSteps / speed; t++)
-    //        {
-    //            Vector2 distance = previousPosition - currentPosition;
-    //            Vector2 step = distance / (defaultCountSteps / speed);
-    //            transform.position += (Vector3)step;
-    //            yield return new WaitForSeconds(0.01f);
-    //        }
-
-    //        currentPosition = previousPosition;
-    //    }
-    //}
-
     public void TeleportTo(Vector2 newPosition, float cost)
     {
         gmPathFinder.DestroyPath();
         GlobalStorage.instance.hero.SpendMana(cost);
-        //playerStats.ChangeMana(-cost);
 
         StartCoroutine(Telepartation(newPosition));        
     }
@@ -239,10 +209,12 @@ public class GMPlayerMovement : MonoBehaviour
     private void OnEnable()
     {
         EventManager.NewBoostedStat += UpgradeParameters;
+        EventManager.NewMove += NewTurn;
     }
 
     private void OnDisable()
     {
         EventManager.NewBoostedStat -= UpgradeParameters;
+        EventManager.NewMove -= NewTurn;
     }
 }

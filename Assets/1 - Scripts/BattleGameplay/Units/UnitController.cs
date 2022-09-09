@@ -110,7 +110,7 @@ public class UnitController : MonoBehaviour
         float damage = Mathf.Round(physicalDamage + magicDamage);
         currentHealth -= damage;
 
-        ShowDamage(damage, colorDamage);
+        if(GlobalStorage.instance.isGlobalMode == false) ShowDamage(damage, colorDamage);  
 
         if (currentHealth <= 0 && quantity > 1)
         {
@@ -127,6 +127,7 @@ public class UnitController : MonoBehaviour
             Dead();
         }
     }
+
     private void ShowDamage(float damageValue, Color colorDamage)
     {
         GameObject damageObject = GlobalStorage.instance.objectsPoolManager.GetObjectFromPool(ObjectPool.DamageText);
@@ -150,11 +151,15 @@ public class UnitController : MonoBehaviour
 
     #endregion
 
+    public void KillOneUnit()
+    {
+        TakeDamage(currentHealth, currentHealth);
+    }
 
     #region For Squad updating
     public void UpdateSquad(bool mode)
     {
-        unitCountsText.text = quantity.ToString();
+        if(quantity != 0) unitCountsText.text = quantity.ToString();
 
         if(mode == false) EventManager.OnWeLostOneUnitEvent(unitType, quantity);
     }

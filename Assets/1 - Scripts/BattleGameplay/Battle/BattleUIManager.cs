@@ -21,9 +21,12 @@ public class BattleUIManager : MonoBehaviour
     [Header("Rigth Column Exp")]
     [SerializeField] private GameObject tempLevelGO;
     [SerializeField] private RectTransform currentTempLevelWrapper;
+    [SerializeField] private RectTransform currentScaleTempLevelValue;
+    private Image currentScaleTempLevelValueImage;
     private float heigthOneLevel;
     private float currentMaxLevel;
-    private List<GameObject> levelList = new List<GameObject>();
+    [SerializeField] private Color activeTempLevelColor;
+    private List<Image> levelList = new List<Image>();
 
     [Header("Exp Effects")]
     private float blinkTime = 0.005f;
@@ -169,23 +172,10 @@ public class BattleUIManager : MonoBehaviour
         FillEnemiesBar(null);
     }
 
-    private void Blink(bool mode, Image panel, Color effectColor, Color normalColor, float divider = 5)
+    private void Blink(Image panel, Color effectColor, Color normalColor, float divider = 5)
     {
-        //mode: true - one coroutines at the time, false - few coroutines at the time
-
         panel.color = effectColor;
-
-        if(mode == true)
-        {
-            if(blinkOneCoroutine != null) StopCoroutine(blinkOneCoroutine);
-
-            blinkOneCoroutine = StartCoroutine(ColorBack(panel, normalColor, divider));
-        }
-        else
-        {
-            StartCoroutine(ColorBack(panel, normalColor, divider));
-        }
-
+        StartCoroutine(ColorBack(panel, normalColor, divider));
     }
 
     private IEnumerator ColorBack(Image panel, Color normalColor, float divider)
@@ -273,52 +263,50 @@ public class BattleUIManager : MonoBehaviour
     private void FillRigthTempLevelScale()
     {
         levelList.Clear();
+        currentScaleTempLevelValueImage = currentScaleTempLevelValue.GetComponent<Image>();
 
-        foreach(Transform child in currentTempLevelWrapper.transform)
-            Destroy(child.gameObject);
+        foreach(Transform child in currentTempLevelWrapper.transform) 
+        {
+            if(child.transform.localScale.z == -1) Destroy(child.gameObject);
+        }
 
         currentScaleValueImage.fillAmount = 0;
+        currentScaleTempLevelValueImage.fillAmount = 0;
         currentMaxLevel = playerStats.GetStartParameter(PlayersStats.Level);
 
         heigthOneLevel = currentTempLevelWrapper.rect.height / currentMaxLevel;
 
-        for(int i = 0; i < currentMaxLevel; i++)
+        for(int i = 0; i < currentMaxLevel; i++) 
         {
             GameObject levelPart = Instantiate(tempLevelGO);
+            RectTransform rectLevel = levelPart.GetComponent<RectTransform>();
+            levelPart.transform.SetParent(currentTempLevelWrapper.transform, false);
 
-            RectTransform rectLevelSize = levelPart.GetComponent<RectTransform>();
-            levelPart.transform.SetParent(currentTempLevelWrapper.transform);
-            rectLevelSize.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, heigthOneLevel);
-            rectLevelSize.anchoredPosition = new Vector2(0, heigthOneLevel / 2 + heigthOneLevel * i);
+            rectLevel.anchoredPosition = new Vector2(0, heigthOneLevel * (i + 1));
 
-            RectTransform rectNumb = levelPart.GetComponentsInChildren<Image>()[1].GetComponent<RectTransform>();
-            rectNumb.anchoredPosition = new Vector2(0, -rectNumb.rect.height / 2);
+            levelPart.GetComponent<Image>().color = Color.white;
+            levelPart.GetComponentInChildren<TMP_Text>().text = (i + 1).ToString();
 
-            rectNumb.GetComponentInChildren<TMP_Text>().text = (i + 1).ToString();
-
-            levelList.Add(levelPart);
+            levelList.Add(levelPart.GetComponent<Image>());
         }
+    }
+
+    public void TempLevelUp(float oldLevel)
+    {
+        levelList[(int)oldLevel].color = activeTempLevelColor;
+
+        if(oldLevel + 1 < levelList.Count)
+            currentScaleValueImage.fillAmount = 0;
+
+        currentScaleTempLevelValueImage.fillAmount = heigthOneLevel * (oldLevel + 1) / currentTempLevelWrapper.rect.height;
+
+        Blink(currentScaleTempLevelValueImage, levelUpColor, normalLevelColor, 100);
     }
 
     public void UpgradeScale(float scale, float value)
     {
         currentScaleValueImage.fillAmount = value / scale;
-        Blink(true, currentScaleValueImage, levelUpColor, normalLevelColor);
-    }
-
-    public void TempLevelUp(float oldLevel)
-    {
-        levelList[(int)oldLevel].GetComponent<Image>().enabled = true;
-
-        if(oldLevel + 1 < levelList.Count)
-            currentScaleValueImage.fillAmount = 0;
-
-        foreach(var itemLevel in levelList)
-        {
-            Image imageLevel = itemLevel.GetComponent<Image>();
-
-            if(imageLevel.enabled == true) Blink(false, imageLevel, levelUpColor, normalLevelColor, 100);
-        }
+        Blink(currentScaleValueImage, levelUpColor, normalLevelColor);
     }
 
     #endregion
@@ -346,7 +334,7 @@ public class BattleUIManager : MonoBehaviour
 
         infirmaryScale.fillAmount = widthInfirmary;
         infirmaryInfo.text = currentInfirmaryCount.ToString() + "/" + currentMaxInfirmaryCount.ToString();
-        Blink(false, infirmaryScale, blinkColor, normalInfirmaryColor);
+        Blink(infirmaryScale, blinkColor, normalInfirmaryColor);
     }
 
     private void UpdateInfirmaryUI(float quantity, float capacity)
@@ -389,7 +377,7 @@ public class BattleUIManager : MonoBehaviour
         manaScale.fillAmount = widthMana;
         manaInfo.text = currentManaCount.ToString();
 
-        Blink(false, manaScale, blinkColor, normalManaColor, 10);
+        Blink(manaScale, blinkColor, normalManaColor, 10);
     }
 
 
@@ -422,7 +410,7 @@ public class BattleUIManager : MonoBehaviour
         healthScale.fillAmount = widthHealth;
         healthInfo.text = currentHealthCount.ToString();
 
-        Blink(false, healthScale, blinkColor, normalHealthColor, 10);
+        Blink(healthScale, blinkColor, normalHealthColor, 10);
     }
 
     #endregion
@@ -462,7 +450,7 @@ public class BattleUIManager : MonoBehaviour
                 Button button = Instantiate(buttonSpell);
                 button.GetComponent<SpellButtonController>().InitializeButton(currentSpells[i], slotNumber);
                 currentSpellsButtons.Add(button);
-                button.transform.SetParent(spellButtonContainer.transform);
+                button.transform.SetParent(spellButtonContainer.transform, false);
             }
         }
         else
@@ -474,7 +462,7 @@ public class BattleUIManager : MonoBehaviour
                     Button button = Instantiate(buttonSpell);
                     button.GetComponent<SpellButtonController>().InitializeButton(currentSpells[i]);
                     currentSpellsButtons.Add(button);
-                    button.transform.SetParent(spellButtonContainer.transform);
+                    button.transform.SetParent(spellButtonContainer.transform, false);
 
                     break;
                 }

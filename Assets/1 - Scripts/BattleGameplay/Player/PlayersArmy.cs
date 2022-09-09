@@ -25,10 +25,13 @@ public class PlayersArmy : MonoBehaviour
     [SerializeField] private GameObject ReserveArmyContainer;
     [SerializeField] private Vector2[] playersArmyPositions;
     private GameObject[] realUnitsOnBattlefield = new GameObject[4];
+    private UnitController[] realUnitsComponentsOnBattlefield = new UnitController[4];
 
 
     [Space]
     [SerializeField] private BattleArmyController battleArmyController;
+
+    private float damageArmyByEscape = 0.3f;
 
     private void  InitializeArmy()
     {
@@ -170,6 +173,7 @@ public class PlayersArmy : MonoBehaviour
                     //read the name of list attentively!
                     if(realUnitsComponentsInReserve[j].GetComponent<UnitController>().unitType == playersArmy[i].UnitType)
                     {
+                        realUnitsComponentsOnBattlefield[i] = realUnitsComponentsInReserve[j];
                         realUnitsOnBattlefield[i] = realUnitsInReserve[j];
                         realUnitsOnBattlefield[i].SetActive(true);
                         realUnitsOnBattlefield[i].transform.position = (Vector3)playersArmyPositions[i] + battleArmyController.gameObject.transform.position;
@@ -186,7 +190,6 @@ public class PlayersArmy : MonoBehaviour
         playersArmyWindow.CreateReserveScheme(reserveArmy);
         playersArmyWindow.CreateArmyScheme(playersArmy);
     }
-
 
     public void UpgradeArmy(UnitsTypes unitType, int quantity)
     {
@@ -346,6 +349,70 @@ public class PlayersArmy : MonoBehaviour
     }
 
     #endregion
+
+    #region DAMAGE army after defeat/escape
+
+    public void EscapeDamage()
+    {
+        float commonCountUnits = 0;
+        float countToKill;
+        float tryToKill = 100;
+
+        for(int i = 0; i < realUnitsComponentsOnBattlefield.Length; i++)
+        {
+            if(realUnitsComponentsOnBattlefield[i] != null)
+            {
+                commonCountUnits += realUnitsComponentsOnBattlefield[i].quantity;
+            }
+        }
+
+        if(commonCountUnits == 0) return;
+
+        countToKill = Mathf.Ceil(commonCountUnits * damageArmyByEscape);
+
+        for(int i = 0; i < countToKill; i++)
+        {
+            KillUnit();
+        }
+        void KillUnit()
+        {
+            tryToKill--;
+            if(tryToKill == 0)
+            {
+                Debug.Log("To mach try, sorry...");
+                return;
+            }
+
+            int randomUnit = UnityEngine.Random.Range(0, realUnitsComponentsOnBattlefield.Length);
+            if(realUnitsComponentsOnBattlefield[randomUnit] != null)
+            {
+                realUnitsComponentsOnBattlefield[randomUnit].KillOneUnit();
+            }
+            else
+            {
+                KillUnit();
+            }
+        }
+    }
+
+    public void DefeatDamage()
+    {
+        for(int i = 0; i < realUnitsComponentsOnBattlefield.Length; i++)
+        {
+            if(realUnitsComponentsOnBattlefield[i] != null)
+            {
+                float countToKill = realUnitsComponentsOnBattlefield[i].quantity;
+                for(int j = 0; j < countToKill; j++)
+                {
+                    realUnitsComponentsOnBattlefield[i].KillOneUnit();
+                }
+            }
+        }
+    }
+
+
+    #endregion
+
 
     private void OnEnable()
     {
