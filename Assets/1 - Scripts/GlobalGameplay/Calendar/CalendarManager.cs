@@ -7,14 +7,14 @@ public class CalendarData
     public int daysLeft;
 
     public int currentDay;
-    public int currentWeek;
+    public int currentDecade;
     public int currentMonth;
 
-    public CalendarData(int left, int day, int week, int month)
+    public CalendarData(int left, int day, int decade, int month)
     {
         daysLeft = left;
         currentDay = day;
-        currentWeek = week;
+        currentDecade = decade;
         currentMonth = month;
     }
 }
@@ -26,10 +26,10 @@ public class CalendarManager : MonoBehaviour
     private int daysPassed = 0;
 
     private int day = 1;
-    private int dayMax = 7;
+    private int dayMax = 10;
 
-    private int week = 1;
-    private int weekMax = 4;
+    private int decade = 1;
+    private int decadeMax = 3;
 
     private int month = 1;
     private int monthMax = 12;
@@ -39,11 +39,27 @@ public class CalendarManager : MonoBehaviour
     private GMInterface gmInterface;
     private CalendarData calendarData;
 
+    [Header("Decades List")]
+    [SerializeField] private List<DecadeSO> decadeSOList;
+    [SerializeField] private List<Decade> decadeList = new List<Decade>();
+
+    private Decade currentDecadeEffect;
+    private int currentDecadeIndex = 0;
+
+
     private void Start()
     {
         gmInterface = GlobalStorage.instance.gmInterface;
-        calendarData = new CalendarData(daysLeft, day, week, month);
+        calendarData = new CalendarData(daysLeft, day, decade, month);
         gmInterface.UpdateCalendar(calendarData);
+
+        for(int i = 0; i < decadeSOList.Count; i++)
+        {
+            decadeList.Add(new Decade(decadeSOList[i], i));
+        }
+
+        decadeList = ShuffleList(decadeList);
+        NewDecade();
     }
 
 
@@ -68,26 +84,52 @@ public class CalendarManager : MonoBehaviour
         day++;
         if(day > dayMax)
         {
-            week++;
+            //new decade
+            decade++;
             day = 1;
-            //new week
+
+            currentDecadeIndex++;
+            if(currentDecadeIndex >= decadeList.Count) currentDecadeIndex = 0;          
+
+            NewDecade();
         }
 
-        if(week > weekMax)
+        if(decade > decadeMax)
         {
-            month++;
-            week = 1;
             //new month
+            month++;
+            decade = 1;
         }
 
         if(month > monthMax)
-        {
+        {        
+            //new year
             year++;
             month = 1;
-            //new year
         }
 
-       calendarData = new CalendarData(daysLeft, day, week, month);
+        calendarData = new CalendarData(daysLeft, day, decade, month);
         gmInterface.UpdateCalendar(calendarData);
+    }
+
+    private List<Decade> ShuffleList(List<Decade> oldList)
+    {
+        List<Decade> newList = new List<Decade>();
+
+        int counter = oldList.Count;
+        for(int i = 0; i < counter; i++)
+        {
+            int randomElementInList = Random.Range(0, oldList.Count);
+            newList.Add(oldList[randomElementInList]);
+            oldList.Remove(oldList[randomElementInList]);
+        }
+
+        return newList;
+    }
+
+    private void NewDecade()
+    {      
+        currentDecadeEffect = decadeList[currentDecadeIndex];
+        gmInterface.UpdateDecadeOnCalendar(currentDecadeEffect);
     }
 }

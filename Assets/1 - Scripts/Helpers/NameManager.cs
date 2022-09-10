@@ -186,7 +186,21 @@ public static class NameManager
 
     public enum BoostSender
     {
-        Spell
+        Spell, Calendar
+    }
+
+    public enum BoostType
+    {
+        Hiring,
+        ResourcesBilding,
+        BattleExpirience,
+        Altar,
+        Luck,
+        EnemyHealth,
+        EnemyDefence,
+        Movement,
+        Regeneration,
+        Mana
     }
 
     public enum UISlotTypes

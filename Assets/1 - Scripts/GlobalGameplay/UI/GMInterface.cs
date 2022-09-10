@@ -31,6 +31,7 @@ public class GMInterface : MonoBehaviour
     [SerializeField] private TMP_Text currentDayCount;
     [SerializeField] private TMP_Text currentWeekCount;
     [SerializeField] private TMP_Text currentMonthCount;
+    [SerializeField] private TooltipTrigger decadeTooltip;
 
 
     private void Start()
@@ -115,8 +116,14 @@ public class GMInterface : MonoBehaviour
     {
         leftDaysCount.text = data.daysLeft.ToString();
         currentDayCount.text = data.currentDay.ToString();
-        currentWeekCount.text = data.currentWeek.ToString();
+        currentWeekCount.text = data.currentDecade.ToString();
         currentMonthCount.text = data.currentMonth.ToString();
+    }
+
+    public void UpdateDecadeOnCalendar(Decade decade)
+    {
+        decadeTooltip.header = decade.decadeName;
+        decadeTooltip.content = decade.decadeDescription;
     }
 
     private void OnEnable()

@@ -35,6 +35,7 @@ public class GMPlayerMovement : MonoBehaviour
         SetParameters();
         currentMovementPoints = movementPointsMax;
         currentPosition = gameObject.transform.position;
+        EventManager.OnUpgradeStatCurrentValueEvent(PlayersStats.MovementDistance, movementPointsMax, currentMovementPoints);
     }
 
     public Vector3 GetCurrentPosition()
