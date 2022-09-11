@@ -8,6 +8,7 @@ public class EnemyArragement : MonoBehaviour
 {
     private GlobalMapTileManager gmManager;
     private EnemyManager enemyManager;
+    private ObjectsPoolManager poolManager; 
     public Tilemap enemiesMap;
     public Tilemap roadMap;
 
@@ -26,15 +27,15 @@ public class EnemyArragement : MonoBehaviour
     public void GenerateEnemiesOnTheMap(EnemyManager manager)
     {
         if(enemyManager == null) enemyManager = manager;
-
         if(gmManager == null) gmManager = GlobalStorage.instance.gmManager;
+        if(poolManager == null) poolManager = GlobalStorage.instance.objectsPoolManager;
 
         enterPointsDict = gmManager.GetEnterPoints();
 
         GenerateEnterEnemies();
         GenerateRandomEnemies();
 
-        manager.SetEnemiesPointsDict(enemiesPointsDict);
+        enemyManager.SetEnemiesPointsDict(enemiesPointsDict);
     }
 
     #region USUAL ENEMIES
@@ -148,8 +149,11 @@ public class EnemyArragement : MonoBehaviour
 
     private void CreateEnemy(Vector3 position)
     {
-        GameObject enemyOnTheMap = Instantiate(enemyPrefab, enemiesMap.transform);
+        GameObject enemyOnTheMap = poolManager.GetObjectFromPool(ObjectPool.EnemyOnTheMap);
+        //GameObject enemyOnTheMap = Instantiate(enemyPrefab, enemiesMap.transform);
+        enemyOnTheMap.transform.SetParent(enemiesMap.transform);
         enemyOnTheMap.transform.position = position;
+        enemyOnTheMap.SetActive(true);
 
         EnemyArmyOnTheMap army = enemyOnTheMap.GetComponent<EnemyArmyOnTheMap>();
         enemiesPointsDict.Add(army, position);

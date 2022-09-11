@@ -52,7 +52,7 @@ public class GlobalStorage : MonoBehaviour
 
     [HideInInspector] public bool isModalWindowOpen = false;
 
-    [HideInInspector] public bool canILoadNextStep = true;
+    [HideInInspector] public bool canILoadNextPart = true;
 
     [HideInInspector] public bool isGameLoaded = false;
 
@@ -71,30 +71,41 @@ public class GlobalStorage : MonoBehaviour
 
     private IEnumerator LoadTheGame()
     {
-        canILoadNextStep = false;
+        canILoadNextPart = false;
+        objectsPoolManager.Initialize();
+        while(canILoadNextPart == false)
+        {
+            yield return null;
+        }
+
+        canILoadNextPart = false;
         gmManager.Load();
-        while(canILoadNextStep == false)
+        while(canILoadNextPart == false)
         {
             yield return null;
         }
 
-        canILoadNextStep = false;
+        canILoadNextPart = false;
         unitManager.LoadUnits();
-        while(canILoadNextStep == false)
+        while(canILoadNextPart == false)
         {
             yield return null;
         }
 
-        canILoadNextStep = false;
+        canILoadNextPart = false;
         enemyManager.InitializeEnemies();
-        while(canILoadNextStep == false)
+        while(canILoadNextPart == false)
         {
             yield return null;
         }
-
-
+        
         isGameLoaded = true;
         Debug.Log("GAME IS LOADED!");        
+    }
+
+    public void LoadNextPart()
+    {
+        canILoadNextPart = true;
     }
 
     public void ChangePlayMode(bool mode)

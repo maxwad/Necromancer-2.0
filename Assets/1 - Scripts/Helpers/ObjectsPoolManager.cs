@@ -16,9 +16,10 @@ public class ObjectsPoolManager : MonoBehaviour
     public GameObject bonusGold;
     public GameObject enemyDeath;
     public GameObject bloodSpot;
+    public GameObject enemyOnTheMap;
 
     //storages for created objects
-    private List<List<GameObject>> allLists = new List<List<GameObject>>();
+    private List<List<GameObject>> listsToDisableAfterBattle = new List<List<GameObject>>();
     private Dictionary<EnemiesTypes, List<GameObject>> enemiesDict = new Dictionary<EnemiesTypes, List<GameObject>>();
     private List<GameObject> damageTextList = new List<GameObject>();
     private List<GameObject> torchesList    = new List<GameObject>();
@@ -26,22 +27,26 @@ public class ObjectsPoolManager : MonoBehaviour
     private List<GameObject> bonusGoldList  = new List<GameObject>();
     private List<GameObject> enemyDeathList = new List<GameObject>();
     private List<GameObject> bloodSpotList  = new List<GameObject>();
+    private List<GameObject> enemyOnTheMapList = new List<GameObject>();
 
 
     private int elementsCount = 10;
     private List<GameObject> currentObjectsList = new List<GameObject>();
 
-    private void Start()
+    private void Awake()
     {
-        if (instance != null)
+        if(instance != null)
             Destroy(gameObject);
         else
             instance = this;
-
-        Initialize();
     }
 
-    private void Initialize()
+    public void Initialize()
+    {
+        CreateObjects();
+    }
+
+    private void CreateObjects()
     {
         //creating Dictionary with enemy Lists
         for (int x = 0; x < enemyPrefabsList.Count; x++)
@@ -63,7 +68,7 @@ public class ObjectsPoolManager : MonoBehaviour
         {
             damageTextList.Add(CreateObject(damageText));
         }
-        allLists.Add(damageTextList);
+        listsToDisableAfterBattle.Add(damageTextList);
 
 
         //creating List with tourches
@@ -71,7 +76,7 @@ public class ObjectsPoolManager : MonoBehaviour
         {
             torchesList.Add(CreateObject(torch));
         }
-        allLists.Add(torchesList);
+        listsToDisableAfterBattle.Add(torchesList);
 
 
         //creating List with bonusExp
@@ -79,7 +84,7 @@ public class ObjectsPoolManager : MonoBehaviour
         {
             bonusExpList.Add(CreateObject(bonusExp));
         }
-        allLists.Add(bonusExpList);
+        listsToDisableAfterBattle.Add(bonusExpList);
 
 
         //creating List with bonusGold
@@ -87,7 +92,7 @@ public class ObjectsPoolManager : MonoBehaviour
         {
             bonusGoldList.Add(CreateObject(bonusGold));
         }
-        allLists.Add(bonusGoldList);
+        listsToDisableAfterBattle.Add(bonusGoldList);
 
 
         //creating List with enemyDeath
@@ -95,7 +100,7 @@ public class ObjectsPoolManager : MonoBehaviour
         {
             enemyDeathList.Add(CreateObject(enemyDeath));
         }
-        allLists.Add(enemyDeathList);
+        listsToDisableAfterBattle.Add(enemyDeathList);
 
 
         //creating List with bloodSpot
@@ -103,8 +108,16 @@ public class ObjectsPoolManager : MonoBehaviour
         {
             bloodSpotList.Add(CreateObject(bloodSpot));
         }
-        allLists.Add(bloodSpotList);
+        listsToDisableAfterBattle.Add(bloodSpotList);
 
+        //creating List with enemyOnTheMap
+        for(int i = 0; i < elementsCount; i++)
+        {
+            enemyOnTheMapList.Add(CreateObject(enemyOnTheMap));
+        }
+
+        //end of creating objects
+        GlobalStorage.instance.LoadNextPart();
     }
 
     private GameObject CreateObject(GameObject prefab)
@@ -148,6 +161,9 @@ public class ObjectsPoolManager : MonoBehaviour
                 currentObjectsList = bloodSpotList;
                 break;
 
+            case ObjectPool.EnemyOnTheMap:
+                currentObjectsList = enemyOnTheMapList;
+                break;
         }
 
         for (int i = 0; i < currentObjectsList.Count; i++)
@@ -188,37 +204,13 @@ public class ObjectsPoolManager : MonoBehaviour
             }
         }
 
-        foreach(var itemList in allLists)
+        foreach(var itemList in listsToDisableAfterBattle)
         {
             for(int i = 0; i < itemList.Count; i++)
             {
                 itemList[i].SetActive(false);
             }
         }
-
-        ////clear damageText after battle
-        //for (int i = 0; i < damageTextList.Count; i++)
-        //{
-        //    damageTextList[i].SetActive(false);
-        //}
-
-        ////clear torches after battle
-        //for (int i = 0; i < torchesList.Count; i++)
-        //{
-        //    torchesList[i].SetActive(false);
-        //}
-
-        ////clear bonusExp after battle
-        //for (int i = 0; i < bonusExpList.Count; i++)
-        //{
-        //    bonusExpList[i].SetActive(false);
-        //}
-
-        ////clear bonusGold after battle
-        //for(int i = 0; i < bonusGoldList.Count; i++)
-        //{
-        //    bonusGoldList[i].SetActive(false);
-        //}
     }
 
     private void OnEnable()

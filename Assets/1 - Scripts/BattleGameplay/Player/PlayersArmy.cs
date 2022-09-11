@@ -52,7 +52,7 @@ public class PlayersArmy : MonoBehaviour
         CreateRealUnitsInReserve();
 
         //end of loading Units and Army
-        GlobalStorage.instance.canILoadNextStep = true;
+        GlobalStorage.instance.LoadNextPart();
     }
 
     private void CreateRealUnitsInReserve()

@@ -70,7 +70,7 @@ public class GlobalMapTileManager : MonoBehaviour
         SendDataToPathfinder();
 
         // end of loading map
-        GlobalStorage.instance.canILoadNextStep = true;
+        GlobalStorage.instance.LoadNextPart();
     }
 
     public void CreateRoadCells()

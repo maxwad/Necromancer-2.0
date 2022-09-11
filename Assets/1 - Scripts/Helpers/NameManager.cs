@@ -83,7 +83,8 @@ public static class NameManager
         Torch,
         BonusGold,
         BloodSpot,
-        EnemyDeath
+        EnemyDeath,
+        EnemyOnTheMap
     }
 
     public enum Animations

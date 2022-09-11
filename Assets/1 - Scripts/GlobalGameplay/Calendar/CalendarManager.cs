@@ -38,6 +38,7 @@ public class CalendarManager : MonoBehaviour
 
     private GMInterface gmInterface;
     private CalendarData calendarData;
+    private CalendarBoostActivator activator;
 
     [Header("Decades List")]
     [SerializeField] private List<DecadeSO> decadeSOList;
@@ -50,6 +51,7 @@ public class CalendarManager : MonoBehaviour
     private void Start()
     {
         gmInterface = GlobalStorage.instance.gmInterface;
+        activator = GetComponent<CalendarBoostActivator>();
         calendarData = new CalendarData(daysLeft, day, decade, month);
         gmInterface.UpdateCalendar(calendarData);
 
@@ -65,9 +67,9 @@ public class CalendarManager : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Return))
+        if(Input.GetKeyDown(KeyCode.Return) && GlobalStorage.instance.isGlobalMode == true)
         {
-            if(MenuManager.instance.IsTherePauseOrMiniPause() == false && GlobalStorage.instance.isGlobalMode == true)
+            if(MenuManager.instance.IsTherePauseOrMiniPause() == false && GlobalStorage.instance.isModalWindowOpen == false)
             {
                 NextDay();
             }
@@ -92,6 +94,7 @@ public class CalendarManager : MonoBehaviour
             if(currentDecadeIndex >= decadeList.Count) currentDecadeIndex = 0;          
 
             NewDecade();
+            EventManager.OnNewMonthEvent();
         }
 
         if(decade > decadeMax)
@@ -99,6 +102,9 @@ public class CalendarManager : MonoBehaviour
             //new month
             month++;
             decade = 1;
+
+            Debug.Log("New month");
+           // EventManager.OnNewMonthEvent();
         }
 
         if(month > monthMax)
@@ -131,5 +137,6 @@ public class CalendarManager : MonoBehaviour
     {      
         currentDecadeEffect = decadeList[currentDecadeIndex];
         gmInterface.UpdateDecadeOnCalendar(currentDecadeEffect);
+        activator.ActivateBoost(currentDecadeEffect);
     }
 }

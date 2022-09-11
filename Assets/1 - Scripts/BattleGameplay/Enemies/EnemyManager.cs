@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,7 +17,7 @@ public class EnemyManager : MonoBehaviour
     private EnemyArragement enemyArragement;
     private Dictionary<EnemyArmyOnTheMap, Vector3> enemiesPointsDict = new Dictionary<EnemyArmyOnTheMap, Vector3>();
 
-    private EnemySquadGenerator enemySquadGenerator;
+    [HideInInspector] public EnemySquadGenerator enemySquadGenerator;
 
     public void InitializeEnemies()
     {
@@ -27,10 +28,10 @@ public class EnemyManager : MonoBehaviour
         GetAllEnemiesBase();
         enemyArragement.GenerateEnemiesOnTheMap(this);
 
-        GlobalStorage.instance.canILoadNextStep = true;
+        GlobalStorage.instance.LoadNextPart();
     }
 
-    #region CREATE ENEMY (GO)
+    #region CREATE ENEMY FOR BATTLE (GO)
 
     private void GetAllEnemiesBase()
     {
@@ -69,7 +70,7 @@ public class EnemyManager : MonoBehaviour
 
     public void DeleteArmy(EnemyArmyOnTheMap enemyGO, Army army)
     {
-        Destroy(enemyGO.gameObject);
+        enemyGO.Death();
         enemiesPointsDict.Remove(enemyGO);
         enemySquadGenerator.RemoveArmy(army);
     }
@@ -88,14 +89,54 @@ public class EnemyManager : MonoBehaviour
         return enemyArmy;
     }
 
-    public void ReGenerateEnemiesGO()
-    {
 
+
+    public void ReGenerateEnemiesOnTheMap()
+    {
+        StartCoroutine(ResetEnemies());
     }
 
-    public Army GenerateArmy(ArmyStrength strength)
+    private IEnumerator ResetEnemies()
     {
-        Army army = enemySquadGenerator.GenerateArmy(strength);
-        return army;
+        WaitForSeconds delay = new WaitForSeconds(0.1f);
+
+        foreach(var enemy in enemiesPointsDict)
+            enemy.Key.Death();
+
+        yield return delay;
+
+        //wait till all enemies dissapear
+        bool canIContinue = false;
+        while(canIContinue == false)
+        {
+            canIContinue = true;
+            foreach(var enemy in enemiesPointsDict)
+            {
+                if(enemy.Key.gameObject.activeInHierarchy == true)
+                {
+                    canIContinue = false;
+                    break;
+                }
+            }
+
+            yield return delay;
+        }
+
+        enemiesPointsDict.Clear();
+        enemySquadGenerator.ClearAllArmies();
+
+        enemyArragement.GenerateEnemiesOnTheMap(this);
+    }
+
+
+
+    private void OnEnable()
+    {
+        EventManager.NewMonth += ReGenerateEnemiesOnTheMap;
+    }
+
+    private void OnDisable()
+    {
+        EventManager.NewMonth -= ReGenerateEnemiesOnTheMap;
     }
 }
