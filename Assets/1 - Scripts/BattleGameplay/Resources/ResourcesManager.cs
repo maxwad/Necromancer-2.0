@@ -29,8 +29,7 @@ public class ResourcesManager : MonoBehaviour
             [ResourceType.Stone]   = Stone,
             [ResourceType.Wood]    = Wood,
             [ResourceType.Iron]    = Iron,
-            [ResourceType.Magic]   = Magic,
-            [ResourceType.Nothing] = Nothing
+            [ResourceType.Magic]   = Magic
         };
     }
 
@@ -62,8 +61,6 @@ public class ResourcesManager : MonoBehaviour
                 Magic += value;
                 break;
 
-            case ResourceType.Nothing:
-                break;
             default:
                 break;
         }
@@ -106,9 +103,6 @@ public class ResourcesManager : MonoBehaviour
                     Magic -= value;
                     break;
 
-                case ResourceType.Nothing:
-                    break;
-
                 default:
                     break;
             }
@@ -149,8 +143,6 @@ public class ResourcesManager : MonoBehaviour
                 if(Magic >= value) return true;
                 break;
 
-            case ResourceType.Nothing:
-                break;
             default:
                 break;
         }

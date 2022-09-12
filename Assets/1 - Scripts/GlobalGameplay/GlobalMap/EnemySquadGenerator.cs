@@ -8,6 +8,8 @@ public class Army
     public List<GameObject> squadList = new List<GameObject>();
     public List<int> quantityList = new List<int>();
     public bool isThisASiege = false;
+    public TypeOfArmy typeOfArmy = TypeOfArmy.OnTheMap;
+    public ArmyStrength strength = ArmyStrength.Low;
     // more parameters
 }
 
@@ -30,7 +32,7 @@ public class EnemySquadGenerator : MonoBehaviour
         allEnemiesPrefabList = enemies;
     }
 
-    public Army GenerateArmy(ArmyStrength armyStrength)
+    public Army GenerateArmy(ArmyStrength armyStrength, TypeOfArmy typeOfArmy)
     {
         //we need to separate different strenght od army
 
@@ -42,6 +44,8 @@ public class EnemySquadGenerator : MonoBehaviour
         sizeOfSquadMultiplier = Mathf.Ceil(playerLevel / enemySizeDivider);
 
         Army newArmy = new Army();
+        newArmy.strength = armyStrength;
+        newArmy.typeOfArmy = typeOfArmy;
 
         for(int i = 0; i < countOfSquad; i++)
         {

@@ -124,8 +124,7 @@ public static class NameManager
         Stone,
         Wood,
         Iron,
-        Magic,
-        Nothing
+        Magic
     }
 
     public enum PlayersStats
@@ -143,16 +142,18 @@ public static class NameManager
         HealthRegeneration,
         RadiusView,
         ExtraResourcesProduce,
-        ExtraReward,
+        ExtraBoxReward,
+        ExtraExpReward,
 
         Spell,
         NegativeCell,
         MedicAltar,
+        DoubleBonusFromBox,
 
         MedicTry,
         Curiosity,
         Portal,
-        ExtraResourcesReward,
+        ExtraAfterBattleReward,
         ManaRegeneration,
         HeroArmyToEnemy,
 
@@ -245,6 +246,11 @@ public static class NameManager
     public enum ArmyStrength
     {
         Low, Middle, High, Extremely
+    }
+
+    public enum TypeOfArmy
+    {
+        OnTheMap, InCastle, InTomb, InOutpost
     }
 
     #endregion

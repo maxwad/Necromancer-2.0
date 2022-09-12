@@ -24,7 +24,7 @@ public class PlayerStats : MonoBehaviour
 
     [SerializeField] private float defenceBase = 1;
 
-    //[SerializeField] private float healthRegenerationBase = 0;
+    [SerializeField] private float healthRegenerationBase = 0;
 
     [SerializeField] private float infarmaryBase = 5f;
 
@@ -39,7 +39,10 @@ public class PlayerStats : MonoBehaviour
 
     //[SerializeField] private float extraResourcesProduceBase = 0;
 
-    //[SerializeField] private float extraRewardBase = 0;
+    [SerializeField] private float extraExpRewardBase = 0;
+
+    [SerializeField] private float extraBoxRewardBase = 0;
+    
 
 
     //[Header("True-False Parameters")]
@@ -53,6 +56,9 @@ public class PlayerStats : MonoBehaviour
     ////0 - no, 1 - yes
     //[SerializeField] private float canIUseMedicAltarBase = 0;
 
+    //0 - no, 1 - yes
+    [SerializeField] private float doudleBonusFromBoxBase = 0;
+
 
     [Header("Number Parameters")]
     [Space]
@@ -65,8 +71,8 @@ public class PlayerStats : MonoBehaviour
     ////0 - can't use; 1 - to random portal; 2 - portal directly; 3 - portal to town
     [SerializeField] private float portalSkillBase = 3;
 
-    ////0 - can't use; 1 - ordinary resources; 2 - spell; 3 - magic
-    //[SerializeField] private float extraResourcesRewardBase = 0;
+    //0 - can't use; 1 - ordinary resources; 2 - mana; 3 - magic
+    [SerializeField] private float extraAfterBattleRewardBase = 0;
 
     ////0 - can't use; 1 - 1 mana; 2 - 2 mana; 3 - 3 mana
     //[SerializeField] private float manaRegenerationBase = 0;
@@ -207,7 +213,15 @@ public class PlayerStats : MonoBehaviour
                     maxValue = luckBase;
                     break;
 
-                case PlayersStats.ExtraReward:
+                case PlayersStats.ExtraBoxReward:
+                    baseValue = extraBoxRewardBase;
+                    maxValue = extraBoxRewardBase;
+                    type = false;
+                    break;
+
+                case PlayersStats.ExtraExpReward:
+                    baseValue = extraExpRewardBase;
+                    maxValue = extraExpRewardBase;
                     type = false;
                     break;
 
@@ -218,6 +232,11 @@ public class PlayerStats : MonoBehaviour
                     break;
 
                 case PlayersStats.MedicAltar:
+                    break;
+
+                case PlayersStats.DoubleBonusFromBox:
+                    baseValue = doudleBonusFromBoxBase;
+                    maxValue = doudleBonusFromBoxBase;
                     break;
 
                 case PlayersStats.MedicTry:
@@ -235,7 +254,9 @@ public class PlayerStats : MonoBehaviour
                     maxValue = portalSkillBase;
                     break;
 
-                case PlayersStats.ExtraResourcesReward:
+                case PlayersStats.ExtraAfterBattleReward:
+                    baseValue = extraAfterBattleRewardBase;
+                    maxValue = extraAfterBattleRewardBase;
                     break;
 
                 case PlayersStats.ManaRegeneration:
@@ -281,10 +302,8 @@ public class PlayerStats : MonoBehaviour
     public void GetAllStartParameters()
     {
         SendingParameters();
-
     }
 
-    // method only for Invoke
     private void SendingParameters()
     {
         foreach(PlayersStats itemStat in Enum.GetValues(typeof(PlayersStats)))

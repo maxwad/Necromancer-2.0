@@ -14,6 +14,7 @@ public class EnemyArmyOnTheMap : MonoBehaviour
     [HideInInspector] public int commonCount = 0;
 
     public ArmyStrength armyStrength = ArmyStrength.Low;
+    public TypeOfArmy typeOfArmy = TypeOfArmy.OnTheMap;
 
     private SpriteRenderer sprite;
 
@@ -38,7 +39,7 @@ public class EnemyArmyOnTheMap : MonoBehaviour
         if(battleManager == null) battleManager = GlobalStorage.instance.battleManager;
         if(enemyManager == null) enemyManager = GlobalStorage.instance.enemyManager;
 
-        army = enemyManager.enemySquadGenerator.GenerateArmy(armyStrength);
+        army = enemyManager.enemySquadGenerator.GenerateArmy(armyStrength, typeOfArmy);
 
         currentEnemiesList = army.squadList;
         currentEnemiesQuantityList = army.quantityList;
