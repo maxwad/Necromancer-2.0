@@ -52,7 +52,7 @@ public class GMPlayerPositionChecker : MonoBehaviour
         {
             ResourceObject obj = collision.GetComponent<ResourceObject>();
             EventManager.OnResourcePickedUpEvent(obj.resourceType, obj.quantity);
-            Destroy(collision.gameObject);
+            obj.Death();
         }
 
         //if(collision.CompareTag(TagManager.T_GM_ENEMY) == true)

@@ -23,11 +23,14 @@ public class GlobalStorage : MonoBehaviour
     public CursorManager cursorManager;
     public GlobalMapTileManager gmManager;
     public PortalsManager portalsManager;
+    public RewardManager rewardManager;
+    public MapBonusManager mapBonusManager;
+
 
     [Header("UI")]
     public BattleUIManager battleIUManager;
     public GMInterface gmInterface;
-    public ResourcesEventUI resourcesEventUI;
+    public ResourceHeapUI resourcesHeapUI;
     public EnemyArmyUI enemyArmyUI;
     public TemperCommonUIManager commonUIManager;
 
@@ -98,7 +101,14 @@ public class GlobalStorage : MonoBehaviour
         {
             yield return null;
         }
-        
+
+        canILoadNextPart = false;
+        mapBonusManager.InitializeHeaps();
+        while(canILoadNextPart == false)
+        {
+            yield return null;
+        }
+
         isGameLoaded = true;
         Debug.Log("GAME IS LOADED!");        
     }

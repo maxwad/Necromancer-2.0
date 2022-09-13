@@ -17,6 +17,7 @@ public class ObjectsPoolManager : MonoBehaviour
     public GameObject enemyDeath;
     public GameObject bloodSpot;
     public GameObject enemyOnTheMap;
+    public GameObject resourceOnTheMap;
 
     //storages for created objects
     private List<List<GameObject>> listsToDisableAfterBattle = new List<List<GameObject>>();
@@ -28,6 +29,7 @@ public class ObjectsPoolManager : MonoBehaviour
     private List<GameObject> enemyDeathList = new List<GameObject>();
     private List<GameObject> bloodSpotList  = new List<GameObject>();
     private List<GameObject> enemyOnTheMapList = new List<GameObject>();
+    private List<GameObject> resourceOnTheMapList = new List<GameObject>();
 
 
     private int elementsCount = 10;
@@ -116,6 +118,12 @@ public class ObjectsPoolManager : MonoBehaviour
             enemyOnTheMapList.Add(CreateObject(enemyOnTheMap));
         }
 
+        //creating List with resourceOnTheMap
+        for(int i = 0; i < elementsCount; i++)
+        {
+            resourceOnTheMapList.Add(CreateObject(resourceOnTheMap));
+        }
+
         //end of creating objects
         GlobalStorage.instance.LoadNextPart();
     }
@@ -163,6 +171,10 @@ public class ObjectsPoolManager : MonoBehaviour
 
             case ObjectPool.EnemyOnTheMap:
                 currentObjectsList = enemyOnTheMapList;
+                break;
+
+            case ObjectPool.ResourceOnTheMap:
+                currentObjectsList = resourceOnTheMapList;
                 break;
         }
 

@@ -11,8 +11,30 @@ public class ResourcesManager : MonoBehaviour
     public float Wood { private set; get; } = 10;
     public float Iron { private set; get; } = 10;
     public float Magic { private set; get; } = 0;
-    public float Nothing { private set; get; } = 0;    
 
+    public Sprite goldIcon;
+    public Sprite foodIcon;
+    public Sprite stoneIcon;
+    public Sprite woodIcon;
+    public Sprite ironIcon;
+    public Sprite magicIcon;
+
+    public Dictionary<ResourceType, Sprite> resourcesIcons;
+
+    private void Awake()
+    {
+        resourcesIcons = new Dictionary<ResourceType, Sprite>()
+        {
+            [ResourceType.Gold] = goldIcon,
+            [ResourceType.Food] = foodIcon,
+            [ResourceType.Stone] = stoneIcon,
+            [ResourceType.Wood] = woodIcon,
+            [ResourceType.Iron] = ironIcon,
+            [ResourceType.Magic] = magicIcon
+        };
+
+
+    }
     private void Update()
     {
         //just for testing
@@ -31,6 +53,11 @@ public class ResourcesManager : MonoBehaviour
             [ResourceType.Iron]    = Iron,
             [ResourceType.Magic]   = Magic
         };
+    }
+
+    public Dictionary<ResourceType, Sprite> GetAllResourcesIcons()
+    {
+        return resourcesIcons;
     }
 
     private void AddResource(ResourceType type, float value)

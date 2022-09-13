@@ -24,8 +24,6 @@ public class GMPlayerMovement : MonoBehaviour
     private Vector2 previousPosition = Vector2.zero;
     private Vector2 currentPosition = Vector2.zero;
 
-    private Coroutine newTurnCoroutine;
-
     private void Start()
     {
         sprite = GetComponent<SpriteRenderer>();
@@ -70,8 +68,6 @@ public class GMPlayerMovement : MonoBehaviour
             currentMovementPoints = movementPointsMax;
             EventManager.OnUpgradeStatCurrentValueEvent(PlayersStats.MovementDistance, movementPointsMax, currentMovementPoints);
             if(gmPathFinder != null) gmPathFinder.RefreshPath(currentPosition, currentMovementPoints);
-
-            newTurnCoroutine = null;
         }
     }    
 

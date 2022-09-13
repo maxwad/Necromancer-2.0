@@ -68,6 +68,11 @@ public class EnemyManager : MonoBehaviour
         enemiesPointsDict = points;
     }
 
+    public Dictionary<EnemyArmyOnTheMap, Vector3> GetEnemiesPointsDict()
+    {
+        return enemiesPointsDict;
+    }
+
     public void DeleteArmy(EnemyArmyOnTheMap enemyGO, Army army)
     {
         enemyGO.Death();

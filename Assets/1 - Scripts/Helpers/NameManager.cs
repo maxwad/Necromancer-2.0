@@ -84,7 +84,10 @@ public static class NameManager
         BonusGold,
         BloodSpot,
         EnemyDeath,
-        EnemyOnTheMap
+        EnemyOnTheMap,
+        ResourceOnTheMap,
+        BoxOnTheMap
+
     }
 
     public enum Animations
@@ -235,7 +238,8 @@ public static class NameManager
         Arena,
         Tomb,
         Resource,
-        Enemy
+        Enemy,
+        BoxBonus
     }
 
     public enum TypeOfObjectsOwner 
@@ -245,7 +249,7 @@ public static class NameManager
 
     public enum ArmyStrength
     {
-        Low, Middle, High, Extremely
+        Low = 1, Middle = 2, High = 3, Extremely = 4
     }
 
     public enum TypeOfArmy
