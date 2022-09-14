@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static NameManager;
 
 public class GMPlayerPositionChecker : MonoBehaviour
 {
@@ -22,7 +23,15 @@ public class GMPlayerPositionChecker : MonoBehaviour
         {
             if(gmPathFinder.enterPointsDict[gmPathFinder.focusObject] == position)
             {
-                gmPathFinder.focusObject.GetComponent<ClickableObject>().ActivateUIWindow(false);
+                ClickableObject obj = gmPathFinder.focusObject.GetComponent<ClickableObject>();
+                if(obj.objectType == TypeOfObjectOnTheMap.BoxBonus)
+                {
+                    obj.gameObject.GetComponent<BoxObject>().GetReward();
+                }
+                else
+                {
+                    obj.ActivateUIWindow(false);
+                }
             }
         }
     }

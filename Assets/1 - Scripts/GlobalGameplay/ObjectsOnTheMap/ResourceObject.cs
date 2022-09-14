@@ -11,7 +11,7 @@ public class ResourceObject : MonoBehaviour
     public float quantity;
 
     private RewardManager rewardManager;
-    private Reward reward;
+    [HideInInspector] public Reward reward;
     private ResourcesManager resourcesManager;
     private MapBonusManager mapBonusManager;
 

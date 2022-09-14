@@ -75,7 +75,7 @@ public class EnemyArmyUI : MonoBehaviour
         detailedWindow.SetActive(false);
         smallWindow.SetActive(true);
 
-        captionSmall.text = currentEnemyArmy.gameObject.name;
+        captionSmall.text = "Enemy";
 
         resourceImage.sprite = currentEnemyArmy.GetComponent<SpriteRenderer>().sprite;
         resourceImage.color = currentEnemyArmy.GetComponent<SpriteRenderer>().color;
@@ -102,7 +102,7 @@ public class EnemyArmyUI : MonoBehaviour
         smallWindow.SetActive(false);
         detailedWindow.SetActive(true);
 
-        captionDetail.text = currentEnemyArmy.gameObject.name;
+        captionDetail.text = "Enemy";
 
         if(isOpenedByClick == true)
         {

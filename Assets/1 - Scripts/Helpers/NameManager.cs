@@ -127,7 +127,9 @@ public static class NameManager
         Stone,
         Wood,
         Iron,
-        Magic
+        Magic,
+        Exp, 
+        Mana
     }
 
     public enum PlayersStats

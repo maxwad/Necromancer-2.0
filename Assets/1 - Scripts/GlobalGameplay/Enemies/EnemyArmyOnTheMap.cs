@@ -102,12 +102,6 @@ public class EnemyArmyOnTheMap : MonoBehaviour
         if(isBorning == false) gameObject.SetActive(false);
     }
 
-    //for new Month
-    public void GenerateNewEnemiesOnTheMap()
-    {
-        StartCoroutine(Initialize());
-    }
-
     public void PrepairToTheBattle()
     {
         battleManager.PrepairToTheBattle(army, this);

@@ -88,6 +88,11 @@ public class ClickableObject : MonoBehaviour
                 isThereManager = true;
                 break;
 
+            case TypeOfObjectOnTheMap.BoxBonus:
+                GlobalStorage.instance.resourcesHeapUI.OpenWindow(this);
+                isThereManager = true;
+                break;
+
             case TypeOfObjectOnTheMap.Enemy:
                 GlobalStorage.instance.enemyArmyUI.OpenWindow(modeClick, gameObject.GetComponent<EnemyArmyOnTheMap>());
                 isThereManager = true;

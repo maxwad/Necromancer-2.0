@@ -18,6 +18,8 @@ public class ResourcesManager : MonoBehaviour
     public Sprite woodIcon;
     public Sprite ironIcon;
     public Sprite magicIcon;
+    public Sprite expIcon;
+    public Sprite manaIcon;
 
     public Dictionary<ResourceType, Sprite> resourcesIcons;
 
@@ -30,7 +32,9 @@ public class ResourcesManager : MonoBehaviour
             [ResourceType.Stone] = stoneIcon,
             [ResourceType.Wood] = woodIcon,
             [ResourceType.Iron] = ironIcon,
-            [ResourceType.Magic] = magicIcon
+            [ResourceType.Magic] = magicIcon,
+            [ResourceType.Exp] = expIcon,
+            [ResourceType.Exp] = manaIcon
         };
 
 

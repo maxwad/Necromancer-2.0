@@ -36,6 +36,7 @@ public class GlobalMapTileManager : MonoBehaviour
     [HideInInspector] public TombBuilder tombBuilder;
     [HideInInspector] public ResourceBuilder resourceBuilder;
     [HideInInspector] public CampBuilder campBuilder;
+    [HideInInspector] public MapBoxesManager boxesBuilder;
     [HideInInspector] public EnvironmentRegister environmentRegister;
 
     private List<GameObject> allBuildingsOnTheMap = new List<GameObject>();
@@ -53,6 +54,7 @@ public class GlobalMapTileManager : MonoBehaviour
         tombBuilder = GetComponent<TombBuilder>();
         resourceBuilder = GetComponent<ResourceBuilder>();
         campBuilder = GetComponent<CampBuilder>();
+        boxesBuilder = GlobalStorage.instance.mapBoxesManager;
         environmentRegister = GetComponent<EnvironmentRegister>();
 
         CreateRoadCells();
@@ -64,9 +66,10 @@ public class GlobalMapTileManager : MonoBehaviour
         tombBuilder.Build(this);
         resourceBuilder.Build(this);
         campBuilder.Build(this);
+        boxesBuilder.Build(this);
         environmentRegister.Registration(this);
 
-        CreateEnterPoints();
+        CreateEnterPointsForAllBuildings();
         SendDataToPathfinder();
 
         // end of loading map
@@ -179,19 +182,33 @@ public class GlobalMapTileManager : MonoBehaviour
         return enterPointsDict;
     }
 
-    private void CreateEnterPoints()
+    private void CreateEnterPointsForAllBuildings()
     {
         Vector3 pos;
-
         for(int i = 0; i < allBuildingsOnTheMap.Count; i++)
         {
             Vector3Int enterPoint = SearchRealEmptyCellNearRoad(false, allBuildingsOnTheMap[i].transform.position);
             pos = roadMap.CellToWorld(enterPoint);
+            //roadMap.SetTile(enterPoint, fogTile);
             enterPointsDict.Add(allBuildingsOnTheMap[i], pos);
             SortingBuildings(allBuildingsOnTheMap[i], pos);
         }
     }
 
+    public void CreateEnterPoint(GameObject building)
+    {
+        allBuildingsOnTheMap.Add(building);
+        Vector3Int enterPoint = SearchRealEmptyCellNearRoad(false, building.transform.position);
+        Vector3 position = roadMap.CellToWorld(enterPoint);
+        enterPointsDict.Add(building, position);
+        SortingBuildings(building, position);
+    }
+
+    public void DeleteEnterPoint(GameObject building)
+    {
+        allBuildingsOnTheMap.Remove(building);
+        enterPointsDict.Remove(building);
+    }
 
     public Vector3Int SearchRealEmptyCellNearRoad(bool mode, Vector3 point)
     {

@@ -133,7 +133,7 @@ public class RewardManager : MonoBehaviour
         
         List<float> bonusResourcesQuantityList = BoostResourceQuantity(bonusResources, bonusResources.Count, portionOfBoxResources, resourceBoost);
 
-        Reward reward = new Reward(0, bonusResources, bonusResourcesQuantityList);
+        Reward reward = new Reward(bonusResources, bonusResourcesQuantityList);
 
         return reward;
     }
@@ -154,16 +154,16 @@ public class RewardManager : MonoBehaviour
         resourceBoost += extraBoxReward;
         List<ResourceType> bonusResources = CreateBonusResources(countOfResources);
 
-        Debug.Log("exp " + exp + ". expBosst " + expBoost);
         exp = GetBoostValue(exp, expBoost);
-        Debug.Log("resourceBoost " + resourceBoost);
         List<float> bonusResourcesQuantityList = BoostResourceQuantity(bonusResources, bonusResources.Count, portionOfBoxResources, resourceBoost);
 
-        Reward reward = new Reward(exp, bonusResources, bonusResourcesQuantityList);
+        bonusResources.Add(ResourceType.Exp);
+        bonusResourcesQuantityList.Add(exp);
 
+        bonusResources.Reverse();
+        bonusResourcesQuantityList.Reverse();
 
-        Debug.Log(reward.exp);
-        Debug.Log(reward.resourcesQuantity[0]);
+        Reward reward = new Reward(bonusResources, bonusResourcesQuantityList);
 
         return reward;
     }
@@ -200,10 +200,20 @@ public class RewardManager : MonoBehaviour
 
         List<float> bonusResourcesQuantityList = BoostResourceQuantity(bonusResources, bonusResources.Count, portion, 0);
 
-        float mana = 0f;
-        if(isExtraManaBonus == true) mana = GetValueWithGap(manaPortion, randomGap);
+        bonusResources.Add(ResourceType.Exp);
+        bonusResourcesQuantityList.Add(exp);
 
-        Reward reward = new Reward(exp, bonusResources, bonusResourcesQuantityList, mana);
+        if(isExtraManaBonus == true) 
+        {
+            float mana = GetValueWithGap(manaPortion, randomGap);
+            bonusResources.Add(ResourceType.Mana);
+            bonusResourcesQuantityList.Add(mana);
+        }
+
+        bonusResources.Reverse();
+        bonusResourcesQuantityList.Reverse();
+
+        Reward reward = new Reward(bonusResources, bonusResourcesQuantityList);
 
         return reward;
     }

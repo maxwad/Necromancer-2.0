@@ -25,6 +25,7 @@ public class GlobalStorage : MonoBehaviour
     public PortalsManager portalsManager;
     public RewardManager rewardManager;
     public MapBonusManager mapBonusManager;
+    public MapBoxesManager mapBoxesManager;
 
 
     [Header("UI")]

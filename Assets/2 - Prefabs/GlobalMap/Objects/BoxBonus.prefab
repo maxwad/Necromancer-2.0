@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1831199754991823921}
   - component: {fileID: -8822262582893159684}
   - component: {fileID: 8960518752840200900}
+  - component: {fileID: 2953856572521678547}
   m_Layer: 0
   m_Name: BoxBonus
   m_TagString: Untagged
@@ -30,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 1479575089880212057}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -75,7 +76,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 3
   m_Sprite: {fileID: 4727633781103762509, guid: cc2b2fa75b77af5468bfb1bb82020be8, type: 3}
   m_Color: {r: 0.754717, g: 0.4380439, b: 0, a: 1}
   m_FlipX: 0
@@ -135,7 +136,7 @@ MonoBehaviour:
   objectType: 16
   isNormalUIWindow: 1
   canBeOpenedByClick: 1
-  canBeOpenedByMove: 0
+  canBeOpenedByMove: 1
   tooltip: {fileID: 0}
   cursor: 3
 --- !u!114 &8960518752840200900
@@ -152,4 +153,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   owner: 2
   isGuardNeeded: 1
-  probabilityGuard: 75
+  probabilityGuard: 65
+--- !u!114 &2953856572521678547
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1479575089880212057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bde835a75ef8aa943ae74b75fdf70b2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  openedSprite: {fileID: -7871530612760024436, guid: cc2b2fa75b77af5468bfb1bb82020be8, type: 3}
