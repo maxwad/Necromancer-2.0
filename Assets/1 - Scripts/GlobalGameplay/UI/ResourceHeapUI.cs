@@ -9,22 +9,36 @@ public class ResourceHeapUI : MonoBehaviour
 {
     private ResourcesManager resourcesManager;
     public GameObject uiPanel;
-    private GameObject currentResource;
-    public GameObject bonusItem;
+    public GameObject bonusItemPrefab;
     public GameObject bonusContainer;
     private Dictionary<ResourceType, Sprite> resourcesIcons;
 
-    public TMP_Text caption;
-    public Image resourceImage;
-    public TMP_Text count;
+    public RectTransform blockUI;
+    //public GridLayoutGroup layoutGroup;
 
+    public float resourceSizeIcon = 100f;
+    public float resourceBlockWidth = 300f;
+    public float resourceBlockHeight = 300f;
+
+    public float boxSizeIcon = 64f;
+    public float boxBlockWidth = 300f;
+    public float boxBlockHeight = 450f;
+
+    public TMP_Text caption;
+
+    private List<GameObject> itemList = new List<GameObject>();
+    private List<Image> resourceImagesList = new List<Image>();
+    private List<TMP_Text> countList = new List<TMP_Text>();
+    private List<TooltipTrigger> tooltipList = new List<TooltipTrigger>();
+
+    private int countOfItems = 5;
     private float curiosity = 0;
 
     public void OpenWindow(ClickableObject obj)
     {
-        GlobalStorage.instance.isModalWindowOpen = true;
+        if(obj.objectType == TypeOfObjectOnTheMap.BoxBonus && obj.gameObject.GetComponent<BoxObject>().reward == null) return;
 
-        //currentResource = (obj == null) ? null : obj.gameObject;
+        GlobalStorage.instance.isModalWindowOpen = true;
 
         uiPanel.SetActive(true);
 
@@ -37,54 +51,64 @@ public class ResourceHeapUI : MonoBehaviour
         {
             resourcesManager = GlobalStorage.instance.resourcesManager;
             resourcesIcons = resourcesManager.GetAllResourcesIcons();
+            CreateAllItems();
         }
 
         curiosity = GlobalStorage.instance.playerStats.GetCurrentParameter(PlayersStats.Curiosity);
-        //ResourceObject obj = currentResource.GetComponent<ResourceObject>();
+        ClearContainer();
+
         Reward reward = null;
 
         if(obj.objectType == TypeOfObjectOnTheMap.Resource)
         {
-            reward = obj.GetComponent<ResourceObject>().reward;           
+            reward = obj.GetComponent<ResourceObject>().reward;
+            caption.text = "Heap";
+            ResizeContainer(0);
         }
 
         if(obj.objectType == TypeOfObjectOnTheMap.BoxBonus)
         {
             reward = obj.GetComponent<BoxObject>().reward;
+            caption.text = "Box";
+            ResizeContainer(1);
         }
 
         if(reward != null)
         {
             for(int i = 0; i < reward.resourcesList.Count; i++)
             {
-                CreateResourceItem(reward.resourcesList[i], reward.resourcesQuantity[i]);
+                FillResourceItem(i, reward.resourcesList[i], reward.resourcesQuantity[i]);
             }
         }
-        //if(obj != null)
-        //{
-        //    caption.text = "Heap";
-        //    if(GlobalStorage.instance.playerStats.GetCurrentParameter(PlayersStats.Curiosity) > 1)
-        //        count.text = obj.resourceType.ToString() + ": " + obj.quantity.ToString();
-        //    else
-        //        count.text = obj.resourceType.ToString() + ": " + "Some";
-
-        //    resourceImage.sprite = obj.GetComponent<SpriteRenderer>().sprite;
-        //    resourceImage.color = obj.GetComponent<SpriteRenderer>().color;
-        //}
     }
 
-    private void CreateResourceItem(ResourceType resType, float quantity)
+    private void FillResourceItem(int index, ResourceType resType, float quantity)
     {
-        GameObject item = Instantiate(bonusItem);
-        item.transform.SetParent(bonusContainer.transform, false);
+        itemList[index].SetActive(true);
 
-        bonusItem.GetComponentInChildren<Image>().sprite = resourcesIcons[resType];
-        TMP_Text text = bonusItem.GetComponentInChildren<TMP_Text>();
-        text.text = resType.ToString() + ": ";
+        resourceImagesList[index].sprite = resourcesIcons[resType];
+        tooltipList[index].content = resType.ToString();
+
         if(curiosity > 1)
-            text.text += quantity;
+            countList[index].text = quantity.ToString();
         else
-            text.text += "Some";
+            countList[index].text = "Some";
+    }
+
+    private void CreateAllItems()
+    {
+        for(int i = 0; i < countOfItems; i++)
+        {
+            GameObject item = Instantiate(bonusItemPrefab);
+            item.transform.SetParent(bonusContainer.transform, false);
+
+            resourceImagesList.Add(item.GetComponentInChildren<Image>());
+            countList.Add(item.GetComponentInChildren<TMP_Text>());
+            tooltipList.Add(item.GetComponent<TooltipTrigger>());
+            item.SetActive(false);
+
+            itemList.Add(item);
+        }
     }
 
     private void ClearContainer()
@@ -93,6 +117,29 @@ public class ResourceHeapUI : MonoBehaviour
         {
             bonusItem.gameObject.SetActive(false);
         }
+    }
+
+    private void ResizeContainer(int mode)
+    {
+        //0 - heap, 1 - box, 2 - battle
+        float width = 0;
+        float height = 0;
+
+        if(mode == 0)
+        {
+            width = resourceBlockWidth;
+            height = resourceBlockHeight;
+        }
+
+        if(mode == 1)
+        {
+            width = boxBlockWidth;
+            height = boxBlockHeight;
+        }
+
+        blockUI.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, width);
+        blockUI.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
+
     }
 
     public void CloseWindow()

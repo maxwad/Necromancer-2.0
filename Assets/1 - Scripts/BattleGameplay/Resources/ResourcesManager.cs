@@ -34,7 +34,7 @@ public class ResourcesManager : MonoBehaviour
             [ResourceType.Iron] = ironIcon,
             [ResourceType.Magic] = magicIcon,
             [ResourceType.Exp] = expIcon,
-            [ResourceType.Exp] = manaIcon
+            [ResourceType.Mana] = manaIcon
         };
 
 

@@ -19,7 +19,7 @@ public class DamageText : MonoBehaviour
     private Color textColor;
 
     public void Iniatilize(float damage, Color color)
-    {
+    {        
         damageNoteScaleOffset = new Vector3(smallWaitTime, smallWaitTime, smallWaitTime);
         damageNotePositionOffset = new Vector3(0, smallWaitTime, 0);
 

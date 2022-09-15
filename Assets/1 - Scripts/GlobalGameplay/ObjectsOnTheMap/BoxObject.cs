@@ -8,6 +8,8 @@ public class BoxObject : MonoBehaviour
     private RewardManager rewardManager;
     public Reward reward;
     private MapBoxesManager mbManager;
+    private ObjectsPoolManager poolManager;
+    private ResourcesManager resourcesManager;
 
     private Coroutine deathCoroutine;
 
@@ -16,6 +18,11 @@ public class BoxObject : MonoBehaviour
     private Sprite closedSprite;
 
     private TooltipTrigger tooltip;
+    private string visitedContent = "Looks like someone has been here before.";
+    private string defaultContent;
+
+    private Dictionary<ResourceType, Sprite> resourcesIcons;
+
 
     private void OnEnable()
     {
@@ -25,8 +32,13 @@ public class BoxObject : MonoBehaviour
             closedSprite = spriteRenderer.sprite;
 
             tooltip = gameObject.GetComponent<TooltipTrigger>();
-
+            defaultContent = tooltip.content;
             rewardManager = GlobalStorage.instance.rewardManager;
+
+            poolManager = GlobalStorage.instance.objectsPoolManager;
+
+            resourcesManager = GlobalStorage.instance.resourcesManager;
+            resourcesIcons = resourcesManager.GetAllResourcesIcons();
         }        
 
         Birth();
@@ -40,8 +52,11 @@ public class BoxObject : MonoBehaviour
     private void Birth()
     {
         Initialize();
+
         spriteRenderer.sprite = closedSprite;
         tooltip.SetStatus(false);
+        tooltip.content = defaultContent;
+
         StartCoroutine(Blink(true));
     }
 
@@ -109,12 +124,12 @@ public class BoxObject : MonoBehaviour
     {
         if(reward == null)
         {
-            Debug.Log("Reward is wasted!");
             return;
         }
 
         spriteRenderer.sprite = openedSprite;
         tooltip.SetStatus(true);
+        tooltip.content = visitedContent;
 
         float luck = GlobalStorage.instance.playerStats.GetCurrentParameter(PlayersStats.Luck);
         float multiplier = 1;
@@ -130,6 +145,21 @@ public class BoxObject : MonoBehaviour
             EventManager.OnResourcePickedUpEvent(reward.resourcesList[i], reward.resourcesQuantity[i] * multiplier);
         }
 
+        ShowReward(reward, multiplier > 1);
+
         reward = null;
+    }
+
+    private void ShowReward(Reward reward, bool isDouble)
+    {
+        for(int i = 0; i < reward.resourcesList.Count; i++)
+        {
+            GameObject rewardText = poolManager.GetObjectFromPool(ObjectPool.DamageText);
+            rewardText.transform.position = transform.position;
+            rewardText.SetActive(true);
+            //rewardText.GetComponent<DamageText>().SetIcon(resourcesIcons[reward.resourcesList[i]]);
+            rewardText.GetComponent<DamageText>().Iniatilize(reward.resourcesQuantity[i], Color.white);
+        }
+        
     }
 }

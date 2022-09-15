@@ -34,7 +34,7 @@ public class ResourceObject : MonoBehaviour
         }
 
         int index = UnityEngine.Random.Range(0, Enum.GetValues(typeof(ResourceType)).Length);
-        if(index == (int)ResourceType.Magic) index = 0;
+        if(index > 4) index = 0;
         resourceType = (ResourceType)Enum.GetValues(typeof(ResourceType)).GetValue(index);
 
         Sprite icon = resourcesManager.GetAllResourcesIcons()[resourceType];

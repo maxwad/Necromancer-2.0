@@ -86,7 +86,8 @@ public static class NameManager
         EnemyDeath,
         EnemyOnTheMap,
         ResourceOnTheMap,
-        BoxOnTheMap
+        BoxOnTheMap,
+        BonusText
 
     }
 

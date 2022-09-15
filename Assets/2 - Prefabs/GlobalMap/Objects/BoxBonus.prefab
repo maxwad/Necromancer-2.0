@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: 2
-  isGuardNeeded: 1
+  isGuardNeeded: 0
   probabilityGuard: 65
 --- !u!114 &2953856572521678547
 MonoBehaviour:

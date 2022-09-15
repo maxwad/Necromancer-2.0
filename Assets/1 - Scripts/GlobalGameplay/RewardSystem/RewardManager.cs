@@ -28,7 +28,7 @@ public class RewardManager : MonoBehaviour
     public float randomGap = 25f;
     public int portionOfBoxResources = 100;
     public int portionOfAfterBattleResources = 10;
-    public int countOfResources = 2;
+    public int countOfResources = 4;
 
     private PlayerStats playerStats;
 
@@ -94,7 +94,7 @@ public class RewardManager : MonoBehaviour
         for(int i = 0; i < count; i++)
         {
             index = UnityEngine.Random.Range(0, Enum.GetValues(typeof(ResourceType)).Length);
-            if(index == (int)ResourceType.Magic) index = 0;
+            if(index > 4) index = 0;
             ResourceType resource = (ResourceType)Enum.GetValues(typeof(ResourceType)).GetValue(index);            
             bonusResourcesList.Add(resource);
         }
@@ -154,9 +154,9 @@ public class RewardManager : MonoBehaviour
         resourceBoost += extraBoxReward;
         List<ResourceType> bonusResources = CreateBonusResources(countOfResources);
 
-        exp = GetBoostValue(exp, expBoost);
         List<float> bonusResourcesQuantityList = BoostResourceQuantity(bonusResources, bonusResources.Count, portionOfBoxResources, resourceBoost);
 
+        exp = GetBoostValue(exp, expBoost);
         bonusResources.Add(ResourceType.Exp);
         bonusResourcesQuantityList.Add(exp);
 
