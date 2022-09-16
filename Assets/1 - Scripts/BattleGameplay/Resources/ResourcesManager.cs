@@ -5,12 +5,14 @@ using static NameManager;
 
 public class ResourcesManager : MonoBehaviour
 {
+    private GMInterface gmInterface;
     public float Gold { private set; get; } = 100;
     public float Food { private set; get; } = 100;
     public float Stone { private set; get; } = 10;
     public float Wood { private set; get; } = 10;
     public float Iron { private set; get; } = 10;
     public float Magic { private set; get; } = 0;
+    public float Mana { private set; get; } = 10;
 
     public Sprite goldIcon;
     public Sprite foodIcon;
@@ -21,10 +23,14 @@ public class ResourcesManager : MonoBehaviour
     public Sprite expIcon;
     public Sprite manaIcon;
 
+    public Dictionary<ResourceType, float> resourcesDict;
+
     public Dictionary<ResourceType, Sprite> resourcesIcons;
 
     private void Awake()
     {
+        gmInterface = GlobalStorage.instance.gmInterface;
+
         resourcesIcons = new Dictionary<ResourceType, Sprite>()
         {
             [ResourceType.Gold] = goldIcon,
@@ -37,26 +43,31 @@ public class ResourcesManager : MonoBehaviour
             [ResourceType.Mana] = manaIcon
         };
 
+        resourcesDict = new Dictionary<ResourceType, float>()
+        {
+            [ResourceType.Gold] = Gold,
+            [ResourceType.Food] = Food,
+            [ResourceType.Stone] = Stone,
+            [ResourceType.Wood] = Wood,
+            [ResourceType.Iron] = Iron,
+            [ResourceType.Magic] = Magic,
+            [ResourceType.Mana] = Mana
+        };
 
     }
     private void Update()
     {
         //just for testing
         if(Input.GetKeyDown(KeyCode.KeypadEnter) == true)
-            DecreaseResource(ResourceType.Gold, 10);
+            ChangeResource(ResourceType.Mana, -10);
+
+        if(Input.GetKeyDown(KeyCode.KeypadPlus) == true)
+            ChangeResource(ResourceType.Mana, 7);
     }
 
     public Dictionary<ResourceType, float> GetAllResources()
     {
-        return new Dictionary<ResourceType, float>() 
-        { 
-            [ResourceType.Gold]    = Gold,
-            [ResourceType.Food]    = Food,
-            [ResourceType.Stone]   = Stone,
-            [ResourceType.Wood]    = Wood,
-            [ResourceType.Iron]    = Iron,
-            [ResourceType.Magic]   = Magic
-        };
+        return resourcesDict;
     }
 
     public Dictionary<ResourceType, Sprite> GetAllResourcesIcons()
@@ -64,132 +75,67 @@ public class ResourcesManager : MonoBehaviour
         return resourcesIcons;
     }
 
-    private void AddResource(ResourceType type, float value)
+    private void ChangeResource(ResourceType type, float value)
     {
-        switch(type)
+        if(type == ResourceType.Exp) return;
+
+        float realValue = value;
+
+        if(value < 0)
         {
-            case ResourceType.Gold:
-                Gold += value;
-                break;
-
-            case ResourceType.Food:
-                Food += value;
-                break;
-
-            case ResourceType.Stone:
-                Stone += value;
-                break;
-
-            case ResourceType.Wood:
-                Wood += value;
-                break;
-
-            case ResourceType.Iron:
-                Iron += value;
-                break;
-
-            case ResourceType.Magic:
-                Magic += value;
-                break;
-
-            default:
-                break;
+            if(CheckResource(type, value) == false) return;
         }
+        else
+        {
+            if(type == ResourceType.Mana)
+            {
+                realValue = CheckMaxMana(value);
+            }
+        }
+
+        resourcesDict[type] += realValue;
+        gmInterface.ShowDelta(type, value);
 
         EventManager.OnUpgradeResourcesEvent();
     }
 
-    private void AddResourceAsBonus(BonusType type, float value)
+    private float CheckMaxMana(float value)
     {
-        if(type == BonusType.Gold) AddResource(ResourceType.Gold, value);
+        float maxValue = GlobalStorage.instance.playerStats.GetStartParameter(PlayersStats.Mana);
+        float currentValue = resourcesDict[ResourceType.Mana];
+        float result;
+
+        Debug.Log(maxValue);
+        if(maxValue - currentValue >= value)
+            result = value;
+        else
+            result = maxValue - currentValue;      
+
+        return result;
     }
 
-    private bool DecreaseResource(ResourceType type, float value)
+    private void AddResourceAsBonus(BonusType type, float value)
     {
-        if(CheckResource(type, value) == true)
-        {
-            switch(type)
-            {
-                case ResourceType.Gold:
-                    Gold -= value;
-                    break;
-
-                case ResourceType.Food:
-                    Food -= value;
-                    break;
-
-                case ResourceType.Stone:
-                    Stone -= value;
-                    break;
-
-                case ResourceType.Wood:
-                    Wood -= value;
-                    break;
-
-                case ResourceType.Iron:
-                    Iron -= value;
-                    break;
-
-                case ResourceType.Magic:
-                    Magic -= value;
-                    break;
-
-                default:
-                    break;
-            }
-
-            EventManager.OnUpgradeResourcesEvent();
-            return true;
-            
-        }
-
-        return false;
+        if(type == BonusType.Gold) ChangeResource(ResourceType.Gold, value);
     }
 
     private bool CheckResource(ResourceType type, float value)
     {
-        switch(type)
-        {
-            case ResourceType.Gold:
-                if(Gold >= value) return true;
-                break;
-
-            case ResourceType.Food:
-                if(Food >= value) return true;
-                break;
-
-            case ResourceType.Stone:
-                if(Stone >= value) return true;
-                break;
-
-            case ResourceType.Wood:
-                if(Wood >= value) return true;
-                break;
-
-            case ResourceType.Iron:
-                if(Iron >= value) return true;
-                break;
-
-            case ResourceType.Magic:
-                if(Magic >= value) return true;
-                break;
-
-            default:
-                break;
-        }
-
-        return false;
+        if(resourcesDict[type] >= Mathf.Abs(value)) 
+            return true;
+        else
+            return false;
     }
 
     private void OnEnable()
     {
         EventManager.BonusPickedUp += AddResourceAsBonus;
-        EventManager.ResourcePickedUp += AddResource;
+        EventManager.ResourcePickedUp += ChangeResource;
     }
 
     private void OnDisable()
     {
         EventManager.BonusPickedUp -= AddResourceAsBonus;
-        EventManager.ResourcePickedUp -= AddResource;
+        EventManager.ResourcePickedUp -= ChangeResource;
     }
 }

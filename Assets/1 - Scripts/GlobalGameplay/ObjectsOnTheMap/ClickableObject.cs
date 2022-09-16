@@ -84,12 +84,12 @@ public class ClickableObject : MonoBehaviour
                 break;
 
             case TypeOfObjectOnTheMap.Resource:
-                GlobalStorage.instance.resourcesHeapUI.OpenWindow(this);
+                GlobalStorage.instance.bonusOnTheMapUI.OpenWindow(this);
                 isThereManager = true;
                 break;
 
             case TypeOfObjectOnTheMap.BoxBonus:
-                GlobalStorage.instance.resourcesHeapUI.OpenWindow(this);
+                GlobalStorage.instance.bonusOnTheMapUI.OpenWindow(this);
                 isThereManager = true;
                 break;
 

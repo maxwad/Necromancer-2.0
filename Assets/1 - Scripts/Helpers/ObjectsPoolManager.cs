@@ -19,6 +19,7 @@ public class ObjectsPoolManager : MonoBehaviour
     public GameObject enemyOnTheMap;
     public GameObject resourceOnTheMap;
     public GameObject bonusText;
+    public GameObject deltaCount;
 
     //storages for created objects
     private List<List<GameObject>> listsToDisableAfterBattle = new List<List<GameObject>>();
@@ -32,6 +33,7 @@ public class ObjectsPoolManager : MonoBehaviour
     private List<GameObject> enemyOnTheMapList = new List<GameObject>();
     private List<GameObject> resourceOnTheMapList = new List<GameObject>();
     private List<GameObject> bonusTextList = new List<GameObject>();
+    private List<GameObject> deltaCountList = new List<GameObject>();
 
 
     private int elementsCount = 10;
@@ -132,6 +134,12 @@ public class ObjectsPoolManager : MonoBehaviour
             bonusTextList.Add(CreateObject(bonusText));
         }
 
+        //creating List with deltaCount
+        for(int i = 0; i < elementsCount; i++)
+        {
+            deltaCountList.Add(CreateObject(deltaCount));
+        }
+
         //end of creating objects
         GlobalStorage.instance.LoadNextPart();
     }
@@ -187,6 +195,10 @@ public class ObjectsPoolManager : MonoBehaviour
 
             case ObjectPool.BonusText:
                 currentObjectsList = bonusTextList;
+                break;
+            
+            case ObjectPool.DeltaCost:
+                currentObjectsList = deltaCountList;
                 break;
         }
 

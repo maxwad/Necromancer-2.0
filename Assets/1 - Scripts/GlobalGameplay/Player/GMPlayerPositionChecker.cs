@@ -59,17 +59,9 @@ public class GMPlayerPositionChecker : MonoBehaviour
     {
         if(collision.CompareTag(TagManager.T_Resource) == true)
         {
-            ResourceObject obj = collision.GetComponent<ResourceObject>();
-            EventManager.OnResourcePickedUpEvent(obj.resourceType, obj.quantity);
-            obj.Death();
+            ResourceObject heap = collision.GetComponent<ResourceObject>();
+            heap.GetReward();
         }
-
-        //if(collision.CompareTag(TagManager.T_GM_ENEMY) == true)
-        //{
-        //    gmMovement.StopMoving();
-        //    gmPathFinder.DestroyPath();
-        //    collision.gameObject.GetComponent<EnemyArmyOnTheMap>().PrepairToTheBattle();
-        //}
     }
 
 }

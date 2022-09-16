@@ -22,6 +22,8 @@ public class BoxObject : MonoBehaviour
     private string defaultContent;
 
     private Dictionary<ResourceType, Sprite> resourcesIcons;
+    [SerializeField] private Sprite luckSprite;
+    private float multiplier = 1;
 
 
     private void OnEnable()
@@ -132,7 +134,7 @@ public class BoxObject : MonoBehaviour
         tooltip.content = visitedContent;
 
         float luck = GlobalStorage.instance.playerStats.GetCurrentParameter(PlayersStats.Luck);
-        float multiplier = 1;
+        multiplier = 1;
         if(Random.Range(0, 101) <= luck)
         {
             multiplier += GlobalStorage.instance.playerStats.GetCurrentParameter(PlayersStats.DoubleBonusFromBox);
@@ -146,20 +148,38 @@ public class BoxObject : MonoBehaviour
         }
 
         ShowReward(reward, multiplier > 1);
-
         reward = null;
     }
 
     private void ShowReward(Reward reward, bool isDouble)
-    {
-        for(int i = 0; i < reward.resourcesList.Count; i++)
+    {        
+        for(int counter = -1; counter < reward.resourcesList.Count; counter++)
         {
-            GameObject rewardText = poolManager.GetObjectFromPool(ObjectPool.DamageText);
+            Sprite sprite;
+            float quantity;
+
+            if(counter == -1)
+            {
+                if(isDouble == true)
+                {
+                    sprite = luckSprite;
+                    quantity = 0;
+                }
+                else
+                {
+                    continue;
+                }
+            }
+            else
+            {
+                sprite = resourcesIcons[reward.resourcesList[counter]];
+                quantity = reward.resourcesQuantity[counter] * multiplier;
+            }
+            GameObject rewardText = poolManager.GetObjectFromPool(ObjectPool.BonusText);
+
             rewardText.transform.position = transform.position;
             rewardText.SetActive(true);
-            //rewardText.GetComponent<DamageText>().SetIcon(resourcesIcons[reward.resourcesList[i]]);
-            rewardText.GetComponent<DamageText>().Iniatilize(reward.resourcesQuantity[i], Color.white);
+            rewardText.GetComponent<BonusTip>().Iniatilize(counter, sprite, quantity);
         }
-        
     }
 }

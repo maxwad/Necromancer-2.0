@@ -31,7 +31,7 @@ public class GlobalStorage : MonoBehaviour
     [Header("UI")]
     public BattleUIManager battleIUManager;
     public GMInterface gmInterface;
-    public ResourceHeapUI resourcesHeapUI;
+    public BonusOnTheMapUI bonusOnTheMapUI;
     public EnemyArmyUI enemyArmyUI;
     public TemperCommonUIManager commonUIManager;
 

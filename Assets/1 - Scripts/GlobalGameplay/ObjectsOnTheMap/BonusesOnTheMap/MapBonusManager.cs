@@ -134,7 +134,6 @@ public class MapBonusManager : MonoBehaviour
 
     public void DeleteHeap(ResourceObject heap)
     {
-        heap.Death();
         heapsPointsDict.Remove(heap);
     }
 

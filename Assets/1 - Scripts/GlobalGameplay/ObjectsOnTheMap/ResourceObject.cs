@@ -14,14 +14,19 @@ public class ResourceObject : MonoBehaviour
     [HideInInspector] public Reward reward;
     private ResourcesManager resourcesManager;
     private MapBonusManager mapBonusManager;
-
+    private ObjectsPoolManager poolManager;
+    private Dictionary<ResourceType, Sprite> resourcesIcons;
 
     private void OnEnable()
     {
-        if(sprite == null) sprite = GetComponent<SpriteRenderer>();
-
-        if(rewardManager == null) rewardManager = GlobalStorage.instance.rewardManager;
-        if(resourcesManager == null) resourcesManager = GlobalStorage.instance.resourcesManager;
+        if(sprite == null)
+        {
+            sprite = GetComponent<SpriteRenderer>();
+            rewardManager = GlobalStorage.instance.rewardManager;
+            resourcesManager = GlobalStorage.instance.resourcesManager;
+            resourcesIcons = resourcesManager.GetAllResourcesIcons();
+            poolManager = GlobalStorage.instance.objectsPoolManager;
+        }
 
         Birth();
     }
@@ -37,8 +42,7 @@ public class ResourceObject : MonoBehaviour
         if(index > 4) index = 0;
         resourceType = (ResourceType)Enum.GetValues(typeof(ResourceType)).GetValue(index);
 
-        Sprite icon = resourcesManager.GetAllResourcesIcons()[resourceType];
-        sprite.sprite = icon;
+        sprite.sprite = resourcesIcons[resourceType];
 
         reward = rewardManager.GetHeapReward(resourceType);
         quantity = reward.resourcesQuantity[0];
@@ -102,5 +106,31 @@ public class ResourceObject : MonoBehaviour
     public void SetMapBonusManager(MapBonusManager mbManager)
     {
         mapBonusManager = mbManager;
+    }
+
+    public void GetReward()
+    {
+        if(reward == null)
+        {
+            return;
+        }
+
+        EventManager.OnResourcePickedUpEvent(reward.resourcesList[0], reward.resourcesQuantity[0]);
+
+        ShowReward(reward);
+        reward = null;
+        Death();
+    }
+
+    private void ShowReward(Reward reward)
+    {
+        Sprite sprite = resourcesIcons[reward.resourcesList[0]];
+        float quantity = reward.resourcesQuantity[0];
+        
+        GameObject rewardText = poolManager.GetObjectFromPool(ObjectPool.BonusText);
+
+        rewardText.transform.position = transform.position;
+        rewardText.SetActive(true);
+        rewardText.GetComponent<BonusTip>().Iniatilize(1, sprite, quantity);
     }
 }

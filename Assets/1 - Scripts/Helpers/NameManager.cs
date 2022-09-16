@@ -87,7 +87,8 @@ public static class NameManager
         EnemyOnTheMap,
         ResourceOnTheMap,
         BoxOnTheMap,
-        BonusText
+        BonusText,
+        DeltaCost
 
     }
 

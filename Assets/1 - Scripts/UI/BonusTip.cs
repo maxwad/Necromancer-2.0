@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
@@ -7,81 +6,53 @@ public class BonusTip : MonoBehaviour
 {
     private TMP_Text bonusText;
     private float smallWaitTime = 0.01f;
-    private float bigWaitTime = 0.5f;
     private WaitForSeconds smallWait;
-    private WaitForSeconds bigWait;
-    private Vector3 bonusNoteStartOffsetStandart = new Vector3(0, 0.7f, 0);
-    private Vector3 bonusNoteStartOffset;
-    private Vector3 bonusNoteScaleOffset;
-    private Vector3 bonusNotePositionOffset;
 
-    private float bonusValue;
-    private Color textColor;
+    private float lifeTime = 3f;
+    private float currentTime = 0f;
+    private Vector3 startOffset = new Vector3(0, 1.5f, 0);
 
     private SpriteRenderer spriteRenderer;
+    private string luckText = "x2";
 
-    public void Iniatilize(float bonus, Color color)
+    public void Iniatilize(int counter, Sprite sprite, float quantity)
     {
-        bonusNoteScaleOffset = new Vector3(smallWaitTime, smallWaitTime, smallWaitTime);
-        bonusNotePositionOffset = new Vector3(0, smallWaitTime, 0);
+        if(spriteRenderer == null)
+        {
+            spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+            bonusText = GetComponentInChildren<TMP_Text>();
+        }
 
-        bonusText = GetComponent<TMP_Text>();
-        bonusValue = bonus;
-        textColor = color;
+        spriteRenderer.sprite = sprite;
 
-        float randomOffset = Random.Range(-40, 30) * 0.01f;
-        bonusNoteStartOffset = bonusNoteStartOffsetStandart + new Vector3(0, randomOffset, 0);
+        bonusText.text = quantity.ToString();
+        bonusText.color = Color.white;
+        if(quantity == 0) 
+        {
+            bonusText.color = Color.yellow;
+            bonusText.text = luckText;
+        }        
+  
+        transform.position += startOffset * 2;
+        transform.position += startOffset * counter;
 
-        transform.position += bonusNoteStartOffset;
-        transform.localScale = Vector3.one;
-
-        StartCoroutine(Showbonus(bonusValue, textColor));
+        StartCoroutine(ShowBonus());
     }
 
-    private IEnumerator Showbonus(float bonus, Color color)
+    private IEnumerator ShowBonus()
     {
         smallWait = new WaitForSeconds(smallWaitTime);
-        bigWait = new WaitForSeconds(bigWaitTime);
 
-        bonusText.color = color;
-        bonusText.text = bonus.ToString();
-
-        float heigth = 1;
-        float minScale = 0f;
-        float maxScale = 1.25f;
-        float currentScale = 1f;
-
-        while(heigth > 0 && currentScale < maxScale)
+        while(currentTime <= lifeTime)
         {
-            heigth -= 0.01f;
-            transform.position += bonusNotePositionOffset;
-
-            currentScale += smallWaitTime;
-            transform.localScale += bonusNoteScaleOffset;
+            currentTime += smallWaitTime;
+            transform.position += new Vector3(0, smallWaitTime, 0);
 
             yield return smallWait;
         }
 
-        yield return bigWait;
-
-        while(currentScale > minScale)
-        {
-            currentScale -= smallWaitTime * 2;
-            transform.localScale -= bonusNoteScaleOffset * 2;
-
-            yield return smallWait;
-        }
-
-        //reset offset
-        bonusNoteStartOffset = bonusNoteStartOffsetStandart;
+        currentTime = 0;
         spriteRenderer.sprite = null;
         gameObject.SetActive(false);
-        //TODO: change to set gameObject false
-    }
-
-    public void SetIcon(Sprite sprite)
-    {
-        if(spriteRenderer == null) spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        spriteRenderer.sprite = sprite;
     }
 }
