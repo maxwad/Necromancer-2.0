@@ -31,25 +31,24 @@ public class RewardManager : MonoBehaviour
     public int countOfResources = 4;
 
     private PlayerStats playerStats;
+    private float luck;
 
     private void Start()
     {
         playerStats = GlobalStorage.instance.playerStats;
         GetPlayersParameters();
-
-        //GetBattleReward(ArmyStrength.Middle, UnityEngine.Random.Range(1, 13));
     }
 
 
     #region GET/SET Parameters
     private void GetPlayersParameters()
     {
-        playerStats = GlobalStorage.instance.playerStats;//DELETE LATER
+        if(playerStats == null) playerStats = GlobalStorage.instance.playerStats;
 
         extraBoxReward = playerStats.GetCurrentParameter(PlayersStats.ExtraBoxReward);
-
         extraBonusAfterBattle = playerStats.GetCurrentParameter(PlayersStats.ExtraAfterBattleReward);
         extraExpAfterBattle = playerStats.GetCurrentParameter(PlayersStats.ExtraExpReward);
+        luck = playerStats.GetCurrentParameter(PlayersStats.Luck);
 
         SetExtrasResources(extraBonusAfterBattle);
     }
@@ -61,7 +60,7 @@ public class RewardManager : MonoBehaviour
 
         if(mode > 0) isExtraResourcesBonus = true;
 
-        if(mode > 1) isExtraManaBonus = true;
+        if(mode > 1) isExtraManaBonus = (UnityEngine.Random.Range(0, 101) <= luck) ? true : false;        
     }
 
 
@@ -168,12 +167,12 @@ public class RewardManager : MonoBehaviour
         return reward;
     }
 
-    public Reward GetBattleReward(ArmyStrength strength, int countOfSquad)
+    public Reward GetBattleReward(Army army)
     {
         GetPlayersParameters();
 
-        difficultBattleMultiplier = (int)strength;
-        float strenghtBoost = countOfSquad * difficultBattleMultiplier * difficultConstant;
+        difficultBattleMultiplier = (int)army.strength;
+        float strenghtBoost = army.squadList.Count * difficultBattleMultiplier * difficultConstant;
 
         //Debug.Log("countOfSquad = " + countOfSquad + ". strenghtBoost = " + strenghtBoost);
 
@@ -200,15 +199,15 @@ public class RewardManager : MonoBehaviour
 
         List<float> bonusResourcesQuantityList = BoostResourceQuantity(bonusResources, bonusResources.Count, portion, 0);
 
-        bonusResources.Add(ResourceType.Exp);
-        bonusResourcesQuantityList.Add(exp);
-
         if(isExtraManaBonus == true) 
         {
             float mana = GetValueWithGap(manaPortion, randomGap);
             bonusResources.Add(ResourceType.Mana);
             bonusResourcesQuantityList.Add(mana);
         }
+
+        bonusResources.Add(ResourceType.Exp);
+        bonusResourcesQuantityList.Add(exp);
 
         bonusResources.Reverse();
         bonusResourcesQuantityList.Reverse();

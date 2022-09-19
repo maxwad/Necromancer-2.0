@@ -43,8 +43,8 @@ public class GMPlayerMovement : MonoBehaviour
 
     private void SetParameters()
     {
-        movementPointsMax = playerStats.GetStartParameter(PlayersStats.MovementDistance);
-        viewRadius = playerStats.GetStartParameter(PlayersStats.RadiusView);
+        movementPointsMax = playerStats.GetMaxParameter(PlayersStats.MovementDistance);
+        viewRadius = playerStats.GetMaxParameter(PlayersStats.RadiusView);
     }
 
     public float[] GetParametres()
@@ -163,7 +163,7 @@ public class GMPlayerMovement : MonoBehaviour
     public void TeleportTo(Vector2 newPosition, float cost)
     {
         gmPathFinder.DestroyPath();
-        GlobalStorage.instance.hero.SpendMana(cost);
+        //GlobalStorage.instance.hero.SpendMana(cost);
 
         StartCoroutine(Telepartation(newPosition));        
     }

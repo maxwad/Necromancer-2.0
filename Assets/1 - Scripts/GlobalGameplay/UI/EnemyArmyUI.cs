@@ -45,7 +45,7 @@ public class EnemyArmyUI : MonoBehaviour
     {
         //modeClick = false - by movement; true - by click
 
-        GlobalStorage.instance.isModalWindowOpen = true;
+        GlobalStorage.instance.ModalWindowOpen(true);
         isOpenedByClick = modeClick;
 
         currentEnemyArmy = enemyArmy;
@@ -200,7 +200,7 @@ public class EnemyArmyUI : MonoBehaviour
 
     public void CloseWindow()
     {
-        GlobalStorage.instance.isModalWindowOpen = false;
+        GlobalStorage.instance.ModalWindowOpen(false);
 
         uiPanel.SetActive(false);
     }

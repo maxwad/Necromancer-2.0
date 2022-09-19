@@ -30,6 +30,7 @@ public class GlobalStorage : MonoBehaviour
 
     [Header("UI")]
     public BattleUIManager battleIUManager;
+    public BattleResult battleResultUI;
     public GMInterface gmInterface;
     public BonusOnTheMapUI bonusOnTheMapUI;
     public EnemyArmyUI enemyArmyUI;
@@ -123,5 +124,10 @@ public class GlobalStorage : MonoBehaviour
     {
         isGlobalMode = mode;
         EventManager.OnChangePlayModeEvent(mode);
+    }
+
+    public void ModalWindowOpen(bool mode)
+    {
+        isModalWindowOpen = mode;
     }
 }

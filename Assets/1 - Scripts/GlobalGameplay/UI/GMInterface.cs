@@ -6,7 +6,6 @@ using static NameManager;
 
 public class GMInterface : MonoBehaviour
 {
-    private PlayerStats playerStats;
     [SerializeField] private GameObject uiPanel;
     private ObjectsPoolManager poolManager;
     private ResourcesManager resourcesManager;
@@ -14,8 +13,6 @@ public class GMInterface : MonoBehaviour
 
     [Header("Mana")]
     [SerializeField] private TMP_Text manaCount;
-    private float currentMaxManaCount;
-    private float currentManaCount;
 
     [Header("Resources")]
     [SerializeField] private TMP_Text goldCount;
@@ -45,9 +42,8 @@ public class GMInterface : MonoBehaviour
     [SerializeField] private TooltipTrigger decadeTooltip;
 
 
-    private void Start()
+    private void Awake()
     {
-        playerStats = GlobalStorage.instance.playerStats;
         poolManager = GlobalStorage.instance.objectsPoolManager;
         resourcesManager = GlobalStorage.instance.resourcesManager;
 
@@ -58,7 +54,8 @@ public class GMInterface : MonoBehaviour
             [ResourceType.Stone] = stoneCount,
             [ResourceType.Wood] = woodCount,
             [ResourceType.Iron] = ironCount,
-            [ResourceType.Magic] = magicCount
+            [ResourceType.Magic] = magicCount,
+            [ResourceType.Mana] = manaCount
         };
 
         deltaContainers = new Dictionary<ResourceType, GameObject>()
@@ -72,34 +69,16 @@ public class GMInterface : MonoBehaviour
             [ResourceType.Mana] = manaContainer
         };
 
-        FillMana();
-        FillResources();
+    }
+
+    private void Start()
+    {
+        FillStartResources();
     }
 
     private void EnableUI(bool mode)
     {
         uiPanel.SetActive(mode);
-    }
-
-    private void FillMana(float max = 0, float current = 0)
-    {
-        if(max == 0)
-        {
-            currentMaxManaCount = playerStats.GetStartParameter(PlayersStats.Mana);
-            currentManaCount = playerStats.GetCurrentParameter(PlayersStats.Mana);
-        }
-        else
-        {
-            currentMaxManaCount = max;
-            currentManaCount = current;
-        }
-
-        manaCount.text = currentManaCount.ToString();
-    }
-
-    private void UpdateManaUI(PlayersStats stat, float maxValue, float currentValue)
-    {
-        if(stat == PlayersStats.Mana) FillMana(maxValue, currentValue);        
     }
 
     public void ShowDelta(ResourceType resType, float value)
@@ -113,49 +92,21 @@ public class GMInterface : MonoBehaviour
         delta.GetComponent<DeltaCost>().ShowDelta(value);
     }
 
-    private void FillResources()
+    private void FillStartResources()
     {
         resourcesDict = resourcesManager.GetAllResources();
 
         foreach(var resource in resourceCounters)
         {
             resource.Value.text = resourcesDict[resource.Key].ToString();
-
         }
+    }
 
-        //foreach(var resource in resourcesDict)
-        //{
+    private void FillResource(ResourceType type, float value)
+    {
+        if(type == ResourceType.Health || type == ResourceType.Exp) return;
 
-        //    switch(resource.Key)
-        //    {
-        //        case ResourceType.Gold:
-        //            goldCount.text = resource.Value.ToString();
-        //            break;
-
-        //        case ResourceType.Food:
-        //            foodCount.text = resource.Value.ToString();
-        //            break;
-
-        //        case ResourceType.Stone:
-        //            stoneCount.text = resource.Value.ToString();
-        //            break;
-
-        //        case ResourceType.Wood:
-        //            woodCount.text = resource.Value.ToString();
-        //            break;
-
-        //        case ResourceType.Iron:
-        //            ironCount.text = resource.Value.ToString();
-        //            break;
-
-        //        case ResourceType.Magic:
-        //            magicCount.text = resource.Value.ToString();
-        //            break;
-
-        //        default:
-        //            break;
-        //    }
-        //}
+        resourceCounters[type].text = value.ToString();
     }
 
     private void UpdateCurrentMoves(PlayersStats stat, float maxValue, float currentValue)
@@ -179,8 +130,7 @@ public class GMInterface : MonoBehaviour
 
     private void OnEnable()
     {
-        EventManager.UpgradeStatCurrentValue += UpdateManaUI;
-        EventManager.UpgradeResources += FillResources;
+        EventManager.UpgradeResource += FillResource;
         EventManager.UpgradeStatCurrentValue += UpdateCurrentMoves;
         EventManager.ChangePlayer += EnableUI;
     }
@@ -188,8 +138,7 @@ public class GMInterface : MonoBehaviour
     private void OnDisable()
     {
         EventManager.ChangePlayer -= EnableUI;
-        EventManager.UpgradeResources -= FillResources;
+        EventManager.UpgradeResource -= FillResource;
         EventManager.UpgradeStatCurrentValue -= UpdateCurrentMoves;
-        EventManager.UpgradeStatCurrentValue -= UpdateManaUI;
     }
 }

@@ -5,6 +5,7 @@ using static NameManager;
 
 public class BattleManager : MonoBehaviour
 {
+    private BattleResult battleResultUI;
     [SerializeField] private int sizeMapX = 50;
     [SerializeField] private int sizeMapY = 50;
     private int positionZ = 40; // we should send double size of Z because dividing by 2
@@ -18,10 +19,15 @@ public class BattleManager : MonoBehaviour
 
     private Army currentArmy = new Army();
     private GameObject currentEnemySquad;
-    private EnemyArmyOnTheMap currrentEnemyArmyOnTheMap;
+    private EnemyArmyOnTheMap currentEnemyArmyOnTheMap;
     private List<GameObject> currentEnemies = new List<GameObject>();
     private List<int> currentEnemiesQuantity = new List<int>();
 
+
+    private void Start()
+    {
+        battleResultUI = GlobalStorage.instance.battleResultUI;
+    }
 
     #region Starting Initialisation
 
@@ -58,7 +64,9 @@ public class BattleManager : MonoBehaviour
         if(result == 1)
         {
             //reward window
-            GlobalStorage.instance.enemyManager.DeleteArmy(currrentEnemyArmyOnTheMap, currentArmy);
+
+            Debug.Log("Victory");
+            GlobalStorage.instance.enemyManager.DeleteArmy(currentEnemyArmyOnTheMap, currentArmy);
         }
 
         if(result == 0)
@@ -70,7 +78,9 @@ public class BattleManager : MonoBehaviour
         if(result == -1)
         {
             GlobalStorage.instance.player.GetComponent<PlayersArmy>().EscapeDamage();
-        }       
+        }
+
+        battleResultUI.Init(result, currentArmy);
     }
     
     //public void ClearEnemyArmy()
@@ -84,7 +94,7 @@ public class BattleManager : MonoBehaviour
     public void PrepairToTheBattle(Army army, EnemyArmyOnTheMap currentEnemyArmy)
     {
         currentArmy = army;
-        currrentEnemyArmyOnTheMap = currentEnemyArmy;
+        currentEnemyArmyOnTheMap = currentEnemyArmy;
         currentEnemySquad = currentEnemyArmy.gameObject;
         //ClearEnemyArmy();
         currentEnemies = army.squadList;

@@ -131,7 +131,8 @@ public static class NameManager
         Iron,
         Magic,
         Exp, 
-        Mana
+        Mana,
+        Health
     }
 
     public enum PlayersStats

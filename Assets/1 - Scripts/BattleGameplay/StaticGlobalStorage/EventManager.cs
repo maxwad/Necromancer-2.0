@@ -176,6 +176,7 @@ public static class EventManager
     //
     //SUBSCRIBERS:
     // - HeroController
+    // - ResourcesManager
     // - 
     //ACTIVATION:
     // - PlayerStats
@@ -202,11 +203,11 @@ public static class EventManager
     //calls when we change Mana
     //
     //SUBSCRIBERS:
-    // - BattleUIManager
     // - gmInterface
     //
     //ACTIVATION:
     // - HeroController
+    // - GMPlayerMovement
     //
     public delegate void UpgradeStatCurrentValueEvent(PlayersStats stat, float maxValue, float currentValue);
     public static event UpgradeStatCurrentValueEvent UpgradeStatCurrentValue;
@@ -223,9 +224,9 @@ public static class EventManager
     //ACTIVATION:
     // - ResourcesManager
     //
-    public delegate void UpgradeResourcesEvent();
-    public static event UpgradeResourcesEvent UpgradeResources;
-    public static void OnUpgradeResourcesEvent() => UpgradeResources?.Invoke();
+    public delegate void UpgradeResourceEvent(ResourceType resource, float value);
+    public static event UpgradeResourceEvent UpgradeResource;
+    public static void OnUpgradeResourceEvent(ResourceType resource, float value) => UpgradeResource?.Invoke(resource, value);
     #endregion
 
 

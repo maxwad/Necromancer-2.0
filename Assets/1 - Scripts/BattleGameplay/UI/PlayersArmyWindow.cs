@@ -100,7 +100,7 @@ public class PlayersArmyWindow : MonoBehaviour
                 UpdateArmyWindow();
 
                 MenuManager.instance.MiniPause(true);
-                GlobalStorage.instance.isModalWindowOpen = true;
+                GlobalStorage.instance.ModalWindowOpen(true);
             }            
         }            
         else
@@ -118,7 +118,7 @@ public class PlayersArmyWindow : MonoBehaviour
 
         if(isWindowOpenedFromBattleWindow == false)
         {
-            GlobalStorage.instance.isModalWindowOpen = false;            
+            GlobalStorage.instance.ModalWindowOpen(false);
         }
         else
         {

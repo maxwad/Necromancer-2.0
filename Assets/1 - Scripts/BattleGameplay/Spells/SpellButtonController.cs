@@ -1,11 +1,13 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using static NameManager;
 
 public class SpellButtonController : MonoBehaviour
 {
+    private ResourcesManager resourcesManager;
+
     [SerializeField] private SpellStat spell;
     [SerializeField] private Image veil;
     [SerializeField] private Image icon;
@@ -32,6 +34,7 @@ public class SpellButtonController : MonoBehaviour
     {
         hero = GlobalStorage.instance.hero;
         spellLibrary = GlobalStorage.instance.spellManager.GetComponent<SpellLibrary>();
+        resourcesManager = GlobalStorage.instance.resourcesManager;
 
         spell = newSpell;
 
@@ -60,7 +63,7 @@ public class SpellButtonController : MonoBehaviour
 
         if(hero.isDead == true) return;
 
-        hero.SpendMana(spell.manaCost);
+        resourcesManager.ChangeResource(ResourceType.Mana, -spell.manaCost);
         spellLibrary.ActivateSpell(spell.spellType, true, spell.value, spell.actionTime);
 
         StartCoroutine(StartDelay());
@@ -68,8 +71,9 @@ public class SpellButtonController : MonoBehaviour
 
     private bool CheckMana()
     {
-        float currentManaCount = hero.currentMana;
-        return !(currentManaCount - spell.manaCost >= 0);
+        //float currentManaCount = resourcesManager.GetResource(ResourceType.Mana);
+        //return !(currentManaCount - spell.manaCost >= 0);
+        return !resourcesManager.CheckMinResource(ResourceType.Mana, spell.manaCost);
     }
 
     private IEnumerator CheckDisabling()

@@ -140,7 +140,6 @@ public class MenuManager : MonoBehaviour
         Time.timeScale = (mode == true) ? 0f : 1.0f;
     }
 
-
     //public void ReloadGame()
     //{
     //    AudioManager.instanse.SoundMode(0);

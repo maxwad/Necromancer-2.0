@@ -5,10 +5,17 @@ using static NameManager;
 
 public class SpellLibrary : MonoBehaviour
 {
+    private ResourcesManager resourcesManager;
+
     [SerializeField] private GameObject shuriken;
     [SerializeField] private GameObject kickAssCircle;
 
     private List<Spells> currentSpells = new List<Spells>();
+
+    private void Start()
+    {
+        resourcesManager = GlobalStorage.instance.resourcesManager;
+    }
 
     public void ActivateSpell(Spells spell, bool mode, float value = 0, float duration = 0)
     {
@@ -397,7 +404,7 @@ public class SpellLibrary : MonoBehaviour
             while(true)
             {
                 yield return new WaitForSeconds(2f);
-                GlobalStorage.instance.hero.SpendMana(quantity);
+                resourcesManager.ChangeResource(ResourceType.Mana, quantity);
             }           
         }
     }

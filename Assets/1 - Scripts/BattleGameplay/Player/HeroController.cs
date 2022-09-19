@@ -1,12 +1,13 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using static NameManager;
-using System;
 
 public class HeroController : MonoBehaviour
 {
+    private PlayerStats playerStats;
+    private ResourcesManager resourcesManager;
+
     [Header("Level up system")]
     [SerializeField] private float currentTempLevel;
     [SerializeField] public float currentMaxLevel;
@@ -25,14 +26,10 @@ public class HeroController : MonoBehaviour
     public float currentMana;
 
     [SerializeField] private float searchRadius;
-
     [SerializeField] private float defence;
-
     [SerializeField] private float luck;
 
-    private PlayerStats playerStatsScript;
-
-    [Space]
+    [Header("Damage")]
     [HideInInspector] public bool isDead = false;
     [Space]
     private SpriteRenderer unitSprite;
@@ -43,28 +40,21 @@ public class HeroController : MonoBehaviour
     [SerializeField] private GameObject deathPrefab;
 
     [Space]
+    [SerializeField] GameObject damageNote;
+    private Color colorDamage = new Color(1f, 0.45f, 0.03f, 1);
+
+    [Header("UI")]
+    [Space]
     private BattleUIManager battleUIManager;
     private bool isFigthingStarted = false;
     private Coroutine autoLevelUp;
     private float autoLevelUpTime = 5f;
     private WaitForSeconds dalayTime;
 
-    [Space]
-    [SerializeField] GameObject damageNote;
-    private Color colorDamage = new Color(1f, 0.45f, 0.03f, 1);
-
     private void Start()
     {
         unitSprite = GetComponent<SpriteRenderer>();
         normalColor = unitSprite.color;
-
-        ////ATTENTION! It happens when game starts and NEVER AGAIN!
-        //currentMaxLevel   = playerStatsScript.GetStartParameter(PlayersStats.Level);
-        ////currentHealth     = playerStatsScript.GetStartParameter(PlayersStats.Health);
-        //searchRadius      = playerStatsScript.GetStartParameter(PlayersStats.SearchRadius);
-        ////currentMana       = playerStatsScript.GetStartParameter(PlayersStats.Mana);
-        //defence           = playerStatsScript.GetStartParameter(PlayersStats.Defence);
-        //luck              = playerStatsScript.GetStartParameter(PlayersStats.Luck);
 
         battleUIManager = GlobalStorage.instance.battleIUManager;
 
@@ -76,11 +66,6 @@ public class HeroController : MonoBehaviour
     private void Update()
     {
         SearchBonuses();
-
-        if(Input.GetKeyDown(KeyCode.Space) == true)
-        {
-            AddMana(BonusType.Mana, 5);
-        }
     }
 
     private void UpgradeTempExpGoal()
@@ -103,14 +88,6 @@ public class HeroController : MonoBehaviour
         {
             case PlayersStats.Level:
                 currentMaxLevel = value;
-                break;
-
-            case PlayersStats.Health:
-                maxCurrentHealth = value;
-                break;
-
-            case PlayersStats.Mana:
-                maxCurrentMana = value;
                 break;
 
             case PlayersStats.SearchRadius:
@@ -166,11 +143,13 @@ public class HeroController : MonoBehaviour
     {
         //TODO: we need to create some damage formula
         float damage = Mathf.Round(physicalDamage + magicDamage);
-        currentHealth -= damage;
+
+        resourcesManager.ChangeResource(ResourceType.Health, -damage);
+        currentHealth = resourcesManager.GetResource(ResourceType.Health);
+
         if(currentHealth < 0) currentHealth = 0;
 
         ShowDamage(damage, colorDamage);
-        EventManager.OnUpgradeStatCurrentValueEvent(PlayersStats.Health, maxCurrentHealth, currentHealth);
 
         if (currentHealth <= 0)
         {
@@ -197,60 +176,6 @@ public class HeroController : MonoBehaviour
         gameObject.SetActive(false);
 
         GlobalStorage.instance.battleIUManager.ShowDefeatBlock();
-    }
-
-    private void AddHealth(BonusType type, float value)
-    {
-        if(type == BonusType.Health && isDead == false)
-        {
-            // if we wont to add not value but percent
-            if(value < 1) value = maxCurrentHealth * value;
-
-            if(currentHealth + value > maxCurrentHealth)
-                currentHealth = maxCurrentHealth;
-            else
-                currentHealth += value;
-
-            EventManager.OnUpgradeStatCurrentValueEvent(PlayersStats.Health, maxCurrentHealth, currentHealth);
-        }
-    }
-
-    public void AddMana(BonusType type, float value)
-    {
-        if(type == BonusType.Mana && isDead == false) ChangeMana(value);
-    }
-
-    public void SpendMana(float value)
-    {
-        if(isDead == false) ChangeMana(-value);
-    }
-
-    private void ChangeMana(float value)
-    {
-        if(value <= 0)
-        {
-            if(Mathf.Abs(value) <= currentMana)
-            {
-                currentMana -= Mathf.Abs(value);
-            }
-        }
-        else
-        {
-            // if we wont to add not value but percent
-            if(value < 1) value = maxCurrentMana * value;
-
-            if(currentMana + value > maxCurrentMana)
-                currentMana = maxCurrentMana;
-            else
-                currentMana += value;
-        }
-
-        EventManager.OnUpgradeStatCurrentValueEvent(PlayersStats.Mana, maxCurrentMana, currentMana);
-    }
-
-    private void UpgradeStatCurrentValue(PlayersStats stat, float maxValue, float currentValue)
-    {
-        if(stat == PlayersStats.Mana) currentMana = currentValue;
     }
 
     private void AddTempExp(BonusType type, float value)
@@ -315,7 +240,7 @@ public class HeroController : MonoBehaviour
 
         if(mode == false)
         {
-            currentMaxLevel = playerStatsScript.GetStartParameter(PlayersStats.Level);
+            currentMaxLevel = playerStats.GetMaxParameter(PlayersStats.Level);
             EventManager.OnExpEnoughEvent(false);
             UpgradeTempExpGoal();
         }
@@ -325,36 +250,35 @@ public class HeroController : MonoBehaviour
     {
         gameObject.SetActive(true);
         isDead = false;
-        AddHealth(BonusType.Health, maxCurrentHealth);
+        resourcesManager.ChangeResource(ResourceType.Health, resourcesManager.maxHealth);
     }
 
     private void OnEnable()
     {
-        EventManager.BonusPickedUp += AddHealth;
-        EventManager.BonusPickedUp += AddMana;
         EventManager.BonusPickedUp += AddTempExp;
         EventManager.SetStartPlayerStat += SetStartParameters;
         EventManager.NewBoostedStat += UpgradeStat;
         EventManager.ChangePlayer += ResetTempLevel;
-        EventManager.UpgradeStatCurrentValue += UpgradeStatCurrentValue;
 
-        if(playerStatsScript == null) playerStatsScript = GlobalStorage.instance.playerStats;
+        if(playerStats == null)
+        {
+            playerStats = GlobalStorage.instance.playerStats;
+            resourcesManager = GlobalStorage.instance.resourcesManager;
+        }        
 
         ResetTempLevel(false);
 
-        playerStatsScript.GetAllStartParameters();
-        currentHealth = playerStatsScript.GetCurrentParameter(PlayersStats.Health);
-        currentMana = playerStatsScript.GetCurrentParameter(PlayersStats.Mana);
+        playerStats.GetAllStartParameters();
+
+        currentHealth = resourcesManager.GetResource(ResourceType.Health);
+        currentMana = resourcesManager.GetResource(ResourceType.Mana);
     }
 
     private void OnDisable()
     {
-        EventManager.BonusPickedUp -= AddHealth;
-        EventManager.BonusPickedUp -= AddMana;
         EventManager.BonusPickedUp -= AddTempExp;
         EventManager.SetStartPlayerStat -= SetStartParameters;
         EventManager.NewBoostedStat -= UpgradeStat;
         EventManager.ChangePlayer -= ResetTempLevel;
-        EventManager.UpgradeStatCurrentValue -= UpgradeStatCurrentValue;
     }
 }

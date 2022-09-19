@@ -14,13 +14,10 @@ public class BonusOnTheMapUI : MonoBehaviour
     private Dictionary<ResourceType, Sprite> resourcesIcons;
 
     public RectTransform blockUI;
-    //public GridLayoutGroup layoutGroup;
 
-    public float resourceSizeIcon = 100f;
     public float resourceBlockWidth = 300f;
     public float resourceBlockHeight = 300f;
 
-    public float boxSizeIcon = 64f;
     public float boxBlockWidth = 300f;
     public float boxBlockHeight = 450f;
 
@@ -38,7 +35,7 @@ public class BonusOnTheMapUI : MonoBehaviour
     {
         if(obj.objectType == TypeOfObjectOnTheMap.BoxBonus && obj.gameObject.GetComponent<BoxObject>().reward == null) return;
 
-        GlobalStorage.instance.isModalWindowOpen = true;
+        GlobalStorage.instance.ModalWindowOpen(true);
 
         uiPanel.SetActive(true);
 
@@ -144,7 +141,7 @@ public class BonusOnTheMapUI : MonoBehaviour
 
     public void CloseWindow()
     {
-        GlobalStorage.instance.isModalWindowOpen = false;
+        GlobalStorage.instance.ModalWindowOpen(false);
         uiPanel.SetActive(false);
     }
 }

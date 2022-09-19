@@ -14,7 +14,7 @@ public class TemperCommonUIManager : MonoBehaviour
 
     public void OpenWindow(bool modeClick, bool modeNormalUISize, ClickableObject obj)
     {
-        GlobalStorage.instance.isModalWindowOpen = true;
+        GlobalStorage.instance.ModalWindowOpen(true);
 
         if(modeNormalUISize == true)
             uiPanel.SetActive(true);
@@ -44,7 +44,7 @@ public class TemperCommonUIManager : MonoBehaviour
 
     public void CloseWindow()
     {
-        GlobalStorage.instance.isModalWindowOpen = false;
+        GlobalStorage.instance.ModalWindowOpen(false);
 
         uiPanel.SetActive(false);
         uiPanelMini.SetActive(false);

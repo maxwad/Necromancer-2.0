@@ -292,36 +292,13 @@ public class PlayerStats : MonoBehaviour
         allStatsDict[stat] = currentStat;
     }
 
-    //private void SendStartParameters(bool mode)
-    //{
-    //    //we need to delay sending because not all scripts subscribed on event in call moment.
-    //    //if(mode == false) Invoke("SendingParameters", 0.1f);
-    //    //SendingParameters();
-    //}
-
     public void GetAllStartParameters()
-    {
-        SendingParameters();
-    }
-
-    private void SendingParameters()
     {
         foreach(PlayersStats itemStat in Enum.GetValues(typeof(PlayersStats)))
             EventManager.OnSetStartPlayerStatEvent(itemStat, allStatsDict[itemStat].maxValue);
-        //{
-        //    if(itemStat == PlayersStats.Health || itemStat == PlayersStats.Mana)
-        //    {
-        //        EventManager.OnSetStartPlayerStatEvent(itemStat, allStatsDict[itemStat].currentValue);
-        //    }
-        //    else
-        //    {
-        //        EventManager.OnSetStartPlayerStatEvent(itemStat, allStatsDict[itemStat].maxValue);
-        //    }
-        //}
     }
 
-    //for starting current values in HeroController, BattleUIManager, GMPlayerMovement
-    public float GetStartParameter(PlayersStats stat)
+    public float GetMaxParameter(PlayersStats stat)
     {
         return allStatsDict[stat].maxValue;
     }
@@ -334,14 +311,12 @@ public class PlayerStats : MonoBehaviour
     private void OnEnable()
     {
         EventManager.SetBoostToStat += UpdateBoost;
-        //EventManager.ChangePlayer += SendStartParameters;
         EventManager.UpgradeStatCurrentValue += UpgradeStatCurrentValue;
     }
 
     private void OnDisable()
     {
         EventManager.SetBoostToStat -= UpdateBoost;
-        //EventManager.ChangePlayer -= SendStartParameters;
         EventManager.UpgradeStatCurrentValue -= UpgradeStatCurrentValue;
     }
 }

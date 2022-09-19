@@ -44,6 +44,7 @@ public class BattleUIManager : MonoBehaviour
     [Header("Mana")]
     [SerializeField] private RectTransform manaValue;
     [SerializeField] private TMP_Text manaInfo;
+    private Image manaScale;
     private float currentMaxManaCount;
     private float currentManaCount;
     [SerializeField] private Color manaUpColor;
@@ -53,6 +54,7 @@ public class BattleUIManager : MonoBehaviour
     [Header("Health")]
     [SerializeField] private RectTransform healthValue;
     [SerializeField] private TMP_Text healthInfo;
+    private Image healthScale;
     private float currentMaxHealthCount;
     private float currentHealthCount;
     [SerializeField] private Color healthUpColor;
@@ -61,7 +63,6 @@ public class BattleUIManager : MonoBehaviour
 
     [Header("Gold")]
     [SerializeField] private TMP_Text goldInfo;
-    //private float currentGoldCount;
 
     [Header("Spells")]
     [SerializeField] private Button buttonSpell;
@@ -86,12 +87,32 @@ public class BattleUIManager : MonoBehaviour
     [SerializeField] private GameObject defeatBlock;
     [SerializeField] private CanvasGroup defeatCanvasGroup;
 
+    private void Start()
+    {
+        playerStats = GlobalStorage.instance.playerStats;
+        resourcesManager = GlobalStorage.instance.resourcesManager;
+        healthScale = healthValue.GetComponent<Image>();
+        manaScale = manaValue.GetComponent<Image>();
+    }
 
     private void Update()
     {
         if(Input.GetKeyDown(KeyCode.Backspace))
         {
             if(GlobalStorage.instance.isGlobalMode == false) OpenLeaveBlock(!isLeaveBlockOpened);
+        }
+
+        if(Input.GetKeyDown(KeyCode.V))
+        {
+            if(GlobalStorage.instance.isGlobalMode == false) Victory();
+        }
+        if(Input.GetKeyDown(KeyCode.D))
+        {
+            if(GlobalStorage.instance.isGlobalMode == false) Defeat();
+        }
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            if(GlobalStorage.instance.isGlobalMode == false) LeaveTheBattle();
         }
 
         if(GlobalStorage.instance.isGlobalMode == false) Spelling();
@@ -142,10 +163,7 @@ public class BattleUIManager : MonoBehaviour
     }
 
     public void Inizialize(bool mode)
-    {
-        playerStats = GlobalStorage.instance.playerStats;
-        resourcesManager = GlobalStorage.instance.resourcesManager;
-
+    {   
         uiCanvas.gameObject.SetActive(!mode);
 
         currentScaleValueImage = currentScaleValue.GetComponent<Image>();
@@ -161,10 +179,9 @@ public class BattleUIManager : MonoBehaviour
 
         FillInfirmary();
 
-        FillMana();
-
+        GetMaxManaHealth();
         FillHealth();
-
+        FillMana();
         FillGold();
 
         FillSpells(-1);
@@ -197,7 +214,7 @@ public class BattleUIManager : MonoBehaviour
         if(isBattleOver == true) return;
 
         isLeaveBlockOpened = mode;
-        GlobalStorage.instance.isModalWindowOpen = mode;
+        GlobalStorage.instance.ModalWindowOpen(mode);
         MenuManager.instance.MiniPause(mode);
         leaveBlock.SetActive(mode);
     }
@@ -272,7 +289,7 @@ public class BattleUIManager : MonoBehaviour
 
         currentScaleValueImage.fillAmount = 0;
         currentScaleTempLevelValueImage.fillAmount = 0;
-        currentMaxLevel = playerStats.GetStartParameter(PlayersStats.Level);
+        currentMaxLevel = playerStats.GetMaxParameter(PlayersStats.Level);
 
         heigthOneLevel = currentTempLevelWrapper.rect.height / currentMaxLevel;
 
@@ -318,7 +335,7 @@ public class BattleUIManager : MonoBehaviour
         Color blinkColor = infirmaryUpColor;
         if(max == 0)
         {
-            currentMaxInfirmaryCount = playerStats.GetStartParameter(PlayersStats.Infirmary);
+            currentMaxInfirmaryCount = playerStats.GetMaxParameter(PlayersStats.Infirmary);
             currentInfirmaryCount = GlobalStorage.instance.infirmaryManager.injuredList.Count;
         }
         else
@@ -344,34 +361,31 @@ public class BattleUIManager : MonoBehaviour
 
     #endregion
 
-    public void UpgradeParameterUI(PlayersStats stat, float maxValue, float currentValue)
+    public void UpgradeResourceUI(ResourceType type, float value)
     {
-        if(stat == PlayersStats.Health) FillHealth(maxValue, currentValue);
+        GetMaxManaHealth();
 
-        if(stat == PlayersStats.Mana) FillMana(maxValue, currentValue);
+        if(type == ResourceType.Health) FillHealth(value);
+        if(type == ResourceType.Mana) FillMana(value);
+        if(type == ResourceType.Gold) FillGold(value);
+    }
+
+    private void GetMaxManaHealth()
+    {
+        currentMaxManaCount = resourcesManager.GetMaxMana();
+        currentMaxHealthCount = resourcesManager.GetMaxHealth();
     }
 
     #region Mana
 
-    private void FillMana(float max = 0, float current = 0)
+    private void FillMana(float value = 0)
     {
-        if(playerStats == null) playerStats = GlobalStorage.instance.playerStats;
-
         Color blinkColor = manaUpColor;
+        float current = (value == 0) ? resourcesManager.GetResource(ResourceType.Mana) : value;
 
-        if(max == 0)
-        {
-            currentMaxManaCount = playerStats.GetStartParameter(PlayersStats.Mana);
-            currentManaCount = playerStats.GetCurrentParameter(PlayersStats.Mana); 
-        }
-        else
-        {
-            if(currentManaCount > current) blinkColor = manaDownColor;
-            currentMaxManaCount = max;
-            currentManaCount = current;
-        }
+        if(currentManaCount > current) blinkColor = manaDownColor;
+        currentManaCount = current;
 
-        Image manaScale = manaValue.GetComponent<Image>();
         float widthMana = currentManaCount / currentMaxManaCount;
 
         manaScale.fillAmount = widthMana;
@@ -385,26 +399,13 @@ public class BattleUIManager : MonoBehaviour
 
     #region HEALTH
 
-    public void FillHealth(float max = 0, float current = 0)
-    {
-        if(playerStats == null) playerStats = GlobalStorage.instance.playerStats;
-
-        //Debug.Log(currentHealthCount + " = " + current);
+    public void FillHealth(float value = 0)
+    {   
         Color blinkColor = healthUpColor;
+        float current = (value == 0) ? resourcesManager.GetResource(ResourceType.Health) : value;
+        if(currentHealthCount > current) blinkColor = healthDownColor;
+        currentHealthCount = current;
 
-        if(max == 0)
-        {
-            currentMaxHealthCount = playerStats.GetStartParameter(PlayersStats.Health);
-            currentHealthCount = playerStats.GetCurrentParameter(PlayersStats.Health);
-        }
-        else
-        {
-            if(currentHealthCount > current) blinkColor = healthDownColor;
-            currentMaxHealthCount = max;
-            currentHealthCount = current;
-        }
-
-        Image healthScale = healthValue.GetComponent<Image>();
         float widthHealth = currentHealthCount / currentMaxHealthCount;
 
         healthScale.fillAmount = widthHealth;
@@ -416,11 +417,10 @@ public class BattleUIManager : MonoBehaviour
     #endregion
 
     #region Gold
-    private void FillGold()
+    private void FillGold(float value = 0)
     {
-        if(resourcesManager == null) resourcesManager = GlobalStorage.instance.resourcesManager;
-
-        goldInfo.text = resourcesManager.GetAllResources()[ResourceType.Gold].ToString();
+        float current = (value == 0) ? resourcesManager.GetResource(ResourceType.Gold) : value;
+        goldInfo.text = current.ToString();
     }
 
     #endregion
@@ -495,8 +495,7 @@ public class BattleUIManager : MonoBehaviour
     {
         EventManager.ChangePlayer             += Inizialize;
         EventManager.UpdateInfirmaryUI        += UpdateInfirmaryUI;
-        EventManager.UpgradeStatCurrentValue  += UpgradeParameterUI;
-        EventManager.UpgradeResources         += FillGold;
+        EventManager.UpgradeResource         += UpgradeResourceUI;
         EventManager.EnemiesCount             += GetStartCountEnemies;
         EventManager.EnemyDestroyed           += FillEnemiesBar;
     }
@@ -505,8 +504,7 @@ public class BattleUIManager : MonoBehaviour
     {
         EventManager.ChangePlayer             -= Inizialize;
         EventManager.UpdateInfirmaryUI        -= UpdateInfirmaryUI;
-        EventManager.UpgradeStatCurrentValue  -= UpgradeParameterUI;
-        EventManager.UpgradeResources         -= FillGold;
+        EventManager.UpgradeResource         -= UpgradeResourceUI;
         EventManager.EnemiesCount             -= GetStartCountEnemies;
         EventManager.EnemyDestroyed           -= FillEnemiesBar;
     }

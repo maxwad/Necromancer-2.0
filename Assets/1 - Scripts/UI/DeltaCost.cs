@@ -7,8 +7,6 @@ public class DeltaCost : MonoBehaviour
     private CanvasGroup canvasGroup;
     private TMP_Text text;
 
-    private float lifeTime = 2f;
-    private float currentTime = 0;
     private float currentAlfa = 0;
     private float step = 0.05f;
 

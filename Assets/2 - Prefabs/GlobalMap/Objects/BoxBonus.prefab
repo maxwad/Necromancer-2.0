@@ -152,8 +152,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: 2
-  isGuardNeeded: 0
-  probabilityGuard: 65
+  isGuardNeeded: 1
+  probabilityGuard: 80
 --- !u!114 &2953856572521678547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -168,4 +168,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   openedSprite: {fileID: -7871530612760024436, guid: cc2b2fa75b77af5468bfb1bb82020be8, type: 3}
   luckSprite: {fileID: 7627503616358371109, guid: f7f8db220047c654bbd7c22b25815738, type: 3}
-  luckText: 

@@ -26,11 +26,11 @@ public class PlayerBoostManager : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.KeypadPlus))
-        {
-            float value = (float)UnityEngine.Random.Range(10, 30) / 100;
-            ChangeBoost(true, BoostSender.Spell, PlayersStats.Health, value);
-        }
+        //if(Input.GetKeyDown(KeyCode.KeypadPlus))
+        //{
+        //    float value = (float)UnityEngine.Random.Range(10, 30) / 100;
+        //    ChangeBoost(true, BoostSender.Spell, PlayersStats.Health, value);
+        //}
     }
 
     private void ChangeBoost(bool mode, BoostSender sender, PlayersStats stats, float value)

@@ -40,7 +40,7 @@ public class PortalsManager : MonoBehaviour
 
     public void OpenWindow(bool mode, ClickableObject obj)   
     {
-        GlobalStorage.instance.isModalWindowOpen = true;
+        GlobalStorage.instance.ModalWindowOpen(true);
         isPortalWindowOpened = true;
 
         currentPortal = (obj == null) ? null : obj.gameObject;
@@ -159,7 +159,7 @@ public class PortalsManager : MonoBehaviour
 
     public void CloseWindow()
     {
-        GlobalStorage.instance.isModalWindowOpen = false;
+        GlobalStorage.instance.ModalWindowOpen(false);
         isPortalWindowOpened = false;
         currentPortal = null;
         uiPanel.SetActive(false);
