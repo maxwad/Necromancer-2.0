@@ -97,7 +97,7 @@ public class PlayersArmy : MonoBehaviour
         {
             for(int i = 0; i < sourceUnitArray.Length; i++)
             {
-                if(sourceUnitArray[i] != null && sourceUnitArray[i].UnitType == unit.UnitType)
+                if(sourceUnitArray[i] != null && sourceUnitArray[i].unitType == unit.unitType)
                 {
                     sourceUnitArray[i] = null;
                     break;
@@ -171,7 +171,7 @@ public class PlayersArmy : MonoBehaviour
                 for(int j = 0; j < realUnitsInReserve.Count; j++)
                 {
                     //read the name of list attentively!
-                    if(realUnitsComponentsInReserve[j].GetComponent<UnitController>().unitType == playersArmy[i].UnitType)
+                    if(realUnitsComponentsInReserve[j].GetComponent<UnitController>().unitType == playersArmy[i].unitType)
                     {
                         realUnitsComponentsOnBattlefield[i] = realUnitsComponentsInReserve[j];
                         realUnitsOnBattlefield[i] = realUnitsInReserve[j];
@@ -195,7 +195,7 @@ public class PlayersArmy : MonoBehaviour
     {
         for (int i = 0; i < playersArmy.Length; i++)
         {
-            if (playersArmy[i]?.UnitType == unitType)
+            if (playersArmy[i]?.unitType == unitType)
             {
                 if (quantity == 0)
                 {
@@ -219,7 +219,7 @@ public class PlayersArmy : MonoBehaviour
 
         for(int i = 0; i < playersArmy.Length; i++)
         {
-            if(playersArmy[i]?.UnitType == unitType)
+            if(playersArmy[i]?.unitType == unitType)
             {
                 playersArmy[i].quantity++;
                 isSquadFinded = true;
@@ -252,7 +252,7 @@ public class PlayersArmy : MonoBehaviour
 
         for(int i = 0; i < reserveArmy.Length; i++)
         {
-            if(reserveArmy[i]?.UnitType == unitType)
+            if(reserveArmy[i]?.unitType == unitType)
             {
                 reserveArmy[i].quantity++;
                 isSquadFinded = true;

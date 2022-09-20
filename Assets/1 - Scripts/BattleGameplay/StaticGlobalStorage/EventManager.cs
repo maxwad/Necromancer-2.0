@@ -417,5 +417,18 @@ public static class EventManager
     public delegate void NewMonthEvent();
     public static event NewMonthEvent NewMonth;
     public static void OnNewMonthEvent() => NewMonth?.Invoke();
+
+    //calls when start new week on Global Map
+    //
+    //SUBSCRIBERS:
+    // - EnemyManager
+    //
+    //ACTIVATION:
+    // - CalendarManager
+    //
+    public delegate void NewWeekEvent(int counter);
+    public static event NewWeekEvent NewWeek;
+    public static void OnNewWeekEvent(int counter) => NewWeek?.Invoke(counter);
+
     #endregion
 }

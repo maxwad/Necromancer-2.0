@@ -61,7 +61,7 @@ public class PlayersArmyWindow : MonoBehaviour
             int count = 0;
             foreach(var injuredUnit in injuredList)
             {
-                if(injuredUnit == unit.UnitType) count++;
+                if(injuredUnit == unit.unitType) count++;
             }
 
             if(count != 0)

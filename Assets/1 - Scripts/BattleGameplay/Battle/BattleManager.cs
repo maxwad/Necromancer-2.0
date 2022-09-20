@@ -61,33 +61,8 @@ public class BattleManager : MonoBehaviour
     {
         GlobalStorage.instance.ChangePlayMode(true);
 
-        if(result == 1)
-        {
-            //reward window
-
-            Debug.Log("Victory");
-            GlobalStorage.instance.enemyManager.DeleteArmy(currentEnemyArmyOnTheMap, currentArmy);
-        }
-
-        if(result == 0)
-        {
-            EventManager.OnDefeatEvent();
-            GlobalStorage.instance.player.GetComponent<PlayersArmy>().DefeatDamage();
-        }
-
-        if(result == -1)
-        {
-            GlobalStorage.instance.player.GetComponent<PlayersArmy>().EscapeDamage();
-        }
-
-        battleResultUI.Init(result, currentArmy);
-    }
-    
-    //public void ClearEnemyArmy()
-    //{
-    //    currentEnemies.Clear();
-    //    currentEnemiesQuantity.Clear();
-    //}
+        battleResultUI.Init(result, currentEnemyArmyOnTheMap, currentArmy);
+    }    
 
     #endregion
 
@@ -96,7 +71,6 @@ public class BattleManager : MonoBehaviour
         currentArmy = army;
         currentEnemyArmyOnTheMap = currentEnemyArmy;
         currentEnemySquad = currentEnemyArmy.gameObject;
-        //ClearEnemyArmy();
         currentEnemies = army.squadList;
         currentEnemiesQuantity = army.quantityList;
 

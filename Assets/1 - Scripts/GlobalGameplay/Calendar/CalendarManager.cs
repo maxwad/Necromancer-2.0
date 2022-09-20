@@ -23,18 +23,21 @@ public class CalendarData
 public class CalendarManager : MonoBehaviour
 {
     public int daysLeft = 1000;
-    private int daysPassed = 0;
 
     private int day = 1;
     private int dayMax = 10;
+    private int daysPassed = 0;
 
     private int decade = 1;
     private int decadeMax = 3;
+    private int decadesPassed = 0;
 
     private int month = 1;
     private int monthMax = 12;
+    private int monthsPassed = 0;
 
     private int year = 0;
+    private int yearPassed = 0;
 
     private GMInterface gmInterface;
     private CalendarData calendarData;
@@ -88,29 +91,33 @@ public class CalendarManager : MonoBehaviour
         {
             //new decade
             decade++;
+            decadesPassed++;
             day = 1;
 
             currentDecadeIndex++;
             if(currentDecadeIndex >= decadeList.Count) currentDecadeIndex = 0;          
 
             NewDecade();
-            EventManager.OnNewMonthEvent();
+            EventManager.OnNewWeekEvent(decadesPassed);
+
         }
 
         if(decade > decadeMax)
         {
             //new month
             month++;
+            monthsPassed++;
             decade = 1;
 
             Debug.Log("New month");
-           // EventManager.OnNewMonthEvent();
+            EventManager.OnNewMonthEvent();
         }
 
         if(month > monthMax)
         {        
             //new year
             year++;
+            yearPassed++;
             month = 1;
         }
 

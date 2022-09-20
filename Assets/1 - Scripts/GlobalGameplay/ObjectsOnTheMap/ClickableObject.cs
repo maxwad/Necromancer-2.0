@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using System.Collections;
+using System.Collections.Generic;
 using static NameManager;
 
 public class ClickableObject : MonoBehaviour
@@ -9,14 +11,16 @@ public class ClickableObject : MonoBehaviour
     public bool canBeOpenedByClick = true;
     public bool canBeOpenedByMove = true;
 
-    [HideInInspector] public TooltipTrigger tooltip;
+    //[HideInInspector] public TooltipTrigger tooltip;
     private CursorManager cursorManager;
     public CursorView cursor = CursorView.Default;
+
+
 
     private void Start()
     {        
         cursorManager = GlobalStorage.instance.cursorManager;
-        tooltip = GetComponent<TooltipTrigger>();
+        //tooltip = GetComponent<TooltipTrigger>();
     }
 
     public void ActivateUIWindow(bool modeClick)

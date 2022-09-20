@@ -13,6 +13,8 @@ public class UnitManager : MonoBehaviour
     public List<Unit> allCurrentBaseUnitsByTypes = new List<Unit>();
     public List<Unit> allCurrentBoostUnitsByTypes = new List<Unit>();
 
+    private Dictionary<UnitsTypes, Sprite> allUnitsIconsDict = new Dictionary<UnitsTypes, Sprite>();
+
     private UnitBoostManager boostManager;
 
     private void Awake()
@@ -56,7 +58,7 @@ public class UnitManager : MonoBehaviour
         {
             foreach (var itemUnit in allUnitsBase)
             {
-                if (itemUnit.UnitType == itemType && itemUnit.level == 2)
+                if (itemUnit.unitType == itemType && itemUnit.level == 2)
                 {
                     allCurrentBaseUnitsByTypes.Add(itemUnit);
                     break;
@@ -71,9 +73,18 @@ public class UnitManager : MonoBehaviour
     {
         //накладываем эффекты на все базовые юниты
         foreach (var item in allCurrentBaseUnitsByTypes)
+        {
             allCurrentBoostUnitsByTypes.Add(boostManager.AddBonusStatsToUnit(item));
 
+            allUnitsIconsDict.Add(item.unitType, item.unitIcon);
+        }
+            
         EventManager.OnAllUnitsIsReadyEvent();
+    }
+
+    public Dictionary<UnitsTypes, Sprite> GetUnitsIcons()
+    {
+        return allUnitsIconsDict;
     }
 
     #endregion
@@ -89,7 +100,7 @@ public class UnitManager : MonoBehaviour
             {
                 foreach (var item in allCurrentBoostUnitsByTypes)
                 {
-                    if (playersArmy[i] == item.UnitType)
+                    if (playersArmy[i] == item.unitType)
                     {
                         army[i] = item;
                     }
@@ -108,7 +119,7 @@ public class UnitManager : MonoBehaviour
     {
         foreach(var unit in allCurrentBoostUnitsByTypes)
         {
-            if(unit.UnitType == type)
+            if(unit.unitType == type)
             {
                 return unit;
             }

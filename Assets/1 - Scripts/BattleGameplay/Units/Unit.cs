@@ -10,8 +10,8 @@ public class Unit
     public Sprite unitIcon;
 
     //battle parameters
-    public UnitsHouses UnitHome;
-    public UnitsTypes UnitType;
+    public UnitsHouses unitHome;
+    public UnitsTypes unitType;
     public float health;
     public float magicAttack;
     public float physicAttack;
@@ -20,7 +20,7 @@ public class Unit
     public float speedAttack;
     public float size;
     public int level;
-    public UnitsAbilities UnitAbility;
+    public UnitsAbilities unitAbility;
 
     public GameObject attackTool;
 
@@ -41,8 +41,8 @@ public class Unit
         unitGO   = unitSO.unitGO;
         unitIcon = unitSO.unitIcon;
 
-        UnitHome = unitSO.UnitHome;
-        UnitType = unitSO.UnitType;
+        unitHome = unitSO.UnitHome;
+        unitType = unitSO.UnitType;
 
         health         = unitSO.health;
         magicAttack    = unitSO.magicAttack;
@@ -53,7 +53,7 @@ public class Unit
         size           = unitSO.size;
         level          = unitSO.level;
 
-        UnitAbility    = unitSO.UnitAbility;
+        unitAbility    = unitSO.UnitAbility;
         attackTool     = unitSO.attackTool;
 
 

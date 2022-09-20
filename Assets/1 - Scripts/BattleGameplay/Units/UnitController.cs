@@ -52,7 +52,7 @@ public class UnitController : MonoBehaviour
 
     public void Initilize(Unit unit) 
     {
-        unitType = unit.UnitType;
+        unitType = unit.unitType;
 
         health        = unit.health;
         magicAttack   = unit.magicAttack;
@@ -63,7 +63,7 @@ public class UnitController : MonoBehaviour
         size          = unit.size;
         level         = unit.level;
 
-        unitAbility   = unit.UnitAbility;
+        unitAbility   = unit.unitAbility;
         attackTool    = unit.attackTool;
 
         quantity      = unit.quantity;

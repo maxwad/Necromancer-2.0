@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static NameManager;
 
 public class EnemyManager : MonoBehaviour
 {
@@ -18,6 +17,9 @@ public class EnemyManager : MonoBehaviour
     private Dictionary<EnemyArmyOnTheMap, Vector3> enemiesPointsDict = new Dictionary<EnemyArmyOnTheMap, Vector3>();
 
     [HideInInspector] public EnemySquadGenerator enemySquadGenerator;
+
+    public float growUpConst = 10;
+    public int weeksInMonth = 3;
 
     public void InitializeEnemies()
     {
@@ -133,15 +135,25 @@ public class EnemyManager : MonoBehaviour
         enemyArragement.GenerateEnemiesOnTheMap(this);
     }
 
-
+    private void GrowUp(int weekCounter)
+    {
+        //every new month we regenerate Armies, so we don't need to this action
+        if(weekCounter % weeksInMonth != 0)
+        {
+            foreach(var enemy in enemiesPointsDict)
+                enemy.Key.GrowUpSquads(growUpConst);
+        }        
+    }
 
     private void OnEnable()
     {
         EventManager.NewMonth += ReGenerateEnemiesOnTheMap;
+        EventManager.NewWeek += GrowUp;
     }
 
     private void OnDisable()
     {
         EventManager.NewMonth -= ReGenerateEnemiesOnTheMap;
+        EventManager.NewWeek -= GrowUp;
     }
 }

@@ -16,14 +16,21 @@ public class BattleResult : MonoBehaviour
     [SerializeField] private List<GameObject> rewardItemList;
     private List<Image> rewardItemImageList = new List<Image>();
     private List<TMP_Text> rewardItemTextList = new List<TMP_Text>();
+    private List<TooltipTrigger> rewardItemTooltipList = new List<TooltipTrigger>();
 
     [Header("Losses slots")]
     [SerializeField] private GameObject lossesBlock;
     [SerializeField] private List<GameObject> lossesItemList;
     private List<Image> lossesItemImageList = new List<Image>();
     private List<TMP_Text> lossesItemTextList = new List<TMP_Text>();
+    private List<TooltipTrigger> lossesItemTooltipList = new List<TooltipTrigger>();
 
-    private Dictionary<GameObject, int> lostUnitsDict = new Dictionary<GameObject, int>();
+    private bool isDeadRegistrating = false;
+    private Dictionary<UnitsTypes, Sprite> allUnitsIconsDict = new Dictionary<UnitsTypes, Sprite>();
+    private Dictionary<UnitsTypes, string> allUnitsNamesDict = new Dictionary<UnitsTypes, string>();
+    private Dictionary<UnitsTypes, int> lostUnitsDict = new Dictionary<UnitsTypes, int>();
+
+    private List<Unit> actualUnits = new List<Unit>();
 
     [Space]
     [Header("Container")]
@@ -43,38 +50,62 @@ public class BattleResult : MonoBehaviour
 
     //0 - defeat, 1 - victory, -1 - stepback
     private int currentStatus;
+    private Army currentEnemyArmy;
+    private EnemyArmyOnTheMap currentEnemyGO;
 
+    [Header("Managers")]
     private Reward currentReward;
     private RewardManager rewardManager;
     private ResourcesManager resourcesManager;
     private Dictionary<ResourceType, Sprite> resourcesIcons;
+    private EnemyManager enemyManager;
 
-    public void Init(int mode, Army currentArmy)
+    private PlayersArmy playersArmy;
+
+    public void Init(int mode, EnemyArmyOnTheMap currentArmyGO, Army currentArmy)
     {
         GlobalStorage.instance.ModalWindowOpen(true);
 
+        if(rectContainer == null)
+        {
+            rectContainer    = canvas.GetComponent<RectTransform>();
+            rewardManager    = GlobalStorage.instance.rewardManager;
+            resourcesManager = GlobalStorage.instance.resourcesManager;
+            resourcesIcons   = resourcesManager.GetAllResourcesIcons();
+            enemyManager     = GlobalStorage.instance.enemyManager;
+            playersArmy      = GlobalStorage.instance.player.GetComponent<PlayersArmy>();
+
+            CreateLists();
+        }
+
         currentStatus = mode;
+        currentEnemyArmy = currentArmy;
+        currentEnemyGO = currentArmyGO;
         canvas.alpha = 0;
+
+        CreateDicts();
 
         RefactoringContainer();
 
-        if(currentStatus == 1) FillReward(currentArmy);
-
+        BattleResultActions();
 
         uiPanel.SetActive(true);
         StartCoroutine(ShowUI());
     }
 
-    private void FillReward(Army currentArmy)
+    private void BattleResultActions()
     {
-        currentReward = rewardManager.GetBattleReward(currentArmy);
-
-        for(int i = 0; i < currentReward.resourcesList.Count; i++)
+        if(currentStatus == 1)
         {
-            rewardItemList[i].SetActive(true);
-            rewardItemImageList[i].sprite = resourcesIcons[currentReward.resourcesList[i]];
-            rewardItemTextList[i].text = currentReward.resourcesQuantity[i].ToString();
+            enemyManager.DeleteArmy(currentEnemyGO, currentEnemyArmy);
+            FillReward();
         }
+
+        if(currentStatus == 0) playersArmy.DefeatDamage();
+
+        if(currentStatus == -1) playersArmy.EscapeDamage();
+
+        FillLosses();
     }
 
     private IEnumerator ShowUI()
@@ -93,30 +124,71 @@ public class BattleResult : MonoBehaviour
         }
     }
 
-    private void RegisterDeadUnit(GameObject unit)
+    private void FillReward()
     {
+        currentReward = rewardManager.GetBattleReward(currentEnemyArmy);
 
+        for(int i = 0; i < currentReward.resourcesList.Count; i++)
+        {
+            rewardItemList[i].SetActive(true);
+            rewardItemImageList[i].sprite = resourcesIcons[currentReward.resourcesList[i]];
+            rewardItemTextList[i].text = currentReward.resourcesQuantity[i].ToString();
+            rewardItemTooltipList[i].content = currentReward.resourcesList[i].ToString();
+        }
     }
 
-    private void DeleteDeadUnit(GameObject unit)
+    private void FillLosses()
     {
+        int counter = 0;
 
+        foreach(var unit in lostUnitsDict)
+        {
+            lossesItemList[counter].SetActive(true);
+            lossesItemImageList[counter].sprite = allUnitsIconsDict[unit.Key];
+            lossesItemTextList[counter].text = unit.Value.ToString();
+            lossesItemTooltipList[counter].content = allUnitsNamesDict[unit.Key];
+
+            counter++;
+        }
+    }
+
+    private void GetReward()
+    {
+        for(int i = 0; i < currentReward.resourcesList.Count; i++)
+            EventManager.OnResourcePickedUpEvent(currentReward.resourcesList[i], currentReward.resourcesQuantity[i]);
+
+        currentReward = null;
+    }
+
+    #region HELPERS
+    private void RegisterDeadUnit(UnitsTypes unitType, int quantity)
+    {
+        if(isDeadRegistrating == true)
+        {
+            if(lostUnitsDict.ContainsKey(unitType) == true)
+                lostUnitsDict[unitType]++;
+            else
+                lostUnitsDict.Add(unitType, 1);
+        }
+    }
+
+    private void DeleteDeadUnit(UnitsTypes unitType)
+    {
+        if(isDeadRegistrating == true)
+        {
+            if(lostUnitsDict.ContainsKey(unitType) == true)
+            {
+                lostUnitsDict[unitType]--;
+
+                if(lostUnitsDict[unitType] == 0) lostUnitsDict.Remove(unitType);
+            }
+        }
     }
 
     private void RefactoringContainer()
     {
-        if(rectContainer == null)
-        {
-            rectContainer = canvas.GetComponent<RectTransform>();
-            rewardManager = GlobalStorage.instance.rewardManager;
-            resourcesManager = GlobalStorage.instance.resourcesManager;
-            resourcesIcons = resourcesManager.GetAllResourcesIcons();
-            CreateLists();
-        }
-
         ResetItems();
 
-        //-1 - stepback, 0 - defeat, 1 - victory
         float height = 0;
 
         if(currentStatus == -1)
@@ -153,38 +225,68 @@ public class BattleResult : MonoBehaviour
             item.SetActive(false);
     }
 
+    private void CreateDicts()
+    {
+        actualUnits = GlobalStorage.instance.unitManager.GetActualArmy();
+
+        allUnitsIconsDict.Clear();
+        allUnitsNamesDict.Clear();
+
+        foreach(var unit in actualUnits)
+        {
+            allUnitsIconsDict.Add(unit.unitType, unit.unitIcon);
+            allUnitsNamesDict.Add(unit.unitType, unit.unitName);
+        }
+    }
+
     private void CreateLists()
     {
         foreach(var item in rewardItemList)
         {
             rewardItemImageList.Add(item.GetComponentInChildren<Image>());
             rewardItemTextList.Add(item.GetComponentInChildren<TMP_Text>());
+            rewardItemTooltipList.Add(item.GetComponentInChildren<TooltipTrigger>());
         }
 
         foreach(var item in lossesItemList)
         {
             lossesItemImageList.Add(item.GetComponentInChildren<Image>());
             lossesItemTextList.Add(item.GetComponentInChildren<TMP_Text>());
+            lossesItemTooltipList.Add(item.GetComponentInChildren<TooltipTrigger>());
         }
     }
 
-    public void CloseWindow()
+    private void StartCheckingUnitDeath(bool mode)
     {
-        currentReward = null;
+        if(mode == false) isDeadRegistrating = true;
+    }
+
+    #endregion
+
+    public void CloseWindow()
+    {        
+        isDeadRegistrating = false;
         lostUnitsDict.Clear();
+        currentEnemyArmy = null;
+
+        if(currentStatus == 0) EventManager.OnDefeatEvent();
+        if(currentStatus == 1) GetReward();
+
         GlobalStorage.instance.ModalWindowOpen(false);
         uiPanel.SetActive(false);
     }
 
     private void OnEnable()
-    { // начало боя - регистрация открыта, клоуз окно - заркыта
-        //EventManager.WeLostOneUnit += RegisterDeadUnit;
-        //EventManager.RemoveUnitFromInfirmary += RemoveUnitFromInfirmary;
+    { 
+        EventManager.ChangePlayer += StartCheckingUnitDeath;
+        EventManager.WeLostOneUnit += RegisterDeadUnit;
+        EventManager.ResurrectUnit += DeleteDeadUnit;
     }
 
     private void OnDisable()
     {
-        //EventManager.WeLostOneUnit -= RegisterDeadUnit;
-        //EventManager.RemoveUnitFromInfirmary -= RemoveUnitFromInfirmary;
+        EventManager.ChangePlayer -= StartCheckingUnitDeath;
+        EventManager.WeLostOneUnit -= RegisterDeadUnit;
+        EventManager.ResurrectUnit -= DeleteDeadUnit;
     }
 }

@@ -44,6 +44,8 @@ public class EnemyArmyOnTheMap : MonoBehaviour
         currentEnemiesList = army.squadList;
         currentEnemiesQuantityList = army.quantityList;
 
+        commonCount = 0;
+
         for(int i = 0; i < currentEnemiesList.Count; i++)
         {
             commonCount += currentEnemiesQuantityList[i];
@@ -59,6 +61,18 @@ public class EnemyArmyOnTheMap : MonoBehaviour
     public void Death()
     {
         StartCoroutine(Blink(false));
+    }
+
+    public void GrowUpSquads(float percent)
+    {
+        float growUpConst = percent / 100;
+        commonCount = 0;
+
+        for(int i = 0; i < currentEnemiesList.Count; i++)
+        {
+            currentEnemiesQuantityList[i] += Mathf.RoundToInt(currentEnemiesQuantityList[i] * growUpConst);
+            commonCount += currentEnemiesQuantityList[i];
+        }
     }
 
     private IEnumerator Blink(bool isBorning)
