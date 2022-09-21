@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03bac6a29acefe948bda1a981a963790, type: 3}
   m_Name: Luck
   m_EditorClassIdentifier: 
-  decadeName: Decade of Luck
+  decadeName: Week of Luck
   decadeDescription: Hero's luck increased by $.
   boostType: 4
   value: 5

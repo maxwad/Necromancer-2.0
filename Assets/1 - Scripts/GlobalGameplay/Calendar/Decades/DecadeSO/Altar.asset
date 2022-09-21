@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03bac6a29acefe948bda1a981a963790, type: 3}
   m_Name: Altar
   m_EditorClassIdentifier: 
-  decadeName: Decade of Favor of the Gods
+  decadeName: Week of Favor of the Gods
   decadeDescription: The size of the offerings on the altars for healing units is
     reduced by $%
   boostType: 3
   value: -50
+  isPercentType: 1
+  icon: {fileID: 0}

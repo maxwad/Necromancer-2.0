@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03bac6a29acefe948bda1a981a963790, type: 3}
   m_Name: AntiEnemyDefence
   m_EditorClassIdentifier: 
-  decadeName: Decade of Weakness
+  decadeName: Week of Weakness
   decadeDescription: Enemy defence reduced by $
   boostType: 6
   value: -1

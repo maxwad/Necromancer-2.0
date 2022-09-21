@@ -39,7 +39,7 @@ public class UnitManager : MonoBehaviour
     {
         //формируем список начальных уровней всех юнитов
         foreach (UnitsTypes item in Enum.GetValues(typeof(UnitsTypes)))
-            currentLevelOfUnitsDict.Add(item, 2);
+            currentLevelOfUnitsDict.Add(item, 1);
     }
 
     private void CreateAllUnitsBase()
@@ -58,7 +58,7 @@ public class UnitManager : MonoBehaviour
         {
             foreach (var itemUnit in allUnitsBase)
             {
-                if (itemUnit.unitType == itemType && itemUnit.level == 2)
+                if (itemUnit.unitType == itemType && itemUnit.level == 1)
                 {
                     allCurrentBaseUnitsByTypes.Add(itemUnit);
                     break;

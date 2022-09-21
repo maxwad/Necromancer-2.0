@@ -11,8 +11,8 @@ public class UnitSO : ScriptableObject
     public Sprite unitIcon;
 
     //battle parameters
-    public UnitsHouses UnitHome;
-    public UnitsTypes UnitType;
+    public UnitsHouses unitHome;
+    public UnitsTypes unitType;
     public float health;
     public float physicAttack;
     public float physicDefence;
@@ -21,7 +21,7 @@ public class UnitSO : ScriptableObject
     public float speedAttack;
     public float size;
     public int level;
-    public UnitsAbilities UnitAbility;
+    public UnitsAbilities unitAbility;
 
     public GameObject attackTool;
 

@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03bac6a29acefe948bda1a981a963790, type: 3}
   m_Name: AntiHiring
   m_EditorClassIdentifier: 
-  decadeName: Decade of Desertion
+  decadeName: Week of Desertion
   decadeDescription: Hiring units reduced by $%
   boostType: 0
   value: -30
+  isPercentType: 1
+  icon: {fileID: 0}

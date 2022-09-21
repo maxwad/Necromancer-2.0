@@ -79,7 +79,7 @@ public class CalendarManager : MonoBehaviour
         }
     }
 
-    private void NextDay()
+    public void NextDay()
     {
         EventManager.OnNewMoveEvent();
 

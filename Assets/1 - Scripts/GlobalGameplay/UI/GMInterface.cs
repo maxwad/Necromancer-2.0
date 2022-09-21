@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 using static NameManager;
 
@@ -9,6 +10,7 @@ public class GMInterface : MonoBehaviour
     [SerializeField] private GameObject uiPanel;
     private ObjectsPoolManager poolManager;
     private ResourcesManager resourcesManager;
+    private CalendarManager calendarManager;
     public Dictionary<ResourceType, float> resourcesDict = new Dictionary<ResourceType, float>();
 
     [Header("Mana")]
@@ -33,19 +35,28 @@ public class GMInterface : MonoBehaviour
     [SerializeField] private GameObject manaContainer;
     private Dictionary<ResourceType, GameObject> deltaContainers = new Dictionary<ResourceType, GameObject>();
 
-    [Header("Moves")]
-    [SerializeField] private TMP_Text currentMovesCount;
-    [SerializeField] private TMP_Text leftDaysCount;
+    [Header("Calendar")]
     [SerializeField] private TMP_Text currentDayCount;
     [SerializeField] private TMP_Text currentWeekCount;
     [SerializeField] private TMP_Text currentMonthCount;
-    [SerializeField] private TooltipTrigger decadeTooltip;
+    [SerializeField] private TMP_Text weekDescription;
+    [SerializeField] private TooltipTrigger weekTooltip;
+
+
+    [Header("Moves")]
+    [SerializeField] private TMP_Text currentMovesCount;
+    [SerializeField] private TMP_Text leftDaysCount;
+    [SerializeField] private Button nextDayButton;
+    [SerializeField] private Animator nextDayBtnAnimator;
+
 
 
     private void Awake()
     {
         poolManager = GlobalStorage.instance.objectsPoolManager;
         resourcesManager = GlobalStorage.instance.resourcesManager;
+        calendarManager = GlobalStorage.instance.calendarManager;
+        nextDayBtnAnimator = nextDayButton.GetComponent<Animator>();
 
         resourceCounters = new Dictionary<ResourceType, TMP_Text>()
         {
@@ -68,7 +79,6 @@ public class GMInterface : MonoBehaviour
             [ResourceType.Magic] = magicContainer,
             [ResourceType.Mana] = manaContainer
         };
-
     }
 
     private void Start()
@@ -111,7 +121,13 @@ public class GMInterface : MonoBehaviour
 
     private void UpdateCurrentMoves(PlayersStats stat, float maxValue, float currentValue)
     {
-        if(stat == PlayersStats.MovementDistance) currentMovesCount.text = currentValue.ToString();
+        if(stat == PlayersStats.MovementDistance) 
+        {
+            currentMovesCount.text = currentValue.ToString();
+
+            bool mode = (currentValue == 0) ? true : false;
+            nextDayBtnAnimator.SetBool(TagManager.A_BLINK, mode);            
+        }
     }
 
     public void UpdateCalendar(CalendarData data)
@@ -124,8 +140,13 @@ public class GMInterface : MonoBehaviour
 
     public void UpdateDecadeOnCalendar(Decade decade)
     {
-        decadeTooltip.header = decade.decadeName;
-        decadeTooltip.content = decade.decadeDescription;
+        weekDescription.text = decade.decadeName;
+        weekTooltip.content = decade.decadeDescription;
+    }
+
+    public void NextDay()
+    {
+        calendarManager.NextDay();
     }
 
     private void OnEnable()

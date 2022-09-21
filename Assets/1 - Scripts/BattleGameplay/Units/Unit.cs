@@ -41,8 +41,8 @@ public class Unit
         unitGO   = unitSO.unitGO;
         unitIcon = unitSO.unitIcon;
 
-        unitHome = unitSO.UnitHome;
-        unitType = unitSO.UnitType;
+        unitHome = unitSO.unitHome;
+        unitType = unitSO.unitType;
 
         health         = unitSO.health;
         magicAttack    = unitSO.magicAttack;
@@ -53,7 +53,7 @@ public class Unit
         size           = unitSO.size;
         level          = unitSO.level;
 
-        unitAbility    = unitSO.UnitAbility;
+        unitAbility    = unitSO.unitAbility;
         attackTool     = unitSO.attackTool;
 
 

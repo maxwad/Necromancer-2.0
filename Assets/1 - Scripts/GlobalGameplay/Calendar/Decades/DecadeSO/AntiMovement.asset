@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03bac6a29acefe948bda1a981a963790, type: 3}
   m_Name: AntiMovement
   m_EditorClassIdentifier: 
-  decadeName: Decade of Fatigue
+  decadeName: Week of Fatigue
   decadeDescription: Movement points reduced by $
   boostType: 7
   value: -2

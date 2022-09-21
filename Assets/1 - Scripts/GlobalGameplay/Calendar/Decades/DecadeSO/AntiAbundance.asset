@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03bac6a29acefe948bda1a981a963790, type: 3}
   m_Name: AntiAbundance
   m_EditorClassIdentifier: 
-  decadeName: Decade of Deficit
+  decadeName: Week of Deficit
   decadeDescription: Resource growth from buildings reduced by $%
   boostType: 1
   value: -20
+  isPercentType: 1
+  icon: {fileID: 0}

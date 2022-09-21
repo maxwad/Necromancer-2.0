@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03bac6a29acefe948bda1a981a963790, type: 3}
   m_Name: Mana
   m_EditorClassIdentifier: 
-  decadeName: Decade of Magic
+  decadeName: Week of Magic
   decadeDescription: Mana regeneration increased by $%
   boostType: 9
   value: 20
