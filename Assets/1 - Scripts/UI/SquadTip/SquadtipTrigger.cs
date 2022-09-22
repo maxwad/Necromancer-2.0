@@ -5,9 +5,9 @@ using UnityEngine.EventSystems;
 
 public class SquadtipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    private bool isEnemy;
+    private bool isEnemy = false;
     private Unit unit;
-    private Enemy enemy;
+    private EnemyController enemy;
 
     private float timeDelay = 1f;
     private float currentWaitTime = 0;
@@ -45,6 +45,18 @@ public class SquadtipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExit
         isSquadtipOpen = false;
         isWaiting = false;
         currentWaitTime = 0;
+    }
+
+    public void SetUnit(Unit squad)
+    {
+        unit = squad;
+        isEnemy = false;
+    }
+
+    public void SetEnemy(EnemyController squad)
+    {
+        enemy = squad;
+        isEnemy = true;
     }
 
     private void OnDisable()

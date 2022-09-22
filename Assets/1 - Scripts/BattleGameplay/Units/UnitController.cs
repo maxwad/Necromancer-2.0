@@ -7,6 +7,7 @@ using static NameManager;
 public class UnitController : MonoBehaviour
 {
     public UnitsTypes unitType;
+    public string unitName;
     [SerializeField] private float health;
     [SerializeField] public float magicAttack;
     [SerializeField] public float physicAttack;
@@ -16,6 +17,7 @@ public class UnitController : MonoBehaviour
     [SerializeField] public float size;
     [SerializeField] public int level;
     [SerializeField] public UnitsAbilities unitAbility;
+    [SerializeField] public string abilityDescription;
 
     [SerializeField] public GameObject attackTool;
 
@@ -65,6 +67,7 @@ public class UnitController : MonoBehaviour
 
         unitAbility   = unit.unitAbility;
         attackTool    = unit.attackTool;
+        abilityDescription = unit.abilityDescription;
 
         quantity      = unit.quantity;
     }

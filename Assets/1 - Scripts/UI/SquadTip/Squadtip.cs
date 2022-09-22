@@ -34,7 +34,6 @@ public class Squadtip : MonoBehaviour
     public void Init(Unit unit)
     {
         ShowAbility(true);
-        string ability = WeaponsDictionary.instance.GetAbilityDescription(unit.unitAbility, unit.level);
 
         FillData(
             unit.unitIcon,
@@ -44,24 +43,24 @@ public class Squadtip : MonoBehaviour
             unit.magicAttack,
             unit.physicDefence,
             unit.magicDefence,
-            ability
+            unit.abilityDescription
             );
     }
 
-    public void Init(Enemy enemy)
+    public void Init(EnemyController enemy)
     {
         ShowAbility(false);
 
         if(playerStats == null) playerStats = GlobalStorage.instance.playerStats;
         curiosity = playerStats.GetCurrentParameter(PlayersStats.Curiosity);
-        if(curiosity < 2)
+        if(curiosity < 3)
         {
-            FillData(enemy.enemyIcon, enemy.enemyName);
+            FillData(enemy.icon, enemy.enemyName);
         }
         else
         {
             FillData(
-               enemy.enemyIcon,
+               enemy.icon,
                enemy.enemyName,
                enemy.health,
                enemy.physicAttack,

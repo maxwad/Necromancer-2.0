@@ -102,6 +102,11 @@ public class ClickableObject : MonoBehaviour
                 isThereManager = true;
                 break;
 
+            case TypeOfObjectOnTheMap.Player:
+                GlobalStorage.instance.playerMilitaryWindow.OpenWindow(0);
+                isThereManager = true;
+                break;
+
 
             default:
                 break;

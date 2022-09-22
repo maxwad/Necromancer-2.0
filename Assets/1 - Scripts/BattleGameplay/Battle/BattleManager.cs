@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static NameManager;
 
 public class BattleManager : MonoBehaviour
 {
@@ -74,7 +73,8 @@ public class BattleManager : MonoBehaviour
         currentEnemies = army.squadList;
         currentEnemiesQuantity = army.quantityList;
 
-        GlobalStorage.instance.enemyArmyUI.OpenWindow(false, currentEnemyArmy);
+        GlobalStorage.instance.playerMilitaryWindow.OpenWindow(1, currentEnemyArmy);
+        //GlobalStorage.instance.enemyArmyUI.OpenWindow(false, currentEnemyArmy);
     }
 
     public void AutoBattle()

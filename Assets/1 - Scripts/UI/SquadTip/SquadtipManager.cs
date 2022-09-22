@@ -24,7 +24,7 @@ public class SquadtipManager : MonoBehaviour
         else
             Destroy(gameObject);
 
-        canvas = GetComponentInChildren<CanvasGroup>();
+        canvas = squadTip.GetComponent<CanvasGroup>();
         rectTransform = squadTip.gameObject.GetComponent<RectTransform>();
     }
 
@@ -35,7 +35,7 @@ public class SquadtipManager : MonoBehaviour
         instance.squadTip.Init(unit);
     }
 
-    public static void Show(Enemy enemy)
+    public static void Show(EnemyController enemy)
     {
         if(enemy == null) return;
         ResizeWindow(instance.heigthForEnemy);
@@ -58,7 +58,7 @@ public class SquadtipManager : MonoBehaviour
 
     private IEnumerator ShowWindow()
     {
-        WaitForSeconds delay = new WaitForSeconds(step * 0.1f);
+        WaitForSecondsRealtime delay = new WaitForSecondsRealtime(step * 0.1f);
 
         float start = 0;
         float end = 1;

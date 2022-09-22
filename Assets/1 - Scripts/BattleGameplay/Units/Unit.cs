@@ -21,6 +21,7 @@ public class Unit
     public float size;
     public int level;
     public UnitsAbilities unitAbility;
+    public string abilityDescription;
 
     public GameObject attackTool;
 
@@ -55,6 +56,7 @@ public class Unit
 
         unitAbility    = unitSO.unitAbility;
         attackTool     = unitSO.attackTool;
+        abilityDescription = WeaponsDictionary.instance.GetAbilityDescription(unitAbility, level);
 
 
         coinsPrice = unitSO.coinsPrice;

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3041277861506722944}
   - component: {fileID: 3041277861506722947}
   - component: {fileID: 874295688697211178}
+  - component: {fileID: -2508512229144278010}
   m_Layer: 5
   m_Name: InfirmarySlot
   m_TagString: Untagged
@@ -95,6 +96,18 @@ MonoBehaviour:
   backlight: {fileID: 3041277861506722947}
   grey: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
   red: {r: 0.7176471, g: 0, b: 0, a: 1}
+--- !u!114 &-2508512229144278010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3041277861506722949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e32d5b6946faabe4bbe754b768cbc843, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3041277862164199513
 GameObject:
   m_ObjectHideFlags: 0

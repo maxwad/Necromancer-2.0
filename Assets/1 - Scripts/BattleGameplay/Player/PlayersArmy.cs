@@ -17,7 +17,7 @@ public class PlayersArmy : MonoBehaviour
     [HideInInspector] public Unit[] playersArmy = new Unit[4];
 
     [Space]
-    [SerializeField] private PlayersArmyWindow playersArmyWindow;
+    [SerializeField] private PlayersArmyPart playersArmyWindow;
     private int firstIndexForReplaceUnit = -1;
     private int secondIndexForReplaceUnit = -1;
 

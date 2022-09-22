@@ -35,6 +35,7 @@ public class GlobalStorage : MonoBehaviour
     public GMInterface gmInterface;
     public BonusOnTheMapUI bonusOnTheMapUI;
     public EnemyArmyUI enemyArmyUI;
+    public PlayerMilitaryWindow playerMilitaryWindow;
     public TemperCommonUIManager commonUIManager;
 
     [Header("Player")]

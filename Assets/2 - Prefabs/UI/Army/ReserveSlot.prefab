@@ -87,6 +87,7 @@ GameObject:
   - component: {fileID: 4352559415233970092}
   - component: {fileID: 4352559415233970095}
   - component: {fileID: -8452995526144702702}
+  - component: {fileID: -3301248117203987880}
   m_Layer: 5
   m_Name: ReserveSlot
   m_TagString: Untagged
@@ -172,6 +173,18 @@ MonoBehaviour:
   slotType: 1
   visible: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
   unvisible: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
+--- !u!114 &-3301248117203987880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4352559415233970089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e32d5b6946faabe4bbe754b768cbc843, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4352559416197582598
 GameObject:
   m_ObjectHideFlags: 0

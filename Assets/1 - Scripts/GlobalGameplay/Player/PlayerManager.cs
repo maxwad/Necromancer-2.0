@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-    public PlayersArmyWindow playersArmyWindow;
     private PlayerResurrection playerResurrection;
 
     private GameObject globalPlayer;
@@ -19,14 +18,6 @@ public class PlayerManager : MonoBehaviour
         battlePlayer = GlobalStorage.instance.battlePlayer.gameObject;
 
         globalMap = GlobalStorage.instance.globalMap;
-    }
-
-    private void Update()
-    {
-        if(MenuManager.instance.isGamePaused == false && Input.GetKeyDown(KeyCode.I))
-        {            
-            playersArmyWindow.OpenWindow();
-        }
     }
 
     private void MovePlayerToTheGlobal(bool mode)

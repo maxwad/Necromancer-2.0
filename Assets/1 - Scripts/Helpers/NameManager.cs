@@ -244,7 +244,8 @@ public static class NameManager
         Tomb,
         Resource,
         Enemy,
-        BoxBonus
+        BoxBonus,
+        Player
     }
 
     public enum TypeOfObjectsOwner 

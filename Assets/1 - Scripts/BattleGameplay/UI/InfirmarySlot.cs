@@ -13,8 +13,11 @@ public class InfirmarySlot : MonoBehaviour
     public Color grey;
     public Color red;
 
+    private SquadtipTrigger squadtipTrigger;
+
     private void Start()
     {
+        squadtipTrigger = GetComponent<SquadtipTrigger>();
         backlight.color = grey;
     }
 
@@ -25,13 +28,15 @@ public class InfirmarySlot : MonoBehaviour
         quantity.enabled = false;
     }
 
-    public void FillTheInfarmarySlot(Sprite unitIcon, int count)
+    public void FillTheInfarmarySlot(Unit unit, int count)
     {
+        squadtipTrigger.SetUnit(unit);
+
         backlight.color = red;
 
         icon.enabled = true;
 
-        icon.sprite = unitIcon;
+        icon.sprite = unit.unitIcon;
 
         quantity.enabled = true;
         quantity.text = count.ToString();        

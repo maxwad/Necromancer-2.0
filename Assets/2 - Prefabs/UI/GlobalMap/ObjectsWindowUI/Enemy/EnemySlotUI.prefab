@@ -221,6 +221,7 @@ GameObject:
   - component: {fileID: 1372417197577774463}
   - component: {fileID: 1372417197577774460}
   - component: {fileID: 2481879724714257248}
+  - component: {fileID: 7381109214124959951}
   m_Layer: 5
   m_Name: EnemySlotUI
   m_TagString: Untagged
@@ -302,3 +303,17 @@ MonoBehaviour:
   index: 0
   icon: {fileID: 1372417196531453780}
   amount: {fileID: 1372417196358208863}
+  enemyCard: {fileID: 0}
+  enemyType: 0
+--- !u!114 &7381109214124959951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1372417197577774450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e32d5b6946faabe4bbe754b768cbc843, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

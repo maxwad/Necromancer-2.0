@@ -10,6 +10,7 @@ public class EnemyController : MonoBehaviour
     private Enemy originalStats;
 
     public EnemiesTypes enemiesType;
+    public string enemyName;
     public Sprite icon;
     public float health;
     public float magicAttack;
@@ -76,6 +77,7 @@ public class EnemyController : MonoBehaviour
         if(originalStats == null) originalStats = stats;
 
         enemiesType   = originalStats.EnemiesType;
+        enemyName     = originalStats.enemyName;
         icon          = originalStats.enemyIcon;
 
         health        = originalStats.health;
