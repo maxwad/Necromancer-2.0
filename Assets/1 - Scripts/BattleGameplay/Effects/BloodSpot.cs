@@ -17,7 +17,9 @@ public class BloodSpot : MonoBehaviour
 
     private void OnEnable()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        EventManager.EndOfBattle += BackToPool;
+
+        if(spriteRenderer == null) spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = spriteList[Random.Range(0, spriteList.Count)];
 
         coroutine = StartCoroutine(ColorBack(lifeTime));
@@ -38,10 +40,15 @@ public class BloodSpot : MonoBehaviour
 
         gameObject.SetActive(false);
     }
+    private void BackToPool()
+    {
+        gameObject.SetActive(false);
+    }
 
     private void OnDisable()
     {
         if(coroutine != null) StopCoroutine(coroutine);
         spriteRenderer.color = normalColor;
+        EventManager.EndOfBattle -= BackToPool;
     }
 }

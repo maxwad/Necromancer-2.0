@@ -235,8 +235,7 @@ public static class EventManager
     //
     //SUBSCRIBERS:
     // - BonusController
-    // - ObjectsPoolManager
-    //
+    // - All objectpool objects
     //ACTIVATION:
     // - BattleMap
     //

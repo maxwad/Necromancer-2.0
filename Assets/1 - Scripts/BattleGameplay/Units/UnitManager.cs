@@ -75,10 +75,9 @@ public class UnitManager : MonoBehaviour
         foreach (var item in allCurrentBaseUnitsByTypes)
         {
             allCurrentBoostUnitsByTypes.Add(boostManager.AddBonusStatsToUnit(item));
-
             allUnitsIconsDict.Add(item.unitType, item.unitIcon);
         }
-            
+
         EventManager.OnAllUnitsIsReadyEvent();
     }
 
@@ -93,7 +92,6 @@ public class UnitManager : MonoBehaviour
     public Unit[] GetUnitsForPlayersArmy(UnitsTypes[] playersArmy)
     {
         Unit[] army = new Unit[Enum.GetValues(typeof(UnitsTypes)).Length];
-
         for (int i = 0; i < army.Length; i++)
         {
             if (i < playersArmy.Length)
@@ -110,8 +108,8 @@ public class UnitManager : MonoBehaviour
             {
                 army[i] = null;
             }
-        }         
-        
+        }
+
         return army;
     }
 
@@ -119,11 +117,9 @@ public class UnitManager : MonoBehaviour
     {
         foreach(var unit in allCurrentBoostUnitsByTypes)
         {
-            if(unit.unitType == type)
-            {
-                return unit;
-            }
+            if(unit.unitType == type) return unit;
         }
+
         return null;
     }
 

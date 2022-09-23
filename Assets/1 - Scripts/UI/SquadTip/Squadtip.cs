@@ -53,7 +53,7 @@ public class Squadtip : MonoBehaviour
 
         if(playerStats == null) playerStats = GlobalStorage.instance.playerStats;
         curiosity = playerStats.GetCurrentParameter(PlayersStats.Curiosity);
-        if(curiosity < 3)
+        if(curiosity < 2)
         {
             FillData(enemy.icon, enemy.enemyName);
         }

@@ -123,7 +123,7 @@ public class EnemySpawner : MonoBehaviour
                 //}
 
                 EnemiesTypes enemyType = enemiesList[randomIndex].GetComponent<EnemyController>().enemiesType;
-                GameObject enemy = GlobalStorage.instance.objectsPoolManager.GetObjectFromPool(ObjectPool.Enemy, enemyType);
+                GameObject enemy = GlobalStorage.instance.objectsPoolManager.GetEnemy(enemyType);
                 enemy.transform.position = randomPosition;
                 enemy.SetActive(true);
 

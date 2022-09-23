@@ -170,7 +170,7 @@ public class EnemyController : MonoBehaviour
 
     private void ShowDamage(float damageValue, Color colorDamage)
     {
-        GameObject damageObject = GlobalStorage.instance.objectsPoolManager.GetObjectFromPool(ObjectPool.DamageText);
+        GameObject damageObject = GlobalStorage.instance.objectsPoolManager.GetObject(ObjectPool.DamageText);
         damageObject.transform.position = transform.position;
         damageObject.SetActive(true);
         damageObject.GetComponent<DamageText>().Iniatilize(damageValue, colorDamage);
@@ -178,11 +178,11 @@ public class EnemyController : MonoBehaviour
 
     private void Dead()
     {           
-        GameObject death = GlobalStorage.instance.objectsPoolManager.GetObjectFromPool(ObjectPool.EnemyDeath);
+        GameObject death = GlobalStorage.instance.objectsPoolManager.GetObject(ObjectPool.EnemyDeath);
         death.transform.position = transform.position;
         death.SetActive(true);
 
-        GameObject bloodSpot = GlobalStorage.instance.objectsPoolManager.GetObjectFromPool(ObjectPool.BloodSpot);
+        GameObject bloodSpot = GlobalStorage.instance.objectsPoolManager.GetObject(ObjectPool.BloodSpot);
         bloodSpot.transform.position = transform.position;
         bloodSpot.SetActive(true);
 
@@ -244,8 +244,18 @@ public class EnemyController : MonoBehaviour
         Destroy(gameObject.GetComponent<BossController>());
     }
 
-    private void OnDisable()
+
+    private void BackToPool()
     {
         ResetEnemy();
+    }
+
+    private void OnEnable()
+    {
+        EventManager.EndOfBattle += BackToPool;
+    }
+    private void OnDisable()
+    {
+        EventManager.EndOfBattle -= BackToPool;
     }
 }

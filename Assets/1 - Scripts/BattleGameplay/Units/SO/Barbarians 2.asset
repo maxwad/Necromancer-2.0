@@ -15,8 +15,8 @@ MonoBehaviour:
   unitName: Wildman
   unitGO: {fileID: 4387482535749053680, guid: 04b516b910c1f234e880667fc778a2ca, type: 3}
   unitIcon: {fileID: -637342108791370015, guid: e756201b1c0648f4b9607dc384c97567, type: 3}
-  UnitHome: 0
-  UnitType: 2
+  unitHome: 0
+  unitType: 2
   health: 22
   physicAttack: 3
   physicDefence: 3
@@ -25,7 +25,7 @@ MonoBehaviour:
   speedAttack: 1.75
   size: 1
   level: 2
-  UnitAbility: 2
+  unitAbility: 2
   attackTool: {fileID: 7525087813452890241, guid: 106e8eb83f1e3fd48acade3987cadefd, type: 3}
   coinsPrice: 67
   foodPrice: 876

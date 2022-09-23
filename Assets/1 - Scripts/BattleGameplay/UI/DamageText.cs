@@ -75,4 +75,20 @@ public class DamageText : MonoBehaviour
         gameObject.SetActive(false);
         //TODO: change to set gameObject false
     }
+
+    private void BackToPool()
+    {
+        gameObject.SetActive(false);
+
+    }
+
+    private void OnEnable()
+    {
+        EventManager.EndOfBattle += BackToPool;
+    }
+
+    private void OnDisable()
+    {
+        EventManager.EndOfBattle -= BackToPool;
+    }
 }

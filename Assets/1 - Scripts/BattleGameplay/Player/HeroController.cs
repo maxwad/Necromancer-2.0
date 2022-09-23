@@ -159,7 +159,7 @@ public class HeroController : MonoBehaviour
 
     private void ShowDamage(float damageValue, Color colorDamage)
     {
-        GameObject damageObject = GlobalStorage.instance.objectsPoolManager.GetObjectFromPool(ObjectPool.DamageText);
+        GameObject damageObject = GlobalStorage.instance.objectsPoolManager.GetObject(ObjectPool.DamageText);
         damageObject.transform.position = transform.position;
         damageObject.SetActive(true);
         damageObject.GetComponent<DamageText>().Iniatilize(damageValue, colorDamage);

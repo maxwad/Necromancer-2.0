@@ -73,7 +73,7 @@ public class BonusManager : MonoBehaviour
             ObjectPool objectPoolType = ObjectPool.BonusExp;
             if(type == BonusType.Gold) objectPoolType = ObjectPool.BonusGold;
 
-            bonus = GlobalStorage.instance.objectsPoolManager.GetObjectFromPool(objectPoolType);
+            bonus = GlobalStorage.instance.objectsPoolManager.GetObject(objectPoolType);
             bonus.transform.position = position;
             bonus.SetActive(true);
         }

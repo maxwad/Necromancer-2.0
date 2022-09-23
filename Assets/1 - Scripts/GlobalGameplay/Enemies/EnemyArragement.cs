@@ -147,7 +147,7 @@ public class EnemyArragement : MonoBehaviour
 
     private void CreateEnemy(Vector3 position)
     {
-        GameObject enemyOnTheMap = poolManager.GetObjectFromPool(ObjectPool.EnemyOnTheMap);
+        GameObject enemyOnTheMap = poolManager.GetObject(ObjectPool.EnemyOnTheMap);
         enemyOnTheMap.transform.SetParent(enemiesMap.transform);
         enemyOnTheMap.transform.position = position;
         enemyOnTheMap.SetActive(true);

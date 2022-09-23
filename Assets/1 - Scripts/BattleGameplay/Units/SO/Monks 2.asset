@@ -15,8 +15,8 @@ MonoBehaviour:
   unitName: Druid
   unitGO: {fileID: 4387482535749053680, guid: 580ccd906fa69804d91d5a8e23be6bc9, type: 3}
   unitIcon: {fileID: 3554242101514492605, guid: e756201b1c0648f4b9607dc384c97567, type: 3}
-  UnitHome: 0
-  UnitType: 4
+  unitHome: 0
+  unitType: 4
   health: 25
   physicAttack: 3
   physicDefence: 2
@@ -25,7 +25,7 @@ MonoBehaviour:
   speedAttack: 1.75
   size: 1
   level: 2
-  UnitAbility: 1
+  unitAbility: 1
   attackTool: {fileID: 3522437187258658667, guid: 9c7e287e49b080e488f4467e15a7ffeb, type: 3}
   coinsPrice: 876
   foodPrice: 765

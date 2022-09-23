@@ -121,7 +121,7 @@ public class MapBonusManager : MonoBehaviour
 
     private void CreateHeap(Vector3 position)
     {
-        GameObject heapOnTheMap = poolManager.GetObjectFromPool(ObjectPool.ResourceOnTheMap);
+        GameObject heapOnTheMap = poolManager.GetObject(ObjectPool.ResourceOnTheMap);
         heapOnTheMap.transform.SetParent(heapsMap.transform);
         heapOnTheMap.transform.position = position;
         heapOnTheMap.SetActive(true);

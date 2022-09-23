@@ -8,10 +8,11 @@ public class PlayerMilitaryWindow : MonoBehaviour
     [Header("Window Parts")]
     private PlayersArmy playersArmy;
     [SerializeField] private GameObject playerArmyUI;
+    [SerializeField] private EnemyArmyUI enemyArmyUI;
     [SerializeField] private RectTransform rectTransformUI;
     [SerializeField] private CanvasGroup canvasGroup;
     private PlayersArmyPart playersArmyUIPart;
-    private EnemyArmyPart enemyArmyUIPart;
+    //private EnemyArmyPart enemyArmyUIPart;
 
     [HideInInspector] public bool isWindowOpened = false;
 
@@ -19,8 +20,7 @@ public class PlayerMilitaryWindow : MonoBehaviour
     [SerializeField] private float maxWidth;
     private float currentWidth;
 
-    [SerializeField] private GameObject enemyBlock;
-    [SerializeField] private GameObject tombBlock;
+    //[SerializeField] private GameObject tombBlock;
 
     private Coroutine coroutine;
     private float step = 0.1f;
@@ -32,6 +32,7 @@ public class PlayerMilitaryWindow : MonoBehaviour
     [SerializeField] private GameObject stepbackButton;
 
     private float playerCuriosity;
+    private int currentMode = 0;
 
     private void Start()
     {
@@ -62,17 +63,20 @@ public class PlayerMilitaryWindow : MonoBehaviour
 
         playerArmyUI.SetActive(true);
         isWindowOpened = true;
+        currentMode = mode;
 
         Resizing(mode);
         playersArmyUIPart.UpdateArmyWindow();
 
-
+        if(currentMode == 1) enemyArmyUI.OpenWithPlayerArmy(enemyArmy);
     }
 
     public void CloseWindow()
     {
         playersArmy.ResetReplaceIndexes();
         playerArmyUI.SetActive(false);
+
+        if(currentMode == 1) enemyArmyUI.CloseWithPlayerArmy();
 
         isWindowOpened = false;
 
@@ -86,7 +90,7 @@ public class PlayerMilitaryWindow : MonoBehaviour
 
         if(mode == 0)
         {
-            enemyBlock.SetActive(false);
+            //enemyBlock.SetActive(false);
             //tombBlock.SetActive(false);
             currentWidth = minWidth;
 
@@ -98,7 +102,7 @@ public class PlayerMilitaryWindow : MonoBehaviour
 
         if(mode == 1)
         {
-            enemyBlock.SetActive(true);
+            //enemyBlock.SetActive(true);
             //tombBlock.SetActive(false);
             currentWidth = maxWidth;
 
@@ -106,17 +110,17 @@ public class PlayerMilitaryWindow : MonoBehaviour
             battleButton.SetActive(true);
             stepbackButton.SetActive(true);
 
-            if(playerCuriosity == 4)
+            if(playerCuriosity == 3)
                 autobattleButton.SetActive(true);
             else
                 autobattleButton.SetActive(false);
 
-            enemyArmyUIPart.Init();
+            //enemyArmyUIPart.Init();
         }
 
         if(mode == 2)
         {
-            enemyBlock.SetActive(false);
+            //enemyBlock.SetActive(false);
             //tombBlock.SetActive(true);
             currentWidth = maxWidth;
         }

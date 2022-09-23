@@ -175,7 +175,7 @@ public class BoxObject : MonoBehaviour
                 sprite = resourcesIcons[reward.resourcesList[counter]];
                 quantity = reward.resourcesQuantity[counter] * multiplier;
             }
-            GameObject rewardText = poolManager.GetObjectFromPool(ObjectPool.BonusText);
+            GameObject rewardText = poolManager.GetObject(ObjectPool.BonusText);
 
             rewardText.transform.position = transform.position;
             rewardText.SetActive(true);

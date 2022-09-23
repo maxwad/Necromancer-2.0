@@ -15,8 +15,8 @@ MonoBehaviour:
   unitName: Ranger
   unitGO: {fileID: 4387482535749053680, guid: 8287f0b32cd023a44b93e64ea4f07225, type: 3}
   unitIcon: {fileID: -192181715012131653, guid: e756201b1c0648f4b9607dc384c97567, type: 3}
-  UnitHome: 0
-  UnitType: 1
+  unitHome: 0
+  unitType: 1
   health: 35
   physicAttack: 6
   physicDefence: 6
@@ -25,7 +25,7 @@ MonoBehaviour:
   speedAttack: 1.75
   size: 1
   level: 2
-  UnitAbility: 5
+  unitAbility: 5
   attackTool: {fileID: 4421521410223311930, guid: ca44c805e3b0f45459a198ac42386b96, type: 3}
   coinsPrice: 887
   foodPrice: 875

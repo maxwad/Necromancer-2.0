@@ -8,38 +8,58 @@ using static NameManager;
 public class EnemyArmyUI : MonoBehaviour
 {
     public GameObject uiPanel;
+    public GameObject playersArmyWindow;
+    public GameObject realParent;
+
     private EnemyArmyOnTheMap currentEnemyArmy;
-    public List<GameObject> currentEnemiesList = new List<GameObject>();
-    public List<int> currentEnemiesQuantityList = new List<int>();
+    private List<GameObject> currentEnemiesList = new List<GameObject>();
+    private List<int> currentEnemiesQuantityList = new List<int>();
     private bool isOpenedByClick = true;
 
     [Header("Small Form")]
     public GameObject smallWindow;
+    private Image smallWindowImage;
+    private Vector2 originalPositionSW;
+    private RectTransform rectSmallWindow;
+    private Vector2 minAnchorSW;
+    private Vector2 maxAnchorSW;
+
     public TMP_Text captionSmall;
     public Image resourceImage;
     public TMP_Text count;
     public GameObject buttonsPassiveSmall;
-    public GameObject buttonsActiveSmall;
+
 
     [Header("Detail Form")]
     public GameObject detailedWindow;
+    private Image detailedWindowImage;
+    private Vector2 originalPositionDW;
+    private RectTransform rectDetailedWindow;
+    private Vector2 minAnchorDW;
+    private Vector2 maxAnchorDW;
+
     public TMP_Text captionDetail;
     public GameObject buttonsPassiveDetail;
-    public GameObject buttonsActiveDetail;
-    //public GameObject enemyCardPrefab;
     public GameObject enemySlotPrefab;
     public GameObject placeForEnemySlots;
-    //public GameObject placeForEnemyCard;
-    public GameObject autoBattleButton;
+
 
 
     private List<GameObject> allEnemiesList = new List<GameObject>();
     private List<GameObject> allSlotsList = new List<GameObject>();
-    //private List<GameObject> allCardsList = new List<GameObject>();
-    //private List<GameObject> currentSlotsList = new List<GameObject>();
-
 
     private float playerCuriosity;
+
+    private void Awake()
+    {
+        smallWindowImage = smallWindow.GetComponent<Image>();
+        rectSmallWindow = smallWindow.GetComponent<RectTransform>();
+
+        detailedWindowImage = detailedWindow.GetComponent<Image>();
+        rectDetailedWindow = detailedWindow.GetComponent<RectTransform>();
+
+        SaveOriginalPosition();
+    }
 
     public void OpenWindow(bool modeClick, EnemyArmyOnTheMap enemyArmy = null)
     {
@@ -53,14 +73,65 @@ public class EnemyArmyUI : MonoBehaviour
         currentEnemiesQuantityList = enemyArmy.currentEnemiesQuantityList;
 
         uiPanel.SetActive(true);
+        playerCuriosity = GlobalStorage.instance.playerStats.GetCurrentParameter(PlayersStats.Curiosity);
+
         Initialize();
+    }
+
+    public void OpenWithPlayerArmy(EnemyArmyOnTheMap enemyArmy)
+    {
+        isOpenedByClick = false;
+        playerCuriosity = GlobalStorage.instance.playerStats.GetCurrentParameter(PlayersStats.Curiosity);
+        currentEnemyArmy = enemyArmy;
+        currentEnemiesList = enemyArmy.currentEnemiesList;
+        currentEnemiesQuantityList = enemyArmy.currentEnemiesQuantityList;
+
+        if(playerCuriosity < 1)
+        {
+            smallWindow.transform.SetParent(playersArmyWindow.transform, false);
+            smallWindow.SetActive(true);
+            detailedWindow.SetActive(false);
+
+            smallWindowImage.enabled = false;
+        }
+        else
+        {
+            detailedWindow.transform.SetParent(playersArmyWindow.transform, false);
+            smallWindow.SetActive(false);
+            detailedWindow.SetActive(true);
+
+            detailedWindowImage.enabled = false;            
+        }
+
+        Initialize();
+    }
+
+    private void SaveOriginalPosition()
+    {
+        originalPositionDW = rectDetailedWindow.anchoredPosition;
+        minAnchorDW = rectDetailedWindow.anchorMin;
+        maxAnchorDW = rectDetailedWindow.anchorMax;
+
+        originalPositionSW = rectSmallWindow.anchoredPosition;
+        minAnchorSW = rectSmallWindow.anchorMin;
+        maxAnchorSW = rectSmallWindow.anchorMax;
+    }
+
+    private void LoadOriginalPosition()
+    {
+        rectDetailedWindow.anchoredPosition = originalPositionDW;
+        rectDetailedWindow.anchorMin = minAnchorDW;
+        rectDetailedWindow.anchorMax = maxAnchorDW;
+
+        rectSmallWindow.anchoredPosition = originalPositionSW;
+        rectSmallWindow.anchorMin = minAnchorSW;
+        rectSmallWindow.anchorMax = maxAnchorSW;
     }
 
     private void Initialize()
     {
         if(currentEnemyArmy != null)
-        {
-            playerCuriosity = GlobalStorage.instance.playerStats.GetCurrentParameter(PlayersStats.Curiosity);
+        {            
             if(allEnemiesList.Count == 0) allEnemiesList = GlobalStorage.instance.enemyManager.finalEnemiesListGO;
 
             if(playerCuriosity < 1) 
@@ -75,23 +146,14 @@ public class EnemyArmyUI : MonoBehaviour
         detailedWindow.SetActive(false);
         smallWindow.SetActive(true);
 
-        captionSmall.text = "Enemy";
+        captionSmall.text = "Enemy's army";
 
         resourceImage.sprite = currentEnemyArmy.GetComponent<SpriteRenderer>().sprite;
         resourceImage.color = currentEnemyArmy.GetComponent<SpriteRenderer>().color;
 
         count.text = ConvertQuantity(currentEnemyArmy.commonCount);
 
-        if(isOpenedByClick == true)
-        {
-            buttonsPassiveSmall.SetActive(true);
-            buttonsActiveSmall.SetActive(false);
-        }
-        else
-        {
-            buttonsPassiveSmall.SetActive(false);
-            buttonsActiveSmall.SetActive(true);
-        }
+        buttonsPassiveSmall.SetActive(isOpenedByClick);
     }
 
     private void ShowDetailedInfo()
@@ -99,24 +161,9 @@ public class EnemyArmyUI : MonoBehaviour
         smallWindow.SetActive(false);
         detailedWindow.SetActive(true);
 
-        captionDetail.text = "Enemy";
+        captionDetail.text = "Enemy's army";
 
-        if(isOpenedByClick == true)
-        {
-            buttonsPassiveDetail.SetActive(true);
-            buttonsActiveDetail.SetActive(false);
-            autoBattleButton.SetActive(false);
-        }
-        else
-        {
-            buttonsPassiveDetail.SetActive(false);
-            buttonsActiveDetail.SetActive(true);
-
-            if(playerCuriosity == 4)
-                autoBattleButton.SetActive(true);
-            else
-                autoBattleButton.SetActive(true);
-        }
+        buttonsPassiveDetail.SetActive(isOpenedByClick);        
 
         FillSlotsField();
     }
@@ -128,12 +175,6 @@ public class EnemyArmyUI : MonoBehaviour
             Destroy(slot.gameObject);
             allSlotsList.Clear();
         }
-
-        //foreach(RectTransform card in placeForEnemyCard.transform)
-        //{
-        //    Destroy(card.gameObject);
-        //    allCardsList.Clear();
-        //}
 
         for(int i = 0; i < currentEnemiesList.Count; i++)
         {
@@ -148,38 +189,14 @@ public class EnemyArmyUI : MonoBehaviour
         }
     }
 
-    //public void ShowDetails(int index)
-    //{
-    //    bool showMode = playerCuriosity > 2 ? true : false;
-    //    foreach(var card in allCardsList)
-    //    {
-    //        card.SetActive(false);
-    //    }
-
-    //    allCardsList[index].SetActive(true);
-    //    allCardsList[index].GetComponent<EnemyCardUI>().Initialize(null, showMode);
-    //}
-
     private void CreateSlot(EnemyController enemy, int amount)
     {
-        //EnemyCardUI card = CreateCard(enemy);
-        GameObject enemySlot = Instantiate(enemySlotPrefab, placeForEnemySlots.transform);
-        
+        GameObject enemySlot = Instantiate(enemySlotPrefab);
+        enemySlot.transform.SetParent(placeForEnemySlots.transform, false);
         EnemySlotUI slotUI = enemySlot.GetComponent<EnemySlotUI>();
         slotUI.Initialize(enemy, amount);
         allSlotsList.Add(enemySlot);
     }
-
-    //private EnemyCardUI CreateCard(EnemyController enemy)
-    //{
-    //    GameObject newCardGO = Instantiate(enemyCardPrefab, placeForEnemyCard.transform);
-    //    EnemyCardUI card = newCardGO.GetComponent<EnemyCardUI>();
-    //    card.Initialize(enemy);
-    //    newCardGO.SetActive(false);
-    //    allCardsList.Add(newCardGO);
-
-    //    return card;
-    //}
 
     private string ConvertQuantity(int count)
     {
@@ -201,6 +218,24 @@ public class EnemyArmyUI : MonoBehaviour
         uiPanel.SetActive(false);
     }
 
+    public void CloseWithPlayerArmy()
+    {
+        LoadOriginalPosition();
+
+        if(playerCuriosity < 1)
+        {
+            smallWindow.transform.SetParent(realParent.transform, false);
+            smallWindowImage.enabled = true;
+            smallWindow.SetActive(false);
+        }
+        else
+        {
+            detailedWindow.transform.SetParent(realParent.transform, false);
+            detailedWindowImage.enabled = true;
+            detailedWindow.SetActive(false);
+        }
+    }
+
     public void ToTheBattle()
     {
         CloseWindow();
@@ -214,7 +249,6 @@ public class EnemyArmyUI : MonoBehaviour
 
     public void StepBack()
     {
-        //GlobalStorage.instance.globalPlayer.GetComponent<GMPlayerMovement>().StepBack();
         CloseWindow();
     }
 }

@@ -127,7 +127,7 @@ public class ResourceObject : MonoBehaviour
         Sprite sprite = resourcesIcons[reward.resourcesList[0]];
         float quantity = reward.resourcesQuantity[0];
         
-        GameObject rewardText = poolManager.GetObjectFromPool(ObjectPool.BonusText);
+        GameObject rewardText = poolManager.GetObject(ObjectPool.BonusText);
 
         rewardText.transform.position = transform.position;
         rewardText.SetActive(true);

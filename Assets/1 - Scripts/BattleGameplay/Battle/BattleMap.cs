@@ -323,7 +323,7 @@ public class BattleMap : MonoBehaviour
 
                 if (prefab.GetComponent<HealthObjectStats>().isFromPool == true)
                 {
-                    obj = GlobalStorage.instance.objectsPoolManager.GetObjectFromPool(ObjectPool.Torch);
+                    obj = GlobalStorage.instance.objectsPoolManager.GetObject(ObjectPool.Torch);
                     obj.transform.position = new Vector3(randomX, randomY, spawnZOffset);
                     obj.SetActive(true);
                 }

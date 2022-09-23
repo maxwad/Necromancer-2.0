@@ -55,7 +55,7 @@ public class HealthObjectStats : MonoBehaviour
 
     private void ShowDamage(float damageValue, Color colorDamage)
     {
-        GameObject damageObject = GlobalStorage.instance.objectsPoolManager.GetObjectFromPool(ObjectPool.DamageText);
+        GameObject damageObject = GlobalStorage.instance.objectsPoolManager.GetObject(ObjectPool.DamageText);
         damageObject.transform.position = transform.position;
         damageObject.SetActive(true);
         damageObject.GetComponent<DamageText>().Iniatilize(damageValue, colorDamage);
@@ -92,6 +92,18 @@ public class HealthObjectStats : MonoBehaviour
         return BonusType.Nothing;
     }
 
+    public void DestroyMe()
+    {
+        if(isFromPool == true)
+        {
+            gameObject.SetActive(false);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
     private void OnBecameInvisible()
     {
         if(typeOfObject == ObstacleTypes.Obstacle) GetComponent<Collider2D>().enabled = false;
@@ -101,4 +113,16 @@ public class HealthObjectStats : MonoBehaviour
     {
         if(typeOfObject == ObstacleTypes.Obstacle) GetComponent<Collider2D>().enabled = true;
     }
+
+    private void OnEnable()
+    {
+        EventManager.EndOfBattle += DestroyMe;
+    }
+
+    private void OnDisable()
+    {
+        EventManager.EndOfBattle -= DestroyMe;
+    }
+
 }
+

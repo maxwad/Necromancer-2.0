@@ -137,7 +137,6 @@ MonoBehaviour:
   isNormalUIWindow: 1
   canBeOpenedByClick: 1
   canBeOpenedByMove: 1
-  tooltip: {fileID: 0}
   cursor: 3
 --- !u!114 &8960518752840200900
 MonoBehaviour:
@@ -153,7 +152,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   owner: 2
   isGuardNeeded: 1
-  probabilityGuard: 80
+  probabilityGuard: 100
 --- !u!114 &2953856572521678547
 MonoBehaviour:
   m_ObjectHideFlags: 0

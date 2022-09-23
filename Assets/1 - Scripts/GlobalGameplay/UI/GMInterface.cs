@@ -95,7 +95,7 @@ public class GMInterface : MonoBehaviour
     {
         if(GlobalStorage.instance.isGlobalMode == false) return;
 
-        GameObject delta = poolManager.GetObjectFromPool(ObjectPool.DeltaCost);
+        GameObject delta = poolManager.GetObject(ObjectPool.DeltaCost);
 
         delta.transform.SetParent(deltaContainers[resType].transform);
         delta.SetActive(true);
