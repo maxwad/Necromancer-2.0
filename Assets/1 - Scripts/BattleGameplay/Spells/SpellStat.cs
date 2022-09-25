@@ -11,7 +11,8 @@ public class SpellStat : MonoBehaviour
     public bool isUnlocked = false;
 
     [Space]
-    public Spells spellType;
+    public Spells spell;
+    public TypeOfSpell type;
 
     public float manaCost;
     public float value;

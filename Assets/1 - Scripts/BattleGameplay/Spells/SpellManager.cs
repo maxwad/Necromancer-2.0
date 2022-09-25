@@ -18,11 +18,24 @@ public class SpellManager : MonoBehaviour
 
         foreach(var spell in availableSpells)
         {
-            if(spell.isUnlocked == true) currentSpells.Add(spell);
+            spell.isUnlocked = true;
         }
+
+        currentSpells = availableSpells;
     }
 
     //TODO: handling for finding new spells and unlocking
+    public void UnlockSpell(SpellStat spell)
+    {
+        foreach(var item in availableSpells)
+        {
+            if(item.spell == spell.spell) 
+            {
+                item.isUnlocked = true;
+                break;
+            }   
+        }
+    }
 
     public List<SpellStat> GetCurrentSpells()
     {

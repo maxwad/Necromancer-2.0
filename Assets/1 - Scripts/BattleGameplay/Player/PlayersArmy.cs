@@ -156,10 +156,11 @@ public class PlayersArmy : MonoBehaviour
                 realUnitsOnBattlefield[i].transform.SetParent(ReserveArmyContainer.transform);                
 
                 realUnitsInReserve.Add(realUnitsOnBattlefield[i]);
-                realUnitsComponentsInReserve.Add(realUnitsOnBattlefield[i].GetComponent<UnitController>());
+                realUnitsComponentsInReserve.Add(realUnitsComponentsOnBattlefield[i]);
                 realUnitsOnBattlefield[i].SetActive(false);
 
                 realUnitsOnBattlefield[i] = null;
+                realUnitsComponentsOnBattlefield[i] = null;
             }
         }
 
@@ -171,7 +172,7 @@ public class PlayersArmy : MonoBehaviour
                 for(int j = 0; j < realUnitsInReserve.Count; j++)
                 {
                     //read the name of list attentively!
-                    if(realUnitsComponentsInReserve[j].GetComponent<UnitController>().unitType == playersArmy[i].unitType)
+                    if(realUnitsComponentsInReserve[j].unitType == playersArmy[i].unitType)
                     {
                         realUnitsComponentsOnBattlefield[i] = realUnitsComponentsInReserve[j];
                         realUnitsOnBattlefield[i] = realUnitsInReserve[j];
@@ -413,6 +414,10 @@ public class PlayersArmy : MonoBehaviour
 
     #endregion
 
+    public UnitController[] GetPlayersArmyForAutobattle()
+    {
+        return realUnitsComponentsOnBattlefield;
+    }
 
     private void OnEnable()
     {

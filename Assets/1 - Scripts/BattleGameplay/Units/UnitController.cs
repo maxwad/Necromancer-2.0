@@ -8,16 +8,16 @@ public class UnitController : MonoBehaviour
 {
     public UnitsTypes unitType;
     public string unitName;
-    [SerializeField] private float health;
-    [SerializeField] public float magicAttack;
-    [SerializeField] public float physicAttack;
-    [SerializeField] private float magicDefence;
-    [SerializeField] private float physicDefence;
-    [SerializeField] public float speedAttack;
-    [SerializeField] public float size;
-    [SerializeField] public int level;
-    [SerializeField] public UnitsAbilities unitAbility;
-    [SerializeField] public string abilityDescription;
+    private float health;
+    public float magicAttack;
+    public float physicAttack;
+    public float magicDefence;
+    public float physicDefence;
+    public float speedAttack;
+    public float size;
+    public int level;
+    public UnitsAbilities unitAbility;
+    public string abilityDescription;
 
     [SerializeField] public GameObject attackTool;
 
@@ -37,7 +37,7 @@ public class UnitController : MonoBehaviour
 
     [SerializeField] private GameObject deathPrefab;
 
-    [SerializeField] GameObject damageNote;
+    [SerializeField] private GameObject damageNote;
     private Color colorDamage = Color.yellow;
 
     private TMP_Text unitCountsText;

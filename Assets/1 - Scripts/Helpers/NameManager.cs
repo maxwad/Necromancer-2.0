@@ -187,6 +187,11 @@ public static class NameManager
         ResurrectUnit
     }
 
+    public enum TypeOfSpell
+    {
+        Attack, Defence, Bonus
+    }
+
     public enum BossSpells
     {
         InvertMovement = 0,

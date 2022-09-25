@@ -5,6 +5,9 @@ using UnityEngine;
 public class BattleManager : MonoBehaviour
 {
     private BattleResult battleResultUI;
+    private Autobattle autobattle;
+    private PlayerMilitaryWindow playerArmyWindow;
+
     [SerializeField] private int sizeMapX = 50;
     [SerializeField] private int sizeMapY = 50;
     private int positionZ = 40; // we should send double size of Z because dividing by 2
@@ -26,6 +29,8 @@ public class BattleManager : MonoBehaviour
     private void Start()
     {
         battleResultUI = GlobalStorage.instance.battleResultUI;
+        autobattle = GetComponent<Autobattle>();
+        playerArmyWindow = GlobalStorage.instance.playerMilitaryWindow;
     }
 
     #region Starting Initialisation
@@ -73,14 +78,17 @@ public class BattleManager : MonoBehaviour
         currentEnemies = army.squadList;
         currentEnemiesQuantity = army.quantityList;
 
-        GlobalStorage.instance.playerMilitaryWindow.OpenWindow(1, currentEnemyArmy);
-        //GlobalStorage.instance.enemyArmyUI.OpenWindow(false, currentEnemyArmy);
+        playerArmyWindow.OpenWindow(1, currentEnemyArmy);
+    }
+
+    public void ReopenPreBattleWindow()
+    {
+        playerArmyWindow.Reopen();
     }
 
     public void AutoBattle()
     {
-        //here will be the AutobattleScript
-
+        autobattle.Preview(currentArmy);
         Debug.Log("Autobattle");
     }
 }

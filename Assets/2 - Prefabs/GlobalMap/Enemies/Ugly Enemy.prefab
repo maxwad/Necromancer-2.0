@@ -136,7 +136,6 @@ MonoBehaviour:
   isNormalUIWindow: 0
   canBeOpenedByClick: 1
   canBeOpenedByMove: 1
-  tooltip: {fileID: 0}
   cursor: 1
 --- !u!114 &7937152823898584750
 MonoBehaviour:
@@ -153,4 +152,5 @@ MonoBehaviour:
   currentEnemiesList: []
   currentEnemiesQuantityList: 
   commonCount: 0
-  armyStrength: 0
+  armyStrength: 1
+  typeOfArmy: 0

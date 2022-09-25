@@ -64,7 +64,7 @@ public class SpellButtonController : MonoBehaviour
         if(hero.isDead == true) return;
 
         resourcesManager.ChangeResource(ResourceType.Mana, -spell.manaCost);
-        spellLibrary.ActivateSpell(spell.spellType, true, spell.value, spell.actionTime);
+        spellLibrary.ActivateSpell(spell.spell, true, spell.value, spell.actionTime);
 
         StartCoroutine(StartDelay());
     }

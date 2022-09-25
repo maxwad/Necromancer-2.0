@@ -24,7 +24,7 @@ public class EnemySquadGenerator : MonoBehaviour
     private float maxCountOfSquad = 12; //because enemy UI window size allow only 12 squads
     private float enemyQuantityDivider = 2;
     private float enemySizeDivider = 5;
-    private float enemyPortion = 10;
+    private float enemyPortion = 100;
     private float percentGap = 0.2f;
 
     public void SetAllEnemiesList(List<GameObject> enemies)
@@ -41,7 +41,7 @@ public class EnemySquadGenerator : MonoBehaviour
         countOfSquad = Mathf.Ceil(playerLevel / enemyQuantityDivider);
         if(countOfSquad > maxCountOfSquad) countOfSquad = maxCountOfSquad;
 
-        sizeOfSquadMultiplier = Mathf.Ceil(playerLevel / enemySizeDivider);
+        sizeOfSquadMultiplier = Mathf.Ceil(playerLevel / enemySizeDivider) * (int)armyStrength;
 
         Army newArmy = new Army();
         newArmy.strength = armyStrength;

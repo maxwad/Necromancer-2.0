@@ -66,6 +66,7 @@ public class ObjectsPoolManager : MonoBehaviour
     private GameObject CreateObject(GameObject prefab)
     {
         GameObject obj = Instantiate(prefab);
+        obj.name = prefab.name;
         obj.transform.SetParent(transform);
         obj.SetActive(false);      
 

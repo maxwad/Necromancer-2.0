@@ -10,6 +10,7 @@ public class EnemyManager : MonoBehaviour
     public List<Enemy> allEnemiesBase = new List<Enemy>();
     public List<Enemy> allBoostEnemies = new List<Enemy>();
     public List<GameObject> finalEnemiesListGO = new List<GameObject>();
+    public List<EnemyController> finalEnemiesListEC = new List<EnemyController>();
 
     private UnitBoostManager boostManager;
 
@@ -27,7 +28,7 @@ public class EnemyManager : MonoBehaviour
         enemyArragement = GetComponent<EnemyArragement>();
         enemySquadGenerator = GetComponent<EnemySquadGenerator>();
 
-        GetAllEnemiesBase();
+        CreateAllEnemiesBase();
         enemyArragement.GenerateEnemiesOnTheMap(this);
 
         GlobalStorage.instance.LoadNextPart();
@@ -35,29 +36,31 @@ public class EnemyManager : MonoBehaviour
 
     #region CREATE ENEMY FOR BATTLE (GO)
 
-    private void GetAllEnemiesBase()
+    private void CreateAllEnemiesBase()
     {
         foreach (var item in allEnemiesSO)
             allEnemiesBase.Add(new Enemy(item));
 
-        GetAllEnemiesBoost();
+        CreatetAllEnemiesBoost();
     }
 
-    private void GetAllEnemiesBoost()
+    private void CreatetAllEnemiesBoost()
     {
         foreach (Enemy item in allEnemiesBase)
             allBoostEnemies.Add(boostManager.AddBonusStatsToEnemy(item));
 
-        GetFinalEnemiesListGO();
+        CreateFinalEnemiesListGO();
     }
 
-    private void GetFinalEnemiesListGO()
+    private void CreateFinalEnemiesListGO()
     {
         foreach (Enemy item in allBoostEnemies)
         {
             GameObject enemy = item.enemyGO;
-            enemy.GetComponent<EnemyController>().Initialize(item);
-            finalEnemiesListGO.Add(enemy);            
+            EnemyController enemyController = enemy.GetComponent<EnemyController>();
+            enemyController.Initialize(item);
+            finalEnemiesListGO.Add(enemy);
+            finalEnemiesListEC.Add(enemyController);
         }
 
         enemySquadGenerator.SetAllEnemiesList(finalEnemiesListGO);

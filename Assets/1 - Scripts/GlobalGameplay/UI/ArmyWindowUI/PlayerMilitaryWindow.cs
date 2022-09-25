@@ -26,6 +26,7 @@ public class PlayerMilitaryWindow : MonoBehaviour
     private float step = 0.1f;
 
     [Header("Buttons")]
+    [SerializeField] private GameObject commonButtonsBlock;
     [SerializeField] private GameObject closeButton;
     [SerializeField] private GameObject battleButton;
     [SerializeField] private GameObject autobattleButton;
@@ -127,23 +128,50 @@ public class PlayerMilitaryWindow : MonoBehaviour
 
         rectTransformUI.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, currentWidth);
         if(coroutine != null) StopCoroutine(coroutine);
-        coroutine = StartCoroutine(ShowWindow());
+        coroutine = StartCoroutine(ShowWindow(true));
     }
 
-    private IEnumerator ShowWindow()
+    private IEnumerator ShowWindow(bool mode)
     {
         WaitForSecondsRealtime delay = new WaitForSecondsRealtime(step * 0.1f);
 
-        float start = 0;
-        float end = 1;
+        float start;
+        float end;
 
-        canvasGroup.alpha = start;
-
-        while(canvasGroup.alpha < end)
+        if(mode == true)
         {
-            canvasGroup.alpha += step;
-            yield return delay;
+            commonButtonsBlock.SetActive(true);
+
+            start = 0;
+            end = 1;
+            canvasGroup.alpha = start;
+
+            while(canvasGroup.alpha < end)
+            {
+                canvasGroup.alpha += step;
+                yield return delay;
+            }
         }
+        else
+        {
+            commonButtonsBlock.SetActive(false);
+
+            start = 1;
+            end = 0;
+            canvasGroup.alpha = start;
+
+            while(canvasGroup.alpha > end)
+            {
+                canvasGroup.alpha -= step;
+                yield return delay;
+            }
+        }
+    }
+
+    public void Reopen()
+    {
+        if(coroutine != null) StopCoroutine(coroutine);
+        coroutine = StartCoroutine(ShowWindow(true));
     }
 
     public void ToTheBattle()
@@ -155,5 +183,7 @@ public class PlayerMilitaryWindow : MonoBehaviour
     public void AutoBattle()
     {
         GlobalStorage.instance.battleManager.AutoBattle();
+        if(coroutine != null) StopCoroutine(coroutine);
+        coroutine = StartCoroutine(ShowWindow(false));
     }
 }
