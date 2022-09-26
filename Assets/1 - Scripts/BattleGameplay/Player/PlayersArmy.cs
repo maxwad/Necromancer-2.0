@@ -353,11 +353,11 @@ public class PlayersArmy : MonoBehaviour
 
     #region DAMAGE army after defeat/escape
 
-    public void EscapeDamage()
+    public void EscapeDamage(float count = 0)
     {
         float commonCountUnits = 0;
         float countToKill;
-        float tryToKill = 100;
+        float tryToKill = 1000;
 
         for(int i = 0; i < realUnitsComponentsOnBattlefield.Length; i++)
         {
@@ -369,18 +369,22 @@ public class PlayersArmy : MonoBehaviour
 
         if(commonCountUnits == 0) return;
 
-        countToKill = Mathf.Ceil(commonCountUnits * damageArmyByEscape);
+        if(count != 0 )
+            countToKill = count;
+        else
+            countToKill = Mathf.Ceil(commonCountUnits * damageArmyByEscape);
 
         for(int i = 0; i < countToKill; i++)
         {
             KillUnit();
         }
+
         void KillUnit()
         {
             tryToKill--;
             if(tryToKill == 0)
             {
-                Debug.Log("To mach try, sorry...");
+                Debug.Log("To much tries, sorry...");
                 return;
             }
 

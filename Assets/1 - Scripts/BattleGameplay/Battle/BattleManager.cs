@@ -61,11 +61,11 @@ public class BattleManager : MonoBehaviour
         sizeMapY = heigth;
     }
 
-    public void FinishTheBattle(int result)
+    public void FinishTheBattle(bool isAutobattle, int result, float percentOfReward = 100)
     {
-        GlobalStorage.instance.ChangePlayMode(true);
+        if(isAutobattle == false) GlobalStorage.instance.ChangePlayMode(true);
 
-        battleResultUI.Init(result, currentEnemyArmyOnTheMap, currentArmy);
+        battleResultUI.Init(result, percentOfReward, currentEnemyArmyOnTheMap, currentArmy);
     }    
 
     #endregion
@@ -89,6 +89,5 @@ public class BattleManager : MonoBehaviour
     public void AutoBattle()
     {
         autobattle.Preview(currentArmy);
-        Debug.Log("Autobattle");
     }
 }

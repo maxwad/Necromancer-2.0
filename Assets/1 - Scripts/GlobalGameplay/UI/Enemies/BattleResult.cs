@@ -48,6 +48,7 @@ public class BattleResult : MonoBehaviour
 
     //0 - defeat, 1 - victory, -1 - stepback
     private int currentStatus;
+    private float currentPercentReward;
     private Army currentEnemyArmy;
     private EnemyArmyOnTheMap currentEnemyGO;
 
@@ -60,7 +61,7 @@ public class BattleResult : MonoBehaviour
 
     private PlayersArmy playersArmy;
 
-    public void Init(int mode, EnemyArmyOnTheMap currentArmyGO, Army currentArmy)
+    public void Init(int mode, float percentOfReward, EnemyArmyOnTheMap currentArmyGO, Army currentArmy)
     {
         GlobalStorage.instance.ModalWindowOpen(true);
 
@@ -77,6 +78,7 @@ public class BattleResult : MonoBehaviour
         }
 
         currentStatus = mode;
+        currentPercentReward = percentOfReward / 100;
         currentEnemyArmy = currentArmy;
         currentEnemyGO = currentArmyGO;
         canvas.alpha = 0;
@@ -124,10 +126,15 @@ public class BattleResult : MonoBehaviour
 
     private void FillReward()
     {
-        currentReward = rewardManager.GetBattleReward(currentEnemyArmy);
+        currentReward = rewardManager.GetBattleReward(currentEnemyArmy);        
 
         for(int i = 0; i < currentReward.resourcesList.Count; i++)
         {
+            if(currentPercentReward != 1f)
+            {
+                currentReward.resourcesQuantity[i] *= Mathf.Ceil(currentReward.resourcesQuantity[i] * currentPercentReward);
+            }
+
             rewardItemList[i].SetActive(true);
             rewardItemImageList[i].sprite = resourcesIcons[currentReward.resourcesList[i]];
             rewardItemTextList[i].text = currentReward.resourcesQuantity[i].ToString();
@@ -161,6 +168,8 @@ public class BattleResult : MonoBehaviour
     #region HELPERS
     private void RegisterDeadUnit(UnitsTypes unitType, int quantity)
     {
+
+        Debug.Log("Dead");
         if(isDeadRegistrating == true)
         {
             if(lostUnitsDict.ContainsKey(unitType) == true)
@@ -247,16 +256,22 @@ public class BattleResult : MonoBehaviour
         }
     }
 
-    private void StartCheckingUnitDeath(bool mode)
+    public void StartCheckingUnitDeath(bool mode = false)
     {
         if(mode == false) isDeadRegistrating = true;
+    }
+
+    public void CloseCheckingUnitDeath()
+    {
+        // we need second function becouse we start reg automaticaly, but close - by command
+        isDeadRegistrating = false;
     }
 
     #endregion
 
     public void CloseWindow()
-    {        
-        isDeadRegistrating = false;
+    {
+        CloseCheckingUnitDeath();
         lostUnitsDict.Clear();
         currentEnemyArmy = null;
 

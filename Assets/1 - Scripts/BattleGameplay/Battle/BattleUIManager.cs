@@ -222,7 +222,7 @@ public class BattleUIManager : MonoBehaviour
     public void LeaveTheBattle()
     {
         OpenLeaveBlock(false);
-        GlobalStorage.instance.battleManager.FinishTheBattle(-1);
+        GlobalStorage.instance.battleManager.FinishTheBattle(false, -1);
     }
 
     public void ShowVictoryBlock()
@@ -247,7 +247,7 @@ public class BattleUIManager : MonoBehaviour
     public void Victory()
     {
         victoryBlock.SetActive(false);
-        GlobalStorage.instance.battleManager.FinishTheBattle(1);
+        GlobalStorage.instance.battleManager.FinishTheBattle(false, 1);
     }
 
     public void ShowDefeatBlock()
@@ -271,7 +271,7 @@ public class BattleUIManager : MonoBehaviour
     public void Defeat()
     {
         defeatBlock.SetActive(false);
-        GlobalStorage.instance.battleManager.FinishTheBattle(0);
+        GlobalStorage.instance.battleManager.FinishTheBattle(false, 0);
     }
 
     #endregion
