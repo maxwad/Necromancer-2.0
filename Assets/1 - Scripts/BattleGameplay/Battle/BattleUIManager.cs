@@ -445,12 +445,13 @@ public class BattleUIManager : MonoBehaviour
                 {
                     slotNumber = i + 1;
                     if(i + 1 == 10) slotNumber = 0;
-                }   
+                }
 
                 Button button = Instantiate(buttonSpell);
                 button.GetComponent<SpellButtonController>().InitializeButton(currentSpells[i], slotNumber);
                 currentSpellsButtons.Add(button);
                 button.transform.SetParent(spellButtonContainer.transform, false);
+
             }
         }
         else

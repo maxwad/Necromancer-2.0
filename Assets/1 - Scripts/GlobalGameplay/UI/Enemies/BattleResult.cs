@@ -90,7 +90,8 @@ public class BattleResult : MonoBehaviour
         BattleResultActions();
 
         uiPanel.SetActive(true);
-        StartCoroutine(ShowUI());
+        //StartCoroutine(ShowUI());
+        Fading.instance.Fade(true, canvas, step, step * 5);
     }
 
     private void BattleResultActions()
@@ -108,21 +109,21 @@ public class BattleResult : MonoBehaviour
         FillLosses();
     }
 
-    private IEnumerator ShowUI()
-    {
-        yield return new WaitForSeconds(step * 10);
+    //private IEnumerator ShowUI()
+    //{
+    //    yield return new WaitForSeconds(step * 10);
 
-        WaitForSeconds delay = new WaitForSeconds(step * 0.25f);
+    //    WaitForSeconds delay = new WaitForSeconds(step * 0.25f);
 
-        currentAlfa = 0;
+    //    currentAlfa = 0;
 
-        while(currentAlfa < 1)
-        {
-            currentAlfa += step * 2;
-            canvas.alpha = currentAlfa;
-            yield return delay;
-        }
-    }
+    //    while(currentAlfa < 1)
+    //    {
+    //        currentAlfa += step * 2;
+    //        canvas.alpha = currentAlfa;
+    //        yield return delay;
+    //    }
+    //}
 
     private void FillReward()
     {
@@ -132,7 +133,7 @@ public class BattleResult : MonoBehaviour
         {
             if(currentPercentReward != 1f)
             {
-                currentReward.resourcesQuantity[i] *= Mathf.Ceil(currentReward.resourcesQuantity[i] * currentPercentReward);
+                currentReward.resourcesQuantity[i] = Mathf.Ceil(currentReward.resourcesQuantity[i] * currentPercentReward);
             }
 
             rewardItemList[i].SetActive(true);
@@ -148,10 +149,21 @@ public class BattleResult : MonoBehaviour
 
         foreach(var unit in lostUnitsDict)
         {
+            Unit neededUnit = null;
+
+            foreach(var item in actualUnits)
+            {
+                if(item.unitType == unit.Key)
+                {
+                    neededUnit = item;
+                    break;
+                }
+            }
+
             lossesItemList[counter].SetActive(true);
-            lossesItemImageList[counter].sprite = actualUnits[counter].unitIcon;
+            lossesItemImageList[counter].sprite = neededUnit.unitIcon;
             lossesItemTextList[counter].text = unit.Value.ToString();
-            lossesItemSquadtipList[counter].SetUnit(actualUnits[counter]);
+            lossesItemSquadtipList[counter].SetUnit(neededUnit);
 
             counter++;
         }
@@ -169,7 +181,6 @@ public class BattleResult : MonoBehaviour
     private void RegisterDeadUnit(UnitsTypes unitType, int quantity)
     {
 
-        Debug.Log("Dead");
         if(isDeadRegistrating == true)
         {
             if(lostUnitsDict.ContainsKey(unitType) == true)

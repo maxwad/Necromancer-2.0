@@ -45,7 +45,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isFinded: 1
   isUnlocked: 1
-  spell: 0
+  spell: 4
   type: 1
   manaCost: 1
   value: 10

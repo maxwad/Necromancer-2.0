@@ -831,6 +831,7 @@ GameObject:
   - component: {fileID: 4783132266164361774}
   - component: {fileID: 4055089175395990260}
   - component: {fileID: 9163514242690337793}
+  - component: {fileID: 3466553706556767186}
   - component: {fileID: 4585331196783449192}
   m_Layer: 5
   m_Name: PortalWindowUI
@@ -920,6 +921,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!225 &3466553706556767186
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3091619707512277201}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!114 &4585331196783449192
 MonoBehaviour:
   m_ObjectHideFlags: 0

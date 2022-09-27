@@ -8,9 +8,9 @@ public class EnemyArmyOnTheMap : MonoBehaviour
     private BattleManager battleManager;
     private EnemyManager enemyManager;
 
-    public List<GameObject> currentEnemiesList = new List<GameObject>();
-    public List<int> currentEnemiesQuantityList = new List<int>();
-    private Army army;
+    //public List<GameObject> currentEnemiesList = new List<GameObject>();
+    //public List<int> currentEnemiesQuantityList = new List<int>();
+    [HideInInspector] public Army army;
     [HideInInspector] public int commonCount = 0;
 
     public ArmyStrength armyStrength = ArmyStrength.Low;
@@ -41,14 +41,14 @@ public class EnemyArmyOnTheMap : MonoBehaviour
 
         army = enemyManager.enemySquadGenerator.GenerateArmy(armyStrength, typeOfArmy);
 
-        currentEnemiesList = army.squadList;
-        currentEnemiesQuantityList = army.quantityList;
+        //currentEnemiesList = army.squadList;
+        //currentEnemiesQuantityList = army.quantityList;
 
         commonCount = 0;
 
-        for(int i = 0; i < currentEnemiesList.Count; i++)
+        for(int i = 0; i < army.squadList.Count; i++)
         {
-            commonCount += currentEnemiesQuantityList[i];
+            commonCount += army.quantityList[i];
         }
     }
 
@@ -68,10 +68,10 @@ public class EnemyArmyOnTheMap : MonoBehaviour
         float growUpConst = percent / 100;
         commonCount = 0;
 
-        for(int i = 0; i < currentEnemiesList.Count; i++)
+        for(int i = 0; i < army.squadList.Count; i++)
         {
-            currentEnemiesQuantityList[i] += Mathf.RoundToInt(currentEnemiesQuantityList[i] * growUpConst);
-            commonCount += currentEnemiesQuantityList[i];
+            army.quantityList[i] += Mathf.RoundToInt(army.quantityList[i] * growUpConst);
+            commonCount += army.quantityList[i];
         }
     }
 

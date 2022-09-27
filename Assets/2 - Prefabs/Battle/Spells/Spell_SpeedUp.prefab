@@ -45,9 +45,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isFinded: 1
   isUnlocked: 1
-  spellType: 0
+  spell: 0
+  type: 1
   manaCost: 1
-  value: 0.2
+  value: 0.9
   actionTime: 5
   reloading: 5
   icon: {fileID: 3687465974505754858, guid: 54d98c65c3b37744baea457e9292557a, type: 3}

@@ -43,7 +43,7 @@ public class Autobattle : MonoBehaviour
     private float enemiesQuantity = 0;
     private float lossesGap = 0.2f;
     private float attackReward = 60f;
-    private float defenceReward = 40f;
+    private float defenceReward = 30f;
 
 
     [Header("Count Settings")]
@@ -54,6 +54,7 @@ public class Autobattle : MonoBehaviour
     private bool isMagicUnits = false;
 
     private ResultOfAutobattle result;
+    private bool isRecalculating = false;
 
     private void Start()
     {
@@ -68,6 +69,7 @@ public class Autobattle : MonoBehaviour
     public void Preview(Army enemyArmy)
     {
         currentEnemyArmy = enemyArmy;
+        isRecalculating = false;
 
         StartCalculating();
     }
@@ -251,14 +253,14 @@ public class Autobattle : MonoBehaviour
 
         float manaMultiplier = Mathf.Ceil(mana / commonCost);
 
-        Debug.Log(manaMultiplier);
+        //Debug.Log(manaMultiplier);
 
         spellDelta = manaMultiplier * delta;
         lossesMana = (mana > commonCost) ? commonCost : mana;
 
         spellDelta += countOfSpells * delta;
 
-        Debug.Log("Mana gives you " + spellDelta + "points");
+        //Debug.Log("Mana gives you " + spellDelta + "points");
 
         return spellDelta;
     }
@@ -272,7 +274,7 @@ public class Autobattle : MonoBehaviour
         float minLosses;
         float maxLosses;
 
-        Debug.Log(currentProportion + ": You will lose units: " + Mathf.Round(enemiesQuantity / currentProportion) + " on " + enemiesQuantity + " enemies");
+        //Debug.Log(currentProportion + ": You will lose units: " + Mathf.Round(enemiesQuantity / currentProportion) + " on " + enemiesQuantity + " enemies");
         lossesResult = Mathf.Round(enemiesQuantity / currentProportion);
 
         if(lossesResult >= unitsQuantity || unitsQuantity == 0) 
@@ -304,21 +306,32 @@ public class Autobattle : MonoBehaviour
             result.manaLosses = lossesMana;
         }
 
-        autobattleUI.ShowResult(this, result);
+        if(isRecalculating == false)
+            autobattleUI.ShowResult(this, result);
+        else
+        {
+            autobattleUI.FillWindow(result);
+        }
+    }
+
+    public void Recalculating()
+    {
+        isRecalculating = true;
+        StartCalculating();
+
     }
 
     public void AcceptResult()
     {
         float finalLosses;
 
-        Debug.Log("Accepted");
         if(Random.Range(0, 101) <= luck)
         {
             finalLosses = result.minLosses;
         }
         else
         {
-            finalLosses = Random.Range(result.minLosses, result.maxLosses + 1);
+            finalLosses = Random.Range(result.minLosses, result.maxLosses);
         }
 
         playersArmyScript.EscapeDamage(finalLosses);

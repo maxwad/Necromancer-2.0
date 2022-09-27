@@ -232,7 +232,7 @@ public class PlayersArmy : MonoBehaviour
         {
             for(int i = 0; i < realUnitsOnBattlefield.Length; i++)
             {
-                UnitController unit = realUnitsOnBattlefield[i].GetComponent<UnitController>();
+                UnitController unit = realUnitsComponentsOnBattlefield[i];
                 if(unit.unitType == unitType)
                 {
                     unit.quantity++;

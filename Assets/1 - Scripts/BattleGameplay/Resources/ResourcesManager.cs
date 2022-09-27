@@ -119,7 +119,6 @@ public class ResourcesManager : MonoBehaviour
 
     public void ChangeResource(ResourceType type, float value)
     {
-
         if(type == ResourceType.Exp) return;
 
         float realValue = value;

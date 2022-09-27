@@ -1,18 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using static NameManager;
 
 public class PlayerMilitaryWindow : MonoBehaviour
 {
-    [Header("Window Parts")]
+    [Header("Player Part")]
     private PlayersArmy playersArmy;
     [SerializeField] private GameObject playerArmyUI;
-    [SerializeField] private EnemyArmyUI enemyArmyUI;
     [SerializeField] private RectTransform rectTransformUI;
     [SerializeField] private CanvasGroup canvasGroup;
     private PlayersArmyPart playersArmyUIPart;
-    //private EnemyArmyPart enemyArmyUIPart;
+    private EnemyArmyOnTheMap currentEnemy;
+
+    [Header("Enemy Part")]
+    [SerializeField] private EnemyArmyUI enemyArmyUI;
+    [SerializeField] private GameObject enemyBlock;
+    private EnemyArmyPart enemyArmyUIPart;
 
     [HideInInspector] public bool isWindowOpened = false;
 
@@ -22,8 +27,8 @@ public class PlayerMilitaryWindow : MonoBehaviour
 
     //[SerializeField] private GameObject tombBlock;
 
-    private Coroutine coroutine;
-    private float step = 0.1f;
+    //private Coroutine coroutine;
+    //private float step = 0.1f;
 
     [Header("Buttons")]
     [SerializeField] private GameObject commonButtonsBlock;
@@ -31,14 +36,17 @@ public class PlayerMilitaryWindow : MonoBehaviour
     [SerializeField] private GameObject battleButton;
     [SerializeField] private GameObject autobattleButton;
     [SerializeField] private GameObject stepbackButton;
+    private Button autobattleButtonComponent;
 
     private float playerCuriosity;
     private int currentMode = 0;
 
     private void Start()
     {
+        autobattleButtonComponent = autobattleButton.GetComponent<Button>();
         playersArmy = GlobalStorage.instance.player.GetComponent<PlayersArmy>();
         playersArmyUIPart = GetComponent<PlayersArmyPart>();
+        enemyArmyUIPart = GetComponent<EnemyArmyPart>();
     }
 
     private void Update()
@@ -58,26 +66,24 @@ public class PlayerMilitaryWindow : MonoBehaviour
     public void OpenWindow(int mode, EnemyArmyOnTheMap enemyArmy = null)
     {
         // mode = 0 - just army, 1 - battle, 2 - tomb
+        currentEnemy = enemyArmy;
 
         MenuManager.instance.MiniPause(true);
         GlobalStorage.instance.ModalWindowOpen(true);
 
-        playerArmyUI.SetActive(true);
         isWindowOpened = true;
         currentMode = mode;
 
         Resizing(mode);
         playersArmyUIPart.UpdateArmyWindow();
 
-        if(currentMode == 1) enemyArmyUI.OpenWithPlayerArmy(enemyArmy);
+        if(currentMode == 1) enemyArmyUIPart.Init(enemyArmy);
     }
 
     public void CloseWindow()
     {
         playersArmy.ResetReplaceIndexes();
         playerArmyUI.SetActive(false);
-
-        if(currentMode == 1) enemyArmyUI.CloseWithPlayerArmy();
 
         isWindowOpened = false;
 
@@ -91,7 +97,7 @@ public class PlayerMilitaryWindow : MonoBehaviour
 
         if(mode == 0)
         {
-            //enemyBlock.SetActive(false);
+            enemyBlock.SetActive(false);
             //tombBlock.SetActive(false);
             currentWidth = minWidth;
 
@@ -103,7 +109,7 @@ public class PlayerMilitaryWindow : MonoBehaviour
 
         if(mode == 1)
         {
-            //enemyBlock.SetActive(true);
+            enemyBlock.SetActive(true);
             //tombBlock.SetActive(false);
             currentWidth = maxWidth;
 
@@ -112,67 +118,76 @@ public class PlayerMilitaryWindow : MonoBehaviour
             stepbackButton.SetActive(true);
 
             if(playerCuriosity == 3)
+            {
                 autobattleButton.SetActive(true);
+
+                if(currentEnemy.army.isAutobattlePosible == true)
+                    autobattleButtonComponent.interactable = true;
+                else
+                    autobattleButtonComponent.interactable = false;
+            }
+                
             else
                 autobattleButton.SetActive(false);
-
-            //enemyArmyUIPart.Init();
         }
 
         if(mode == 2)
         {
-            //enemyBlock.SetActive(false);
+            enemyBlock.SetActive(false);
             //tombBlock.SetActive(true);
             currentWidth = maxWidth;
         }
 
         rectTransformUI.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, currentWidth);
-        if(coroutine != null) StopCoroutine(coroutine);
-        coroutine = StartCoroutine(ShowWindow(true));
+
+        playerArmyUI.SetActive(true);
+        Fading.instance.FadeWhilePause(true, canvasGroup);
+
+        //if(coroutine != null) StopCoroutine(coroutine);
+        //coroutine = StartCoroutine(ShowWindow(true));
+
+        //if(true)
+        //{
+
+        //}
     }
 
-    private IEnumerator ShowWindow(bool mode)
-    {
-        WaitForSecondsRealtime delay = new WaitForSecondsRealtime(step * 0.1f);
+    //private IEnumerator ShowWindow(bool mode)
+    //{
+    //    WaitForSecondsRealtime delay = new WaitForSecondsRealtime(step * 0.1f);
 
-        float start;
-        float end;
+    //    float start;
+    //    float end;
 
-        if(mode == true)
-        {
-            commonButtonsBlock.SetActive(true);
+    //    if(mode == true)
+    //    {
+    //        commonButtonsBlock.SetActive(true);
 
-            start = 0;
-            end = 1;
-            canvasGroup.alpha = start;
+    //        start = 0;
+    //        end = 1;
+    //        canvasGroup.alpha = start;
 
-            while(canvasGroup.alpha < end)
-            {
-                canvasGroup.alpha += step;
-                yield return delay;
-            }
-        }
-        else
-        {
-            commonButtonsBlock.SetActive(false);
+    //        while(canvasGroup.alpha < end)
+    //        {
+    //            canvasGroup.alpha += step;
+    //            yield return delay;
+    //        }
+    //    }
+    //    else
+    //    {
+    //        commonButtonsBlock.SetActive(false);
 
-            start = 1;
-            end = 0;
-            canvasGroup.alpha = start;
+    //        start = 1;
+    //        end = 0;
+    //        canvasGroup.alpha = start;
 
-            while(canvasGroup.alpha > end)
-            {
-                canvasGroup.alpha -= step;
-                yield return delay;
-            }
-        }
-    }
-
-    public void Reopen()
-    {
-        if(coroutine != null) StopCoroutine(coroutine);
-        coroutine = StartCoroutine(ShowWindow(true));
-    }
+    //        while(canvasGroup.alpha > end)
+    //        {
+    //            canvasGroup.alpha -= step;
+    //            yield return delay;
+    //        }
+    //    }
+    //}
 
     public void ToTheBattle()
     {
@@ -183,7 +198,6 @@ public class PlayerMilitaryWindow : MonoBehaviour
     public void AutoBattle()
     {
         GlobalStorage.instance.battleManager.AutoBattle();
-        if(coroutine != null) StopCoroutine(coroutine);
-        coroutine = StartCoroutine(ShowWindow(false));
+        CloseWindow();
     }
 }

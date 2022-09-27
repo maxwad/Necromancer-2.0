@@ -5,6 +5,7 @@ using UnityEngine;
 public class PortalsManager : MonoBehaviour
 {
     public GameObject uiPanel;
+    private CanvasGroup canvas;
     private PortalsInfoUI portalsInfo;
     private bool isPortalWindowOpened = false;
 
@@ -48,6 +49,8 @@ public class PortalsManager : MonoBehaviour
         if(portals.Count == 0) CreatePortalsList();
 
         uiPanel.SetActive(true);
+        if(canvas == null) canvas = uiPanel.GetComponent<CanvasGroup>();
+        Fading.instance.Fade(true, canvas);
 
         if(portalsInfo == null) portalsInfo = uiPanel.GetComponent<PortalsInfoUI>();
         portalsInfo.Initialize(mode);

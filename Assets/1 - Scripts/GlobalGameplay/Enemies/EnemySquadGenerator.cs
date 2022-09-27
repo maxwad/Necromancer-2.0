@@ -10,6 +10,7 @@ public class Army
     public bool isThisASiege = false;
     public TypeOfArmy typeOfArmy = TypeOfArmy.OnTheMap;
     public ArmyStrength strength = ArmyStrength.Low;
+    public bool isAutobattlePosible = true;
     // more parameters
 }
 

@@ -162,7 +162,10 @@ public class UnitController : MonoBehaviour
     #region For Squad updating
     public void UpdateSquad(bool mode)
     {
-        if(quantity != 0) unitCountsText.text = quantity.ToString();
+        if(unitCountsText != null)
+        {
+            if(quantity != 0) unitCountsText.text = quantity.ToString();
+        }
 
         if(mode == false) EventManager.OnWeLostOneUnitEvent(unitType, quantity);
     }

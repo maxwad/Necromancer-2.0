@@ -83,7 +83,7 @@ public class BattleManager : MonoBehaviour
 
     public void ReopenPreBattleWindow()
     {
-        playerArmyWindow.Reopen();
+        playerArmyWindow.OpenWindow(1, currentEnemyArmyOnTheMap);
     }
 
     public void AutoBattle()

@@ -7,6 +7,7 @@ using TMPro;
 public class AutobattleUI : MonoBehaviour
 {
     [SerializeField] private GameObject uiPanel;
+    private CanvasGroup canvas;
     private Autobattle autobattle;
     private BattleManager battleManager;
     private BattleResult battleResult;
@@ -15,7 +16,7 @@ public class AutobattleUI : MonoBehaviour
     public Toggle manaToggle;
 
     public string victoryText = "Victory!";
-    public string defaetText = "Defeat";
+    public string defeatText = "Defeat";
 
     public TMP_Text resultText;
     public TMP_Text lossesText;
@@ -29,17 +30,22 @@ public class AutobattleUI : MonoBehaviour
             autobattle = autobattleScript;
             battleManager = GlobalStorage.instance.battleManager;
             battleResult = GetComponent<BattleResult>();
+            canvas = uiPanel.GetComponentInChildren<CanvasGroup>();
         }
+
+        MenuManager.instance.MiniPause(true);
+        GlobalStorage.instance.ModalWindowOpen(true);
 
         battleResult.StartCheckingUnitDeath();
         uiPanel.SetActive(true);
-        ShowWindow(result);
+        Fading.instance.Fade(true, canvas);
+
+        FillWindow(result);
     }
 
-    private void ShowWindow(ResultOfAutobattle result)
+    public void FillWindow(ResultOfAutobattle result)
     {
-        resultText.text = (result.result == true) ? victoryText : defaetText;
-
+        resultText.text = (result.result == true) ? victoryText : defeatText;
 
         if(result.minLosses != result.maxLosses)
         {
@@ -56,7 +62,7 @@ public class AutobattleUI : MonoBehaviour
 
     public void Recalculating()
     {
-        autobattle.StartCalculating();
+        autobattle.Recalculating();
     }
 
     public void Fight()
@@ -88,5 +94,8 @@ public class AutobattleUI : MonoBehaviour
         }
 
         uiPanel.SetActive(false);
+
+        MenuManager.instance.MiniPause(false);
+        GlobalStorage.instance.ModalWindowOpen(false);
     }
 }

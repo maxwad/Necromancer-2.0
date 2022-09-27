@@ -26,7 +26,6 @@ public class ClickableObject : MonoBehaviour
     public void ActivateUIWindow(bool modeClick)
     {
         //mode = true - by rigth click; mode = false - by movement
-
         if(EventSystem.current.IsPointerOverGameObject()) return;
 
         if(GlobalStorage.instance.isModalWindowOpen == false)

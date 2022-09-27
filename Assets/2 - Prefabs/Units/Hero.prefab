@@ -320,6 +320,7 @@ MonoBehaviour:
   searchRadius: 0
   defence: 0
   luck: 0
+  isDead: 0
   deathPrefab: {fileID: 3877275003630577787, guid: 8e2dbf07adabe6f458d623574390b341, type: 3}
   damageNote: {fileID: 4223726373541259902, guid: dc8112cb6cbc981458351f24ddb13002, type: 3}
 --- !u!1 &7035051583508418664

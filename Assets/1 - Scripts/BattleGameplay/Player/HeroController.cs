@@ -250,6 +250,8 @@ public class HeroController : MonoBehaviour
     {
         gameObject.SetActive(true);
         isDead = false;
+
+        if(resourcesManager == null) resourcesManager = GlobalStorage.instance.resourcesManager;
         resourcesManager.ChangeResource(ResourceType.Health, resourcesManager.maxHealth);
     }
 

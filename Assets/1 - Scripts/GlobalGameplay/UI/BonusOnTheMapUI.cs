@@ -9,6 +9,7 @@ public class BonusOnTheMapUI : MonoBehaviour
 {
     private ResourcesManager resourcesManager;
     public GameObject uiPanel;
+    private CanvasGroup canvas;
     public GameObject bonusItemPrefab;
     public GameObject bonusContainer;
     private Dictionary<ResourceType, Sprite> resourcesIcons;
@@ -38,6 +39,8 @@ public class BonusOnTheMapUI : MonoBehaviour
         GlobalStorage.instance.ModalWindowOpen(true);
 
         uiPanel.SetActive(true);
+        if(canvas == null) canvas = uiPanel.GetComponent<CanvasGroup>();
+        Fading.instance.Fade(true, canvas);
 
         Initialize(obj);
     }

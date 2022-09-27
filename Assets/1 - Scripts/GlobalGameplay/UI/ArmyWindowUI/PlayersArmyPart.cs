@@ -7,8 +7,6 @@ public class PlayersArmyPart : MonoBehaviour
 {
     private PlayersArmy playersArmy;
 
-    //[SerializeField] private GameObject playerArmyUI;
-
     [Header("Army")]
     [SerializeField] private ArmySlot[] armySlots;
 
@@ -19,10 +17,6 @@ public class PlayersArmyPart : MonoBehaviour
     [Header("Infirmary")]
     [SerializeField] private InfirmarySlot[] infirmarySlots;
     [SerializeField] private TMP_Text infirmaryCount;
-
-    //[HideInInspector] public bool isWindowOpened = false;
-    //[HideInInspector] public bool isInTheBattleWindow = false;
-    //[HideInInspector] public bool isForBattleWindow = false;
 
 
     #region Schemes
@@ -91,17 +85,5 @@ public class PlayersArmyPart : MonoBehaviour
             reserveVeil.SetActive(true);
     }
 
-    //public void ResetSlots()
-    //{
-    //    for(int i = 0; i < armySlots.Length; i++)
-    //        armySlots[i].ResetSelecting();
-    //}
-
-    #endregion
-
-    #region Helpers
-
-
-
-    #endregion       
+    #endregion      
 }

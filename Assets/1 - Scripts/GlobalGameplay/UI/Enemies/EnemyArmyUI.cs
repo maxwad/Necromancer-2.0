@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -8,6 +7,7 @@ using static NameManager;
 public class EnemyArmyUI : MonoBehaviour
 {
     public GameObject uiPanel;
+    public CanvasGroup canvas;
     public GameObject playersArmyWindow;
     public GameObject realParent;
 
@@ -18,12 +18,6 @@ public class EnemyArmyUI : MonoBehaviour
 
     [Header("Small Form")]
     public GameObject smallWindow;
-    private Image smallWindowImage;
-    private Vector2 originalPositionSW;
-    private RectTransform rectSmallWindow;
-    private Vector2 minAnchorSW;
-    private Vector2 maxAnchorSW;
-
     public TMP_Text captionSmall;
     public Image resourceImage;
     public TMP_Text count;
@@ -32,34 +26,15 @@ public class EnemyArmyUI : MonoBehaviour
 
     [Header("Detail Form")]
     public GameObject detailedWindow;
-    private Image detailedWindowImage;
-    private Vector2 originalPositionDW;
-    private RectTransform rectDetailedWindow;
-    private Vector2 minAnchorDW;
-    private Vector2 maxAnchorDW;
-
     public TMP_Text captionDetail;
     public GameObject buttonsPassiveDetail;
     public GameObject enemySlotPrefab;
     public GameObject placeForEnemySlots;
 
-
-
     private List<GameObject> allEnemiesList = new List<GameObject>();
     private List<GameObject> allSlotsList = new List<GameObject>();
 
     private float playerCuriosity;
-
-    private void Awake()
-    {
-        smallWindowImage = smallWindow.GetComponent<Image>();
-        rectSmallWindow = smallWindow.GetComponent<RectTransform>();
-
-        detailedWindowImage = detailedWindow.GetComponent<Image>();
-        rectDetailedWindow = detailedWindow.GetComponent<RectTransform>();
-
-        SaveOriginalPosition();
-    }
 
     public void OpenWindow(bool modeClick, EnemyArmyOnTheMap enemyArmy = null)
     {
@@ -69,63 +44,16 @@ public class EnemyArmyUI : MonoBehaviour
         isOpenedByClick = modeClick;
 
         currentEnemyArmy = enemyArmy;
-        currentEnemiesList = enemyArmy.currentEnemiesList;
-        currentEnemiesQuantityList = enemyArmy.currentEnemiesQuantityList;
+        currentEnemiesList = enemyArmy.army.squadList;
+        currentEnemiesQuantityList = enemyArmy.army.quantityList;
 
         uiPanel.SetActive(true);
+        if(canvas == null) canvas = uiPanel.GetComponent<CanvasGroup>();
+        Fading.instance.Fade(true, canvas);
+
         playerCuriosity = GlobalStorage.instance.playerStats.GetCurrentParameter(PlayersStats.Curiosity);
 
         Initialize();
-    }
-
-    public void OpenWithPlayerArmy(EnemyArmyOnTheMap enemyArmy)
-    {
-        isOpenedByClick = false;
-        playerCuriosity = GlobalStorage.instance.playerStats.GetCurrentParameter(PlayersStats.Curiosity);
-        currentEnemyArmy = enemyArmy;
-        currentEnemiesList = enemyArmy.currentEnemiesList;
-        currentEnemiesQuantityList = enemyArmy.currentEnemiesQuantityList;
-
-        if(playerCuriosity < 1)
-        {
-            smallWindow.transform.SetParent(playersArmyWindow.transform, false);
-            smallWindow.SetActive(true);
-            detailedWindow.SetActive(false);
-
-            smallWindowImage.enabled = false;
-        }
-        else
-        {
-            detailedWindow.transform.SetParent(playersArmyWindow.transform, false);
-            smallWindow.SetActive(false);
-            detailedWindow.SetActive(true);
-
-            detailedWindowImage.enabled = false;            
-        }
-
-        Initialize();
-    }
-
-    private void SaveOriginalPosition()
-    {
-        originalPositionDW = rectDetailedWindow.anchoredPosition;
-        minAnchorDW = rectDetailedWindow.anchorMin;
-        maxAnchorDW = rectDetailedWindow.anchorMax;
-
-        originalPositionSW = rectSmallWindow.anchoredPosition;
-        minAnchorSW = rectSmallWindow.anchorMin;
-        maxAnchorSW = rectSmallWindow.anchorMax;
-    }
-
-    private void LoadOriginalPosition()
-    {
-        rectDetailedWindow.anchoredPosition = originalPositionDW;
-        rectDetailedWindow.anchorMin = minAnchorDW;
-        rectDetailedWindow.anchorMax = maxAnchorDW;
-
-        rectSmallWindow.anchoredPosition = originalPositionSW;
-        rectSmallWindow.anchorMin = minAnchorSW;
-        rectSmallWindow.anchorMax = maxAnchorSW;
     }
 
     private void Initialize()
@@ -139,6 +67,8 @@ public class EnemyArmyUI : MonoBehaviour
             else
                 ShowDetailedInfo();
         }
+
+        
     }
 
     private void ShowMinimumInfo()
@@ -146,7 +76,7 @@ public class EnemyArmyUI : MonoBehaviour
         detailedWindow.SetActive(false);
         smallWindow.SetActive(true);
 
-        captionSmall.text = "Enemy's army";
+        captionSmall.text = "Enemies";
 
         resourceImage.sprite = currentEnemyArmy.GetComponent<SpriteRenderer>().sprite;
         resourceImage.color = currentEnemyArmy.GetComponent<SpriteRenderer>().color;
@@ -161,7 +91,7 @@ public class EnemyArmyUI : MonoBehaviour
         smallWindow.SetActive(false);
         detailedWindow.SetActive(true);
 
-        captionDetail.text = "Enemy's army";
+        captionDetail.text = "Enemies";
 
         buttonsPassiveDetail.SetActive(isOpenedByClick);        
 
@@ -216,24 +146,6 @@ public class EnemyArmyUI : MonoBehaviour
         GlobalStorage.instance.ModalWindowOpen(false);
 
         uiPanel.SetActive(false);
-    }
-
-    public void CloseWithPlayerArmy()
-    {
-        LoadOriginalPosition();
-
-        if(playerCuriosity < 1)
-        {
-            smallWindow.transform.SetParent(realParent.transform, false);
-            smallWindowImage.enabled = true;
-            smallWindow.SetActive(false);
-        }
-        else
-        {
-            detailedWindow.transform.SetParent(realParent.transform, false);
-            detailedWindowImage.enabled = true;
-            detailedWindow.SetActive(false);
-        }
     }
 
     public void ToTheBattle()

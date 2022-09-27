@@ -52,23 +52,24 @@ public class SquadtipManager : MonoBehaviour
         instance.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, heigth);
         instance.squadTip.gameObject.SetActive(true);
 
-        if(instance.coroutine != null) instance.StopCoroutine(instance.coroutine);
-        instance.coroutine = instance.StartCoroutine(instance.ShowWindow());
+        Fading.instance.FadeWhilePause(true, instance.canvas);
+        //if(instance.coroutine != null) instance.StopCoroutine(instance.coroutine);
+        //instance.coroutine = instance.StartCoroutine(instance.ShowWindow());
     }
 
-    private IEnumerator ShowWindow()
-    {
-        WaitForSecondsRealtime delay = new WaitForSecondsRealtime(step * 0.1f);
+    //private IEnumerator ShowWindow()
+    //{
+    //    WaitForSecondsRealtime delay = new WaitForSecondsRealtime(step * 0.1f);
 
-        float start = 0;
-        float end = 1;
+    //    float start = 0;
+    //    float end = 1;
 
-        instance.canvas.alpha = start;
+    //    instance.canvas.alpha = start;
 
-        while(instance.canvas.alpha < end)
-        {
-            instance.canvas.alpha += step;
-            yield return delay;
-        }
-    }
+    //    while(instance.canvas.alpha < end)
+    //    {
+    //        instance.canvas.alpha += step;
+    //        yield return delay;
+    //    }
+    //}
 }
