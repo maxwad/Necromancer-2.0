@@ -82,7 +82,7 @@ public class HeroController : MonoBehaviour
         currentTempExpGoal = totalSummExp;
     }
 
-    private void SetStartParameters(PlayersStats stat, float value)
+    private void SetNewParameters(PlayersStats stat, float value)
     {
         switch(stat)
         {
@@ -107,10 +107,10 @@ public class HeroController : MonoBehaviour
         }
     }
 
-    private void UpgradeStat(PlayersStats stat, float value)
-    {
-        SetStartParameters(stat, value);
-    }
+    //private void UpgradeStat(PlayersStats stat, float value)
+    //{
+    //    SetNewParameters(stat, value);
+    //}
 
     private void SearchBonuses()
     {
@@ -258,8 +258,8 @@ public class HeroController : MonoBehaviour
     private void OnEnable()
     {
         EventManager.BonusPickedUp += AddTempExp;
-        EventManager.SetStartPlayerStat += SetStartParameters;
-        EventManager.NewBoostedStat += UpgradeStat;
+        EventManager.SetNewPlayerStat += SetNewParameters;
+        //EventManager.NewBoostedStat += UpgradeStat;
         EventManager.ChangePlayer += ResetTempLevel;
 
         if(playerStats == null)
@@ -279,8 +279,8 @@ public class HeroController : MonoBehaviour
     private void OnDisable()
     {
         EventManager.BonusPickedUp -= AddTempExp;
-        EventManager.SetStartPlayerStat -= SetStartParameters;
-        EventManager.NewBoostedStat -= UpgradeStat;
+        EventManager.SetNewPlayerStat -= SetNewParameters;
+        //EventManager.NewBoostedStat -= UpgradeStat;
         EventManager.ChangePlayer -= ResetTempLevel;
     }
 }

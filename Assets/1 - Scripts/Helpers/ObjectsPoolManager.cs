@@ -9,17 +9,27 @@ public class ObjectsPoolManager : MonoBehaviour
     public static ObjectsPoolManager instance;
 
     [Serializable]
-    public class ObjectPoolItem
+    public class ObjectPoolObjects
     {
         public ObjectPool type;
-        public GameObject gameObj;
+        public GameObject obj;
     }
 
-    public List<ObjectPoolItem> objectsList;
+    [Serializable]
+    public class ObjectPoolWeapon
+    {
+        public UnitsAbilities type;
+        public GameObject weapon;
+    }
+
+    public List<ObjectPoolObjects> objectsList;
     private Dictionary<ObjectPool, List<GameObject>> allObjectsDict = new Dictionary<ObjectPool, List<GameObject>>();
 
     public List<GameObject> enemyPrefabsList = new List<GameObject>();
     private Dictionary<EnemiesTypes, List<GameObject>> enemiesDict = new Dictionary<EnemiesTypes, List<GameObject>>();
+
+    public List<ObjectPoolWeapon> weaponList;
+    private Dictionary<UnitsAbilities, List<GameObject>> allWeaponsDict = new Dictionary<UnitsAbilities, List<GameObject>>();
 
     private int minElementsCount = 10;
     private List<GameObject> currentObjectsList = new List<GameObject>();
@@ -50,11 +60,20 @@ public class ObjectsPoolManager : MonoBehaviour
             enemiesDict.Add(type, enemiesList);
         }
 
+        for(int x = 0; x < weaponList.Count; x++)
+        {
+            List<GameObject> objectList = new List<GameObject>();
+            for(int i = 0; i < minElementsCount; i++)
+                objectList.Add(CreateObject(weaponList[x].weapon));
+
+            allWeaponsDict.Add(weaponList[x].type, objectList);
+        }
+
         for(int x = 0; x < objectsList.Count; x++)
         {
             List<GameObject> objectList = new List<GameObject>();
             for(int i = 0; i < minElementsCount; i++)
-                objectList.Add(CreateObject(objectsList[x].gameObj));
+                objectList.Add(CreateObject(objectsList[x].obj));
 
             allObjectsDict.Add(objectsList[x].type, objectList);
         }
@@ -77,6 +96,24 @@ public class ObjectsPoolManager : MonoBehaviour
     {
         GameObject obj = null;
         currentObjectsList = enemiesDict[enemyTypes];
+
+        for(int i = 0; i < currentObjectsList.Count; i++)
+        {
+            if(currentObjectsList[i].activeInHierarchy == false)
+                obj = currentObjectsList[i];
+        }
+
+        if(obj == null)
+            obj = AddObject(currentObjectsList);
+
+        return obj;
+    }
+
+    public GameObject GetWeapon(UnitsAbilities type)
+    {
+        GameObject obj = null;
+
+        currentObjectsList = allWeaponsDict[type];
 
         for(int i = 0; i < currentObjectsList.Count; i++)
         {

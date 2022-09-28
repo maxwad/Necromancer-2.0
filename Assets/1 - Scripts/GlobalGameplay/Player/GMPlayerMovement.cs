@@ -205,13 +205,13 @@ public class GMPlayerMovement : MonoBehaviour
 
     private void OnEnable()
     {
-        EventManager.NewBoostedStat += UpgradeParameters;
+        EventManager.SetNewPlayerStat += UpgradeParameters;
         EventManager.NewMove += NewTurn;
     }
 
     private void OnDisable()
     {
-        EventManager.NewBoostedStat -= UpgradeParameters;
+        EventManager.SetNewPlayerStat -= UpgradeParameters;
         EventManager.NewMove -= NewTurn;
     }
 }

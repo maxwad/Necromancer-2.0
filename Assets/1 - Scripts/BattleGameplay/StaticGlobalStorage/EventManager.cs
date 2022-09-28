@@ -159,18 +159,18 @@ public static class EventManager
     public static void OnSetBoostToStatEvent(PlayersStats stats, float value) => SetBoostToStat?.Invoke(stats, value);
 
 
-    // 3 player boost system: give new boosted stats to listeners
-    //
-    //SUBSCRIBERS:
-    // - BattleArmyController
-    // - GMPlayerMovement
-    //
-    //ACTIVATION:
-    // - PlayerStats
-    //
-    public delegate void NewBoostedStatEvent(PlayersStats stats, float value);
-    public static event NewBoostedStatEvent NewBoostedStat;
-    public static void OnNewBoostedStatEvent(PlayersStats stats, float value) => NewBoostedStat?.Invoke(stats, value);
+    //// 3 player boost system: give new boosted stats to listeners
+    ////
+    ////SUBSCRIBERS:
+    //// - BattleArmyController
+    //// - GMPlayerMovement
+    ////
+    ////ACTIVATION:
+    //// - PlayerStats
+    ////
+    //public delegate void NewBoostedStatEvent(PlayersStats stats, float value);
+    //public static event NewBoostedStatEvent NewBoostedStat;
+    //public static void OnNewBoostedStatEvent(PlayersStats stats, float value) => NewBoostedStat?.Invoke(stats, value);
 
     //calls when we need update some stat of player
     //
@@ -181,9 +181,9 @@ public static class EventManager
     //ACTIVATION:
     // - PlayerStats
     //
-    public delegate void SetStartPlayerStatEvent(PlayersStats stats, float value);
-    public static event SetStartPlayerStatEvent SetStartPlayerStat;
-    public static void OnSetStartPlayerStatEvent(PlayersStats stats, float value) => SetStartPlayerStat?.Invoke(stats, value);
+    public delegate void SetNewPlayerStatEvent(PlayersStats stats, float value);
+    public static event SetNewPlayerStatEvent SetNewPlayerStat;
+    public static void OnSetNewPlayerStatEvent(PlayersStats stats, float value) => SetNewPlayerStat?.Invoke(stats, value);
 
 
 

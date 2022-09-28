@@ -27,6 +27,15 @@ public class Fading : MonoBehaviour
     public IEnumerator StartFading(bool fadeMode, bool timeMode, CanvasGroup canvasGroup, float step, float delay = 0f)
     {
         float pauseMultiplier = 0.25f;
+        float currentAlfa;
+
+        if(fadeMode == true)
+            currentAlfa = 0;
+        else
+            currentAlfa = 1;
+
+        canvasGroup.alpha = currentAlfa;
+
 
         if(delay != 0)
         {
@@ -43,12 +52,8 @@ public class Fading : MonoBehaviour
         WaitForSeconds pause = new WaitForSeconds(step * pauseMultiplier);
         WaitForSecondsRealtime pauseRT = new WaitForSecondsRealtime(step * pauseMultiplier);
 
-        float currentAlfa; 
-
         if(fadeMode == true)
         {
-            currentAlfa = 0;
-
             while(currentAlfa < 1)
             {
                 currentAlfa += step * 2;
@@ -62,8 +67,6 @@ public class Fading : MonoBehaviour
         }
         else
         {
-            currentAlfa = 1;
-
             while(currentAlfa > 0)
             {
                 currentAlfa -= step * 2;

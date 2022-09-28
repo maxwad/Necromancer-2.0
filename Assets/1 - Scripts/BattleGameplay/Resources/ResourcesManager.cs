@@ -205,13 +205,13 @@ public class ResourcesManager : MonoBehaviour
     {
         EventManager.BonusPickedUp += AddResourceAsBonus;
         EventManager.ResourcePickedUp += ChangeResource;
-        EventManager.SetStartPlayerStat += UpgrateMaxManaHealth;
+        EventManager.SetNewPlayerStat += UpgrateMaxManaHealth;
     }
 
     private void OnDisable()
     {
         EventManager.BonusPickedUp -= AddResourceAsBonus;
         EventManager.ResourcePickedUp -= ChangeResource;
-        EventManager.SetStartPlayerStat -= UpgrateMaxManaHealth;
+        EventManager.SetNewPlayerStat -= UpgrateMaxManaHealth;
     }
 }

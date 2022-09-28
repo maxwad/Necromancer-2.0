@@ -353,7 +353,7 @@ public class PlayersArmy : MonoBehaviour
 
     #region DAMAGE army after defeat/escape
 
-    public void EscapeDamage(float count = 0)
+    public void EscapeDamage(float count = -1)
     {
         float commonCountUnits = 0;
         float countToKill;
@@ -369,7 +369,7 @@ public class PlayersArmy : MonoBehaviour
 
         if(commonCountUnits == 0) return;
 
-        if(count != 0 )
+        if(count != -1 )
             countToKill = count;
         else
             countToKill = Mathf.Ceil(commonCountUnits * damageArmyByEscape);

@@ -5,6 +5,8 @@ using static NameManager;
 public class WeaponStorage : MonoBehaviour
 {
     [HideInInspector] public bool isBibleWork = false;
+    private ObjectsPoolManager objectsPool;
+    [SerializeField] private GameObject weaponContainer;
 
     public void Attack(UnitController unitController)
     {
@@ -52,14 +54,17 @@ public class WeaponStorage : MonoBehaviour
 
     private GameObject CreateWeapon(UnitController unitController)
     {
-        GameObject weapon = Instantiate(unitController.attackTool);
+        if(objectsPool == null) objectsPool = GlobalStorage.instance.objectsPoolManager;
 
-        weapon.transform.position = transform.position + new Vector3 (0, transform.localScale.y / 2, 0);
+        GameObject weapon = objectsPool.GetWeapon(unitController.unitAbility);
+
+        weapon.transform.position = unitController.gameObject.transform.position + new Vector3 (0, transform.localScale.y / 2, 0);
         weapon.transform.localScale = new Vector3(unitController.size, unitController.size, unitController.size);
-        weapon.transform.SetParent(transform);
+        weapon.transform.SetParent(weaponContainer.transform);
+        weapon.SetActive(true);
 
         weapon.GetComponent<WeaponDamage>().SetSettings(unitController);
-        weapon.GetComponent<WeaponMovement>().SetSettings(unitController, this);
+        weapon.GetComponent<WeaponMovement>().SetSettings(unitController);
 
         return weapon;
     }
@@ -197,7 +202,8 @@ public class WeaponStorage : MonoBehaviour
             weapon.transform.eulerAngles = new Vector3(0, 0, angleZ);
 
             GameObject weaponInner = weapon.transform.GetChild(0).gameObject;
-            weaponInner.transform.Rotate(0, 0, -angleZ);
+            //weaponInner.transform.Rotate(0, 0, -angleZ);
+            weaponInner.transform.localRotation = Quaternion.Euler(0, 0, -angleZ);
 
             weapon.GetComponent<WeaponMovement>().ActivateWeapon(unitController);
         }
@@ -206,18 +212,20 @@ public class WeaponStorage : MonoBehaviour
 
     private void BowAction(UnitController unitController)
     {
-        if(unitController.level == 1) StartCoroutine(CreateBow(new float[] { 90 }));
+        StartCoroutine(CreateBow());
 
-        if(unitController.level == 2) StartCoroutine(CreateBow(new float[] { 90, 270 }));
-
-        if(unitController.level == 3) StartCoroutine(CreateBow(new float[] { 0, 90, 180, 270 }));
-
-        IEnumerator CreateBow(float[] angles)
+        IEnumerator CreateBow()
         {
-            for(int i = 0; i < angles.Length; i++)
+            for(int i = 0; i < unitController.level; i++)
             {
-                GameObject itemWeapon = CreateWeapon(unitController);                
-                itemWeapon.transform.eulerAngles = new Vector3(0, 0, angles[i]);
+                GameObject itemWeapon = CreateWeapon(unitController);
+
+                Vector2 mouseOnScreen = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                Vector2 weaponPosition = unitController.gameObject.transform.position;
+                //float angle = Mathf.Atan2(transform.position.y - mouseOnScreen.y, transform.position.x - mouseOnScreen.x) * Mathf.Rad2Deg;
+                float angle = Mathf.Atan2(weaponPosition.y - mouseOnScreen.y, weaponPosition.x - mouseOnScreen.x) * Mathf.Rad2Deg;
+                
+                itemWeapon.transform.eulerAngles = new Vector3(0, 0, angle);
                 itemWeapon.GetComponent<WeaponMovement>().ActivateWeapon(unitController);
                 yield return new WaitForSeconds(0.2f);
             }

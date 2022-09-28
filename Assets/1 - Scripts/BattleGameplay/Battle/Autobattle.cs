@@ -326,13 +326,9 @@ public class Autobattle : MonoBehaviour
         float finalLosses;
 
         if(Random.Range(0, 101) <= luck)
-        {
             finalLosses = result.minLosses;
-        }
         else
-        {
             finalLosses = Random.Range(result.minLosses, result.maxLosses);
-        }
 
         playersArmyScript.EscapeDamage(finalLosses);
 

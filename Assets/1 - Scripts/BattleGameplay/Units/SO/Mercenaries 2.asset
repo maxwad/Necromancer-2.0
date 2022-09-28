@@ -17,7 +17,7 @@ MonoBehaviour:
   unitIcon: {fileID: -1487682469103930290, guid: e756201b1c0648f4b9607dc384c97567, type: 3}
   unitHome: 0
   unitType: 6
-  health: 20
+  health: 2
   physicAttack: 2
   physicDefence: 2
   magicAttack: 1

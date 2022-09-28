@@ -61,7 +61,6 @@ GameObject:
   - component: {fileID: 5944238991762258796}
   - component: {fileID: -579317454305326642}
   - component: {fileID: 799962671044028896}
-  - component: {fileID: 7235215665495060819}
   - component: {fileID: 6935887092173954149}
   m_Layer: 3
   m_Name: Ranger
@@ -214,19 +213,6 @@ MonoBehaviour:
   unitSprite: {fileID: 0}
   deathPrefab: {fileID: 3877275003630577787, guid: 8e2dbf07adabe6f458d623574390b341, type: 3}
   damageNote: {fileID: 4223726373541259902, guid: dc8112cb6cbc981458351f24ddb13002, type: 3}
---- !u!114 &7235215665495060819
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4387482535749053680}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 970c17c2b043c7e4ab3d9826baafa775, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isBibleWork: 0
 --- !u!114 &6935887092173954149
 MonoBehaviour:
   m_ObjectHideFlags: 0

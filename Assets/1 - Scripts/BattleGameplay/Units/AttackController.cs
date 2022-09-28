@@ -14,12 +14,15 @@ public class AttackController : MonoBehaviour
     private void Awake()
     {
         unitController = GetComponent<UnitController>();
-        weaponStorage = GetComponent<WeaponStorage>();
+        //weaponStorage = GetComponent<WeaponStorage>();
+        weaponStorage = GlobalStorage.instance.player.GetComponent<WeaponStorage>();
     }
 
     private void OnEnable()
     {
         startAttackDelay = Random.Range(startAttackDelay * 10 - startAttackDelay, startAttackDelay * 10 + startAttackDelay) / 10;
+
+        if(attack != null) StopCoroutine(attack);
         attack = StartCoroutine(Attack());
     }
 
@@ -32,7 +35,7 @@ public class AttackController : MonoBehaviour
     {
         yield return new WaitForSeconds(startAttackDelay);
 
-        while (gameObject != null)
+        while (unitController != null)
         {
             weaponStorage.Attack(unitController);
 

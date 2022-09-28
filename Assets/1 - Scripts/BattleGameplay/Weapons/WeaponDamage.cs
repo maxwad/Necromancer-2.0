@@ -8,9 +8,6 @@ public class WeaponDamage : MonoBehaviour
     [SerializeField] private float magicAttack;
     [HideInInspector] public UnitController controller;
 
-    public float lifeTime = 0.1f;
-    private float currentLifeTime = 0;
-
     [HideInInspector] private List<GameObject> enemyList = new List<GameObject>();
 
     public void SetSettings(UnitController unitController)
@@ -23,24 +20,6 @@ public class WeaponDamage : MonoBehaviour
     public void ClearEnemyList()
     {
         enemyList.Clear();
-    }
-
-    private void OnEnable()
-    {
-        currentLifeTime = 0;
-    }
-
-    private void Update()
-    {
-        if(lifeTime != 0)
-        {
-            currentLifeTime += Time.deltaTime;
-
-            if(currentLifeTime >= lifeTime)
-            {
-                Destroy(gameObject);
-            }
-        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

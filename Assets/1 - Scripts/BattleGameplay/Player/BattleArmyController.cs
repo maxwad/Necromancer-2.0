@@ -72,11 +72,11 @@ public class BattleArmyController : MonoBehaviour
 
         speed = playerStats.GetMaxParameter(PlayersStats.Speed);
 
-        EventManager.NewBoostedStat += UpgradeSpeed;
+        EventManager.SetNewPlayerStat += UpgradeSpeed;
     }
 
     private void OnDisable()
     {
-        EventManager.NewBoostedStat -= UpgradeSpeed;
+        EventManager.SetNewPlayerStat -= UpgradeSpeed;
     }
 }

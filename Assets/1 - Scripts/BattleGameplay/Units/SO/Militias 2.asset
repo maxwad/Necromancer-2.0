@@ -15,9 +15,9 @@ MonoBehaviour:
   unitName: Defender
   unitGO: {fileID: 4387482535749053680, guid: cc78e8712785a1444aa235793b8c9bf5, type: 3}
   unitIcon: {fileID: -3155761069584523039, guid: e756201b1c0648f4b9607dc384c97567, type: 3}
-  UnitHome: 0
-  UnitType: 0
-  health: 30
+  unitHome: 0
+  unitType: 0
+  health: 2
   physicAttack: 3
   physicDefence: 3
   magicAttack: 1
@@ -25,7 +25,7 @@ MonoBehaviour:
   speedAttack: 1.75
   size: 1
   level: 2
-  UnitAbility: 0
+  unitAbility: 0
   attackTool: {fileID: 394755954311998102, guid: aaa8f49f3f3fb474080b0b787f2ae961, type: 3}
   coinsPrice: 111
   foodPrice: 222

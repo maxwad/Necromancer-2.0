@@ -65,7 +65,6 @@ MonoBehaviour:
   physicAttack: 0
   magicAttack: 0
   controller: {fileID: 0}
-  lifeTime: 0
 --- !u!114 &-6105140196354625308
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81,6 +80,7 @@ MonoBehaviour:
   bottleDeath: {fileID: 0}
   bottleShadowPrefab: {fileID: 0}
   speed: 200
+  lifeTime: 0
 --- !u!1 &5863380598397360379
 GameObject:
   m_ObjectHideFlags: 0

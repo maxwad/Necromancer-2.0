@@ -98,7 +98,6 @@ GameObject:
   - component: {fileID: 8396662156486703692}
   - component: {fileID: -9208869014946207475}
   - component: {fileID: 2771014178871990980}
-  - component: {fileID: -7407498709827703898}
   - component: {fileID: 4431592819034739843}
   m_Layer: 3
   m_Name: Barbarian
@@ -251,19 +250,6 @@ MonoBehaviour:
   unitSprite: {fileID: 0}
   deathPrefab: {fileID: 3877275003630577787, guid: 8e2dbf07adabe6f458d623574390b341, type: 3}
   damageNote: {fileID: 4223726373541259902, guid: dc8112cb6cbc981458351f24ddb13002, type: 3}
---- !u!114 &-7407498709827703898
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4387482535749053680}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 970c17c2b043c7e4ab3d9826baafa775, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isBibleWork: 0
 --- !u!114 &4431592819034739843
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -282,7 +282,7 @@ public class PlayerStats : MonoBehaviour
         currentStat.SetNewBoost(value);
         allStatsDict[stat] = currentStat;
 
-        EventManager.OnSetStartPlayerStatEvent(stat, currentStat.maxValue);
+        EventManager.OnSetNewPlayerStatEvent(stat, currentStat.maxValue);
     }
 
     private void UpgradeStatCurrentValue(PlayersStats stat, float maxValue, float currentValue)
@@ -295,7 +295,7 @@ public class PlayerStats : MonoBehaviour
     public void GetAllStartParameters()
     {
         foreach(PlayersStats itemStat in Enum.GetValues(typeof(PlayersStats)))
-            EventManager.OnSetStartPlayerStatEvent(itemStat, allStatsDict[itemStat].maxValue);
+            EventManager.OnSetNewPlayerStatEvent(itemStat, allStatsDict[itemStat].maxValue);
     }
 
     public float GetMaxParameter(PlayersStats stat)

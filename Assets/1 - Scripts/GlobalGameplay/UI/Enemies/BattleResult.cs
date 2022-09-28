@@ -91,7 +91,7 @@ public class BattleResult : MonoBehaviour
 
         uiPanel.SetActive(true);
         //StartCoroutine(ShowUI());
-        Fading.instance.Fade(true, canvas, step, step * 5);
+        Fading.instance.Fade(true, canvas, step, 10);
     }
 
     private void BattleResultActions()
