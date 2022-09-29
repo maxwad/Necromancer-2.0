@@ -167,7 +167,7 @@ public class UnitController : MonoBehaviour
             if(quantity != 0) unitCountsText.text = quantity.ToString();
         }
 
-        if(mode == false) EventManager.OnWeLostOneUnitEvent(unitType, quantity);
+        if(mode == false) EventManager.OnWeLostOneUnitEvent(unitType);
     }
 
     public UnitsTypes GetTypeUnit()

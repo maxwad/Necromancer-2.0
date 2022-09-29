@@ -47,9 +47,9 @@ public static class EventManager
     //ACTIVATION:
     // - UnitController
     //
-    public delegate void WeLostOneUnitEvent(UnitsTypes unitType, int quantity);
+    public delegate void WeLostOneUnitEvent(UnitsTypes unitType);
     public static event WeLostOneUnitEvent WeLostOneUnit;
-    public static void OnWeLostOneUnitEvent(UnitsTypes unitType, int quantity) => WeLostOneUnit?.Invoke(unitType, quantity);
+    public static void OnWeLostOneUnitEvent(UnitsTypes unitType) => WeLostOneUnit?.Invoke(unitType);
 
 
 

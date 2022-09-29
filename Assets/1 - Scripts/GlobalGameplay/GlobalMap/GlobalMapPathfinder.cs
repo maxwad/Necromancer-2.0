@@ -82,8 +82,15 @@ public class GlobalMapPathfinder : MonoBehaviour
         {
             if(checkingObject.isNormalUIWindow == true)
             {
-                destinationPoint = roadMap.WorldToCell(enterPointsDict[hit.collider.gameObject]);
-                focusObject = hit.collider.gameObject;
+                if(enterPointsDict.ContainsKey(hit.collider.gameObject) == true)
+                {
+                    destinationPoint = roadMap.WorldToCell(enterPointsDict[hit.collider.gameObject]);
+                    focusObject = hit.collider.gameObject;
+                }
+                else
+                {
+                    return;
+                }
             }
             else
             {

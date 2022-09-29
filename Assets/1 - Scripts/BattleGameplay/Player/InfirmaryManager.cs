@@ -22,7 +22,7 @@ public class InfirmaryManager : MonoBehaviour
         if(type == PlayersStats.Infirmary) currentCapacity = value;
     }
 
-    private void AddUnitToInfirmary(UnitsTypes unitType, int quantity)
+    private void AddUnitToInfirmary(UnitsTypes unitType)
     {
         if(injuredList.Count < currentCapacity) 
         {

@@ -192,20 +192,18 @@ public class PlayersArmy : MonoBehaviour
         playersArmyWindow.CreateArmyScheme(playersArmy);
     }
 
-    public void UpgradeArmy(UnitsTypes unitType, int quantity)
+    public void UpgradeArmy(UnitsTypes unitType)
     {
         for (int i = 0; i < playersArmy.Length; i++)
         {
             if (playersArmy[i]?.unitType == unitType)
             {
-                if (quantity == 0)
+                playersArmy[i].quantity--;
+
+                if (playersArmy[i].quantity == 0)
                 {
                     playersArmy[i] = null;
-                }
-                else 
-                {
-                    playersArmy[i].quantity = quantity;
-                }                
+                }               
                 
                 break;
             }
@@ -355,7 +353,8 @@ public class PlayersArmy : MonoBehaviour
 
     public void EscapeDamage(float count = -1)
     {
-        float commonCountUnits = 0;
+        float commonCountUnitsReal = 0;
+        float commonCountUnitsArmy = 0;
         float countToKill;
         float tryToKill = 1000;
 
@@ -363,16 +362,19 @@ public class PlayersArmy : MonoBehaviour
         {
             if(realUnitsComponentsOnBattlefield[i] != null)
             {
-                commonCountUnits += realUnitsComponentsOnBattlefield[i].quantity;
+                commonCountUnitsReal += realUnitsComponentsOnBattlefield[i].quantity;
+                commonCountUnitsArmy += playersArmy[i].quantity;
             }
         }
 
-        if(commonCountUnits == 0) return;
+        Debug.Log(commonCountUnitsReal + " = " + commonCountUnitsArmy);
+
+        if(commonCountUnitsReal == 0) return;
 
         if(count != -1 )
             countToKill = count;
         else
-            countToKill = Mathf.Ceil(commonCountUnits * damageArmyByEscape);
+            countToKill = Mathf.Ceil(commonCountUnitsReal * damageArmyByEscape);
 
         for(int i = 0; i < countToKill; i++)
         {

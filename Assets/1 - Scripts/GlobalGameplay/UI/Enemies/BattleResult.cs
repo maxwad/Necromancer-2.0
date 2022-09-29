@@ -178,11 +178,12 @@ public class BattleResult : MonoBehaviour
     }
 
     #region HELPERS
-    private void RegisterDeadUnit(UnitsTypes unitType, int quantity)
+    private void RegisterDeadUnit(UnitsTypes unitType)
     {
-
+        Debug.Log("Dead");
         if(isDeadRegistrating == true)
         {
+            Debug.Log("Dead 2");
             if(lostUnitsDict.ContainsKey(unitType) == true)
                 lostUnitsDict[unitType]++;
             else
