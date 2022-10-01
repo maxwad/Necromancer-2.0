@@ -47,13 +47,13 @@ public class PlayerManager : MonoBehaviour
 
     private void OnEnable()
     {
-        EventManager.ChangePlayer += MovePlayerToTheGlobal;
+        EventManager.SwitchPlayer += MovePlayerToTheGlobal;
         EventManager.Defeat += ResurrectPlayer;
     }
 
     private void OnDisable()
     {
-        EventManager.ChangePlayer -= MovePlayerToTheGlobal;
+        EventManager.SwitchPlayer -= MovePlayerToTheGlobal;
         EventManager.Defeat -= ResurrectPlayer;
     }
 

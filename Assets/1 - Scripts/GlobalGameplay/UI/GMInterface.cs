@@ -97,7 +97,7 @@ public class GMInterface : MonoBehaviour
 
         GameObject delta = poolManager.GetObject(ObjectPool.DeltaCost);
 
-        delta.transform.SetParent(deltaContainers[resType].transform);
+        delta.transform.SetParent(deltaContainers[resType].transform, false);
         delta.SetActive(true);
         delta.GetComponent<DeltaCost>().ShowDelta(value);
     }
@@ -153,12 +153,12 @@ public class GMInterface : MonoBehaviour
     {
         EventManager.UpgradeResource += FillResource;
         EventManager.UpgradeStatCurrentValue += UpdateCurrentMoves;
-        EventManager.ChangePlayer += EnableUI;
+        EventManager.SwitchPlayer += EnableUI;
     }
 
     private void OnDisable()
     {
-        EventManager.ChangePlayer -= EnableUI;
+        EventManager.SwitchPlayer -= EnableUI;
         EventManager.UpgradeResource -= FillResource;
         EventManager.UpgradeStatCurrentValue -= UpdateCurrentMoves;
     }

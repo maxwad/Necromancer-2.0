@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using static NameManager;
 
@@ -69,5 +67,12 @@ public class Unit
 
         quantity = 1;
         currentHealth = health;
+    }
+
+
+    public UnitController unitController;
+    public void SetUnitController(UnitController unitControllerSource)
+    {
+        unitController = unitControllerSource;
     }
 }

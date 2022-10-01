@@ -260,7 +260,7 @@ public class HeroController : MonoBehaviour
         EventManager.BonusPickedUp += AddTempExp;
         EventManager.SetNewPlayerStat += SetNewParameters;
         //EventManager.NewBoostedStat += UpgradeStat;
-        EventManager.ChangePlayer += ResetTempLevel;
+        EventManager.SwitchPlayer += ResetTempLevel;
 
         if(playerStats == null)
         {
@@ -281,6 +281,6 @@ public class HeroController : MonoBehaviour
         EventManager.BonusPickedUp -= AddTempExp;
         EventManager.SetNewPlayerStat -= SetNewParameters;
         //EventManager.NewBoostedStat -= UpgradeStat;
-        EventManager.ChangePlayer -= ResetTempLevel;
+        EventManager.SwitchPlayer -= ResetTempLevel;
     }
 }

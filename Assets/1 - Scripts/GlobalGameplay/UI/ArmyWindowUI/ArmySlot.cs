@@ -30,20 +30,20 @@ public class ArmySlot : MonoBehaviour, IPointerClickHandler
     {
         if(squadtipTrigger == null) squadtipTrigger = GetComponent<SquadtipTrigger>();
 
-        if (unit != null)
+        if (unit != null && unit.quantity != 0)
         {
             unitInSlot = unit;
             icon.sprite = unit.unitIcon;
-            quantity.text = unit.quantity.ToString();            
+            quantity.text = unit.quantity.ToString();
+            squadtipTrigger.SetUnit(unit);
         }
         else
         {
             unitInSlot = null;
             icon.sprite = null;
             quantity.text = null;
+            squadtipTrigger.SetUnit(null);
         }
-
-        squadtipTrigger.SetUnit(unit);
 
         backlight.color = unvisible;
     }
@@ -59,7 +59,7 @@ public class ArmySlot : MonoBehaviour, IPointerClickHandler
         if(eventData.button == PointerEventData.InputButton.Left && GlobalStorage.instance.isGlobalMode == true)
         {
             bool mode = slotType == UISlotTypes.Reserve ? true : false;
-            EventManager.OnSwitchUnitEvent(mode, unitInSlot);
+            playersArmy.SwitchUnit(mode, unitInSlot);
         }
     }
 

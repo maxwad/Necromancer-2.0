@@ -5,7 +5,7 @@ using static NameManager;
 
 public class WeaponMovement : MonoBehaviour
 {
-    UnitController controller;
+    Unit unit;
     private bool isReadyToWork = false;
 
     private Rigidbody2D rbWeapon;
@@ -27,6 +27,7 @@ public class WeaponMovement : MonoBehaviour
 
     private Coroutine coroutine;
     private WeaponStorage weaponStorage;
+    private WeaponDamage weaponDamage;
 
     private void Update()
     {
@@ -42,7 +43,7 @@ public class WeaponMovement : MonoBehaviour
 
     private void WeaponMoving()
     {
-        switch(controller.unitAbility)
+        switch(unit.unitAbility)
         {
             case UnitsAbilities.Spear:
                 SpearMovement();
@@ -69,15 +70,18 @@ public class WeaponMovement : MonoBehaviour
     }
 
     #region Helpers
-    public void SetSettings(UnitController unitController)
+    public void SetSettings(Unit unitSource)
     {
-        controller = unitController;
-        unitSprite = unitController.unitSprite;
+        unit = unitSource;
+        unitSprite = unitSource.unitController.unitSprite;
+        if(weaponDamage == null) weaponDamage = GetComponent<WeaponDamage>();
     }
 
-    public void ActivateWeapon(UnitController unitController, int index = 0)
+    public void ActivateWeapon(Unit unit, int index = 0)
     {
-        switch(unitController.unitAbility)
+        weaponDamage.ClearEnemyList();
+
+        switch(unit.unitAbility)
         {
             case UnitsAbilities.Garlic:
                 ActivateGarlic();
@@ -128,10 +132,10 @@ public class WeaponMovement : MonoBehaviour
         //reset EnemyList every cycle
         if(transform.rotation.eulerAngles.z > 0 && transform.rotation.eulerAngles.z < 5f)
         {
-            GetComponent<WeaponDamage>().ClearEnemyList();
+            weaponDamage.ClearEnemyList();
         }
 
-        if(controller == null)
+        if(unit == null)
         {
             weaponStorage.isBibleWork = false;
             DestroyWeapon();
@@ -168,15 +172,15 @@ public class WeaponMovement : MonoBehaviour
             if(settings != null) settings.SetSettings(
                 sortingLayer: TagManager.T_PLAYER, 
                 sortingOrder: 11, 
-                color: UnityEngine.Color.cyan, 
-                size: controller.size * 2,
+                color: Color.cyan, 
+                size: unit.size * 2,
                 animationSpeed: 0.07f);
 
-            Collider2D[] objects = Physics2D.OverlapCircleAll(transform.position, controller.size * 2);
+            Collider2D[] objects = Physics2D.OverlapCircleAll(transform.position, unit.size * 2);
             foreach(Collider2D obj in objects)
             {
                 if(obj.CompareTag(TagManager.T_ENEMY) == true)
-                    obj.GetComponent<EnemyController>().TakeDamage(controller.physicAttack, controller.magicAttack, transform.position);
+                    obj.GetComponent<EnemyController>().TakeDamage(unit.physicAttack, unit.magicAttack, transform.position);
             }
 
             Destroy(bottleShadow);
@@ -189,17 +193,17 @@ public class WeaponMovement : MonoBehaviour
     #region Activators
     private void ActivateGarlic()
     {
+
         StartCoroutine(Resize());
 
         IEnumerator Resize()
         {
-            float lifetime = controller.speedAttack;
+            float lifetime = unit.speedAttack;
             float currentSize;
             float sizeStep = 0.075f;
             
             gameObject.transform.localScale = new Vector3(0, 0, 0);
-            currentSize = 0;
-            GetComponent<WeaponDamage>().ClearEnemyList();                
+            currentSize = 0;             
 
             while(currentSize <= lifetime)
             {
@@ -218,12 +222,12 @@ public class WeaponMovement : MonoBehaviour
         float force = 30f;
         float torqueForce = -200;
 
-        if(controller.level == 2)
+        if(unit.level == 2)
         {
             if(numberOfWeapon == 1) torqueForce = -torqueForce;
         }
 
-        if(controller.level == 3)        {
+        if(unit.level == 3)        {
 
             if(numberOfWeapon == 3) torqueForce = -torqueForce;
         }
@@ -365,7 +369,7 @@ public class WeaponMovement : MonoBehaviour
             if(coroutine != null) StopCoroutine(coroutine);
             Destroy(bottleShadow);
         }
-        if(controller != null && controller.unitAbility == UnitsAbilities.Bible)
+        if(unit != null && unit.unitAbility == UnitsAbilities.Bible)
         {
             weaponStorage.isBibleWork = false;
         }

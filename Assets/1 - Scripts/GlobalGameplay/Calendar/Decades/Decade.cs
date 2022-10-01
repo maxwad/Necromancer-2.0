@@ -8,7 +8,7 @@ public class Decade
     public string decadeName;
     public string decadeDescription;
 
-    public BoostType boostType;
+    public BoostFromType boostType;
     public float value;
     public bool isPercentType;
     public Sprite icon;

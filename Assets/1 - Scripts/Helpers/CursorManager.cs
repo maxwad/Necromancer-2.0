@@ -105,11 +105,11 @@ public class CursorManager : MonoBehaviour
 
     private void OnEnable()
     {
-        EventManager.ChangePlayer += CursorMode;
+        EventManager.SwitchPlayer += CursorMode;
     }
 
     private void OnDisable()
     {
-        EventManager.ChangePlayer -= CursorMode;
+        EventManager.SwitchPlayer -= CursorMode;
     }
 }

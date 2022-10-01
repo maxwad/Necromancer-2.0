@@ -5,23 +5,22 @@ using UnityEngine;
 public class AttackController : MonoBehaviour
 {
     private WeaponStorage weaponStorage;
-    private UnitController unitController;
+    private Unit unit;
 
     private float startAttackDelay = 1f;
 
     private Coroutine attack;
 
-    private void Awake()
-    {
-        unitController = GetComponent<UnitController>();
-        //weaponStorage = GetComponent<WeaponStorage>();
-        weaponStorage = GlobalStorage.instance.player.GetComponent<WeaponStorage>();
-    }
 
     private void OnEnable()
     {
-        startAttackDelay = Random.Range(startAttackDelay * 10 - startAttackDelay, startAttackDelay * 10 + startAttackDelay) / 10;
+        if(unit == null)
+        {
+            unit = GetComponent<UnitController>().unit;
+            weaponStorage = GlobalStorage.instance.player.GetComponent<WeaponStorage>();
+        }
 
+        startAttackDelay = Random.Range(startAttackDelay * 10 - startAttackDelay, startAttackDelay * 10 + startAttackDelay) / 10;
         if(attack != null) StopCoroutine(attack);
         attack = StartCoroutine(Attack());
     }
@@ -35,11 +34,17 @@ public class AttackController : MonoBehaviour
     {
         yield return new WaitForSeconds(startAttackDelay);
 
-        while (unitController != null)
+        while(unit == null)
         {
-            weaponStorage.Attack(unitController);
+            unit = GetComponent<UnitController>().unit;
+            yield return null;
+        }
 
-            yield return new WaitForSeconds(unitController.speedAttack);
+        while (unit.quantity != 0)
+        {
+            weaponStorage.Attack(unit);
+
+            yield return new WaitForSeconds(unit.speedAttack);
         }
     }
 }

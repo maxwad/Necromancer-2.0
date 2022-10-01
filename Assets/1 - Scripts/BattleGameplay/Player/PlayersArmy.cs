@@ -10,11 +10,12 @@ public class PlayersArmy : MonoBehaviour
     private UnitManager unitManager;
 
     //TODO: we need to change start parameters army in future
-    [SerializeField] private UnitsTypes[] playersArmyEnums;
     [HideInInspector] public Unit[] reserveArmy;
-    private List<GameObject> realUnitsInReserve = new List<GameObject>();
-    private List<UnitController> realUnitsComponentsInReserve = new List<UnitController>(); 
+    private List<GameObject> unitsInReserveList = new List<GameObject>();
+    //private Dictionary<UnitsTypes, GameObject> unitsInReserveDict = new Dictionary<UnitsTypes, GameObject>();
+
     [HideInInspector] public Unit[] playersArmy = new Unit[4];
+    private GameObject[] unitsOnBattlefield = new GameObject[4];
 
     [Space]
     [SerializeField] private PlayersArmyPart playersArmyWindow;
@@ -22,11 +23,8 @@ public class PlayersArmy : MonoBehaviour
     private int secondIndexForReplaceUnit = -1;
 
     [Space]
-    [SerializeField] private GameObject ReserveArmyContainer;
+    [SerializeField] private GameObject reserveArmyContainer;
     [SerializeField] private Vector2[] playersArmyPositions;
-    private GameObject[] realUnitsOnBattlefield = new GameObject[4];
-    private UnitController[] realUnitsComponentsOnBattlefield = new UnitController[4];
-
 
     [Space]
     [SerializeField] private BattleArmyController battleArmyController;
@@ -36,8 +34,7 @@ public class PlayersArmy : MonoBehaviour
     private void  InitializeArmy()
     {
         unitManager = GlobalStorage.instance.unitManager;
-        reserveArmy = new Unit[Enum.GetValues(typeof(UnitsTypes)).Length];
-        reserveArmy = unitManager.GetUnitsForPlayersArmy(playersArmyEnums);
+        reserveArmy = unitManager.GetUnitsForPlayersArmy();
 
         //TODO: delete manual quantity
         foreach (var item in reserveArmy)
@@ -45,7 +42,7 @@ public class PlayersArmy : MonoBehaviour
             if (item != null)
             {
                 item.quantity = UnityEngine.Random.Range(4, 10);
-                item.currentHealth = item.health;              
+                item.currentHealth = item.health;
             }
         }
 
@@ -62,19 +59,19 @@ public class PlayersArmy : MonoBehaviour
             if(reserveArmy[i] != null)
             {
                 GameObject unit = Instantiate(reserveArmy[i].unitGO);
-                unit.transform.SetParent(ReserveArmyContainer.transform);
+                unit.transform.SetParent(reserveArmyContainer.transform);
                 unit.GetComponentInChildren<TMP_Text>().text = reserveArmy[i].quantity.ToString();
+
                 unit.GetComponent<UnitController>().Initilize(reserveArmy[i]);
                 unit.SetActive(false);
-                realUnitsInReserve.Add(unit);
-                // we need this for acces to UnitController Script of disable objects
-                realUnitsComponentsInReserve.Add(unit.GetComponent<UnitController>());
+                unitsInReserveList.Add(unit);
             }
         }
     }
 
-    private void SwitchUnit(bool mode, Unit unit)
+    public void SwitchUnit(bool mode, Unit unit)
     {
+        ResetReplaceIndexes();
         if(unit == null) return;
 
         Unit[] targetUnitArray = (mode == true) ? playersArmy : reserveArmy;
@@ -149,39 +146,36 @@ public class PlayersArmy : MonoBehaviour
     private void CreateArmyOnBattlefield()
     {
         //move all realArmy units to realArmyReserve
-        for(int i = 0; i < realUnitsOnBattlefield.Length; i++)
+        for(int i = 0; i < unitsOnBattlefield.Length; i++)
         {
-            if(realUnitsOnBattlefield[i] != null)
+            if(unitsOnBattlefield[i] != null)
             {
-                realUnitsOnBattlefield[i].transform.SetParent(ReserveArmyContainer.transform);                
+                unitsOnBattlefield[i].transform.SetParent(reserveArmyContainer.transform);                
 
-                realUnitsInReserve.Add(realUnitsOnBattlefield[i]);
-                realUnitsComponentsInReserve.Add(realUnitsComponentsOnBattlefield[i]);
-                realUnitsOnBattlefield[i].SetActive(false);
+                unitsOnBattlefield[i].SetActive(false);
+                unitsInReserveList.Add(unitsOnBattlefield[i]);
 
-                realUnitsOnBattlefield[i] = null;
-                realUnitsComponentsOnBattlefield[i] = null;
+                unitsOnBattlefield[i] = null;
             }
         }
+
 
         //fill realArmy from realArmyReserve
         for(int i = 0; i < playersArmy.Length; i++)
         {
             if(playersArmy[i] != null)
             {
-                for(int j = 0; j < realUnitsInReserve.Count; j++)
+                for(int j = 0; j < unitsInReserveList.Count; j++)
                 {
-                    //read the name of list attentively!
-                    if(realUnitsComponentsInReserve[j].unitType == playersArmy[i].unitType)
+                    UnitController unit = unitsInReserveList[j].GetComponent<UnitController>();
+                    if(playersArmy[i].unitType == unit.unit.unitType)
                     {
-                        realUnitsComponentsOnBattlefield[i] = realUnitsComponentsInReserve[j];
-                        realUnitsOnBattlefield[i] = realUnitsInReserve[j];
-                        realUnitsOnBattlefield[i].SetActive(true);
-                        realUnitsOnBattlefield[i].transform.position = (Vector3)playersArmyPositions[i] + battleArmyController.gameObject.transform.position;
-                        realUnitsOnBattlefield[i].transform.SetParent(battleArmyController.gameObject.transform);
+                        unitsOnBattlefield[i] = unitsInReserveList[j];
+                        unitsOnBattlefield[i].SetActive(true);
+                        unitsOnBattlefield[i].transform.position = (Vector3)playersArmyPositions[i] + battleArmyController.gameObject.transform.position;
+                        unitsOnBattlefield[i].transform.SetParent(battleArmyController.gameObject.transform);
 
-                        realUnitsInReserve.Remove(realUnitsInReserve[j]);
-                        realUnitsComponentsInReserve.Remove(realUnitsComponentsInReserve[j]);
+                        unitsInReserveList.Remove(unitsInReserveList[j]);
                         break;
                     }
                 }
@@ -198,7 +192,7 @@ public class PlayersArmy : MonoBehaviour
         {
             if (playersArmy[i]?.unitType == unitType)
             {
-                playersArmy[i].quantity--;
+                //playersArmy[i].quantity--;
 
                 if (playersArmy[i].quantity == 0)
                 {
@@ -221,25 +215,13 @@ public class PlayersArmy : MonoBehaviour
             if(playersArmy[i]?.unitType == unitType)
             {
                 playersArmy[i].quantity++;
+                playersArmy[i].unitController.UpdateSquad(true);
                 isSquadFinded = true;
                 break;
             }
         }
 
-        if(isSquadFinded == true)
-        {
-            for(int i = 0; i < realUnitsOnBattlefield.Length; i++)
-            {
-                UnitController unit = realUnitsComponentsOnBattlefield[i];
-                if(unit.unitType == unitType)
-                {
-                    unit.quantity++;
-                    unit.UpdateSquad(true);
-                    break;
-                }
-            }
-        }
-        else
+        if(isSquadFinded == false)
         {
             TryResurrectUnitFromReserve(unitType);
         }
@@ -254,27 +236,16 @@ public class PlayersArmy : MonoBehaviour
             if(reserveArmy[i]?.unitType == unitType)
             {
                 reserveArmy[i].quantity++;
+                reserveArmy[i].unitController.UpdateSquad(true);
                 isSquadFinded = true;
                 break;
             }
         }
 
-        if(isSquadFinded == true)
-        {
-            for(int i = 0; i < realUnitsComponentsInReserve.Count; i++)
-            {
-                UnitController unit = realUnitsComponentsInReserve[i];
-                if(unit.unitType == unitType)
-                {
-                    unit.quantity++;
-                    unit.UpdateSquad(true);
-                    break;
-                }
-            }
-        }
-        else
+        if(isSquadFinded == false)
         {
             Unit newSquad = unitManager.GetNewSquad(unitType);
+            newSquad.quantity = 1;
 
             GameObject realUnit = Instantiate(newSquad.unitGO);
             realUnit.GetComponentInChildren<TMP_Text>().text = newSquad.quantity.ToString();
@@ -302,7 +273,7 @@ public class PlayersArmy : MonoBehaviour
         if(isFreePlaceFinded == true)
         {
             playersArmy[findedIndex] = newUnit;
-            realUnitsOnBattlefield[findedIndex] = newUnitGO;
+            unitsOnBattlefield[findedIndex] = newUnitGO;
 
             newUnitGO.transform.position = (Vector3)playersArmyPositions[findedIndex] + battleArmyController.gameObject.transform.position;
             newUnitGO.transform.SetParent(battleArmyController.transform);
@@ -333,11 +304,10 @@ public class PlayersArmy : MonoBehaviour
         if(isFreePlaceFinded == true)
         {
             reserveArmy[findedIndex] = newUnit;
-            newUnitGO.transform.SetParent(ReserveArmyContainer.transform);
+            newUnitGO.transform.SetParent(reserveArmyContainer.transform);
 
             newUnitGO.SetActive(false);
-            realUnitsInReserve.Add(newUnitGO);
-            realUnitsComponentsInReserve.Add(newUnitGO.GetComponent<UnitController>());
+            unitsInReserveList.Add(newUnitGO);
 
             playersArmyWindow.CreateReserveScheme(reserveArmy);
         }
@@ -353,28 +323,24 @@ public class PlayersArmy : MonoBehaviour
 
     public void EscapeDamage(float count = -1)
     {
-        float commonCountUnitsReal = 0;
-        float commonCountUnitsArmy = 0;
+        float commonCountUnits = 0;
         float countToKill;
         float tryToKill = 1000;
 
-        for(int i = 0; i < realUnitsComponentsOnBattlefield.Length; i++)
+        for(int i = 0; i < playersArmy.Length; i++)
         {
-            if(realUnitsComponentsOnBattlefield[i] != null)
+            if(playersArmy[i] != null)
             {
-                commonCountUnitsReal += realUnitsComponentsOnBattlefield[i].quantity;
-                commonCountUnitsArmy += playersArmy[i].quantity;
+                commonCountUnits += playersArmy[i].quantity;
             }
         }
 
-        Debug.Log(commonCountUnitsReal + " = " + commonCountUnitsArmy);
-
-        if(commonCountUnitsReal == 0) return;
+        if(commonCountUnits == 0) return;
 
         if(count != -1 )
             countToKill = count;
         else
-            countToKill = Mathf.Ceil(commonCountUnitsReal * damageArmyByEscape);
+            countToKill = Mathf.Ceil(commonCountUnits * damageArmyByEscape);
 
         for(int i = 0; i < countToKill; i++)
         {
@@ -390,10 +356,10 @@ public class PlayersArmy : MonoBehaviour
                 return;
             }
 
-            int randomUnit = UnityEngine.Random.Range(0, realUnitsComponentsOnBattlefield.Length);
-            if(realUnitsComponentsOnBattlefield[randomUnit] != null)
+            int randomUnit = UnityEngine.Random.Range(0, playersArmy.Length);
+            if(playersArmy[randomUnit] != null)
             {
-                realUnitsComponentsOnBattlefield[randomUnit].KillOneUnit();
+                playersArmy[randomUnit].unitController.KillOneUnit();
             }
             else
             {
@@ -404,14 +370,14 @@ public class PlayersArmy : MonoBehaviour
 
     public void DefeatDamage()
     {
-        for(int i = 0; i < realUnitsComponentsOnBattlefield.Length; i++)
+        for(int i = 0; i < playersArmy.Length; i++)
         {
-            if(realUnitsComponentsOnBattlefield[i] != null)
+            if(playersArmy[i] != null)
             {
-                float countToKill = realUnitsComponentsOnBattlefield[i].quantity;
+                float countToKill = playersArmy[i].quantity;
                 for(int j = 0; j < countToKill; j++)
                 {
-                    realUnitsComponentsOnBattlefield[i].KillOneUnit();
+                    playersArmy[i].unitController.KillOneUnit();
                 }
             }
         }
@@ -420,16 +386,16 @@ public class PlayersArmy : MonoBehaviour
 
     #endregion
 
-    public UnitController[] GetPlayersArmyForAutobattle()
+    public Unit[] GetPlayersArmyForAutobattle()
     {
-        return realUnitsComponentsOnBattlefield;
+        return playersArmy;
     }
 
     private void OnEnable()
     {
         EventManager.AllUnitsIsReady += InitializeArmy;
         EventManager.WeLostOneUnit += UpgradeArmy;
-        EventManager.SwitchUnit += SwitchUnit;
+        //EventManager.SwitchUnit += SwitchUnit;
         EventManager.ResurrectUnit += TryResurrectUnitFromArmy;
     }
 
@@ -437,7 +403,7 @@ public class PlayersArmy : MonoBehaviour
     {
         EventManager.AllUnitsIsReady -= InitializeArmy;
         EventManager.WeLostOneUnit -= UpgradeArmy;
-        EventManager.SwitchUnit -= SwitchUnit; 
+        //EventManager.SwitchUnit -= SwitchUnit; 
         EventManager.ResurrectUnit -= TryResurrectUnitFromArmy;
     }
 }

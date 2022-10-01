@@ -427,13 +427,13 @@ public class SpellLibrary : MonoBehaviour
 
     private void OnEnable()
     {
-        EventManager.ChangePlayer += DeactivateAllSpells;
-        EventManager.ChangePlayer += DeactivateAllBossSpells;
+        EventManager.SwitchPlayer += DeactivateAllSpells;
+        EventManager.SwitchPlayer += DeactivateAllBossSpells;
     }
 
     private void OnDisable()
     {
-        EventManager.ChangePlayer -= DeactivateAllSpells;
-        EventManager.ChangePlayer += DeactivateAllBossSpells;
+        EventManager.SwitchPlayer -= DeactivateAllSpells;
+        EventManager.SwitchPlayer += DeactivateAllBossSpells;
     }
 }

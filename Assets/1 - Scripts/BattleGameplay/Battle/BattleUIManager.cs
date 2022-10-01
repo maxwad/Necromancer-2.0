@@ -69,7 +69,7 @@ public class BattleUIManager : MonoBehaviour
     private List<SpellStat> currentSpells = new List<SpellStat>();
     [SerializeField] private GameObject spellButtonContainer;
     private List<Button> currentSpellsButtons = new List<Button>();
-    private int countOfActiveSpells = 5;
+    private int countOfActiveSpells = 6;
     private int currentSpellIndex = -1;
 
     [Header("Enemy")]
@@ -494,7 +494,7 @@ public class BattleUIManager : MonoBehaviour
 
     private void OnEnable()
     {
-        EventManager.ChangePlayer             += Inizialize;
+        EventManager.SwitchPlayer             += Inizialize;
         EventManager.UpdateInfirmaryUI        += UpdateInfirmaryUI;
         EventManager.UpgradeResource         += UpgradeResourceUI;
         EventManager.EnemiesCount             += GetStartCountEnemies;
@@ -503,7 +503,7 @@ public class BattleUIManager : MonoBehaviour
 
     private void OnDisable()
     {
-        EventManager.ChangePlayer             -= Inizialize;
+        EventManager.SwitchPlayer             -= Inizialize;
         EventManager.UpdateInfirmaryUI        -= UpdateInfirmaryUI;
         EventManager.UpgradeResource         -= UpgradeResourceUI;
         EventManager.EnemiesCount             -= GetStartCountEnemies;

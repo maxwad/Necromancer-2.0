@@ -23,17 +23,17 @@ public static class EventManager
 
 
 
-    //calls when we switch unit from army to reserve or back
-    //
-    //SUBSCRIBERS:
-    // - PlayersArmy
-    //
-    //ACTIVATION:
-    // - ArmySlot
-    //
-    public delegate void SwitchUnitEvent(bool mode, Unit unit);
-    public static event SwitchUnitEvent SwitchUnit;
-    public static void OnSwitchUnitEvent(bool mode, Unit unit) => SwitchUnit?.Invoke(mode, unit);
+    ////calls when we switch unit from army to reserve or back
+    ////
+    ////SUBSCRIBERS:
+    //// - PlayersArmy
+    ////
+    ////ACTIVATION:
+    //// - ArmySlot
+    ////
+    //public delegate void SwitchUnitEvent(bool mode, Unit unit);
+    //public static event SwitchUnitEvent SwitchUnit;
+    //public static void OnSwitchUnitEvent(bool mode, Unit unit) => SwitchUnit?.Invoke(mode, unit);
 
 
 
@@ -126,9 +126,9 @@ public static class EventManager
     //ACTIVATION:
     // - CameraManager
     //
-    public delegate void ChangePlayerEvent(bool mode);
-    public static event ChangePlayerEvent ChangePlayer;
-    public static void OnChangePlayerEvent(bool mode) => ChangePlayer?.Invoke(mode);
+    public delegate void SwitchPlayerEvent(bool mode);
+    public static event SwitchPlayerEvent SwitchPlayer;
+    public static void OnSwitchPlayerEvent(bool mode) => SwitchPlayer?.Invoke(mode);
 
 
 

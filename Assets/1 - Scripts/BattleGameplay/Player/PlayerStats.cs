@@ -35,6 +35,8 @@ public class PlayerStats : MonoBehaviour
     [Space]
     [SerializeField] private float movementDistanceBase = 10f;
 
+    [SerializeField] private float extraMovementPointsBase = 0;
+
     [SerializeField] private float radiusViewBase = 10;
 
     //[SerializeField] private float extraResourcesProduceBase = 0;
@@ -90,9 +92,8 @@ public class PlayerStats : MonoBehaviour
         public float currentValue;
         public float boostValue;
         public float maxValue;
-        public bool boostType;
 
-        public Stat(PlayersStats stat, float baseV = 0, float boost = 0, float max = 0, bool type = false)
+        public Stat(PlayersStats stat, float baseV = 0, float boost = 0, float max = 0)
         {
             playerStat   = stat;
 
@@ -100,15 +101,35 @@ public class PlayerStats : MonoBehaviour
             currentValue = baseV;
             boostValue   = boost;
             maxValue     = max;
-            boostType    = type;
         }
 
-        public void UpgradeValue()
+        public void UpgradeValue(StatBoostType type = StatBoostType.Value)
         {
-            if(boostType == false)
-                maxValue = baseValue + (baseValue * boostValue);
-            else
-                maxValue = baseValue + boostValue;
+            switch(type)
+            {
+                case StatBoostType.Bool:
+                    maxValue = 1;
+                    break;
+
+                case StatBoostType.Step:
+                    maxValue = baseValue++;
+                    break;
+
+                case StatBoostType.Percent:
+                    if(maxValue == 0)
+                        maxValue += baseValue;
+                    else
+                        maxValue = baseValue + (baseValue * boostValue / 100);
+                    break;
+
+                case StatBoostType.Value:
+                    maxValue += baseValue;
+                    break;
+
+                default:
+                    Debug.Log("Problem with boost " + playerStat);
+                    break;
+            }
         }
 
         public void SetNewBoost(float value)
@@ -139,13 +160,13 @@ public class PlayerStats : MonoBehaviour
             float baseValue = 0;
             float maxValue = 0;
             // type = true - "+"; type = false - "*"
-            bool type = true;
+
 
             switch(itemStat)
             {
                 case PlayersStats.GlobalExp:
                     baseValue = globalExp;
-                    maxValue = globalExp;
+                    maxValue = globalExp;                    
                     //Create new ExpScript for handling xp
                     break;
 
@@ -157,35 +178,29 @@ public class PlayerStats : MonoBehaviour
                 case PlayersStats.Health:
                     baseValue = healthBase;
                     maxValue = healthBase;
-                    type = false;
                     break;
 
                 case PlayersStats.Mana:
                     baseValue = manaBase;
                     maxValue = manaBase;
-                    type = false;
                     break;
 
                 case PlayersStats.Speed:
                     baseValue = speedBase;
                     maxValue = speedBase;
-                    type = false;
                     break;
 
                 case PlayersStats.SearchRadius:
                     baseValue = searchRadiusBase;
                     maxValue = searchRadiusBase;
-                    type = false;
                     break;
 
                 case PlayersStats.Defence:
                     baseValue = defenceBase;
                     maxValue = defenceBase;
-                    type = false;
                     break;
 
                 case PlayersStats.HealthRegeneration:
-                    type = false;
                     break;
 
                 case PlayersStats.Infirmary:
@@ -198,14 +213,18 @@ public class PlayerStats : MonoBehaviour
                     maxValue = movementDistanceBase;
                     break;
 
+
+                case PlayersStats.ExtraMovementPoints:
+                    baseValue = extraMovementPointsBase;
+                    maxValue = extraMovementPointsBase;
+                    break;
+
                 case PlayersStats.RadiusView:
                     baseValue = radiusViewBase;
                     maxValue = radiusViewBase;
-                    type = false;
                     break;
 
                 case PlayersStats.ExtraResourcesProduce:
-                    type = false;
                     break;
 
                 case PlayersStats.Luck:
@@ -216,13 +235,11 @@ public class PlayerStats : MonoBehaviour
                 case PlayersStats.ExtraBoxReward:
                     baseValue = extraBoxRewardBase;
                     maxValue = extraBoxRewardBase;
-                    type = false;
                     break;
 
                 case PlayersStats.ExtraExpReward:
                     baseValue = extraExpRewardBase;
                     maxValue = extraExpRewardBase;
-                    type = false;
                     break;
 
                 case PlayersStats.Spell:
@@ -263,7 +280,6 @@ public class PlayerStats : MonoBehaviour
                     break;
 
                 case PlayersStats.HeroArmyToEnemy:
-                    type = false;
                     break;
 
                 default:
@@ -271,7 +287,7 @@ public class PlayerStats : MonoBehaviour
                     break;
             }
 
-            allStatsDict.Add(itemStat, new Stat(itemStat, baseValue, 0, maxValue, type));
+            allStatsDict.Add(itemStat, new Stat(itemStat, baseValue, 0, maxValue));
         }
     }
 

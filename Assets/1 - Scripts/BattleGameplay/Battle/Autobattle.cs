@@ -25,7 +25,7 @@ public class Autobattle : MonoBehaviour
     private PlayerStats playerStats;
 
     [Header("Start Parameters")]
-    private UnitController[] playersArmy = new UnitController[4];
+    private Unit[] playersArmy = new Unit[4];
     private Army currentEnemyArmy;
     private List<SpellStat> currentSpells = new List<SpellStat>();
 

@@ -36,7 +36,7 @@ public class GlobalStorage : MonoBehaviour
     public GMInterface gmInterface;
     public BonusOnTheMapUI bonusOnTheMapUI;
     public EnemyArmyUI enemyArmyUI;
-    public PlayerMilitaryWindow playerMilitaryWindow;
+    public PlayerPersonalWindow playerMilitaryWindow;
     public TemperCommonUIManager commonUIManager;
 
     [Header("Player")]
@@ -64,6 +64,8 @@ public class GlobalStorage : MonoBehaviour
 
     [HideInInspector] public bool isGameLoaded = false;
 
+    private CameraSwitcher cameraSwitcher;
+
     void Awake()
     {
         if (instance == null)
@@ -74,6 +76,7 @@ public class GlobalStorage : MonoBehaviour
 
     private void Start()
     {
+        cameraSwitcher = Camera.main.GetComponent<CameraSwitcher>();
         StartCoroutine(LoadTheGame());
     }
 
@@ -123,10 +126,16 @@ public class GlobalStorage : MonoBehaviour
         canILoadNextPart = true;
     }
 
-    public void ChangePlayMode(bool mode)
+    public void SetGlobalMode(bool mode)
     {
         isGlobalMode = mode;
-        EventManager.OnChangePlayModeEvent(mode);
+        EventManager.OnSwitchPlayerEvent(mode);
+    }
+    public void ChangePlayMode(bool mode)
+    {
+        //isGlobalMode = mode;
+        cameraSwitcher.FadeIn(mode);
+        //EventManager.OnChangePlayModeEvent(mode);
     }
 
     public void ModalWindowOpen(bool mode)

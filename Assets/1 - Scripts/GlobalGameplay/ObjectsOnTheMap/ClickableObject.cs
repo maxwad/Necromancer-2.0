@@ -102,7 +102,7 @@ public class ClickableObject : MonoBehaviour
                 break;
 
             case TypeOfObjectOnTheMap.Player:
-                GlobalStorage.instance.playerMilitaryWindow.OpenWindow(0);
+                GlobalStorage.instance.playerMilitaryWindow.OpenWindow(PlayersWindow.PlayersArmy);
                 isThereManager = true;
                 break;
 

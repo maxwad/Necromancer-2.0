@@ -6,6 +6,7 @@ using static NameManager;
 public class UnitManager : MonoBehaviour
 {
     public Dictionary<UnitsTypes, int> currentLevelOfUnitsDict = new Dictionary<UnitsTypes, int>();
+    public List<UnitsTypes> unitsTypesList = new List<UnitsTypes>();
 
     public List<UnitSO> allUnitsSO;
 
@@ -16,6 +17,9 @@ public class UnitManager : MonoBehaviour
     private Dictionary<UnitsTypes, Sprite> allUnitsIconsDict = new Dictionary<UnitsTypes, Sprite>();
 
     private UnitBoostManager boostManager;
+
+    //NEW
+
 
     private void Awake()
     {
@@ -35,11 +39,15 @@ public class UnitManager : MonoBehaviour
         CreateAllUnitsBase();
     }
 
+    #region OLD
     private void CreateCurrentLevelOfUnits()
     {
+        foreach(UnitsTypes item in Enum.GetValues(typeof(UnitsTypes)))
+            unitsTypesList.Add(item);
+
         //формируем список начальных уровней всех юнитов
-        foreach (UnitsTypes item in Enum.GetValues(typeof(UnitsTypes)))
-            currentLevelOfUnitsDict.Add(item, 2);
+        foreach (UnitsTypes type in unitsTypesList)
+            currentLevelOfUnitsDict.Add(type, 2);
     }
 
     private void CreateAllUnitsBase()
@@ -54,11 +62,11 @@ public class UnitManager : MonoBehaviour
     private void CreateAllCurrentBaseUnitsByTypes()
     {
         //формируем список из юнитов (по одному каждого типа)
-        foreach (UnitsTypes itemType in Enum.GetValues(typeof(UnitsTypes)))
+        foreach (UnitsTypes type in unitsTypesList)
         {
             foreach (var itemUnit in allUnitsBase)
             {
-                if (itemUnit.unitType == itemType && itemUnit.level == 2)
+                if (itemUnit.unitType == type && itemUnit.level == 2)
                 {
                     allCurrentBaseUnitsByTypes.Add(itemUnit);
                     break;
@@ -89,16 +97,16 @@ public class UnitManager : MonoBehaviour
     #endregion
 
 
-    public Unit[] GetUnitsForPlayersArmy(UnitsTypes[] playersArmy)
+    public Unit[] GetUnitsForPlayersArmy()
     {
-        Unit[] army = new Unit[Enum.GetValues(typeof(UnitsTypes)).Length];
+        Unit[] army = new Unit[unitsTypesList.Count];
         for (int i = 0; i < army.Length; i++)
         {
-            if (i < playersArmy.Length)
+            if (i < unitsTypesList.Count)
             {
                 foreach (var item in allCurrentBoostUnitsByTypes)
                 {
-                    if (playersArmy[i] == item.unitType)
+                    if (unitsTypesList[i] == item.unitType)
                     {
                         army[i] = item;
                     }
@@ -132,4 +140,7 @@ public class UnitManager : MonoBehaviour
     {
         return allCurrentBoostUnitsByTypes;
     }
+
+    #endregion
+
 }

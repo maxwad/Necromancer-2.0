@@ -83,7 +83,7 @@ public class BattleResult : MonoBehaviour
         currentEnemyGO = currentArmyGO;
         canvas.alpha = 0;
 
-        UpdateActualarmy();
+        UpdateActualArmy();
 
         RefactoringContainer();
 
@@ -180,10 +180,8 @@ public class BattleResult : MonoBehaviour
     #region HELPERS
     private void RegisterDeadUnit(UnitsTypes unitType)
     {
-        Debug.Log("Dead");
         if(isDeadRegistrating == true)
         {
-            Debug.Log("Dead 2");
             if(lostUnitsDict.ContainsKey(unitType) == true)
                 lostUnitsDict[unitType]++;
             else
@@ -244,7 +242,7 @@ public class BattleResult : MonoBehaviour
             item.SetActive(false);
     }
 
-    private void UpdateActualarmy()
+    private void UpdateActualArmy()
     {
         actualUnits = GlobalStorage.instance.unitManager.GetActualArmy();
     }
@@ -294,16 +292,26 @@ public class BattleResult : MonoBehaviour
         uiPanel.SetActive(false);
     }
 
+    private IEnumerator WaitGlobalMode()
+    {
+        while(GlobalStorage.instance.isGlobalMode == false)
+        {
+            yield return null;
+
+            Debug.Log("wait...");
+        }
+
+    }
     private void OnEnable()
     { 
-        EventManager.ChangePlayer += StartCheckingUnitDeath;
+        EventManager.SwitchPlayer += StartCheckingUnitDeath;
         EventManager.WeLostOneUnit += RegisterDeadUnit;
         EventManager.ResurrectUnit += DeleteDeadUnit;
     }
 
     private void OnDisable()
     {
-        EventManager.ChangePlayer -= StartCheckingUnitDeath;
+        EventManager.SwitchPlayer -= StartCheckingUnitDeath;
         EventManager.WeLostOneUnit -= RegisterDeadUnit;
         EventManager.ResurrectUnit -= DeleteDeadUnit;
     }

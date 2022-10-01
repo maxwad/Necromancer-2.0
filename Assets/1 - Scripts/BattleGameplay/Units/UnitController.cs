@@ -1,28 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using static NameManager;
 
 public class UnitController : MonoBehaviour
 {
-    public UnitsTypes unitType;
-    public string unitName;
-    private float health;
-    public float magicAttack;
-    public float physicAttack;
-    public float magicDefence;
-    public float physicDefence;
-    public float speedAttack;
-    public float size;
-    public int level;
-    public UnitsAbilities unitAbility;
-    public string abilityDescription;
-
-    [SerializeField] public GameObject attackTool;
-
-    public int quantity;
-
+    public Unit unit;
     public float currentHealth;
 
     private bool isDead = false;
@@ -44,7 +26,6 @@ public class UnitController : MonoBehaviour
 
     private void Start()
     {
-        currentHealth = quantity > 0 ? health : 0;
         unitSprite = GetComponent<SpriteRenderer>();
         normalColor = unitSprite.color;
         originalColor = unitSprite.color;
@@ -52,24 +33,12 @@ public class UnitController : MonoBehaviour
         unitCountsText = GetComponentInChildren<TMP_Text>();
     }
 
-    public void Initilize(Unit unit) 
+    public void Initilize(Unit unitSource) 
     {
-        unitType = unit.unitType;
+        unit = unitSource;
+        currentHealth = unitSource.health;
 
-        health        = unit.health;
-        magicAttack   = unit.magicAttack;
-        physicAttack  = unit.physicAttack;
-        magicDefence  = unit.magicDefence;
-        physicDefence = unit.physicDefence;
-        speedAttack   = unit.speedAttack;
-        size          = unit.size;
-        level         = unit.level;
-
-        unitAbility   = unit.unitAbility;
-        attackTool    = unit.attackTool;
-        abilityDescription = unit.abilityDescription;
-
-        quantity      = unit.quantity;
+        unit.SetUnitController(this);
     }
 
 
@@ -98,11 +67,11 @@ public class UnitController : MonoBehaviour
 
     private void CheckColors()
     {
-        if(currentHealth > health * 0.66f) normalColor = originalColor;
+        if(currentHealth > unit.health * 0.66f) normalColor = originalColor;
 
-        if(currentHealth < health * 0.66f) normalColor = Color.gray;
+        if(currentHealth < unit.health * 0.66f) normalColor = Color.gray;
 
-        if(currentHealth < health * 0.33f) normalColor = Color.red;
+        if(currentHealth < unit.health * 0.33f) normalColor = Color.red;
     }
 
     public void TakeDamage(float physicalDamage, float magicDamage)
@@ -115,17 +84,17 @@ public class UnitController : MonoBehaviour
 
         if(GlobalStorage.instance.isGlobalMode == false) ShowDamage(damage, colorDamage);  
 
-        if (currentHealth <= 0 && quantity > 1)
+        if (currentHealth <= 0 && unit.quantity > 1)
         {
-            quantity--;
-            currentHealth = health;
+            unit.quantity--;
+            currentHealth = unit.health;
             CheckColors();
             UpdateSquad(false);
         }
 
-        if (quantity <= 1 && currentHealth <= 0)
+        if (unit.quantity <= 1 && currentHealth <= 0)
         {
-            quantity--;
+            unit.quantity--;
             UpdateSquad(false);
             Dead();
         }
@@ -164,20 +133,20 @@ public class UnitController : MonoBehaviour
     {
         if(unitCountsText != null)
         {
-            if(quantity != 0) unitCountsText.text = quantity.ToString();
+            if(unit.quantity != 0) unitCountsText.text = unit.quantity.ToString();
         }
 
-        if(mode == false) EventManager.OnWeLostOneUnitEvent(unitType);
+        if(mode == false) EventManager.OnWeLostOneUnitEvent(unit.unitType);
     }
 
     public UnitsTypes GetTypeUnit()
     {
-        return unitType;
+        return unit.unitType;
     }
 
     public int GetQuantityUnit()
     {
-        return quantity;
+        return unit.quantity;
     }
 
     #endregion

@@ -468,13 +468,13 @@ public class BattleMap : MonoBehaviour
 
     private void OnEnable()
     {
-        EventManager.ChangePlayer += InitializeMap;
+        EventManager.SwitchPlayer += InitializeMap;
         EventManager.ObstacleDestroyed += ClearSpaceUnderObject;
     }
 
     private void OnDisable()
     {
-        EventManager.ChangePlayer -= InitializeMap;
+        EventManager.SwitchPlayer -= InitializeMap;
         EventManager.ObstacleDestroyed -= ClearSpaceUnderObject;
     }
 }

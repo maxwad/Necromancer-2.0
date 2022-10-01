@@ -1,0 +1,7044 @@
+fileFormatVersion: 2
+guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 4159476383217997386
+    second: Abilities Icons (Inactive)_0
+  - first:
+      213: 2215372290286811835
+    second: Abilities Icons (Inactive)_1
+  - first:
+      213: 8121005372637932667
+    second: Abilities Icons (Inactive)_2
+  - first:
+      213: 1533412914186724746
+    second: Abilities Icons (Inactive)_3
+  - first:
+      213: 6715295866602472214
+    second: Abilities Icons (Inactive)_4
+  - first:
+      213: -7242936275858603062
+    second: Abilities Icons (Inactive)_5
+  - first:
+      213: 2937381797823568804
+    second: Abilities Icons (Inactive)_6
+  - first:
+      213: -1394039630935770068
+    second: Abilities Icons (Inactive)_7
+  - first:
+      213: -2176349855336540642
+    second: Abilities Icons (Inactive)_8
+  - first:
+      213: 1704675168752234019
+    second: Abilities Icons (Inactive)_9
+  - first:
+      213: 4695681477916757925
+    second: Abilities Icons (Inactive)_10
+  - first:
+      213: 5441845971950400531
+    second: Abilities Icons (Inactive)_11
+  - first:
+      213: 5124068917551714664
+    second: Abilities Icons (Inactive)_12
+  - first:
+      213: -835126796913076466
+    second: Abilities Icons (Inactive)_13
+  - first:
+      213: 5496877716969684670
+    second: Abilities Icons (Inactive)_14
+  - first:
+      213: -5373929994478169714
+    second: Abilities Icons (Inactive)_15
+  - first:
+      213: 5869312702734062638
+    second: Abilities Icons (Inactive)_16
+  - first:
+      213: 5089182974293020654
+    second: Abilities Icons (Inactive)_17
+  - first:
+      213: -3859831542855257255
+    second: Abilities Icons (Inactive)_18
+  - first:
+      213: 896753930949846673
+    second: Abilities Icons (Inactive)_19
+  - first:
+      213: 6699443428437856705
+    second: Abilities Icons (Inactive)_20
+  - first:
+      213: 9098507038658897026
+    second: Abilities Icons (Inactive)_21
+  - first:
+      213: -7775079168623103626
+    second: Abilities Icons (Inactive)_22
+  - first:
+      213: -5271148590958383732
+    second: Abilities Icons (Inactive)_23
+  - first:
+      213: 1851267830543674710
+    second: Abilities Icons (Inactive)_24
+  - first:
+      213: 3728271674416352088
+    second: Abilities Icons (Inactive)_25
+  - first:
+      213: 7196518245228134011
+    second: Abilities Icons (Inactive)_26
+  - first:
+      213: -8251309438438452782
+    second: Abilities Icons (Inactive)_27
+  - first:
+      213: -5471341374734733960
+    second: Abilities Icons (Inactive)_28
+  - first:
+      213: -7605044607445142572
+    second: Abilities Icons (Inactive)_29
+  - first:
+      213: -6273754326192508073
+    second: Abilities Icons (Inactive)_30
+  - first:
+      213: -2909857586875782182
+    second: Abilities Icons (Inactive)_31
+  - first:
+      213: -3189285520932998985
+    second: Abilities Icons (Inactive)_32
+  - first:
+      213: -2781250998571224138
+    second: Abilities Icons (Inactive)_33
+  - first:
+      213: -7496964578501985179
+    second: Abilities Icons (Inactive)_34
+  - first:
+      213: -7037266017290881332
+    second: Abilities Icons (Inactive)_35
+  - first:
+      213: 7402231872475795653
+    second: Abilities Icons (Inactive)_36
+  - first:
+      213: -3969986841237551420
+    second: Abilities Icons (Inactive)_37
+  - first:
+      213: 8195179624612284768
+    second: Abilities Icons (Inactive)_38
+  - first:
+      213: -4864464895798457851
+    second: Abilities Icons (Inactive)_39
+  - first:
+      213: -3093586672306232630
+    second: Abilities Icons (Inactive)_40
+  - first:
+      213: -5583115186440310860
+    second: Abilities Icons (Inactive)_41
+  - first:
+      213: -6830987058661217921
+    second: Abilities Icons (Inactive)_42
+  - first:
+      213: -3320154820447594872
+    second: Abilities Icons (Inactive)_43
+  - first:
+      213: 8562755765066579634
+    second: Abilities Icons (Inactive)_44
+  - first:
+      213: 3307715762615988032
+    second: Abilities Icons (Inactive)_45
+  - first:
+      213: 3694699535015171518
+    second: Abilities Icons (Inactive)_46
+  - first:
+      213: -1110803902975819381
+    second: Abilities Icons (Inactive)_47
+  - first:
+      213: -4130419075009346155
+    second: Abilities Icons (Inactive)_48
+  - first:
+      213: -3541485870794951314
+    second: Abilities Icons (Inactive)_49
+  - first:
+      213: 6372138736970668724
+    second: Abilities Icons (Inactive)_50
+  - first:
+      213: 75904572829017390
+    second: Abilities Icons (Inactive)_51
+  - first:
+      213: -1278637961050576905
+    second: Abilities Icons (Inactive)_52
+  - first:
+      213: 2233421245346861178
+    second: Abilities Icons (Inactive)_53
+  - first:
+      213: 8428273614963923614
+    second: Abilities Icons (Inactive)_54
+  - first:
+      213: 7510791384634175835
+    second: Abilities Icons (Inactive)_55
+  - first:
+      213: -3652850108720308782
+    second: Abilities Icons (Inactive)_56
+  - first:
+      213: 3241740257632897240
+    second: Abilities Icons (Inactive)_57
+  - first:
+      213: 4736180146497243299
+    second: Abilities Icons (Inactive)_58
+  - first:
+      213: 3486436180147481220
+    second: Abilities Icons (Inactive)_59
+  - first:
+      213: 5025242458801857444
+    second: Abilities Icons (Inactive)_60
+  - first:
+      213: 4688850633505634298
+    second: Abilities Icons (Inactive)_61
+  - first:
+      213: -677225791747712161
+    second: Abilities Icons (Inactive)_62
+  - first:
+      213: -6994438827371170113
+    second: Abilities Icons (Inactive)_63
+  - first:
+      213: -3228356375370810528
+    second: Abilities Icons (Inactive)_64
+  - first:
+      213: -2000196255551404415
+    second: Abilities Icons (Inactive)_65
+  - first:
+      213: 8851566309654869983
+    second: Abilities Icons (Inactive)_66
+  - first:
+      213: -7982206759729104254
+    second: Abilities Icons (Inactive)_67
+  - first:
+      213: -2088324953303684670
+    second: Abilities Icons (Inactive)_68
+  - first:
+      213: -6912158772662824746
+    second: Abilities Icons (Inactive)_69
+  - first:
+      213: 5851203729137282656
+    second: Abilities Icons (Inactive)_70
+  - first:
+      213: -508850831563100870
+    second: Abilities Icons (Inactive)_71
+  - first:
+      213: -5320704427865081083
+    second: Abilities Icons (Inactive)_72
+  - first:
+      213: -9201492879209760180
+    second: Abilities Icons (Inactive)_73
+  - first:
+      213: 2050751510172884991
+    second: Abilities Icons (Inactive)_74
+  - first:
+      213: -1069122936982415814
+    second: Abilities Icons (Inactive)_75
+  - first:
+      213: -476029522262048822
+    second: Abilities Icons (Inactive)_76
+  - first:
+      213: -5546731805977382484
+    second: Abilities Icons (Inactive)_77
+  - first:
+      213: -2211569104085689273
+    second: Abilities Icons (Inactive)_78
+  - first:
+      213: -1791303708197977162
+    second: Abilities Icons (Inactive)_79
+  - first:
+      213: 2179966921880958431
+    second: Abilities Icons (Inactive)_80
+  - first:
+      213: 453748327925508808
+    second: Abilities Icons (Inactive)_81
+  - first:
+      213: 2371269551491915783
+    second: Abilities Icons (Inactive)_82
+  - first:
+      213: -3902271623847597703
+    second: Abilities Icons (Inactive)_83
+  - first:
+      213: -4019367431740452735
+    second: Abilities Icons (Inactive)_84
+  - first:
+      213: 6221395579689354379
+    second: Abilities Icons (Inactive)_85
+  - first:
+      213: -4464135239939535370
+    second: Abilities Icons (Inactive)_86
+  - first:
+      213: -2069348133179929049
+    second: Abilities Icons (Inactive)_87
+  - first:
+      213: 6022390483997659415
+    second: Abilities Icons (Inactive)_88
+  - first:
+      213: 2944626602532959425
+    second: Abilities Icons (Inactive)_89
+  - first:
+      213: -6823238209951111259
+    second: Abilities Icons (Inactive)_90
+  - first:
+      213: 1232270253111616092
+    second: Abilities Icons (Inactive)_91
+  - first:
+      213: -6105320245530087044
+    second: Abilities Icons (Inactive)_92
+  - first:
+      213: 189449436920066788
+    second: Abilities Icons (Inactive)_93
+  - first:
+      213: 4067945093906407306
+    second: Abilities Icons (Inactive)_94
+  - first:
+      213: -1921686025006342023
+    second: Abilities Icons (Inactive)_95
+  - first:
+      213: -2933754954773587713
+    second: Abilities Icons (Inactive)_96
+  - first:
+      213: 4437106811846771270
+    second: Abilities Icons (Inactive)_97
+  - first:
+      213: 8459891746755302205
+    second: Abilities Icons (Inactive)_98
+  - first:
+      213: -3661035609756965054
+    second: Abilities Icons (Inactive)_99
+  - first:
+      213: -346449308290981752
+    second: Abilities Icons (Inactive)_100
+  - first:
+      213: 3435143946717776963
+    second: Abilities Icons (Inactive)_101
+  - first:
+      213: -1650924507893449720
+    second: Abilities Icons (Inactive)_102
+  - first:
+      213: 2343108928849504525
+    second: Abilities Icons (Inactive)_103
+  - first:
+      213: 674324698977221459
+    second: Abilities Icons (Inactive)_104
+  - first:
+      213: 4269963506636997267
+    second: Abilities Icons (Inactive)_105
+  - first:
+      213: -4984331486207475403
+    second: Abilities Icons (Inactive)_106
+  - first:
+      213: 8235638993605125332
+    second: Abilities Icons (Inactive)_107
+  - first:
+      213: -5378959431668570821
+    second: Abilities Icons (Inactive)_108
+  - first:
+      213: -7753721722637369680
+    second: Abilities Icons (Inactive)_109
+  - first:
+      213: 7195525275188718610
+    second: Abilities Icons (Inactive)_110
+  - first:
+      213: -1371021556273102822
+    second: Abilities Icons (Inactive)_111
+  - first:
+      213: 2555228590212322043
+    second: Abilities Icons (Inactive)_112
+  - first:
+      213: -5414866961838093168
+    second: Abilities Icons (Inactive)_113
+  - first:
+      213: 6520617143533528245
+    second: Abilities Icons (Inactive)_114
+  - first:
+      213: -5362405092743808250
+    second: Abilities Icons (Inactive)_115
+  - first:
+      213: 2800596303991262108
+    second: Abilities Icons (Inactive)_116
+  - first:
+      213: -3161277403922978382
+    second: Abilities Icons (Inactive)_117
+  - first:
+      213: 2830244864234853591
+    second: Abilities Icons (Inactive)_118
+  - first:
+      213: 4114260440724795249
+    second: Abilities Icons (Inactive)_119
+  - first:
+      213: 2542589854651008678
+    second: Abilities Icons (Inactive)_120
+  - first:
+      213: -3366813531997286222
+    second: Abilities Icons (Inactive)_121
+  - first:
+      213: 7220173164116165746
+    second: Abilities Icons (Inactive)_122
+  - first:
+      213: -6167396376176464799
+    second: Abilities Icons (Inactive)_123
+  - first:
+      213: -3882161878070793778
+    second: Abilities Icons (Inactive)_124
+  - first:
+      213: -3659670812821696642
+    second: Abilities Icons (Inactive)_125
+  - first:
+      213: 3679514428516553488
+    second: Abilities Icons (Inactive)_126
+  - first:
+      213: 7176519566299669485
+    second: Abilities Icons (Inactive)_127
+  - first:
+      213: -1996854571063780362
+    second: Abilities Icons (Inactive)_128
+  - first:
+      213: 3174467517835348979
+    second: Abilities Icons (Inactive)_129
+  - first:
+      213: -7260292259951059529
+    second: Abilities Icons (Inactive)_130
+  - first:
+      213: 8100323886242900162
+    second: Abilities Icons (Inactive)_131
+  - first:
+      213: -4677744131835296243
+    second: Abilities Icons (Inactive)_132
+  - first:
+      213: -6292864153922878629
+    second: Abilities Icons (Inactive)_133
+  - first:
+      213: -2774841285692986794
+    second: Abilities Icons (Inactive)_134
+  - first:
+      213: 734095841451755935
+    second: Abilities Icons (Inactive)_135
+  - first:
+      213: -8015355723912385141
+    second: Abilities Icons (Inactive)_136
+  - first:
+      213: -3604976760181300146
+    second: Abilities Icons (Inactive)_137
+  - first:
+      213: -6492657198755516748
+    second: Abilities Icons (Inactive)_138
+  - first:
+      213: -979814638561915398
+    second: Abilities Icons (Inactive)_139
+  - first:
+      213: 179199425004495296
+    second: Abilities Icons (Inactive)_140
+  - first:
+      213: 4283520008407083466
+    second: Abilities Icons (Inactive)_141
+  - first:
+      213: -5175582622196561712
+    second: Abilities Icons (Inactive)_142
+  - first:
+      213: -2040941410745875326
+    second: Abilities Icons (Inactive)_143
+  - first:
+      213: 6180160239203069204
+    second: Abilities Icons (Inactive)_144
+  - first:
+      213: 5147491945923066374
+    second: Abilities Icons (Inactive)_145
+  - first:
+      213: -7122834044152699686
+    second: Abilities Icons (Inactive)_146
+  - first:
+      213: 7462020055656046795
+    second: Abilities Icons (Inactive)_147
+  - first:
+      213: -678026269552015909
+    second: Abilities Icons (Inactive)_148
+  - first:
+      213: 6281960152980441182
+    second: Abilities Icons (Inactive)_149
+  - first:
+      213: 2262567241301024584
+    second: Abilities Icons (Inactive)_150
+  - first:
+      213: -5879513109568741904
+    second: Abilities Icons (Inactive)_151
+  - first:
+      213: -5128654088315169079
+    second: Abilities Icons (Inactive)_152
+  - first:
+      213: 3988070535041642328
+    second: Abilities Icons (Inactive)_153
+  - first:
+      213: -4990739195781944352
+    second: Abilities Icons (Inactive)_154
+  - first:
+      213: -5694992323556445504
+    second: Abilities Icons (Inactive)_155
+  - first:
+      213: 8325840893488052044
+    second: Abilities Icons (Inactive)_156
+  - first:
+      213: -3057057298042063049
+    second: Abilities Icons (Inactive)_157
+  - first:
+      213: 3141254175971837198
+    second: Abilities Icons (Inactive)_158
+  - first:
+      213: 9202995822883577916
+    second: Abilities Icons (Inactive)_159
+  - first:
+      213: 1493133182319687444
+    second: Abilities Icons (Inactive)_160
+  - first:
+      213: 7171548925534274401
+    second: Abilities Icons (Inactive)_161
+  - first:
+      213: -8854841869220102832
+    second: Abilities Icons (Inactive)_162
+  - first:
+      213: 5358866250805651070
+    second: Abilities Icons (Inactive)_163
+  - first:
+      213: 240639589720313225
+    second: Abilities Icons (Inactive)_164
+  - first:
+      213: -6461958180757530643
+    second: Abilities Icons (Inactive)_165
+  - first:
+      213: 8519149124508386124
+    second: Abilities Icons (Inactive)_166
+  - first:
+      213: 4447089909058141723
+    second: Abilities Icons (Inactive)_167
+  - first:
+      213: -8741734300192178078
+    second: Abilities Icons (Inactive)_168
+  - first:
+      213: 8120984496780242809
+    second: Abilities Icons (Inactive)_169
+  - first:
+      213: -3942414200307925997
+    second: Abilities Icons (Inactive)_170
+  - first:
+      213: 1416722200438489942
+    second: Abilities Icons (Inactive)_171
+  - first:
+      213: -2119393571847977804
+    second: Abilities Icons (Inactive)_172
+  - first:
+      213: -8035507907543322037
+    second: Abilities Icons (Inactive)_173
+  - first:
+      213: -4268439595408507306
+    second: Abilities Icons (Inactive)_174
+  - first:
+      213: -5677199862889737109
+    second: Abilities Icons (Inactive)_175
+  - first:
+      213: 6111373913081943781
+    second: Abilities Icons (Inactive)_176
+  - first:
+      213: -2842040327623056109
+    second: Abilities Icons (Inactive)_177
+  - first:
+      213: -113779281116380953
+    second: Abilities Icons (Inactive)_178
+  - first:
+      213: -1145507396803863323
+    second: Abilities Icons (Inactive)_179
+  - first:
+      213: 8333201735923517128
+    second: Abilities Icons (Inactive)_180
+  - first:
+      213: 8489863229121659953
+    second: Abilities Icons (Inactive)_181
+  - first:
+      213: -7147653856249287187
+    second: Abilities Icons (Inactive)_182
+  - first:
+      213: 3033781476540374390
+    second: Abilities Icons (Inactive)_183
+  - first:
+      213: -510288388489732256
+    second: Abilities Icons (Inactive)_184
+  - first:
+      213: -7744059071262020615
+    second: Abilities Icons (Inactive)_185
+  - first:
+      213: 2077018587533090451
+    second: Abilities Icons (Inactive)_186
+  - first:
+      213: -7407898162832557026
+    second: Abilities Icons (Inactive)_187
+  - first:
+      213: 7475150693999895678
+    second: Abilities Icons (Inactive)_188
+  - first:
+      213: -4630904953675758438
+    second: Abilities Icons (Inactive)_189
+  - first:
+      213: -3824996251181127707
+    second: Abilities Icons (Inactive)_190
+  - first:
+      213: 4265078252532668467
+    second: Abilities Icons (Inactive)_191
+  - first:
+      213: 1925801047167689545
+    second: Abilities Icons (Inactive)_192
+  - first:
+      213: -5448270473616572367
+    second: Abilities Icons (Inactive)_193
+  - first:
+      213: 930021834287925646
+    second: Abilities Icons (Inactive)_194
+  - first:
+      213: -6291822271378103696
+    second: Abilities Icons (Inactive)_195
+  - first:
+      213: -8260410508824698062
+    second: Abilities Icons (Inactive)_196
+  - first:
+      213: -403691100932914641
+    second: Abilities Icons (Inactive)_197
+  - first:
+      213: -4660202243180697417
+    second: Abilities Icons (Inactive)_198
+  - first:
+      213: -7020398258683106476
+    second: Abilities Icons (Inactive)_199
+  - first:
+      213: 5728444845357625898
+    second: Abilities Icons (Inactive)_200
+  - first:
+      213: 4010215182954735211
+    second: Abilities Icons (Inactive)_201
+  - first:
+      213: -8207883572169893072
+    second: Abilities Icons (Inactive)_202
+  - first:
+      213: -1598635049246798745
+    second: Abilities Icons (Inactive)_203
+  - first:
+      213: -5873312828356952092
+    second: Abilities Icons (Inactive)_204
+  - first:
+      213: -2181460386895758954
+    second: Abilities Icons (Inactive)_205
+  - first:
+      213: -2361032349244963199
+    second: Abilities Icons (Inactive)_206
+  - first:
+      213: 1780257452781039801
+    second: Abilities Icons (Inactive)_207
+  - first:
+      213: -6562058647953947737
+    second: Abilities Icons (Inactive)_208
+  - first:
+      213: 2029187753830340681
+    second: Abilities Icons (Inactive)_209
+  - first:
+      213: 8081014487627968178
+    second: Abilities Icons (Inactive)_210
+  - first:
+      213: -6510529885851885647
+    second: Abilities Icons (Inactive)_211
+  - first:
+      213: 455251735115914214
+    second: Abilities Icons (Inactive)_212
+  - first:
+      213: 1943227006397187470
+    second: Abilities Icons (Inactive)_213
+  - first:
+      213: 5109121562235313212
+    second: Abilities Icons (Inactive)_214
+  - first:
+      213: 363534107804646124
+    second: Abilities Icons (Inactive)_215
+  - first:
+      213: -3561670514343637479
+    second: Abilities Icons (Inactive)_216
+  - first:
+      213: -1831170190740075678
+    second: Abilities Icons (Inactive)_217
+  - first:
+      213: -2940796089733285982
+    second: Abilities Icons (Inactive)_218
+  - first:
+      213: -6104760065474877617
+    second: Abilities Icons (Inactive)_219
+  - first:
+      213: 2572376919543012271
+    second: Abilities Icons (Inactive)_220
+  - first:
+      213: -1607644681399955196
+    second: Abilities Icons (Inactive)_221
+  - first:
+      213: -1368336686500714815
+    second: Abilities Icons (Inactive)_222
+  - first:
+      213: -4306795202658485801
+    second: Abilities Icons (Inactive)_223
+  - first:
+      213: 26178859298586020
+    second: Abilities Icons (Inactive)_224
+  - first:
+      213: -8221919023122571739
+    second: Abilities Icons (Inactive)_225
+  - first:
+      213: 4103145950143287506
+    second: Abilities Icons (Inactive)_226
+  - first:
+      213: -1722282272913555127
+    second: Abilities Icons (Inactive)_227
+  - first:
+      213: -2383566528933614526
+    second: Abilities Icons (Inactive)_228
+  - first:
+      213: 2396651677855526814
+    second: Abilities Icons (Inactive)_229
+  - first:
+      213: -8284937228648027522
+    second: Abilities Icons (Inactive)_230
+  - first:
+      213: 1224452527437982658
+    second: Abilities Icons (Inactive)_231
+  - first:
+      213: -2313018446324877154
+    second: Abilities Icons (Inactive)_232
+  - first:
+      213: 6467137794347002592
+    second: Abilities Icons (Inactive)_233
+  - first:
+      213: 402384123866579005
+    second: Abilities Icons (Inactive)_234
+  - first:
+      213: -3755741648680038170
+    second: Abilities Icons (Inactive)_235
+  - first:
+      213: -6504233526523917591
+    second: Abilities Icons (Inactive)_236
+  - first:
+      213: -6212559742118782592
+    second: Abilities Icons (Inactive)_237
+  - first:
+      213: -3675769534442266751
+    second: Abilities Icons (Inactive)_238
+  - first:
+      213: -8371374198757067171
+    second: Abilities Icons (Inactive)_239
+  - first:
+      213: -5341403869690050981
+    second: Abilities Icons (Inactive)_240
+  - first:
+      213: 6416247583417454773
+    second: Abilities Icons (Inactive)_241
+  - first:
+      213: -3437351464404692237
+    second: Abilities Icons (Inactive)_242
+  - first:
+      213: 2510739877397984315
+    second: Abilities Icons (Inactive)_243
+  - first:
+      213: 1486232596452381449
+    second: Abilities Icons (Inactive)_244
+  - first:
+      213: -1914184119971455293
+    second: Abilities Icons (Inactive)_245
+  - first:
+      213: 2475255995481766878
+    second: Abilities Icons (Inactive)_246
+  - first:
+      213: 5200258716088480064
+    second: Abilities Icons (Inactive)_247
+  - first:
+      213: 7227624190967254974
+    second: Abilities Icons (Inactive)_248
+  - first:
+      213: -5580643262751444609
+    second: Abilities Icons (Inactive)_249
+  - first:
+      213: 234150554505766125
+    second: Abilities Icons (Inactive)_250
+  - first:
+      213: -7338135337967956737
+    second: Abilities Icons (Inactive)_251
+  - first:
+      213: 1167551609970296230
+    second: Abilities Icons (Inactive)_252
+  - first:
+      213: 5725653410381802078
+    second: Abilities Icons (Inactive)_253
+  - first:
+      213: -4520437047599878689
+    second: Abilities Icons (Inactive)_254
+  - first:
+      213: -5980148273204929110
+    second: Abilities Icons (Inactive)_255
+  - first:
+      213: 3354182360599624194
+    second: Abilities Icons (Inactive)_256
+  - first:
+      213: 1213286007894800765
+    second: Abilities Icons (Inactive)_257
+  - first:
+      213: 3815801168451344741
+    second: Abilities Icons (Inactive)_258
+  - first:
+      213: -6308803670538783706
+    second: Abilities Icons (Inactive)_259
+  - first:
+      213: 3628280268023893955
+    second: Abilities Icons (Inactive)_260
+  - first:
+      213: -5237855509195931624
+    second: Abilities Icons (Inactive)_261
+  - first:
+      213: -4099364759933350995
+    second: Abilities Icons (Inactive)_262
+  - first:
+      213: -5029718259782766102
+    second: Abilities Icons (Inactive)_263
+  - first:
+      213: -7816731962717369739
+    second: Abilities Icons (Inactive)_264
+  - first:
+      213: -6639469545547054464
+    second: Abilities Icons (Inactive)_265
+  - first:
+      213: 6289774116108462859
+    second: Abilities Icons (Inactive)_266
+  - first:
+      213: 6730332041374683487
+    second: Abilities Icons (Inactive)_267
+  - first:
+      213: 2987853908326028758
+    second: Abilities Icons (Inactive)_268
+  - first:
+      213: 2091273988203530044
+    second: Abilities Icons (Inactive)_269
+  - first:
+      213: 1273026544936422387
+    second: Abilities Icons (Inactive)_270
+  - first:
+      213: 7752503549737303781
+    second: Abilities Icons (Inactive)_271
+  - first:
+      213: 1617462275120628488
+    second: Abilities Icons (Inactive)_272
+  - first:
+      213: 551698477334685344
+    second: Abilities Icons (Inactive)_273
+  - first:
+      213: -7394530238662550153
+    second: Abilities Icons (Inactive)_274
+  - first:
+      213: 6759455613929079252
+    second: Abilities Icons (Inactive)_275
+  - first:
+      213: -388042184384730254
+    second: Abilities Icons (Inactive)_276
+  - first:
+      213: 8587347019230206618
+    second: Abilities Icons (Inactive)_277
+  - first:
+      213: 6301032568206646264
+    second: Abilities Icons (Inactive)_278
+  - first:
+      213: -2466921547458305263
+    second: Abilities Icons (Inactive)_279
+  - first:
+      213: 6851511864681442703
+    second: Abilities Icons (Inactive)_280
+  - first:
+      213: -6224805213531835653
+    second: Abilities Icons (Inactive)_281
+  - first:
+      213: 7586274207345416656
+    second: Abilities Icons (Inactive)_282
+  - first:
+      213: -7507673210971736678
+    second: Abilities Icons (Inactive)_283
+  - first:
+      213: 4856343627911314831
+    second: Abilities Icons (Inactive)_284
+  - first:
+      213: 2594017424040886985
+    second: Abilities Icons (Inactive)_285
+  - first:
+      213: 2208273169397781734
+    second: Abilities Icons (Inactive)_286
+  - first:
+      213: 7655475011828907550
+    second: Abilities Icons (Inactive)_287
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_0
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 2278
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a46d5519bbd69b930800000000000000
+      internalID: 4159476383217997386
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_1
+      rect:
+        serializedVersion: 2
+        x: 89
+        y: 2278
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bbaf9c74c559ebe10800000000000000
+      internalID: 2215372290286811835
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_2
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 2278
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b7c6f170c5b93b070800000000000000
+      internalID: 8121005372637932667
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_3
+      rect:
+        serializedVersion: 2
+        x: 263
+        y: 2278
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a85a81ccbe6c74510800000000000000
+      internalID: 1533412914186724746
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_4
+      rect:
+        serializedVersion: 2
+        x: 350
+        y: 2278
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6134d72f206813d50800000000000000
+      internalID: 6715295866602472214
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_5
+      rect:
+        serializedVersion: 2
+        x: 437
+        y: 2278
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ac348a2f4dbeb7b90800000000000000
+      internalID: -7242936275858603062
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_6
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 2278
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4abd8f4ae2da3c820800000000000000
+      internalID: 2937381797823568804
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_7
+      rect:
+        serializedVersion: 2
+        x: 611
+        y: 2278
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c2cb143775067ace0800000000000000
+      internalID: -1394039630935770068
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_8
+      rect:
+        serializedVersion: 2
+        x: 698
+        y: 2278
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e1651bd565d0cc1e0800000000000000
+      internalID: -2176349855336540642
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_9
+      rect:
+        serializedVersion: 2
+        x: 785
+        y: 2278
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 32ee7e2c80938a710800000000000000
+      internalID: 1704675168752234019
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_10
+      rect:
+        serializedVersion: 2
+        x: 872
+        y: 2278
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5af0c95ec696a2140800000000000000
+      internalID: 4695681477916757925
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_11
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 2191
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3147e705412558b40800000000000000
+      internalID: 5441845971950400531
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_12
+      rect:
+        serializedVersion: 2
+        x: 89
+        y: 2191
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8615a4338895c1740800000000000000
+      internalID: 5124068917551714664
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_13
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 2191
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e0716975a980964f0800000000000000
+      internalID: -835126796913076466
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_14
+      rect:
+        serializedVersion: 2
+        x: 263
+        y: 2191
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ebefcbde825d84c40800000000000000
+      internalID: 5496877716969684670
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_15
+      rect:
+        serializedVersion: 2
+        x: 350
+        y: 2191
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e81df4f6427fb65b0800000000000000
+      internalID: -5373929994478169714
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_16
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 2104
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e24d6226eccf37150800000000000000
+      internalID: 5869312702734062638
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_17
+      rect:
+        serializedVersion: 2
+        x: 89
+        y: 2104
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eef83b393f860a640800000000000000
+      internalID: 5089182974293020654
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_18
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 2104
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 953b34b79af1f6ac0800000000000000
+      internalID: -3859831542855257255
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_19
+      rect:
+        serializedVersion: 2
+        x: 263
+        y: 2104
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1966331f2f8e17c00800000000000000
+      internalID: 896753930949846673
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_20
+      rect:
+        serializedVersion: 2
+        x: 350
+        y: 2104
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1c11dd09d4439fc50800000000000000
+      internalID: 6699443428437856705
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_21
+      rect:
+        serializedVersion: 2
+        x: 437
+        y: 2104
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 284a7a912f3644e70800000000000000
+      internalID: 9098507038658897026
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_22
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 2104
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6713ea5b0be591490800000000000000
+      internalID: -7775079168623103626
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_23
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 2017
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c8def95c84e19d6b0800000000000000
+      internalID: -5271148590958383732
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_24
+      rect:
+        serializedVersion: 2
+        x: 89
+        y: 2017
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 65de9af884601b910800000000000000
+      internalID: 1851267830543674710
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_25
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 2017
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 85bccbba55b7db330800000000000000
+      internalID: 3728271674416352088
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_26
+      rect:
+        serializedVersion: 2
+        x: 263
+        y: 2017
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b7eb07a173b2fd360800000000000000
+      internalID: 7196518245228134011
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_27
+      rect:
+        serializedVersion: 2
+        x: 350
+        y: 2017
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2d15c0678c57d7d80800000000000000
+      internalID: -8251309438438452782
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_28
+      rect:
+        serializedVersion: 2
+        x: 437
+        y: 2017
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 87de9021204e114b0800000000000000
+      internalID: -5471341374734733960
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_29
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 2017
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4d37b380934757690800000000000000
+      internalID: -7605044607445142572
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_30
+      rect:
+        serializedVersion: 2
+        x: 611
+        y: 2017
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 753b93b1ea52fe8a0800000000000000
+      internalID: -6273754326192508073
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_31
+      rect:
+        serializedVersion: 2
+        x: 698
+        y: 2017
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: adb2b4b11fb1e97d0800000000000000
+      internalID: -2909857586875782182
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_32
+      rect:
+        serializedVersion: 2
+        x: 785
+        y: 2017
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7b0fd7d57b16db3d0800000000000000
+      internalID: -3189285520932998985
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_33
+      rect:
+        serializedVersion: 2
+        x: 872
+        y: 2017
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6b336f6d3f20769d0800000000000000
+      internalID: -2781250998571224138
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_34
+      rect:
+        serializedVersion: 2
+        x: 959
+        y: 2017
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 56cf3bcbf6e65f790800000000000000
+      internalID: -7496964578501985179
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_35
+      rect:
+        serializedVersion: 2
+        x: 1046
+        y: 2017
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cc6f271a7db965e90800000000000000
+      internalID: -7037266017290881332
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_36
+      rect:
+        serializedVersion: 2
+        x: 1133
+        y: 2017
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5c09ef75ba20ab660800000000000000
+      internalID: 7402231872475795653
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_37
+      rect:
+        serializedVersion: 2
+        x: 1220
+        y: 2017
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4c68f057006c7e8c0800000000000000
+      internalID: -3969986841237551420
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_38
+      rect:
+        serializedVersion: 2
+        x: 1307
+        y: 2017
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 069c88bd2702bb170800000000000000
+      internalID: 8195179624612284768
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_39
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 1930
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 50a439743f2fd7cb0800000000000000
+      internalID: -4864464895798457851
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_40
+      rect:
+        serializedVersion: 2
+        x: 89
+        y: 1930
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ac2ed43ef4f5115d0800000000000000
+      internalID: -3093586672306232630
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_41
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 1930
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4bfe22c815ac482b0800000000000000
+      internalID: -5583115186440310860
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_42
+      rect:
+        serializedVersion: 2
+        x: 263
+        y: 1930
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f79253756757331a0800000000000000
+      internalID: -6830987058661217921
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_43
+      rect:
+        serializedVersion: 2
+        x: 350
+        y: 1930
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8869bef18c07ce1d0800000000000000
+      internalID: -3320154820447594872
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_44
+      rect:
+        serializedVersion: 2
+        x: 437
+        y: 1930
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2beb83b300505d670800000000000000
+      internalID: 8562755765066579634
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_45
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 1930
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 04fafa806fd57ed20800000000000000
+      internalID: 3307715762615988032
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_46
+      rect:
+        serializedVersion: 2
+        x: 611
+        y: 1930
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eb55168d6a5364330800000000000000
+      internalID: 3694699535015171518
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_47
+      rect:
+        serializedVersion: 2
+        x: 698
+        y: 1930
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b81420c4cb1a590f0800000000000000
+      internalID: -1110803902975819381
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_48
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 1843
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 59502943cbdcda6c0800000000000000
+      internalID: -4130419075009346155
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_49
+      rect:
+        serializedVersion: 2
+        x: 89
+        y: 1843
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e65b3363d5d1adec0800000000000000
+      internalID: -3541485870794951314
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_50
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 1843
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4ba94a49b626e6850800000000000000
+      internalID: 6372138736970668724
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_51
+      rect:
+        serializedVersion: 2
+        x: 263
+        y: 1843
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e252d4c8ecaad0100800000000000000
+      internalID: 75904572829017390
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_52
+      rect:
+        serializedVersion: 2
+        x: 350
+        y: 1843
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7f720478c8d514ee0800000000000000
+      internalID: -1278637961050576905
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_53
+      rect:
+        serializedVersion: 2
+        x: 437
+        y: 1843
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a70d5ba1ac4befe10800000000000000
+      internalID: 2233421245346861178
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_54
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 1843
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e9ad8b9a23e37f470800000000000000
+      internalID: 8428273614963923614
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_55
+      rect:
+        serializedVersion: 2
+        x: 611
+        y: 1843
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b513f2f68f0bb3860800000000000000
+      internalID: 7510791384634175835
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_56
+      rect:
+        serializedVersion: 2
+        x: 698
+        y: 1843
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2dd9af30e287e4dc0800000000000000
+      internalID: -3652850108720308782
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_57
+      rect:
+        serializedVersion: 2
+        x: 785
+        y: 1843
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8d8ca4eb699fcfc20800000000000000
+      internalID: 3241740257632897240
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_58
+      rect:
+        serializedVersion: 2
+        x: 872
+        y: 1843
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3a8c938ffba4ab140800000000000000
+      internalID: 4736180146497243299
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_59
+      rect:
+        serializedVersion: 2
+        x: 959
+        y: 1843
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 48aa2c1eb3f426030800000000000000
+      internalID: 3486436180147481220
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_60
+      rect:
+        serializedVersion: 2
+        x: 1046
+        y: 1843
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4a36813346f3db540800000000000000
+      internalID: 5025242458801857444
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_61
+      rect:
+        serializedVersion: 2
+        x: 1133
+        y: 1843
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: af7f7fefec4221140800000000000000
+      internalID: 4688850633505634298
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_62
+      rect:
+        serializedVersion: 2
+        x: 1220
+        y: 1843
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f5b15220bb20a96f0800000000000000
+      internalID: -677225791747712161
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_63
+      rect:
+        serializedVersion: 2
+        x: 1307
+        y: 1843
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fb67753d1f2ceee90800000000000000
+      internalID: -6994438827371170113
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_64
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 1756
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 06bb7ad2bf29233d0800000000000000
+      internalID: -3228356375370810528
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_65
+      rect:
+        serializedVersion: 2
+        x: 89
+        y: 1756
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 186cac26a10ed34e0800000000000000
+      internalID: -2000196255551404415
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_66
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 1756
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fd73bc839a417da70800000000000000
+      internalID: 8851566309654869983
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_67
+      rect:
+        serializedVersion: 2
+        x: 263
+        y: 1756
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 28aff9a5e31893190800000000000000
+      internalID: -7982206759729104254
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_68
+      rect:
+        serializedVersion: 2
+        x: 350
+        y: 1756
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2c9efb6f487c403e0800000000000000
+      internalID: -2088324953303684670
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_69
+      rect:
+        serializedVersion: 2
+        x: 437
+        y: 1756
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6d0155ce7341310a0800000000000000
+      internalID: -6912158772662824746
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_70
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 1756
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 06e2ba76ac6a33150800000000000000
+      internalID: 5851203729137282656
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_71
+      rect:
+        serializedVersion: 2
+        x: 611
+        y: 1756
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a3de40d5dd230f8f0800000000000000
+      internalID: -508850831563100870
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_72
+      rect:
+        serializedVersion: 2
+        x: 698
+        y: 1756
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 50bf04e538f0926b0800000000000000
+      internalID: -5320704427865081083
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_73
+      rect:
+        serializedVersion: 2
+        x: 785
+        y: 1756
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c4a7a6b5afabd4080800000000000000
+      internalID: -9201492879209760180
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_74
+      rect:
+        serializedVersion: 2
+        x: 872
+        y: 1756
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fff537612abb57c10800000000000000
+      internalID: 2050751510172884991
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_75
+      rect:
+        serializedVersion: 2
+        x: 959
+        y: 1756
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a36d0ff6a56b921f0800000000000000
+      internalID: -1069122936982415814
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_76
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 1669
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: acfb8feebadc469f0800000000000000
+      internalID: -476029522262048822
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_77
+      rect:
+        serializedVersion: 2
+        x: 89
+        y: 1669
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ca17b507fcc0603b0800000000000000
+      internalID: -5546731805977382484
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_78
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 1669
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 74c5eb20e9dee41e0800000000000000
+      internalID: -2211569104085689273
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_79
+      rect:
+        serializedVersion: 2
+        x: 263
+        y: 1669
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6b30504a4c20427e0800000000000000
+      internalID: -1791303708197977162
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_80
+      rect:
+        serializedVersion: 2
+        x: 350
+        y: 1669
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fd5f0d09d5cc04e10800000000000000
+      internalID: 2179966921880958431
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_81
+      rect:
+        serializedVersion: 2
+        x: 437
+        y: 1669
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8ca6d6f33b90c4600800000000000000
+      internalID: 453748327925508808
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_82
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 1669
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7002063f71178e020800000000000000
+      internalID: 2371269551491915783
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_83
+      rect:
+        serializedVersion: 2
+        x: 611
+        y: 1669
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9792a7b12a858d9c0800000000000000
+      internalID: -3902271623847597703
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_84
+      rect:
+        serializedVersion: 2
+        x: 698
+        y: 1669
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1801659cd965838c0800000000000000
+      internalID: -4019367431740452735
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_85
+      rect:
+        serializedVersion: 2
+        x: 785
+        y: 1669
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b84c19e3156d65650800000000000000
+      internalID: 6221395579689354379
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_86
+      rect:
+        serializedVersion: 2
+        x: 872
+        y: 1669
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6fdc91ab6a43c02c0800000000000000
+      internalID: -4464135239939535370
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_87
+      rect:
+        serializedVersion: 2
+        x: 959
+        y: 1669
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 72e413536d23843e0800000000000000
+      internalID: -2069348133179929049
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_88
+      rect:
+        serializedVersion: 2
+        x: 1046
+        y: 1669
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7119f59bc34d39350800000000000000
+      internalID: 6022390483997659415
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_89
+      rect:
+        serializedVersion: 2
+        x: 1133
+        y: 1669
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1c474203b4a6dd820800000000000000
+      internalID: 2944626602532959425
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_90
+      rect:
+        serializedVersion: 2
+        x: 1220
+        y: 1669
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5a7edf5cffcfe41a0800000000000000
+      internalID: -6823238209951111259
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_91
+      rect:
+        serializedVersion: 2
+        x: 1307
+        y: 1669
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c52afff2447e91110800000000000000
+      internalID: 1232270253111616092
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_92
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 1582
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c71bd25859b854ba0800000000000000
+      internalID: -6105320245530087044
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_93
+      rect:
+        serializedVersion: 2
+        x: 89
+        y: 1582
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4e2b486524f01a200800000000000000
+      internalID: 189449436920066788
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_94
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 1582
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a8f9510928e347830800000000000000
+      internalID: 4067945093906407306
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_95
+      rect:
+        serializedVersion: 2
+        x: 263
+        y: 1582
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9702aa5edbcc455e0800000000000000
+      internalID: -1921686025006342023
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_96
+      rect:
+        serializedVersion: 2
+        x: 350
+        y: 1582
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ff89dae89653947d0800000000000000
+      internalID: -2933754954773587713
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_97
+      rect:
+        serializedVersion: 2
+        x: 437
+        y: 1582
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 642c796f225c39d30800000000000000
+      internalID: 4437106811846771270
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_98
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 1582
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d33db93a8b2976570800000000000000
+      internalID: 8459891746755302205
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_99
+      rect:
+        serializedVersion: 2
+        x: 611
+        y: 1582
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 247616a8283613dc0800000000000000
+      internalID: -3661035609756965054
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_100
+      rect:
+        serializedVersion: 2
+        x: 698
+        y: 1582
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 880e2ae803a213bf0800000000000000
+      internalID: -346449308290981752
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_101
+      rect:
+        serializedVersion: 2
+        x: 785
+        y: 1582
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 34c427828351caf20800000000000000
+      internalID: 3435143946717776963
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_102
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 1495
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 80c360438ecb619e0800000000000000
+      internalID: -1650924507893449720
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_103
+      rect:
+        serializedVersion: 2
+        x: 89
+        y: 1495
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d09ee1e0825648020800000000000000
+      internalID: 2343108928849504525
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_104
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 1495
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 35b3fc1bdbeab5900800000000000000
+      internalID: 674324698977221459
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_105
+      rect:
+        serializedVersion: 2
+        x: 263
+        y: 1495
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 392caf0af25f14b30800000000000000
+      internalID: 4269963506636997267
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_106
+      rect:
+        serializedVersion: 2
+        x: 350
+        y: 1495
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5310fc1ebe814dab0800000000000000
+      internalID: -4984331486207475403
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_107
+      rect:
+        serializedVersion: 2
+        x: 437
+        y: 1495
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4d46038c70eda4270800000000000000
+      internalID: 8235638993605125332
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_108
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 1495
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b35682655e81a55b0800000000000000
+      internalID: -5378959431668570821
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_109
+      rect:
+        serializedVersion: 2
+        x: 611
+        y: 1495
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0be38fa9c2f356490800000000000000
+      internalID: -7753721722637369680
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_110
+      rect:
+        serializedVersion: 2
+        x: 698
+        y: 1495
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 21ce7ff3d14abd360800000000000000
+      internalID: 7195525275188718610
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_111
+      rect:
+        serializedVersion: 2
+        x: 785
+        y: 1495
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a1040f6982729fce0800000000000000
+      internalID: -1371021556273102822
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_112
+      rect:
+        serializedVersion: 2
+        x: 872
+        y: 1495
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bf217875ddef57320800000000000000
+      internalID: 2555228590212322043
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_113
+      rect:
+        serializedVersion: 2
+        x: 959
+        y: 1495
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 09c44a9ff278ad4b0800000000000000
+      internalID: -5414866961838093168
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_114
+      rect:
+        serializedVersion: 2
+        x: 1046
+        y: 1495
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5b463ac8eb2ed7a50800000000000000
+      internalID: 6520617143533528245
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_115
+      rect:
+        serializedVersion: 2
+        x: 1133
+        y: 1495
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 60b7249baf8e495b0800000000000000
+      internalID: -5362405092743808250
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_116
+      rect:
+        serializedVersion: 2
+        x: 1220
+        y: 1495
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c9bcba21087bdd620800000000000000
+      internalID: 2800596303991262108
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_117
+      rect:
+        serializedVersion: 2
+        x: 1307
+        y: 1495
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2b9a3b643f2e024d0800000000000000
+      internalID: -3161277403922978382
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_118
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 1408
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7d4971075bc074720800000000000000
+      internalID: 2830244864234853591
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_119
+      rect:
+        serializedVersion: 2
+        x: 89
+        y: 1408
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 17fe7d2921ac81930800000000000000
+      internalID: 4114260440724795249
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_120
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 1408
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6a64cf76008194320800000000000000
+      internalID: 2542589854651008678
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_121
+      rect:
+        serializedVersion: 2
+        x: 263
+        y: 1408
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2b0d2584eeca641d0800000000000000
+      internalID: -3366813531997286222
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_122
+      rect:
+        serializedVersion: 2
+        x: 350
+        y: 1408
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 274c3f71d35333460800000000000000
+      internalID: 7220173164116165746
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_123
+      rect:
+        serializedVersion: 2
+        x: 437
+        y: 1408
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 16c68f01ca1096aa0800000000000000
+      internalID: -6167396376176464799
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_124
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 1408
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ec9e609275acf1ac0800000000000000
+      internalID: -3882161878070793778
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_125
+      rect:
+        serializedVersion: 2
+        x: 611
+        y: 1408
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e7fc5e619cc363dc0800000000000000
+      internalID: -3659670812821696642
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_126
+      rect:
+        serializedVersion: 2
+        x: 698
+        y: 1408
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 01357a9b0e2401330800000000000000
+      internalID: 3679514428516553488
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_127
+      rect:
+        serializedVersion: 2
+        x: 785
+        y: 1408
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: de3aee0d58e189360800000000000000
+      internalID: 7176519566299669485
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_128
+      rect:
+        serializedVersion: 2
+        x: 872
+        y: 1408
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6fbd0afe85fb944e0800000000000000
+      internalID: -1996854571063780362
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_129
+      rect:
+        serializedVersion: 2
+        x: 959
+        y: 1408
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3fb879f6369fd0c20800000000000000
+      internalID: 3174467517835348979
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_130
+      rect:
+        serializedVersion: 2
+        x: 1046
+        y: 1408
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7bd591008a24e3b90800000000000000
+      internalID: -7260292259951059529
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_131
+      rect:
+        serializedVersion: 2
+        x: 1133
+        y: 1408
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2c8ae1d38a12a6070800000000000000
+      internalID: 8100323886242900162
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_132
+      rect:
+        serializedVersion: 2
+        x: 1220
+        y: 1408
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d060acfee70551fb0800000000000000
+      internalID: -4677744131835296243
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_133
+      rect:
+        serializedVersion: 2
+        x: 1307
+        y: 1408
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b5343ad94614ba8a0800000000000000
+      internalID: -6292864153922878629
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_134
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 1321
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 65a6e2a6d88cd79d0800000000000000
+      internalID: -2774841285692986794
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_135
+      rect:
+        serializedVersion: 2
+        x: 89
+        y: 1321
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f99c2d44748003a00800000000000000
+      internalID: 734095841451755935
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_136
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 1321
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b8deecfaf6cb3c090800000000000000
+      internalID: -8015355723912385141
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_137
+      rect:
+        serializedVersion: 2
+        x: 263
+        y: 1321
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e44ead19cbc88fdc0800000000000000
+      internalID: -3604976760181300146
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_138
+      rect:
+        serializedVersion: 2
+        x: 350
+        y: 1321
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4be6bc36da275e5a0800000000000000
+      internalID: -6492657198755516748
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_139
+      rect:
+        serializedVersion: 2
+        x: 437
+        y: 1321
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: afd0aca07cff662f0800000000000000
+      internalID: -979814638561915398
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_140
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 1321
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0c1e8577de4ac7200800000000000000
+      internalID: 179199425004495296
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_141
+      rect:
+        serializedVersion: 2
+        x: 611
+        y: 1321
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ac9e169a0ce127b30800000000000000
+      internalID: 4283520008407083466
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_142
+      rect:
+        serializedVersion: 2
+        x: 698
+        y: 1321
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0d80a4ac603ac28b0800000000000000
+      internalID: -5175582622196561712
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_143
+      rect:
+        serializedVersion: 2
+        x: 785
+        y: 1321
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2848b1da99e1da3e0800000000000000
+      internalID: -2040941410745875326
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_144
+      rect:
+        serializedVersion: 2
+        x: 872
+        y: 1321
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 41d21b06ef654c550800000000000000
+      internalID: 6180160239203069204
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_145
+      rect:
+        serializedVersion: 2
+        x: 959
+        y: 1321
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 60abde8f6a09f6740800000000000000
+      internalID: 5147491945923066374
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_146
+      rect:
+        serializedVersion: 2
+        x: 1046
+        y: 1321
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ad4283cdc2c962d90800000000000000
+      internalID: -7122834044152699686
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_147
+      rect:
+        serializedVersion: 2
+        x: 1133
+        y: 1321
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bc0283484bb6e8760800000000000000
+      internalID: 7462020055656046795
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_148
+      rect:
+        serializedVersion: 2
+        x: 1220
+        y: 1321
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bd508fe33ba2796f0800000000000000
+      internalID: -678026269552015909
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_149
+      rect:
+        serializedVersion: 2
+        x: 1307
+        y: 1321
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e58ce83d9710e2750800000000000000
+      internalID: 6281960152980441182
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_150
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 1234
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 84fde2a1be0466f10800000000000000
+      internalID: 2262567241301024584
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_151
+      rect:
+        serializedVersion: 2
+        x: 89
+        y: 1234
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0fd17e35af5c76ea0800000000000000
+      internalID: -5879513109568741904
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_152
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 1234
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9c69e1a874c53d8b0800000000000000
+      internalID: -5128654088315169079
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_153
+      rect:
+        serializedVersion: 2
+        x: 263
+        y: 1234
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 85feb5c9509785730800000000000000
+      internalID: 3988070535041642328
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_154
+      rect:
+        serializedVersion: 2
+        x: 350
+        y: 1234
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0eb6cccb4255dbab0800000000000000
+      internalID: -4990739195781944352
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_155
+      rect:
+        serializedVersion: 2
+        x: 437
+        y: 1234
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0c277d3b7a257f0b0800000000000000
+      internalID: -5694992323556445504
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_156
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 1234
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c47b6c03e245b8370800000000000000
+      internalID: 8325840893488052044
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_157
+      rect:
+        serializedVersion: 2
+        x: 611
+        y: 1234
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 737ff2c95962395d0800000000000000
+      internalID: -3057057298042063049
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_158
+      rect:
+        serializedVersion: 2
+        x: 698
+        y: 1234
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e05830ca70af79b20800000000000000
+      internalID: 3141254175971837198
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_159
+      rect:
+        serializedVersion: 2
+        x: 785
+        y: 1234
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c30216cf0fb97bf70800000000000000
+      internalID: 9202995822883577916
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_160
+      rect:
+        serializedVersion: 2
+        x: 872
+        y: 1234
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4177386e7bca8b410800000000000000
+      internalID: 1493133182319687444
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_161
+      rect:
+        serializedVersion: 2
+        x: 959
+        y: 1234
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1630ec350c5768360800000000000000
+      internalID: 7171548925534274401
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_162
+      rect:
+        serializedVersion: 2
+        x: 1046
+        y: 1234
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 05d31e22c384d1580800000000000000
+      internalID: -8854841869220102832
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_163
+      rect:
+        serializedVersion: 2
+        x: 1133
+        y: 1234
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e76a91e66748e5a40800000000000000
+      internalID: 5358866250805651070
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_164
+      rect:
+        serializedVersion: 2
+        x: 1220
+        y: 1234
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 98dcc209e6ce65300800000000000000
+      internalID: 240639589720313225
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_165
+      rect:
+        serializedVersion: 2
+        x: 1307
+        y: 1234
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: de7948285438256a0800000000000000
+      internalID: -6461958180757530643
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_166
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 1147
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c4307ea0ef81a3670800000000000000
+      internalID: 8519149124508386124
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_167
+      rect:
+        serializedVersion: 2
+        x: 89
+        y: 1147
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b1e72a9e5bc37bd30800000000000000
+      internalID: 4447089909058141723
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_168
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 1147
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 260823c38fe1fa680800000000000000
+      internalID: -8741734300192178078
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_169
+      rect:
+        serializedVersion: 2
+        x: 263
+        y: 1147
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 97f6a0d7f5883b070800000000000000
+      internalID: 8120984496780242809
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_170
+      rect:
+        serializedVersion: 2
+        x: 350
+        y: 1147
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 31cb0313c2bb949c0800000000000000
+      internalID: -3942414200307925997
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_171
+      rect:
+        serializedVersion: 2
+        x: 437
+        y: 1147
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 653cb8ec55539a310800000000000000
+      internalID: 1416722200438489942
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_172
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 1147
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4b441c286c66692e0800000000000000
+      internalID: -2119393571847977804
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_173
+      rect:
+        serializedVersion: 2
+        x: 611
+        y: 1147
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b42b90dc1242c7090800000000000000
+      internalID: -8035507907543322037
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_174
+      rect:
+        serializedVersion: 2
+        x: 698
+        y: 1147
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 65eb67a9dc473c4c0800000000000000
+      internalID: -4268439595408507306
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_175
+      rect:
+        serializedVersion: 2
+        x: 785
+        y: 1147
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b649f85cdc88631b0800000000000000
+      internalID: -5677199862889737109
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_176
+      rect:
+        serializedVersion: 2
+        x: 872
+        y: 1147
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5e696dac136ffc450800000000000000
+      internalID: 6111373913081943781
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_177
+      rect:
+        serializedVersion: 2
+        x: 959
+        y: 1147
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 31561ba316b0f88d0800000000000000
+      internalID: -2842040327623056109
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_178
+      rect:
+        serializedVersion: 2
+        x: 1046
+        y: 1147
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7e0424eb856cb6ef0800000000000000
+      internalID: -113779281116380953
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_179
+      rect:
+        serializedVersion: 2
+        x: 1133
+        y: 1147
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5ec5ced77175a10f0800000000000000
+      internalID: -1145507396803863323
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_180
+      rect:
+        serializedVersion: 2
+        x: 1220
+        y: 1147
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8c6c36fd3da75a370800000000000000
+      internalID: 8333201735923517128
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_181
+      rect:
+        serializedVersion: 2
+        x: 1307
+        y: 1147
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 134827b20ad02d570800000000000000
+      internalID: 8489863229121659953
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_182
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 1060
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ded6fc800be6ecc90800000000000000
+      internalID: -7147653856249287187
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_183
+      rect:
+        serializedVersion: 2
+        x: 89
+        y: 1060
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 67d5953ed282a1a20800000000000000
+      internalID: 3033781476540374390
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_184
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 1060
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 06f101f0a671be8f0800000000000000
+      internalID: -510288388489732256
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_185
+      rect:
+        serializedVersion: 2
+        x: 263
+        y: 1060
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9fb29c1fd43978490800000000000000
+      internalID: -7744059071262020615
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_186
+      rect:
+        serializedVersion: 2
+        x: 350
+        y: 1060
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 39e1bcd966d03dc10800000000000000
+      internalID: 2077018587533090451
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_187
+      rect:
+        serializedVersion: 2
+        x: 437
+        y: 1060
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e1cb810aedbd13990800000000000000
+      internalID: -7407898162832557026
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_188
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 1060
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e74e06e73f11db760800000000000000
+      internalID: 7475150693999895678
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_189
+      rect:
+        serializedVersion: 2
+        x: 611
+        y: 1060
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a944f8fea78bbbfb0800000000000000
+      internalID: -4630904953675758438
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_190
+      rect:
+        serializedVersion: 2
+        x: 698
+        y: 1060
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5e7e52ddc22eaeac0800000000000000
+      internalID: -3824996251181127707
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_191
+      rect:
+        serializedVersion: 2
+        x: 785
+        y: 1060
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3381475c21a903b30800000000000000
+      internalID: 4265078252532668467
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_192
+      rect:
+        serializedVersion: 2
+        x: 872
+        y: 1060
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 943618c59d1d9ba10800000000000000
+      internalID: 1925801047167689545
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_193
+      rect:
+        serializedVersion: 2
+        x: 959
+        y: 1060
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 130c5d3dedad364b0800000000000000
+      internalID: -5448270473616572367
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_194
+      rect:
+        serializedVersion: 2
+        x: 1046
+        y: 1060
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e89c61a4ee918ec00800000000000000
+      internalID: 930021834287925646
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_195
+      rect:
+        serializedVersion: 2
+        x: 1133
+        y: 1060
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 072ed9ccaf4fea8a0800000000000000
+      internalID: -6291822271378103696
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_196
+      rect:
+        serializedVersion: 2
+        x: 1220
+        y: 1060
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 233a99268602d5d80800000000000000
+      internalID: -8260410508824698062
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_197
+      rect:
+        serializedVersion: 2
+        x: 1307
+        y: 1060
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f2248e1251dc56af0800000000000000
+      internalID: -403691100932914641
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_198
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 973
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7b86cb920c2a35fb0800000000000000
+      internalID: -4660202243180697417
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_199
+      rect:
+        serializedVersion: 2
+        x: 89
+        y: 973
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 45b2c69baf8829e90800000000000000
+      internalID: -7020398258683106476
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_200
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 973
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a2275fa7c368f7f40800000000000000
+      internalID: 5728444845357625898
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_201
+      rect:
+        serializedVersion: 2
+        x: 263
+        y: 973
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b6625ec367527a730800000000000000
+      internalID: 4010215182954735211
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_202
+      rect:
+        serializedVersion: 2
+        x: 350
+        y: 973
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 03b9c0bd06db71e80800000000000000
+      internalID: -8207883572169893072
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_203
+      rect:
+        serializedVersion: 2
+        x: 437
+        y: 973
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 76cc72484e180d9e0800000000000000
+      internalID: -1598635049246798745
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_204
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 973
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4eff90bc91dcd7ea0800000000000000
+      internalID: -5873312828356952092
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_205
+      rect:
+        serializedVersion: 2
+        x: 611
+        y: 973
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 699fd730655e9b1e0800000000000000
+      internalID: -2181460386895758954
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_206
+      rect:
+        serializedVersion: 2
+        x: 698
+        y: 973
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1864c00769deb3fd0800000000000000
+      internalID: -2361032349244963199
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_207
+      rect:
+        serializedVersion: 2
+        x: 785
+        y: 973
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9b071c998beb4b810800000000000000
+      internalID: 1780257452781039801
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_208
+      rect:
+        serializedVersion: 2
+        x: 872
+        y: 973
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7a3cc6d4d62eee4a0800000000000000
+      internalID: -6562058647953947737
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_209
+      rect:
+        serializedVersion: 2
+        x: 959
+        y: 973
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 94851a1d28f192c10800000000000000
+      internalID: 2029187753830340681
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_210
+      rect:
+        serializedVersion: 2
+        x: 1046
+        y: 973
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2bea9d78cd7852070800000000000000
+      internalID: 8081014487627968178
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_211
+      rect:
+        serializedVersion: 2
+        x: 1133
+        y: 973
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1bfdb362093f5a5a0800000000000000
+      internalID: -6510529885851885647
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_212
+      rect:
+        serializedVersion: 2
+        x: 1220
+        y: 973
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6ebd6f28a01615600800000000000000
+      internalID: 455251735115914214
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_213
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 886
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e85004aaaaab7fa10800000000000000
+      internalID: 1943227006397187470
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_214
+      rect:
+        serializedVersion: 2
+        x: 89
+        y: 886
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c3c1357ddfe37e640800000000000000
+      internalID: 5109121562235313212
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_215
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 886
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cea3f6f48588b0500800000000000000
+      internalID: 363534107804646124
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_216
+      rect:
+        serializedVersion: 2
+        x: 263
+        y: 886
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 91e8099a987629ec0800000000000000
+      internalID: -3561670514343637479
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_217
+      rect:
+        serializedVersion: 2
+        x: 350
+        y: 886
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 26b47a9d9606696e0800000000000000
+      internalID: -1831170190740075678
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_218
+      rect:
+        serializedVersion: 2
+        x: 437
+        y: 886
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2a7f69299813037d0800000000000000
+      internalID: -2940796089733285982
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_219
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 886
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f47216a9019874ba0800000000000000
+      internalID: -6104760065474877617
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_220
+      rect:
+        serializedVersion: 2
+        x: 611
+        y: 886
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fab56c5ed2be2b320800000000000000
+      internalID: 2572376919543012271
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_221
+      rect:
+        serializedVersion: 2
+        x: 698
+        y: 886
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4011c101eaf70b9e0800000000000000
+      internalID: -1607644681399955196
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_222
+      rect:
+        serializedVersion: 2
+        x: 785
+        y: 886
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1c66dfb8801b20de0800000000000000
+      internalID: -1368336686500714815
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_223
+      rect:
+        serializedVersion: 2
+        x: 872
+        y: 886
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7d93f21e4903b34c0800000000000000
+      internalID: -4306795202658485801
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_224
+      rect:
+        serializedVersion: 2
+        x: 959
+        y: 886
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4adfd19a8810d5000800000000000000
+      internalID: 26178859298586020
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_225
+      rect:
+        serializedVersion: 2
+        x: 1046
+        y: 886
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 52e90c6c530e5ed80800000000000000
+      internalID: -8221919023122571739
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_226
+      rect:
+        serializedVersion: 2
+        x: 1133
+        y: 886
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2d09fd3908d41f830800000000000000
+      internalID: 4103145950143287506
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_227
+      rect:
+        serializedVersion: 2
+        x: 1220
+        y: 886
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9410908d5693918e0800000000000000
+      internalID: -1722282272913555127
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_228
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 799
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 24ca660eededbeed0800000000000000
+      internalID: -2383566528933614526
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_229
+      rect:
+        serializedVersion: 2
+        x: 89
+        y: 799
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e9f2ce4c00e924120800000000000000
+      internalID: 2396651677855526814
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_230
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 799
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e7a660c6c7df50d80800000000000000
+      internalID: -8284937228648027522
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_231
+      rect:
+        serializedVersion: 2
+        x: 263
+        y: 799
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2cb254616112ef010800000000000000
+      internalID: 1224452527437982658
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_232
+      rect:
+        serializedVersion: 2
+        x: 350
+        y: 799
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e9831eb5af186efd0800000000000000
+      internalID: -2313018446324877154
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_233
+      rect:
+        serializedVersion: 2
+        x: 437
+        y: 799
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0ea6e814f83efb950800000000000000
+      internalID: 6467137794347002592
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_234
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 799
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d30035e8a3e859500800000000000000
+      internalID: 402384123866579005
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_235
+      rect:
+        serializedVersion: 2
+        x: 611
+        y: 799
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6e0594a8edce0ebc0800000000000000
+      internalID: -3755741648680038170
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_236
+      rect:
+        serializedVersion: 2
+        x: 698
+        y: 799
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9ea0b5b81125cb5a0800000000000000
+      internalID: -6504233526523917591
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_237
+      rect:
+        serializedVersion: 2
+        x: 785
+        y: 799
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0891e1184dd88c9a0800000000000000
+      internalID: -6212559742118782592
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_238
+      rect:
+        serializedVersion: 2
+        x: 872
+        y: 799
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 18f9d5f551b0dfcc0800000000000000
+      internalID: -3675769534442266751
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_239
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 712
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d56f6390587e2db80800000000000000
+      internalID: -8371374198757067171
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_240
+      rect:
+        serializedVersion: 2
+        x: 89
+        y: 712
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b564a310b758fd5b0800000000000000
+      internalID: -5341403869690050981
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_241
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 712
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5b05e80be271b0950800000000000000
+      internalID: 6416247583417454773
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_242
+      rect:
+        serializedVersion: 2
+        x: 263
+        y: 712
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3f25df31e031c40d0800000000000000
+      internalID: -3437351464404692237
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_243
+      rect:
+        serializedVersion: 2
+        x: 350
+        y: 712
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b34f6b3bd90f7d220800000000000000
+      internalID: 2510739877397984315
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_244
+      rect:
+        serializedVersion: 2
+        x: 437
+        y: 712
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 903962d0ca820a410800000000000000
+      internalID: 1486232596452381449
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_245
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 625
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3ce58664fa37f65e0800000000000000
+      internalID: -1914184119971455293
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_246
+      rect:
+        serializedVersion: 2
+        x: 89
+        y: 625
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: edbb8d2a630e95220800000000000000
+      internalID: 2475255995481766878
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_247
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 625
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 041359800c70b2840800000000000000
+      internalID: 5200258716088480064
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_248
+      rect:
+        serializedVersion: 2
+        x: 263
+        y: 625
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ebf8f9878edad4460800000000000000
+      internalID: 7227624190967254974
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_249
+      rect:
+        serializedVersion: 2
+        x: 350
+        y: 625
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f71f58125829d82b0800000000000000
+      internalID: -5580643262751444609
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_250
+      rect:
+        serializedVersion: 2
+        x: 437
+        y: 625
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: de4e64150bedf3300800000000000000
+      internalID: 234150554505766125
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_251
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 625
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ffccdaa0ac4b92a90800000000000000
+      internalID: -7338135337967956737
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_252
+      rect:
+        serializedVersion: 2
+        x: 611
+        y: 625
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6a50739d00af33010800000000000000
+      internalID: 1167551609970296230
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_253
+      rect:
+        serializedVersion: 2
+        x: 698
+        y: 625
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e5aafc0e07b957f40800000000000000
+      internalID: 5725653410381802078
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_254
+      rect:
+        serializedVersion: 2
+        x: 785
+        y: 625
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fdd2b4c947e2441c0800000000000000
+      internalID: -4520437047599878689
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_255
+      rect:
+        serializedVersion: 2
+        x: 872
+        y: 625
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aad547764de320da0800000000000000
+      internalID: -5980148273204929110
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_256
+      rect:
+        serializedVersion: 2
+        x: 959
+        y: 625
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 20afb63f5137c8e20800000000000000
+      internalID: 3354182360599624194
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_257
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 538
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d797587223576d010800000000000000
+      internalID: 1213286007894800765
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_258
+      rect:
+        serializedVersion: 2
+        x: 89
+        y: 538
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 569101b12f274f430800000000000000
+      internalID: 3815801168451344741
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_259
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 538
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 624fad3bc70a278a0800000000000000
+      internalID: -6308803670538783706
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_260
+      rect:
+        serializedVersion: 2
+        x: 263
+        y: 538
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3cf8f192ead3a5230800000000000000
+      internalID: 3628280268023893955
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_261
+      rect:
+        serializedVersion: 2
+        x: 350
+        y: 538
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 810cd8d6a266f47b0800000000000000
+      internalID: -5237855509195931624
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_262
+      rect:
+        serializedVersion: 2
+        x: 437
+        y: 538
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dab0b6f58712c17c0800000000000000
+      internalID: -4099364759933350995
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_263
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 538
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ae13a5d24e9d23ab0800000000000000
+      internalID: -5029718259782766102
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_264
+      rect:
+        serializedVersion: 2
+        x: 611
+        y: 538
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 57a0ac9d1b3658390800000000000000
+      internalID: -7816731962717369739
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_265
+      rect:
+        serializedVersion: 2
+        x: 698
+        y: 538
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 082c4a030addbd3a0800000000000000
+      internalID: -6639469545547054464
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_266
+      rect:
+        serializedVersion: 2
+        x: 785
+        y: 538
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b0b6714eb34c94750800000000000000
+      internalID: 6289774116108462859
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_267
+      rect:
+        serializedVersion: 2
+        x: 872
+        y: 538
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f5151923551f66d50800000000000000
+      internalID: 6730332041374683487
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_268
+      rect:
+        serializedVersion: 2
+        x: 959
+        y: 538
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6d5198e9c4df67920800000000000000
+      internalID: 2987853908326028758
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_269
+      rect:
+        serializedVersion: 2
+        x: 1046
+        y: 538
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c37c2eabc92b50d10800000000000000
+      internalID: 2091273988203530044
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_270
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 451
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3fb0498d5e2baa110800000000000000
+      internalID: 1273026544936422387
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_271
+      rect:
+        serializedVersion: 2
+        x: 89
+        y: 451
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5eefb0a67ec669b60800000000000000
+      internalID: 7752503549737303781
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_272
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 451
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 803092a9e51627610800000000000000
+      internalID: 1617462275120628488
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_273
+      rect:
+        serializedVersion: 2
+        x: 263
+        y: 451
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0a668a497d608a700800000000000000
+      internalID: 551698477334685344
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_274
+      rect:
+        serializedVersion: 2
+        x: 350
+        y: 451
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 77d52a30de9516990800000000000000
+      internalID: -7394530238662550153
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_275
+      rect:
+        serializedVersion: 2
+        x: 437
+        y: 451
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4d1434751196ecd50800000000000000
+      internalID: 6759455613929079252
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_276
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 451
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 27ba1e170b56d9af0800000000000000
+      internalID: -388042184384730254
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_277
+      rect:
+        serializedVersion: 2
+        x: 611
+        y: 451
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a9ad934cd926c2770800000000000000
+      internalID: 8587347019230206618
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_278
+      rect:
+        serializedVersion: 2
+        x: 698
+        y: 451
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8fbdf1a8cb3c17750800000000000000
+      internalID: 6301032568206646264
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_279
+      rect:
+        serializedVersion: 2
+        x: 785
+        y: 451
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 113adf24cebb3cdd0800000000000000
+      internalID: -2466921547458305263
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_280
+      rect:
+        serializedVersion: 2
+        x: 872
+        y: 451
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f8d26b47db5751f50800000000000000
+      internalID: 6851511864681442703
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_281
+      rect:
+        serializedVersion: 2
+        x: 959
+        y: 451
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bf27f6383ac0d99a0800000000000000
+      internalID: -6224805213531835653
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_282
+      rect:
+        serializedVersion: 2
+        x: 1046
+        y: 451
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0d91881a23cd74960800000000000000
+      internalID: 7586274207345416656
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_283
+      rect:
+        serializedVersion: 2
+        x: 1133
+        y: 451
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a953052fdf26fc790800000000000000
+      internalID: -7507673210971736678
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_284
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 364
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f8db2e0bcc2356340800000000000000
+      internalID: 4856343627911314831
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_285
+      rect:
+        serializedVersion: 2
+        x: 698
+        y: 364
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9c2812d7a1dcff320800000000000000
+      internalID: 2594017424040886985
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_286
+      rect:
+        serializedVersion: 2
+        x: 1046
+        y: 364
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6e41bf46fbc55ae10800000000000000
+      internalID: 2208273169397781734
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Abilities Icons (Inactive)_287
+      rect:
+        serializedVersion: 2
+        x: 1133
+        y: 364
+        width: 87
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e1ef0fa76f5bd3a60800000000000000
+      internalID: 7655475011828907550
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

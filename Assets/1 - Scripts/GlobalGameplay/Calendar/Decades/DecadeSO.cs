@@ -11,7 +11,7 @@ public class DecadeSO : ScriptableObject
     [TextArea(2, 4)]
     public string decadeDescription;
 
-    public BoostType boostType;
+    public BoostFromType boostType;
     public float value;
     public bool isPercentType = true;
 

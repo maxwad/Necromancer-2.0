@@ -1,12 +1,13 @@
-using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static NameManager;
 
 public class BattleManager : MonoBehaviour
 {
     private BattleResult battleResultUI;
     private Autobattle autobattle;
-    private PlayerMilitaryWindow playerArmyWindow;
+    private PlayerPersonalWindow playerArmyWindow;
 
     [SerializeField] private int sizeMapX = 50;
     [SerializeField] private int sizeMapY = 50;
@@ -65,9 +66,18 @@ public class BattleManager : MonoBehaviour
     {
         if(isAutobattle == false) GlobalStorage.instance.ChangePlayMode(true);
 
-        battleResultUI.Init(result, percentOfReward, currentEnemyArmyOnTheMap, currentArmy);
-    }    
+        StartCoroutine(WaitGlobalMode(result, percentOfReward));
+    }
 
+    private IEnumerator WaitGlobalMode(int result, float percentOfReward)
+    {
+        while(GlobalStorage.instance.isGlobalMode == false)
+        {
+            yield return null;
+        }
+
+        battleResultUI.Init(result, percentOfReward, currentEnemyArmyOnTheMap, currentArmy);
+    }
     #endregion
 
     public void PrepairToTheBattle(Army army, EnemyArmyOnTheMap currentEnemyArmy)
@@ -78,12 +88,12 @@ public class BattleManager : MonoBehaviour
         currentEnemies = army.squadList;
         currentEnemiesQuantity = army.quantityList;
 
-        playerArmyWindow.OpenWindow(1, currentEnemyArmy);
+        playerArmyWindow.OpenWindow(PlayersWindow.Battle, currentEnemyArmy);
     }
 
     public void ReopenPreBattleWindow()
     {
-        playerArmyWindow.OpenWindow(1, currentEnemyArmyOnTheMap);
+        playerArmyWindow.OpenWindow(PlayersWindow.Battle, currentEnemyArmyOnTheMap);
     }
 
     public void AutoBattle()

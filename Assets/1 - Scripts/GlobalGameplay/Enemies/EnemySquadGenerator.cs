@@ -22,11 +22,11 @@ public class EnemySquadGenerator : MonoBehaviour
     private float playerLevel;
     private float countOfSquad;
     private float sizeOfSquadMultiplier;
-    private float maxCountOfSquad = 12; //because enemy UI window size allow only 12 squads
-    private float enemyQuantityDivider = 2;
-    private float enemySizeDivider = 5;
-    private float enemyPortion = 100;
-    private float percentGap = 0.2f;
+    public float maxCountOfSquad = 12; //because enemy UI window size allow only 12 squads
+    public float enemyQuantityDivider = 2;
+    public float enemySizeDivider = 5;
+    public float enemyPortion = 100;
+    public float percentGap = 0.2f;
 
     public void SetAllEnemiesList(List<GameObject> enemies)
     {

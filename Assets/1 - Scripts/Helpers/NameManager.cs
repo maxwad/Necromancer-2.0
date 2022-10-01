@@ -157,6 +157,7 @@ public static class NameManager
         NegativeCell,
         MedicAltar,
         DoubleBonusFromBox,
+        ExtraMovementPoints,
 
         MedicTry,
         Curiosity,
@@ -204,7 +205,7 @@ public static class NameManager
         Spell, Calendar
     }
 
-    public enum BoostType
+    public enum BoostFromType
     {
         Hiring,
         ResourcesBilding,
@@ -279,6 +280,22 @@ public static class NameManager
         Movement,
         Action,
         Enter
+    }
+
+    public enum StatBoostType
+    {
+        Bool, Step, Percent, Value
+    }
+
+    public enum PlayersWindow
+    {
+        PlayersArmy,
+        Battle,
+        Tomb,
+        Spells,
+        MicroLevelUp,
+        MacroLevelUp,
+        Nothing
     }
 
 

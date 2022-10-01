@@ -37,7 +37,7 @@ public class CameraSwitcher : MonoBehaviour
         globalCameraMode.SetGlobalCamera(globalCameraPosition, globalCameraRotation, globalCameraSize, globalPlayer);
     }
 
-    private void FadeIn(bool mode)
+    public void FadeIn(bool mode)
     {
         StartCoroutine(StartFadeIn(mode));
     }
@@ -85,7 +85,7 @@ public class CameraSwitcher : MonoBehaviour
         }
 
         yield return bigWait;
-        EventManager.OnChangePlayerEvent(mode);
+        GlobalStorage.instance.SetGlobalMode(mode);
         yield return bigWait;
 
         while (alfa > 0)

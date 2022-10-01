@@ -138,13 +138,13 @@ public class BonusManager : MonoBehaviour
 
     private void OnEnable()
     {
-        EventManager.ChangePlayer += ClearBonusList;
+        EventManager.SwitchPlayer += ClearBonusList;
         EventManager.ExpEnough += ExpEnough;
     }
 
     private void OnDisable()
     {
-        EventManager.ChangePlayer -= ClearBonusList;
+        EventManager.SwitchPlayer -= ClearBonusList;
         EventManager.ExpEnough -= ExpEnough;
     }
 }
