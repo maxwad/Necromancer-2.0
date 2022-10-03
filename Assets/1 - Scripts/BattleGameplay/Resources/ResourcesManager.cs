@@ -7,6 +7,7 @@ public class ResourcesManager : MonoBehaviour
 {
     private GMInterface gmInterface;
     private PlayerStats playerStats;
+    private MacroLevelUpManager macroLevelUpManager;
 
     public float startGold   = 100;
     public float startFood   = 100;
@@ -38,6 +39,7 @@ public class ResourcesManager : MonoBehaviour
     {
         gmInterface = GlobalStorage.instance.gmInterface;
         playerStats = GlobalStorage.instance.playerStats;
+        macroLevelUpManager = GlobalStorage.instance.macroLevelUpManager;
 
         resourcesIcons = new Dictionary<ResourceType, Sprite>()
         {
@@ -80,10 +82,10 @@ public class ResourcesManager : MonoBehaviour
     {
         //just for testing
         if(Input.GetKeyDown(KeyCode.KeypadEnter) == true)
-            ChangeResource(ResourceType.Mana, -10);
+            ChangeResource(ResourceType.Exp, 100);
 
         if(Input.GetKeyDown(KeyCode.KeypadPlus) == true)
-            ChangeResource(ResourceType.Mana, 7);
+            ChangeResource(ResourceType.Exp, 500);
     }
 
     public float GetResource(ResourceType type)
@@ -119,7 +121,11 @@ public class ResourcesManager : MonoBehaviour
 
     public void ChangeResource(ResourceType type, float value)
     {
-        if(type == ResourceType.Exp) return;
+        if(type == ResourceType.Exp)
+        {
+            macroLevelUpManager.AddExp(value);
+            return;
+        }
 
         float realValue = value;
 

@@ -49,6 +49,9 @@ public class PlayerPersonalWindow : MonoBehaviour
     private PlayersWindow currentMode = PlayersWindow.Nothing;
     private KeyCode lastPressedKey;
 
+    private KeyCode currentKeyCode;
+    private PlayersWindow currentWindow;
+
     private void Start()
     {
         autobattleButtonComponent = autobattleButton.GetComponent<Button>();
@@ -87,48 +90,95 @@ public class PlayerPersonalWindow : MonoBehaviour
         //    if(MenuManager.instance.isGamePaused == false && GlobalStorage.instance.isModalWindowOpen == false)
         //        OpenWindow(PlayersWindow.Spells);
         //}
-        if(MenuManager.instance.isGamePaused == false && GlobalStorage.instance.isModalWindowOpen == false)
+
+        if(Input.GetKeyDown(KeyCode.I))
         {
-            KeyCode currentKeyCode;
-            PlayersWindow currentWindow;
+            currentKeyCode = KeyCode.I;
+            currentWindow = PlayersWindow.PlayersArmy;
+        }
+        else if(Input.GetKeyDown(KeyCode.H))
+        {
+            currentKeyCode = KeyCode.H;
+            currentWindow = PlayersWindow.MacroLevelUp;
+        }
+        else if(Input.GetKeyDown(KeyCode.U))
+        {
+            currentKeyCode = KeyCode.U;
+            currentWindow = PlayersWindow.MicroLevelUp;
+        }
+        else if(Input.GetKeyDown(KeyCode.O))
+        {
+            currentKeyCode = KeyCode.O;
+            currentWindow = PlayersWindow.Spells;
+        }
+        else
+        {
+            return;
+        }
 
-            if(Input.GetKeyDown(KeyCode.I))
+        if(isWindowOpened == false)
+        {
+            if(MenuManager.instance.isGamePaused == false && GlobalStorage.instance.isModalWindowOpen == false)
             {
-                currentKeyCode = KeyCode.I;
-                currentWindow = PlayersWindow.PlayersArmy;
-            }
-            else if(Input.GetKeyDown(KeyCode.H))
-            {
-                currentKeyCode = KeyCode.H;
-                currentWindow = PlayersWindow.MacroLevelUp;
-            }
-            else if(Input.GetKeyDown(KeyCode.U))
-            {
-                currentKeyCode = KeyCode.U;
-                currentWindow = PlayersWindow.MicroLevelUp;
-            }
-            else if(Input.GetKeyDown(KeyCode.O))
-            {
-                currentKeyCode = KeyCode.O;
-                currentWindow = PlayersWindow.Spells;
-            }
-            else
-            {
-                return;
-            }
-
-            if(isWindowOpened == false)
-            {
-                lastPressedKey = currentKeyCode;
                 OpenWindow(currentWindow);
+                lastPressedKey = currentKeyCode;
             }
+        }
+        else
+        {
+            if(lastPressedKey == currentKeyCode)
+                CloseWindow();
             else
             {
-                if(lastPressedKey == currentKeyCode)
-                    CloseWindow();
-                else
-                    HandlingTabs(currentWindow);
+                HandlingTabs(currentWindow);
+                lastPressedKey = currentKeyCode;
             }
+        }
+
+
+
+        //if(MenuManager.instance.isGamePaused == false && GlobalStorage.instance.isModalWindowOpen == false)
+        //{
+        //    KeyCode currentKeyCode;
+        //    PlayersWindow currentWindow;
+
+        //    if(Input.GetKeyDown(KeyCode.I))
+        //    {
+        //        currentKeyCode = KeyCode.I;
+        //        currentWindow = PlayersWindow.PlayersArmy;
+        //    }
+        //    else if(Input.GetKeyDown(KeyCode.H))
+        //    {
+        //        currentKeyCode = KeyCode.H;
+        //        currentWindow = PlayersWindow.MacroLevelUp;
+        //    }
+        //    else if(Input.GetKeyDown(KeyCode.U))
+        //    {
+        //        currentKeyCode = KeyCode.U;
+        //        currentWindow = PlayersWindow.MicroLevelUp;
+        //    }
+        //    else if(Input.GetKeyDown(KeyCode.O))
+        //    {
+        //        currentKeyCode = KeyCode.O;
+        //        currentWindow = PlayersWindow.Spells;
+        //    }
+        //    else
+        //    {
+        //        return;
+        //    }
+
+        //    if(isWindowOpened == false)
+        //    {
+        //        lastPressedKey = currentKeyCode;
+        //        OpenWindow(currentWindow);
+        //    }
+        //    else
+        //    {
+        //        if(lastPressedKey == currentKeyCode)
+        //            CloseWindow();
+        //        else
+        //            HandlingTabs(currentWindow);
+        //    }
 
 
             //if(Input.GetKeyDown(KeyCode.I))
@@ -194,7 +244,7 @@ public class PlayerPersonalWindow : MonoBehaviour
             //            HandlingTabs(PlayersWindow.Spells);
             //    }
             //}
-        }
+        //}
 
 
 

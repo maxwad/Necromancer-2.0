@@ -198,7 +198,6 @@ public class HeroController : MonoBehaviour
                         battleUIManager.TempLevelUp(currentTempLevel);
                         currentTempLevel++;
 
-                        //EventManager.OnUpgradeTempLevelEvent(currentTempLevel);
                         if(currentTempLevel != currentMaxLevel)
                         {
                             currentTempExp = 0;

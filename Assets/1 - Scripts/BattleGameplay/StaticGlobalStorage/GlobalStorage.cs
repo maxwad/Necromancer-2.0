@@ -8,14 +8,15 @@ public class GlobalStorage : MonoBehaviour
     [HideInInspector] public static GlobalStorage instance;
 
     [Header("Managers")]
+    public ObjectsPoolManager objectsPoolManager;
     public MenuManager menuManager;
     public UnitManager unitManager;
     public UnitBoostManager unitBoostManager;
-    public PlayerBoostManager playerBoostManager;
     public BattleManager battleManager;
     public EnemyManager enemyManager;
     public PlayerManager playerManager;
-    public ObjectsPoolManager objectsPoolManager;
+    public MacroLevelUpManager macroLevelUpManager;
+    public PlayerBoostManager playerBoostManager;
     public BonusManager bonusManager;
     public ResourcesManager resourcesManager;
     public InfirmaryManager infirmaryManager;
