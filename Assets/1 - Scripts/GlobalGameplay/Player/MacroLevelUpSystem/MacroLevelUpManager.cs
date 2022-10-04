@@ -16,7 +16,7 @@ public class MacroLevelUpManager : MonoBehaviour
 
     private void Start()
     {
-        maxLevel = GlobalStorage.instance.playerStats.GetMaxParameter(PlayersStats.Level);
+        maxLevel = GlobalStorage.instance.playerStats.GetCurrentParameter(PlayersStats.Level);
         newLevelUI = GlobalStorage.instance.gmInterface.gameObject.GetComponent<NewMacroLevelUI>();
 
         //for(int i = 0; i < 11; i++)
@@ -39,9 +39,6 @@ public class MacroLevelUpManager : MonoBehaviour
         {
             currentExp += value;
         }
-
-        Debug.Log("Now you have " + currentExp + " exp");
-
     }
 
     private void UpgradeTempExpGoal()
@@ -50,7 +47,7 @@ public class MacroLevelUpManager : MonoBehaviour
         currentExp = 0;
         currentExpGoal = Mathf.Pow(((currentLevel) / standartExpRate), levelMultiplierRate);
 
-        if(currentLevel != 1) newLevelUI.Init(currentLevel);
+        if(currentLevel != 1) newLevelUI.Init(true, currentLevel, this);
 
         Debug.Log("Now you need " + currentExpGoal + " exp for " + (currentLevel + 1) + " level.");
     }
@@ -60,5 +57,10 @@ public class MacroLevelUpManager : MonoBehaviour
         abilityPoints = (mode == true) ? abilityPoints++ : ( (abilityPoints <= 0) ? 0 : abilityPoints--);
 
         Debug.Log("You have " + abilityPoints + " points");
+    }
+
+    public void GetNewAbility(MacroAbilitySO newAbility)
+    {
+
     }
 }

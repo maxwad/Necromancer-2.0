@@ -37,7 +37,6 @@ public class BattleResult : MonoBehaviour
     private RectTransform rectContainer;
 
     [SerializeField] private CanvasGroup canvas;
-    private float currentAlfa = 0;
     private float step = 0.1f;
 
     public TMP_Text caption;

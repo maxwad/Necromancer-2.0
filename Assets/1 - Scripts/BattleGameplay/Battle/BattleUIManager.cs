@@ -289,7 +289,7 @@ public class BattleUIManager : MonoBehaviour
 
         currentScaleValueImage.fillAmount = 0;
         currentScaleTempLevelValueImage.fillAmount = 0;
-        currentMaxLevel = playerStats.GetMaxParameter(PlayersStats.Level);
+        currentMaxLevel = playerStats.GetCurrentParameter(PlayersStats.Level);
 
         heigthOneLevel = currentTempLevelWrapper.rect.height / currentMaxLevel;
 
@@ -335,7 +335,7 @@ public class BattleUIManager : MonoBehaviour
         Color blinkColor = infirmaryUpColor;
         if(max == 0)
         {
-            currentMaxInfirmaryCount = playerStats.GetMaxParameter(PlayersStats.Infirmary);
+            currentMaxInfirmaryCount = playerStats.GetCurrentParameter(PlayersStats.Infirmary);
             currentInfirmaryCount = GlobalStorage.instance.infirmaryManager.injuredList.Count;
         }
         else

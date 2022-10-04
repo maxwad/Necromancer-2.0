@@ -11,8 +11,6 @@ public class SquadtipManager : MonoBehaviour
     public Squadtip squadTip;
     private RectTransform rectTransform;
     private CanvasGroup canvas;
-    private Coroutine coroutine;
-    private float step = 0.1f;
 
     private float heigthForUnit = 490f;
     private float heigthForEnemy = 390f;
@@ -53,23 +51,5 @@ public class SquadtipManager : MonoBehaviour
         instance.squadTip.gameObject.SetActive(true);
 
         Fading.instance.FadeWhilePause(true, instance.canvas);
-        //if(instance.coroutine != null) instance.StopCoroutine(instance.coroutine);
-        //instance.coroutine = instance.StartCoroutine(instance.ShowWindow());
     }
-
-    //private IEnumerator ShowWindow()
-    //{
-    //    WaitForSecondsRealtime delay = new WaitForSecondsRealtime(step * 0.1f);
-
-    //    float start = 0;
-    //    float end = 1;
-
-    //    instance.canvas.alpha = start;
-
-    //    while(instance.canvas.alpha < end)
-    //    {
-    //        instance.canvas.alpha += step;
-    //        yield return delay;
-    //    }
-    //}
 }

@@ -119,15 +119,12 @@ public class GMInterface : MonoBehaviour
         resourceCounters[type].text = value.ToString();
     }
 
-    private void UpdateCurrentMoves(PlayersStats stat, float maxValue, float currentValue)
+    public void UpdateCurrentMoves( float currentValue)
     {
-        if(stat == PlayersStats.MovementDistance) 
-        {
-            currentMovesCount.text = currentValue.ToString();
+        currentMovesCount.text = currentValue.ToString();
 
-            bool mode = (currentValue == 0) ? true : false;
-            nextDayBtnAnimator.SetBool(TagManager.A_BLINK, mode);            
-        }
+        bool mode = (currentValue == 0) ? true : false;
+        nextDayBtnAnimator.SetBool(TagManager.A_BLINK, mode);         
     }
 
     public void UpdateCalendar(CalendarData data)
@@ -152,7 +149,7 @@ public class GMInterface : MonoBehaviour
     private void OnEnable()
     {
         EventManager.UpgradeResource += FillResource;
-        EventManager.UpgradeStatCurrentValue += UpdateCurrentMoves;
+        //EventManager.UpgradeStatCurrentValue += UpdateCurrentMoves;
         EventManager.SwitchPlayer += EnableUI;
     }
 
@@ -160,6 +157,6 @@ public class GMInterface : MonoBehaviour
     {
         EventManager.SwitchPlayer -= EnableUI;
         EventManager.UpgradeResource -= FillResource;
-        EventManager.UpgradeStatCurrentValue -= UpdateCurrentMoves;
+        //EventManager.UpgradeStatCurrentValue -= UpdateCurrentMoves;
     }
 }

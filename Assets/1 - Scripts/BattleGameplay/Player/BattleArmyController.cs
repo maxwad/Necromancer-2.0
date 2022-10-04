@@ -70,7 +70,7 @@ public class BattleArmyController : MonoBehaviour
     {
         if(playerStats == null) playerStats = GlobalStorage.instance.playerStats;
 
-        speed = playerStats.GetMaxParameter(PlayersStats.Speed);
+        speed = playerStats.GetCurrentParameter(PlayersStats.Speed);
 
         EventManager.SetNewPlayerStat += UpgradeSpeed;
     }

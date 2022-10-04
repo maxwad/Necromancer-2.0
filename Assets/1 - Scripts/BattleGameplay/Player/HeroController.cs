@@ -239,7 +239,7 @@ public class HeroController : MonoBehaviour
 
         if(mode == false)
         {
-            currentMaxLevel = playerStats.GetMaxParameter(PlayersStats.Level);
+            currentMaxLevel = playerStats.GetCurrentParameter(PlayersStats.Level);
             EventManager.OnExpEnoughEvent(false);
             UpgradeTempExpGoal();
         }

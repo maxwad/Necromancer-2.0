@@ -7,6 +7,7 @@ using static NameManager;
 public class GMPlayerMovement : MonoBehaviour
 {
     private PlayerStats playerStats;
+    private GMInterface gmInterface;
     private float movementPointsMax = 0;
     private float currentMovementPoints = 0;
     private float viewRadius = 0;
@@ -28,12 +29,14 @@ public class GMPlayerMovement : MonoBehaviour
     {
         sprite = GetComponent<SpriteRenderer>();
         playerStats = GlobalStorage.instance.playerStats;
+        gmInterface = GlobalStorage.instance.gmInterface;
         gmPathFinder = GlobalStorage.instance.globalMap.GetComponent<GlobalMapPathfinder>();
         positionChecker = GetComponent<GMPlayerPositionChecker>();
         SetParameters();
         currentMovementPoints = movementPointsMax;
         currentPosition = gameObject.transform.position;
-        EventManager.OnUpgradeStatCurrentValueEvent(PlayersStats.MovementDistance, movementPointsMax, currentMovementPoints);
+        gmInterface.UpdateCurrentMoves(currentMovementPoints);
+        //EventManager.OnUpgradeStatCurrentValueEvent(PlayersStats.MovementDistance, movementPointsMax, currentMovementPoints);
     }
 
     public Vector3 GetCurrentPosition()
@@ -43,8 +46,8 @@ public class GMPlayerMovement : MonoBehaviour
 
     private void SetParameters()
     {
-        movementPointsMax = playerStats.GetMaxParameter(PlayersStats.MovementDistance);
-        viewRadius = playerStats.GetMaxParameter(PlayersStats.RadiusView);
+        movementPointsMax = playerStats.GetCurrentParameter(PlayersStats.MovementDistance);
+        viewRadius = playerStats.GetCurrentParameter(PlayersStats.RadiusView);
     }
 
     public float[] GetParametres()
@@ -66,7 +69,8 @@ public class GMPlayerMovement : MonoBehaviour
             }
 
             currentMovementPoints = movementPointsMax;
-            EventManager.OnUpgradeStatCurrentValueEvent(PlayersStats.MovementDistance, movementPointsMax, currentMovementPoints);
+            gmInterface.UpdateCurrentMoves(currentMovementPoints);
+            //EventManager.OnUpgradeStatCurrentValueEvent(PlayersStats.MovementDistance, movementPointsMax, currentMovementPoints);
             if(gmPathFinder != null) gmPathFinder.RefreshPath(currentPosition, currentMovementPoints);
         }
     }    
@@ -108,7 +112,8 @@ public class GMPlayerMovement : MonoBehaviour
 
             if(currentMovementPoints == 0) break;
             currentMovementPoints--;
-            EventManager.OnUpgradeStatCurrentValueEvent(PlayersStats.MovementDistance, movementPointsMax, currentMovementPoints);
+            gmInterface.UpdateCurrentMoves(currentMovementPoints);
+            //EventManager.OnUpgradeStatCurrentValueEvent(PlayersStats.MovementDistance, movementPointsMax, currentMovementPoints);
 
             gmPathFinder.ClearRoadTile(pathPoints[i - 1]);
             gmPathFinder.CheckFog(viewRadius);

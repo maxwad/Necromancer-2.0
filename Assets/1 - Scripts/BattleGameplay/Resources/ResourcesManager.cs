@@ -69,11 +69,11 @@ public class ResourcesManager : MonoBehaviour
 
     private void Start()
     {
-        maxMana = playerStats.GetMaxParameter(PlayersStats.Mana);
+        maxMana = playerStats.GetCurrentParameter(PlayersStats.Mana);
         resourcesDict[ResourceType.Mana] = maxMana;
         EventManager.OnUpgradeResourceEvent(ResourceType.Mana, resourcesDict[ResourceType.Mana]);
 
-        maxHealth = playerStats.GetMaxParameter(PlayersStats.Health);
+        maxHealth = playerStats.GetCurrentParameter(PlayersStats.Health);
         resourcesDict[ResourceType.Health] = maxHealth;
         EventManager.OnUpgradeResourceEvent(ResourceType.Health, resourcesDict[ResourceType.Health]);
     }

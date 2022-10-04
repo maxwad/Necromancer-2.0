@@ -14,7 +14,7 @@ public class InfirmaryManager : MonoBehaviour
     private void Start()
     {
         playerStats = GlobalStorage.instance.playerStats;
-        currentCapacity = playerStats.GetMaxParameter(PlayersStats.Infirmary);
+        currentCapacity = playerStats.GetCurrentParameter(PlayersStats.Infirmary);
     }
 
     private void SetStartInfarmary(PlayersStats type, float value)

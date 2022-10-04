@@ -200,18 +200,18 @@ public static class EventManager
 
 
 
-    //calls when we change Mana
-    //
-    //SUBSCRIBERS:
-    // - gmInterface
-    //
-    //ACTIVATION:
-    // - HeroController
-    // - GMPlayerMovement
-    //
-    public delegate void UpgradeStatCurrentValueEvent(PlayersStats stat, float maxValue, float currentValue);
-    public static event UpgradeStatCurrentValueEvent UpgradeStatCurrentValue;
-    public static void OnUpgradeStatCurrentValueEvent(PlayersStats stat, float maxValue, float currentValue) => UpgradeStatCurrentValue?.Invoke(stat, maxValue, currentValue);
+    ////calls when we change Mana
+    ////
+    ////SUBSCRIBERS:
+    //// - gmInterface
+    ////
+    ////ACTIVATION:
+    //// - HeroController
+    //// - GMPlayerMovement
+    ////
+    //public delegate void UpgradeStatCurrentValueEvent(PlayersStats stat, float maxValue, float currentValue);
+    //public static event UpgradeStatCurrentValueEvent UpgradeStatCurrentValue;
+    //public static void OnUpgradeStatCurrentValueEvent(PlayersStats stat, float maxValue, float currentValue) => UpgradeStatCurrentValue?.Invoke(stat, maxValue, currentValue);
 
 
 

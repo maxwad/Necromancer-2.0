@@ -90,57 +90,51 @@ public class PlayerStats : MonoBehaviour
 
         public float baseValue;
         public float currentValue;
-        public float boostValue;
+        public float tempBoostValue;
         public float maxValue;
 
-        public Stat(PlayersStats stat, float baseV = 0, float boost = 0, float max = 0)
+        public Stat(PlayersStats stat, float baseV)
         {
-            playerStat   = stat;
+            playerStat     = stat;
 
-            baseValue    = baseV;
-            currentValue = baseV;
-            boostValue   = boost;
-            maxValue     = max;
+            baseValue      = baseV;
+            currentValue   = baseV;
+            tempBoostValue = 0;
+            maxValue       = baseV;
         }
 
-        public void UpgradeValue(StatBoostType type = StatBoostType.Value)
+        public void UpgradeMaxValue(float value, StatBoostType type = StatBoostType.Value)
         {
             switch(type)
             {
                 case StatBoostType.Bool:
-                    maxValue = 1;
+                    currentValue = 1;
                     break;
 
                 case StatBoostType.Step:
-                    maxValue = baseValue++;
+                    currentValue++;
                     break;
 
                 case StatBoostType.Percent:
-                    if(maxValue == 0)
-                        maxValue += baseValue;
-                    else
-                        maxValue = baseValue + (baseValue * boostValue / 100);
+                    currentValue = baseValue + (baseValue * value / 100);
                     break;
 
                 case StatBoostType.Value:
-                    maxValue += baseValue;
+                    currentValue += value;
                     break;
 
                 default:
                     Debug.Log("Problem with boost " + playerStat);
                     break;
             }
+
+            maxValue = currentValue + tempBoostValue;
         }
 
-        public void SetNewBoost(float value)
+        public void SetTempBoost(float value)
         {
-            boostValue = value;
-            UpgradeValue();
-        }
-
-        public void SetCurrentValue(float value)
-        {
-            currentValue = value;
+            tempBoostValue = value;
+            maxValue = currentValue + currentValue * tempBoostValue;
         }
     }
 
@@ -158,46 +152,36 @@ public class PlayerStats : MonoBehaviour
         foreach(PlayersStats itemStat in Enum.GetValues(typeof(PlayersStats)))
         {
             float baseValue = 0;
-            float maxValue = 0;
-            // type = true - "+"; type = false - "*"
-
 
             switch(itemStat)
             {
                 case PlayersStats.GlobalExp:
-                    baseValue = globalExp;
-                    maxValue = globalExp;                    
+                    baseValue = globalExp;                 
                     //Create new ExpScript for handling xp
                     break;
 
                 case PlayersStats.Level:
                     baseValue = levelBase;
-                    maxValue = levelBase;
                     break;
 
                 case PlayersStats.Health:
                     baseValue = healthBase;
-                    maxValue = healthBase;
                     break;
 
                 case PlayersStats.Mana:
                     baseValue = manaBase;
-                    maxValue = manaBase;
                     break;
 
                 case PlayersStats.Speed:
                     baseValue = speedBase;
-                    maxValue = speedBase;
                     break;
 
                 case PlayersStats.SearchRadius:
                     baseValue = searchRadiusBase;
-                    maxValue = searchRadiusBase;
                     break;
 
                 case PlayersStats.Defence:
                     baseValue = defenceBase;
-                    maxValue = defenceBase;
                     break;
 
                 case PlayersStats.HealthRegeneration:
@@ -205,23 +189,19 @@ public class PlayerStats : MonoBehaviour
 
                 case PlayersStats.Infirmary:
                     baseValue = infarmaryBase;
-                    maxValue = infarmaryBase;
                     break;
 
                 case PlayersStats.MovementDistance:
                     baseValue = movementDistanceBase;
-                    maxValue = movementDistanceBase;
                     break;
 
 
                 case PlayersStats.ExtraMovementPoints:
                     baseValue = extraMovementPointsBase;
-                    maxValue = extraMovementPointsBase;
                     break;
 
                 case PlayersStats.RadiusView:
                     baseValue = radiusViewBase;
-                    maxValue = radiusViewBase;
                     break;
 
                 case PlayersStats.ExtraResourcesProduce:
@@ -229,17 +209,14 @@ public class PlayerStats : MonoBehaviour
 
                 case PlayersStats.Luck:
                     baseValue = luckBase;
-                    maxValue = luckBase;
                     break;
 
                 case PlayersStats.ExtraBoxReward:
                     baseValue = extraBoxRewardBase;
-                    maxValue = extraBoxRewardBase;
                     break;
 
                 case PlayersStats.ExtraExpReward:
                     baseValue = extraExpRewardBase;
-                    maxValue = extraExpRewardBase;
                     break;
 
                 case PlayersStats.Spell:
@@ -253,27 +230,22 @@ public class PlayerStats : MonoBehaviour
 
                 case PlayersStats.DoubleBonusFromBox:
                     baseValue = doudleBonusFromBoxBase;
-                    maxValue = doudleBonusFromBoxBase;
                     break;
 
                 case PlayersStats.MedicTry:
                     baseValue = medicTryBase;
-                    maxValue = medicTryBase;
                     break;
 
                 case PlayersStats.Curiosity:
                     baseValue = curiosityBase;
-                    maxValue = curiosityBase;
                     break;
 
                 case PlayersStats.Portal:
                     baseValue = portalSkillBase;
-                    maxValue = portalSkillBase;
                     break;
 
                 case PlayersStats.ExtraAfterBattleReward:
                     baseValue = extraAfterBattleRewardBase;
-                    maxValue = extraAfterBattleRewardBase;
                     break;
 
                 case PlayersStats.ManaRegeneration:
@@ -287,36 +259,40 @@ public class PlayerStats : MonoBehaviour
                     break;
             }
 
-            allStatsDict.Add(itemStat, new Stat(itemStat, baseValue, 0, maxValue));
+            allStatsDict.Add(itemStat, new Stat(itemStat, baseValue));
         }
     }
 
 
-    private void UpdateBoost(PlayersStats stat, float value)
+    private void UpdateMaxStat(PlayersStats stat, float value)
     {
-        Stat currentStat = allStatsDict[stat];
-        currentStat.SetNewBoost(value);
-        allStatsDict[stat] = currentStat;
+        Stat upgradedStat = allStatsDict[stat];
+        upgradedStat.UpgradeMaxValue(value);
+        allStatsDict[stat] = upgradedStat;
 
-        EventManager.OnSetNewPlayerStatEvent(stat, currentStat.maxValue);
+        EventManager.OnSetNewPlayerStatEvent(stat, upgradedStat.maxValue);
+    }
+    
+    private void AddBoostToStat(PlayersStats stat, float value)
+    {
+        Stat upgradedStat = allStatsDict[stat];
+        upgradedStat.SetTempBoost(value);
+        allStatsDict[stat] = upgradedStat;
+
+        EventManager.OnSetNewPlayerStatEvent(stat, upgradedStat.maxValue);
     }
 
-    private void UpgradeStatCurrentValue(PlayersStats stat, float maxValue, float currentValue)
-    {
-        Stat currentStat = allStatsDict[stat];
-        currentStat.SetCurrentValue(currentValue);
-        allStatsDict[stat] = currentStat;
-    }
+    //private void UpgradeStatCurrentValue(PlayersStats stat, float maxValue, float currentValue)
+    //{
+    //    Stat currentStat = allStatsDict[stat];
+    //    currentStat.SetCurrentValue(currentValue);
+    //    allStatsDict[stat] = currentStat;
+    //}
 
     public void GetAllStartParameters()
     {
         foreach(PlayersStats itemStat in Enum.GetValues(typeof(PlayersStats)))
             EventManager.OnSetNewPlayerStatEvent(itemStat, allStatsDict[itemStat].maxValue);
-    }
-
-    public float GetMaxParameter(PlayersStats stat)
-    {
-        return allStatsDict[stat].maxValue;
     }
 
     public float GetCurrentParameter(PlayersStats stat)
@@ -326,13 +302,13 @@ public class PlayerStats : MonoBehaviour
 
     private void OnEnable()
     {
-        EventManager.SetBoostToStat += UpdateBoost;
-        EventManager.UpgradeStatCurrentValue += UpgradeStatCurrentValue;
+        EventManager.SetBoostToStat += AddBoostToStat;
+        //EventManager.UpgradeStatCurrentValue += UpgradeStatCurrentValue;
     }
 
     private void OnDisable()
     {
-        EventManager.SetBoostToStat -= UpdateBoost;
-        EventManager.UpgradeStatCurrentValue -= UpgradeStatCurrentValue;
+        EventManager.SetBoostToStat -= AddBoostToStat;
+        //EventManager.UpgradeStatCurrentValue -= UpgradeStatCurrentValue;
     }
 }
