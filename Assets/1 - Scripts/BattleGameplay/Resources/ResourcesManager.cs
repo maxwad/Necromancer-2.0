@@ -105,8 +105,30 @@ public class ResourcesManager : MonoBehaviour
     
     private void UpgrateMaxManaHealth(PlayersStats stat, float maxValue)
     {
-        if(stat == PlayersStats.Mana) maxMana = maxValue;
-        if(stat == PlayersStats.Health) maxHealth = maxValue;
+        ResourceType resource = ResourceType.Mana;
+        bool isUpgraded = false;
+
+        if(stat == PlayersStats.Mana) 
+        {
+            resource = ResourceType.Mana;
+            maxMana = maxValue;
+            isUpgraded = true;
+        }
+
+        if(stat == PlayersStats.Health) 
+        {
+            resource = ResourceType.Health;
+            maxHealth = maxValue;
+            isUpgraded = true;
+        }
+
+        if(isUpgraded == true)
+        {
+            resourcesDict[resource] = maxValue;
+            EventManager.OnUpgradeResourceEvent(resource, resourcesDict[resource]);
+        }
+
+        Debug.Log(stat + " = " + maxValue);
     }
 
     public Dictionary<ResourceType, float> GetAllResources()

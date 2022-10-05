@@ -9,6 +9,7 @@ public class BattleUIManager : MonoBehaviour
 {
     public Canvas uiCanvas;
     private PlayerStats playerStats;
+    private MacroLevelUpManager levelManager;
     private ResourcesManager resourcesManager;
     private bool isBattleOver = false;
 
@@ -90,6 +91,7 @@ public class BattleUIManager : MonoBehaviour
     private void Start()
     {
         playerStats = GlobalStorage.instance.playerStats;
+        levelManager = GlobalStorage.instance.macroLevelUpManager;
         resourcesManager = GlobalStorage.instance.resourcesManager;
         healthScale = healthValue.GetComponent<Image>();
         manaScale = manaValue.GetComponent<Image>();
@@ -289,7 +291,7 @@ public class BattleUIManager : MonoBehaviour
 
         currentScaleValueImage.fillAmount = 0;
         currentScaleTempLevelValueImage.fillAmount = 0;
-        currentMaxLevel = playerStats.GetCurrentParameter(PlayersStats.Level);
+        currentMaxLevel = levelManager.GetCurrentLevel();
 
         heigthOneLevel = currentTempLevelWrapper.rect.height / currentMaxLevel;
 

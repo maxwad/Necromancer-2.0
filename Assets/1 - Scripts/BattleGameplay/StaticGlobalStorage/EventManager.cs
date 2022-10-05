@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using static NameManager;
 
 public static class EventManager
@@ -365,18 +364,18 @@ public static class EventManager
 
 
     #region OTHER
-    //calls when we switch between global mode and battle mode
-    //IT USES ONCE! Don't subscribe any script more!
-    //
-    //SUBSCRIBERS:
-    // - CameraManager
-    //
-    //ACTIVATION:
-    // - GlobalStorage
-    //
-    public delegate void ChangePlayModeEvent(bool mode);
-    public static event ChangePlayModeEvent ChangePlayMode;
-    public static void OnChangePlayModeEvent(bool mode) => ChangePlayMode?.Invoke(mode);
+    ////calls when we switch between global mode and battle mode
+    ////IT USES ONCE! Don't subscribe any script more!
+    ////
+    ////SUBSCRIBERS:
+    //// - CameraManager
+    ////
+    ////ACTIVATION:
+    //// - GlobalStorage
+    ////
+    //public delegate void ChangePlayModeEvent(bool mode);
+    //public static event ChangePlayModeEvent ChangePlayMode;
+    //public static void OnChangePlayModeEvent(bool mode) => ChangePlayMode?.Invoke(mode);
 
 
     //calls when we create spell Immortal

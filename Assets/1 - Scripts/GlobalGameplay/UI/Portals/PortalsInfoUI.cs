@@ -33,6 +33,7 @@ public class PortalsInfoUI : MonoBehaviour
     private bool isAccessAllowed = true;
     private float portalsKnowledge = 0;
     private PortalsManager portalsManager;
+    private ResourcesManager resourcesManager;
 
     [SerializeField] private TMP_Text caption;
     [SerializeField] private TMP_Text status;
@@ -84,6 +85,7 @@ public class PortalsInfoUI : MonoBehaviour
         status.text = (isAccessAllowed == false) ? "opened by r-click" : "opened by movement";
 
         portalsKnowledge = GlobalStorage.instance.playerStats.GetCurrentParameter(PlayersStats.Portal);
+        resourcesManager = GlobalStorage.instance.resourcesManager;
         player.GetComponent<RectTransform>().anchoredPosition = CalculateIconPosition(GlobalStorage.instance.globalPlayer.transform.position);
 
         openedPortals = portalsManager.CheckPortal(isAccessAllowed);
@@ -261,7 +263,7 @@ public class PortalsInfoUI : MonoBehaviour
 
     private bool CheckCostOfTeleport(float cost)
     {
-        float currentMana = playerStats.GetCurrentParameter(PlayersStats.Mana);
+        float currentMana = resourcesManager.GetResource(ResourceType.Mana);
 
         return (currentMana >= cost);
     }

@@ -6,6 +6,7 @@ using static NameManager;
 public class HeroController : MonoBehaviour
 {
     private PlayerStats playerStats;
+    private MacroLevelUpManager levelManager;
     private ResourcesManager resourcesManager;
 
     [Header("Level up system")]
@@ -86,10 +87,6 @@ public class HeroController : MonoBehaviour
     {
         switch(stat)
         {
-            case PlayersStats.Level:
-                currentMaxLevel = value;
-                break;
-
             case PlayersStats.SearchRadius:
                 searchRadius = value;
                 break;
@@ -239,7 +236,7 @@ public class HeroController : MonoBehaviour
 
         if(mode == false)
         {
-            currentMaxLevel = playerStats.GetCurrentParameter(PlayersStats.Level);
+            currentMaxLevel = levelManager.GetCurrentLevel();
             EventManager.OnExpEnoughEvent(false);
             UpgradeTempExpGoal();
         }
@@ -265,6 +262,7 @@ public class HeroController : MonoBehaviour
         {
             playerStats = GlobalStorage.instance.playerStats;
             resourcesManager = GlobalStorage.instance.resourcesManager;
+            levelManager = GlobalStorage.instance.macroLevelUpManager;
         }        
 
         ResetTempLevel(false);

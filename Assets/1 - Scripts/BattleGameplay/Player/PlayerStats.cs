@@ -263,8 +263,7 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
-
-    private void UpdateMaxStat(PlayersStats stat, float value)
+    public void UpdateMaxStat(PlayersStats stat, float value)
     {
         Stat upgradedStat = allStatsDict[stat];
         upgradedStat.UpgradeMaxValue(value);

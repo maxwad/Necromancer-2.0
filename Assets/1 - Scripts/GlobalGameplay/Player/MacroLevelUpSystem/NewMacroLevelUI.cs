@@ -23,6 +23,7 @@ public class NewMacroLevelUI : MonoBehaviour
 
     [SerializeField] private GameObject replaceButton;
     [SerializeField] private GameObject laterButton;
+    [SerializeField] private GameObject closeButton;
 
     [SerializeField] private List<LevelUpCard> cardList;
     private List<MacroAbilitySO> abilitiesList;
@@ -35,16 +36,15 @@ public class NewMacroLevelUI : MonoBehaviour
 
     private int countOfVariants = 3;
     private bool isAbilityTaken = false;
-    private int readyForRepalce = 0;
-    private bool isReplacingStarted = false;
-
+    private int readyForReplace = 0;
+    private int readyForTaken = 0;
 
     private void Start()
     {
         abilitiesStorage = GlobalStorage.instance.macroLevelUpManager.GetComponentInChildren<AbilitiesStorage>();
     }
 
-    public void Init(bool bonusesMode, float newLevel, MacroLevelUpManager manager)
+    public void Init(PlayersStats bonusStat, float newLevel, MacroLevelUpManager manager)
     {
         MenuManager.instance.MiniPause(true);
         GlobalStorage.instance.ModalWindowOpen(true);
@@ -56,36 +56,30 @@ public class NewMacroLevelUI : MonoBehaviour
 
         isAbilityTaken = false;
 
-        if(bonusesMode == true)
+        if(bonusStat == PlayersStats.Level)
         {
-            bonusesBlock.SetActive(true);
-            FillHead(newLevel, newLevelBonus, newLevelBonusText);
+            bonusesBlock.SetActive(false);
         }
         else
         {
-            bonusesBlock.SetActive(false);
+            bonusesBlock.SetActive(true);
+            FillHead(newLevel, bonusStat, newLevelBonus, newLevelBonusText);
         }
         
         FillCards(cardList);
     }
 
-    public void FillHead(float level, Image icon, TMP_Text bonusText)
+    public void FillHead(float level, PlayersStats bonus, Image icon, TMP_Text bonusText)
     {
         Sprite sprite;
 
-        if(level % 2 == 0) 
-        {
+        if(bonus == PlayersStats.Health)
             sprite = healthBonus;
-            stat = PlayersStats.Health;
-        }
         else
-        {
             sprite = manaBonus;
-            stat = PlayersStats.Mana;
-        }
 
+        stat = bonus;
         bonusTip.content = "You get " + newLevelBonusAmount + " points of " + stat;
-
 
         newLevelText.text = level.ToString();
         icon.sprite = sprite;
@@ -94,12 +88,14 @@ public class NewMacroLevelUI : MonoBehaviour
 
         //ADD IF
         replaceButton.SetActive(true);
+        laterButton.SetActive(true);
+        closeButton.SetActive(false);
     }
 
     public void FillCards(List<LevelUpCard> list)
     {
-        readyForRepalce = 0;
-        isReplacingStarted = false;
+        readyForReplace = 0;
+        readyForTaken = 0;
 
         abilitiesList = abilitiesStorage.GetAbilitiesForNewLevel(countOfVariants);
 
@@ -117,47 +113,47 @@ public class NewMacroLevelUI : MonoBehaviour
 
         macroLevelUpManager.GetNewAbility(ability);
         isAbilityTaken = true;
-        StartCoroutine(Close());
+        macroLevelUpManager.ChangeAbilityPoints(false);
 
-        IEnumerator Close()
-        {
-            yield return new WaitForSecondsRealtime(1f);
-            Fading.instance.FadeWhilePause(false, canvas);
-            yield return new WaitForSecondsRealtime(1f);
-            CloseWindow();
-        }
+        replaceButton.SetActive(false);
+        laterButton.SetActive(false);
+        closeButton.SetActive(true);
     }
 
+    //button
     public void ReplaceAbilities()
     {
         if(isAbilityTaken == true) return;
 
         replaceButton.SetActive(false);
-        isReplacingStarted = true;
-        foreach(var card in cardList)
-        {
-            card.Replace();
-        }
+        readyForReplace = 0;
+        readyForTaken = 0;
 
+        foreach(var card in cardList)
+            card.Replace();
     }
 
     public void ReadyToReplace()
     {
-        readyForRepalce++;
-        if(readyForRepalce == cardList.Count)
-        {
+        readyForReplace++;
+        if(readyForReplace == cardList.Count)
             FillCards(cardList);
-        }
     }
+
+    public void ReadyForTaken()
+    {
+        readyForTaken++;
+    }
+
+    public bool CheckTakenAbility()
+    {
+        return isAbilityTaken;
+    }
+
 
     public void CloseWindow()
     {
-        if(isReplacingStarted == true) return;
-
-        if(isAbilityTaken == false)
-        {
-
-        }
+        if(readyForTaken != cardList.Count) return;
 
         MenuManager.instance.MiniPause(false);
         GlobalStorage.instance.ModalWindowOpen(false);

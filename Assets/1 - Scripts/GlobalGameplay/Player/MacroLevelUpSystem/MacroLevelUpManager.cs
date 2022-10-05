@@ -3,27 +3,31 @@ using static NameManager;
 
 public class MacroLevelUpManager : MonoBehaviour
 {
+    private PlayerStats playerStats;
+    private NewMacroLevelUI newLevelUI;
+
     private float maxLevel;
-    private float currentLevel = 0;
+    public float currentLevel = 1;
     private float currentExp;
 
     private float standartExpRate = 0.1f;
     private float levelMultiplierRate = 2f;
     private float currentExpGoal;
 
+    [SerializeField] private float newLevelBonusAmount = 5f;
     [HideInInspector] public int abilityPoints = 0;
-    private NewMacroLevelUI newLevelUI;
 
     private void Start()
     {
-        maxLevel = GlobalStorage.instance.playerStats.GetCurrentParameter(PlayersStats.Level);
+        playerStats = GlobalStorage.instance.playerStats;
+        maxLevel = playerStats.GetCurrentParameter(PlayersStats.Level);
         newLevelUI = GlobalStorage.instance.gmInterface.gameObject.GetComponent<NewMacroLevelUI>();
 
         //for(int i = 0; i < 11; i++)
         //{
         //    UpgradeTempExpGoal();
         //}
-        UpgradeTempExpGoal();
+        UpgradeTempExpGoal(false);
     }
 
     public void AddExp(float value)
@@ -32,7 +36,7 @@ public class MacroLevelUpManager : MonoBehaviour
         if(value >= restExp)
         {
             restExp = Mathf.Abs(currentExpGoal - (currentExp + value));
-            UpgradeTempExpGoal();
+            UpgradeTempExpGoal(true);
             AddExp(restExp);
         }
         else
@@ -41,15 +45,24 @@ public class MacroLevelUpManager : MonoBehaviour
         }
     }
 
-    private void UpgradeTempExpGoal()
+    private void UpgradeTempExpGoal(bool levelUpMode)
+    {
+        currentExp = 0;
+        currentExpGoal = Mathf.Pow(((currentLevel + 1) / standartExpRate), levelMultiplierRate);
+        Debug.Log("Now you need " + currentExpGoal + " exp for " + (currentLevel + 1) + " level.");
+
+        if(levelUpMode == true) NewLevel();
+    }
+
+    private void NewLevel()
     {
         currentLevel++;
-        currentExp = 0;
-        currentExpGoal = Mathf.Pow(((currentLevel) / standartExpRate), levelMultiplierRate);
+        ChangeAbilityPoints(true);
 
-        if(currentLevel != 1) newLevelUI.Init(true, currentLevel, this);
+        PlayersStats stat = (currentLevel % 2 == 0) ? PlayersStats.Health : PlayersStats.Mana;
+        playerStats.UpdateMaxStat(stat, newLevelBonusAmount);
 
-        Debug.Log("Now you need " + currentExpGoal + " exp for " + (currentLevel + 1) + " level.");
+        newLevelUI.Init(stat, currentLevel, this);
     }
 
     public void ChangeAbilityPoints(bool mode)
@@ -62,5 +75,10 @@ public class MacroLevelUpManager : MonoBehaviour
     public void GetNewAbility(MacroAbilitySO newAbility)
     {
 
+    }
+
+    public float GetCurrentLevel()
+    {
+        return currentLevel;
     }
 }

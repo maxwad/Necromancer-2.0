@@ -40,8 +40,8 @@ public class LevelUpCard : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         currentAbility = ability;
         openingDelay = openDelay;
 
-        cardRect.rotation = Quaternion.Euler(0, 0, 0);
         StopAllCoroutines();
+        cardRect.rotation = Quaternion.Euler(0, 0, 0);
         border.fillAmount = 1f;
 
         caption.text = currentAbility.abilityName;
@@ -49,8 +49,8 @@ public class LevelUpCard : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         description.text = currentAbility.realDescription;
         fakeDescription.text = currentAbility.fakeDescription;
 
-        cover.SetActive(!isVisible);
-        content.SetActive(isVisible);
+        //cover.SetActive(!isVisible);
+        //content.SetActive(isVisible);
 
         if(isReplacement == true)
         {
@@ -60,13 +60,17 @@ public class LevelUpCard : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             if(isVisible == true)
                 StartCoroutine(TurnCoverCard(true, openingDelay));
             else
+            {
                 canIGetAbility = true;
+                newLevelUI.ReadyForTaken();
+            }                
         }
         else
         {
             cover.SetActive(!isVisible);
             content.SetActive(isVisible);
             canIGetAbility = true;
+            newLevelUI.ReadyForTaken();
         }
     }
 
@@ -81,11 +85,9 @@ public class LevelUpCard : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                     border.fillAmount -= Time.unscaledDeltaTime * 0.5f;
                     if(border.fillAmount <= 0f)
                     {
-                        isTaken = true;                        
-                        if(isVisible == false) 
-                            StartCoroutine(TurnCoverCard(true, -constDelay));
-                        else
-                            newLevelUI.Result(currentAbility);
+                        isTaken = true;
+                        newLevelUI.Result(currentAbility);
+                        if(isVisible == false) StartCoroutine(TurnCoverCard(true, -constDelay));                        
                     }
                 }
             }
@@ -153,7 +155,10 @@ public class LevelUpCard : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             if(isVisible == false)
                 newLevelUI.Result(currentAbility);
             else
-                canIGetAbility = true;
+            {
+                canIGetAbility = !newLevelUI.CheckTakenAbility();
+                newLevelUI.ReadyForTaken();
+            }
 
             isReplacement = false;
         }
@@ -161,7 +166,6 @@ public class LevelUpCard : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         {
             newLevelUI.ReadyToReplace();
         }
-
     }
 
     public void Replace()
@@ -173,10 +177,5 @@ public class LevelUpCard : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             StartCoroutine(TurnCoverCard(false, -constDelay));
         else
             newLevelUI.ReadyToReplace();
-    }
-
-    private IEnumerator Replacement()
-    {
-        yield return new WaitForSecondsRealtime(0.01f);
     }
 }

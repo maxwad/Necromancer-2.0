@@ -37,7 +37,7 @@ public class EnemySquadGenerator : MonoBehaviour
     {
         //we need to separate different strenght od army
 
-        playerLevel = GlobalStorage.instance.playerStats.GetCurrentParameter(PlayersStats.Level);
+        playerLevel = GlobalStorage.instance.macroLevelUpManager.GetCurrentLevel();
 
         countOfSquad = Mathf.Ceil(playerLevel / enemyQuantityDivider);
         if(countOfSquad > maxCountOfSquad) countOfSquad = maxCountOfSquad;
