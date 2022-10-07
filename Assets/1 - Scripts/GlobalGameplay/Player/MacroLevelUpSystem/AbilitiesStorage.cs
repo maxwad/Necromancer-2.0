@@ -91,7 +91,7 @@ public class AbilitiesStorage : MonoBehaviour
             newList.Add(availableDict[randomAbility][0]);
             abilitiesList.Remove(randomAbility);
 
-            Debug.Log("Take " + randomAbility + " level " + availableDict[randomAbility][0].level);
+            //Debug.Log("Take " + randomAbility + " level " + availableDict[randomAbility][0].level);
         }
 
         return newList;

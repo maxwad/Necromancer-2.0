@@ -31,7 +31,7 @@ public class EnemyArmyPart : MonoBehaviour
 
     public void Init(EnemyArmyOnTheMap enemyArmy)
     {
-        GlobalStorage.instance.ModalWindowOpen(true);
+        if(enemyArmy == null) return;
 
         currentEnemyArmy = enemyArmy;
         currentEnemiesList = enemyArmy.army.squadList;

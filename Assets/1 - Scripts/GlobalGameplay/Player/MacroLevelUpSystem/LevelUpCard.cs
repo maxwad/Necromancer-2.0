@@ -7,7 +7,7 @@ using TMPro;
 
 public class LevelUpCard : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
-    private NewMacroLevelUI newLevelUI;
+    private NewSkillUI newLevelUI;
     private MacroAbilitySO currentAbility;
 
     [SerializeField] private GameObject card;
@@ -25,11 +25,12 @@ public class LevelUpCard : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     private bool isMousePressed = false;
     private bool canIGetAbility = false;
     private bool isReplacement = false;
+    public bool isCoroutineStarted = false;
 
     private float openingDelay;
     private float constDelay = 1f;
 
-    public void Init(bool visibilityMode, MacroAbilitySO ability, float openDelay, NewMacroLevelUI levelUI)
+    public void Init(bool visibilityMode, MacroAbilitySO ability, float openDelay, NewSkillUI levelUI)
     {
         card.SetActive(true);
         if(cardRect == null) cardRect = GetComponent<RectTransform>();
@@ -48,9 +49,6 @@ public class LevelUpCard : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         icon.sprite = currentAbility.activeIcon;
         description.text = currentAbility.realDescription;
         fakeDescription.text = currentAbility.fakeDescription;
-
-        //cover.SetActive(!isVisible);
-        //content.SetActive(isVisible);
 
         if(isReplacement == true)
         {
@@ -86,8 +84,10 @@ public class LevelUpCard : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                     if(border.fillAmount <= 0f)
                     {
                         isTaken = true;
-                        newLevelUI.Result(currentAbility);
-                        if(isVisible == false) StartCoroutine(TurnCoverCard(true, -constDelay));                        
+                        if(isVisible == false) 
+                            StartCoroutine(TurnCoverCard(true, -constDelay));
+                        else
+                            newLevelUI.Result(currentAbility);
                     }
                 }
             }
@@ -112,6 +112,7 @@ public class LevelUpCard : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     private IEnumerator TurnCoverCard(bool mode, float delay)
     {
+        isCoroutineStarted = true;
         yield return new WaitForSecondsRealtime(delay + constDelay);
 
         float y = cardRect.localEulerAngles.y;
@@ -166,6 +167,13 @@ public class LevelUpCard : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         {
             newLevelUI.ReadyToReplace();
         }
+
+        isCoroutineStarted = false;
+    }
+
+    public bool CanIClickAnyButton()
+    {
+        return !isCoroutineStarted;
     }
 
     public void Replace()

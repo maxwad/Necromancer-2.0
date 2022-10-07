@@ -1,10 +1,27 @@
+using System.Collections.Generic;
 using UnityEngine;
 using static NameManager;
+
+public struct LevelData
+{
+    public float level;
+    public float currentExp;
+    public float boundExp;
+
+    public LevelData(float lvl, float cExp, float bExp)
+    {
+        level = lvl;
+        currentExp = cExp;
+        boundExp = bExp;
+    }
+}
 
 public class MacroLevelUpManager : MonoBehaviour
 {
     private PlayerStats playerStats;
-    private NewMacroLevelUI newLevelUI;
+    private NewLevelUI newLevelUI;
+    private MacroLevelWindow macroLevelUI;
+    private AbilitiesStorage abilitiesStorage;
 
     private float maxLevel;
     public float currentLevel = 1;
@@ -14,14 +31,22 @@ public class MacroLevelUpManager : MonoBehaviour
     private float levelMultiplierRate = 2f;
     private float currentExpGoal;
 
+    private bool haveIReplaceCardsSkill = true;
+    private bool canIReplaceCurrentCard = true;
+
     [SerializeField] private float newLevelBonusAmount = 5f;
     [HideInInspector] public int abilityPoints = 0;
+    private int countOfAbilitiesVariants = 3;
+
+    [SerializeField] private List<MacroAbilitySO> abilitiesList = new List<MacroAbilitySO>();
 
     private void Start()
     {
         playerStats = GlobalStorage.instance.playerStats;
         maxLevel = playerStats.GetCurrentParameter(PlayersStats.Level);
-        newLevelUI = GlobalStorage.instance.gmInterface.gameObject.GetComponent<NewMacroLevelUI>();
+        newLevelUI = GlobalStorage.instance.gmInterface.gameObject.GetComponent<NewLevelUI>();
+        macroLevelUI = GlobalStorage.instance.playerMilitaryWindow.GetComponent<MacroLevelWindow>();
+        abilitiesStorage = GetComponentInChildren<AbilitiesStorage>();
 
         //for(int i = 0; i < 11; i++)
         //{
@@ -49,7 +74,7 @@ public class MacroLevelUpManager : MonoBehaviour
     {
         currentExp = 0;
         currentExpGoal = Mathf.Pow(((currentLevel + 1) / standartExpRate), levelMultiplierRate);
-        Debug.Log("Now you need " + currentExpGoal + " exp for " + (currentLevel + 1) + " level.");
+        //Debug.Log("Now you need " + currentExpGoal + " exp for " + (currentLevel + 1) + " level.");
 
         if(levelUpMode == true) NewLevel();
     }
@@ -58,27 +83,57 @@ public class MacroLevelUpManager : MonoBehaviour
     {
         currentLevel++;
         ChangeAbilityPoints(true);
+        if(abilitiesList.Count == 0) 
+            abilitiesList = abilitiesStorage.GetAbilitiesForNewLevel(countOfAbilitiesVariants);
+
+        if(haveIReplaceCardsSkill == true) canIReplaceCurrentCard = true;
 
         PlayersStats stat = (currentLevel % 2 == 0) ? PlayersStats.Health : PlayersStats.Mana;
         playerStats.UpdateMaxStat(stat, newLevelBonusAmount);
 
-        newLevelUI.Init(stat, currentLevel, this);
+        newLevelUI.Init(stat, newLevelBonusAmount, currentLevel);
     }
 
     public void ChangeAbilityPoints(bool mode)
     {
-        abilityPoints = (mode == true) ? abilityPoints++ : ( (abilityPoints <= 0) ? 0 : abilityPoints--);
+        if(mode == true)
+            abilityPoints++;
+        else
+            abilityPoints--;
+    }
 
-        Debug.Log("You have " + abilityPoints + " points");
+    public List<MacroAbilitySO> GetCurrentAbilities()
+    {
+        return abilitiesList;
     }
 
     public void GetNewAbility(MacroAbilitySO newAbility)
     {
-
+        abilitiesList.Clear();
     }
 
     public float GetCurrentLevel()
     {
         return currentLevel;
+    }
+
+    public LevelData GetLevelData()
+    {
+        return new LevelData(currentLevel, currentExp, currentExpGoal);
+    }
+
+    public int GetAbilityPoints()
+    {
+        return abilityPoints;
+    }
+
+    public void CardsReplaced()
+    {
+        canIReplaceCurrentCard = false;
+    }
+
+    public bool CanIReplaceCards()
+    {
+        return canIReplaceCurrentCard;
     }
 }

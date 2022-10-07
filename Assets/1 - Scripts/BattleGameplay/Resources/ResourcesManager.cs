@@ -127,8 +127,6 @@ public class ResourcesManager : MonoBehaviour
             resourcesDict[resource] = maxValue;
             EventManager.OnUpgradeResourceEvent(resource, resourcesDict[resource]);
         }
-
-        Debug.Log(stat + " = " + maxValue);
     }
 
     public Dictionary<ResourceType, float> GetAllResources()

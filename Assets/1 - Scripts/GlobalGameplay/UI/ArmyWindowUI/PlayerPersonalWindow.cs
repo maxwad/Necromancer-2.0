@@ -26,6 +26,9 @@ public class PlayerPersonalWindow : MonoBehaviour
 
     //[SerializeField] private GameObject tombBlock;
 
+    [Header("Enemy Part")]
+    [SerializeField] private MacroLevelWindow macroLevelUI;
+
     [Header("Buttons")]
     [SerializeField] private GameObject commonButtonsBlock;
     [SerializeField] private GameObject closeButton;
@@ -46,6 +49,8 @@ public class PlayerPersonalWindow : MonoBehaviour
     private EnemyArmyOnTheMap currentEnemy;
     [HideInInspector] public bool isWindowOpened = false;
     private float playerCuriosity;
+
+
     private PlayersWindow currentMode = PlayersWindow.Nothing;
     private KeyCode lastPressedKey;
 
@@ -58,39 +63,11 @@ public class PlayerPersonalWindow : MonoBehaviour
         playersArmy = GlobalStorage.instance.player.GetComponent<PlayersArmy>();
         playersArmyUIPart = GetComponent<PlayersArmyPart>();
         enemyArmyUIPart = GetComponent<EnemyArmyPart>();
+        macroLevelUI = GetComponent<MacroLevelWindow>();
     }
 
     private void Update()
     {
-        //if(Input.GetKeyDown(KeyCode.I))
-        //{
-        //    if(isWindowOpened == false)
-        //    {
-        //        if(MenuManager.instance.isGamePaused == false && GlobalStorage.instance.isModalWindowOpen == false)
-        //            OpenWindow(PlayersWindow.PlayersArmy);
-        //    }
-        //    else
-        //        CloseWindow();
-        //}
-
-        //if(Input.GetKeyDown(KeyCode.H) && isWindowOpened == false)
-        //{
-        //    if(MenuManager.instance.isGamePaused == false && GlobalStorage.instance.isModalWindowOpen == false)
-        //        OpenWindow(PlayersWindow.MacroLevelUp);
-        //}
-
-        //if(Input.GetKeyDown(KeyCode.U) && isWindowOpened == false)
-        //{
-        //    if(MenuManager.instance.isGamePaused == false && GlobalStorage.instance.isModalWindowOpen == false)
-        //        OpenWindow(PlayersWindow.MicroLevelUp);
-        //}
-
-        //if(Input.GetKeyDown(KeyCode.O) && isWindowOpened == false)
-        //{
-        //    if(MenuManager.instance.isGamePaused == false && GlobalStorage.instance.isModalWindowOpen == false)
-        //        OpenWindow(PlayersWindow.Spells);
-        //}
-
         if(Input.GetKeyDown(KeyCode.I))
         {
             currentKeyCode = KeyCode.I;
@@ -120,8 +97,8 @@ public class PlayerPersonalWindow : MonoBehaviour
         {
             if(MenuManager.instance.isGamePaused == false && GlobalStorage.instance.isModalWindowOpen == false)
             {
-                OpenWindow(currentWindow);
                 lastPressedKey = currentKeyCode;
+                OpenWindow(currentWindow);
             }
         }
         else
@@ -130,129 +107,13 @@ public class PlayerPersonalWindow : MonoBehaviour
                 CloseWindow();
             else
             {
-                HandlingTabs(currentWindow);
-                lastPressedKey = currentKeyCode;
+                HandlingTabs(currentWindow, currentKeyCode);
             }
         }
-
-
-
-        //if(MenuManager.instance.isGamePaused == false && GlobalStorage.instance.isModalWindowOpen == false)
-        //{
-        //    KeyCode currentKeyCode;
-        //    PlayersWindow currentWindow;
-
-        //    if(Input.GetKeyDown(KeyCode.I))
-        //    {
-        //        currentKeyCode = KeyCode.I;
-        //        currentWindow = PlayersWindow.PlayersArmy;
-        //    }
-        //    else if(Input.GetKeyDown(KeyCode.H))
-        //    {
-        //        currentKeyCode = KeyCode.H;
-        //        currentWindow = PlayersWindow.MacroLevelUp;
-        //    }
-        //    else if(Input.GetKeyDown(KeyCode.U))
-        //    {
-        //        currentKeyCode = KeyCode.U;
-        //        currentWindow = PlayersWindow.MicroLevelUp;
-        //    }
-        //    else if(Input.GetKeyDown(KeyCode.O))
-        //    {
-        //        currentKeyCode = KeyCode.O;
-        //        currentWindow = PlayersWindow.Spells;
-        //    }
-        //    else
-        //    {
-        //        return;
-        //    }
-
-        //    if(isWindowOpened == false)
-        //    {
-        //        lastPressedKey = currentKeyCode;
-        //        OpenWindow(currentWindow);
-        //    }
-        //    else
-        //    {
-        //        if(lastPressedKey == currentKeyCode)
-        //            CloseWindow();
-        //        else
-        //            HandlingTabs(currentWindow);
-        //    }
-
-
-            //if(Input.GetKeyDown(KeyCode.I))
-            //{
-            //    if(isWindowOpened == false)
-            //    {
-            //        lastPressedKey = KeyCode.I;
-            //        OpenWindow(PlayersWindow.PlayersArmy);
-            //    }
-            //    else
-            //    {
-            //        if(lastPressedKey == KeyCode.I)
-            //            CloseWindow();
-            //        else
-            //            HandlingTabs(PlayersWindow.PlayersArmy);
-            //    }
-            //}
-
-            //if(Input.GetKeyDown(KeyCode.H))
-            //{
-            //    if(isWindowOpened == false)
-            //    {
-            //        lastPressedKey = KeyCode.H;
-            //        OpenWindow(PlayersWindow.MacroLevelUp);
-            //    }
-            //    else
-            //    {
-            //        if(lastPressedKey == KeyCode.H)
-            //            CloseWindow();
-            //        else
-            //            HandlingTabs(PlayersWindow.MacroLevelUp);
-            //    }
-            //}
-
-            //if(Input.GetKeyDown(KeyCode.U))
-            //{
-            //    if(isWindowOpened == false)
-            //    {
-            //        lastPressedKey = KeyCode.U;
-            //        OpenWindow(PlayersWindow.MicroLevelUp);
-            //    }
-            //    else
-            //    {
-            //        if(lastPressedKey == KeyCode.U)
-            //            CloseWindow();
-            //        else
-            //            HandlingTabs(PlayersWindow.MicroLevelUp);
-            //    }
-            //}  
-        
-            //if(Input.GetKeyDown(KeyCode.O))
-            //{
-            //    if(isWindowOpened == false)
-            //    {
-            //        lastPressedKey = KeyCode.O;
-            //        OpenWindow(PlayersWindow.Spells);
-            //    }
-            //    else
-            //    {
-            //        if(lastPressedKey == KeyCode.O)
-            //            CloseWindow();
-            //        else
-            //            HandlingTabs(PlayersWindow.Spells);
-            //    }
-            //}
-        //}
-
-
-
     }
 
     public void OpenWindow(PlayersWindow mode, EnemyArmyOnTheMap enemyArmy = null)
     {
-        // mode = 0 - just army, 1 - battle, 2 - tomb
         currentEnemy = enemyArmy;
 
         MenuManager.instance.MiniPause(true);
@@ -262,14 +123,15 @@ public class PlayerPersonalWindow : MonoBehaviour
         currentMode = mode;
                 
         Refactoring();
-        HandlingTabs(currentMode);
-
-        rootCanvas.SetActive(true);
-        Fading.instance.FadeWhilePause(true, canvasGroup);
+        HandlingTabs(currentMode, lastPressedKey);
 
         playersArmyUIPart.UpdateArmyWindow();
 
-        if(currentMode == PlayersWindow.Battle) enemyArmyUIPart.Init(enemyArmy);
+        enemyArmyUIPart.Init(enemyArmy);
+        macroLevelUI.Init();
+
+        rootCanvas.SetActive(true);
+        Fading.instance.FadeWhilePause(true, canvasGroup);
     }
 
     public void CloseWindow()
@@ -280,6 +142,7 @@ public class PlayerPersonalWindow : MonoBehaviour
 
         isWindowOpened = false;
         currentMode = PlayersWindow.Nothing;
+        currentEnemy = null;
 
         MenuManager.instance.MiniPause(false);
         GlobalStorage.instance.ModalWindowOpen(false);
@@ -289,21 +152,22 @@ public class PlayerPersonalWindow : MonoBehaviour
     {
         playerCuriosity = GlobalStorage.instance.playerStats.GetCurrentParameter(PlayersStats.Curiosity);
 
+        enemyBlock.SetActive(false);
+        //tombBlock.SetActive(false);
+
+        closeButton.SetActive(true);
+        battleButton.SetActive(false);
+        stepbackButton.SetActive(false);
+        autobattleButton.SetActive(false);
+
         if(currentMode == PlayersWindow.PlayersArmy)
         {
             enemyBlock.SetActive(false);
-            //tombBlock.SetActive(false);
-
-            closeButton.SetActive(true);
-            battleButton.SetActive(false);
-            stepbackButton.SetActive(false);
-            autobattleButton.SetActive(false);
         }
 
         if(currentMode == PlayersWindow.Battle)
         {
             enemyBlock.SetActive(true);
-            //tombBlock.SetActive(false);
 
             closeButton.SetActive(false);
             battleButton.SetActive(true);
@@ -325,12 +189,11 @@ public class PlayerPersonalWindow : MonoBehaviour
 
         if(currentMode == PlayersWindow.Tomb)
         {
-            enemyBlock.SetActive(false);
             //tombBlock.SetActive(true);
         }
     }
 
-    public void HandlingTabs(PlayersWindow window)
+    public void HandlingTabs(PlayersWindow window, KeyCode key)
     {
         foreach(var tab in allActiveTabs)
         {
@@ -341,6 +204,8 @@ public class PlayerPersonalWindow : MonoBehaviour
         {
             panel.SetActive(false);
         }
+
+        lastPressedKey = key;
 
         switch(window)
         {
