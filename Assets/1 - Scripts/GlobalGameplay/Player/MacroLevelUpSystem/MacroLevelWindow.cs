@@ -62,4 +62,9 @@ public class MacroLevelWindow : MonoBehaviour
     {
         newAbilityBtn.interactable = mode;
     }
+
+    public bool CheckOpenedMiniWindow()
+    {
+        return newSkillUI.TryToHideWindow();
+    }
 }

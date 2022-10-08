@@ -6,8 +6,8 @@ using static NameManager;
 public class AbilitiesStorage : MonoBehaviour
 {
     [SerializeField] private List<MacroAbilitySO> allAbilities;
-    private Dictionary<PlayersStats, List<MacroAbilitySO>> availableDict = new Dictionary<PlayersStats, List<MacroAbilitySO>>();
-    private Dictionary<PlayersStats, List<MacroAbilitySO>> unlockedDict = new Dictionary<PlayersStats, List<MacroAbilitySO>>();
+    private Dictionary<PlayersStats, List<MacroAbilitySO>> availableAbilitiesDict = new Dictionary<PlayersStats, List<MacroAbilitySO>>();
+    private Dictionary<PlayersStats, List<MacroAbilitySO>> openedAbilitiesDict = new Dictionary<PlayersStats, List<MacroAbilitySO>>();
     private Dictionary<PlayersStats, List<MacroAbilitySO>> sortingDict = new Dictionary<PlayersStats, List<MacroAbilitySO>>();
 
     private void Awake()
@@ -16,20 +16,20 @@ public class AbilitiesStorage : MonoBehaviour
         {
             List<MacroAbilitySO> currentList = new List<MacroAbilitySO>();
 
-            if(availableDict.ContainsKey(card.abilitySeries) == true)
+            if(availableAbilitiesDict.ContainsKey(card.abilitySeries) == true)
             {
-                currentList = availableDict[card.abilitySeries];
+                currentList = availableAbilitiesDict[card.abilitySeries];
                 currentList.Add(card);
-                availableDict[card.abilitySeries] = currentList;
+                availableAbilitiesDict[card.abilitySeries] = currentList;
             }
             else
             {
                 currentList.Add(card);
-                availableDict[card.abilitySeries] = currentList;
+                availableAbilitiesDict[card.abilitySeries] = currentList;
             }
         }
 
-        foreach(var item in availableDict)
+        foreach(var item in availableAbilitiesDict)
         {
             List<MacroAbilitySO> currentList = SortingByLevel(item.Value);
 
@@ -41,9 +41,10 @@ public class AbilitiesStorage : MonoBehaviour
             //}
         }
 
-        availableDict = sortingDict;
+        availableAbilitiesDict = sortingDict;
         sortingDict = null;
 
+        CountAbilities();
         //Debug.Log("Count dict = " + availableDict.Count);
     }
 
@@ -77,7 +78,7 @@ public class AbilitiesStorage : MonoBehaviour
         List<MacroAbilitySO> newList = new List<MacroAbilitySO>();
         List<PlayersStats> abilitiesList = new List<PlayersStats>();
 
-        foreach(var item in availableDict)
+        foreach(var item in availableAbilitiesDict)
         {
             abilitiesList.Add(item.Key);
         }
@@ -88,7 +89,7 @@ public class AbilitiesStorage : MonoBehaviour
  
             int randomIndex = Random.Range(0, abilitiesList.Count);
             PlayersStats randomAbility = abilitiesList[randomIndex];
-            newList.Add(availableDict[randomAbility][0]);
+            newList.Add(availableAbilitiesDict[randomAbility][0]);
             abilitiesList.Remove(randomAbility);
 
             //Debug.Log("Take " + randomAbility + " level " + availableDict[randomAbility][0].level);
@@ -97,11 +98,64 @@ public class AbilitiesStorage : MonoBehaviour
         return newList;
     }
 
-    public void UnlockAbility(PlayersStats abilityType, int level)
+    public void ApplyAbility(MacroAbilitySO ability)
     {
+        if(availableAbilitiesDict.ContainsKey(ability.abilitySeries))
+        {
+            foreach(var skill in availableAbilitiesDict[ability.abilitySeries])
+            {
+                if(skill.level == ability.level)
+                {
+                    MoveToOpenedDict(skill);
+                    availableAbilitiesDict[ability.abilitySeries].Remove(skill);
 
+                    if(availableAbilitiesDict[ability.abilitySeries].Count == 0)
+                        availableAbilitiesDict.Remove(ability.abilitySeries);
+
+                    break;
+                }
+            }
+        }
+        else
+        {
+            Debug.Log("ERROR: We don't have this ability serie");
+            return;
+        }
+
+        CountAbilities();
     }
 
-    
+    private void MoveToOpenedDict(MacroAbilitySO ability)
+    {
+        if(openedAbilitiesDict.ContainsKey(ability.abilitySeries) == false)
+            openedAbilitiesDict[ability.abilitySeries] = new List<MacroAbilitySO>();
+
+        openedAbilitiesDict[ability.abilitySeries].Add(ability);
+    }
+
+    private void CountAbilities()
+    {
+        int left = 0;
+        int opened = 0;
+
+        foreach(var serie in availableAbilitiesDict)
+        {
+            for(int i = 0; i < serie.Value.Count; i++)
+            {
+                left++;
+            }
+        }
+
+        foreach(var serie in openedAbilitiesDict)
+        {
+            for(int i = 0; i < serie.Value.Count; i++)
+            {
+                opened++;
+            }
+        }
+
+
+        Debug.Log("Left: " + left + "; Opened: " + opened);
+    }
 
 }

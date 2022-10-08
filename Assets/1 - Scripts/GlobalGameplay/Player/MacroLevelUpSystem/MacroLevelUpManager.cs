@@ -86,8 +86,6 @@ public class MacroLevelUpManager : MonoBehaviour
         if(abilitiesList.Count == 0) 
             abilitiesList = abilitiesStorage.GetAbilitiesForNewLevel(countOfAbilitiesVariants);
 
-        if(haveIReplaceCardsSkill == true) canIReplaceCurrentCard = true;
-
         PlayersStats stat = (currentLevel % 2 == 0) ? PlayersStats.Health : PlayersStats.Mana;
         playerStats.UpdateMaxStat(stat, newLevelBonusAmount);
 
@@ -104,12 +102,18 @@ public class MacroLevelUpManager : MonoBehaviour
 
     public List<MacroAbilitySO> GetCurrentAbilities()
     {
+        if(abilitiesList.Count == 0)
+            abilitiesList = abilitiesStorage.GetAbilitiesForNewLevel(countOfAbilitiesVariants);
+
         return abilitiesList;
     }
 
-    public void GetNewAbility(MacroAbilitySO newAbility)
+    public void OpenAbility(MacroAbilitySO newAbility)
     {
+        if(haveIReplaceCardsSkill == true) canIReplaceCurrentCard = true;
         abilitiesList.Clear();
+
+        abilitiesStorage.ApplyAbility(newAbility);
     }
 
     public float GetCurrentLevel()

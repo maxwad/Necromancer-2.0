@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 944e529ba73aca64eb63ed063e9b940b, type: 3}
   m_Name: Spells 2
   m_EditorClassIdentifier: 
-  abilityName: Magic I
+  abilityName: Magic II
   abilitySeries: 14
   ability: 14
   activeIcon: {fileID: 6032968590813742372, guid: 108daa14e3115264995337bc498c548a, type: 3}

@@ -158,6 +158,7 @@ public static class NameManager
         MedicAltar,
         DoubleBonusFromBox,
         ExtraMovementPoints,
+        Fog,
 
         MedicTry,
         Curiosity,

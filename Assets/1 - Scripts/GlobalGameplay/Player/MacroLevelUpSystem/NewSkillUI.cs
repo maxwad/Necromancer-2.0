@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
-using static NameManager;
 
 public class NewSkillUI : MonoBehaviour
 {
@@ -11,9 +9,10 @@ public class NewSkillUI : MonoBehaviour
     private CanvasGroup canvas;
 
     [SerializeField] private Button replaceButton;
+    [SerializeField] private Button hideButton;
 
     [SerializeField] private List<LevelUpCard> cardList;
-    private List<MacroAbilitySO> abilitiesList;
+    private List<MacroAbilitySO> abilitiesList = new List<MacroAbilitySO>();
 
     private MacroLevelUpManager macroLevelUpManager;
     private MacroLevelWindow macroLevelUI;
@@ -23,7 +22,7 @@ public class NewSkillUI : MonoBehaviour
 
     private bool isAbilityTaken = false;
     private int readyForReplace = 0;
-    //private int readyForTaken = 0;
+    private bool isChecking = false;
 
     private void Start()
     {
@@ -32,9 +31,23 @@ public class NewSkillUI : MonoBehaviour
         canvas = uiPanel.GetComponent<CanvasGroup>();
     }
 
+    private void Update()
+    {
+        if(isChecking == true)
+        {
+            hideButton.interactable = false;
+            foreach(var card in cardList)
+                if(card.CanIClickAnyButton() == false) return;
+
+            isChecking = false;
+            hideButton.interactable = true;
+        }
+    }
+
     public void OpenWindow()
     {
         isAbilityTaken = false;
+        isChecking = false;
 
         FillCards(cardList);
 
@@ -46,15 +59,19 @@ public class NewSkillUI : MonoBehaviour
 
     private void ShowBattons()
     {
-        //ADD IF
         if(macroLevelUpManager.CanIReplaceCards() == true)
             replaceButton.interactable = true;
     }
 
+    private void GetAbilities()
+    {
+        if(abilitiesList.Count != 0) return;
+        abilitiesList = macroLevelUpManager.GetCurrentAbilities();
+    }
+
     public void FillCards(List<LevelUpCard> list)
     {
-        //readyForTaken = list.Count;
-        abilitiesList = macroLevelUpManager.GetCurrentAbilities();
+        GetAbilities();
 
         for(int i = 0; i < abilitiesList.Count; i++)
         {
@@ -68,12 +85,11 @@ public class NewSkillUI : MonoBehaviour
         foreach(var card in cardList)
             card.LockCard();
 
-        isAbilityTaken = true;
-        macroLevelUpManager.GetNewAbility(ability);
+        macroLevelUpManager.OpenAbility(ability);
         macroLevelUpManager.ChangeAbilityPoints(false);
         macroLevelUI.UpdateAbilityBlock();
-
-        Debug.Log("Taken");
+        isAbilityTaken = true;
+        abilitiesList.Clear();
 
         replaceButton.interactable = false;
     }
@@ -83,9 +99,15 @@ public class NewSkillUI : MonoBehaviour
     {
         if(isAbilityTaken == true) return;
 
+        isChecking = true;
+
         replaceButton.interactable = false;
+
+        abilitiesList.Clear();
+        GetAbilities();
+        macroLevelUpManager.CardsReplaced();
+
         readyForReplace = 0;
-        //readyForTaken = 0;
 
         foreach(var card in cardList)
             card.Replace();
@@ -94,15 +116,9 @@ public class NewSkillUI : MonoBehaviour
     public void ReadyToReplace()
     {
         readyForReplace++;
+
         if(readyForReplace == cardList.Count)
             FillCards(cardList);
-
-        macroLevelUpManager.CardsReplaced();
-    }
-
-    public void ReadyForTaken()
-    {
-        //readyForTaken++;
     }
 
     public bool CheckTakenAbility()
@@ -110,24 +126,19 @@ public class NewSkillUI : MonoBehaviour
         return isAbilityTaken;
     }
 
-    public void GetOneMoreAbility()
+    public bool TryToHideWindow()
     {
-        if(macroLevelUpManager.GetAbilityPoints() == 0) return;
-
-        isAbilityTaken = false;
-        readyForReplace = 0;
-        //readyForTaken = 0;
-
-        foreach(var card in cardList)
-            card.Replace();
+        if(hideButton.interactable == false) 
+            return false;
+        else
+        {
+            HideWindow();
+            return true;
+        }
     }
 
     public void HideWindow()
     {
-        //if(readyForTaken != cardList.Count) return;
-        foreach(var card in cardList)
-            if(card.CanIClickAnyButton() == false) return;
-
         macroLevelUI.UpdateAbilityBlock();
         uiPanel.SetActive(false);
     }

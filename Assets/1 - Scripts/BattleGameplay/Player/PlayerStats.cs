@@ -59,7 +59,10 @@ public class PlayerStats : MonoBehaviour
     //[SerializeField] private float canIUseMedicAltarBase = 0;
 
     //0 - no, 1 - yes
-    [SerializeField] private float doudleBonusFromBoxBase = 0;
+    [SerializeField] private float doubleBonusFromBoxBase = 0;
+
+    //0 - no, 1 - yes
+    [SerializeField] private float isThereAFogBase = 0;
 
 
     [Header("Number Parameters")]
@@ -229,7 +232,7 @@ public class PlayerStats : MonoBehaviour
                     break;
 
                 case PlayersStats.DoubleBonusFromBox:
-                    baseValue = doudleBonusFromBoxBase;
+                    baseValue = doubleBonusFromBoxBase;
                     break;
 
                 case PlayersStats.MedicTry:
@@ -252,6 +255,9 @@ public class PlayerStats : MonoBehaviour
                     break;
 
                 case PlayersStats.HeroArmyToEnemy:
+                    break;
+
+                case PlayersStats.Fog:
                     break;
 
                 default:

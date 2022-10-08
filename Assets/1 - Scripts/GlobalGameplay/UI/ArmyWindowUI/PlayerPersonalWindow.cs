@@ -136,6 +136,8 @@ public class PlayerPersonalWindow : MonoBehaviour
 
     public void CloseWindow()
     {
+        if(macroLevelUI.CheckOpenedMiniWindow() == false) return;
+
         playersArmy.ResetReplaceIndexes();
         playerArmyPanel.SetActive(false);
         rootCanvas.SetActive(false);
