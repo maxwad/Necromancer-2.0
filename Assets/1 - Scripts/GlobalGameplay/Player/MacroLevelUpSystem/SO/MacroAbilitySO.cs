@@ -16,6 +16,7 @@ public class MacroAbilitySO : ScriptableObject
     public string fakeDescription;
     public string schemeDescription;
     public string realDescription;
+    public bool luckDepending;
 
     private void OnEnable()
     {

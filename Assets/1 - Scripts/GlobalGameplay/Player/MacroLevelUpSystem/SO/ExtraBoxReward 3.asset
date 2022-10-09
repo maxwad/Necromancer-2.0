@@ -21,5 +21,6 @@ MonoBehaviour:
   value: 10
   valueType: 3
   fakeDescription: A little more Rewards from Boxes!
-  schemeDescription: Increase rewards in boxes by $%
-  realDescription: Increase rewards in boxes by 10%
+  schemeDescription: Increase rewards in boxes by $%.
+  realDescription: Increase rewards in boxes by 10%.
+  luckDepending: 0

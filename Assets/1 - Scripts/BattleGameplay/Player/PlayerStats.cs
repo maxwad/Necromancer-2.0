@@ -260,6 +260,12 @@ public class PlayerStats : MonoBehaviour
                 case PlayersStats.Fog:
                     break;
 
+                case PlayersStats.HealthBigRegeneration:
+                    break; 
+                
+                case PlayersStats.ManaBigRegeneration:
+                    break;
+
                 default:
                     Debug.Log("Attention! Some stats were skip!");
                     break;

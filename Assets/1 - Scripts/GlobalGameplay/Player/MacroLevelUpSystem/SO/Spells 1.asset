@@ -20,6 +20,7 @@ MonoBehaviour:
   level: 1
   value: 1
   valueType: 3
-  fakeDescription: Look at my little magic!
+  fakeDescription: Look at my micro magic!
   schemeDescription: You can use 1 spell in combat.
   realDescription: You can use 1 spell in combat.
+  luckDepending: 0

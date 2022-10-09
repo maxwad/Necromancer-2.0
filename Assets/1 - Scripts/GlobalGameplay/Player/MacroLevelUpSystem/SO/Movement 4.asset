@@ -21,7 +21,8 @@ MonoBehaviour:
   value: 5
   valueType: 3
   fakeDescription: Become a successful traveler!
-  schemeDescription: Get another $ movement points (with a chance of your luck) when
-    their number reaches zero.
+  schemeDescription: Opportunity to get another $ movement points when their number
+    reaches zero.
   realDescription: Get another 5 movement points (with a chance of your luck) when
     their number reaches zero.
+  luckDepending: 1

@@ -89,7 +89,7 @@ public class BonusOnTheMapUI : MonoBehaviour
         resourceImagesList[index].sprite = resourcesIcons[resType];
         tooltipList[index].content = resType.ToString();
 
-        if(curiosity > 1)
+        if(curiosity > 0)
             countList[index].text = quantity.ToString();
         else
             countList[index].text = "Some";

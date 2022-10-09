@@ -159,6 +159,8 @@ public static class NameManager
         DoubleBonusFromBox,
         ExtraMovementPoints,
         Fog,
+        HealthBigRegeneration,
+        ManaBigRegeneration,
 
         MedicTry,
         Curiosity,
