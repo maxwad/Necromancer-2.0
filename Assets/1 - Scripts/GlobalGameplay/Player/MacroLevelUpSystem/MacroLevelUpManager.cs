@@ -35,24 +35,27 @@ public class MacroLevelUpManager : MonoBehaviour
     private bool canIReplaceCurrentCard = true;
 
     [SerializeField] private float newLevelBonusAmount = 5f;
-    [HideInInspector] public int abilityPoints = 0;
+    private int abilityPoints = 50;
     private int countOfAbilitiesVariants = 3;
 
     [SerializeField] private List<MacroAbilitySO> abilitiesList = new List<MacroAbilitySO>();
 
-    private void Start()
+    public void Init()
     {
         playerStats = GlobalStorage.instance.playerStats;
         maxLevel = playerStats.GetCurrentParameter(PlayersStats.Level);
         newLevelUI = GlobalStorage.instance.gmInterface.gameObject.GetComponent<NewLevelUI>();
         macroLevelUI = GlobalStorage.instance.playerMilitaryWindow.GetComponent<MacroLevelWindow>();
         abilitiesStorage = GetComponentInChildren<AbilitiesStorage>();
+        abilitiesStorage.Init();
 
         //for(int i = 0; i < 11; i++)
         //{
         //    UpgradeTempExpGoal();
         //}
         UpgradeTempExpGoal(false);
+
+        GlobalStorage.instance.LoadNextPart();
     }
 
     public void AddExp(float value)
@@ -82,14 +85,22 @@ public class MacroLevelUpManager : MonoBehaviour
     private void NewLevel()
     {
         currentLevel++;
+        float points = 1f;
+
         ChangeAbilityPoints(true);
+        if(currentLevel % 5 == 0) 
+        {
+            ChangeAbilityPoints(true);
+            points++;
+        }
+
         if(abilitiesList.Count == 0) 
             abilitiesList = abilitiesStorage.GetAbilitiesForNewLevel(countOfAbilitiesVariants);
 
         PlayersStats stat = (currentLevel % 2 == 0) ? PlayersStats.Health : PlayersStats.Mana;
         playerStats.UpdateMaxStat(stat, newLevelBonusAmount);
 
-        newLevelUI.Init(stat, newLevelBonusAmount, currentLevel);
+        newLevelUI.Init(stat, newLevelBonusAmount, currentLevel, points);
     }
 
     public void ChangeAbilityPoints(bool mode)

@@ -13,13 +13,15 @@ MonoBehaviour:
   m_Name: Spells 2
   m_EditorClassIdentifier: 
   abilityName: Magic II
+  serieName: Magic
   abilitySeries: 14
   ability: 14
-  activeIcon: {fileID: 6032968590813742372, guid: 108daa14e3115264995337bc498c548a, type: 3}
-  inActiveIcon: {fileID: -5471341374734733960, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
+  activeIcon: {fileID: -2113322350232762009, guid: 108daa14e3115264995337bc498c548a, type: 3}
+  inActiveIcon: {fileID: 1617462275120628488, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
   level: 2
   value: 1
   valueType: 3
   fakeDescription: Look at my little magic!
   schemeDescription: You can use 2 spells in combat.
   realDescription: You can use 2 spells in combat.
+  luckDepending: 0

@@ -75,7 +75,7 @@ public class LevelUpCard : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             {
                 if(isMousePressed == true)
                 {
-                    border.fillAmount -= Time.unscaledDeltaTime * 0.5f;
+                    border.fillAmount -= Time.unscaledDeltaTime;
                     if(border.fillAmount <= 0f)
                     {
                         isTaken = true;

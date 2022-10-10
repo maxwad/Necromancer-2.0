@@ -158,9 +158,7 @@ public class PlayerStats : MonoBehaviour
 
             switch(itemStat)
             {
-                case PlayersStats.GlobalExp:
-                    baseValue = globalExp;                 
-                    //Create new ExpScript for handling xp
+                case PlayersStats.Learning:
                     break;
 
                 case PlayersStats.Level:

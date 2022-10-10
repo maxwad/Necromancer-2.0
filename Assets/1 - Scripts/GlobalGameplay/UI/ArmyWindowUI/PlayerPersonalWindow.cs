@@ -63,7 +63,7 @@ public class PlayerPersonalWindow : MonoBehaviour
         playersArmy = GlobalStorage.instance.player.GetComponent<PlayersArmy>();
         playersArmyUIPart = GetComponent<PlayersArmyPart>();
         enemyArmyUIPart = GetComponent<EnemyArmyPart>();
-        macroLevelUI = GetComponent<MacroLevelWindow>();
+        macroLevelUI = GetComponentInChildren<MacroLevelWindow>();
     }
 
     private void Update()

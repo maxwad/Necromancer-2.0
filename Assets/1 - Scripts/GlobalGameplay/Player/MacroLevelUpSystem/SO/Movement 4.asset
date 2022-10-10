@@ -13,16 +13,17 @@ MonoBehaviour:
   m_Name: Movement 4
   m_EditorClassIdentifier: 
   abilityName: Only forward IV
+  serieName: Only forward
   abilitySeries: 8
   ability: 18
-  activeIcon: {fileID: 6032968590813742372, guid: 108daa14e3115264995337bc498c548a, type: 3}
-  inActiveIcon: {fileID: -5471341374734733960, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
+  activeIcon: {fileID: 5922017479358163792, guid: 108daa14e3115264995337bc498c548a, type: 3}
+  inActiveIcon: {fileID: -5980148273204929110, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
   level: 4
   value: 5
   valueType: 3
   fakeDescription: Become a successful traveler!
   schemeDescription: Opportunity to get another $ movement points when their number
     reaches zero.
-  realDescription: Get another 5 movement points (with a chance of your luck) when
-    their number reaches zero.
+  realDescription: Opportunity to get another 5 movement points when their number
+    reaches zero.
   luckDepending: 1

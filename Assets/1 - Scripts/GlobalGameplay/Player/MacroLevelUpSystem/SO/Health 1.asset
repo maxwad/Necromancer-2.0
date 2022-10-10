@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Health 1
   m_EditorClassIdentifier: 
   abilityName: Good Health I
+  serieName: Good Health
   abilitySeries: 1
   ability: 1
-  activeIcon: {fileID: 6032968590813742372, guid: 108daa14e3115264995337bc498c548a, type: 3}
-  inActiveIcon: {fileID: -5471341374734733960, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
+  activeIcon: {fileID: -9182444569370219373, guid: 108daa14e3115264995337bc498c548a, type: 3}
+  inActiveIcon: {fileID: -4984331486207475403, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
   level: 1
   value: 10
   valueType: 3

@@ -13,13 +13,15 @@ MonoBehaviour:
   m_Name: Spells 7
   m_EditorClassIdentifier: 
   abilityName: Magic VI
+  serieName: Magic
   abilitySeries: 14
   ability: 14
-  activeIcon: {fileID: 6032968590813742372, guid: 108daa14e3115264995337bc498c548a, type: 3}
-  inActiveIcon: {fileID: -5471341374734733960, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
+  activeIcon: {fileID: -3523501709184514194, guid: 108daa14e3115264995337bc498c548a, type: 3}
+  inActiveIcon: {fileID: -388042184384730254, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
   level: 7
   value: 1
   valueType: 3
   fakeDescription: Look at my perfect magic!
   schemeDescription: You can use 6 spells in combat.
   realDescription: You can use 6 spells in combat.
+  luckDepending: 0

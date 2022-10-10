@@ -118,6 +118,13 @@ public class GlobalStorage : MonoBehaviour
             yield return null;
         }
 
+        canILoadNextPart = false;
+        macroLevelUpManager.Init();
+        while(canILoadNextPart == false)
+        {
+            yield return null;
+        }
+
         isGameLoaded = true;
         Debug.Log("GAME IS LOADED!");        
     }

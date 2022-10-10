@@ -13,14 +13,15 @@ MonoBehaviour:
   m_Name: Infirmary 3
   m_EditorClassIdentifier: 
   abilityName: Quality Medicines
+  serieName: Camp infirmary
   abilitySeries: 6
   ability: 6
-  activeIcon: {fileID: 6032968590813742372, guid: 108daa14e3115264995337bc498c548a, type: 3}
-  inActiveIcon: {fileID: -5471341374734733960, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
+  activeIcon: {fileID: -2942086348935061010, guid: 108daa14e3115264995337bc498c548a, type: 3}
+  inActiveIcon: {fileID: -7122834044152699686, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
   level: 3
   value: 2
   valueType: 3
   fakeDescription: Nobody dies today!
   schemeDescription: Increases the unit's lifetime in the infirmary by $ days.
-  realDescription: Adds to the hero's infirmary 30 places.
+  realDescription: Increases the unit's lifetime in the infirmary by 2 days.
   luckDepending: 0

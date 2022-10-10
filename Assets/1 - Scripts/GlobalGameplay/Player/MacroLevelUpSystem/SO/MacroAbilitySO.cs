@@ -6,6 +6,7 @@ using static NameManager;
 public class MacroAbilitySO : ScriptableObject
 {
     public string abilityName;
+    public string serieName;
     public PlayersStats abilitySeries;
     public PlayersStats ability;
     public Sprite activeIcon;

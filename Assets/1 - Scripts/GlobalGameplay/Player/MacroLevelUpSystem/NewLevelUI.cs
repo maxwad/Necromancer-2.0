@@ -14,11 +14,13 @@ public class NewLevelUI : MonoBehaviour
 
     [SerializeField] private TMP_Text newLevelText;
     [SerializeField] private TMP_Text newLevelBonusText;
+    [SerializeField] private TMP_Text skillsPointsText;
     [SerializeField] private Image newLevelBonus;
     [SerializeField] private Sprite manaBonus;
     [SerializeField] private Sprite healthBonus;
 
     [SerializeField] private TooltipTrigger bonusTip;
+    [SerializeField] private TooltipTrigger skillTip;
     private PlayersStats stat;
 
     private float fadeStep = 0.1f;
@@ -29,7 +31,7 @@ public class NewLevelUI : MonoBehaviour
         playerMilitaryWindow = GlobalStorage.instance.playerMilitaryWindow;
     }
 
-    public void Init(PlayersStats bonusStat, float amount, float level)
+    public void Init(PlayersStats bonusStat, float amount, float level, float points)
     {
         MenuManager.instance.MiniPause(true);
         GlobalStorage.instance.ModalWindowOpen(true);
@@ -48,6 +50,9 @@ public class NewLevelUI : MonoBehaviour
         newLevelBonus.sprite = sprite;
 
         newLevelBonusText.text = "+" + amount;
+
+        skillsPointsText.text = "+" + points;
+        skillTip.content = "You get " + points + " skill point(s)";
 
         uiPanel.SetActive(true);
         Fading.instance.FadeWhilePause(true, canvas, fadeStep, fadeDelay);

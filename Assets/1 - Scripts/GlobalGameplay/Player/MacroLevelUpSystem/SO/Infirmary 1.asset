@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Infirmary 1
   m_EditorClassIdentifier: 
   abilityName: Camp infirmary I
+  serieName: Camp infirmary
   abilitySeries: 6
   ability: 6
-  activeIcon: {fileID: 6032968590813742372, guid: 108daa14e3115264995337bc498c548a, type: 3}
-  inActiveIcon: {fileID: -5471341374734733960, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
+  activeIcon: {fileID: 3391145756154694430, guid: 108daa14e3115264995337bc498c548a, type: 3}
+  inActiveIcon: {fileID: -7605044607445142572, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
   level: 1
   value: 15
   valueType: 3

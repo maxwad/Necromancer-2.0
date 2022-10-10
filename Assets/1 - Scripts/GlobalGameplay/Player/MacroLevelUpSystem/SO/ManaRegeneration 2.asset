@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: ManaRegeneration 2
   m_EditorClassIdentifier: 
   abilityName: Magical Regeneration II
-  abilitySeries: 26
-  ability: 26
-  activeIcon: {fileID: 6032968590813742372, guid: 108daa14e3115264995337bc498c548a, type: 3}
-  inActiveIcon: {fileID: -5471341374734733960, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
+  serieName: Mana Regeneration
+  abilitySeries: 27
+  ability: 27
+  activeIcon: {fileID: -8338915024618380500, guid: 108daa14e3115264995337bc498c548a, type: 3}
+  inActiveIcon: {fileID: -1371021556273102822, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
   level: 2
   value: 3
   valueType: 3

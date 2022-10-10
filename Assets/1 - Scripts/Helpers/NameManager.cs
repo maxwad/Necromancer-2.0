@@ -161,15 +161,14 @@ public static class NameManager
         Fog,
         HealthBigRegeneration,
         ManaBigRegeneration,
+        Learning,
 
         MedicTry,
         Curiosity,
         Portal,
         ExtraAfterBattleReward,
         ManaRegeneration,
-        HeroArmyToEnemy,
-
-        GlobalExp
+        HeroArmyToEnemy
     }
 
     public enum Spells

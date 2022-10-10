@@ -13,13 +13,15 @@ MonoBehaviour:
   m_Name: ViewRadius 3
   m_EditorClassIdentifier: 
   abilityName: Long sight III
+  serieName: Long sight
   abilitySeries: 10
   ability: 10
-  activeIcon: {fileID: 6032968590813742372, guid: 108daa14e3115264995337bc498c548a, type: 3}
-  inActiveIcon: {fileID: -5471341374734733960, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
+  activeIcon: {fileID: 7066313582347577473, guid: 108daa14e3115264995337bc498c548a, type: 3}
+  inActiveIcon: {fileID: 8587347019230206618, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
   level: 3
   value: 5
   valueType: 3
   fakeDescription: It seems that you have become perfect to see!
   schemeDescription: Adds $ units to the hero's vision range.
   realDescription: Adds 5 units to the hero's vision range.
+  luckDepending: 0

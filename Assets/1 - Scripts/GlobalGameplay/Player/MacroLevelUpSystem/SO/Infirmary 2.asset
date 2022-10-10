@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Infirmary 2
   m_EditorClassIdentifier: 
   abilityName: Camp infirmary II
+  serieName: Camp infirmary
   abilitySeries: 6
   ability: 6
   activeIcon: {fileID: 6032968590813742372, guid: 108daa14e3115264995337bc498c548a, type: 3}
@@ -22,5 +23,5 @@ MonoBehaviour:
   valueType: 3
   fakeDescription: Today many will survive!
   schemeDescription: Adds to the hero's infirmary $ places.
-  realDescription: Adds to the hero's infirmary 15 places.
+  realDescription: Adds to the hero's infirmary 30 places.
   luckDepending: 0

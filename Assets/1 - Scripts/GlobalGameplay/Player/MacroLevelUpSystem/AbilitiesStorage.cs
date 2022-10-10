@@ -6,11 +6,12 @@ using static NameManager;
 public class AbilitiesStorage : MonoBehaviour
 {
     [SerializeField] private List<MacroAbilitySO> allAbilities;
+    private AbilitiesPlacing abilitiesPlacing;
     private Dictionary<PlayersStats, List<MacroAbilitySO>> availableAbilitiesDict = new Dictionary<PlayersStats, List<MacroAbilitySO>>();
     private Dictionary<PlayersStats, List<MacroAbilitySO>> openedAbilitiesDict = new Dictionary<PlayersStats, List<MacroAbilitySO>>();
     private Dictionary<PlayersStats, List<MacroAbilitySO>> sortingDict = new Dictionary<PlayersStats, List<MacroAbilitySO>>();
 
-    private void Awake()
+    public void Init()
     {        
         foreach(var card in allAbilities)
         {
@@ -44,7 +45,10 @@ public class AbilitiesStorage : MonoBehaviour
         availableAbilitiesDict = sortingDict;
         sortingDict = null;
 
-        CountAbilities();
+        //CountAbilities();
+
+        abilitiesPlacing = GlobalStorage.instance.playerMilitaryWindow.gameObject.GetComponentInChildren<AbilitiesPlacing>();
+        abilitiesPlacing.Init(availableAbilitiesDict);
         //Debug.Log("Count dict = " + availableDict.Count);
     }
 
@@ -100,6 +104,8 @@ public class AbilitiesStorage : MonoBehaviour
 
     public void ApplyAbility(MacroAbilitySO ability)
     {
+        abilitiesPlacing.MarkSkill(ability);
+
         if(availableAbilitiesDict.ContainsKey(ability.abilitySeries))
         {
             foreach(var skill in availableAbilitiesDict[ability.abilitySeries])
@@ -122,7 +128,7 @@ public class AbilitiesStorage : MonoBehaviour
             return;
         }
 
-        CountAbilities();
+        //CountAbilities();
     }
 
     private void MoveToOpenedDict(MacroAbilitySO ability)

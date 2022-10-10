@@ -13,14 +13,15 @@ MonoBehaviour:
   m_Name: Altars 1
   m_EditorClassIdentifier: 
   abilityName: Help of the Gods I
+  serieName: Help of the Gods
   abilitySeries: 16
   ability: 16
-  activeIcon: {fileID: 6032968590813742372, guid: 108daa14e3115264995337bc498c548a, type: 3}
-  inActiveIcon: {fileID: -5471341374734733960, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
+  activeIcon: {fileID: -8811631546484903431, guid: 108daa14e3115264995337bc498c548a, type: 3}
+  inActiveIcon: {fileID: -2774841285692986794, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
   level: 1
   value: 1
   valueType: 1
   fakeDescription: God teach me to heal!
   schemeDescription: Hero can use altars for healing units.
-  realDescription: Adds 5 units to the hero's vision range.
+  realDescription: Hero can use altars for healing units.
   luckDepending: 0

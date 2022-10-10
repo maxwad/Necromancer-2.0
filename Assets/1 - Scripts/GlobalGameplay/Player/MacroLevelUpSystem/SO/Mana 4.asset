@@ -13,14 +13,15 @@ MonoBehaviour:
   m_Name: Mana 4
   m_EditorClassIdentifier: 
   abilityName: Abyss of Magic
+  serieName: Source of Magic
   abilitySeries: 2
   ability: 2
-  activeIcon: {fileID: 6032968590813742372, guid: 108daa14e3115264995337bc498c548a, type: 3}
-  inActiveIcon: {fileID: -5471341374734733960, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
+  activeIcon: {fileID: -2578570922973968954, guid: 108daa14e3115264995337bc498c548a, type: 3}
+  inActiveIcon: {fileID: 8235638993605125332, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
   level: 4
   value: 30
   valueType: 3
   fakeDescription: Tireless Wizard!
   schemeDescription: Adds $ mana points to the hero.
-  realDescription: Adds 10 mana points to the hero.
+  realDescription: Adds 30 mana points to the hero.
   luckDepending: 0
