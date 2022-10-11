@@ -13,11 +13,11 @@ public class InfirmarySlot : MonoBehaviour
     public Color grey;
     public Color red;
 
-    private SquadtipTrigger squadtipTrigger;
+    private InfotipTrigger squadtipTrigger;
 
     private void Start()
     {
-        squadtipTrigger = GetComponent<SquadtipTrigger>();
+        squadtipTrigger = GetComponent<InfotipTrigger>();
         backlight.color = grey;
     }
 

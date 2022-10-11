@@ -104,15 +104,15 @@ public class BattleUIManager : MonoBehaviour
             if(GlobalStorage.instance.isGlobalMode == false) OpenLeaveBlock(!isLeaveBlockOpened);
         }
 
-        if(Input.GetKeyDown(KeyCode.V))
+        if(Input.GetKeyDown(KeyCode.End))
         {
             if(GlobalStorage.instance.isGlobalMode == false) Victory();
         }
-        if(Input.GetKeyDown(KeyCode.D))
+        if(Input.GetKeyDown(KeyCode.Delete))
         {
             if(GlobalStorage.instance.isGlobalMode == false) Defeat();
         }
-        if(Input.GetKeyDown(KeyCode.R))
+        if(Input.GetKeyDown(KeyCode.Home))
         {
             if(GlobalStorage.instance.isGlobalMode == false) LeaveTheBattle();
         }

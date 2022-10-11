@@ -4,12 +4,24 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using static NameManager;
+using System;
 
 public class BattleResult : MonoBehaviour
 {
     [SerializeField] private GameObject uiPanel;
 
     [SerializeField] private GameObject slotPrefab;
+
+    [Header("Level Info")]
+    [SerializeField] private GameObject levelBlock;
+    [SerializeField] private TMP_Text levelText;
+    [SerializeField] private TMP_Text currentExpText;
+    [SerializeField] private TMP_Text boundExpText;
+    [SerializeField] private Image levelScale;
+    [SerializeField] private Image fakeLevelScale;
+    private Coroutine levelGrowningCoroutine;
+    private float levelFillStep = 0.01f;
+    private float levelFillMultiplier = 0.5f;
 
     [Header("Reward slots")]
     [SerializeField] private GameObject rewardBlock;
@@ -23,7 +35,9 @@ public class BattleResult : MonoBehaviour
     [SerializeField] private List<GameObject> lossesItemList;
     private List<Image> lossesItemImageList = new List<Image>();
     private List<TMP_Text> lossesItemTextList = new List<TMP_Text>();
-    private List<SquadtipTrigger> lossesItemSquadtipList = new List<SquadtipTrigger>();
+    private List<InfotipTrigger> lossesItemSquadtipList = new List<InfotipTrigger>();
+    [SerializeField] private GameObject retreatIcon;
+    [SerializeField] private GameObject defeatIcon;
 
     private bool isDeadRegistrating = false;
     private Dictionary<UnitsTypes, int> lostUnitsDict = new Dictionary<UnitsTypes, int>();
@@ -32,8 +46,9 @@ public class BattleResult : MonoBehaviour
 
     [Space]
     [Header("Container")]
-    public float fullHeight;
-    public float losesHeight;
+    public float fullHeight = 650f;
+    public float losesHeight = 500f;
+    public float minHeigth = 350f;
     private RectTransform rectContainer;
 
     [SerializeField] private CanvasGroup canvas;
@@ -57,6 +72,7 @@ public class BattleResult : MonoBehaviour
     private ResourcesManager resourcesManager;
     private Dictionary<ResourceType, Sprite> resourcesIcons;
     private EnemyManager enemyManager;
+    private MacroLevelUpManager macroManager;
 
     private PlayersArmy playersArmy;
 
@@ -71,6 +87,7 @@ public class BattleResult : MonoBehaviour
             resourcesManager = GlobalStorage.instance.resourcesManager;
             resourcesIcons   = resourcesManager.GetAllResourcesIcons();
             enemyManager     = GlobalStorage.instance.enemyManager;
+            macroManager     = GlobalStorage.instance.macroLevelUpManager; 
             playersArmy      = GlobalStorage.instance.player.GetComponent<PlayersArmy>();
 
             CreateLists();
@@ -84,21 +101,24 @@ public class BattleResult : MonoBehaviour
 
         UpdateActualArmy();
 
-        RefactoringContainer();
 
         BattleResultActions();
 
+        RefactoringContainer();
         uiPanel.SetActive(true);
-        //StartCoroutine(ShowUI());
         Fading.instance.Fade(true, canvas, step, 10);
     }
 
     private void BattleResultActions()
     {
+        ResetItems();
+
         if(currentStatus == 1)
         {
             enemyManager.DeleteArmy(currentEnemyGO, currentEnemyArmy);
+
             FillReward();
+            FillLevelInfo();
         }
 
         if(currentStatus == 0) playersArmy.DefeatDamage();
@@ -108,24 +128,11 @@ public class BattleResult : MonoBehaviour
         FillLosses();
     }
 
-    //private IEnumerator ShowUI()
-    //{
-    //    yield return new WaitForSeconds(step * 10);
-
-    //    WaitForSeconds delay = new WaitForSeconds(step * 0.25f);
-
-    //    currentAlfa = 0;
-
-    //    while(currentAlfa < 1)
-    //    {
-    //        currentAlfa += step * 2;
-    //        canvas.alpha = currentAlfa;
-    //        yield return delay;
-    //    }
-    //}
 
     private void FillReward()
     {
+        rewardBlock.SetActive(true);
+
         currentReward = rewardManager.GetBattleReward(currentEnemyArmy);        
 
         for(int i = 0; i < currentReward.resourcesList.Count; i++)
@@ -141,9 +148,101 @@ public class BattleResult : MonoBehaviour
             rewardItemTooltipList[i].content = currentReward.resourcesList[i].ToString();
         }
     }
+    
+    private void FillLevelInfo()
+    {
+        levelBlock.SetActive(true);
+        float expReward = 0;
+        LevelData currentData = macroManager.GetLevelData();
+
+        levelText.text = currentData.level.ToString();
+        currentExpText.text = currentData.currentExp.ToString();
+        boundExpText.text = currentData.boundExp.ToString();
+        levelScale.fillAmount = currentData.currentExp / currentData.boundExp;
+
+        if(currentReward != null)
+        {
+            for(int i = 0; i < currentReward.resourcesList.Count; i++)
+            {
+                if(currentReward.resourcesList[i] == ResourceType.Exp)
+                {
+                    expReward = currentReward.resourcesQuantity[i];
+                    break;
+                }                
+            }
+
+            if(expReward == 0) return;
+
+            fakeLevelScale.fillAmount = (currentData.currentExp + expReward) / currentData.boundExp;
+            float goalFill = (currentData.currentExp + expReward) / currentData.boundExp;
+
+            float difference = currentData.boundExp - (currentData.currentExp + expReward);
+
+            float countStep = expReward / ((expReward / currentData.boundExp) / (levelFillStep * levelFillMultiplier));
+
+            if(difference <= 0)
+            {
+                fakeLevelScale.fillAmount = goalFill;
+                goalFill = 1;
+                difference = Mathf.Abs(difference);
+                countStep = (currentData.boundExp - currentData.currentExp) / (  (  (currentData.boundExp - currentData.currentExp) / currentData.boundExp)   /  (levelFillStep * levelFillMultiplier)  );
+            }
+
+            levelGrowningCoroutine = StartCoroutine(LevelGrowing(goalFill, difference, countStep));
+        }
+        else
+        {
+            return;
+        }
+
+        IEnumerator LevelGrowing(float goal, float delta, float step)
+        {
+            yield return new WaitForSecondsRealtime(2f);
+
+            float currentCount = currentData.currentExp;
+            float bufferCount;
+            bool isNewLevel = false;
+
+            WaitForSecondsRealtime pause = new WaitForSecondsRealtime(levelFillStep);           
+
+            while(levelScale.fillAmount < goal)
+            {
+                levelScale.fillAmount += (levelFillStep * levelFillMultiplier);
+                currentCount += step;
+                bufferCount = Mathf.Round(currentCount);
+                currentExpText.text = bufferCount.ToString();
+
+                if(levelScale.fillAmount >= 1f)
+                {
+                    isNewLevel = true;
+                    levelScale.fillAmount = 0;
+                    currentCount = 0;
+
+                    LevelData futureData = macroManager.GetFutureDataForBattleResult();
+
+                    levelText.text = futureData.level.ToString();
+                    currentExpText.text = "0";
+                    boundExpText.text = futureData.boundExp.ToString();
+                    goal = delta / futureData.boundExp;
+                    step = delta / ((delta / futureData.boundExp) / (levelFillStep * levelFillMultiplier));
+                    fakeLevelScale.fillAmount = goal;
+                }
+
+                if(levelScale.fillAmount > goal) levelScale.fillAmount = goal;
+ 
+                yield return pause;
+            }
+
+            currentExpText.text = (isNewLevel == true) ? delta.ToString() : (currentData.currentExp + expReward).ToString();
+        }
+    }
 
     private void FillLosses()
     {
+        if(lostUnitsDict.Count == 0) return;
+
+        lossesBlock.SetActive(true);
+
         int counter = 0;
 
         foreach(var unit in lostUnitsDict)
@@ -203,29 +302,37 @@ public class BattleResult : MonoBehaviour
 
     private void RefactoringContainer()
     {
-        ResetItems();
-
         float height = 0;
 
         if(currentStatus == -1)
         {
-            height = losesHeight;
-            currentCaption = retreatCaption;
-            rewardBlock.SetActive(false);
+            if(lostUnitsDict.Count == 0)
+                retreatIcon.SetActive(true);
+            
+            height = minHeigth;
+            currentCaption = retreatCaption;            
         }
 
         if(currentStatus == 0)
         {
-            height = losesHeight;
-            currentCaption = defeatCaption;
-            rewardBlock.SetActive(false);
+            if(lostUnitsDict.Count == 0)
+                defeatIcon.SetActive(true);
+
+            height = minHeigth;
+            currentCaption = defeatCaption;            
         }
 
         if(currentStatus == 1)
         {
-            height = fullHeight;
+            if(lostUnitsDict.Count == 0)
+            {               
+                height = losesHeight;
+            }
+            else
+            {               
+                height = fullHeight;
+            }
             currentCaption = victoryCaption;
-            rewardBlock.SetActive(true);
         }
 
         rectContainer.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
@@ -234,6 +341,9 @@ public class BattleResult : MonoBehaviour
 
     private void ResetItems()
     {
+        retreatIcon.SetActive(false);
+        defeatIcon.SetActive(false);
+
         foreach(var item in rewardItemList)
             item.SetActive(false);
 
@@ -260,7 +370,7 @@ public class BattleResult : MonoBehaviour
             lossesItemImageList.Add(item.GetComponentInChildren<Image>());
             lossesItemTextList.Add(item.GetComponentInChildren<TMP_Text>());
             Destroy(item.GetComponentInChildren<TooltipTrigger>());
-            SquadtipTrigger squadtipTrigger = item.AddComponent<SquadtipTrigger>();
+            InfotipTrigger squadtipTrigger = item.AddComponent<InfotipTrigger>();
             lossesItemSquadtipList.Add(squadtipTrigger);            
         }
     }
@@ -272,35 +382,31 @@ public class BattleResult : MonoBehaviour
 
     public void CloseCheckingUnitDeath()
     {
-        // we need second function becouse we start reg automaticaly, but close - by command
+        // we need second function because we start reg automaticaly, but close - by command
         isDeadRegistrating = false;
     }
 
     #endregion
 
+    //Button
     public void CloseWindow()
     {
         CloseCheckingUnitDeath();
         lostUnitsDict.Clear();
         currentEnemyArmy = null;
+        if(levelGrowningCoroutine != null) StopCoroutine(levelGrowningCoroutine);
 
         if(currentStatus == 0) EventManager.OnDefeatEvent();
         if(currentStatus == 1) GetReward();
+
+        rewardBlock.SetActive(false);
+        levelBlock.SetActive(false);
+        lossesBlock.SetActive(false);
 
         GlobalStorage.instance.ModalWindowOpen(false);
         uiPanel.SetActive(false);
     }
 
-    private IEnumerator WaitGlobalMode()
-    {
-        while(GlobalStorage.instance.isGlobalMode == false)
-        {
-            yield return null;
-
-            Debug.Log("wait...");
-        }
-
-    }
     private void OnEnable()
     { 
         EventManager.SwitchPlayer += StartCheckingUnitDeath;

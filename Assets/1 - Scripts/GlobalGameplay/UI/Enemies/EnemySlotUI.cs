@@ -6,11 +6,11 @@ public class EnemySlotUI : MonoBehaviour
 {
     public Image icon;
     public TMP_Text amount;
-    private SquadtipTrigger squadtipTrigger;
+    private InfotipTrigger squadtipTrigger;
 
     public void Initialize(EnemyController enemy, int count)
     {
-        if(squadtipTrigger == null) squadtipTrigger = GetComponent<SquadtipTrigger>();
+        if(squadtipTrigger == null) squadtipTrigger = GetComponent<InfotipTrigger>();
         squadtipTrigger.SetEnemy(enemy);
 
         icon.sprite = enemy.icon;

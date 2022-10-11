@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ManaRegeneration 4
   m_EditorClassIdentifier: 
   abilityName: Magic Overflow
-  serieName: Mana Regeneration
+  serieName: Thirst to wiz
   abilitySeries: 27
   ability: 21
   activeIcon: {fileID: -8338915024618380500, guid: 108daa14e3115264995337bc498c548a, type: 3}

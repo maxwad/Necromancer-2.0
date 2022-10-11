@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using UnityEngine;
-
 public static class NameManager
 {
     public enum UnitsTypes
@@ -300,6 +296,15 @@ public static class NameManager
         Nothing
     }
 
+    public enum TipsType
+    {
+        Unit,
+        Enemy,
+        Hero,
+        Skill,
+        Spell,
+        Boost
+    }
 
     #endregion
 }

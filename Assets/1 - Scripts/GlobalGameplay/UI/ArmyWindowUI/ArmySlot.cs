@@ -16,7 +16,7 @@ public class ArmySlot : MonoBehaviour, IPointerClickHandler
     public Color unvisible;
     private Unit unitInSlot;
 
-    private SquadtipTrigger squadtipTrigger;
+    private InfotipTrigger squadtipTrigger;
 
     private PlayersArmy playersArmy;
 
@@ -28,7 +28,7 @@ public class ArmySlot : MonoBehaviour, IPointerClickHandler
 
     public void FillTheArmySlot(Unit unit)
     {
-        if(squadtipTrigger == null) squadtipTrigger = GetComponent<SquadtipTrigger>();
+        if(squadtipTrigger == null) squadtipTrigger = GetComponent<InfotipTrigger>();
 
         if (unit != null && unit.quantity != 0)
         {

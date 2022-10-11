@@ -77,7 +77,6 @@ public class MacroLevelUpManager : MonoBehaviour
     {
         currentExp = 0;
         currentExpGoal = Mathf.Pow(((currentLevel + 1) / standartExpRate), levelMultiplierRate);
-        //Debug.Log("Now you need " + currentExpGoal + " exp for " + (currentLevel + 1) + " level.");
 
         if(levelUpMode == true) NewLevel();
     }
@@ -85,6 +84,8 @@ public class MacroLevelUpManager : MonoBehaviour
     private void NewLevel()
     {
         currentLevel++;
+        //Debug.Log("Now you need " + currentExpGoal + " exp for " + (currentLevel + 1) + " level.");
+
         float points = 1f;
 
         ChangeAbilityPoints(true);
@@ -135,6 +136,11 @@ public class MacroLevelUpManager : MonoBehaviour
     public LevelData GetLevelData()
     {
         return new LevelData(currentLevel, currentExp, currentExpGoal);
+    }
+    public LevelData GetFutureDataForBattleResult()
+    {
+        float futureExpGoal = Mathf.Pow(((currentLevel + 1) / standartExpRate), levelMultiplierRate);
+        return new LevelData(currentLevel + 1, 0, futureExpGoal);
     }
 
     public int GetAbilityPoints()

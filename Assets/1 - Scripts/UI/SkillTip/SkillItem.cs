@@ -11,6 +11,7 @@ public class SkillItem : MonoBehaviour
     [SerializeField] private Image icon;
     [SerializeField] private GameObject link;
     [SerializeField] private GameObject fakeLink;
+    [SerializeField] private InfotipTrigger infotip;
 
 
     public void Init(MacroAbilitySO ability, int ind, float width)
@@ -21,6 +22,7 @@ public class SkillItem : MonoBehaviour
         link.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, width);
         fakeLink.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, width);
 
+        infotip.SetSkill(skill);
 
         if(index == 0)
         {

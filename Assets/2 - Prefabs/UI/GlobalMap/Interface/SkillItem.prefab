@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3319625305363762090}
   - component: {fileID: 2574624457986024149}
   - component: {fileID: 1987746397994990482}
+  - component: {fileID: -4589036403569638254}
   - component: {fileID: -1887385596363556}
   m_Layer: 5
   m_Name: SkillItem
@@ -79,6 +80,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &-4589036403569638254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 249158010545214165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e32d5b6946faabe4bbe754b768cbc843, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &-1887385596363556
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -91,9 +104,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb136243e6bf5d2449962c872e1c7563, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skill: {fileID: 0}
   icon: {fileID: 7511625862387279283}
   link: {fileID: 6912310602665425781}
   fakeLink: {fileID: 3529059392501345425}
+  infotip: {fileID: -4589036403569638254}
 --- !u!1 &1881524548134320331
 GameObject:
   m_ObjectHideFlags: 0

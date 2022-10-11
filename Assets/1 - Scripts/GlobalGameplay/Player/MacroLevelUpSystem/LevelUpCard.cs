@@ -19,13 +19,14 @@ public class LevelUpCard : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     [SerializeField] private TMP_Text fakeDescription;
     [SerializeField] private Image icon;
     [SerializeField] private Image border;
+    [SerializeField] private GameObject luck;
 
     private bool isVisible = true;
     private bool isTaken = false;
     private bool isMousePressed = false;
     private bool canIGetAbility = false;
     private bool isReplacement = false;
-    public bool isCoroutineStarted = false;
+    [HideInInspector] public bool isCoroutineStarted = false;
 
     private Coroutine coroutine;
     private float openingDelay;
@@ -95,6 +96,7 @@ public class LevelUpCard : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         icon.sprite = currentAbility.activeIcon;
         description.text = currentAbility.realDescription;
         fakeDescription.text = currentAbility.fakeDescription;
+        luck.SetActive(currentAbility.luckDepending);
     }
 
     public void OnPointerDown(PointerEventData eventData)
