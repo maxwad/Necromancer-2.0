@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -78,6 +79,7 @@ public class BattleManager : MonoBehaviour
 
         battleResultUI.Init(result, percentOfReward, currentEnemyArmyOnTheMap, currentArmy);
     }
+
     #endregion
 
     public void PrepairToTheBattle(Army army, EnemyArmyOnTheMap currentEnemyArmy)

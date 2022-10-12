@@ -199,7 +199,7 @@ public class LevelUpCard : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         content.SetActive(isVisible);
         isReplacement = false;
 
-        canIGetAbility = !newSkillUI.CheckTakenAbility();
+        if(newSkillUI != null) canIGetAbility = !newSkillUI.CheckTakenAbility();
     }
 
     private void OnDisable()

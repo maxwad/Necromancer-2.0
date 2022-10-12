@@ -498,7 +498,7 @@ public class BattleUIManager : MonoBehaviour
     {
         EventManager.SwitchPlayer             += Inizialize;
         EventManager.UpdateInfirmaryUI        += UpdateInfirmaryUI;
-        EventManager.UpgradeResource         += UpgradeResourceUI;
+        EventManager.UpgradeResource          += UpgradeResourceUI;
         EventManager.EnemiesCount             += GetStartCountEnemies;
         EventManager.EnemyDestroyed           += FillEnemiesBar;
     }
@@ -507,7 +507,7 @@ public class BattleUIManager : MonoBehaviour
     {
         EventManager.SwitchPlayer             -= Inizialize;
         EventManager.UpdateInfirmaryUI        -= UpdateInfirmaryUI;
-        EventManager.UpgradeResource         -= UpgradeResourceUI;
+        EventManager.UpgradeResource          -= UpgradeResourceUI;
         EventManager.EnemiesCount             -= GetStartCountEnemies;
         EventManager.EnemyDestroyed           -= FillEnemiesBar;
     }

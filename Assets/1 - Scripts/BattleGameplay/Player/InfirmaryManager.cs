@@ -6,6 +6,7 @@ using static NameManager;
 public class InfirmaryManager : MonoBehaviour
 {
     private float currentCapacity;
+    private float dayToDeath;
 
     public List<UnitsTypes> injuredList = new List<UnitsTypes>();
 
@@ -15,6 +16,7 @@ public class InfirmaryManager : MonoBehaviour
     {
         playerStats = GlobalStorage.instance.playerStats;
         currentCapacity = playerStats.GetCurrentParameter(PlayersStats.Infirmary);
+        dayToDeath = playerStats.GetCurrentParameter(PlayersStats.InfirmaryTime);
     }
 
     private void SetStartInfarmary(PlayersStats type, float value)
@@ -88,14 +90,25 @@ public class InfirmaryManager : MonoBehaviour
         return currentCapacity;
     }
 
+    private void UpgradeParameter(PlayersStats stat, float value)
+    {
+        if(stat == PlayersStats.Infirmary)
+            currentCapacity = value;
+
+        if(stat == PlayersStats.Infirmary)
+            currentCapacity = value;
+    }
+
     private void OnEnable()
     {
+        EventManager.SetNewPlayerStat += UpgradeParameter;
         EventManager.WeLostOneUnit += AddUnitToInfirmary;
         EventManager.RemoveUnitFromInfirmary += RemoveUnitFromInfirmary;
     }
 
     private void OnDisable()
     {
+        EventManager.SetNewPlayerStat -= UpgradeParameter;
         EventManager.WeLostOneUnit -= AddUnitToInfirmary;
         EventManager.RemoveUnitFromInfirmary -= RemoveUnitFromInfirmary;
     }

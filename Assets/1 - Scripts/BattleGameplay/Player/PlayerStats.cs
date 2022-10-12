@@ -9,14 +9,12 @@ public class PlayerStats : MonoBehaviour
     #region Battle Parameters
 
     [Header("Battle Parameters")]
-    [SerializeField] private float globalExp = 0;
 
-    [SerializeField] private float levelBase = 5;
     [SerializeField] private float levelMax = 30;
 
-    [SerializeField] private float healthBase = 500f;
+    [SerializeField] private float healthBase = 100f;
 
-    [SerializeField] private float manaBase = 50f;
+    [SerializeField] private float manaBase = 20f;
 
     [SerializeField] private float searchRadiusBase = 2f;
 
@@ -24,66 +22,27 @@ public class PlayerStats : MonoBehaviour
 
     [SerializeField] private float defenceBase = 1;
 
-    [SerializeField] private float healthRegenerationBase = 0;
+    [SerializeField] private float infirmaryBase = 5f;
 
-    [SerializeField] private float infarmaryBase = 5f;
-
-    [SerializeField] private float luckBase = 0.03f;
-
+    [SerializeField] private float infirmaryTimeBase = 5f;
 
     [Header("Global Parameters")]
     [Space]
     [SerializeField] private float movementDistanceBase = 10f;
 
-    [SerializeField] private float extraMovementPointsBase = 0;
+    [SerializeField] private float radiusViewBase = 10;    
 
-    [SerializeField] private float radiusViewBase = 10;
-
-    //[SerializeField] private float extraResourcesProduceBase = 0;
-
-    [SerializeField] private float extraExpRewardBase = 0;
-
-    [SerializeField] private float extraBoxRewardBase = 0;
-    
-
-
-    //[Header("True-False Parameters")]
-    //[Space]
-    ////0 - no, 1 - yes
-    //[SerializeField] private float canIUseSpellsBase = 0; 
-
-    ////0 - no, 1 - yes
-    //[SerializeField] private float canIUseNegativeCellBase = 0;
-
-    ////0 - no, 1 - yes
-    //[SerializeField] private float canIUseMedicAltarBase = 0;
-
-    //0 - no, 1 - yes
-    [SerializeField] private float doubleBonusFromBoxBase = 0;
-
-    //0 - no, 1 - yes
-    [SerializeField] private float isThereAFogBase = 0;
-
+    [SerializeField] private float luckBase = 3f;
 
     [Header("Number Parameters")]
     [Space]
     //3, 4
     [SerializeField] private float medicTryBase = 3;
 
-    //0 - can't see; 1 - general information; 2 - exemplary information; 3 - accurate information
-    [SerializeField] private float curiosityBase = 0;
-
-    ////0 - can't use; 1 - to random portal; 2 - portal directly; 3 - portal to town
-    [SerializeField] private float portalSkillBase = 3;
-
-    //0 - can't use; 1 - ordinary resources; 2 - mana; 3 - magic
-    [SerializeField] private float extraAfterBattleRewardBase = 0;
-
-    ////0 - can't use; 1 - 1 mana; 2 - 2 mana; 3 - 3 mana
-    //[SerializeField] private float manaRegenerationBase = 0;
-
-    ////0 - 100%, 1 - -20%; 2 - 40%; 3 - -100%
-    //[SerializeField] private float heroArmyTransformationToEnemyBase = 0;
+    // DESCRIPTIONS:
+    //curiosity: 0 - can't see; 1 - general information; 2 - exemplary information; 3 - accurate information
+    //portalSkill: 0 - can't use; 1 - to random portal; 2 - portal directly; 3 - portal to town
+    //extraAfterBattleReward: 0 - can't use; 1 - ordinary resources; 2 - mana; 3 - magic
 
     #endregion
 
@@ -141,14 +100,13 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
-    private Dictionary<PlayersStats, Stat> allStatsDict = new Dictionary<PlayersStats, Stat>();
+    [SerializeField] private Dictionary<PlayersStats, Stat> allStatsDict = new Dictionary<PlayersStats, Stat>();
 
 
     private void Awake()
     {
         InitStartParameters();
     }
-
 
     private void InitStartParameters()
     {
@@ -158,11 +116,16 @@ public class PlayerStats : MonoBehaviour
 
             switch(itemStat)
             {
-                case PlayersStats.Learning:
+                case PlayersStats.Curiosity:
+                    baseValue = 3;
+                    break;
+
+                case PlayersStats.ExtraMovementPoints:
+                    baseValue = 5;
                     break;
 
                 case PlayersStats.Level:
-                    baseValue = levelBase;
+                    baseValue = levelMax;
                     break;
 
                 case PlayersStats.Health:
@@ -185,87 +148,31 @@ public class PlayerStats : MonoBehaviour
                     baseValue = defenceBase;
                     break;
 
-                case PlayersStats.HealthRegeneration:
-                    break;
-
                 case PlayersStats.Infirmary:
-                    baseValue = infarmaryBase;
+                    baseValue = infirmaryBase;
+                    break; 
+                
+                case PlayersStats.InfirmaryTime:
+                    baseValue = infirmaryTimeBase;
                     break;
 
                 case PlayersStats.MovementDistance:
                     baseValue = movementDistanceBase;
                     break;
 
-
-                case PlayersStats.ExtraMovementPoints:
-                    baseValue = extraMovementPointsBase;
-                    break;
-
                 case PlayersStats.RadiusView:
                     baseValue = radiusViewBase;
-                    break;
-
-                case PlayersStats.ExtraResourcesProduce:
                     break;
 
                 case PlayersStats.Luck:
                     baseValue = luckBase;
                     break;
 
-                case PlayersStats.ExtraBoxReward:
-                    baseValue = extraBoxRewardBase;
-                    break;
-
-                case PlayersStats.ExtraExpReward:
-                    baseValue = extraExpRewardBase;
-                    break;
-
-                case PlayersStats.Spell:
-                    break;
-
-                case PlayersStats.NegativeCell:
-                    break;
-
-                case PlayersStats.MedicAltar:
-                    break;
-
-                case PlayersStats.DoubleBonusFromBox:
-                    baseValue = doubleBonusFromBoxBase;
-                    break;
-
                 case PlayersStats.MedicTry:
                     baseValue = medicTryBase;
                     break;
 
-                case PlayersStats.Curiosity:
-                    baseValue = curiosityBase;
-                    break;
-
-                case PlayersStats.Portal:
-                    baseValue = portalSkillBase;
-                    break;
-
-                case PlayersStats.ExtraAfterBattleReward:
-                    baseValue = extraAfterBattleRewardBase;
-                    break;
-
-                case PlayersStats.ManaRegeneration:
-                    break;
-
-                case PlayersStats.HeroArmyToEnemy:
-                    break;
-
-                case PlayersStats.Fog:
-                    break;
-
-                case PlayersStats.HealthBigRegeneration:
-                    break; 
-                
-                case PlayersStats.ManaBigRegeneration:
-                    break;
-
                 default:
-                    Debug.Log("Attention! Some stats were skip!");
                     break;
             }
 
@@ -273,13 +180,16 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
-    public void UpdateMaxStat(PlayersStats stat, float value)
+    public void UpdateMaxStat(PlayersStats stat, StatBoostType upgradeType, float value)
     {
         Stat upgradedStat = allStatsDict[stat];
-        upgradedStat.UpgradeMaxValue(value);
+        upgradedStat.UpgradeMaxValue(value, upgradeType);
         allStatsDict[stat] = upgradedStat;
 
         EventManager.OnSetNewPlayerStatEvent(stat, upgradedStat.maxValue);
+
+
+        Debug.Log("Now " + stat + " = " + allStatsDict[stat].maxValue);
     }
     
     private void AddBoostToStat(PlayersStats stat, float value)
@@ -298,11 +208,11 @@ public class PlayerStats : MonoBehaviour
     //    allStatsDict[stat] = currentStat;
     //}
 
-    public void GetAllStartParameters()
-    {
-        foreach(PlayersStats itemStat in Enum.GetValues(typeof(PlayersStats)))
-            EventManager.OnSetNewPlayerStatEvent(itemStat, allStatsDict[itemStat].maxValue);
-    }
+    //public void GetAllStartParameters()
+    //{
+    //    foreach(PlayersStats itemStat in Enum.GetValues(typeof(PlayersStats)))
+    //        EventManager.OnSetNewPlayerStatEvent(itemStat, allStatsDict[itemStat].maxValue);
+    //}
 
     public float GetCurrentParameter(PlayersStats stat)
     {

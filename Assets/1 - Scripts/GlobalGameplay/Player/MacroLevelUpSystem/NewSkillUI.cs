@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using static NameManager;
 
 public class NewSkillUI : MonoBehaviour
 {
@@ -23,6 +24,9 @@ public class NewSkillUI : MonoBehaviour
     private bool isAbilityTaken = false;
     private int readyForReplace = 0;
     private bool isChecking = false;
+
+    private bool isCardHidden = true;
+    private bool canIReplace = false;
 
     private void Start()
     {
@@ -59,8 +63,17 @@ public class NewSkillUI : MonoBehaviour
 
     private void ShowBattons()
     {
-        if(macroLevelUpManager.CanIReplaceCards() == true)
-            replaceButton.interactable = true;
+        if(canIReplace == true)
+        {
+            replaceButton.gameObject.SetActive(true);
+
+            if(macroLevelUpManager.CanIReplaceCards() == true)
+                replaceButton.interactable = true;
+        }
+        else
+        {
+            replaceButton.gameObject.SetActive(false);
+        }
     }
 
     private void GetAbilities()
@@ -73,10 +86,25 @@ public class NewSkillUI : MonoBehaviour
     {
         GetAbilities();
 
-        for(int i = 0; i < abilitiesList.Count; i++)
+        for(int i = 0; i < list.Count; i++)
         {
-            bool mode = (i == abilitiesList.Count - 1) ? false : true;
-            list[i].Init(mode, abilitiesList[i], i, this);
+            if(i >= abilitiesList.Count)
+            {
+                list[i].gameObject.SetActive(false);
+            }
+            else
+            {
+                bool mode;
+                if(isCardHidden == true)
+                {
+                    mode = (i == abilitiesList.Count - 1) ? false : true;
+                }
+                else
+                {
+                    mode = true;
+                }
+                list[i].Init(mode, abilitiesList[i], i, this);
+            }
         }
     }
 
@@ -141,5 +169,24 @@ public class NewSkillUI : MonoBehaviour
     {
         macroLevelUI.UpdateAbilityBlock();
         uiPanel.SetActive(false);
+    }
+
+    private void UpgradeParameter(PlayersStats stat, float value)
+    {
+        if(stat == PlayersStats.Learning)
+        {
+            canIReplace = (value > 0) ? true : false;
+            isCardHidden = (value > 1) ? false : true;
+        }
+    }
+
+    private void OnEnable()
+    {
+        EventManager.SetNewPlayerStat += UpgradeParameter;
+    }
+
+    private void OnDisable()
+    {
+        EventManager.SetNewPlayerStat -= UpgradeParameter;
     }
 }

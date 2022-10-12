@@ -11,6 +11,10 @@ public class AbilitiesStorage : MonoBehaviour
     private Dictionary<PlayersStats, List<MacroAbilitySO>> openedAbilitiesDict = new Dictionary<PlayersStats, List<MacroAbilitySO>>();
     private Dictionary<PlayersStats, List<MacroAbilitySO>> sortingDict = new Dictionary<PlayersStats, List<MacroAbilitySO>>();
 
+    public int abilitiesCount = 0;
+    private int abilitiesOpened = 0;
+    private int abilitiesLeft = 0;
+
     public void Init()
     {        
         foreach(var card in allAbilities)
@@ -45,7 +49,7 @@ public class AbilitiesStorage : MonoBehaviour
         availableAbilitiesDict = sortingDict;
         sortingDict = null;
 
-        //CountAbilities();
+        abilitiesCount = CountAbilities();
 
         abilitiesPlacing = GlobalStorage.instance.playerMilitaryWindow.gameObject.GetComponentInChildren<AbilitiesPlacing>();
         abilitiesPlacing.Init(availableAbilitiesDict);
@@ -128,7 +132,7 @@ public class AbilitiesStorage : MonoBehaviour
             return;
         }
 
-        //CountAbilities();
+        CountAbilities();
     }
 
     private void MoveToOpenedDict(MacroAbilitySO ability)
@@ -139,16 +143,43 @@ public class AbilitiesStorage : MonoBehaviour
         openedAbilitiesDict[ability.abilitySeries].Add(ability);
     }
 
-    private void CountAbilities()
+    public bool CheckSkill(MacroAbilitySO ability)
     {
-        int left = 0;
-        int opened = 0;
+        bool result = false;
+
+        if(openedAbilitiesDict.ContainsKey(ability.abilitySeries))
+        {
+            List<MacroAbilitySO> checkList = openedAbilitiesDict[ability.abilitySeries];
+
+            for(int i = 0; i < checkList.Count; i++)
+            {
+                if(checkList[i].level == ability.level)                 
+                { 
+                    result = true;
+                    break;
+                }
+            }
+        }        
+
+        return result;
+    }
+
+    public bool CanIGetNewAbility()
+    {
+        return abilitiesCount > abilitiesOpened;
+    }
+
+    private int CountAbilities()
+    {
+        abilitiesLeft = 0;
+        abilitiesOpened = 0;
+
 
         foreach(var serie in availableAbilitiesDict)
         {
             for(int i = 0; i < serie.Value.Count; i++)
             {
-                left++;
+                abilitiesLeft++;
             }
         }
 
@@ -156,12 +187,13 @@ public class AbilitiesStorage : MonoBehaviour
         {
             for(int i = 0; i < serie.Value.Count; i++)
             {
-                opened++;
+                abilitiesOpened++;
             }
         }
 
+        //Debug.Log("Left: " + abilitiesLeft + "; Opened: " + abilitiesOpened);
 
-        Debug.Log("Left: " + left + "; Opened: " + opened);
+        return abilitiesLeft + abilitiesOpened;
     }
 
 }

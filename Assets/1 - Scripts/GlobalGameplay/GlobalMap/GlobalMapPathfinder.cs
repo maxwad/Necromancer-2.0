@@ -164,12 +164,6 @@ public class GlobalMapPathfinder : MonoBehaviour
         {
             return cell.x < roadMap.size.x && cell.x >= 0 && cell.y < roadMap.size.y && cell.y >= 0;
         }
-        void GetParameters()
-        {
-            float[] parameters = player.GetParametres();
-            movementPointsMax = parameters[0];
-            currentMovementPoints = parameters[1];
-        }
     }
 
     private void PathFinding(Vector3Int startCell, Vector3Int goalCell)
@@ -284,6 +278,7 @@ public class GlobalMapPathfinder : MonoBehaviour
         if(shouldIClearPath == true) return;
                 
         ClearSteps();
+        GetParameters();
 
         float newPointsCount = remainingPoints;
 
@@ -397,6 +392,13 @@ public class GlobalMapPathfinder : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void GetParameters()
+    {
+        float[] parameters = player.GetParametres();
+        movementPointsMax = parameters[0];
+        currentMovementPoints = parameters[1];
     }
 
     public void ClearSteps()

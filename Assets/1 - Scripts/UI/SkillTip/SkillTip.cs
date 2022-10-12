@@ -3,27 +3,39 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class SkillTip : MonoBehaviour
 {
+    private MacroLevelUpManager macroLevelUpManager;
+
     [SerializeField] private RectTransform cardRect;
     [SerializeField] private GameObject content;
     [SerializeField] private TMP_Text caption;
     [SerializeField] private TMP_Text description;
     [SerializeField] private TMP_Text fakeDescription;
     [SerializeField] private Image icon;
-    [SerializeField] private Image border;
+    [SerializeField] private GameObject border;
     [SerializeField] private GameObject luck;
 
     private float offset = 20f;
 
     public void Init(MacroAbilitySO skill)
     {
+        if(macroLevelUpManager == null) macroLevelUpManager = GlobalStorage.instance.macroLevelUpManager;
+
         caption.text = skill.abilityName;
         icon.sprite = skill.activeIcon;
         description.text = skill.realDescription;
         fakeDescription.text = skill.fakeDescription;
         luck.SetActive(skill.luckDepending);
+
+        border.SetActive(!CheckStatus(skill));
+    }
+
+    private bool CheckStatus(MacroAbilitySO skill)
+    {
+        return macroLevelUpManager.abilitiesStorage.CheckSkill(skill);
     }
 
     private void LateUpdate()

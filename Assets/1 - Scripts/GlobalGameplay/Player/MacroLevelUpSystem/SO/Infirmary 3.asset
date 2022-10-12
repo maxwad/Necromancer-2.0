@@ -15,7 +15,7 @@ MonoBehaviour:
   abilityName: Quality Medicines
   serieName: Camp infirmary
   abilitySeries: 6
-  ability: 6
+  ability: 29
   activeIcon: {fileID: -2942086348935061010, guid: 108daa14e3115264995337bc498c548a, type: 3}
   inActiveIcon: {fileID: -7122834044152699686, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
   level: 3

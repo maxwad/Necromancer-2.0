@@ -75,6 +75,7 @@ public class BattleResult : MonoBehaviour
     private MacroLevelUpManager macroManager;
 
     private PlayersArmy playersArmy;
+    private GMPlayerMovement playerMovement;
 
     public void Init(int mode, float percentOfReward, EnemyArmyOnTheMap currentArmyGO, Army currentArmy)
     {
@@ -89,6 +90,7 @@ public class BattleResult : MonoBehaviour
             enemyManager     = GlobalStorage.instance.enemyManager;
             macroManager     = GlobalStorage.instance.macroLevelUpManager; 
             playersArmy      = GlobalStorage.instance.player.GetComponent<PlayersArmy>();
+            playerMovement   = GlobalStorage.instance.globalPlayer;
 
             CreateLists();
         }
@@ -100,7 +102,6 @@ public class BattleResult : MonoBehaviour
         canvas.alpha = 0;
 
         UpdateActualArmy();
-
 
         BattleResultActions();
 
@@ -398,6 +399,8 @@ public class BattleResult : MonoBehaviour
 
         if(currentStatus == 0) EventManager.OnDefeatEvent();
         if(currentStatus == 1) GetReward();
+
+        playerMovement.PathAfterBattle(currentStatus);
 
         rewardBlock.SetActive(false);
         levelBlock.SetActive(false);

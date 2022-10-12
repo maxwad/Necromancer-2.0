@@ -23,9 +23,6 @@ public class HeroController : MonoBehaviour
     [SerializeField] private float maxCurrentHealth;
     [SerializeField] private float currentHealth;
 
-    [SerializeField] private float maxCurrentMana;
-    public float currentMana;
-
     [SerializeField] private float searchRadius;
     [SerializeField] private float defence;
     [SerializeField] private float luck;
@@ -103,11 +100,6 @@ public class HeroController : MonoBehaviour
                 break;
         }
     }
-
-    //private void UpgradeStat(PlayersStats stat, float value)
-    //{
-    //    SetNewParameters(stat, value);
-    //}
 
     private void SearchBonuses()
     {
@@ -267,10 +259,12 @@ public class HeroController : MonoBehaviour
 
         ResetTempLevel(false);
 
-        playerStats.GetAllStartParameters();
+        //playerStats.GetAllStartParameters();
+        searchRadius = playerStats.GetCurrentParameter(PlayersStats.SearchRadius);
+        defence = playerStats.GetCurrentParameter(PlayersStats.Defence);
+        luck = playerStats.GetCurrentParameter(PlayersStats.Luck);
 
         currentHealth = resourcesManager.GetResource(ResourceType.Health);
-        currentMana = resourcesManager.GetResource(ResourceType.Mana);
     }
 
     private void OnDisable()

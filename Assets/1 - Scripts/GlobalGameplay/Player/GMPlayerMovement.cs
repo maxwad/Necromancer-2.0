@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,7 +9,11 @@ public class GMPlayerMovement : MonoBehaviour
     private GMInterface gmInterface;
     private float movementPointsMax = 0;
     private float currentMovementPoints = 0;
+    private float extraMovementPoints = 0;
+    private bool isExtraMovementWaisted = false;
     private float viewRadius = 0;
+
+    private float luck = 0;
 
     private float speed = 50f; //50 for build
     private float defaultCountSteps = 1000;
@@ -20,23 +23,37 @@ public class GMPlayerMovement : MonoBehaviour
 
     private GlobalMapPathfinder gmPathFinder;
     private GMPlayerPositionChecker positionChecker;
+    private ResourcesManager resourcesManager;
 
     private SpriteRenderer sprite;
+    [SerializeField] private Color activeColor;
+    [SerializeField] private Color inActiveColor;
+
     private Vector2 previousPosition = Vector2.zero;
     private Vector2 currentPosition = Vector2.zero;
 
     private void Start()
     {
         sprite = GetComponent<SpriteRenderer>();
+        sprite.color = activeColor;
         playerStats = GlobalStorage.instance.playerStats;
         gmInterface = GlobalStorage.instance.gmInterface;
         gmPathFinder = GlobalStorage.instance.globalMap.GetComponent<GlobalMapPathfinder>();
+        resourcesManager = GlobalStorage.instance.resourcesManager;
         positionChecker = GetComponent<GMPlayerPositionChecker>();
         SetParameters();
-        currentMovementPoints = movementPointsMax;
+        //currentMovementPoints = movementPointsMax;
         currentPosition = gameObject.transform.position;
-        gmInterface.UpdateCurrentMoves(currentMovementPoints);
-        //EventManager.OnUpgradeStatCurrentValueEvent(PlayersStats.MovementDistance, movementPointsMax, currentMovementPoints);
+        //gmInterface.UpdateCurrentMoves(currentMovementPoints);
+        ChangeMovementPoints(movementPointsMax);
+    }
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.PageUp))
+        {
+            ChangeMovementPoints(3);
+        }
     }
 
     public Vector3 GetCurrentPosition()
@@ -47,7 +64,9 @@ public class GMPlayerMovement : MonoBehaviour
     private void SetParameters()
     {
         movementPointsMax = playerStats.GetCurrentParameter(PlayersStats.MovementDistance);
+        extraMovementPoints = playerStats.GetCurrentParameter(PlayersStats.ExtraMovementPoints);
         viewRadius = playerStats.GetCurrentParameter(PlayersStats.RadiusView);
+        luck = playerStats.GetCurrentParameter(PlayersStats.Luck);
     }
 
     public float[] GetParametres()
@@ -68,18 +87,45 @@ public class GMPlayerMovement : MonoBehaviour
                 yield return null;
             }
 
-            currentMovementPoints = movementPointsMax;
-            gmInterface.UpdateCurrentMoves(currentMovementPoints);
+            ChangeMovementPoints(movementPointsMax);
+            isExtraMovementWaisted = false;
+
+            //currentMovementPoints = movementPointsMax;
+            //gmInterface.UpdateCurrentMoves(currentMovementPoints);
             //EventManager.OnUpgradeStatCurrentValueEvent(PlayersStats.MovementDistance, movementPointsMax, currentMovementPoints);
-            if(gmPathFinder != null) gmPathFinder.RefreshPath(currentPosition, currentMovementPoints);
+            //if(gmPathFinder != null) gmPathFinder.RefreshPath(currentPosition, currentMovementPoints);
         }
     }    
 
+    public void ChangeMovementPoints(float value)
+    {
+        currentMovementPoints += value;
+        if(currentMovementPoints > movementPointsMax) currentMovementPoints = movementPointsMax;
+
+        gmInterface.UpdateCurrentMoves(currentMovementPoints);
+        if(gmPathFinder != null && value > 0) gmPathFinder.RefreshPath(currentPosition, currentMovementPoints);
+
+        ChangeActiveStatus(!(currentMovementPoints == 0));
+    }
+
+    public void ChangeActiveStatus(bool mode)
+    {
+        sprite.color = (mode == true) ? activeColor : inActiveColor;
+    }
+
     private void UpgradeParameters(PlayersStats stats, float value)
     {
-        if(stats == PlayersStats.MovementDistance) movementPointsMax = value;
+        if(stats == PlayersStats.MovementDistance)
+        {
+            movementPointsMax = value;
+            ChangeMovementPoints(movementPointsMax);
+        }
+
+        if(stats == PlayersStats.ExtraMovementPoints) extraMovementPoints = value;
 
         if(stats == PlayersStats.RadiusView) viewRadius = value;
+
+        if(stats == PlayersStats.Luck) luck = value;
     }
 
     public void MoveOnTheWay(Vector2[] pathPoints, GlobalMapPathfinder map)
@@ -108,11 +154,17 @@ public class GMPlayerMovement : MonoBehaviour
                 if(CheckEnemy(pathPoints[i]) == true) break;
             }
             
-            sprite.flipX = previousPosition.x - pathPoints[i].x < 0 ? true : false;            
+            sprite.flipX = previousPosition.x - pathPoints[i].x < 0 ? true : false;
 
-            if(currentMovementPoints == 0) break;
-            currentMovementPoints--;
-            gmInterface.UpdateCurrentMoves(currentMovementPoints);
+            if(currentMovementPoints == 0) 
+            {
+                CheckExtraMovement();
+                break;             
+            }
+
+            ChangeMovementPoints(-1);
+            //currentMovementPoints--;
+            //gmInterface.UpdateCurrentMoves(currentMovementPoints);
             //EventManager.OnUpgradeStatCurrentValueEvent(PlayersStats.MovementDistance, movementPointsMax, currentMovementPoints);
 
             gmPathFinder.ClearRoadTile(pathPoints[i - 1]);
@@ -141,13 +193,29 @@ public class GMPlayerMovement : MonoBehaviour
         }
 
         if(cancelMovement == false && currentMovementPoints != 0) {
-            gmPathFinder.ClearRoadTile(pathPoints[pathPoints.Length - 1]);
-        } 
+            if((Vector2)transform.position == pathPoints[pathPoints.Length - 1])
+            {
+                gmPathFinder.ClearRoadTile(pathPoints[pathPoints.Length - 1]);
+            }
+        }
+
+        if(currentMovementPoints == 0) CheckExtraMovement();
 
         iAmMoving = false;
         cancelMovement = false;
 
         CheckPosition();
+    }
+
+    private void CheckExtraMovement()
+    {
+        if(extraMovementPoints == 0 || isExtraMovementWaisted == true) return;
+
+        if(Random.Range(0, 101) <= luck)
+        {
+            ChangeMovementPoints(extraMovementPoints);
+            isExtraMovementWaisted = true;
+        }
     }
 
     public bool CheckEnemy(Vector2 position)
@@ -168,8 +236,7 @@ public class GMPlayerMovement : MonoBehaviour
     public void TeleportTo(Vector2 newPosition, float cost)
     {
         gmPathFinder.DestroyPath();
-        //GlobalStorage.instance.hero.SpendMana(cost);
-
+        resourcesManager.ChangeResource(ResourceType.Mana, -cost);
         StartCoroutine(Telepartation(newPosition));        
     }
 
@@ -206,6 +273,24 @@ public class GMPlayerMovement : MonoBehaviour
 
         MenuManager.instance.isGamePaused = false;
         MenuManager.instance.canIOpenMenu = true;
+    }
+
+    public void PathAfterBattle(int result)
+    {
+        //-1 - retreat; 0 - defeat; 1 - victory
+
+        if(result == 1)
+        {
+            if(gmPathFinder != null) gmPathFinder.RefreshPath(currentPosition, currentMovementPoints);
+
+            Debug.Log("Refresh");
+        }
+        else
+        {
+            Debug.Log("Destroy");
+            gmPathFinder.DestroyPath();
+        }
+
     }
 
     private void OnEnable()

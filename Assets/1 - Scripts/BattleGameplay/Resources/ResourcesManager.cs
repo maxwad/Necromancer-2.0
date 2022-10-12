@@ -86,6 +86,12 @@ public class ResourcesManager : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.KeypadPlus) == true)
             ChangeResource(ResourceType.Exp, 500);
+
+        if(Input.GetKeyDown(KeyCode.PageUp) == true)
+            ChangeResource(ResourceType.Mana, 5);
+
+        if(Input.GetKeyDown(KeyCode.PageDown) == true)
+            ChangeResource(ResourceType.Mana, -5);
     }
 
     public float GetResource(ResourceType type)
@@ -141,6 +147,8 @@ public class ResourcesManager : MonoBehaviour
 
     public void ChangeResource(ResourceType type, float value)
     {
+        if(value == 0) return;
+
         if(type == ResourceType.Exp)
         {
             macroLevelUpManager.AddExp(value);

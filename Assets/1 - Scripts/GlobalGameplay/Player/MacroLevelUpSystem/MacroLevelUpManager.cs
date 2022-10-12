@@ -20,8 +20,7 @@ public class MacroLevelUpManager : MonoBehaviour
 {
     private PlayerStats playerStats;
     private NewLevelUI newLevelUI;
-    private MacroLevelWindow macroLevelUI;
-    private AbilitiesStorage abilitiesStorage;
+    [HideInInspector] public AbilitiesStorage abilitiesStorage;
 
     private float maxLevel;
     public float currentLevel = 1;
@@ -45,9 +44,11 @@ public class MacroLevelUpManager : MonoBehaviour
         playerStats = GlobalStorage.instance.playerStats;
         maxLevel = playerStats.GetCurrentParameter(PlayersStats.Level);
         newLevelUI = GlobalStorage.instance.gmInterface.gameObject.GetComponent<NewLevelUI>();
-        macroLevelUI = GlobalStorage.instance.playerMilitaryWindow.GetComponent<MacroLevelWindow>();
         abilitiesStorage = GetComponentInChildren<AbilitiesStorage>();
         abilitiesStorage.Init();
+
+        //TODO: delete on release
+        abilityPoints = abilitiesStorage.abilitiesCount;
 
         //for(int i = 0; i < 11; i++)
         //{
@@ -99,7 +100,7 @@ public class MacroLevelUpManager : MonoBehaviour
             abilitiesList = abilitiesStorage.GetAbilitiesForNewLevel(countOfAbilitiesVariants);
 
         PlayersStats stat = (currentLevel % 2 == 0) ? PlayersStats.Health : PlayersStats.Mana;
-        playerStats.UpdateMaxStat(stat, newLevelBonusAmount);
+        playerStats.UpdateMaxStat(stat, StatBoostType.Value, newLevelBonusAmount);
 
         newLevelUI.Init(stat, newLevelBonusAmount, currentLevel, points);
     }
@@ -126,6 +127,7 @@ public class MacroLevelUpManager : MonoBehaviour
         abilitiesList.Clear();
 
         abilitiesStorage.ApplyAbility(newAbility);
+        playerStats.UpdateMaxStat(newAbility.ability, newAbility.valueType, newAbility.value);
     }
 
     public float GetCurrentLevel()

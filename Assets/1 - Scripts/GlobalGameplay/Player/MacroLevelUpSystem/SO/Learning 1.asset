@@ -22,6 +22,6 @@ MonoBehaviour:
   value: 1
   valueType: 1
   fakeDescription: Show me other cards, buddy!
-  schemeDescription: Replace the skills you received for selection.
-  realDescription: Replace the skills you received for selection.
+  schemeDescription: Replace the skills you got for selection.
+  realDescription: Replace the skills you got for selection.
   luckDepending: 0

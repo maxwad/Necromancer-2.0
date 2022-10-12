@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using static NameManager;
 
 public class MacroLevelWindow : MonoBehaviour
 {
@@ -60,6 +59,8 @@ public class MacroLevelWindow : MonoBehaviour
 
     public void ActivationButton(bool mode)
     {
+        if(mode == true) mode = macroLevelUpManager.abilitiesStorage.CanIGetNewAbility();
+
         newAbilityBtn.interactable = mode;
     }
 

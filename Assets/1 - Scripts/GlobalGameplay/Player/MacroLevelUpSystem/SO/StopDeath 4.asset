@@ -19,7 +19,7 @@ MonoBehaviour:
   activeIcon: {fileID: 4976946514587307212, guid: 108daa14e3115264995337bc498c548a, type: 3}
   inActiveIcon: {fileID: -2781250998571224138, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
   level: 4
-  value: 20
+  value: 40
   valueType: 3
   fakeDescription: Bless the graves of fallen soldiers!
   schemeDescription: Fallen soldiers no longer respawn into the Necromancer's army.

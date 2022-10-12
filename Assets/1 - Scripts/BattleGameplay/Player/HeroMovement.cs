@@ -21,14 +21,14 @@ public class HeroMovement : MonoBehaviour
         armyController = GlobalStorage.instance.battlePlayer;
 
         CheckDirection();
-        Animamion();
+        Animation();
     }
 
     void Update()
     {
         CheckDirection();
 
-        Animamion();
+        Animation();
     }
 
     private void CheckDirection()
@@ -37,7 +37,7 @@ public class HeroMovement : MonoBehaviour
         currentFacing = armyController.GetArmyFacing();
     }
 
-    private void Animamion()
+    private void Animation()
     {
         sprite.flipX = currentFacing;
         sprite.sortingOrder = -Mathf.RoundToInt(transform.position.y * 100);
