@@ -12,6 +12,7 @@ public class GMPlayerMovement : MonoBehaviour
     private float extraMovementPoints = 0;
     private bool isExtraMovementWaisted = false;
     private float viewRadius = 0;
+    private bool isFogNeeded = true;
 
     private float luck = 0;
 
@@ -123,8 +124,18 @@ public class GMPlayerMovement : MonoBehaviour
 
         if(stats == PlayersStats.ExtraMovementPoints) extraMovementPoints = value;
 
-        if(stats == PlayersStats.RadiusView) viewRadius = value;
+        if(stats == PlayersStats.RadiusView) 
+        {
+            viewRadius = value;
+            gmPathFinder.CheckFog(isFogNeeded, viewRadius);
+        }
 
+        if(stats == PlayersStats.Fog) 
+        { 
+            isFogNeeded = (value == 1) ? false : true;
+            gmPathFinder.CheckFog(isFogNeeded, viewRadius);
+        }
+        
         if(stats == PlayersStats.Luck) luck = value;
     }
 
@@ -168,7 +179,7 @@ public class GMPlayerMovement : MonoBehaviour
             //EventManager.OnUpgradeStatCurrentValueEvent(PlayersStats.MovementDistance, movementPointsMax, currentMovementPoints);
 
             gmPathFinder.ClearRoadTile(pathPoints[i - 1]);
-            gmPathFinder.CheckFog(viewRadius);
+            gmPathFinder.CheckFog(isFogNeeded, viewRadius);
 
             Vector2 distance = pathPoints[i] - (Vector2)transform.position;
             Vector2 step = distance / (defaultCountSteps / speed);
@@ -235,7 +246,7 @@ public class GMPlayerMovement : MonoBehaviour
 
     public void TeleportTo(Vector2 newPosition, float cost)
     {
-        gmPathFinder.DestroyPath();
+        gmPathFinder.DestroyPath(true);
         resourcesManager.ChangeResource(ResourceType.Mana, -cost);
         StartCoroutine(Telepartation(newPosition));        
     }
@@ -261,7 +272,7 @@ public class GMPlayerMovement : MonoBehaviour
         Camera.main.transform.position = new Vector3(newPosition.x, newPosition.y, Camera.main.transform.position.z);        
         transform.position = newPosition;
         currentPosition = newPosition;
-        gmPathFinder.CheckFog(viewRadius);
+        gmPathFinder.CheckFog(isFogNeeded, viewRadius);
 
         while(alfa < 1)
         {
@@ -282,15 +293,11 @@ public class GMPlayerMovement : MonoBehaviour
         if(result == 1)
         {
             if(gmPathFinder != null) gmPathFinder.RefreshPath(currentPosition, currentMovementPoints);
-
-            Debug.Log("Refresh");
         }
         else
         {
-            Debug.Log("Destroy");
-            gmPathFinder.DestroyPath();
+            gmPathFinder.DestroyPath(true);
         }
-
     }
 
     private void OnEnable()

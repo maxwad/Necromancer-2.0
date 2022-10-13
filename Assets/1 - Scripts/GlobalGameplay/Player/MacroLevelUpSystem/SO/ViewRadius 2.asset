@@ -19,7 +19,7 @@ MonoBehaviour:
   activeIcon: {fileID: -8035495476119955440, guid: 108daa14e3115264995337bc498c548a, type: 3}
   inActiveIcon: {fileID: -2466921547458305263, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
   level: 2
-  value: 5
+  value: 3
   valueType: 3
   fakeDescription: It looks like you can see more!
   schemeDescription: Adds $ units to the hero's vision range.

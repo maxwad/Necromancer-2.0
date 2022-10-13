@@ -133,39 +133,39 @@ public static class NameManager
 
     public enum PlayersStats
     {
-        Level, //done
-        Health, //done
-        Mana, //done
+        Level, 
+        Health, 
+        Mana, 
         Speed,//later
         SearchRadius,//later
-        Defence,//done
-        Infirmary,//done
-        Luck,//done
+        Defence,
+        Infirmary,
+        Luck,
 
-        MovementDistance,//done
+        MovementDistance,
         HealthRegeneration,
         RadiusView,
         ExtraResourcesProduce,//later
-        ExtraBoxReward,//done
-        ExtraExpReward,//done
+        ExtraBoxReward,
+        ExtraExpReward,
 
-        Spell,
+        Spell,//later
         NegativeCell,//later
         MedicAltar,//later
-        DoubleBonusFromBox,//done
+        DoubleBonusFromBox,
         ExtraMovementPoints,
         Fog,
         HealthBigRegeneration,
         ManaBigRegeneration,
-        Learning, //done
+        Learning, 
 
         MedicTry,//later
         Curiosity,
         Portal,
-        ExtraAfterBattleReward,//done
+        ExtraAfterBattleReward,
         ManaRegeneration,
         HeroArmyToEnemy,//later
-        InfirmaryTime//done
+        InfirmaryTime
     }
 
     public enum Spells

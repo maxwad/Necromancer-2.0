@@ -26,6 +26,7 @@ public class GlobalMapPathfinder : MonoBehaviour
 
     private float movementPointsMax = 0;
     private float currentMovementPoints = 0;
+    private float constStep = 1.4f; // experimental const
 
     private Vector3Int startPoint;
     private Vector3Int destinationPoint;
@@ -74,7 +75,6 @@ public class GlobalMapPathfinder : MonoBehaviour
     public void LClick() 
     {
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
         
         RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
         ClickableObject checkingObject;
@@ -377,9 +377,20 @@ public class GlobalMapPathfinder : MonoBehaviour
         overlayMap.SetTile(roadMap.WorldToCell(point), null);
     }
 
-    public void CheckFog(float radius)
+    public void CheckFog(bool isFogNeeded, float radius)
     {
+        // in release we need check FALSE
+        if(isFogNeeded == true)
+        {
+            fogMap.gameObject.SetActive(false);
+            return;
+        }
+
+        fogMap.gameObject.SetActive(true);
+
         Vector3Int center = fogMap.WorldToCell(player.transform.position);
+
+        radius *= constStep;
 
         for(float x = -radius; x < radius; x++)
         {
@@ -411,8 +422,10 @@ public class GlobalMapPathfinder : MonoBehaviour
         overlayMap.ClearAllTiles();
     }
 
-    public void DestroyPath()
+    public void DestroyPath(bool destroyMode)
     {
+        shouldIClearPath = destroyMode;
+
         targetCell = null;
         ClearSteps();
     }

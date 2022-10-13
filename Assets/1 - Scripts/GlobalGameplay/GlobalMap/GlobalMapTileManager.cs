@@ -42,7 +42,7 @@ public class GlobalMapTileManager : MonoBehaviour
     private List<GameObject> allBuildingsOnTheMap = new List<GameObject>();
 
     GlobalMapPathfinder gmPathfinder;
-    private float startRadiusWithoutFog = 30;
+    private float startRadiusWithoutFog = 15;
 
     public void Load()
     {
@@ -338,7 +338,7 @@ public class GlobalMapTileManager : MonoBehaviour
     private void SendDataToPathfinder()
     {
         gmPathfinder.roads = roads;
-        gmPathfinder.CheckFog(startRadiusWithoutFog);
+        gmPathfinder.CheckFog(true, startRadiusWithoutFog);
         gmPathfinder.SetEnterPoints(enterPointsDict);
     }
 }

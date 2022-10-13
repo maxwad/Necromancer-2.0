@@ -42,8 +42,8 @@ public class DeltaCost : MonoBehaviour
 
     private IEnumerator FadeOut()
     {
-        WaitForSeconds delay = new WaitForSeconds(step);
-        yield return new WaitForSeconds(1f); 
+        WaitForSecondsRealtime delay = new WaitForSecondsRealtime(step);
+        yield return new WaitForSecondsRealtime(1f); 
 
         currentAlfa = 1;
 

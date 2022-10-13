@@ -24,10 +24,9 @@ public class PlayerPersonalWindow : MonoBehaviour
     [SerializeField] private GameObject enemyBlock;
     private EnemyArmyPart enemyArmyUIPart;
 
+    [Header("Hero Part")]
+    [SerializeField] private GameObject heroBlock;
     //[SerializeField] private GameObject tombBlock;
-
-    [Header("Enemy Part")]
-    [SerializeField] private MacroLevelWindow macroLevelUI;
 
     [Header("Buttons")]
     [SerializeField] private GameObject commonButtonsBlock;
@@ -47,6 +46,7 @@ public class PlayerPersonalWindow : MonoBehaviour
 
     private PlayersArmy playersArmy;
     private EnemyArmyOnTheMap currentEnemy;
+    private MacroLevelWindow macroLevelUI;
     [HideInInspector] public bool isWindowOpened = false;
     private float playerCuriosity;
 
@@ -165,10 +165,12 @@ public class PlayerPersonalWindow : MonoBehaviour
         if(currentMode == PlayersWindow.PlayersArmy)
         {
             enemyBlock.SetActive(false);
+            heroBlock.SetActive(true);
         }
 
         if(currentMode == PlayersWindow.Battle)
         {
+            heroBlock.SetActive(false);
             enemyBlock.SetActive(true);
 
             closeButton.SetActive(false);

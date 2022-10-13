@@ -44,7 +44,7 @@ public class GMPlayerPositionChecker : MonoBehaviour
             if(fightMode == true)
             {
                 gmMovement.StopMoving();
-                gmPathFinder.DestroyPath();
+                //gmPathFinder.DestroyPath();
                 enemyArmy.PrepairToTheBattle();
             }            
             return true;
