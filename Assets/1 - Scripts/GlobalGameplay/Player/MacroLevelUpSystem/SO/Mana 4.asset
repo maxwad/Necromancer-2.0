@@ -21,6 +21,7 @@ MonoBehaviour:
   level: 4
   value: 30
   valueType: 3
+  cost: 2
   fakeDescription: Tireless Wizard!
   schemeDescription: Adds $ mana points to the hero.
   realDescription: Adds 30 mana points to the hero.

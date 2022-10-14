@@ -30,9 +30,9 @@ public class PlayerStats : MonoBehaviour
     [Space]
     [SerializeField] private float movementDistanceBase = 10f;
 
-    [SerializeField] private float radiusViewBase = 10;    
-
     [SerializeField] private float luckBase = 3f;
+
+    [SerializeField] private float learningBase = 5f;
 
     [Header("Number Parameters")]
     [Space]
@@ -160,16 +160,16 @@ public class PlayerStats : MonoBehaviour
                     baseValue = movementDistanceBase;
                     break;
 
-                case PlayersStats.RadiusView:
-                    baseValue = radiusViewBase;
-                    break;
-
                 case PlayersStats.Luck:
                     baseValue = luckBase;
                     break;
 
                 case PlayersStats.MedicTry:
                     baseValue = medicTryBase;
+                    break; 
+                
+                case PlayersStats.Learning:
+                    baseValue = learningBase;
                     break;
 
                 default:

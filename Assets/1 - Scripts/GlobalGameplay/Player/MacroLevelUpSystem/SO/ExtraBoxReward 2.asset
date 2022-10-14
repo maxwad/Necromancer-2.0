@@ -21,6 +21,7 @@ MonoBehaviour:
   level: 2
   value: 10
   valueType: 3
+  cost: 1
   fakeDescription: A little more Rewards from Boxes!
   schemeDescription: Increase rewards in boxes by $%.
   realDescription: Increase rewards in boxes by 10%.

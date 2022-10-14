@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 944e529ba73aca64eb63ed063e9b940b, type: 3}
   m_Name: HealthRegeneration 1
   m_EditorClassIdentifier: 
-  abilityName: Thirst to live I
-  serieName: Thirst to live
+  abilityName: Will to live I
+  serieName: Will to live
   abilitySeries: 9
   ability: 9
   activeIcon: {fileID: -157299190641410595, guid: 108daa14e3115264995337bc498c548a, type: 3}
@@ -21,6 +21,7 @@ MonoBehaviour:
   level: 1
   value: 5
   valueType: 3
+  cost: 1
   fakeDescription: Your wounds don't look fatal!
   schemeDescription: Regenerate $ hero health points per day.
   realDescription: Regenerate 5 hero health points per day.

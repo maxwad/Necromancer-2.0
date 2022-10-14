@@ -21,6 +21,7 @@ MonoBehaviour:
   level: 3
   value: 4
   valueType: 3
+  cost: 1
   fakeDescription: Fortune favors the bold!
   schemeDescription: Increases the hero's luck by $.
   realDescription: Increases the hero's luck by 4.

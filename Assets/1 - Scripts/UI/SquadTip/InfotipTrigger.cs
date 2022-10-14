@@ -4,15 +4,15 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using static NameManager;
 
-public class InfotipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class InfotipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     private Unit unit;
     private EnemyController enemy;
     private MacroAbilitySO skill;
 
-    private TipsType tipsType;
+    [SerializeField] private TipsType tipsType;
 
-    private float timeDelay = 1f;
+    private float timeDelay = 0.5f;
     private float currentWaitTime = 0;
     private bool isWaiting = false;
     private bool isTipOpen = false;
@@ -36,7 +36,9 @@ public class InfotipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
                         break;
 
                     case TipsType.Hero:
+                        InfotipManager.Show();
                         break;
+
                     case TipsType.Skill:
                         InfotipManager.Show(skill);
                         break;
@@ -68,6 +70,15 @@ public class InfotipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         currentWaitTime = 0;
     }
 
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if(isWaiting == false) InfotipManager.Hide(tipsType);
+
+        isTipOpen = false;
+        isWaiting = false;
+        currentWaitTime = 0;
+    }
+
     public void SetUnit(Unit squad)
     {
         unit = squad;
@@ -89,6 +100,11 @@ public class InfotipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     private void OnDisable()
     {
-        if(isTipOpen == true) InfotipManager.Hide(tipsType);
+        currentWaitTime = 0;
+        if(isTipOpen == true) 
+        {
+            isTipOpen = false;
+            InfotipManager.Hide(tipsType);
+        }
     }
 }

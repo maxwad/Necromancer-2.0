@@ -12,7 +12,7 @@ public class FogBreaker : MonoBehaviour
     private void Start()
     {
         playerStats = GlobalStorage.instance.playerStats;
-        viewRadius = playerStats.GetCurrentParameter(PlayersStats.RadiusView);
+        viewRadius = playerStats.GetCurrentParameter(PlayersStats.MovementDistance);
         scale = transform.localScale.x;
 
         scaleConstant = scale / viewRadius;
@@ -20,7 +20,7 @@ public class FogBreaker : MonoBehaviour
 
     private void UpdateRadius(PlayersStats stats, float value)
     {
-        if(stats == PlayersStats.RadiusView)
+        if(stats == PlayersStats.MovementDistance)
         {
             viewRadius = value;
             transform.localScale = new Vector3(scaleConstant * viewRadius, scaleConstant * viewRadius, 0);

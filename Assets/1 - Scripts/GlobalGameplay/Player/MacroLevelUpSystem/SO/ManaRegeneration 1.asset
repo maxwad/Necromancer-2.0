@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 944e529ba73aca64eb63ed063e9b940b, type: 3}
   m_Name: ManaRegeneration 1
   m_EditorClassIdentifier: 
-  abilityName: Thirst to wiz I
-  serieName: Thirst to wiz
+  abilityName: Craving to wiz I
+  serieName: Craving to wiz
   abilitySeries: 27
   ability: 27
   activeIcon: {fileID: -8338915024618380500, guid: 108daa14e3115264995337bc498c548a, type: 3}
@@ -21,6 +21,7 @@ MonoBehaviour:
   level: 1
   value: 2
   valueType: 3
+  cost: 1
   fakeDescription: Why are you glowing?
   schemeDescription: Hero restores $ mana points per day.
   realDescription: Hero restores 2 mana points per day.

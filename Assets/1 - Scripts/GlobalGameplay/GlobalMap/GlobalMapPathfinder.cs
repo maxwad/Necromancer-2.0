@@ -72,6 +72,7 @@ public class GlobalMapPathfinder : MonoBehaviour
             }
         }
     }
+
     public void LClick() 
     {
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);

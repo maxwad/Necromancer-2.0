@@ -21,6 +21,7 @@ MonoBehaviour:
   level: 4
   value: 50
   valueType: 3
+  cost: 2
   fakeDescription: No one will be left without care!
   schemeDescription: Adds to the hero's infirmary $ places.
   realDescription: Adds to the hero's infirmary 50 places.

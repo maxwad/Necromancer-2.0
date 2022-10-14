@@ -21,6 +21,7 @@ MonoBehaviour:
   level: 2
   value: 1
   valueType: 1
+  cost: 1
   fakeDescription: Collect all the useful things left on the battlefield!
   schemeDescription: After the battle, the hero receives additional resources.
   realDescription: After the battle, the hero receives additional resources.

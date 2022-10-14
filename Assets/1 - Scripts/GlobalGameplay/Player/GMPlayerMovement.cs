@@ -43,9 +43,8 @@ public class GMPlayerMovement : MonoBehaviour
         resourcesManager = GlobalStorage.instance.resourcesManager;
         positionChecker = GetComponent<GMPlayerPositionChecker>();
         SetParameters();
-        //currentMovementPoints = movementPointsMax;
+
         currentPosition = gameObject.transform.position;
-        //gmInterface.UpdateCurrentMoves(currentMovementPoints);
         ChangeMovementPoints(movementPointsMax);
     }
 
@@ -66,7 +65,7 @@ public class GMPlayerMovement : MonoBehaviour
     {
         movementPointsMax = playerStats.GetCurrentParameter(PlayersStats.MovementDistance);
         extraMovementPoints = playerStats.GetCurrentParameter(PlayersStats.ExtraMovementPoints);
-        viewRadius = playerStats.GetCurrentParameter(PlayersStats.RadiusView);
+        viewRadius = playerStats.GetCurrentParameter(PlayersStats.MovementDistance);
         luck = playerStats.GetCurrentParameter(PlayersStats.Luck);
     }
 
@@ -90,11 +89,6 @@ public class GMPlayerMovement : MonoBehaviour
 
             ChangeMovementPoints(movementPointsMax);
             isExtraMovementWaisted = false;
-
-            //currentMovementPoints = movementPointsMax;
-            //gmInterface.UpdateCurrentMoves(currentMovementPoints);
-            //EventManager.OnUpgradeStatCurrentValueEvent(PlayersStats.MovementDistance, movementPointsMax, currentMovementPoints);
-            //if(gmPathFinder != null) gmPathFinder.RefreshPath(currentPosition, currentMovementPoints);
         }
     }    
 
@@ -120,15 +114,12 @@ public class GMPlayerMovement : MonoBehaviour
         {
             movementPointsMax = value;
             ChangeMovementPoints(movementPointsMax);
-        }
 
-        if(stats == PlayersStats.ExtraMovementPoints) extraMovementPoints = value;
-
-        if(stats == PlayersStats.RadiusView) 
-        {
             viewRadius = value;
             gmPathFinder.CheckFog(isFogNeeded, viewRadius);
         }
+
+        if(stats == PlayersStats.ExtraMovementPoints) extraMovementPoints = value;
 
         if(stats == PlayersStats.Fog) 
         { 
@@ -173,10 +164,6 @@ public class GMPlayerMovement : MonoBehaviour
                 break;             
             }
 
-            ChangeMovementPoints(-1);
-            //currentMovementPoints--;
-            //gmInterface.UpdateCurrentMoves(currentMovementPoints);
-            //EventManager.OnUpgradeStatCurrentValueEvent(PlayersStats.MovementDistance, movementPointsMax, currentMovementPoints);
 
             gmPathFinder.ClearRoadTile(pathPoints[i - 1]);
             gmPathFinder.CheckFog(isFogNeeded, viewRadius);
@@ -189,6 +176,7 @@ public class GMPlayerMovement : MonoBehaviour
                 transform.position += (Vector3)step;
                 yield return new WaitForSeconds(0.01f);
             }
+            ChangeMovementPoints(-1);
                         
             transform.position = pathPoints[i];
             previousPosition = pathPoints[i - 1];

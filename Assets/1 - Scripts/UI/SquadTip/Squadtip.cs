@@ -1,10 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using static NameManager;
-using System;
 
 public class Squadtip : MonoBehaviour
 {
@@ -22,15 +19,7 @@ public class Squadtip : MonoBehaviour
     private PlayerStats playerStats;
     private float curiosity = 0;
     private string gag = "???";
-
-    private float offset = 20f;
-    private RectTransform rectTransform;
-
-    private void Awake()
-    {
-        rectTransform = GetComponent<RectTransform>();
-    }
-
+        
     public void Init(Unit unit)
     {
         ShowAbility(true);
@@ -98,33 +87,5 @@ public class Squadtip : MonoBehaviour
     private void ShowAbility(bool mode)
     {
         descriptionBlock.SetActive(mode);
-    }
-
-    private void LateUpdate()
-    {
-        CorrectSquadtipPosition();
-    }
-
-    private void CorrectSquadtipPosition()
-    {
-        Vector2 position = Input.mousePosition;
-        float pivotX = 0;
-        float pivotY = 1;
-        float offsetX = offset;
-        float offsetY = 0;
-
-        if(Screen.width - position.x < rectTransform.rect.width)
-        {
-            pivotX = 1f;
-            offsetX = -offsetX;
-        }
-
-        if(position.y - rectTransform.rect.height < 0)
-        {
-            pivotY = 0f;
-        }
-
-        rectTransform.pivot = new Vector2(pivotX, pivotY);
-        transform.position = position + new Vector2(offsetX, offsetY);
     }
 }

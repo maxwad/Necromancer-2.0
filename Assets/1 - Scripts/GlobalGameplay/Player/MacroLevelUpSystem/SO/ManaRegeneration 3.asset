@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 944e529ba73aca64eb63ed063e9b940b, type: 3}
   m_Name: ManaRegeneration 3
   m_EditorClassIdentifier: 
-  abilityName: Thirst to wiz III
-  serieName: Thirst to wiz
+  abilityName: Craving to wiz III
+  serieName: Craving to wiz
   abilitySeries: 27
   ability: 27
   activeIcon: {fileID: -8338915024618380500, guid: 108daa14e3115264995337bc498c548a, type: 3}
@@ -21,6 +21,7 @@ MonoBehaviour:
   level: 3
   value: 5
   valueType: 3
+  cost: 1
   fakeDescription: Why are you glowing?
   schemeDescription: Increases the hero's mana regeneration by $ per day.
   realDescription: Increases the hero's mana regeneration by 5 per day.

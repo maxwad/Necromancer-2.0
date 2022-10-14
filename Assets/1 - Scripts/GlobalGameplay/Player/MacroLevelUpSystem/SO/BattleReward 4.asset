@@ -21,6 +21,7 @@ MonoBehaviour:
   level: 4
   value: 1
   valueType: 1
+  cost: 1
   fakeDescription: Check all vials of slain wizards!
   schemeDescription: Possibility to get some mana after the battle.
   realDescription: Possibility to get some mana after the battle.

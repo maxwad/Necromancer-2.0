@@ -21,6 +21,7 @@ MonoBehaviour:
   level: 4
   value: 40
   valueType: 3
+  cost: 2
   fakeDescription: Bless the graves of fallen soldiers!
   schemeDescription: Fallen soldiers no longer respawn into the Necromancer's army.
   realDescription: Fallen soldiers no longer respawn into the Necromancer's army.

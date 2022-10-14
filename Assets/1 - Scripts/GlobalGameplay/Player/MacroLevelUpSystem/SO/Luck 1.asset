@@ -21,6 +21,7 @@ MonoBehaviour:
   level: 1
   value: 1
   valueType: 3
+  cost: 1
   fakeDescription: Wish me luck!
   schemeDescription: Increases the hero's luck by $.
   realDescription: Increases the hero's luck by 1.

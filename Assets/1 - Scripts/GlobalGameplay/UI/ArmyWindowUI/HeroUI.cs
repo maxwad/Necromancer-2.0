@@ -11,8 +11,6 @@ public class HeroUI : MonoBehaviour
     private CanvasGroup canvas;
 
     private PlayerStats playerStats;
-    //private PlayerManager playerManager;
-    //private ResourcesManager resourcesManager;
     private MacroLevelUpManager macroLevelUpManager;
 
     public TMP_Text level;
@@ -25,13 +23,11 @@ public class HeroUI : MonoBehaviour
     public TMP_Text movementPoints;
     public TMP_Text luck;
 
-    public void OpenWindow()
+    public void ShowTip()
     {
         if(canvas == null) canvas = GetComponent<CanvasGroup>();
-
         Fading.instance.FadeWhilePause(true, canvas);
     }
-
 
     public void Init()
     {
@@ -75,6 +71,8 @@ public class HeroUI : MonoBehaviour
         }
     }
 
+
+    
     private void OnEnable()
     {
         Init();

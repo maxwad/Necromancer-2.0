@@ -21,6 +21,7 @@ MonoBehaviour:
   level: 1
   value: 1
   valueType: 1
+  cost: 1
   fakeDescription: Where is my helmet?
   schemeDescription: Increases the hero's defence by $ point.
   realDescription: Increases the hero's defence by 1 point.

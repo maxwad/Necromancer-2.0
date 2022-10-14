@@ -12,12 +12,14 @@ public class InfotipManager : MonoBehaviour
     [Header("Types of Tips")]
     public Squadtip squadTip;
     public SkillTip skillTip;
+    public HeroUI heroTip;
 
     private RectTransform rectTransformSquad;
 
     private CanvasGroup currentCanvas;
     private CanvasGroup infoCanvas;
     private CanvasGroup squadCanvas;
+    private CanvasGroup heroCanvas;
 
 
     private float heigthForUnit = 490f;
@@ -32,6 +34,7 @@ public class InfotipManager : MonoBehaviour
 
         squadCanvas = squadTip.GetComponent<CanvasGroup>();
         infoCanvas = skillTip.GetComponent<CanvasGroup>();
+        heroCanvas = heroTip.GetComponent<CanvasGroup>();
 
         rectTransformSquad = squadTip.gameObject.GetComponent<RectTransform>();
     }
@@ -65,6 +68,13 @@ public class InfotipManager : MonoBehaviour
         instance.skillTip.Init(skill);
     }
 
+    public static void Show()
+    {
+        instance.heroTip.gameObject.SetActive(true);
+        instance.currentCanvas = instance.heroCanvas;
+        instance.heroTip.ShowTip();
+    }
+
     #endregion
 
     public static void Hide(TipsType tipsType)
@@ -79,8 +89,11 @@ public class InfotipManager : MonoBehaviour
             case TipsType.Skill:
                 instance.skillTip?.gameObject?.SetActive(false);
                 break;
+
             case TipsType.Hero:
+                instance.heroTip?.gameObject?.SetActive(false);
                 break;
+
             case TipsType.Spell:
                 break;
             case TipsType.Boost:

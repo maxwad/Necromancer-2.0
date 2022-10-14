@@ -21,6 +21,7 @@ MonoBehaviour:
   level: 1
   value: 1
   valueType: 1
+  cost: 1
   fakeDescription: How many of you?
   schemeDescription: The hero can see the number of enemies and bonuses.
   realDescription: The hero can see the number of enemies and bonuses.

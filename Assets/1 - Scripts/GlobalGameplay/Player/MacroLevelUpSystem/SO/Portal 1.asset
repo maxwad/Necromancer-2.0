@@ -21,6 +21,7 @@ MonoBehaviour:
   level: 1
   value: 1
   valueType: 1
+  cost: 1
   fakeDescription: Where does this door lead?
   schemeDescription: Hero can use portals to a random destination.
   realDescription: Hero can use portals to a random destination.

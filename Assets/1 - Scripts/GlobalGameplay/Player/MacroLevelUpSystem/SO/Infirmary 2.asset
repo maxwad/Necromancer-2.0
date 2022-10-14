@@ -21,6 +21,7 @@ MonoBehaviour:
   level: 2
   value: 30
   valueType: 3
+  cost: 1
   fakeDescription: Today many will survive!
   schemeDescription: Adds to the hero's infirmary $ places.
   realDescription: Adds to the hero's infirmary 30 places.

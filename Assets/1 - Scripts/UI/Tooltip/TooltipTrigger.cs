@@ -64,13 +64,16 @@ public class TooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     private void OnMouseEnter()
     {
         if(EventSystem.current.IsPointerOverGameObject()) return;
-        if(CheckTheFog() == true) return;  
+
+        if(CheckTheFog() == true) return;
 
         isWaiting = true;
     }
 
     private bool CheckTheFog()
     {
+        if(gmManager.fogMap.gameObject.activeInHierarchy == false) return false;
+
         Vector3Int checkPosition = gmManager.fogMap.WorldToCell(transform.position);
         return gmManager.fogMap.HasTile(checkPosition);        
     }

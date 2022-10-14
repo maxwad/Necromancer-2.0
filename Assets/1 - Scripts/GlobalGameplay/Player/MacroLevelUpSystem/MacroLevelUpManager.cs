@@ -33,7 +33,9 @@ public class MacroLevelUpManager : MonoBehaviour
     private bool haveIReplaceCardsSkill = true;
     private bool canIReplaceCurrentCard = true;
 
-    [SerializeField] private float newLevelBonusAmount = 5f;
+    [SerializeField] private float newLevelBonusAmount = 5;
+    [SerializeField] private float bonusSkillLevel;
+
     private int abilityPoints = 50;
     private int countOfAbilitiesVariants = 3;
 
@@ -44,6 +46,7 @@ public class MacroLevelUpManager : MonoBehaviour
         playerStats = GlobalStorage.instance.playerStats;
         maxLevel = playerStats.GetCurrentParameter(PlayersStats.Level);
         newLevelUI = GlobalStorage.instance.gmInterface.gameObject.GetComponent<NewLevelUI>();
+        bonusSkillLevel = playerStats.GetCurrentParameter(PlayersStats.Learning);
         abilitiesStorage = GetComponentInChildren<AbilitiesStorage>();
         abilitiesStorage.Init();
 
@@ -90,7 +93,7 @@ public class MacroLevelUpManager : MonoBehaviour
         float points = 1f;
 
         ChangeAbilityPoints(true);
-        if(currentLevel % 5 == 0) 
+        if(currentLevel % bonusSkillLevel == 0) 
         {
             ChangeAbilityPoints(true);
             points++;
@@ -158,5 +161,20 @@ public class MacroLevelUpManager : MonoBehaviour
     public bool CanIReplaceCards()
     {
         return canIReplaceCurrentCard;
+    }
+
+    private void UpgradeParameter(PlayersStats stat, float value)
+    {
+        if(stat == PlayersStats.Learning) bonusSkillLevel = value;
+    }
+
+    private void OnEnable()
+    {
+        EventManager.SetNewPlayerStat += UpgradeParameter;
+    }
+
+    private void OnDisable()
+    {
+        EventManager.SetNewPlayerStat -= UpgradeParameter;
     }
 }

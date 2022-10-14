@@ -21,6 +21,7 @@ MonoBehaviour:
   level: 3
   value: 1
   valueType: 1
+  cost: 2
   fakeDescription: I'm tired, I want to go Home...
   schemeDescription: The hero can move to and from his fortress from anywhere.
   realDescription: The hero can move to and from his fortress from anywhere.

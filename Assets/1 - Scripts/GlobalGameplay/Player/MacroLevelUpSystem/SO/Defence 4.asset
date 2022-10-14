@@ -21,6 +21,7 @@ MonoBehaviour:
   level: 4
   value: 2
   valueType: 3
+  cost: 1
   fakeDescription: Where is my armor?
   schemeDescription: Increases the hero's defence by $ point.
   realDescription: Increases the hero's defence by 2 point.

@@ -14,6 +14,7 @@ public class MacroAbilitySO : ScriptableObject
     public int level;
     public float value;
     public StatBoostType valueType;
+    public int cost;
     public string fakeDescription;
     public string schemeDescription;
     public string realDescription;

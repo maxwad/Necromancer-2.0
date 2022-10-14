@@ -21,6 +21,7 @@ MonoBehaviour:
   level: 2
   value: 1
   valueType: 1
+  cost: 1
   fakeDescription: And who are you?
   schemeDescription: The hero can see characteristics of enemies.
   realDescription: The hero can see characteristics of enemies.

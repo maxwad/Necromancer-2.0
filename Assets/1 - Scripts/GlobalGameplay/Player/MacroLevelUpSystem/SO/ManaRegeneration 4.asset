@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ManaRegeneration 4
   m_EditorClassIdentifier: 
   abilityName: Magic Overflow
-  serieName: Thirst to wiz
+  serieName: Craving to wiz
   abilitySeries: 27
   ability: 21
   activeIcon: {fileID: -8338915024618380500, guid: 108daa14e3115264995337bc498c548a, type: 3}
@@ -21,6 +21,7 @@ MonoBehaviour:
   level: 4
   value: 30
   valueType: 3
+  cost: 2
   fakeDescription: Where do you get so much magic?
   schemeDescription: Possibility to recover $ mana points.
   realDescription: Possibility to recover 30 mana points.

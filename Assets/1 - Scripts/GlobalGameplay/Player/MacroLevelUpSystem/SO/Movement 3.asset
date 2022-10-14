@@ -21,6 +21,7 @@ MonoBehaviour:
   level: 3
   value: 5
   valueType: 3
+  cost: 1
   fakeDescription: Get the ability to go almost anywhere!
   schemeDescription: Adds $ movement points to the hero.
   realDescription: Adds 5 movement points to the hero.

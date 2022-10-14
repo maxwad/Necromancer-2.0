@@ -21,6 +21,7 @@ MonoBehaviour:
   level: 2
   value: 10
   valueType: 3
+  cost: 1
   fakeDescription: Amplify your magic!
   schemeDescription: Adds $ mana points to the hero.
   realDescription: Adds 10 mana points to the hero.

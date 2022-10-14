@@ -21,6 +21,7 @@ MonoBehaviour:
   level: 3
   value: 1
   valueType: 1
+  cost: 2
   fakeDescription: I don't care who you are or how many of you!
   schemeDescription: The hero can fight in auto mode.
   realDescription: The hero can fight in auto mode.

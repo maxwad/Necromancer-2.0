@@ -21,6 +21,7 @@ MonoBehaviour:
   level: 5
   value: 1
   valueType: 3
+  cost: 1
   fakeDescription: Look at my magic!
   schemeDescription: You can use 4 spells in combat.
   realDescription: You can use 4 spells in combat.

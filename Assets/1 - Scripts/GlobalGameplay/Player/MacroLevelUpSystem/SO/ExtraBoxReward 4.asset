@@ -21,6 +21,7 @@ MonoBehaviour:
   level: 4
   value: 1
   valueType: 0
+  cost: 2
   fakeDescription: Well, you're lucky!
   schemeDescription: Opportunity to get a double reward from the Box.
   realDescription: Opportunity to get a double reward from the Box.

@@ -21,6 +21,7 @@ MonoBehaviour:
   level: 3
   value: 20
   valueType: 3
+  cost: 1
   fakeDescription: Bury the fallen soldiers!
   schemeDescription: Reduces the percentage of your killed soldiers respawning into
     the Necromancer's army by $%.
