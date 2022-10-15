@@ -7,12 +7,14 @@ public struct LevelData
     public float level;
     public float currentExp;
     public float boundExp;
+    public int abilitiesPoints;
 
-    public LevelData(float lvl, float cExp, float bExp)
+    public LevelData(float lvl, float cExp, float bExp, int aPoints)
     {
         level = lvl;
         currentExp = cExp;
         boundExp = bExp;
+        abilitiesPoints = aPoints;
     }
 }
 
@@ -21,6 +23,7 @@ public class MacroLevelUpManager : MonoBehaviour
     private PlayerStats playerStats;
     private NewLevelUI newLevelUI;
     [HideInInspector] public AbilitiesStorage abilitiesStorage;
+    [HideInInspector] public MacroLevelWindow managerUI;
 
     private float maxLevel;
     public float currentLevel = 1;
@@ -46,12 +49,15 @@ public class MacroLevelUpManager : MonoBehaviour
         playerStats = GlobalStorage.instance.playerStats;
         maxLevel = playerStats.GetCurrentParameter(PlayersStats.Level);
         newLevelUI = GlobalStorage.instance.gmInterface.gameObject.GetComponent<NewLevelUI>();
+        managerUI = GlobalStorage.instance.playerMilitaryWindow.GetComponentInChildren<MacroLevelWindow>();
         bonusSkillLevel = playerStats.GetCurrentParameter(PlayersStats.Learning);
         abilitiesStorage = GetComponentInChildren<AbilitiesStorage>();
         abilitiesStorage.Init();
+        managerUI.UpdateAbilityBlock(abilityPoints);
 
         //TODO: delete on release
-        abilityPoints = abilitiesStorage.abilitiesCount;
+        //abilityPoints = abilitiesStorage.abilitiesCount;
+        abilityPoints = 1;
 
         //for(int i = 0; i < 11; i++)
         //{
@@ -129,8 +135,10 @@ public class MacroLevelUpManager : MonoBehaviour
         if(haveIReplaceCardsSkill == true) canIReplaceCurrentCard = true;
         abilitiesList.Clear();
 
+        ChangeAbilityPoints(false);
         abilitiesStorage.ApplyAbility(newAbility);
         playerStats.UpdateMaxStat(newAbility.ability, newAbility.valueType, newAbility.value);
+        managerUI.UpdateAbilityBlock(abilityPoints);
     }
 
     public float GetCurrentLevel()
@@ -140,12 +148,12 @@ public class MacroLevelUpManager : MonoBehaviour
 
     public LevelData GetLevelData()
     {
-        return new LevelData(currentLevel, currentExp, currentExpGoal);
+        return new LevelData(currentLevel, currentExp, currentExpGoal, abilityPoints);
     }
     public LevelData GetFutureDataForBattleResult()
     {
         float futureExpGoal = Mathf.Pow(((currentLevel + 1) / standartExpRate), levelMultiplierRate);
-        return new LevelData(currentLevel + 1, 0, futureExpGoal);
+        return new LevelData(currentLevel + 1, 0, futureExpGoal, abilityPoints);
     }
 
     public int GetAbilityPoints()

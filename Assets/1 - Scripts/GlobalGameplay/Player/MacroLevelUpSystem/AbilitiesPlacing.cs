@@ -93,26 +93,28 @@ public class AbilitiesPlacing : MonoBehaviour
 
     public void MarkSkill(MacroAbilitySO skill)
     {
-
-        foreach(var skillSeries in availableAbilitiesDict)
+        if(availableAbilitiesDict.ContainsKey(skill.abilitySeries))
         {
-            if(skillSeries.Key == skill.abilitySeries)
+            foreach(var skillSeries in availableAbilitiesDict)
             {
-                for(int i = 0; i < skillSeries.Value.Count; i++)
+                if(skillSeries.Key == skill.abilitySeries)
                 {
-                    if(skillSeries.Value[i].level == skill.level)
+                    float searchLevel = skillSeries.Value[0].level;
+
+                    foreach(var skillInList in skillsUIDict[skillSeries.Key])
                     {
-                        foreach(var skillInList in skillsUIDict[skillSeries.Key])
+                        if(skillInList.skill.level == searchLevel)
                         {
-                            if(skillInList.skill.level == skill.level)
-                            {
-                                skillInList.MarkAsOpened();
-                                return;
-                            }
+                            skillInList.IAmNextSkill(true);
+                            return;
                         }
                     }
                 }
             }
+        }
+        else
+        {
+            Debug.Log("Skills are ended.");
         }
     }
 }

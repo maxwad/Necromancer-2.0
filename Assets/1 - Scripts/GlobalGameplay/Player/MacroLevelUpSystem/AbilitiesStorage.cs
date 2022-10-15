@@ -108,8 +108,6 @@ public class AbilitiesStorage : MonoBehaviour
 
     public void ApplyAbility(MacroAbilitySO ability)
     {
-        abilitiesPlacing.MarkSkill(ability);
-
         if(availableAbilitiesDict.ContainsKey(ability.abilitySeries))
         {
             foreach(var skill in availableAbilitiesDict[ability.abilitySeries])
@@ -132,6 +130,7 @@ public class AbilitiesStorage : MonoBehaviour
             return;
         }
 
+        abilitiesPlacing.MarkSkill(ability);
         CountAbilities();
     }
 

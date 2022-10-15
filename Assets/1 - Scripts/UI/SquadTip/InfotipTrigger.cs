@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using static NameManager;
 
-public class InfotipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+public class InfotipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
 {
     private Unit unit;
     private EnemyController enemy;
@@ -70,7 +70,7 @@ public class InfotipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         currentWaitTime = 0;
     }
 
-    public void OnPointerClick(PointerEventData eventData)
+    public void OnPointerDown(PointerEventData eventData)
     {
         if(isWaiting == false) InfotipManager.Hide(tipsType);
 

@@ -16,19 +16,18 @@ public class MacroLevelWindow : MonoBehaviour
 
     [Header("Ability")]
     [SerializeField] private TMP_Text abilityPointsText;
-    [SerializeField] private Button newAbilityBtn;
-    private NewSkillUI newSkillUI;
+    //[SerializeField] private Button newAbilityBtn;
+    //private NewSkillUI newSkillUI;
 
     private void Start()
     {
         macroLevelUpManager = GlobalStorage.instance.macroLevelUpManager;
-        newSkillUI = GetComponent<NewSkillUI>();
+        //newSkillUI = GetComponent<NewSkillUI>();
     }
 
     public void Init()
     {
         UpdateLevel();
-        UpdateAbilityBlock();
     }
 
     public void UpdateLevel()
@@ -39,33 +38,35 @@ public class MacroLevelWindow : MonoBehaviour
         currentExpText.text = levelData.currentExp.ToString();
         boundExpText.text = levelData.boundExp.ToString();
         levelScale.fillAmount = levelData.currentExp / levelData.boundExp;
+
+        abilityPointsText.text = levelData.abilitiesPoints.ToString();
     }
 
-    public void UpdateAbilityBlock()
+    public void UpdateAbilityBlock(int points)
     {
-        int abilityPoints = macroLevelUpManager.GetAbilityPoints();
-        abilityPointsText.text = abilityPoints.ToString();
+        //int abilityPoints = macroLevelUpManager.GetAbilityPoints();
+        abilityPointsText.text = points.ToString();
 
-        bool mode = (abilityPoints > 0) ? true : false;
-        ActivationButton(mode);
+        //bool mode = (abilityPoints > 0) ? true : false;
+        //ActivationButton(mode);
     }
 
     //button
-    public void GetDelayedAbility()
-    {
-        ActivationButton(false);
-        newSkillUI.OpenWindow();
-    }
+    //public void GetDelayedAbility()
+    //{
+    //    ActivationButton(false);
+    //    newSkillUI.OpenWindow();
+    //}
 
-    public void ActivationButton(bool mode)
-    {
-        if(mode == true) mode = macroLevelUpManager.abilitiesStorage.CanIGetNewAbility();
+    //public void ActivationButton(bool mode)
+    //{
+    //    if(mode == true) mode = macroLevelUpManager.abilitiesStorage.CanIGetNewAbility();
 
-        newAbilityBtn.interactable = mode;
-    }
+    //    newAbilityBtn.interactable = mode;
+    //}
 
-    public bool CheckOpenedMiniWindow()
-    {
-        return newSkillUI.TryToHideWindow();
-    }
+    //public bool CheckOpenedMiniWindow()
+    //{
+    //    return newSkillUI.TryToHideWindow();
+    //}
 }
