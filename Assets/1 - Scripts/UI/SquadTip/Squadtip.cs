@@ -5,6 +5,8 @@ using static NameManager;
 
 public class Squadtip : MonoBehaviour
 {
+    [SerializeField] private CanvasGroup canvas;
+
     [SerializeField] private Image icon;
     [SerializeField] private TMP_Text nameItem;
     [SerializeField] private TMP_Text healthCount;
@@ -19,9 +21,14 @@ public class Squadtip : MonoBehaviour
     private PlayerStats playerStats;
     private float curiosity = 0;
     private string gag = "???";
-        
+
+    [SerializeField] private RectTransform rectTransform;
+    private float heigthForUnit = 490f;
+    private float heigthForEnemy = 390f;
+
     public void Init(Unit unit)
     {
+        if(canvas == null) canvas = GetComponent<CanvasGroup>();
         ShowAbility(true);
 
         FillData(
@@ -34,10 +41,14 @@ public class Squadtip : MonoBehaviour
             unit.magicDefence,
             unit.abilityDescription
             );
+
+        ResizeWindow(heigthForUnit);
+        Fading.instance.FadeWhilePause(true, canvas);
     }
 
     public void Init(EnemyController enemy)
     {
+        if(canvas == null) canvas = GetComponent<CanvasGroup>();
         ShowAbility(false);
 
         if(playerStats == null) playerStats = GlobalStorage.instance.playerStats;
@@ -57,7 +68,10 @@ public class Squadtip : MonoBehaviour
                enemy.physicDefence,
                enemy.magicDefence
                );
-        }        
+        }
+
+        ResizeWindow(heigthForEnemy);
+        Fading.instance.FadeWhilePause(true, canvas);
     }
 
     private void FillData(Sprite pict, string name, float health, float pA, float mA, float pD, float mD, string desc = "") 
@@ -87,5 +101,10 @@ public class Squadtip : MonoBehaviour
     private void ShowAbility(bool mode)
     {
         descriptionBlock.SetActive(mode);
+    }
+
+    private void ResizeWindow(float heigth)
+    {
+        rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, heigth);
     }
 }

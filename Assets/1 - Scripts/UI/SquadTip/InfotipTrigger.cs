@@ -42,10 +42,12 @@ public class InfotipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
                     case TipsType.Skill:
                         InfotipManager.Show(skill);
                         break;
+
                     case TipsType.Spell:
                         break;
                     case TipsType.Boost:
                         break;
+
                     default:
                         break;
                 }

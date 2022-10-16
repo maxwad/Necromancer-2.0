@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 944e529ba73aca64eb63ed063e9b940b, type: 3}
+  m_Name: NegativeCells
+  m_EditorClassIdentifier: 
+  abilityName: Forbidden Knowledge
+  serieName: Forbidden Knowledge
+  abilitySeries: 15
+  ability: 15
+  activeIcon: {fileID: 8843587831839778966, guid: 108daa14e3115264995337bc498c548a, type: 3}
+  inActiveIcon: {fileID: -8035507907543322037, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
+  level: 1
+  value: 1
+  valueType: 0
+  cost: 2
+  fakeDescription: Weaken yourself to become stronger!
+  schemeDescription: You can use the negative scale of the scrolls.
+  realDescription: You can use the negative scale of the scrolls.
+  luckDepending: 0

@@ -16,13 +16,10 @@ public class MacroLevelWindow : MonoBehaviour
 
     [Header("Ability")]
     [SerializeField] private TMP_Text abilityPointsText;
-    //[SerializeField] private Button newAbilityBtn;
-    //private NewSkillUI newSkillUI;
 
     private void Start()
     {
         macroLevelUpManager = GlobalStorage.instance.macroLevelUpManager;
-        //newSkillUI = GetComponent<NewSkillUI>();
     }
 
     public void Init()
@@ -44,29 +41,6 @@ public class MacroLevelWindow : MonoBehaviour
 
     public void UpdateAbilityBlock(int points)
     {
-        //int abilityPoints = macroLevelUpManager.GetAbilityPoints();
         abilityPointsText.text = points.ToString();
-
-        //bool mode = (abilityPoints > 0) ? true : false;
-        //ActivationButton(mode);
     }
-
-    //button
-    //public void GetDelayedAbility()
-    //{
-    //    ActivationButton(false);
-    //    newSkillUI.OpenWindow();
-    //}
-
-    //public void ActivationButton(bool mode)
-    //{
-    //    if(mode == true) mode = macroLevelUpManager.abilitiesStorage.CanIGetNewAbility();
-
-    //    newAbilityBtn.interactable = mode;
-    //}
-
-    //public bool CheckOpenedMiniWindow()
-    //{
-    //    return newSkillUI.TryToHideWindow();
-    //}
 }

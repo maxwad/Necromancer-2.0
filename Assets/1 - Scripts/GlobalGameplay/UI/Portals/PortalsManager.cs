@@ -1,22 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static NameManager;
 
 public class PortalsManager : MonoBehaviour
 {
+    private PlayerStats playerStats;
+    private bool canIUsePortals = false;
+
     public GameObject uiPanel;
     private CanvasGroup canvas;
     private PortalsInfoUI portalsInfo;
     private bool isPortalWindowOpened = false;
 
     [HideInInspector] public Dictionary<GameObject, Vector3> portalsDict = new Dictionary<GameObject, Vector3>();
-
     [HideInInspector] public List<Building> portals = new List<Building>();
-
     [HideInInspector] public GameObject currentPortal;
-
     private Building castle;
-
     private Vector3 backPosition = Vector3.zero;
 
     [Header("Cost of Teleport")]
@@ -25,9 +25,19 @@ public class PortalsManager : MonoBehaviour
     public float toCastleTeleport = 30f;
     public float toBackTeleport = 0f;
 
+    private void Awake()
+    {
+        playerStats = GlobalStorage.instance.playerStats;
+    }
+
+    private bool CanIUsePortals()
+    {
+        return playerStats.GetCurrentParameter(PlayersStats.Portal) > 0;
+    }
+
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.T))
+        if(Input.GetKeyDown(KeyCode.T) && CanIUsePortals() == true)
         {
             if(MenuManager.instance.IsTherePauseOrMiniPause() == false && GlobalStorage.instance.isGlobalMode == true)
             {
@@ -41,6 +51,12 @@ public class PortalsManager : MonoBehaviour
 
     public void OpenWindow(bool mode, ClickableObject obj)   
     {
+        if(CanIUsePortals() == false)
+        {
+            InfotipManager.ShowWarning("You don't know how to use portals yet");
+            return;
+        }
+
         GlobalStorage.instance.ModalWindowOpen(true);
         isPortalWindowOpened = true;
 

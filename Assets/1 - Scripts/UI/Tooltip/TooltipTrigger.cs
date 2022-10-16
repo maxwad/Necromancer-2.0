@@ -1,8 +1,6 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using static NameManager;
 
 public class TooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
@@ -35,7 +33,7 @@ public class TooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
             if(currentWaitTime >= timeDelay)
             {
-                TooltipManager.Show(content, header, status);
+                InfotipManager.Show(content, header, status);
                 isTooltipOpen = true;
                 isWaiting = false;
             }
@@ -54,7 +52,7 @@ public class TooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if(isWaiting == false) TooltipManager.Hide();
+        if(isWaiting == false) InfotipManager.Hide(TipsType.Tool);
 
         isTooltipOpen = false;
         isWaiting = false;
@@ -80,7 +78,7 @@ public class TooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     private void OnMouseExit()
     {
-        if(isWaiting == false) TooltipManager.Hide();
+        if(isWaiting == false) InfotipManager.Hide(TipsType.Tool);
 
         isTooltipOpen = false;
         isWaiting = false;
@@ -89,6 +87,6 @@ public class TooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     private void OnDisable()
     {
-        if (isTooltipOpen == true) TooltipManager.Hide();
+        if (isTooltipOpen == true) InfotipManager.Hide(TipsType.Tool);
     }    
 }

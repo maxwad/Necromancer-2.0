@@ -33,16 +33,10 @@ public class MacroLevelUpManager : MonoBehaviour
     private float levelMultiplierRate = 2f;
     private float currentExpGoal;
 
-    private bool haveIReplaceCardsSkill = true;
-    private bool canIReplaceCurrentCard = true;
-
     [SerializeField] private float newLevelBonusAmount = 5;
     [SerializeField] private float bonusSkillLevel;
 
     private int abilityPoints = 50;
-    private int countOfAbilitiesVariants = 3;
-
-    [SerializeField] private List<MacroAbilitySO> abilitiesList = new List<MacroAbilitySO>();
 
     public void Init()
     {
@@ -57,7 +51,7 @@ public class MacroLevelUpManager : MonoBehaviour
 
         //TODO: delete on release
         //abilityPoints = abilitiesStorage.abilitiesCount;
-        abilityPoints = 1;
+        abilityPoints = 3;
 
         //for(int i = 0; i < 11; i++)
         //{
@@ -105,9 +99,6 @@ public class MacroLevelUpManager : MonoBehaviour
             points++;
         }
 
-        if(abilitiesList.Count == 0) 
-            abilitiesList = abilitiesStorage.GetAbilitiesForNewLevel(countOfAbilitiesVariants);
-
         PlayersStats stat = (currentLevel % 2 == 0) ? PlayersStats.Health : PlayersStats.Mana;
         playerStats.UpdateMaxStat(stat, StatBoostType.Value, newLevelBonusAmount);
 
@@ -122,19 +113,8 @@ public class MacroLevelUpManager : MonoBehaviour
             abilityPoints--;
     }
 
-    public List<MacroAbilitySO> GetCurrentAbilities()
-    {
-        if(abilitiesList.Count == 0)
-            abilitiesList = abilitiesStorage.GetAbilitiesForNewLevel(countOfAbilitiesVariants);
-
-        return abilitiesList;
-    }
-
     public void OpenAbility(MacroAbilitySO newAbility)
     {
-        if(haveIReplaceCardsSkill == true) canIReplaceCurrentCard = true;
-        abilitiesList.Clear();
-
         ChangeAbilityPoints(false);
         abilitiesStorage.ApplyAbility(newAbility);
         playerStats.UpdateMaxStat(newAbility.ability, newAbility.valueType, newAbility.value);
@@ -159,16 +139,6 @@ public class MacroLevelUpManager : MonoBehaviour
     public int GetAbilityPoints()
     {
         return abilityPoints;
-    }
-
-    public void CardsReplaced()
-    {
-        canIReplaceCurrentCard = false;
-    }
-
-    public bool CanIReplaceCards()
-    {
-        return canIReplaceCurrentCard;
     }
 
     private void UpgradeParameter(PlayersStats stat, float value)

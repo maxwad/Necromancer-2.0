@@ -55,7 +55,7 @@ public class SkillItem : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
         if(amINext == false)
         {
-            Debug.Log("Open previous skill first.");
+            InfotipManager.ShowWarning("Open previous skill first.");
             return;
         }
 
@@ -65,7 +65,7 @@ public class SkillItem : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         }
         else
         {
-            Debug.Log("It's too expensive for you!");
+            InfotipManager.ShowWarning("It's too expensive for you!");
         }
     }
 

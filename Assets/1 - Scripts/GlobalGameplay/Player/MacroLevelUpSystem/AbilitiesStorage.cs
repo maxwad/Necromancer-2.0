@@ -163,11 +163,6 @@ public class AbilitiesStorage : MonoBehaviour
         return result;
     }
 
-    public bool CanIGetNewAbility()
-    {
-        return abilitiesCount > abilitiesOpened;
-    }
-
     private int CountAbilities()
     {
         abilitiesLeft = 0;

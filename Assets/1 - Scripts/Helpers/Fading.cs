@@ -14,17 +14,17 @@ public class Fading : MonoBehaviour
             Destroy(gameObject);
     }
 
-    public void Fade(bool fadeMode, CanvasGroup canvasGroup, float step = 0.1f, float delay = 0f)
+    public void Fade(bool fadeMode, CanvasGroup canvasGroup, float step = 0.1f, float delay = 0f, bool activeMode = true)
     {
-        StartCoroutine(StartFading(fadeMode, false, canvasGroup, step, delay));
+        StartCoroutine(StartFading(fadeMode, false, canvasGroup, step, delay, activeMode));
     }
 
-    public void FadeWhilePause(bool fadeMode, CanvasGroup canvasGroup, float step = 0.1f, float delay = 0f)
+    public void FadeWhilePause(bool fadeMode, CanvasGroup canvasGroup, float step = 0.1f, float delay = 0f, bool activeMode = true)
     {
-        StartCoroutine(StartFading(fadeMode, true, canvasGroup, step, delay));
+        StartCoroutine(StartFading(fadeMode, true, canvasGroup, step, delay, activeMode));
     }
 
-    public IEnumerator StartFading(bool fadeMode, bool timeMode, CanvasGroup canvasGroup, float step, float delay = 0f)
+    public IEnumerator StartFading(bool fadeMode, bool timeMode, CanvasGroup canvasGroup, float step, float delay = 0f, bool activeMode = true)
     {
         float pauseMultiplier = 0.25f;
         float currentAlfa;
@@ -76,6 +76,11 @@ public class Fading : MonoBehaviour
                     yield return pause;
                 else
                     yield return pauseRT;
+            }
+
+            if(activeMode == false)
+            {
+                canvasGroup.gameObject.SetActive(false);
             }
         }
     }

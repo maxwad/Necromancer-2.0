@@ -5,7 +5,7 @@ using TMPro;
 
 public class Tooltip : MonoBehaviour
 {
-
+    private CanvasGroup canvas;
     public TextMeshProUGUI headerTt;
     public TextMeshProUGUI contentTt;
     public TextMeshProUGUI statusTt;
@@ -19,6 +19,8 @@ public class Tooltip : MonoBehaviour
 
     public void SetText(string content, string header = "", string status = "")
     {
+        if(canvas == null) canvas = GetComponent<CanvasGroup>();
+
         if(string.IsNullOrEmpty(header))
         {
             headerTt.gameObject.SetActive(false);
@@ -42,6 +44,7 @@ public class Tooltip : MonoBehaviour
         contentTt.text = content;
 
         CheckSize();
+        Fading.instance.FadeWhilePause(true, canvas);
     }
 
     private void CheckSize()

@@ -12,17 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 944e529ba73aca64eb63ed063e9b940b, type: 3}
   m_Name: Spells 6
   m_EditorClassIdentifier: 
-  abilityName: Magic V
+  abilityName: Magic VI
   serieName: Magic
   abilitySeries: 14
   ability: 14
-  activeIcon: {fileID: -2200159109874832422, guid: 108daa14e3115264995337bc498c548a, type: 3}
-  inActiveIcon: {fileID: 6759455613929079252, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
+  activeIcon: {fileID: -3523501709184514194, guid: 108daa14e3115264995337bc498c548a, type: 3}
+  inActiveIcon: {fileID: -388042184384730254, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
   level: 6
   value: 1
   valueType: 3
   cost: 1
-  fakeDescription: Look at my serious magic!
-  schemeDescription: You can use 5 spells in combat.
-  realDescription: You can use 5 spells in combat.
+  fakeDescription: Look at my perfect magic!
+  schemeDescription: You can use 6 spells in combat.
+  realDescription: You can use 6 spells in combat.
   luckDepending: 0

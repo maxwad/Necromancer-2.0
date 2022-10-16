@@ -304,7 +304,9 @@ public static class NameManager
         Hero,
         Skill,
         Spell,
-        Boost
+        Boost,
+        Tool,
+        Warning
     }
 
     #endregion

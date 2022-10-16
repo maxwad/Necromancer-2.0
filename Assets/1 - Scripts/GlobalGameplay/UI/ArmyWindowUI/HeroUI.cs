@@ -34,8 +34,6 @@ public class HeroUI : MonoBehaviour
         if(playerStats == null)
         {
             playerStats = GlobalStorage.instance.playerStats;
-            //playerManager = GlobalStorage.instance.playerManager;
-            //resourcesManager = GlobalStorage.instance.resourcesManager;
             macroLevelUpManager = GlobalStorage.instance.macroLevelUpManager;
         }
 

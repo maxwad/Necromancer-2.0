@@ -10,20 +10,11 @@ public class InfotipManager : MonoBehaviour
     public static InfotipManager instance;
 
     [Header("Types of Tips")]
+    public WarningTip warningTip;
+    public Tooltip tooltip;
     public Squadtip squadTip;
     public SkillTip skillTip;
     public HeroUI heroTip;
-
-    private RectTransform rectTransformSquad;
-
-    private CanvasGroup currentCanvas;
-    private CanvasGroup infoCanvas;
-    private CanvasGroup squadCanvas;
-    private CanvasGroup heroCanvas;
-
-
-    private float heigthForUnit = 490f;
-    private float heigthForEnemy = 390f;
 
     private void Awake()
     {
@@ -31,12 +22,6 @@ public class InfotipManager : MonoBehaviour
             instance = this;
         else
             Destroy(gameObject);
-
-        squadCanvas = squadTip.GetComponent<CanvasGroup>();
-        infoCanvas = skillTip.GetComponent<CanvasGroup>();
-        heroCanvas = heroTip.GetComponent<CanvasGroup>();
-
-        rectTransformSquad = squadTip.gameObject.GetComponent<RectTransform>();
     }
 
     #region SHOWS
@@ -45,8 +30,7 @@ public class InfotipManager : MonoBehaviour
     {
         if(unit == null) return;
 
-        instance.currentCanvas = instance.squadCanvas;
-        ResizeWindow(instance.heigthForUnit);
+        instance.squadTip.gameObject.SetActive(true);
         instance.squadTip.Init(unit);
     }
 
@@ -54,8 +38,7 @@ public class InfotipManager : MonoBehaviour
     {
         if(enemy == null) return;
 
-        instance.currentCanvas = instance.squadCanvas;
-        ResizeWindow(instance.heigthForEnemy);
+        instance.squadTip.gameObject.SetActive(true);
         instance.squadTip.Init(enemy);
     }
 
@@ -64,15 +47,31 @@ public class InfotipManager : MonoBehaviour
         if(skill == null) return;
 
         instance.skillTip.gameObject.SetActive(true);
-        instance.currentCanvas = instance.infoCanvas;
         instance.skillTip.Init(skill);
     }
 
     public static void Show()
     {
         instance.heroTip.gameObject.SetActive(true);
-        instance.currentCanvas = instance.heroCanvas;
         instance.heroTip.ShowTip();
+    }
+
+    public static void Show(string content, string header = "", string status = "")
+    {
+        instance.tooltip.gameObject.SetActive(true);
+        instance.tooltip.SetText(content, header, status);
+    }
+
+    public static void ShowWarning(string content)
+    {
+        instance.warningTip.gameObject.SetActive(true);
+        instance.warningTip.Show(content, false);
+    }
+
+    public static void ShowMessage(string content)
+    {
+        instance.warningTip.gameObject.SetActive(true);
+        instance.warningTip.Show(content, true);
     }
 
     #endregion
@@ -97,17 +96,13 @@ public class InfotipManager : MonoBehaviour
             case TipsType.Spell:
                 break;
             case TipsType.Boost:
+                break; 
+
+            case TipsType.Tool:
+                instance.tooltip?.gameObject?.SetActive(false);
                 break;
             default:
                 break;
         }
-    }
-
-    private static void ResizeWindow(float heigth)
-    {
-        instance.rectTransformSquad.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, heigth);
-        instance.squadTip.gameObject.SetActive(true);
-
-        Fading.instance.FadeWhilePause(true, instance.currentCanvas);
     }
 }
