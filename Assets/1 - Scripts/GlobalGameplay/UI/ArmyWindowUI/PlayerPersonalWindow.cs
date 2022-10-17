@@ -112,6 +112,40 @@ public class PlayerPersonalWindow : MonoBehaviour
         }
     }
 
+    public void PressButton(KeyCode key) 
+    {
+        currentKeyCode = key;
+        if(key == KeyCode.I)
+        {
+            currentWindow = PlayersWindow.PlayersArmy;
+        }
+        else if(key == KeyCode.H)
+        {
+            currentWindow = PlayersWindow.MacroLevelUp;
+        }
+        else if(key == KeyCode.U)
+        {
+            currentWindow = PlayersWindow.MicroLevelUp;
+        }
+        else if(key == KeyCode.O)
+        {
+            currentWindow = PlayersWindow.Spells;
+        }
+        else
+        {
+            return;
+        }
+
+        if(isWindowOpened == false)
+        {
+            if(MenuManager.instance.isGamePaused == false && GlobalStorage.instance.isModalWindowOpen == false)
+            {
+                lastPressedKey = currentKeyCode;
+                OpenWindow(currentWindow);
+            }
+        }
+    }
+
     public void OpenWindow(PlayersWindow mode, EnemyArmyOnTheMap enemyArmy = null)
     {
         currentEnemy = enemyArmy;

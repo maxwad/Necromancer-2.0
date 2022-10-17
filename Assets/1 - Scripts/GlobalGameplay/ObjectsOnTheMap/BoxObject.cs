@@ -22,7 +22,6 @@ public class BoxObject : MonoBehaviour
     private string defaultContent;
 
     private Dictionary<ResourceType, Sprite> resourcesIcons;
-    [SerializeField] private Sprite luckSprite;
     private float multiplier = 1;
 
 
@@ -155,15 +154,12 @@ public class BoxObject : MonoBehaviour
     {        
         for(int counter = -1; counter < reward.resourcesList.Count; counter++)
         {
-            Sprite sprite;
-            float quantity;
-
             if(counter == -1)
             {
                 if(isDouble == true)
                 {
-                    sprite = luckSprite;
-                    quantity = 0;
+                    string luckBonus = "x2";
+                    BonusTipUIManager.ShowVisualEffect(PlayersStats.Luck, 0, luckBonus);
                 }
                 else
                 {
@@ -172,14 +168,11 @@ public class BoxObject : MonoBehaviour
             }
             else
             {
-                sprite = resourcesIcons[reward.resourcesList[counter]];
-                quantity = reward.resourcesQuantity[counter] * multiplier;
-            }
-            GameObject rewardText = poolManager.GetObject(ObjectPool.BonusText);
+                Sprite sprite = resourcesIcons[reward.resourcesList[counter]];
+                float quantity = reward.resourcesQuantity[counter] * multiplier;
 
-            rewardText.transform.position = transform.position;
-            rewardText.SetActive(true);
-            rewardText.GetComponent<BonusTip>().Iniatilize(counter, sprite, quantity);
+                BonusTipUIManager.ShowVisualEffect(sprite, quantity);
+            }
         }
     }
 }

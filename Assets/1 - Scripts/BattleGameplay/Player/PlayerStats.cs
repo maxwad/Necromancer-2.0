@@ -187,8 +187,6 @@ public class PlayerStats : MonoBehaviour
         allStatsDict[stat] = upgradedStat;
 
         EventManager.OnSetNewPlayerStatEvent(stat, upgradedStat.maxValue);
-
-
         Debug.Log("Now " + stat + " = " + allStatsDict[stat].maxValue);
     }
     

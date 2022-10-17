@@ -92,6 +92,12 @@ public class ResourcesManager : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.PageDown) == true)
             ChangeResource(ResourceType.Mana, -5);
+
+        if(Input.GetKeyDown(KeyCode.F1) == true)
+            ChangeResource(ResourceType.Health, 5);
+
+        if(Input.GetKeyDown(KeyCode.F2) == true)
+            ChangeResource(ResourceType.Health, -5);
     }
 
     public float GetResource(ResourceType type)
@@ -178,7 +184,9 @@ public class ResourcesManager : MonoBehaviour
         }
 
         resourcesDict[type] += realValue;
-        if(type != ResourceType.Health) gmInterface.ShowDelta(type, value);
+
+        if(type != ResourceType.Health && type != ResourceType.Mana)
+            gmInterface.ShowDelta(type, value);
 
         EventManager.OnUpgradeResourceEvent(type, resourcesDict[type]);
     }

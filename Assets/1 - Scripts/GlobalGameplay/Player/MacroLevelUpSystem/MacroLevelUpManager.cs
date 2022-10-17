@@ -24,6 +24,7 @@ public class MacroLevelUpManager : MonoBehaviour
     private NewLevelUI newLevelUI;
     [HideInInspector] public AbilitiesStorage abilitiesStorage;
     [HideInInspector] public MacroLevelWindow managerUI;
+    private GMInterface gmInterface;
 
     private float maxLevel;
     public float currentLevel = 1;
@@ -44,6 +45,7 @@ public class MacroLevelUpManager : MonoBehaviour
         maxLevel = playerStats.GetCurrentParameter(PlayersStats.Level);
         newLevelUI = GlobalStorage.instance.gmInterface.gameObject.GetComponent<NewLevelUI>();
         managerUI = GlobalStorage.instance.playerMilitaryWindow.GetComponentInChildren<MacroLevelWindow>();
+        gmInterface = GlobalStorage.instance.gmInterface;
         bonusSkillLevel = playerStats.GetCurrentParameter(PlayersStats.Learning);
         abilitiesStorage = GetComponentInChildren<AbilitiesStorage>();
         abilitiesStorage.Init();
@@ -58,6 +60,9 @@ public class MacroLevelUpManager : MonoBehaviour
         //    UpgradeTempExpGoal();
         //}
         UpgradeTempExpGoal(false);
+
+        gmInterface.UpgradeLevel(GetLevelData());
+        gmInterface.UpgradeAbilityPoints(abilityPoints);
 
         GlobalStorage.instance.LoadNextPart();
     }
@@ -75,6 +80,8 @@ public class MacroLevelUpManager : MonoBehaviour
         {
             currentExp += value;
         }
+
+        gmInterface.UpgradeLevel(GetLevelData());
     }
 
     private void UpgradeTempExpGoal(bool levelUpMode)
@@ -92,10 +99,10 @@ public class MacroLevelUpManager : MonoBehaviour
 
         float points = 1f;
 
-        ChangeAbilityPoints(true);
+        ChangeAbilityPoints(1);
         if(currentLevel % bonusSkillLevel == 0) 
         {
-            ChangeAbilityPoints(true);
+            ChangeAbilityPoints(1);
             points++;
         }
 
@@ -105,17 +112,15 @@ public class MacroLevelUpManager : MonoBehaviour
         newLevelUI.Init(stat, newLevelBonusAmount, currentLevel, points);
     }
 
-    public void ChangeAbilityPoints(bool mode)
+    public void ChangeAbilityPoints(int delta)
     {
-        if(mode == true)
-            abilityPoints++;
-        else
-            abilityPoints--;
+        abilityPoints += delta;
+        gmInterface.UpgradeAbilityPoints(abilityPoints);
     }
 
     public void OpenAbility(MacroAbilitySO newAbility)
     {
-        ChangeAbilityPoints(false);
+        ChangeAbilityPoints(-newAbility.cost);
         abilitiesStorage.ApplyAbility(newAbility);
         playerStats.UpdateMaxStat(newAbility.ability, newAbility.valueType, newAbility.value);
         managerUI.UpdateAbilityBlock(abilityPoints);

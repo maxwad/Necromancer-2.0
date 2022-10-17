@@ -11,6 +11,7 @@ public class GMInterface : MonoBehaviour
     private ObjectsPoolManager poolManager;
     private ResourcesManager resourcesManager;
     private CalendarManager calendarManager;
+    private PlayerPersonalWindow personalWindow;
     public Dictionary<ResourceType, float> resourcesDict = new Dictionary<ResourceType, float>();
 
     [Header("Mana")]
@@ -47,8 +48,26 @@ public class GMInterface : MonoBehaviour
     [SerializeField] private TMP_Text currentMovesCount;
     [SerializeField] private TMP_Text leftDaysCount;
     [SerializeField] private Button nextDayButton;
-    [SerializeField] private Animator nextDayBtnAnimator;
+    private Animator nextDayBtnAnimator;
 
+    [Header("Hero")]
+    [SerializeField] private TMP_Text manaAmount;
+    [SerializeField] private Image manaScale;
+    private float manaMax;
+    [SerializeField] private TMP_Text healthAmount;
+    [SerializeField] private Image healthScale;
+    private float healthMax;
+    [SerializeField] private Image levelScale;
+    [SerializeField] private TMP_Text levelCount;
+    [SerializeField] private TooltipTrigger levelTooltip;
+    [SerializeField] private Button heroButton;
+    [SerializeField] private Animator skillsButton;
+
+    [Header("ShortCuts")]
+    public KeyCode armyKey;
+    public KeyCode skillsKey;
+    public KeyCode microKey;
+    public KeyCode spellsKey;
 
 
     private void Awake()
@@ -56,6 +75,7 @@ public class GMInterface : MonoBehaviour
         poolManager = GlobalStorage.instance.objectsPoolManager;
         resourcesManager = GlobalStorage.instance.resourcesManager;
         calendarManager = GlobalStorage.instance.calendarManager;
+        personalWindow = GlobalStorage.instance.playerMilitaryWindow;
         nextDayBtnAnimator = nextDayButton.GetComponent<Animator>();
 
         resourceCounters = new Dictionary<ResourceType, TMP_Text>()
@@ -66,7 +86,8 @@ public class GMInterface : MonoBehaviour
             [ResourceType.Wood] = woodCount,
             [ResourceType.Iron] = ironCount,
             [ResourceType.Magic] = magicCount,
-            [ResourceType.Mana] = manaCount
+            [ResourceType.Mana] = manaAmount,
+            [ResourceType.Health] = healthAmount
         };
 
         deltaContainers = new Dictionary<ResourceType, GameObject>()
@@ -76,13 +97,15 @@ public class GMInterface : MonoBehaviour
             [ResourceType.Stone] = stoneContainer,
             [ResourceType.Wood] = woodContainer,
             [ResourceType.Iron] = ironContainer,
-            [ResourceType.Magic] = magicContainer,
-            [ResourceType.Mana] = manaContainer
+            [ResourceType.Magic] = magicContainer
         };
     }
 
     private void Start()
     {
+        healthMax = resourcesManager.GetMaxHealth();
+        manaMax = resourcesManager.GetMaxMana();
+
         FillStartResources();
     }
 
@@ -108,15 +131,81 @@ public class GMInterface : MonoBehaviour
 
         foreach(var resource in resourceCounters)
         {
-            resource.Value.text = resourcesDict[resource.Key].ToString();
+            if(resource.Key == ResourceType.Mana || resource.Key == ResourceType.Health)
+            {
+                UpgrateManaHealthUI(resource.Key, resourcesDict[resource.Key]);
+            }
+            else
+            {
+                resource.Value.text = resourcesDict[resource.Key].ToString();
+            }
         }
     }
 
     private void FillResource(ResourceType type, float value)
     {
-        if(type == ResourceType.Health || type == ResourceType.Exp) return;
+        if(type == ResourceType.Exp) return;
 
         resourceCounters[type].text = value.ToString();
+
+        if(type == ResourceType.Health || type == ResourceType.Mana) UpgrateManaHealthUI(type, value);
+
+    }
+
+    private void UpgrateMaxManaHealth(PlayersStats stat, float maxValue)
+    {
+        ResourceType type = ResourceType.Mana;
+
+        if(stat == PlayersStats.Mana) 
+        {
+            manaMax = maxValue;
+        }
+
+        if(stat == PlayersStats.Health)
+        {             
+            healthMax = maxValue;
+            type = ResourceType.Health;
+        }
+
+        UpgrateManaHealthUI(type, resourcesDict[type]);
+    }
+
+    private void UpgrateManaHealthUI(ResourceType stat, float value)
+    {
+        float maxAmount;
+        TMP_Text currentText;
+        Image scale;
+
+        float currentAmount = value;
+
+        if(stat == ResourceType.Mana)
+        {
+            maxAmount = manaMax;
+            currentText = manaAmount;
+            scale = manaScale;
+        }
+        else
+        {
+            maxAmount = healthMax;
+            currentText = healthAmount;
+            scale = healthScale;
+        }
+
+        scale.fillAmount = currentAmount / maxAmount;
+        currentText.text = currentAmount + "/" + maxAmount;
+    }
+
+    public void UpgradeLevel(LevelData data)
+    {
+        levelScale.fillAmount = data.currentExp / data.boundExp;
+        levelCount.text = data.level.ToString();
+        levelTooltip.content = data.currentExp + "/" + data.boundExp;
+    }
+
+    public void UpgradeAbilityPoints(int amount)
+    {
+        bool mode = (amount == 0) ? false : true;
+        skillsButton.GetComponent<Animator>().SetBool(TagManager.A_BLINK, mode);
     }
 
     public void UpdateCurrentMoves( float currentValue)
@@ -146,17 +235,40 @@ public class GMInterface : MonoBehaviour
         calendarManager.NextDay();
     }
 
+    #region Buttons
+    public void OpenArmyWindow()
+    {
+        personalWindow.PressButton(armyKey);
+    }
+
+    public void OpenSkillsWindow()
+    {
+        personalWindow.PressButton(skillsKey);
+    }
+
+    public void OpenMicroWindow()
+    {
+        personalWindow.PressButton(microKey);
+    }
+
+    public void OpenSpellsWindow()
+    {
+        personalWindow.PressButton(spellsKey);
+    }
+
+    #endregion
+
     private void OnEnable()
     {
+        EventManager.SetNewPlayerStat += UpgrateMaxManaHealth;
         EventManager.UpgradeResource += FillResource;
-        //EventManager.UpgradeStatCurrentValue += UpdateCurrentMoves;
         EventManager.SwitchPlayer += EnableUI;
     }
 
     private void OnDisable()
     {
+        EventManager.SetNewPlayerStat -= UpgrateMaxManaHealth;
         EventManager.SwitchPlayer -= EnableUI;
         EventManager.UpgradeResource -= FillResource;
-        //EventManager.UpgradeStatCurrentValue -= UpdateCurrentMoves;
     }
 }

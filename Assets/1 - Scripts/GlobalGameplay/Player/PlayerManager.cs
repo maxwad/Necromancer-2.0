@@ -59,26 +59,32 @@ public class PlayerManager : MonoBehaviour
     private void NewTurn()
     {
         if(manaRegeneration != 0)
+        {
             resourcesManager.ChangeResource(ResourceType.Mana, manaRegeneration);
+            BonusTipUIManager.ShowVisualEffect(PlayersStats.Mana, manaRegeneration);
+        }
 
         if(luckManaBonus != 0)
         {
             if(Random.Range(0, 101) <= luck)
             {
                 resourcesManager.ChangeResource(ResourceType.Mana, luckManaBonus);
-                //TODO Effect!
+                BonusTipUIManager.ShowVisualEffect(PlayersStats.Mana, luckManaBonus);
             }
         }
 
         if(healthRegeneration != 0)
+        {
             resourcesManager.ChangeResource(ResourceType.Health, healthRegeneration);
+            BonusTipUIManager.ShowVisualEffect(PlayersStats.Health, healthRegeneration);
+        }
 
         if(luckHealthBonus != 0)
         {
             if(Random.Range(0, 101) <= luck)
             {
                 resourcesManager.ChangeResource(ResourceType.Health, luckHealthBonus);
-                //TODO Effect!
+                BonusTipUIManager.ShowVisualEffect(PlayersStats.Health, luckHealthBonus);
             }
         }
     }

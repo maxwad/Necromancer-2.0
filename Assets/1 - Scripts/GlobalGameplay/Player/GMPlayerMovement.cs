@@ -214,6 +214,7 @@ public class GMPlayerMovement : MonoBehaviour
         {
             ChangeMovementPoints(extraMovementPoints);
             isExtraMovementWaisted = true;
+            BonusTipUIManager.ShowVisualEffect(PlayersStats.ExtraMovementPoints, extraMovementPoints);
         }
     }
 

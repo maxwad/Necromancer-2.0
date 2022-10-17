@@ -126,11 +126,7 @@ public class ResourceObject : MonoBehaviour
     {
         Sprite sprite = resourcesIcons[reward.resourcesList[0]];
         float quantity = reward.resourcesQuantity[0];
-        
-        GameObject rewardText = poolManager.GetObject(ObjectPool.BonusText);
 
-        rewardText.transform.position = transform.position;
-        rewardText.SetActive(true);
-        rewardText.GetComponent<BonusTip>().Iniatilize(1, sprite, quantity);
+        BonusTipUIManager.ShowVisualEffect(sprite, quantity);
     }
 }
