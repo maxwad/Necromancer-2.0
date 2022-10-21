@@ -47,6 +47,5 @@ public class CampBuilder : MonoBehaviour
 
             manager.AddBuildingToAllOnTheMap(bonfire);
         }
-
     }    
 }

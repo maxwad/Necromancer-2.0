@@ -16,7 +16,7 @@ public class UnitManager : MonoBehaviour
 
     private Dictionary<UnitsTypes, Sprite> allUnitsIconsDict = new Dictionary<UnitsTypes, Sprite>();
 
-    private UnitBoostManager boostManager;
+    private BattleBoostManager boostManager;
 
     //NEW
 

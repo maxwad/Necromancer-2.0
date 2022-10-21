@@ -12,7 +12,7 @@ public class EnemyManager : MonoBehaviour
     public List<GameObject> finalEnemiesListGO = new List<GameObject>();
     public List<EnemyController> finalEnemiesListEC = new List<EnemyController>();
 
-    private UnitBoostManager boostManager;
+    private BattleBoostManager boostManager;
 
     private EnemyArragement enemyArragement;
     private Dictionary<EnemyArmyOnTheMap, Vector3> enemiesPointsDict = new Dictionary<EnemyArmyOnTheMap, Vector3>();

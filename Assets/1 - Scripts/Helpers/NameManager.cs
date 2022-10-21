@@ -168,6 +168,24 @@ public static class NameManager
         InfirmaryTime
     }
 
+    public enum RunesType
+    {
+        PhysicAttack,
+        MagicAttack,
+        PhysicDefence,
+        MagicDefence,
+        CriticalDamage,
+        BossDamade,
+        MovementSpeed,
+        BonusAmount,
+        BonusRadius,
+        BonusOpportunity,
+        WeaponSpeed,
+        WeaponSize,
+        CoolDown,
+        Exp
+    }
+
     public enum Spells
     {
         SpeedUp,

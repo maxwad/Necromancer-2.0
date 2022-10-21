@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86389294920170a4aaa2b768d66bee16, type: 3}
+  m_Name: Boss's Damage 2
+  m_EditorClassIdentifier: 
+  runeName: Boss's Damage II
+  serieName: Boss's Damage
+  rune: 5
+  activeIcon: {fileID: -781920068898556636, guid: 108daa14e3115264995337bc498c548a, type: 3}
+  inActiveIcon: {fileID: 1704675168752234019, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
+  level: 2
+  value: 10
+  valueType: 2
+  cost: 0
+  positiveDescription: Increases overall damage to bosses by $%.
+  negativeDescription: Decreases overall damage to bosses by $%.

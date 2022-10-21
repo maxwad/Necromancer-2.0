@@ -11,7 +11,7 @@ public class GlobalStorage : MonoBehaviour
     public ObjectsPoolManager objectsPoolManager;
     public MenuManager menuManager;
     public UnitManager unitManager;
-    public UnitBoostManager unitBoostManager;
+    public BattleBoostManager unitBoostManager;
     public BattleManager battleManager;
     public EnemyManager enemyManager;
     public PlayerManager playerManager;

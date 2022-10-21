@@ -6,7 +6,6 @@ using static NameManager;
 public class PortalsManager : MonoBehaviour
 {
     private PlayerStats playerStats;
-    private bool canIUsePortals = false;
 
     public GameObject uiPanel;
     private CanvasGroup canvas;

@@ -27,7 +27,7 @@ public class MacroLevelUpManager : MonoBehaviour
     private GMInterface gmInterface;
 
     private float maxLevel;
-    public float currentLevel = 1;
+    public float currentLevel = 7;
     private float currentExp;
 
     private float standartExpRate = 0.1f;
