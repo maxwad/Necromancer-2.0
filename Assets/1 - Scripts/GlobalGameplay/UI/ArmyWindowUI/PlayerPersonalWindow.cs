@@ -47,6 +47,7 @@ public class PlayerPersonalWindow : MonoBehaviour
     private PlayersArmy playersArmy;
     private EnemyArmyOnTheMap currentEnemy;
     private MacroLevelWindow macroLevelUI;
+    private RunesWindow runesWindow;
     [HideInInspector] public bool isWindowOpened = false;
     private float playerCuriosity;
 
@@ -64,6 +65,7 @@ public class PlayerPersonalWindow : MonoBehaviour
         playersArmyUIPart = GetComponent<PlayersArmyPart>();
         enemyArmyUIPart = GetComponent<EnemyArmyPart>();
         macroLevelUI = GetComponentInChildren<MacroLevelWindow>();
+        runesWindow = GetComponentInChildren<RunesWindow>();
     }
 
     private void Update()
@@ -163,6 +165,7 @@ public class PlayerPersonalWindow : MonoBehaviour
 
         enemyArmyUIPart.Init(enemyArmy);
         macroLevelUI.Init();
+        //runesWindow.Init();
 
         rootCanvas.SetActive(true);
         Fading.instance.FadeWhilePause(true, canvasGroup);

@@ -84,7 +84,8 @@ public static class NameManager
         ResourceOnTheMap,
         BoxOnTheMap,
         BonusText,
-        DeltaCost
+        DeltaCost,
+        Rune
 
     }
 
@@ -322,7 +323,7 @@ public static class NameManager
         Hero,
         Skill,
         Spell,
-        Boost,
+        Rune,
         Tool,
         Warning
     }

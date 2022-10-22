@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class RunesStorage : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private List<RuneSO> runes;
+    [HideInInspector] public List<RuneSO> availableRunes = new List<RuneSO>();
+
+    public void Init()
     {
-        
+        availableRunes = runes;
     }
 
-    // Update is called once per frame
-    void Update()
+    public List<RuneSO> GetAvailableRunes()
     {
-        
+        return availableRunes;
     }
 }

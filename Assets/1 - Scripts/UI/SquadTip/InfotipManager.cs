@@ -15,6 +15,7 @@ public class InfotipManager : MonoBehaviour
     public Squadtip squadTip;
     public SkillTip skillTip;
     public HeroUI heroTip;
+    public RuneTip runeTip;
 
     private void Awake()
     {
@@ -56,6 +57,12 @@ public class InfotipManager : MonoBehaviour
         instance.heroTip.ShowTip();
     }
 
+    public static void Show(RuneSO rune)
+    {
+        instance.runeTip.gameObject.SetActive(true);
+        instance.runeTip.Show(rune);
+    }
+
     public static void Show(string content, string header = "", string status = "")
     {
         instance.tooltip.gameObject.SetActive(true);
@@ -95,7 +102,9 @@ public class InfotipManager : MonoBehaviour
 
             case TipsType.Spell:
                 break;
-            case TipsType.Boost:
+
+            case TipsType.Rune:
+                instance.runeTip?.gameObject?.SetActive(false);
                 break; 
 
             case TipsType.Tool:

@@ -9,6 +9,7 @@ public class InfotipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     private Unit unit;
     private EnemyController enemy;
     private MacroAbilitySO skill;
+    private RuneSO rune;
 
     [SerializeField] private TipsType tipsType;
 
@@ -44,8 +45,10 @@ public class InfotipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
                         break;
 
                     case TipsType.Spell:
+
                         break;
-                    case TipsType.Boost:
+                    case TipsType.Rune:
+                        InfotipManager.Show(rune);
                         break;
 
                     default:
@@ -97,6 +100,12 @@ public class InfotipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         this.skill = skill;
         tipsType = TipsType.Skill;
+    }
+
+    public void SetRune(RuneSO rune)
+    {
+        this.rune = rune;
+        tipsType = TipsType.Rune;
     }
 
 

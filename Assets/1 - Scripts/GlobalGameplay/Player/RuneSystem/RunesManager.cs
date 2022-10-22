@@ -4,15 +4,22 @@ using UnityEngine;
 
 public class RunesManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [HideInInspector] public RunesStorage runesStorage;
+    private RunesWindow runesWindow;
+
+    [HideInInspector] public List<RuneSO> availableRunes = new List<RuneSO>();
+
+    public void Init()
     {
-        
+        runesStorage = gameObject.GetComponentInChildren<RunesStorage>();
+        runesWindow = GlobalStorage.instance.playerMilitaryWindow.GetComponentInChildren<RunesWindow>();
+
+        runesStorage.Init();
+        availableRunes = runesStorage.GetAvailableRunes();
+
+        GlobalStorage.instance.LoadNextPart();
+        //runesWindow
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
 }
