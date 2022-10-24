@@ -11,7 +11,7 @@ public class RuneLevelWrapper : MonoBehaviour
 
     public void Start()
     {
-        Init();
+        //Init();
     }
 
     public void Init()

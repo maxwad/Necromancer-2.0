@@ -13,10 +13,10 @@ public class RunesRowWrapper : MonoBehaviour
 
     public void Start()
     {
-        Init();
+        //Init();
     }
 
-    public void Init()
+    public void Init(bool negativeMode, bool conditionMode)
     {
         if(levelUpManager == null)
         {
@@ -26,13 +26,31 @@ public class RunesRowWrapper : MonoBehaviour
         float levelCount = levelUpManager.GetCurrentLevel();
 
         bool mode;
+        isNegativeRow = negativeMode;
 
         for(int i = 0; i < runesList.Count; i++)
         {
             mode = (i + 1 > levelCount) ? false : true;
 
-            runesList[i].Init(mode, isNegativeRow, rowNumber, i);
+            if(negativeMode == false && conditionMode == false)
+            {
+                runesList[i].InitCell(mode, rowNumber, i);
+            }
+
+            if(negativeMode == true)
+            {
+                runesList[i].InitNegativeCell(mode, rowNumber, i);
+            }
+
+            if(conditionMode == true)
+            {
+                runesList[i].InitConductionCell(mode, rowNumber, i);
+            }
         }
     }
 
+    public List<RunePlaceItem> GetRunePlaceItem()
+    {
+        return runesList;
+    }
 }

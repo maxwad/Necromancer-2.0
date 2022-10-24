@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using static NameManager;
 
 public class RunePlaceItem : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class RunePlaceItem : MonoBehaviour
 
     private bool isUnlocked = false;
     private bool isNegativeCell = false;
+    private bool isCondactionCell = false;
 
     private float index;
     private float indexRow;
@@ -22,25 +24,55 @@ public class RunePlaceItem : MonoBehaviour
     private RuneSO currentRune;
     private int allowedLevel = -1;
 
-    public void Init(bool unlockMode, bool negativeMode, int row, float cell)
+    public void InitCell(bool unlockMode, int row, float cell)
     {
-        bg.color = (unlockMode == true) ? activeColor : inactiveColor;
+        index = cell;
+        indexRow = row;
 
-        if(negativeMode == true) 
-        {
-            bg.color = (unlockMode == true) ? activeNegativeColor : inactiveColor;
-            isNegativeCell = true;
-        }
+        bg.color = (unlockMode == true) ? activeColor : inactiveColor;
 
         if(unlockMode == true)
         {
             lockImage.gameObject.SetActive(!unlockMode);
             isUnlocked = unlockMode;
-        }
+        }        
+    }
 
+    public void InitNegativeCell(bool unlockMode, int row, float cell)
+    {
         index = cell;
         indexRow = row;
+        isNegativeCell = true;       
+
+        if(unlockMode == true)
+        {
+            bg.color = activeNegativeColor;
+            if(GlobalStorage.instance.playerStats.GetCurrentParameter(PlayersStats.NegativeCell) > 0)
+            {
+                lockImage.gameObject.SetActive(false);
+            }
+            else
+            {
+                lockImage.gameObject.SetActive(true);
+            }
+
+        }
+        else
+        {
+            bg.color = inactiveColor;
+            lockImage.gameObject.SetActive(true);
+        }
     }
+
+    public void InitConductionCell(bool unlockMode, int row, float cell)
+    {
+        index = cell;
+        indexRow = row;
+        isCondactionCell = true;
+
+        bg.color = (unlockMode == true) ? activeColor : inactiveColor;
+    }
+
 
     public void FillCell()
     {

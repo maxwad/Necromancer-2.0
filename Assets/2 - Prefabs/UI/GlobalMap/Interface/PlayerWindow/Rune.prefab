@@ -172,6 +172,7 @@ MonoBehaviour:
   bronze: {r: 0.5849056, g: 0.20554467, b: 0.019312933, a: 1}
   silver: {r: 0.4811321, g: 0.4811321, b: 0.4811321, a: 1}
   gold: {r: 1, g: 0.57254905, b: 0, a: 1}
+  infotip: {fileID: 0}
 --- !u!114 &7059531406276761281
 MonoBehaviour:
   m_ObjectHideFlags: 0

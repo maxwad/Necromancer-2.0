@@ -136,7 +136,10 @@ public class ObjectsPoolManager : MonoBehaviour
         for (int i = 0; i < currentObjectsList.Count; i++)
         {
             if (currentObjectsList[i].activeInHierarchy == false)
+            {
                 obj = currentObjectsList[i];
+                break;
+            }
         }
 
         if (obj == null)
