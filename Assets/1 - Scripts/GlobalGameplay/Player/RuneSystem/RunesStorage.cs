@@ -28,7 +28,7 @@ public class RunesStorage : MonoBehaviour
 
     public List<RuneSO> GetAvailableRunes()
     {
-        return  SortingRunes(availableRunes);
+        return SortingRunes(availableRunes);
     }
 
     private List<RuneSO> SortingRunes(List<RuneSO> list)
@@ -53,5 +53,11 @@ public class RunesStorage : MonoBehaviour
         }
 
         return sortedRunes;
+    }
+
+    public void FillCell(RuneSO rune)
+    {
+        availableRunes.Remove(rune);
+        availableRunes = SortingRunes(availableRunes);
     }
 }

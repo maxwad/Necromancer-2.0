@@ -110,6 +110,7 @@ public class MacroLevelUpManager : MonoBehaviour
         playerStats.UpdateMaxStat(stat, StatBoostType.Value, newLevelBonusAmount);
 
         newLevelUI.Init(stat, newLevelBonusAmount, currentLevel, points);
+        EventManager.OnUpgradeLevelEvent(currentLevel);
     }
 
     public void ChangeAbilityPoints(int delta)

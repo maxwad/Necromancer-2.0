@@ -8,29 +8,19 @@ public class RunesRowWrapper : MonoBehaviour
     [SerializeField] private int rowNumber;
     [SerializeField] private bool isNegativeRow = false;
 
-
-    private MacroLevelUpManager levelUpManager;
-
     public void Start()
     {
         //Init();
     }
 
-    public void Init(bool negativeMode, bool conditionMode)
+    public void Init(float level, bool negativeMode, bool conditionMode)
     {
-        if(levelUpManager == null)
-        {
-            levelUpManager = GlobalStorage.instance.macroLevelUpManager;
-        }
-
-        float levelCount = levelUpManager.GetCurrentLevel();
-
         bool mode;
         isNegativeRow = negativeMode;
 
         for(int i = 0; i < runesList.Count; i++)
         {
-            mode = (i + 1 > levelCount) ? false : true;
+            mode = (i + 1 > level) ? false : true;
 
             if(negativeMode == false && conditionMode == false)
             {

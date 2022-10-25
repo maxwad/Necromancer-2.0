@@ -186,16 +186,16 @@ public static class EventManager
 
 
 
-    //calls when we get new temp level
+    //calls when we get new level
     //
     //SUBSCRIBERS:
-    //
+    // - RunesWindow
     //ACTIVATION:
-    // - HeroController
+    // - MacroLevelUpManager
     //
-    public delegate void UpgradeTempLevelEvent(float value);
-    public static event UpgradeTempLevelEvent UpgradeTempLevel;
-    public static void OnUpgradeTempLevelEvent(float value) => UpgradeTempLevel?.Invoke(value);
+    public delegate void UpgradeLevelEvent(float value);
+    public static event UpgradeLevelEvent UpgradeLevel;
+    public static void OnUpgradeLevelEvent(float value) => UpgradeLevel?.Invoke(value);
 
 
 

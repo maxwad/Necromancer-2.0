@@ -59,6 +59,8 @@ public class InfotipManager : MonoBehaviour
 
     public static void Show(RuneSO rune)
     {
+        if(rune == null) return;
+
         instance.runeTip.gameObject.SetActive(true);
         instance.runeTip.Show(rune);
     }

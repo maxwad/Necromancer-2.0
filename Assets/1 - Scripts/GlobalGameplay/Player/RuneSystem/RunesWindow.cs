@@ -8,24 +8,22 @@ public class RunesWindow : MonoBehaviour
 {
     private RunesManager runesManager;
     private ObjectsPoolManager poolManager;
+    private MacroLevelUpManager levelUpManager;
 
     [SerializeField] private RuneLevelWrapper levelRow;
     [SerializeField] private RunesRowWrapper firstRuneRow;
     [SerializeField] private RunesRowWrapper negativeRuneRow;
     [SerializeField] private RunesRowWrapper bonusRuneRow;
     [SerializeField] private GameObject runesContainer;
-    [SerializeField] private GridLayoutGroup grid;
+    private GridLayoutGroup grid;
 
     private List<RuneUIItem> freeRunes = new List<RuneUIItem>();
-    private List<GameObject> freeRunesGO = new List<GameObject>();
-
-    private bool isNegativeRowUnlocked = false;
 
     private void Update()
     {
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            FillRunesStorages();
+            UpdateWindow();
         }
     }
 
@@ -34,6 +32,7 @@ public class RunesWindow : MonoBehaviour
         runesManager = GlobalStorage.instance.runesManager;
         poolManager = GlobalStorage.instance.objectsPoolManager;
         grid = runesContainer.GetComponent<GridLayoutGroup>();
+        levelUpManager = GlobalStorage.instance.macroLevelUpManager;
 
         //levelRow.Init();
         //firstRuneRow.Init();
@@ -48,19 +47,24 @@ public class RunesWindow : MonoBehaviour
     //    UpdateWindow();
     //}
 
-    public void UpdateWindow()
+    public void UpdateWindow(float level = 0)
     {
-        levelRow.Init();
-        firstRuneRow.Init(false, false);
-        negativeRuneRow.Init(true, false);
-        bonusRuneRow.Init(false, true);
+        if(level == 0) level = levelUpManager.GetCurrentLevel();
+
+        levelRow.Init(level);
+        firstRuneRow.Init(level, false, false);
+        negativeRuneRow.Init(level, true, false);
+        bonusRuneRow.Init(level, false, true);
         FillRunesStorages();
     }
 
     public void FillRunesStorages()
     {
+        //foreach(var item in freeRunes)
+        //    Destroy(item.gameObject);
+
         foreach(var item in freeRunes)
-            Destroy(item.gameObject);
+            item.gameObject.SetActive(false);
 
         freeRunes.Clear();
         EnableGrid(true);
@@ -68,12 +72,14 @@ public class RunesWindow : MonoBehaviour
         List<RuneSO> availableRunes = runesManager.runesStorage.GetAvailableRunes();
         //we can't take all runes from pool because they change their order in Hierarchy
         //but not the position data
-        GameObject prefab = poolManager.GetObject(ObjectPool.Rune);
+        //GameObject prefab = poolManager.GetObject(ObjectPool.Rune);
 
         for(int i = 0; i < availableRunes.Count; i++)
         {
-            GameObject runeGO = Instantiate(prefab);
+            //GameObject runeGO = Instantiate(prefab);
+            GameObject runeGO = poolManager.GetObject(ObjectPool.Rune);
             runeGO.transform.SetParent(runesContainer.transform, false);
+            runeGO.transform.SetAsLastSibling();
             runeGO.SetActive(true);
 
             RuneUIItem runeUI = runeGO.GetComponent<RuneUIItem>();
@@ -83,8 +89,30 @@ public class RunesWindow : MonoBehaviour
         }
     }
 
+    public void CutRuneFromList(RuneUIItem rune)
+    {
+        freeRunes.Remove(rune);
+    }
+
     public void EnableGrid(bool mode)
     {
         grid.enabled = mode;
+    }
+
+    private void UpgradeParameter(PlayersStats stat, float value)
+    {
+        if(stat == PlayersStats.NegativeCell && value > 0) UpdateWindow();
+    }
+
+    private void OnEnable()
+    {
+        EventManager.SetNewPlayerStat += UpgradeParameter;
+        EventManager.UpgradeLevel += UpdateWindow;
+    }
+
+    private void OnDisable()
+    {
+        EventManager.SetNewPlayerStat -= UpgradeParameter;
+        EventManager.UpgradeLevel -= UpdateWindow;
     }
 }

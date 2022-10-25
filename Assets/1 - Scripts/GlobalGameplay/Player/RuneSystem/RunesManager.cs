@@ -21,5 +21,8 @@ public class RunesManager : MonoBehaviour
         //runesWindow
     }
 
-
+    public void FillCell(RuneSO rune)
+    {
+        runesStorage.FillCell(rune);
+    }
 }
