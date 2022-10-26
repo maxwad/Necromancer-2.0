@@ -60,4 +60,10 @@ public class RunesStorage : MonoBehaviour
         availableRunes.Remove(rune);
         availableRunes = SortingRunes(availableRunes);
     }
+
+    public void ClearCell(RuneSO rune)
+    {
+        availableRunes.Add(rune);
+        availableRunes = SortingRunes(availableRunes);
+    }
 }

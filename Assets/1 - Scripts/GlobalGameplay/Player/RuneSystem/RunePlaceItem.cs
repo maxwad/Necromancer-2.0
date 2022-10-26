@@ -30,12 +30,12 @@ public class RunePlaceItem : MonoBehaviour, IDropHandler, IPointerClickHandler, 
     private Color originalColor;
     private Color runeColor;
 
-    private GameObject runeGO;
+    private RuneUIItem tempRune;
     private RuneSO currentRune;
     private int allowedLevel = -1;
 
     private GameObject tempRuneGO;
-    private RuneUIItem tempRune;
+    //private RuneUIItem tempRune;
     private CanvasGroup canvasGroup;
     private Canvas dragdrop;
     private RunesWindow runesWindow;
@@ -116,11 +116,16 @@ public class RunePlaceItem : MonoBehaviour, IDropHandler, IPointerClickHandler, 
 
     public void ClearCell()
     {
-        currentRune = null;
+        if(currentRune == null) return;
+
         bg.color = originalColor;
         icon.gameObject.SetActive(false);
         infotip.SetRune(null);
 
+
+        currentRune = null;
+        tempRune.ResetRune();
+        tempRune = null;
         //Clear data here
     }
 
@@ -145,6 +150,10 @@ public class RunePlaceItem : MonoBehaviour, IDropHandler, IPointerClickHandler, 
                 return;
             }
 
+            if(tempRune != null)
+            {
+                tempRune.ResetRune();
+            }
             //check allowed here
 
             currentRune = rune.rune;
@@ -154,8 +163,9 @@ public class RunePlaceItem : MonoBehaviour, IDropHandler, IPointerClickHandler, 
             eventData.pointerDrag.transform.SetParent(transform, false);
             eventData.pointerDrag.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
             eventData.pointerDrag.transform.localPosition = Vector3.zero;
+            tempRune = rune;
 
-
+            runesWindow.CutRuneFromList(rune);
             runesManager.FillCell(currentRune);
         }
     }

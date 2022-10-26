@@ -25,4 +25,9 @@ public class RunesManager : MonoBehaviour
     {
         runesStorage.FillCell(rune);
     }
+
+    public void ReturnRune(RuneSO rune)
+    {
+        runesStorage.ClearCell(rune);
+    }
 }

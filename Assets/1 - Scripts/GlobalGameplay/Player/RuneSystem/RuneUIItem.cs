@@ -19,6 +19,7 @@ public class RuneUIItem : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDr
     [SerializeField] private InfotipTrigger infotip;
     private CanvasGroup canvasGroup;
 
+    private RunesManager runesManager;
     private RunesWindow runesWindow;
     private Canvas dragdrop;
     private Transform currentParent;
@@ -31,6 +32,7 @@ public class RuneUIItem : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDr
         {
             infotip = GetComponent<InfotipTrigger>();
             canvasGroup = GetComponent<CanvasGroup>();
+            runesManager = GlobalStorage.instance.runesManager;
             runesWindow = GlobalStorage.instance.playerMilitaryWindow.GetComponentInChildren<RunesWindow>();
             Canvas[] group = GlobalStorage.instance.playerMilitaryWindow.GetComponentsInChildren<Canvas>();
             dragdrop = group[group.Length - 1];
@@ -79,16 +81,21 @@ public class RuneUIItem : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDr
             if(transform.parent != currentParent)
             {            
                 currentParent = transform.parent;
-                runesWindow.CutRuneFromList(this);
             }
-        }
-        else
-        {
-            transform.SetParent(parentStorage);
         }
 
         canvasGroup.alpha = 1f;
         canvasGroup.blocksRaycasts = true;
+        runesWindow.UpdateWindow();
+    }
+
+    public void ResetRune()
+    {
+        transform.localScale = new Vector3(1f, 1f, 1f);
+        transform.SetParent(parentStorage);
+        runesManager.ReturnRune(rune);
+        runesWindow.PasteRuneToList(this);
+
         runesWindow.UpdateWindow();
     }
 }

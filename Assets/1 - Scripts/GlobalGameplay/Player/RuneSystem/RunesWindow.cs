@@ -70,6 +70,7 @@ public class RunesWindow : MonoBehaviour
         EnableGrid(true);
 
         List<RuneSO> availableRunes = runesManager.runesStorage.GetAvailableRunes();
+
         //we can't take all runes from pool because they change their order in Hierarchy
         //but not the position data
         //GameObject prefab = poolManager.GetObject(ObjectPool.Rune);
@@ -94,6 +95,11 @@ public class RunesWindow : MonoBehaviour
         freeRunes.Remove(rune);
     }
 
+    public void PasteRuneToList(RuneUIItem rune)
+    {
+        freeRunes.Add(rune);
+    }
+
     public void EnableGrid(bool mode)
     {
         grid.enabled = mode;
@@ -101,7 +107,7 @@ public class RunesWindow : MonoBehaviour
 
     private void UpgradeParameter(PlayersStats stat, float value)
     {
-        if(stat == PlayersStats.NegativeCell && value > 0) UpdateWindow();
+        if(stat == PlayersStats.NegativeCell && value > 0) negativeRuneRow.Init(levelUpManager.GetCurrentLevel(), true, false);
     }
 
     private void OnEnable()
