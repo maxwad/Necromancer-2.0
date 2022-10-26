@@ -6,22 +6,23 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using static NameManager;
 
-public class RunePlaceItem : MonoBehaviour, IDropHandler, IPointerClickHandler, IDragHandler, IEndDragHandler, IBeginDragHandler
+public class RunePlaceItem : MonoBehaviour, IDropHandler, IPointerClickHandler
 {
     private ObjectsPoolManager poolManager;
     private RunesManager runesManager;
 
     public Image lockImage;
     public Image bg;
+    public Image border;
     public Image icon;
     public InfotipTrigger infotip;
 
     private bool isUnlocked = false;
     private bool isNegativeCell = false;
-    private bool isCondactionCell = false;
+    private bool isConditionCell = false;
 
-    private float index;
-    private float indexRow;
+    public int indexCell;
+    public int indexRow;
 
     public Color activeColor;
     public Color activeNegativeColor;
@@ -30,30 +31,24 @@ public class RunePlaceItem : MonoBehaviour, IDropHandler, IPointerClickHandler, 
     private Color originalColor;
     private Color runeColor;
 
-    private RuneUIItem tempRune;
-    private RuneSO currentRune;
+    [HideInInspector] public RuneUIItem tempRune;
+    [HideInInspector] public RuneSO currentRune;
     private int allowedLevel = -1;
 
-    private GameObject tempRuneGO;
-    //private RuneUIItem tempRune;
-    private CanvasGroup canvasGroup;
-    private Canvas dragdrop;
     private RunesWindow runesWindow;
 
     private void Start()
     {
         poolManager = GlobalStorage.instance.objectsPoolManager;
-        Canvas[] group = GlobalStorage.instance.playerMilitaryWindow.GetComponentsInChildren<Canvas>();
-        dragdrop = group[group.Length - 1];
         runesManager = GlobalStorage.instance.runesManager;
         runesWindow = GlobalStorage.instance.playerMilitaryWindow.GetComponentInChildren<RunesWindow>();
     }
 
     #region Inits
 
-    public void InitCell(bool unlockMode, int row, float cell)
+    public void InitCell(bool unlockMode, int row, int cell)
     {
-        index = cell;
+        indexCell = cell;
         indexRow = row;
 
         originalColor = (unlockMode == true) ? activeColor : inactiveColor;
@@ -68,13 +63,14 @@ public class RunePlaceItem : MonoBehaviour, IDropHandler, IPointerClickHandler, 
         if(currentRune != null) FillCell();
     }
 
-    public void InitNegativeCell(bool unlockMode, int row, float cell)
+    public void InitNegativeCell(bool unlockMode, int row, int cell)
     {
-        index = cell;
+        indexCell = cell;
         indexRow = row;
-        isNegativeCell = true;       
+        isNegativeCell = true;
+        isUnlocked = unlockMode;
 
-        if(unlockMode == true)
+        if(isUnlocked == true)
         {
             originalColor = activeNegativeColor;
             bg.color = activeNegativeColor;
@@ -82,7 +78,10 @@ public class RunePlaceItem : MonoBehaviour, IDropHandler, IPointerClickHandler, 
             if(GlobalStorage.instance.playerStats.GetCurrentParameter(PlayersStats.NegativeCell) > 0)
                 lockImage.gameObject.SetActive(false);
             else
+            {
                 lockImage.gameObject.SetActive(true);
+                isUnlocked = false;
+            }
         }
         else
         {
@@ -90,26 +89,43 @@ public class RunePlaceItem : MonoBehaviour, IDropHandler, IPointerClickHandler, 
             lockImage.gameObject.SetActive(true);
         }
 
+        border.color = activeNegativeColor;
+
         if(currentRune != null) FillCell();
     }
 
-    public void InitConductionCell(bool unlockMode, int row, float cell)
+    public void InitConductionCell(bool unlockMode, int row, int cell)
     {
-        index = cell;
+        indexCell = cell;
         indexRow = row;
-        isCondactionCell = true;
+        isConditionCell = true;
 
         originalColor = (unlockMode == true) ? activeColor : inactiveColor;
         bg.color = originalColor;
 
-        if(currentRune != null) FillCell();
+        allowedLevel = (runesWindow == null) ? -1 : runesWindow.CheckNegativeCell(indexCell);
+        isUnlocked = (allowedLevel == -1) ? false : true;
+        lockImage.gameObject.SetActive(!isUnlocked);
+
+        if(currentRune != null)
+        {
+            if(isUnlocked == false)
+            {
+                ClearCell();
+            }
+            else
+            {
+                FillCell();
+            }
+        }            
     }
 
     #endregion
 
     private void FillCell()
     {
-        bg.color = runeColor;
+        if(isNegativeCell == false) bg.color = runeColor;
+
         icon.gameObject.SetActive(true);
         icon.sprite = currentRune.activeIcon;
     }
@@ -122,8 +138,9 @@ public class RunePlaceItem : MonoBehaviour, IDropHandler, IPointerClickHandler, 
         icon.gameObject.SetActive(false);
         infotip.SetRune(null);
 
-
         currentRune = null;
+        runesManager.ApplyRune(indexRow, indexCell, currentRune);
+
         tempRune.ResetRune();
         tempRune = null;
         //Clear data here
@@ -133,7 +150,7 @@ public class RunePlaceItem : MonoBehaviour, IDropHandler, IPointerClickHandler, 
     {
         if(eventData.button == PointerEventData.InputButton.Right)
         {
-            ClearCell();
+            ClearCell();            
         }
     }
 
@@ -150,15 +167,26 @@ public class RunePlaceItem : MonoBehaviour, IDropHandler, IPointerClickHandler, 
                 return;
             }
 
+            if(isConditionCell == true)
+            {
+                if(rune.rune.level > allowedLevel)
+                {
+                    InfotipManager.ShowWarning("The level of the rune must be less or equal than thr level of the negative rune.");
+                    return;
+                }
+            }
+
             if(tempRune != null)
             {
                 tempRune.ResetRune();
+                runesManager.ApplyRune(indexRow, indexCell, null);
             }
             //check allowed here
 
             currentRune = rune.rune;
             infotip.SetRune(currentRune);
-            runeColor = rune.bg.color;
+
+            //if(isNegativeCell == true) rune.bg.color = activeNegativeColor;            
 
             eventData.pointerDrag.transform.SetParent(transform, false);
             eventData.pointerDrag.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
@@ -167,28 +195,8 @@ public class RunePlaceItem : MonoBehaviour, IDropHandler, IPointerClickHandler, 
 
             runesWindow.CutRuneFromList(rune);
             runesManager.FillCell(currentRune);
+
+            runesManager.ApplyRune(indexRow, indexCell, currentRune);
         }
-    }
-
-
-    public void OnBeginDrag(PointerEventData eventData)
-    {
-        //canvasGroup = tempRuneGO.GetComponent<CanvasGroup>();
-        //canvasGroup.alpha = 0.8f;
-        //canvasGroup.blocksRaycasts = false;
-    }
-
-    public void OnDrag(PointerEventData eventData)
-    {
-        //tempRuneGO.transform.position = Input.mousePosition;
-    }
-
-    public void OnEndDrag(PointerEventData eventData)
-    {
-        //canvasGroup.alpha = 1f;
-        //canvasGroup.blocksRaycasts = true;
-
-
-        ////runesWindow.UpdateWindow();
     }
 }

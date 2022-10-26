@@ -15,6 +15,8 @@ public class RuneUIItem : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDr
     [SerializeField] private Color bronze;
     [SerializeField] private Color silver;
     [SerializeField] private Color gold;
+    [HideInInspector] public Color originalColor;
+
 
     [SerializeField] private InfotipTrigger infotip;
     private CanvasGroup canvasGroup;
@@ -46,6 +48,8 @@ public class RuneUIItem : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDr
         if(rune.level == 1) bg.color = bronze;
         if(rune.level == 2) bg.color = silver;
         if(rune.level == 3) bg.color = gold;
+
+        originalColor = bg.color;
 
     }
 
@@ -93,7 +97,9 @@ public class RuneUIItem : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDr
     {
         transform.localScale = new Vector3(1f, 1f, 1f);
         transform.SetParent(parentStorage);
-        runesManager.ReturnRune(rune);
+        bg.color = originalColor;
+
+        runesManager.ClearCell(rune);
         runesWindow.PasteRuneToList(this);
 
         runesWindow.UpdateWindow();

@@ -14,6 +14,7 @@ public class RunesWindow : MonoBehaviour
     [SerializeField] private RunesRowWrapper firstRuneRow;
     [SerializeField] private RunesRowWrapper negativeRuneRow;
     [SerializeField] private RunesRowWrapper bonusRuneRow;
+    private RunesRowWrapper[] runeUIRows = new RunesRowWrapper[3];
     [SerializeField] private GameObject runesContainer;
     private GridLayoutGroup grid;
 
@@ -33,13 +34,9 @@ public class RunesWindow : MonoBehaviour
         poolManager = GlobalStorage.instance.objectsPoolManager;
         grid = runesContainer.GetComponent<GridLayoutGroup>();
         levelUpManager = GlobalStorage.instance.macroLevelUpManager;
-
-        //levelRow.Init();
-        //firstRuneRow.Init();
-        //negativeRuneRow.Init();
-        //bonusRuneRow.Init();
-        //FillRunesStorages();
-        UpdateWindow();
+        runeUIRows[0] = firstRuneRow;
+        runeUIRows[1] = negativeRuneRow;
+        runeUIRows[2] = bonusRuneRow;
     }
 
     //public void Init()
@@ -49,8 +46,9 @@ public class RunesWindow : MonoBehaviour
 
     public void UpdateWindow(float level = 0)
     {
-        if(level == 0) level = levelUpManager.GetCurrentLevel();
+        if(runesContainer.activeInHierarchy == false) return;
 
+        if(level == 0) level = levelUpManager.GetCurrentLevel();
         levelRow.Init(level);
         firstRuneRow.Init(level, false, false);
         negativeRuneRow.Init(level, true, false);
@@ -110,15 +108,18 @@ public class RunesWindow : MonoBehaviour
         if(stat == PlayersStats.NegativeCell && value > 0) negativeRuneRow.Init(levelUpManager.GetCurrentLevel(), true, false);
     }
 
+    public int CheckNegativeCell(int index)
+    {        
+        return negativeRuneRow.CheckCell(index);
+    }
+
     private void OnEnable()
     {
         EventManager.SetNewPlayerStat += UpgradeParameter;
-        EventManager.UpgradeLevel += UpdateWindow;
     }
 
     private void OnDisable()
     {
         EventManager.SetNewPlayerStat -= UpgradeParameter;
-        EventManager.UpgradeLevel -= UpdateWindow;
     }
 }

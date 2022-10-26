@@ -157,6 +157,8 @@ public class PlayerPersonalWindow : MonoBehaviour
 
         isWindowOpened = true;
         currentMode = mode;
+        rootCanvas.SetActive(true);
+        Fading.instance.FadeWhilePause(true, canvasGroup);
                 
         Refactoring();
         HandlingTabs(currentMode, lastPressedKey);
@@ -165,10 +167,6 @@ public class PlayerPersonalWindow : MonoBehaviour
 
         enemyArmyUIPart.Init(enemyArmy);
         macroLevelUI.Init();
-        //runesWindow.Init();
-
-        rootCanvas.SetActive(true);
-        Fading.instance.FadeWhilePause(true, canvasGroup);
     }
 
     public void CloseWindow()
@@ -266,6 +264,7 @@ public class PlayerPersonalWindow : MonoBehaviour
             case PlayersWindow.MicroLevelUp:
                 activeMicroTab.SetActive(true);
                 microLvlPanel.SetActive(true);
+                runesWindow.UpdateWindow();
                 break;
 
             case PlayersWindow.MacroLevelUp:

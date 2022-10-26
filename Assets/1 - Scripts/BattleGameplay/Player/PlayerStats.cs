@@ -172,6 +172,10 @@ public class PlayerStats : MonoBehaviour
                     baseValue = learningBase;
                     break;
 
+                case PlayersStats.NegativeCell:
+                    baseValue = 1;
+                    break;
+
                 default:
                     break;
             }

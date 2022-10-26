@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -42,5 +43,10 @@ public class RunesRowWrapper : MonoBehaviour
     public List<RunePlaceItem> GetRunePlaceItem()
     {
         return runesList;
+    }
+
+    internal int CheckCell(int index)
+    {
+        return (runesList[index].currentRune == null) ? -1 : runesList[index].currentRune.level;
     }
 }

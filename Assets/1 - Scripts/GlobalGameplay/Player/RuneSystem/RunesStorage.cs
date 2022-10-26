@@ -66,4 +66,9 @@ public class RunesStorage : MonoBehaviour
         availableRunes.Add(rune);
         availableRunes = SortingRunes(availableRunes);
     }
+
+    public RunesType[] GetRunesTypes()
+    {
+        return runesTypes;
+    }
 }

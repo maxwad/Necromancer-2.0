@@ -132,6 +132,11 @@ public class MacroLevelUpManager : MonoBehaviour
         return currentLevel;
     }
 
+    public float GetMaxLevel()
+    {
+        return maxLevel;
+    }
+
     public LevelData GetLevelData()
     {
         return new LevelData(currentLevel, currentExp, currentExpGoal, abilityPoints);
