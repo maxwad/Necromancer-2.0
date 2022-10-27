@@ -135,6 +135,12 @@ public class ObjectsPoolManager : MonoBehaviour
 
         for (int i = 0; i < currentObjectsList.Count; i++)
         {
+            if(currentObjectsList[i] == null)
+            {
+                currentObjectsList.Remove(currentObjectsList[i]);
+                continue;
+            }
+
             if (currentObjectsList[i].activeInHierarchy == false)
             {
                 obj = currentObjectsList[i];

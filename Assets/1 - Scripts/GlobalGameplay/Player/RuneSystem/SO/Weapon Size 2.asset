@@ -20,6 +20,19 @@ MonoBehaviour:
   level: 2
   value: 10
   valueType: 2
-  cost: 0
+  cost:
+  - type: 7
+    amount: 50
+  - type: 1
+    amount: 100
+  - type: 4
+    amount: 100
+  realCost:
+  - type: 7
+    amount: 100
+  - type: 1
+    amount: 200
+  - type: 4
+    amount: 200
   positiveDescription: Increases size of weapon by $%.
   negativeDescription: Decreases size of weapon by $%.

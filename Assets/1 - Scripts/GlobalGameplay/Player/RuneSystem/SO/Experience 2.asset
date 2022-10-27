@@ -20,7 +20,20 @@ MonoBehaviour:
   level: 2
   value: 10
   valueType: 2
-  cost: 0
+  cost:
+  - type: 7
+    amount: 50
+  - type: 0
+    amount: 1000
+  - type: 4
+    amount: 500
+  realCost:
+  - type: 7
+    amount: 100
+  - type: 0
+    amount: 2000
+  - type: 4
+    amount: 1000
   positiveDescription: Increases experience for killing enemies on the battlefield
     by $%.
   negativeDescription: Decreases  experience for killing enemies on the battlefield

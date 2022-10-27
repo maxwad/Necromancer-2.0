@@ -20,6 +20,19 @@ MonoBehaviour:
   level: 3
   value: 15
   valueType: 2
-  cost: 0
+  cost:
+  - type: 7
+    amount: 50
+  - type: 1
+    amount: 100
+  - type: 4
+    amount: 100
+  realCost:
+  - type: 7
+    amount: 150
+  - type: 1
+    amount: 300
+  - type: 4
+    amount: 300
   positiveDescription: Increases magical attack damage by $%.
   negativeDescription: Decreases magical attack damage by $%.

@@ -8,8 +8,8 @@ using static NameManager;
 
 public class RunePlaceItem : MonoBehaviour, IDropHandler, IPointerClickHandler
 {
-    private ObjectsPoolManager poolManager;
     private RunesManager runesManager;
+    private RunesWindow runesWindow;
 
     public Image lockImage;
     public Image bg;
@@ -35,11 +35,9 @@ public class RunePlaceItem : MonoBehaviour, IDropHandler, IPointerClickHandler
     [HideInInspector] public RuneSO currentRune;
     private int allowedLevel = -1;
 
-    private RunesWindow runesWindow;
 
     private void Start()
     {
-        poolManager = GlobalStorage.instance.objectsPoolManager;
         runesManager = GlobalStorage.instance.runesManager;
         runesWindow = GlobalStorage.instance.playerMilitaryWindow.GetComponentInChildren<RunesWindow>();
     }
@@ -171,22 +169,32 @@ public class RunePlaceItem : MonoBehaviour, IDropHandler, IPointerClickHandler
             {
                 if(rune.rune.level > allowedLevel)
                 {
-                    InfotipManager.ShowWarning("The level of the rune must be less or equal than thr level of the negative rune.");
+                    InfotipManager.ShowWarning("The level of the rune must be less or equal than the level of the negative rune.");
                     return;
                 }
             }
-
             if(tempRune != null)
             {
+                if(runesManager.CanIReplaceThisRune(isNegativeCell, currentRune, rune.rune) == false)
+                {
+                    InfotipManager.ShowWarning("Sorry, but you cannot replace this rune, because in this case, the parameter will be lower than allowed.");
+                    return;
+                }
                 tempRune.ResetRune();
                 runesManager.ApplyRune(indexRow, indexCell, null);
             }
-            //check allowed here
+            else
+            {
+                if(runesManager.CanIUseThisRune(isNegativeCell, rune.rune) == false) 
+                {
+                    InfotipManager.ShowWarning("Sorry, but you cannot go beyond the minimum limit (-99%) for this effect.");
+                    return;
+                }
+
+            }
 
             currentRune = rune.rune;
-            infotip.SetRune(currentRune);
-
-            //if(isNegativeCell == true) rune.bg.color = activeNegativeColor;            
+            infotip.SetRune(currentRune);      
 
             eventData.pointerDrag.transform.SetParent(transform, false);
             eventData.pointerDrag.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);

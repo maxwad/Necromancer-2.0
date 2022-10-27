@@ -20,6 +20,19 @@ MonoBehaviour:
   level: 2
   value: 10
   valueType: 2
-  cost: 0
+  cost:
+  - type: 7
+    amount: 50
+  - type: 2
+    amount: 100
+  - type: 3
+    amount: 300
+  realCost:
+  - type: 7
+    amount: 100
+  - type: 2
+    amount: 200
+  - type: 3
+    amount: 600
   positiveDescription: Increases movement speed of squads by $%.
   negativeDescription: Decreases movement speed of squads by $%.

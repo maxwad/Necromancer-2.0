@@ -20,6 +20,19 @@ MonoBehaviour:
   level: 1
   value: 5
   valueType: 2
-  cost: 0
+  cost:
+  - type: 7
+    amount: 50
+  - type: 2
+    amount: 100
+  - type: 3
+    amount: 300
+  realCost:
+  - type: 7
+    amount: 50
+  - type: 2
+    amount: 100
+  - type: 3
+    amount: 300
   positiveDescription: Increases magical defence by $%.
   negativeDescription: Decreases magical defence by $%.

@@ -40,9 +40,9 @@ public class RunesRowWrapper : MonoBehaviour
         }
     }
 
-    public List<RunePlaceItem> GetRunePlaceItem()
+    public void ForceRuneClearing(int cell)
     {
-        return runesList;
+        runesList[cell].ClearCell(); ;
     }
 
     internal int CheckCell(int index)

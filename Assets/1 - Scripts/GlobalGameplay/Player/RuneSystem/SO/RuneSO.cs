@@ -1,7 +1,16 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using static NameManager;
 
 [CreateAssetMenu(fileName = "RuneData", menuName = "RuneItem")]
+
+[Serializable]
+public class Cost
+{
+    public ResourceType type;
+    public float amount;
+}
 
 public class RuneSO : ScriptableObject
 {
@@ -13,7 +22,8 @@ public class RuneSO : ScriptableObject
     public int level;
     public float value;
     public StatBoostType valueType;
-    public int cost;
+    public Cost[] cost;
+    public List<Cost> realCost;
     public string positiveDescription;
     public string negativeDescription;
 }

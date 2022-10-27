@@ -23,7 +23,25 @@ public class RunesStorage : MonoBehaviour
             counter++;
         }            
 
-        availableRunes = runes;
+
+        for(int i = 0; i < runes.Count; i++)
+        {
+            availableRunes.Add(runes[i]);
+            Cost[] runeCost = availableRunes[i].cost;
+            for(int j = 0; j < runeCost.Length; j++)
+            {
+                Cost realCost = new Cost();
+                realCost.type = runeCost[j].type;
+                realCost.amount = runeCost[j].amount * availableRunes[i].level;
+
+                availableRunes[i].realCost[j] = realCost;
+            }            
+        }
+
+        //foreach(var rune in runes)
+        //{
+        //    availableRunes.Add(rune);
+        //}
     }
 
     public List<RuneSO> GetAvailableRunes()

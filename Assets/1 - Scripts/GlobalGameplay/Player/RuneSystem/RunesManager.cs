@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,9 +15,13 @@ public class RunesManager : MonoBehaviour
 
         public RuneBoost(int rowIndex, int cellIndex, RuneSO rune)
         {
+            float value = rune.value;
+            if(rowIndex == 1 && rune.rune != RunesType.CoolDown) value = -value;
+            if(rowIndex != 1 && rune.rune == RunesType.CoolDown) value = -value;
+
             row = rowIndex;
             cell = cellIndex;
-            boost = (rowIndex == 1) ? -rune.value : rune.value;
+            boost = value;
             level = rune.level;
         }
     }
@@ -32,6 +37,8 @@ public class RunesManager : MonoBehaviour
     private RunesType[] runesTypes;
     private Dictionary<RunesType, List<RuneBoost>> runeBoostesDict = new Dictionary<RunesType, List<RuneBoost>>();
     private Dictionary<RunesType, float> commonBoostDict = new Dictionary<RunesType, float>();
+
+    private float limitValue = -99;
 
     public void Init()
     {
@@ -89,6 +96,40 @@ public class RunesManager : MonoBehaviour
         //    Debug.Log(runes);
         //}
 
+        CheckOverflow();
+    }
+
+    private void CheckOverflow()
+    {
+        RunesType overflowType;
+        bool finded = false;
+        int cell = 0;
+        int row = 1;
+
+        foreach(var boost in commonBoostDict)
+        {
+            if(boost.Value < limitValue)
+            {
+                overflowType = boost.Key;
+                 List<RuneBoost> tempList = runeBoostesDict[overflowType];
+                for(int i = 0; i < tempList.Count; i++)
+                {
+                    if(tempList[i].row == 1)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        finded = true;
+                        cell = tempList[tempList.Count - 1].cell;
+                        row = tempList[tempList.Count - 1].row;
+                        break;
+                    }
+                }                
+            }
+        }
+
+        if(finded == true) runesWindow.FindAndClearRune(row, cell);
     }
 
     private void ApplyEffect(int row, int cell, RuneSO rune)
@@ -132,8 +173,50 @@ public class RunesManager : MonoBehaviour
 
         commonBoostDict[currentType] = result;
 
-        Debug.Log(currentType + " = " + result);
+        runesWindow.UpdateParameters(currentType, result);
     }
 
+    public bool CanIUseThisRune(bool negativeMode, RuneSO rune)
+    {
+        bool result;
 
+        if(negativeMode == true)
+        {
+            if(rune.rune != RunesType.CoolDown)
+                result = (commonBoostDict[rune.rune] - rune.value >= limitValue);
+            else
+                result = true;
+        }
+        else
+        {
+            if(rune.rune == RunesType.CoolDown)
+                result = (commonBoostDict[rune.rune] - rune.value >= limitValue);
+            else
+                result = true;
+        }
+
+        return result;  
+    }
+
+    public bool CanIReplaceThisRune(bool negativeMode, RuneSO oldRune, RuneSO newRune)
+    {
+        bool result;
+
+        if(negativeMode == true)
+        {
+            if(newRune.rune != RunesType.CoolDown)
+                result = (commonBoostDict[oldRune.rune] - newRune.value + oldRune.value >= -99);
+            else
+                result = true;
+        }
+        else
+        {
+            if(newRune.rune == RunesType.CoolDown)
+                result = (commonBoostDict[oldRune.rune] - newRune.value + oldRune.value >= -99);
+            else
+                result = true;
+        }
+
+        return result;
+    }
 }
