@@ -82,7 +82,8 @@ public class UnitManager : MonoBehaviour
         //накладываем эффекты на все базовые юниты
         foreach (var item in allCurrentBaseUnitsByTypes)
         {
-            allCurrentBoostUnitsByTypes.Add(boostManager.AddBonusStatsToUnit(item));
+            //allCurrentBoostUnitsByTypes.Add(boostManager.AddBonusStatsToUnit(item));
+            allCurrentBoostUnitsByTypes.Add(item);
             allUnitsIconsDict.Add(item.unitType, item.unitIcon);
         }
 

@@ -151,7 +151,7 @@ public static class NameManager
         ExtraExpReward,
 
         Spell,//later
-        NegativeCell,//later
+        NegativeCell,
         MedicAltar,//later
         DoubleBonusFromBox,
         ExtraMovementPoints,
@@ -185,6 +185,25 @@ public static class NameManager
         WeaponSize,
         CoolDown,
         Exp
+    }
+
+    public enum BoostType
+    {
+        PhysicAttack,
+        MagicAttack,
+        PhysicDefence,
+        MagicDefence,
+        CriticalDamage,
+        BossDamade,
+        MovementSpeed,
+        BonusAmount,
+        BonusRadius,
+        BonusOpportunity,
+        WeaponSpeed,
+        WeaponSize,
+        CoolDown,
+        Exp,
+        HeroDefence
     }
 
     public enum Spells

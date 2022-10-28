@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using static NameManager;
 
-[CreateAssetMenu(fileName = "RuneData", menuName = "RuneItem")]
-
 [Serializable]
 public class Cost
 {
     public ResourceType type;
     public float amount;
 }
+
+[CreateAssetMenu(fileName = "RuneData", menuName = "RuneItem")]
 
 public class RuneSO : ScriptableObject
 {

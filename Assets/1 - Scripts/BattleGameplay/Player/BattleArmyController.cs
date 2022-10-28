@@ -3,6 +3,7 @@ using static NameManager;
 
 public class BattleArmyController : MonoBehaviour
 {
+    private BattleBoostManager boostManager;
     private Rigidbody2D rbPlayer;
     private float speed = 0;
 
@@ -61,22 +62,36 @@ public class BattleArmyController : MonoBehaviour
             GlobalStorage.instance.hero.gameObject.GetComponent<HeroMovement>().Dizziness(mode);
     }
 
-    private void UpgradeSpeed(PlayersStats stats, float value)
+    //private void UpgradeSpeed(PlayersStats stats, float value)
+    //{
+    //    if(stats == PlayersStats.Speed) speed = value;        
+    //}
+
+    private void UpgradeSpeed(BoostType boost, float value)
     {
-        if(stats == PlayersStats.Speed) speed = value;        
+        if(boost == BoostType.MovementSpeed) speed = value;
     }
 
     private void OnEnable()
     {
-        if(playerStats == null) playerStats = GlobalStorage.instance.playerStats;
+        if(playerStats == null) 
+        { 
+            playerStats = GlobalStorage.instance.playerStats;
+            boostManager = GlobalStorage.instance.unitBoostManager;
+        }
 
         speed = playerStats.GetCurrentParameter(PlayersStats.Speed);
+        Debug.Log(speed);
 
-        EventManager.SetNewPlayerStat += UpgradeSpeed;
+        speed += speed * boostManager.GetBoost(BoostConverter.instance.PlayerStatToBoostType(PlayersStats.Speed));
+
+        //EventManager.SetNewPlayerStat += UpgradeSpeed;
+        EventManager.SetBattleBoost += UpgradeSpeed;
     }
 
     private void OnDisable()
     {
-        EventManager.SetNewPlayerStat -= UpgradeSpeed;
+        EventManager.SetBattleBoost -= UpgradeSpeed;
+        //EventManager.SetNewPlayerStat -= UpgradeSpeed;
     }
 }

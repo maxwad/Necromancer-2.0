@@ -5,19 +5,19 @@ using static NameManager;
 
 public class PlayerBoostManager : MonoBehaviour
 {
-    private struct Boost
+    private struct BoostPlayer
     {
         public BoostSender sender;
         public float value;
 
-        public Boost(BoostSender boostSender, float boostValue)
+        public BoostPlayer(BoostSender boostSender, float boostValue)
         {
             sender = boostSender;
             value = boostValue;
         }
     }
 
-    private Dictionary<PlayersStats, List<Boost>> allBoostDict = new Dictionary<PlayersStats, List<Boost>>();
+    private Dictionary<PlayersStats, List<BoostPlayer>> allBoostDict = new Dictionary<PlayersStats, List<BoostPlayer>>();
 
     private void Start()
     {
@@ -36,11 +36,11 @@ public class PlayerBoostManager : MonoBehaviour
     private void ChangeBoost(bool mode, BoostSender sender, PlayersStats stats, float value)
     {
         float newBoostValue = 0;
-        List<Boost> currentBoostList = allBoostDict[stats];
+        List<BoostPlayer> currentBoostList = allBoostDict[stats];
 
         if(mode == true)
         {
-            currentBoostList.Add(new Boost(sender, value));
+            currentBoostList.Add(new BoostPlayer(sender, value));
         }
         else
         {
@@ -66,7 +66,7 @@ public class PlayerBoostManager : MonoBehaviour
     {
         foreach(PlayersStats itemStat in Enum.GetValues(typeof(PlayersStats)))
         {
-            allBoostDict.Add(itemStat, new List<Boost>());
+            allBoostDict.Add(itemStat, new List<BoostPlayer>());
         }
     }
 

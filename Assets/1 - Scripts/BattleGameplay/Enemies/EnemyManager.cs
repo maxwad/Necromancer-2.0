@@ -46,8 +46,10 @@ public class EnemyManager : MonoBehaviour
 
     private void CreatetAllEnemiesBoost()
     {
+        //foreach(Enemy item in allEnemiesBase)
+        //    allBoostEnemies.Add(boostManager.AddBonusStatsToEnemy(item));
         foreach (Enemy item in allEnemiesBase)
-            allBoostEnemies.Add(boostManager.AddBonusStatsToEnemy(item));
+            allBoostEnemies.Add(item);
 
         CreateFinalEnemiesListGO();
     }

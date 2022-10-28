@@ -6,6 +6,7 @@ using static NameManager;
 public class HeroController : MonoBehaviour
 {
     private PlayerStats playerStats;
+    private BattleBoostManager boostManager;
     private MacroLevelUpManager levelManager;
     private ResourcesManager resourcesManager;
 
@@ -253,6 +254,7 @@ public class HeroController : MonoBehaviour
         if(playerStats == null)
         {
             playerStats = GlobalStorage.instance.playerStats;
+            boostManager = GlobalStorage.instance.unitBoostManager;
             resourcesManager = GlobalStorage.instance.resourcesManager;
             levelManager = GlobalStorage.instance.macroLevelUpManager;
         }        
@@ -261,8 +263,13 @@ public class HeroController : MonoBehaviour
 
         //playerStats.GetAllStartParameters();
         searchRadius = playerStats.GetCurrentParameter(PlayersStats.SearchRadius);
+        searchRadius += searchRadius * boostManager.GetBoost(BoostConverter.instance.PlayerStatToBoostType(PlayersStats.SearchRadius));
+
         defence = playerStats.GetCurrentParameter(PlayersStats.Defence);
+        defence += defence * boostManager.GetBoost(BoostConverter.instance.PlayerStatToBoostType(PlayersStats.Defence));
+
         luck = playerStats.GetCurrentParameter(PlayersStats.Luck);
+        luck += luck * boostManager.GetBoost(BoostConverter.instance.PlayerStatToBoostType(PlayersStats.Luck));
 
         currentHealth = resourcesManager.GetResource(ResourceType.Health);
     }

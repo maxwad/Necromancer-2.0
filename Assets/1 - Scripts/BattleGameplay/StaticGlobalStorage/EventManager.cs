@@ -158,6 +158,18 @@ public static class EventManager
     public static void OnSetBoostToStatEvent(PlayersStats stats, float value) => SetBoostToStat?.Invoke(stats, value);
 
 
+    // universal battle boost system: give common boost to Hero and units
+    //
+    //SUBSCRIBERS:
+    // - BattleArmyController
+    //
+    //ACTIVATION:
+    // - BattleBoostManager
+    //
+    public delegate void SetBattleBoostEvent(BoostType boost, float value);
+    public static event SetBattleBoostEvent SetBattleBoost;
+    public static void OnSetBattleBoostEvent(BoostType boost, float value) => SetBattleBoost?.Invoke(boost, value);
+
     //// 3 player boost system: give new boosted stats to listeners
     ////
     ////SUBSCRIBERS:
