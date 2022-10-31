@@ -94,17 +94,18 @@ public static class EventManager
 
 
 
-    // 1 unit boost system: calls when we boost some stat of unit from anywhere
-    //
-    //SUBSCRIBERS:
-    // - UnitBoostManager
-    //
-    //ACTIVATION:
-    // - SpellLibrary
-    //
-    public delegate void BoostUnitStatEvent(bool boostAll, bool addBoost, BoostSender sender, UnitStats stat, float value, UnitsTypes types = UnitsTypes.Militias);
-    public static event BoostUnitStatEvent BoostUnitStat;
-    public static void OnBoostUnitStatEvent(bool boostAll, bool addBoost, BoostSender sender, UnitStats stat, float value, UnitsTypes types = UnitsTypes.Militias) => BoostUnitStat?.Invoke(boostAll, addBoost, sender, stat, value, types);
+    //// 1 unit boost system: calls when we boost some stat of unit from anywhere
+    ////
+    ////SUBSCRIBERS:
+    //// - UnitBoostManager
+    ////
+    ////ACTIVATION:
+    //// - SpellLibrary
+    ////
+    //public delegate void BoostUnitStatEvent(bool boostAll, bool addBoost, BoostSender sender, UnitStats stat, float value, UnitsTypes types = UnitsTypes.Militias);
+    //public static event BoostUnitStatEvent BoostUnitStat;
+    //public static void OnBoostUnitStatEvent(bool boostAll, bool addBoost, BoostSender sender, UnitStats stat, float value, UnitsTypes types = UnitsTypes.Militias) => BoostUnitStat?.Invoke(boostAll, addBoost, sender, stat, value, types);
+    
     #endregion
 
 
@@ -131,31 +132,31 @@ public static class EventManager
 
 
 
-    // 1 player boost system: calls when we boost some stat from anywhere
-    //
-    //SUBSCRIBERS:
-    // - PlayerBoostManager
-    //
-    //ACTIVATION:
-    // - SpellLibrary
-    //
-    public delegate void BoostStatEvent(bool mode, BoostSender sender, PlayersStats stat, float value);
-    public static event BoostStatEvent BoostStat;
-    public static void OnBoostStatEvent(bool mode, BoostSender sender, PlayersStats stat, float value) => BoostStat?.Invoke(mode, sender, stat, value);
+    //// 1 player boost system: calls when we boost some stat from anywhere
+    ////
+    ////SUBSCRIBERS:
+    //// - PlayerBoostManager
+    ////
+    ////ACTIVATION:
+    //// - SpellLibrary
+    ////
+    //public delegate void BoostStatEvent(bool mode, BoostSender sender, PlayersStats stat, float value);
+    //public static event BoostStatEvent BoostStat;
+    //public static void OnBoostStatEvent(bool mode, BoostSender sender, PlayersStats stat, float value) => BoostStat?.Invoke(mode, sender, stat, value);
 
 
 
-    // 2 player boost system: give common boost to PlayerStats
-    //
-    //SUBSCRIBERS:
-    // - PlayerStats
-    //
-    //ACTIVATION:
-    // - PlayerBoostManager
-    //
-    public delegate void SetBoostToStatEvent(PlayersStats stats, float value);
-    public static event SetBoostToStatEvent SetBoostToStat;
-    public static void OnSetBoostToStatEvent(PlayersStats stats, float value) => SetBoostToStat?.Invoke(stats, value);
+    //// 2 player boost system: give common boost to PlayerStats
+    ////
+    ////SUBSCRIBERS:
+    //// - PlayerStats
+    ////
+    ////ACTIVATION:
+    //// - PlayerBoostManager
+    ////
+    //public delegate void UpgrateStatEvent(PlayersStats stats, float value);
+    //public static event UpgrateStatEvent UpgrateStat;
+    //public static void OnUpgrateStatEvent(PlayersStats stats, float value) => UpgrateStat?.Invoke(stats, value);
 
 
     // universal battle boost system: give common boost to Hero and units

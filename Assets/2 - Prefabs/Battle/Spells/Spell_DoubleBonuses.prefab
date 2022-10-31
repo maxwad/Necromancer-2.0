@@ -48,8 +48,8 @@ MonoBehaviour:
   spell: 7
   type: 2
   manaCost: 1
-  value: 1
-  actionTime: 20
+  value: 100
+  actionTime: 5
   reloading: 1
   icon: {fileID: -6924916163348001851, guid: 54d98c65c3b37744baea457e9292557a, type: 3}
   description: Double all bonuses for 30 seconds.

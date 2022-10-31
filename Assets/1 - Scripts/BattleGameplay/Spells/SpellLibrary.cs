@@ -6,15 +6,15 @@ using static NameManager;
 public class SpellLibrary : MonoBehaviour
 {
     private ResourcesManager resourcesManager;
+    private BattleBoostManager boostManager;
 
     [SerializeField] private GameObject shuriken;
     [SerializeField] private GameObject kickAssCircle;
 
-    private List<Spells> currentSpells = new List<Spells>();
-
     private void Start()
     {
         resourcesManager = GlobalStorage.instance.resourcesManager;
+        boostManager = GlobalStorage.instance.unitBoostManager;
     }
 
     public void ActivateSpell(Spells spell, bool mode, float value = 0, float duration = 0)
@@ -87,12 +87,7 @@ public class SpellLibrary : MonoBehaviour
 
         if(mode == true)
         {
-            currentSpells.Add(spell);
-            StartCoroutine(DeactivateSpell(spell, duration));
-        }
-        else
-        {
-            currentSpells.Remove(spell);
+            StartCoroutine(DeactivateSpell(spell, duration));            
         }
     }
 
@@ -105,17 +100,6 @@ public class SpellLibrary : MonoBehaviour
         ActivateSpell(spell, false);
     }
 
-    private void DeactivateAllSpells(bool mode)
-    {
-        if(mode == true)
-        {
-            foreach(var item in currentSpells)
-{
-                StartCoroutine(DeactivateSpell(item, 0));
-            }
-        }
-    }
-
     #endregion
 
     #region Hero's Spells
@@ -123,29 +107,58 @@ public class SpellLibrary : MonoBehaviour
     //Increases the hero's movement speed by 20% for 30 seconds.
     private void SpeedUp(bool mode, float value)
     {
-        EventManager.OnBoostStatEvent(mode, BoostSender.Spell, PlayersStats.Speed, value);
+        if(mode == true)
+        {
+            boostManager.SetBoost(BoostType.MovementSpeed, BoostSender.Spell, value);
+        }
+        else
+        {
+            boostManager.DeleteBoost(BoostType.MovementSpeed, BoostSender.Spell, value);
+        }        
     }
 
 
     //Increase attack power by 20% for 30 seconds.
     private void AttackUp(bool mode, float value)
     {
-        EventManager.OnBoostUnitStatEvent(true, mode, BoostSender.Spell, UnitStats.PhysicAttack, value);
-        EventManager.OnBoostUnitStatEvent(true, mode, BoostSender.Spell, UnitStats.MagicAttack, value);
+        if(mode == true)
+        {
+            boostManager.SetBoost(BoostType.MagicAttack, BoostSender.Spell, value);
+            boostManager.SetBoost(BoostType.PhysicAttack, BoostSender.Spell, value);
+        }
+        else
+        {
+            boostManager.DeleteBoost(BoostType.MagicAttack, BoostSender.Spell, value);
+            boostManager.DeleteBoost(BoostType.PhysicAttack, BoostSender.Spell, value);
+        }
     }
 
 
     //All damage becomes critical for 5 seconds.
     private void DoubleCrit (bool mode, float value)
     {
-        EventManager.OnBoostStatEvent(mode, BoostSender.Spell, PlayersStats.Luck, value);
+        if(mode == true)
+        {
+            boostManager.SetBoost(BoostType.CriticalDamage, BoostSender.Spell, value);
+        }
+        else
+        {
+            boostManager.DeleteBoost(BoostType.CriticalDamage, BoostSender.Spell, value);
+        }
     }
 
 
     //Increases weapon size by 20% for 30 seconds.
     private void WeaponSize(bool mode, float value)
     {
-        EventManager.OnBoostUnitStatEvent(true, mode, BoostSender.Spell, UnitStats.Size, value);
+        if(mode == true)
+        {
+            boostManager.SetBoost(BoostType.WeaponSize, BoostSender.Spell, value);
+        }
+        else
+        {
+            boostManager.DeleteBoost(BoostType.WeaponSize, BoostSender.Spell, value);
+        }
     }
 
 
@@ -199,8 +212,7 @@ public class SpellLibrary : MonoBehaviour
     {
         if(mode == true)
         {
-            List<GameObject> bonusList = new List<GameObject>();
-            bonusList = GlobalStorage.instance.bonusManager.bonusesOnTheMap;
+            List<GameObject> bonusList = GlobalStorage.instance.bonusManager.bonusesOnTheMap;            
             foreach(var bonus in bonusList)
             {
                 bonus.GetComponent<BonusController>().ActivatateBonus();
@@ -209,7 +221,7 @@ public class SpellLibrary : MonoBehaviour
     }
 
 
-    //Heal the hero by 20%.
+    //Heal the hero by 10.
     private void Healing(bool mode, float value)
     {
         if(mode == true)
@@ -219,7 +231,7 @@ public class SpellLibrary : MonoBehaviour
     }
 
 
-    //Restore 20% mana.
+    //Restore 10 mana.
     private void Maning(bool mode, float value)
     {
         if(mode == true)
@@ -232,20 +244,15 @@ public class SpellLibrary : MonoBehaviour
     //Double all bonuses for 30 seconds.
     private void DoubleBonuses(bool mode, float value)
     {
-        //boost new bonuses
-        GlobalStorage.instance.bonusManager.BoostBonus(value);
-
-        //boost existing bonuses
-        foreach(Transform child in GlobalStorage.instance.objectsPoolManager.transform)
+        if(mode == true)
         {
-            BonusController bonus = child.GetComponent<BonusController>();
-            if(bonus != null) bonus.BoostBonusValue(value);
+            Debug.Log("Set boost");
+            boostManager.SetBoost( BoostType.BonusAmount, BoostSender.Spell, value);
         }
-
-        foreach(Transform child in GlobalStorage.instance.bonusesContainer.transform)
+        else
         {
-            BonusController bonus = child.GetComponent<BonusController>();
-            if(bonus != null) bonus.BoostBonusValue(value);
+            Debug.Log("Delete boost");
+            boostManager.DeleteBoost(BoostType.BonusAmount, BoostSender.Spell, value);
         }
     }
 
@@ -291,7 +298,7 @@ public class SpellLibrary : MonoBehaviour
     }
 
 
-    //Turn all experience bonuses within 20 meters into gold.
+    //Turn all experience bonuses on field into gold.
     private void ExpToGold(bool mode, float value)
     {
         if(mode == true)
@@ -303,9 +310,10 @@ public class SpellLibrary : MonoBehaviour
             for(int i = count; i >= 0; i--)
             {
                 BonusController bonus = bonuses[i].GetComponent<BonusController>();
+                float amount = bonus.baseValue;
                 if(bonus.bonusType == BonusType.TempExp)
                 {
-                    GlobalStorage.instance.bonusManager.CreateBonus(false, BonusType.Gold, bonus.transform.position);
+                    GlobalStorage.instance.bonusManager.CreateBonus(false, BonusType.Gold, bonus.transform.position, amount);
                     bonus.DestroyMe();
                 }
             }
@@ -427,13 +435,11 @@ public class SpellLibrary : MonoBehaviour
 
     private void OnEnable()
     {
-        EventManager.SwitchPlayer += DeactivateAllSpells;
         EventManager.SwitchPlayer += DeactivateAllBossSpells;
     }
 
     private void OnDisable()
     {
-        EventManager.SwitchPlayer -= DeactivateAllSpells;
         EventManager.SwitchPlayer += DeactivateAllBossSpells;
     }
 }

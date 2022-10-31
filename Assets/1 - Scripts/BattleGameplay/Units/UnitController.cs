@@ -7,6 +7,13 @@ public class UnitController : MonoBehaviour
     public Unit unit;
     public float currentHealth;
 
+    private float physicDefenceBase;
+    private float physicDefence;
+    private float magicDefenceBase;
+    private float magicDefence;
+
+    private BattleBoostManager boostManager;
+
     private bool isDead = false;
     private bool isImmortal = false;
 
@@ -35,8 +42,16 @@ public class UnitController : MonoBehaviour
 
     public void Initilize(Unit unitSource) 
     {
+        if(boostManager == null) boostManager = GlobalStorage.instance.unitBoostManager;
+
         unit = unitSource;
         currentHealth = unitSource.health;
+
+        physicDefenceBase = unitSource.physicDefence;
+        physicDefence = physicDefenceBase + physicDefenceBase * boostManager.GetBoost(BoostType.PhysicDefence);
+
+        magicDefenceBase = unitSource.magicDefence;
+        magicDefence = magicDefenceBase + magicDefenceBase * boostManager.GetBoost(BoostType.MagicDefence);
 
         unit.SetUnitController(this);
     }
@@ -150,14 +165,22 @@ public class UnitController : MonoBehaviour
     }
 
     #endregion
+    private void UpgradeParameters(BoostType boost, float value)
+    {
+        if(boost == BoostType.PhysicDefence) physicDefence = physicDefenceBase + physicDefenceBase * value;
+        if(boost == BoostType.MagicDefence) magicDefence = magicDefenceBase + magicDefenceBase * value;
+    }
 
     private void OnEnable()
     {
         EventManager.SpellImmortal += MakeMeImmortal;
+        EventManager.SetBattleBoost += UpgradeParameters;
     }
 
     private void OnDisable()
     {
         EventManager.SpellImmortal -= MakeMeImmortal;
+        EventManager.SetBattleBoost -= UpgradeParameters;
     }
+
 }

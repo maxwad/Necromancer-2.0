@@ -1,20 +1,43 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static NameManager;
 
 public class WeaponDamage : MonoBehaviour
 {
+    private BattleBoostManager boostManager;
+    private PlayerStats playersStats;
+
+    private float physicAttackBase;
+    private float magicAttackBase;
+    private float luck;
+
     private float physicAttack;
     private float magicAttack;
+    private float criticalDamage;
+    private float bossMultiplier;
+
     [HideInInspector] public Unit unit;
 
     [HideInInspector] private List<GameObject> enemyList = new List<GameObject>();
 
     public void SetSettings(Unit unitSource)
     {
+        if(boostManager == null)
+        {
+            boostManager = GlobalStorage.instance.unitBoostManager;
+            playersStats = GlobalStorage.instance.playerStats;
+        }
+
         unit = unitSource;
-        physicAttack = unitSource.physicAttack;
-        magicAttack = unitSource.magicAttack;
+        physicAttackBase = unitSource.physicAttack;
+        magicAttackBase = unitSource.magicAttack;
+        luck = playersStats.GetCurrentParameter(PlayersStats.Luck);
+
+        physicAttack = physicAttackBase + physicAttackBase * boostManager.GetBoost(BoostType.PhysicAttack);
+        magicAttack = magicAttackBase + magicAttackBase * boostManager.GetBoost(BoostType.MagicAttack);
+        criticalDamage = luck + boostManager.GetBoost(BoostType.CriticalDamage);
+        bossMultiplier = boostManager.GetBoost(BoostType.BossDamade);
     }
 
     public void ClearEnemyList()
@@ -29,7 +52,7 @@ public class WeaponDamage : MonoBehaviour
             //we need to check for re-touch. if we don't need this then add enemy in list
             if(enemyList.Contains(collision.gameObject) == false)
             {
-                if(unit.unitAbility == NameManager.UnitsAbilities.Garlic)
+                if(unit.unitAbility == UnitsAbilities.Garlic)
                 {
                     collision.gameObject.GetComponent<EnemyController>().TakeDamage(physicAttack, magicAttack, Vector3.zero);
 
@@ -39,17 +62,17 @@ public class WeaponDamage : MonoBehaviour
                     enemyList.Add(collision.gameObject);
                 }
 
-                else if(unit.unitAbility == NameManager.UnitsAbilities.Axe   ||
-                        unit.unitAbility == NameManager.UnitsAbilities.Spear ||
-                        unit.unitAbility == NameManager.UnitsAbilities.Bible ||
-                        unit.unitAbility == NameManager.UnitsAbilities.Bow   ||
-                        unit.unitAbility == NameManager.UnitsAbilities.Knife)
+                else if(unit.unitAbility == UnitsAbilities.Axe   ||
+                        unit.unitAbility == UnitsAbilities.Spear ||
+                        unit.unitAbility == UnitsAbilities.Bible ||
+                        unit.unitAbility == UnitsAbilities.Bow   ||
+                        unit.unitAbility == UnitsAbilities.Knife)
                 {
                     collision.gameObject.GetComponent<EnemyController>().TakeDamage(physicAttack, magicAttack, transform.position);
                     enemyList.Add(collision.gameObject);
                 }
                 
-                else if(unit.unitAbility == NameManager.UnitsAbilities.Bottle)
+                else if(unit.unitAbility == UnitsAbilities.Bottle)
                 {
                     //no action
                 }
@@ -64,8 +87,26 @@ public class WeaponDamage : MonoBehaviour
 
         if (collision.CompareTag(TagManager.T_OBSTACLE) == true)
         {
-            if(unit.unitAbility != NameManager.UnitsAbilities.Bottle)
+            if(unit.unitAbility != UnitsAbilities.Bottle)
             collision.gameObject.GetComponent<HealthObjectStats>().TakeDamage(physicAttack, magicAttack);
         }
+    }
+
+    private void UpgradeParameters(BoostType boost, float value)
+    {
+        if(boost == BoostType.PhysicAttack) physicAttack = physicAttackBase + physicAttackBase * value;
+        if(boost == BoostType.MagicAttack) magicAttack = magicAttackBase + magicAttackBase * value;
+        if(boost == BoostType.CriticalDamage) criticalDamage = luck + value;
+        if(boost == BoostType.BossDamade) bossMultiplier = value;
+    }
+
+    private void OnEnable()
+    {
+        EventManager.SetBattleBoost += UpgradeParameters;
+    }
+
+    private void OnDisable()
+    {
+        EventManager.SetBattleBoost -= UpgradeParameters;
     }
 }

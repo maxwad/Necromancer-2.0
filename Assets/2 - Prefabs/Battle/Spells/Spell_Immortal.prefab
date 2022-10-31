@@ -52,4 +52,4 @@ MonoBehaviour:
   actionTime: 5
   reloading: 5
   icon: {fileID: 2704745366019506510, guid: 54d98c65c3b37744baea457e9292557a, type: 3}
-  description: Makes units immortal for 30 seconds.
+  description: Makes units immortal for 5 seconds.

@@ -27,6 +27,7 @@ public class RunesManager : MonoBehaviour
     }
 
     private MacroLevelUpManager levelUpManager;
+    private BattleBoostManager boostManager;
     [HideInInspector] public RunesStorage runesStorage;
     private RunesWindow runesWindow;
 
@@ -45,6 +46,7 @@ public class RunesManager : MonoBehaviour
         runesStorage = gameObject.GetComponentInChildren<RunesStorage>();
         runesWindow = GlobalStorage.instance.playerMilitaryWindow.GetComponentInChildren<RunesWindow>();
         levelUpManager = GlobalStorage.instance.macroLevelUpManager;
+        boostManager = GlobalStorage.instance.unitBoostManager;
 
         runesStorage.Init();
         availableRunes = runesStorage.GetAvailableRunes();
@@ -218,5 +220,19 @@ public class RunesManager : MonoBehaviour
         }
 
         return result;
+    }
+
+    public void TurnOnRune(float level)
+    {
+        foreach(var boostList in runeBoostesDict)
+        {
+            foreach(var boost in boostList.Value)
+            {
+                if(boost.cell == level)
+                {
+                    boostManager.SetBoost(BoostConverter.instance.RuneToBoostType(boostList.Key), BoostSender.Rune, boost.boost);
+                }
+            }            
+        }
     }
 }

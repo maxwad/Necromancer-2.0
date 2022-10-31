@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b44cb16a963c14b469a2f79c9b7c5ee2, type: 3}
+  m_Name: HealthBonus
+  m_EditorClassIdentifier: 
+  bonusType: 0
+  value: 10
+  frameRate: 0.3
+  spritesSmall:
+  - {fileID: -3468947641228876987, guid: 9ff0c2acc3a2f5646acf2cd6f467637d, type: 3}
+  - {fileID: -3196195475518408930, guid: 9ff0c2acc3a2f5646acf2cd6f467637d, type: 3}
+  - {fileID: -1472632739880767670, guid: 9ff0c2acc3a2f5646acf2cd6f467637d, type: 3}
+  - {fileID: 567963113581065628, guid: 9ff0c2acc3a2f5646acf2cd6f467637d, type: 3}
+  spritesMiddle:
+  - {fileID: 6672340472763731729, guid: 9ff0c2acc3a2f5646acf2cd6f467637d, type: 3}
+  - {fileID: 5344480837552469090, guid: 9ff0c2acc3a2f5646acf2cd6f467637d, type: 3}
+  - {fileID: -399065490099471758, guid: 9ff0c2acc3a2f5646acf2cd6f467637d, type: 3}
+  - {fileID: -3272876325474868337, guid: 9ff0c2acc3a2f5646acf2cd6f467637d, type: 3}
+  spritesLarge:
+  - {fileID: -1049760686348723944, guid: 9ff0c2acc3a2f5646acf2cd6f467637d, type: 3}
+  - {fileID: -7211367509557413602, guid: 9ff0c2acc3a2f5646acf2cd6f467637d, type: 3}
+  - {fileID: -1049760686348723944, guid: 9ff0c2acc3a2f5646acf2cd6f467637d, type: 3}

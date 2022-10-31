@@ -28,6 +28,7 @@ public class WeaponMovement : MonoBehaviour
     private Coroutine coroutine;
     private WeaponStorage weaponStorage;
     private WeaponDamage weaponDamage;
+    private BattleBoostManager boostManager;
 
     private void Update()
     {
@@ -74,7 +75,11 @@ public class WeaponMovement : MonoBehaviour
     {
         unit = unitSource;
         unitSprite = unitSource.unitController.unitSprite;
-        if(weaponDamage == null) weaponDamage = GetComponent<WeaponDamage>();
+        if(weaponDamage == null)
+        {
+            weaponDamage = GetComponent<WeaponDamage>();
+            boostManager = GlobalStorage.instance.unitBoostManager;        
+        }
     }
 
     public void ActivateWeapon(Unit unit, int index = 0)
@@ -168,15 +173,16 @@ public class WeaponMovement : MonoBehaviour
             GameObject death = Instantiate(bottleDeath, transform.position, Quaternion.identity);
             death.transform.SetParent(GlobalStorage.instance.effectsContainer.transform);
             PrefabSettings settings = death.GetComponent<PrefabSettings>();
+            float weaponSize = unit.size + unit.size * boostManager.GetBoost(BoostType.WeaponSize);
 
             if(settings != null) settings.SetSettings(
                 sortingLayer: TagManager.T_PLAYER, 
                 sortingOrder: 11, 
                 color: Color.cyan, 
-                size: unit.size * 2,
+                size: weaponSize * 2,
                 animationSpeed: 0.07f);
 
-            Collider2D[] objects = Physics2D.OverlapCircleAll(transform.position, unit.size * 2);
+            Collider2D[] objects = Physics2D.OverlapCircleAll(transform.position, weaponSize * 2);
             foreach(Collider2D obj in objects)
             {
                 if(obj.CompareTag(TagManager.T_ENEMY) == true)

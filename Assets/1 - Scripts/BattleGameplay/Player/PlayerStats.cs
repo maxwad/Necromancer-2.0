@@ -51,8 +51,8 @@ public class PlayerStats : MonoBehaviour
         public PlayersStats playerStat;
 
         public float baseValue;
-        public float currentValue;
-        public float tempBoostValue;
+        //public float currentValue;
+        //public float tempBoostValue;
         public float maxValue;
 
         public Stat(PlayersStats stat, float baseV)
@@ -60,8 +60,8 @@ public class PlayerStats : MonoBehaviour
             playerStat     = stat;
 
             baseValue      = baseV;
-            currentValue   = baseV;
-            tempBoostValue = 0;
+            //currentValue   = baseV;
+            //tempBoostValue = 0;
             maxValue       = baseV;
         }
 
@@ -70,19 +70,19 @@ public class PlayerStats : MonoBehaviour
             switch(type)
             {
                 case StatBoostType.Bool:
-                    currentValue = 1;
+                    maxValue = 1;
                     break;
 
                 case StatBoostType.Step:
-                    currentValue++;
+                    maxValue++;
                     break;
 
                 case StatBoostType.Percent:
-                    currentValue = baseValue + (baseValue * value / 100);
+                    maxValue = baseValue + (baseValue * value / 100);
                     break;
 
                 case StatBoostType.Value:
-                    currentValue += value;
+                    maxValue += value;
                     break;
 
                 default:
@@ -90,21 +90,24 @@ public class PlayerStats : MonoBehaviour
                     break;
             }
 
-            maxValue = currentValue + tempBoostValue;
+            //maxValue = currentValue + tempBoostValue;
+            //maxValue = currentValue;
         }
 
-        public void SetTempBoost(float value)
-        {
-            tempBoostValue = value;
-            maxValue = currentValue + currentValue * tempBoostValue;
-        }
+        //public void SetTempBoost(float value)
+        //{
+        //    tempBoostValue = value;
+        //    maxValue = currentValue + currentValue * tempBoostValue;
+        //}
     }
 
+    private BattleBoostManager boostManager;
     [SerializeField] private Dictionary<PlayersStats, Stat> allStatsDict = new Dictionary<PlayersStats, Stat>();
 
 
     private void Awake()
     {
+        boostManager = GlobalStorage.instance.unitBoostManager;
         InitStartParameters();
     }
 
@@ -190,18 +193,18 @@ public class PlayerStats : MonoBehaviour
         upgradedStat.UpgradeMaxValue(value, upgradeType);
         allStatsDict[stat] = upgradedStat;
 
-        EventManager.OnSetNewPlayerStatEvent(stat, upgradedStat.maxValue);
-        Debug.Log("Now " + stat + " = " + allStatsDict[stat].maxValue);
+        EventManager.OnSetNewPlayerStatEvent(stat, GetCurrentParameter(stat));
+        Debug.Log("Now " + stat + " = " + GetCurrentParameter(stat));
     }
     
-    private void AddBoostToStat(PlayersStats stat, float value)
-    {
-        Stat upgradedStat = allStatsDict[stat];
-        upgradedStat.SetTempBoost(value);
-        allStatsDict[stat] = upgradedStat;
+    //private void AddBoostToStat(PlayersStats stat, float value)
+    //{
+    //    Stat upgradedStat = allStatsDict[stat];
+    //    upgradedStat.SetTempBoost(value);
+    //    allStatsDict[stat] = upgradedStat;
 
-        EventManager.OnSetNewPlayerStatEvent(stat, upgradedStat.maxValue);
-    }
+    //    EventManager.OnSetNewPlayerStatEvent(stat, upgradedStat.maxValue);
+    //}
 
     //private void UpgradeStatCurrentValue(PlayersStats stat, float maxValue, float currentValue)
     //{
@@ -218,18 +221,21 @@ public class PlayerStats : MonoBehaviour
 
     public float GetCurrentParameter(PlayersStats stat)
     {
-        return allStatsDict[stat].currentValue;
+        float result = allStatsDict[stat].maxValue;
+        float boost = boostManager.GetBoost(BoostConverter.instance.PlayerStatToBoostType(stat));
+
+        return result + (result * boost);
     }
 
     private void OnEnable()
     {
-        EventManager.SetBoostToStat += AddBoostToStat;
+        //EventManager.SetBoostToStat += AddBoostToStat;
         //EventManager.UpgradeStatCurrentValue += UpgradeStatCurrentValue;
     }
 
     private void OnDisable()
     {
-        EventManager.SetBoostToStat -= AddBoostToStat;
+        //EventManager.SetBoostToStat -= AddBoostToStat;
         //EventManager.UpgradeStatCurrentValue -= UpgradeStatCurrentValue;
     }
 }

@@ -48,7 +48,7 @@ MonoBehaviour:
   spell: 2
   type: 0
   manaCost: 1
-  value: 1
+  value: 100
   actionTime: 5
   reloading: 5
   icon: {fileID: 4490542196421010568, guid: 54d98c65c3b37744baea457e9292557a, type: 3}

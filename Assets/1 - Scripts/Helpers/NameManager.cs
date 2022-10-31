@@ -75,7 +75,7 @@ public static class NameManager
     {
         Enemy,
         DamageText,
-        BonusExp,
+        BattleBonus,
         Torch,
         BonusGold,
         BloodSpot,
@@ -203,7 +203,8 @@ public static class NameManager
         WeaponSize,
         CoolDown,
         Exp,
-        HeroDefence
+        HeroDefence,
+        Nothing
     }
 
     public enum Spells
@@ -239,7 +240,7 @@ public static class NameManager
 
     public enum BoostSender
     {
-        Spell, Calendar
+        Spell, Calendar, Rune
     }
 
     public enum BoostFromType

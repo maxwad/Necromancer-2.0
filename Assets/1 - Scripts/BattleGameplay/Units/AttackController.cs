@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class AttackController : MonoBehaviour
 {
+    private BattleBoostManager boostManager;
     private WeaponStorage weaponStorage;
     private Unit unit;
+
+    private float speedAttack;
 
     private float startAttackDelay = 1f;
 
@@ -18,6 +21,7 @@ public class AttackController : MonoBehaviour
         {
             unit = GetComponent<UnitController>().unit;
             weaponStorage = GlobalStorage.instance.player.GetComponent<WeaponStorage>();
+            boostManager = GlobalStorage.instance.unitBoostManager;
         }
 
         startAttackDelay = Random.Range(startAttackDelay * 10 - startAttackDelay, startAttackDelay * 10 + startAttackDelay) / 10;
@@ -40,11 +44,13 @@ public class AttackController : MonoBehaviour
             yield return null;
         }
 
+        speedAttack = unit.speedAttack + unit.speedAttack * boostManager.GetBoost(NameManager.BoostType.CoolDown);
+
         while (unit.quantity != 0)
         {
             weaponStorage.Attack(unit);
 
-            yield return new WaitForSeconds(unit.speedAttack);
+            yield return new WaitForSeconds(speedAttack);
         }
     }
 }

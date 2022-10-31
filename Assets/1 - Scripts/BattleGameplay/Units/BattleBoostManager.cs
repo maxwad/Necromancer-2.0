@@ -43,9 +43,41 @@ public class BattleBoostManager : MonoBehaviour
 
     public void SetBoost(BoostType type, BoostSender sender, float value)
     {
+        if(type == BoostType.Nothing) return;
+
         boostItemsDict[type].Add(new Boost(sender, value));
         RecalculateBoost(type);
     }
+
+    public void DeleteBoost(BoostType type, BoostSender sender, float value)
+    {
+        if(type == BoostType.Nothing) return;
+        List<Boost> boostList = boostItemsDict[type];
+
+        foreach(var boost in boostList)
+        {
+            if(sender == BoostSender.Spell)
+            {
+                if(boost.sender == sender)
+                {
+                    boostList.Remove(boost);
+                    break;
+                }
+            }
+            else
+            {
+                if(boost.sender == sender && boost.value == value)
+                {
+                    boostList.Remove(boost);
+                    break;
+                }
+            }
+        }
+
+        boostItemsDict[type] = boostList;
+        RecalculateBoost(type);
+    }
+
 
     private void RecalculateBoost(BoostType type)
     {
@@ -57,27 +89,45 @@ public class BattleBoostManager : MonoBehaviour
 
         commonBoostDict[type] = result;
 
-        EventManager.OnSetBattleBoostEvent(type, result);
+        Debug.Log(type + "now is " + result);
+        EventManager.OnSetBattleBoostEvent(type, result / 100);
     }
 
-    private void SetBoost(bool boostAll, bool addBoost, BoostSender sender, UnitStats stat, float value, UnitsTypes types = UnitsTypes.Militias)
-    {
-        Debug.Log("We set " + addBoost + " to " + stat + " boost = " + value);
-    }
+    //private void SetBoost(bool boostAll, bool addBoost, BoostSender sender, UnitStats stat, float value, UnitsTypes types = UnitsTypes.Militias)
+    //{
+    //    Debug.Log("We set " + addBoost + " to " + stat + " boost = " + value);
+    //}
 
     public float GetBoost(BoostType boostType)
     {
-        return commonBoostDict[boostType];
+        return (boostType == BoostType.Nothing) ? 0 : commonBoostDict[boostType] / 100;
+    }
+
+    private void ClearBattleBonuses()
+    {
+        foreach(var boostList in boostItemsDict)
+        {
+            foreach(var boost in boostList.Value)
+            {
+                if(boost.sender == BoostSender.Spell || boost.sender == BoostSender.Rune)
+                {
+                    boostList.Value.Remove(boost);
+                }
+            }
+            RecalculateBoost(boostList.Key);
+        }
     }
 
     private void OnEnable()
     {
-        EventManager.BoostUnitStat += SetBoost;
+        //EventManager.BoostUnitStat += SetBoost;
+        EventManager.EndOfBattle += ClearBattleBonuses;
     }
+
 
     private void OnDisable()
     {
-        EventManager.BoostUnitStat -= SetBoost;
+        //EventManager.BoostUnitStat -= SetBoost;
+        EventManager.EndOfBattle -= ClearBattleBonuses;
     }
-
 }

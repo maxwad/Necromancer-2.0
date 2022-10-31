@@ -41,7 +41,7 @@ public class PlayersArmy : MonoBehaviour
         {
             if (item != null)
             {
-                item.quantity = UnityEngine.Random.Range(4, 10);
+                item.quantity = UnityEngine.Random.Range(1, 3);
                 item.currentHealth = item.health;
             }
         }

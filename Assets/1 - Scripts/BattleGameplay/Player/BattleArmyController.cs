@@ -3,9 +3,10 @@ using static NameManager;
 
 public class BattleArmyController : MonoBehaviour
 {
-    private BattleBoostManager boostManager;
     private Rigidbody2D rbPlayer;
-    private float speed = 0;
+
+    private float speedBase;
+    private float speed;
 
     [HideInInspector] public Vector2 currentDirection;
     [HideInInspector] public bool currentFacing = false;
@@ -62,14 +63,9 @@ public class BattleArmyController : MonoBehaviour
             GlobalStorage.instance.hero.gameObject.GetComponent<HeroMovement>().Dizziness(mode);
     }
 
-    //private void UpgradeSpeed(PlayersStats stats, float value)
-    //{
-    //    if(stats == PlayersStats.Speed) speed = value;        
-    //}
-
     private void UpgradeSpeed(BoostType boost, float value)
     {
-        if(boost == BoostType.MovementSpeed) speed = value;
+        if(boost == BoostType.MovementSpeed) speed = speedBase + speedBase * value;
     }
 
     private void OnEnable()
@@ -77,21 +73,16 @@ public class BattleArmyController : MonoBehaviour
         if(playerStats == null) 
         { 
             playerStats = GlobalStorage.instance.playerStats;
-            boostManager = GlobalStorage.instance.unitBoostManager;
         }
 
-        speed = playerStats.GetCurrentParameter(PlayersStats.Speed);
-        Debug.Log(speed);
+        speedBase = playerStats.GetCurrentParameter(PlayersStats.Speed);
+        speed = speedBase;
 
-        speed += speed * boostManager.GetBoost(BoostConverter.instance.PlayerStatToBoostType(PlayersStats.Speed));
-
-        //EventManager.SetNewPlayerStat += UpgradeSpeed;
         EventManager.SetBattleBoost += UpgradeSpeed;
     }
 
     private void OnDisable()
     {
         EventManager.SetBattleBoost -= UpgradeSpeed;
-        //EventManager.SetNewPlayerStat -= UpgradeSpeed;
     }
 }

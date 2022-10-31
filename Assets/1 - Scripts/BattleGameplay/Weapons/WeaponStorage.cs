@@ -6,6 +6,7 @@ public class WeaponStorage : MonoBehaviour
 {
     [HideInInspector] public bool isBibleWork = false;
     private ObjectsPoolManager objectsPool;
+    private BattleBoostManager boostManager;
     [SerializeField] private GameObject weaponContainer;
 
     public void Attack(Unit unit)
@@ -17,8 +18,7 @@ public class WeaponStorage : MonoBehaviour
                 break;
 
             case UnitsAbilities.Garlic:
-                GarlicAction(unit);
-                
+                GarlicAction(unit);                
                 break;
 
             case UnitsAbilities.Axe:
@@ -54,12 +54,20 @@ public class WeaponStorage : MonoBehaviour
 
     private GameObject CreateWeapon(Unit unit)
     {
-        if(objectsPool == null) objectsPool = GlobalStorage.instance.objectsPoolManager;
+        if(objectsPool == null) 
+        { 
+            objectsPool = GlobalStorage.instance.objectsPoolManager;
+            boostManager = GlobalStorage.instance.unitBoostManager;
+        }
+
+        if(unit.unitController == null) return null;
 
         GameObject weapon = objectsPool.GetWeapon(unit.unitAbility);
 
         weapon.transform.position = unit.unitController.gameObject.transform.position + new Vector3 (0, transform.localScale.y / 2, 0);
-        weapon.transform.localScale = new Vector3(unit.size, unit.size, unit.size);
+        float weaponSize = unit.size + unit.size * boostManager.GetBoost(BoostType.WeaponSize);
+
+        weapon.transform.localScale = new Vector3(weaponSize, weaponSize, weaponSize);
         weapon.transform.SetParent(weaponContainer.transform);
         weapon.SetActive(true);
 
@@ -102,6 +110,7 @@ public class WeaponStorage : MonoBehaviour
         void CreateConfiguredWeapon(float normalAngleY, float flipAngleY, float angleZ = 0)
         {
             GameObject itemWeapon = CreateWeapon(unit);
+            if(itemWeapon == null) return;
             float yAngle = unit.unitController.unitSprite.flipX == true ? normalAngleY : flipAngleY;
             itemWeapon.transform.eulerAngles = new Vector3(itemWeapon.transform.eulerAngles.x, yAngle, angleZ);
         }
@@ -111,6 +120,7 @@ public class WeaponStorage : MonoBehaviour
     private void GarlicAction(Unit unit) 
     {
         GameObject weapon = CreateWeapon(unit);
+        if(weapon == null) return;
         weapon.GetComponent<WeaponMovement>().ActivateWeapon(unit);
     }
 
@@ -144,6 +154,7 @@ public class WeaponStorage : MonoBehaviour
         void CreateConfiguredWeapon(int index, float angleZ = 0)
         {
             GameObject weapon = CreateWeapon(unit);
+            if(weapon == null) return;
             weapon.transform.eulerAngles = new Vector3(weapon.transform.eulerAngles.x, weapon.transform.eulerAngles.y, angleZ);
             weapon.GetComponent<WeaponMovement>().ActivateWeapon(unit, index);
         }
@@ -159,6 +170,7 @@ public class WeaponStorage : MonoBehaviour
             for(int i = 0; i < count; i++)
             {
                 GameObject itemWeapon = CreateWeapon(unit);
+                if(itemWeapon == null) break;
                 itemWeapon.GetComponent<WeaponMovement>().ActivateWeapon(unit);
                 yield return new WaitForSeconds(0.2f);
             }
@@ -199,6 +211,7 @@ public class WeaponStorage : MonoBehaviour
         void CreateConfiguredWeapon(float angleZ = 0)
         {
             GameObject weapon = CreateWeapon(unit);
+            if(weapon == null) return;
             weapon.transform.eulerAngles = new Vector3(0, 0, angleZ);
 
             GameObject weaponInner = weapon.transform.GetChild(0).gameObject;
@@ -219,10 +232,9 @@ public class WeaponStorage : MonoBehaviour
             for(int i = 0; i < unit.level; i++)
             {
                 GameObject itemWeapon = CreateWeapon(unit);
-
+                if(itemWeapon == null) break;
                 Vector2 mouseOnScreen = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                Vector2 weaponPosition = unit.unitController.gameObject.transform.position;
-                //float angle = Mathf.Atan2(transform.position.y - mouseOnScreen.y, transform.position.x - mouseOnScreen.x) * Mathf.Rad2Deg;
+                Vector2 weaponPosition = unit.unitController.gameObject.transform.position;                
                 float angle = Mathf.Atan2(weaponPosition.y - mouseOnScreen.y, weaponPosition.x - mouseOnScreen.x) * Mathf.Rad2Deg;
                 
                 itemWeapon.transform.eulerAngles = new Vector3(0, 0, angle);
@@ -246,6 +258,7 @@ public class WeaponStorage : MonoBehaviour
             for(int i = 0; i < offsetAngles.Length; i++)
             {
                 GameObject itemWeapon = CreateWeapon(unit);
+                if(itemWeapon == null) break;
                 itemWeapon.transform.eulerAngles = new Vector3(0, 0, GetAngleY(itemWeapon) + offsetAngles[i]);
                 itemWeapon.GetComponent<WeaponMovement>().ActivateWeapon(unit);                
             }
@@ -303,6 +316,7 @@ public class WeaponStorage : MonoBehaviour
             for(int i = 0; i < unit.level; i++)
             {
                 GameObject itemWeapon = CreateWeapon(unit);
+                if(itemWeapon == null) break;
                 itemWeapon.transform.eulerAngles = new Vector3(0, 0, 0);
                 itemWeapon.GetComponent<WeaponMovement>().ActivateWeapon(unit);
                 yield return new WaitForSeconds(0.2f);

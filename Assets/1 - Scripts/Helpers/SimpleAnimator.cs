@@ -15,16 +15,17 @@ public class SimpleAnimator : MonoBehaviour
     public float framerate = 0.01f;
     private WaitForSeconds waitTime;
     private Coroutine animating;
-
     private bool stopAnimation = false;
+
+    private void Awake()
+    {
+        image = GetComponent<SpriteRenderer>();
+        startImage = image.sprite; 
+    }
 
     private void OnEnable()
     {
-        image = GetComponent<SpriteRenderer>();
-        startImage = spriteList[0];
-
         currentSpriteList = spriteList;
-
         if (animating != null) StopCoroutine(animating);
 
         animating = StartCoroutine(Animate());
@@ -43,8 +44,6 @@ public class SimpleAnimator : MonoBehaviour
         {            
             foreach (Sprite item in currentSpriteList)
             {
-                yield return waitTime;
-
                 if(stopAnimation == false)
                 {
                     image.sprite = item;
@@ -53,6 +52,7 @@ public class SimpleAnimator : MonoBehaviour
                         image.sortingOrder = -Mathf.RoundToInt(transform.position.y * 100);
                     }
                 }                             
+                yield return waitTime;
             }
 
             if (actionAfterAnimation == AfterAnimation.Destroy)
@@ -96,6 +96,7 @@ public class SimpleAnimator : MonoBehaviour
     {
         if(animating != null) StopCoroutine(animating);
 
+        spriteList = newSpriteList;
         currentSpriteList = newSpriteList;
 
         if(gameObject.activeInHierarchy == true) animating = StartCoroutine(Animate());

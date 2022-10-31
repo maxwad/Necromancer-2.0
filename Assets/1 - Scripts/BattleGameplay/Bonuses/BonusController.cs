@@ -5,11 +5,12 @@ using static NameManager;
 
 public class BonusController : MonoBehaviour
 {
+    private BattleBoostManager boostManager;
+
+    private BonusSO bonusSO;
     public BonusType bonusType;
-    [SerializeField] private float baseValue;
-    [SerializeField] private float originalBaseValue;
+    [HideInInspector] public float baseValue;
     public float value;
-    public bool isFromPoolObject = false;
     private bool isSpecialBonus = false;
 
     private GameObject player;
@@ -27,10 +28,27 @@ public class BonusController : MonoBehaviour
     {
         currentInertion = inertion;
         value = baseValue;
-        originalBaseValue = baseValue;
 
         bonusManager = GlobalStorage.instance.bonusManager;
         animator = GetComponent<SimpleAnimator>();
+    }
+
+    public void Init(bool specialMode, BonusSO bonus, float forceValue = 0)
+    {
+        if(bonus == null) return;
+        if(boostManager == null) boostManager = GlobalStorage.instance.unitBoostManager;
+
+        ResetBonusValue();
+
+        bonusSO = bonus;
+        bonusType = bonus.bonusType;
+        isSpecialBonus = specialMode;
+        baseValue = (forceValue == 0) ? bonus.value : forceValue;
+        value = baseValue + baseValue * boostManager.GetBoost(BoostType.BonusAmount);
+
+        CheckSizeOfBonus();
+
+        gameObject.SetActive(true);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -49,8 +67,7 @@ public class BonusController : MonoBehaviour
             isActivate = true;
             animator.StopAnimation(true);
             StartCoroutine("ToThePlayer");            
-        }
-        
+        }        
     }
 
     private IEnumerator ToThePlayer()
@@ -71,59 +88,50 @@ public class BonusController : MonoBehaviour
     {
         isActivate = false;
         bonusManager.bonusesOnTheMap.Remove(gameObject);
-        ResetBonusValue();
-
-        if (isFromPoolObject == true)
-        {
-            currentInertion = inertion;
-            gameObject.SetActive(false);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        gameObject.SetActive(false);       
     }
 
-    public void BoostBonusValue(float boost, bool isThisFromBoss = false)
+    public void BoostBonusValue(float boost)
     {
         value = baseValue + (baseValue * boost);
-        if(isSpecialBonus == false) CheckSizeOfBonus(isThisFromBoss);
-    }
-
-    public void SetBonusValue(float newValue)
-    {
-        baseValue = newValue;
+        if(isSpecialBonus == false) CheckSizeOfBonus();
     }
 
     private void ResetBonusValue()
     {
-        baseValue = originalBaseValue;
-        value = originalBaseValue;
+        currentInertion = inertion;
         isSpecialBonus = false;
+
+        if(bonusSO != null) 
+        {
+            baseValue = bonusSO.value;
+            value = baseValue;
+        }
     }
 
-    private void CheckSizeOfBonus(bool isThisFromBoss)
+    private void CheckSizeOfBonus()
     {
         int size = 0;
 
-        if(value > baseValue) size = 1;
+        if(value > baseValue * 2) size = 1;
 
-        if(value > baseValue * 3) size = 2;
+        if(value > baseValue * 5) size = 2;
 
-        if(isThisFromBoss == true)
-        {
-            isSpecialBonus = true;
-            size = 2;
-        }
+        if(isSpecialBonus == true) size = 2;
 
-        if(size != 0)
+        if(size == 0) currentSpriteList = bonusSO.spritesSmall;
+        if(size == 1) currentSpriteList = bonusSO.spritesMiddle;
+        if(size == 2) currentSpriteList = bonusSO.spritesLarge;
+
+        animator.ChangeAnimation(currentSpriteList);
+    }
+
+    private void UpgradeParameters(BoostType boost, float boostValue)
+    {
+        if(boost == BoostType.BonusAmount) 
         {
-            currentSpriteList = bonusManager.GetNewSprites(bonusType, size);
-            animator.ChangeAnimation(currentSpriteList);
-        }
-        else
-        {
-            animator.ResetAnimation();
+            value = baseValue + baseValue * boostValue;
+            CheckSizeOfBonus();        
         }
     }
 
@@ -131,11 +139,13 @@ public class BonusController : MonoBehaviour
     {
         EventManager.Victory += ActivatateBonus;
         EventManager.EndOfBattle += DestroyMe;
+        EventManager.SetBattleBoost += UpgradeParameters;
     }
 
     private void OnDisable()
     {
         EventManager.Victory -= ActivatateBonus;
         EventManager.EndOfBattle -= DestroyMe;
+        EventManager.SetBattleBoost -= UpgradeParameters;
     }
 }

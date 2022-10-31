@@ -59,7 +59,7 @@ public class PlayerBoostManager : MonoBehaviour
             newBoostValue += item.value;
         }
 
-        EventManager.OnSetBoostToStatEvent(stats, newBoostValue);
+        //EventManager.OnUpgrateStatEvent(stats, newBoostValue);
     }
 
     private void Initialize()
@@ -70,13 +70,13 @@ public class PlayerBoostManager : MonoBehaviour
         }
     }
 
-    private void OnEnable()
-    {
-        EventManager.BoostStat += ChangeBoost;
-    }
+    //private void OnEnable()
+    //{
+    //    EventManager.BoostStat += ChangeBoost;
+    //}
 
-    private void OnDisable()
-    {
-        EventManager.BoostStat -= ChangeBoost;
-    }
+    //private void OnDisable()
+    //{
+    //    EventManager.BoostStat -= ChangeBoost;
+    //}
 }

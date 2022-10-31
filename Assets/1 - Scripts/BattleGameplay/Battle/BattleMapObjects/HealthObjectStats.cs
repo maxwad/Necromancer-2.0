@@ -74,7 +74,9 @@ public class HealthObjectStats : MonoBehaviour
 
     private void CreateBonus()
     {
-        GlobalStorage.instance.bonusManager.CreateBonus(false, RandomBonus(), transform.position);
+        BonusType bonus = RandomBonus();
+        if(bonus != BonusType.Nothing) GlobalStorage.instance.bonusManager.CreateBonus(false, bonus, transform.position);
+
     }
 
     private BonusType RandomBonus()

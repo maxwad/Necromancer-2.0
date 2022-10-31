@@ -6,9 +6,9 @@ using static NameManager;
 public class HeroController : MonoBehaviour
 {
     private PlayerStats playerStats;
-    private BattleBoostManager boostManager;
     private MacroLevelUpManager levelManager;
     private ResourcesManager resourcesManager;
+    private RunesManager runesManager;
 
     [Header("Level up system")]
     [SerializeField] private float currentTempLevel;
@@ -24,9 +24,10 @@ public class HeroController : MonoBehaviour
     [SerializeField] private float maxCurrentHealth;
     [SerializeField] private float currentHealth;
 
-    [SerializeField] private float searchRadius;
-    [SerializeField] private float defence;
-    [SerializeField] private float luck;
+    private float searchRadiusBase;
+    private float searchRadius;
+    private float defenceBase;
+    private float defence;
 
     [Header("Damage")]
     [HideInInspector] public bool isDead = false;
@@ -81,25 +82,16 @@ public class HeroController : MonoBehaviour
         currentTempExpGoal = totalSummExp;
     }
 
-    private void SetNewParameters(PlayersStats stat, float value)
+    //private void SetNewParameters(PlayersStats stat, float value)
+    //{
+    //    if(stat == PlayersStats.SearchRadius) searchRadius = value;
+    //    if(stat == PlayersStats.Defence) defence = value;
+    //}
+
+    private void SetNewParameters(BoostType boost, float value)
     {
-        switch(stat)
-        {
-            case PlayersStats.SearchRadius:
-                searchRadius = value;
-                break;
-
-            case PlayersStats.Defence:
-                defence = value;
-                break;
-
-            case PlayersStats.Luck:
-                luck = value;
-                break;
-
-            default:
-                break;
-        }
+        if(boost == BoostType.BonusRadius) searchRadius = searchRadiusBase + searchRadiusBase * value;
+        if(boost == BoostType.HeroDefence) defence = defenceBase + defenceBase * value;
     }
 
     private void SearchBonuses()
@@ -192,6 +184,7 @@ public class HeroController : MonoBehaviour
                         {
                             currentTempExp = 0;
                             UpgradeTempExpGoal();
+                            runesManager.TurnOnRune(currentTempLevel - 1);
                         }
                         else
                         {
@@ -247,29 +240,24 @@ public class HeroController : MonoBehaviour
     private void OnEnable()
     {
         EventManager.BonusPickedUp += AddTempExp;
-        EventManager.SetNewPlayerStat += SetNewParameters;
-        //EventManager.NewBoostedStat += UpgradeStat;
+        //EventManager.SetNewPlayerStat += SetNewParameters;
+        EventManager.SetBattleBoost += SetNewParameters;
         EventManager.SwitchPlayer += ResetTempLevel;
 
         if(playerStats == null)
         {
             playerStats = GlobalStorage.instance.playerStats;
-            boostManager = GlobalStorage.instance.unitBoostManager;
             resourcesManager = GlobalStorage.instance.resourcesManager;
             levelManager = GlobalStorage.instance.macroLevelUpManager;
+            runesManager = GlobalStorage.instance.runesManager;
         }        
 
         ResetTempLevel(false);
 
-        //playerStats.GetAllStartParameters();
-        searchRadius = playerStats.GetCurrentParameter(PlayersStats.SearchRadius);
-        searchRadius += searchRadius * boostManager.GetBoost(BoostConverter.instance.PlayerStatToBoostType(PlayersStats.SearchRadius));
-
-        defence = playerStats.GetCurrentParameter(PlayersStats.Defence);
-        defence += defence * boostManager.GetBoost(BoostConverter.instance.PlayerStatToBoostType(PlayersStats.Defence));
-
-        luck = playerStats.GetCurrentParameter(PlayersStats.Luck);
-        luck += luck * boostManager.GetBoost(BoostConverter.instance.PlayerStatToBoostType(PlayersStats.Luck));
+        searchRadiusBase = playerStats.GetCurrentParameter(PlayersStats.SearchRadius);
+        searchRadius = searchRadiusBase;
+        defenceBase = playerStats.GetCurrentParameter(PlayersStats.Defence);
+        defence = defenceBase;
 
         currentHealth = resourcesManager.GetResource(ResourceType.Health);
     }
@@ -277,8 +265,8 @@ public class HeroController : MonoBehaviour
     private void OnDisable()
     {
         EventManager.BonusPickedUp -= AddTempExp;
-        EventManager.SetNewPlayerStat -= SetNewParameters;
-        //EventManager.NewBoostedStat -= UpgradeStat;
+        //EventManager.SetNewPlayerStat -= SetNewParameters;
+        EventManager.SetBattleBoost += SetNewParameters;
         EventManager.SwitchPlayer -= ResetTempLevel;
     }
 }

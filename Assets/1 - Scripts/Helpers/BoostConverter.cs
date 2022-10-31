@@ -17,7 +17,7 @@ public class BoostConverter : MonoBehaviour
 
     public BoostType PlayerStatToBoostType(PlayersStats stat)
     {
-        BoostType result = BoostType.MovementSpeed;
+        BoostType result = BoostType.Nothing;
 
         if(stat == PlayersStats.SearchRadius) result = BoostType.BonusRadius;
         if(stat == PlayersStats.Luck) result = BoostType.CriticalDamage;
@@ -28,7 +28,7 @@ public class BoostConverter : MonoBehaviour
 
     public BoostType RuneToBoostType(RunesType rune)
     {
-        BoostType result = BoostType.MovementSpeed;
+        BoostType result = BoostType.Nothing;
 
         switch(rune)
         {
