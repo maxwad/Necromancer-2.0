@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   runeName: Physical Attack II
   serieName: Physical Attack
-  rune: 0
+  rune: 1
   activeIcon: {fileID: -6300379211149360920, guid: 108daa14e3115264995337bc498c548a, type: 3}
   inActiveIcon: {fileID: 3486436180147481220, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
   level: 2

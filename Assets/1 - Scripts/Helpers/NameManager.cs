@@ -114,8 +114,6 @@ public static class NameManager
         Mana,
         Gold,
         TempExp,
-        Exp,
-        Other,
         Nothing
     }
 
@@ -171,40 +169,40 @@ public static class NameManager
 
     public enum RunesType
     {
-        PhysicAttack,
-        MagicAttack,
-        PhysicDefence,
-        MagicDefence,
-        CriticalDamage,
-        BossDamade,
-        MovementSpeed,
-        BonusAmount,
-        BonusRadius,
-        BonusOpportunity,
-        WeaponSpeed,
-        WeaponSize,
-        CoolDown,
-        Exp
+        PhysicAttack = 1,
+        MagicAttack = 2,
+        PhysicDefence = 3,
+        MagicDefence = 4,
+        CriticalDamage = 5,
+        BossDamade = 6,
+        MovementSpeed = 7,
+        BonusAmount = 8,
+        BonusRadius = 9,
+        BonusOpportunity = 10,
+        WeaponSpeed = 11,
+        WeaponSize = 12,
+        CoolDown = 13,
+        Exp = 14
     }
 
     public enum BoostType
     {
-        PhysicAttack,
-        MagicAttack,
-        PhysicDefence,
-        MagicDefence,
-        CriticalDamage,
-        BossDamade,
-        MovementSpeed,
-        BonusAmount,
-        BonusRadius,
-        BonusOpportunity,
-        WeaponSpeed,
-        WeaponSize,
-        CoolDown,
-        Exp,
-        HeroDefence,
-        Nothing
+        PhysicAttack = 1,
+        MagicAttack = 2,
+        PhysicDefence = 3,
+        MagicDefence = 4,
+        CriticalDamage = 5,
+        BossDamade = 6,
+        MovementSpeed = 7,
+        BonusAmount = 8,
+        BonusRadius = 9,
+        BonusOpportunity = 10,
+        WeaponSpeed = 11,
+        WeaponSize = 12,
+        CoolDown = 13,
+        Exp = 14,
+        HeroDefence = 15,
+        Nothing = 0
     }
 
     public enum Spells
@@ -241,6 +239,11 @@ public static class NameManager
     public enum BoostSender
     {
         Spell, Calendar, Rune
+    }
+
+    public enum BoostEffect
+    {
+        Battle, Global
     }
 
     public enum BoostFromType

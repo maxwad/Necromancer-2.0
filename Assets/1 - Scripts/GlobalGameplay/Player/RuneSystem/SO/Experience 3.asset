@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   runeName: Experience III
   serieName: Experience
-  rune: 13
+  rune: 14
   activeIcon: {fileID: -4836399921021890828, guid: 108daa14e3115264995337bc498c548a, type: 3}
   inActiveIcon: {fileID: -2119393571847977804, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
   level: 3

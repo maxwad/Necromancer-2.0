@@ -55,6 +55,12 @@ public class RuneUIItem : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDr
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if(GlobalStorage.instance.IsGlobalMode() == false)
+        {
+            InfotipManager.ShowWarning("You cannot make any changes during the battle.");
+            return;
+        }
+
         runesWindow.EnableGrid(false);
         currentParent = transform.parent;
 
@@ -75,11 +81,22 @@ public class RuneUIItem : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDr
 
     public void OnDrag(PointerEventData eventData)
     {
+        if(GlobalStorage.instance.IsGlobalMode() == false)
+        {
+            InfotipManager.ShowWarning("You cannot make any changes during the battle.");
+            return;
+        }
         transform.position = Input.mousePosition;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        if(GlobalStorage.instance.IsGlobalMode() == false)
+        {
+            InfotipManager.ShowWarning("You cannot make any changes during the battle.");
+            return;
+        }
+
         if(transform.parent != dragdrop.transform)
         {
             if(transform.parent != currentParent)

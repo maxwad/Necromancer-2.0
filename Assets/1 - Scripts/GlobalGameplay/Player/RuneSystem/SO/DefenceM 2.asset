@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   runeName: Magical Defence II
   serieName: Magical Defence
-  rune: 3
+  rune: 4
   activeIcon: {fileID: 4208647517972058792, guid: 108daa14e3115264995337bc498c548a, type: 3}
   inActiveIcon: {fileID: -3969986841237551420, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
   level: 2

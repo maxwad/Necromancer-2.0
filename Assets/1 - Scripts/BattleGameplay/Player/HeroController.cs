@@ -14,10 +14,10 @@ public class HeroController : MonoBehaviour
     [SerializeField] private float currentTempLevel;
     [SerializeField] public float currentMaxLevel;
 
-    [SerializeField] private float standartTempExpRate = 10;
-    [SerializeField] private float levelMultiplierRate = 1;
-    [SerializeField] private float currentTempExpGoal;
-    [SerializeField] private float currentTempExp;
+    private float standartTempExpRate = 0.015f;
+    private float levelMultiplierRate = 1f;
+    private float currentTempExpGoal;
+    private float currentTempExp;
     private bool isLevelUpComplete = false;
 
     [Header("Characteristics")]
@@ -68,18 +68,25 @@ public class HeroController : MonoBehaviour
         SearchBonuses();
     }
 
+    //private void UpgradeTempExpGoal()
+    //{
+    //    float summExp;
+    //    float totalSummExp = 0;
+
+    //    for(int i = 1; i <= currentTempLevel + 1; i++)
+    //    {
+    //        summExp = (standartTempExpRate * levelMultiplierRate) * i + totalSummExp;
+    //        totalSummExp += summExp;
+    //    }
+
+    //    currentTempExpGoal = totalSummExp;
+    //}
+
     private void UpgradeTempExpGoal()
     {
-        float summExp;
-        float totalSummExp = 0;
+        currentTempExp = 0;
+        currentTempExpGoal = Mathf.Pow(((currentTempLevel + 1) / standartTempExpRate), levelMultiplierRate);
 
-        for(int i = 1; i <= currentTempLevel + 1; i++)
-        {
-            summExp = (standartTempExpRate * levelMultiplierRate) * i + totalSummExp;
-            totalSummExp += summExp;
-        }
-
-        currentTempExpGoal = totalSummExp;
     }
 
     //private void SetNewParameters(PlayersStats stat, float value)
@@ -124,7 +131,7 @@ public class HeroController : MonoBehaviour
     public void TakeDamage(float physicalDamage, float magicDamage)
     {
         //TODO: we need to create some damage formula
-        float damage = Mathf.Round(physicalDamage + magicDamage);
+        float damage = physicalDamage + magicDamage;
 
         resourcesManager.ChangeResource(ResourceType.Health, -damage);
         currentHealth = resourcesManager.GetResource(ResourceType.Health);
@@ -164,8 +171,9 @@ public class HeroController : MonoBehaviour
     {
         if(type == BonusType.TempExp && isDead == false && isLevelUpComplete == false)
         {
-            value *= (currentTempLevel == 0 ? 1 : currentTempLevel);
+            //value *= (currentTempLevel == 0 ? 1 : currentTempLevel);
 
+            Debug.Log(currentTempExpGoal + " " + value);
             while(value > 0)
             {
                 value--;
@@ -182,7 +190,6 @@ public class HeroController : MonoBehaviour
 
                         if(currentTempLevel != currentMaxLevel)
                         {
-                            currentTempExp = 0;
                             UpgradeTempExpGoal();
                             runesManager.TurnOnRune(currentTempLevel - 1);
                         }
@@ -208,7 +215,8 @@ public class HeroController : MonoBehaviour
         while(isFigthingStarted == true)
         {
             yield return dalayTime;
-            AddTempExp(BonusType.TempExp, (currentTempLevel == 0 ? 1 : currentTempLevel));
+            //AddTempExp(BonusType.TempExp, (currentTempLevel == 0 ? 1 : currentTempLevel));
+            AddTempExp(BonusType.TempExp, 1);
         }        
     }
 

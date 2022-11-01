@@ -11,7 +11,11 @@ public class BattleUIManager : MonoBehaviour
     private PlayerStats playerStats;
     private MacroLevelUpManager levelManager;
     private ResourcesManager resourcesManager;
+    private BattleBoostManager boostManager;
+    private RunesManager runesManager;
     private bool isBattleOver = false;
+
+    #region VALUES
 
     [Header("Left Column Exp")]
     [SerializeField] private RectTransform currentScaleValue;
@@ -31,7 +35,6 @@ public class BattleUIManager : MonoBehaviour
 
     [Header("Exp Effects")]
     private float blinkTime = 0.005f;
-    private Coroutine blinkOneCoroutine;
 
     [Header("Infirmary")]
     [SerializeField] private RectTransform infirmaryValue;
@@ -88,13 +91,40 @@ public class BattleUIManager : MonoBehaviour
     [SerializeField] private GameObject defeatBlock;
     [SerializeField] private CanvasGroup defeatCanvasGroup;
 
+    #endregion
+
+    [Header("Boost")]
+    [SerializeField] private RectTransform boostWrapper;
+    [SerializeField] private GameObject boostItem;
+    public class BoostUI
+    {
+        public Sprite icon;
+        public string description;
+        public float value;
+
+        public BoostUI(Sprite pict, string text, float amount)
+        {
+            icon = pict;
+            description = text;
+            value = amount;
+        }
+    }
+    private Dictionary<BoostType, float> boostDict = new Dictionary<BoostType, float>();
+    private List<GameObject> boostItemList = new List<GameObject>();
+
+
     private void Start()
     {
         playerStats = GlobalStorage.instance.playerStats;
         levelManager = GlobalStorage.instance.macroLevelUpManager;
         resourcesManager = GlobalStorage.instance.resourcesManager;
+        boostManager = GlobalStorage.instance.unitBoostManager;
+        runesManager = GlobalStorage.instance.runesManager;
+
         healthScale = healthValue.GetComponent<Image>();
         manaScale = manaValue.GetComponent<Image>();
+
+
     }
 
     private void Update()
@@ -189,6 +219,8 @@ public class BattleUIManager : MonoBehaviour
         FillSpells(-1);
 
         FillEnemiesBar(null);
+
+        FillPlayerBoost();
     }
 
     private void Blink(Image panel, Color effectColor, Color normalColor, float divider = 5)
@@ -277,6 +309,60 @@ public class BattleUIManager : MonoBehaviour
     }
 
     #endregion
+
+    #region BOOST
+
+    private void FillPlayerBoost()
+    {
+        foreach(var item in boostItemList)        
+            Destroy(item);
+        
+        boostItemList.Clear();
+        boostDict.Clear();
+
+        Dictionary<BoostType, List<Boost>> boosts = boostManager.GetBoostDict();
+        foreach(var item in boosts)
+        {
+            List<Boost> tempList = item.Value;
+
+            foreach(var boost in tempList)
+            {
+                if(boost.effect == BoostEffect.Battle)
+                {
+                    if(boostDict.ContainsKey(item.Key))
+                        boostDict[item.Key] += boost.value;
+                    else
+                        boostDict[item.Key] = boost.value;
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+
+        foreach(var boost in boostDict)
+        {
+            GameObject boostItemUI = Instantiate(boostItem);
+            boostItemUI.transform.SetParent(boostWrapper, false);
+            boostItemList.Add(boostItemUI);
+
+            RunesType runeType = BoostConverter.instance.BoostTypeToRune(boost.Key);
+            Sprite icon = runesManager.runesStorage.GetRuneIcon(runeType);
+            string descr = runesManager.runesStorage.GetRuneDescription(runeType);
+            float value = boost.Value;
+            BoostInBattleUI item = boostItemUI.GetComponent<BoostInBattleUI>();
+            item.Init(runeType, icon, descr, value);
+        }
+    }
+
+    private void UpgradeBoostes(BoostType boost, float boostValue)
+    {
+        FillPlayerBoost();
+    }
+
+    #endregion
+
 
     #region TempExp
     private void FillRigthTempLevelScale()
@@ -411,6 +497,9 @@ public class BattleUIManager : MonoBehaviour
         float widthHealth = currentHealthCount / currentMaxHealthCount;
 
         healthScale.fillAmount = widthHealth;
+
+        if(currentHealthCount > 0 && currentHealthCount < 1) currentHealthCount = 1f;
+
         healthInfo.text = currentHealthCount.ToString();
 
         Blink(healthScale, blinkColor, normalHealthColor, 10);
@@ -501,6 +590,7 @@ public class BattleUIManager : MonoBehaviour
         EventManager.UpgradeResource          += UpgradeResourceUI;
         EventManager.EnemiesCount             += GetStartCountEnemies;
         EventManager.EnemyDestroyed           += FillEnemiesBar;
+        EventManager.SetBattleBoost           += UpgradeBoostes;
     }
 
     private void OnDisable()
@@ -510,5 +600,6 @@ public class BattleUIManager : MonoBehaviour
         EventManager.UpgradeResource          -= UpgradeResourceUI;
         EventManager.EnemiesCount             -= GetStartCountEnemies;
         EventManager.EnemyDestroyed           -= FillEnemiesBar;
+        EventManager.SetBattleBoost           -= UpgradeBoostes;
     }
 }

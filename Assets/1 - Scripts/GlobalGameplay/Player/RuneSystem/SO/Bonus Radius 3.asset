@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   runeName: Bonus Radius III
   serieName: Bonus Radius
-  rune: 8
+  rune: 9
   activeIcon: {fileID: -6607861836913834808, guid: 108daa14e3115264995337bc498c548a, type: 3}
   inActiveIcon: {fileID: -3659670812821696642, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
   level: 3

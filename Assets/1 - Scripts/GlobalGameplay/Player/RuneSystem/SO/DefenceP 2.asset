@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   runeName: Physical Defence III
   serieName: Physical Defence
-  rune: 2
+  rune: 3
   activeIcon: {fileID: -5330882791057053021, guid: 108daa14e3115264995337bc498c548a, type: 3}
   inActiveIcon: {fileID: 8851566309654869983, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
   level: 2

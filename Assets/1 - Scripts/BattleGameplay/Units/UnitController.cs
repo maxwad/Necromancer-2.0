@@ -94,7 +94,7 @@ public class UnitController : MonoBehaviour
         if(isImmortal == true) return;
 
         //TODO: we need to create some damage formula
-        float damage = Mathf.Round(physicalDamage + magicDamage);
+        float damage = physicalDamage + magicDamage;
         currentHealth -= damage;
 
         if(GlobalStorage.instance.isGlobalMode == false) ShowDamage(damage, colorDamage);  

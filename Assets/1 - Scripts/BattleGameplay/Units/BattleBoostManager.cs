@@ -4,18 +4,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using static NameManager;
 
-public class BattleBoostManager : MonoBehaviour
-{    private class Boost
-    {
-        public BoostSender sender;
-        public float value;
+public class Boost
+{
+    public BoostSender sender;
+    public BoostEffect effect;
+    public float value;
 
-        public Boost(BoostSender boostSender, float boostValue)
-        {
-            sender = boostSender;
-            value = boostValue;
-        }
+    public Boost(BoostSender boostSender, BoostEffect boostEffect, float boostValue)
+    {
+        sender = boostSender;
+        effect = boostEffect;
+        value = boostValue;
+
     }
+}
+
+public class BattleBoostManager : MonoBehaviour
+{    
 
     private BoostType[] boostTypes;
     private Dictionary<BoostType, List<Boost>> boostItemsDict = new Dictionary<BoostType, List<Boost>>();
@@ -41,11 +46,11 @@ public class BattleBoostManager : MonoBehaviour
     }
 
 
-    public void SetBoost(BoostType type, BoostSender sender, float value)
+    public void SetBoost(BoostType type, BoostSender sender,BoostEffect effect, float value)
     {
         if(type == BoostType.Nothing) return;
 
-        boostItemsDict[type].Add(new Boost(sender, value));
+        boostItemsDict[type].Add(new Boost(sender, effect, value));
         RecalculateBoost(type);
     }
 
@@ -89,14 +94,14 @@ public class BattleBoostManager : MonoBehaviour
 
         commonBoostDict[type] = result;
 
-        Debug.Log(type + "now is " + result);
+        //Debug.Log(type + " now is " + result);
         EventManager.OnSetBattleBoostEvent(type, result / 100);
     }
 
-    //private void SetBoost(bool boostAll, bool addBoost, BoostSender sender, UnitStats stat, float value, UnitsTypes types = UnitsTypes.Militias)
-    //{
-    //    Debug.Log("We set " + addBoost + " to " + stat + " boost = " + value);
-    //}
+    public Dictionary<BoostType, List<Boost>> GetBoostDict()
+    {
+        return boostItemsDict;
+    }
 
     public float GetBoost(BoostType boostType)
     {

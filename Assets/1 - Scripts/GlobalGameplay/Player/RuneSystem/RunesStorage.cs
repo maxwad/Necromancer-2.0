@@ -8,6 +8,7 @@ public class RunesStorage : MonoBehaviour
 {
     public List<RuneSO> runes;
     [HideInInspector] public List<RuneSO> availableRunes = new List<RuneSO>();
+    [HideInInspector] public List<RuneSO> hiddenRunes = new List<RuneSO>();
 
     private RunesType[] runesTypes;
     private int maxRuneLevel = 3;
@@ -46,6 +47,8 @@ public class RunesStorage : MonoBehaviour
 
     public List<RuneSO> GetAvailableRunes()
     {
+
+        //Debug.Log(availableRunes[0]);
         return SortingRunes(availableRunes);
     }
 
@@ -88,5 +91,54 @@ public class RunesStorage : MonoBehaviour
     public RunesType[] GetRunesTypes()
     {
         return runesTypes;
+    }
+
+    public Sprite GetRuneIcon(RunesType type)
+    {
+        Sprite icon;
+        
+        foreach(var rune in availableRunes)
+        {
+            if(rune.rune == type)
+            {
+                icon = rune.activeIcon;
+                return icon;
+            }
+        }
+
+        foreach(var rune in hiddenRunes)
+        {
+            if(rune.rune == type)
+            {
+                icon = rune.activeIcon;
+                return icon;
+            }
+        }
+
+        return null;
+    }
+
+    public string GetRuneDescription(RunesType type)
+    {
+        string text;
+
+        foreach(var rune in availableRunes)
+        {
+            if(rune.rune == type)
+            {
+                text = rune.positiveDescription;
+                return text;
+            }
+        }
+
+        foreach(var rune in hiddenRunes)
+        {
+            if(rune.rune == type)
+            {
+                text = rune.positiveDescription;
+                return text;
+            }
+        }
+        return null;
     }
 }

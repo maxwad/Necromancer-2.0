@@ -1,4 +1,4 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using static NameManager;
@@ -30,66 +30,90 @@ public class BoostConverter : MonoBehaviour
     {
         BoostType result = BoostType.Nothing;
 
-        switch(rune)
+        int runeIndex = (int)rune;
+
+        foreach(BoostType boost in Enum.GetValues(typeof(BoostType)))
         {
-            case RunesType.PhysicAttack:
-                result = BoostType.PhysicAttack;
-                break;
+            if((int)boost == runeIndex) result = boost;
+        }
 
-            case RunesType.MagicAttack:
-                result = BoostType.MagicAttack;
-                break;
 
-            case RunesType.PhysicDefence:
-                result = BoostType.PhysicDefence;
-                break;
+        Debug.Log("Converted " + rune + " to " + result);
 
-            case RunesType.MagicDefence:
-                result = BoostType.MagicDefence;
-                break;
+        //switch(rune)
+        //{
+        //    case RunesType.PhysicAttack:
+        //        result = BoostType.PhysicAttack;
+        //        break;
 
-            case RunesType.CriticalDamage:
-                result = BoostType.CriticalDamage;
-                break;
+        //    case RunesType.MagicAttack:
+        //        result = BoostType.MagicAttack;
+        //        break;
 
-            case RunesType.BossDamade:
-                result = BoostType.BossDamade;
-                break;
+        //    case RunesType.PhysicDefence:
+        //        result = BoostType.PhysicDefence;
+        //        break;
 
-            case RunesType.MovementSpeed:
-                result = BoostType.MovementSpeed;
-                break;
+        //    case RunesType.MagicDefence:
+        //        result = BoostType.MagicDefence;
+        //        break;
 
-            case RunesType.BonusAmount:
-                result = BoostType.BonusAmount;
-                break;
+        //    case RunesType.CriticalDamage:
+        //        result = BoostType.CriticalDamage;
+        //        break;
 
-            case RunesType.BonusRadius:
-                result = BoostType.BonusRadius;
-                break;
+        //    case RunesType.BossDamade:
+        //        result = BoostType.BossDamade;
+        //        break;
 
-            case RunesType.BonusOpportunity:
-                result = BoostType.BonusOpportunity;
-                break;
+        //    case RunesType.MovementSpeed:
+        //        result = BoostType.MovementSpeed;
+        //        break;
 
-            case RunesType.WeaponSpeed:
-                result = BoostType.WeaponSpeed;
-                break;
+        //    case RunesType.BonusAmount:
+        //        result = BoostType.BonusAmount;
+        //        break;
 
-            case RunesType.WeaponSize:
-                result = BoostType.WeaponSize;
-                break;
+        //    case RunesType.BonusRadius:
+        //        result = BoostType.BonusRadius;
+        //        break;
 
-            case RunesType.CoolDown:
-                result = BoostType.PhysicDefence;
-                break;
+        //    case RunesType.BonusOpportunity:
+        //        result = BoostType.BonusOpportunity;
+        //        break;
 
-            case RunesType.Exp:
-                result = BoostType.Exp;
-                break;
+        //    case RunesType.WeaponSpeed:
+        //        result = BoostType.WeaponSpeed;
+        //        break;
 
-            default:
-                break;
+        //    case RunesType.WeaponSize:
+        //        result = BoostType.WeaponSize;
+        //        break;
+
+        //    case RunesType.CoolDown:
+        //        result = BoostType.PhysicDefence;
+        //        break;
+
+        //    case RunesType.Exp:
+        //        result = BoostType.Exp;
+        //        break;
+
+        //    default:
+        //        break;
+        //}
+
+        return result;
+    }
+
+    public RunesType BoostTypeToRune(BoostType boost)
+    {
+        RunesType result = RunesType.WeaponSpeed;
+
+        int boostIndex = (int)boost;
+
+        foreach(RunesType rune in Enum.GetValues(typeof(RunesType)))
+        {
+            if((int)rune == boostIndex) result = rune;
         }
 
         return result;

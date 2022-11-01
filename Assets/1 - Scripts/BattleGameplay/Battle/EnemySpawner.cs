@@ -22,6 +22,7 @@ public class EnemySpawner : MonoBehaviour
     private int enemyTooSlowCount = 150;
     private float spawnOffset = 5f;
 
+    private float bossAppearMultiplier = 0.25f;
     private bool isBossCreated = false;
 
     [Space]
@@ -128,7 +129,7 @@ public class EnemySpawner : MonoBehaviour
                 enemy.SetActive(true);
 
                 //Create boss
-                if(currentCommonQuantity <= maxQuantity / 2 && isBossCreated == false)
+                if(currentCommonQuantity <= (maxQuantity * (1 - bossAppearMultiplier)) && isBossCreated == false)
                 {
                     enemy.GetComponent<EnemyController>().MakeBoss();
                     isBossCreated = true;

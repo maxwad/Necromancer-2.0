@@ -32,6 +32,7 @@ public class RunesManager : MonoBehaviour
     private RunesWindow runesWindow;
 
     [HideInInspector] public List<RuneSO> availableRunes = new List<RuneSO>();
+    [HideInInspector] public List<RuneSO> hiddenRunes = new List<RuneSO>();
 
     private List<RuneSO[]> runesRows = new List<RuneSO[]>();
 
@@ -136,7 +137,7 @@ public class RunesManager : MonoBehaviour
 
     private void ApplyEffect(int row, int cell, RuneSO rune)
     {
-        RunesType currentType = RunesType.Exp;
+        RunesType currentType = RunesType.WeaponSpeed;
 
         if(rune != null)
         {
@@ -230,7 +231,7 @@ public class RunesManager : MonoBehaviour
             {
                 if(boost.cell == level)
                 {
-                    boostManager.SetBoost(BoostConverter.instance.RuneToBoostType(boostList.Key), BoostSender.Rune, boost.boost);
+                    boostManager.SetBoost(BoostConverter.instance.RuneToBoostType(boostList.Key), BoostSender.Rune, BoostEffect.Battle, boost.boost);
                 }
             }            
         }

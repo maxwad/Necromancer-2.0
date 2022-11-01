@@ -189,10 +189,12 @@ public class GMInterface : MonoBehaviour
             maxAmount = healthMax;
             currentText = healthAmount;
             scale = healthScale;
+
+            if(currentAmount > 0 && currentAmount < 1) currentAmount = 1f;
         }
 
         scale.fillAmount = currentAmount / maxAmount;
-        currentText.text = currentAmount + "/" + maxAmount;
+        currentText.text = Mathf.Round(currentAmount) + "/" + maxAmount;
     }
 
     public void UpgradeLevel(LevelData data)

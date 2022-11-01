@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   runeName: Cool Down I
   serieName: Cool Down
-  rune: 12
+  rune: 13
   activeIcon: {fileID: -8947258075661054757, guid: 108daa14e3115264995337bc498c548a, type: 3}
   inActiveIcon: {fileID: -6292864153922878629, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
   level: 1

@@ -146,6 +146,12 @@ public class RunePlaceItem : MonoBehaviour, IDropHandler, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        if(GlobalStorage.instance.IsGlobalMode() == false)
+        {
+            InfotipManager.ShowWarning("You cannot make any changes during the battle.");
+            return;
+        }
+
         if(eventData.button == PointerEventData.InputButton.Right)
         {
             ClearCell();            
@@ -154,6 +160,12 @@ public class RunePlaceItem : MonoBehaviour, IDropHandler, IPointerClickHandler
 
     public void OnDrop(PointerEventData eventData)
     {
+        if(GlobalStorage.instance.IsGlobalMode() == false)
+        {
+            InfotipManager.ShowWarning("You cannot make any changes during the battle.");
+            return;
+        }
+
         if(eventData.pointerDrag != null)
         {
             RuneUIItem rune = eventData.pointerDrag.GetComponent<RuneUIItem>();

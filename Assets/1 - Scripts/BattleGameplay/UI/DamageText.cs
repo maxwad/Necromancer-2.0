@@ -24,7 +24,7 @@ public class DamageText : MonoBehaviour
         damageNotePositionOffset = new Vector3(0, smallWaitTime, 0);
 
         damageText = GetComponent<TMP_Text>();
-        damageValue = damage;
+        damageValue = Mathf.Round(damage);
         textColor = color;
 
         float randomOffset = Random.Range(-40, 30) * 0.01f;

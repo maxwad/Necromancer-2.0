@@ -122,7 +122,7 @@ public class EnemyController : MonoBehaviour
         if(currentHealth > 0)
         {            
             //TODO: we need to create some damage formula
-            float damage = Mathf.Round(physicalDamage + magicDamage);
+            float damage = physicalDamage + magicDamage;
             currentHealth -= damage;
 
             Blink();

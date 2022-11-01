@@ -1,8 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using static NameManager;
 
 public class RuneDestroyer : MonoBehaviour, IDropHandler
 {
@@ -19,6 +17,12 @@ public class RuneDestroyer : MonoBehaviour, IDropHandler
 
     public void OnDrop(PointerEventData eventData)
     {
+        if(GlobalStorage.instance.IsGlobalMode() == false)
+        {
+            InfotipManager.ShowWarning("You cannot make any changes during the battle.");
+            return;
+        }
+
         RuneUIItem rune = eventData.pointerDrag.GetComponent<RuneUIItem>();
         if(rune == null) return;
 

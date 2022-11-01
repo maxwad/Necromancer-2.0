@@ -5,6 +5,8 @@ using static NameManager;
 
 public class HealthObjectStats : MonoBehaviour
 {
+    private BattleBoostManager boostManager;
+
     public bool isFromPool = false;
 
     public bool isImmortal = false;
@@ -27,6 +29,7 @@ public class HealthObjectStats : MonoBehaviour
 
     private void Start()
     {
+        boostManager = GlobalStorage.instance.unitBoostManager;
         currentHealth = health;
         sprite = GetComponent<SpriteRenderer>();
         if(sprite != null) normalColor = sprite.color;
@@ -86,7 +89,7 @@ public class HealthObjectStats : MonoBehaviour
 
         for(int i = 0; i < bonusTypes.Length; i++)
         {
-            checkSumm += bonusesPropabilities[i];
+            checkSumm += (bonusesPropabilities[i] + bonusesPropabilities[i] * (int)boostManager.GetBoost(BoostType.BonusOpportunity));
 
             if(randomNumb <= checkSumm) return bonusTypes[i];
         }

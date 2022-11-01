@@ -147,6 +147,12 @@ public class GlobalStorage : MonoBehaviour
         isGlobalMode = mode;
         EventManager.OnSwitchPlayerEvent(mode);
     }
+
+    public bool IsGlobalMode()
+    {
+        return isGlobalMode;
+    }
+
     public void ChangePlayMode(bool mode)
     {
         //isGlobalMode = mode;

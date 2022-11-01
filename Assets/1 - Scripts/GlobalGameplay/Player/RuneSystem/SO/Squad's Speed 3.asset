@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   runeName: Squad's Speed III
   serieName: Squad's Speed
-  rune: 6
+  rune: 7
   activeIcon: {fileID: -1308846124233723885, guid: 108daa14e3115264995337bc498c548a, type: 3}
   inActiveIcon: {fileID: -1921686025006342023, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
   level: 3

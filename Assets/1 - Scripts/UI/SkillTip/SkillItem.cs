@@ -51,6 +51,12 @@ public class SkillItem : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        if(GlobalStorage.instance.IsGlobalMode() == false)
+        {
+            InfotipManager.ShowWarning("You cannot make any changes during the battle.");
+            return;
+        }
+
         if(isTaken == true) return;
 
         if(amINext == false)
