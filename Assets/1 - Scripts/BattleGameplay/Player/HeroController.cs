@@ -14,7 +14,7 @@ public class HeroController : MonoBehaviour
     [SerializeField] private float currentTempLevel;
     [SerializeField] public float currentMaxLevel;
 
-    private float standartTempExpRate = 0.015f;
+    private float standartTempExpRate = 0.5f;
     private float levelMultiplierRate = 1f;
     private float currentTempExpGoal;
     private float currentTempExp;
@@ -173,7 +173,7 @@ public class HeroController : MonoBehaviour
         {
             //value *= (currentTempLevel == 0 ? 1 : currentTempLevel);
 
-            Debug.Log(currentTempExpGoal + " " + value);
+            //Debug.Log(currentTempExpGoal + " " + value);
             while(value > 0)
             {
                 value--;
@@ -188,10 +188,11 @@ public class HeroController : MonoBehaviour
                         battleUIManager.TempLevelUp(currentTempLevel);
                         currentTempLevel++;
 
+                        if(currentTempLevel <= currentMaxLevel) runesManager.TurnOnRune(currentTempLevel - 1);
+
                         if(currentTempLevel != currentMaxLevel)
                         {
-                            UpgradeTempExpGoal();
-                            runesManager.TurnOnRune(currentTempLevel - 1);
+                            UpgradeTempExpGoal();                            
                         }
                         else
                         {

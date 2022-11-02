@@ -218,12 +218,12 @@ public class EnemyController : MonoBehaviour
     public void MakeBoss() 
     {
         isBoss                = true;
-        currentHealth        *= 50;
+        currentHealth        *= 20;
         magicAttack          *= 3;
         physicAttack         *= 3;
         transform.localScale *= 2;
         rbEnemy.mass         *= 2;
-        exp                  *= 50;
+        exp                  *= 20;
 
         movementScript.BoostSpeed(0.2f);
         BossController bossController = gameObject.AddComponent<BossController>();

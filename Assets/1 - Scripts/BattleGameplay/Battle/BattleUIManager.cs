@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using static NameManager;
+using System;
 
 public class BattleUIManager : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class BattleUIManager : MonoBehaviour
     private ResourcesManager resourcesManager;
     private BattleBoostManager boostManager;
     private RunesManager runesManager;
+    private ObjectsPoolManager objectsPool;
     private bool isBattleOver = false;
 
     #region VALUES
@@ -30,6 +32,7 @@ public class BattleUIManager : MonoBehaviour
     private Image currentScaleTempLevelValueImage;
     private float heigthOneLevel;
     private float currentMaxLevel;
+    private float currenLevel;
     [SerializeField] private Color activeTempLevelColor;
     private List<Image> levelList = new List<Image>();
 
@@ -95,6 +98,7 @@ public class BattleUIManager : MonoBehaviour
 
     [Header("Boost")]
     [SerializeField] private RectTransform boostWrapper;
+    [SerializeField] private RectTransform tempBoostWrapper;
     [SerializeField] private GameObject boostItem;
     public class BoostUI
     {
@@ -111,10 +115,12 @@ public class BattleUIManager : MonoBehaviour
     }
     private Dictionary<BoostType, float> boostDict = new Dictionary<BoostType, float>();
     private List<GameObject> boostItemList = new List<GameObject>();
+    private List<GameObject> blizEffectList = new List<GameObject>();
 
 
     private void Start()
     {
+        objectsPool = GlobalStorage.instance.objectsPoolManager;
         playerStats = GlobalStorage.instance.playerStats;
         levelManager = GlobalStorage.instance.macroLevelUpManager;
         resourcesManager = GlobalStorage.instance.resourcesManager;
@@ -314,8 +320,9 @@ public class BattleUIManager : MonoBehaviour
 
     private void FillPlayerBoost()
     {
-        foreach(var item in boostItemList)        
-            Destroy(item);
+        Debug.Log("Fill effect");
+        foreach(var item in boostItemList)
+            item.SetActive(false);
         
         boostItemList.Clear();
         boostDict.Clear();
@@ -343,16 +350,19 @@ public class BattleUIManager : MonoBehaviour
 
         foreach(var boost in boostDict)
         {
-            GameObject boostItemUI = Instantiate(boostItem);
-            boostItemUI.transform.SetParent(boostWrapper, false);
-            boostItemList.Add(boostItemUI);
+            CreateEffect(boostWrapper, boost.Key, boost.Value, true);
+            ////GameObject boostItemUI = Instantiate(boostItem);
+            //GameObject boostItemUI = objectsPool.GetObject(ObjectPool.BattleEffect);
+            //boostItemUI.transform.SetParent(boostWrapper, false);
+            //boostItemUI.SetActive(true);
+            //boostItemList.Add(boostItemUI);
 
-            RunesType runeType = BoostConverter.instance.BoostTypeToRune(boost.Key);
-            Sprite icon = runesManager.runesStorage.GetRuneIcon(runeType);
-            string descr = runesManager.runesStorage.GetRuneDescription(runeType);
-            float value = boost.Value;
-            BoostInBattleUI item = boostItemUI.GetComponent<BoostInBattleUI>();
-            item.Init(runeType, icon, descr, value);
+            //RunesType runeType = BoostConverter.instance.BoostTypeToRune(boost.Key);
+            ////Sprite icon = runesManager.runesStorage.GetRuneIcon(runeType);
+            ////string descr = runesManager.runesStorage.GetRuneDescription(runeType);
+            //float value = boost.Value;
+            //BoostInBattleUI item = boostItemUI.GetComponent<BoostInBattleUI>();
+            //item.Init(runeType, value);
         }
     }
 
@@ -361,6 +371,35 @@ public class BattleUIManager : MonoBehaviour
         FillPlayerBoost();
     }
 
+    private void CreateEffect(Transform parent, BoostType type, float boost, bool constMode = true)
+    {
+        GameObject boostItemUI = objectsPool.GetObject(ObjectPool.BattleEffect);
+        boostItemUI.transform.SetParent(parent, false);
+        boostItemUI.SetActive(true);
+        if(parent == boostWrapper) boostItemList.Add(boostItemUI);
+
+        RunesType runeType = BoostConverter.instance.BoostTypeToRune(type);
+        float value = boost;
+        BoostInBattleUI item = boostItemUI.GetComponent<BoostInBattleUI>();
+        item.Init(runeType, value, constMode);
+
+        //return boostItemUI;
+    }
+
+    private void ShowBoostEffect(BoostType type, float value)
+    {
+        CreateEffect(tempBoostWrapper, type, value, false);
+
+        //Debug.Log(levelList[(int)currenLevel].gameObject.transform.position - new Vector3(1f, 0f, 0f));
+        //RectTransform rect = newEffect.GetComponent<RectTransform>();
+        //rect.position = levelList[(int)currenLevel].gameObject.transform.position - new Vector3(rect.rect.width, 0 , 0);
+        //rect.pivot = new Vector2(1f, 1f);
+
+        //newEffect.GetComponent<EffectItemMovement>().StartMovement();
+        //blizEffectList.Add(newEffect);
+    }
+
+    //private IEnumerator 
     #endregion
 
 
@@ -399,6 +438,7 @@ public class BattleUIManager : MonoBehaviour
     public void TempLevelUp(float oldLevel)
     {
         levelList[(int)oldLevel].color = activeTempLevelColor;
+        currenLevel = oldLevel;
 
         if(oldLevel + 1 < levelList.Count)
             currentScaleValueImage.fillAmount = 0;
@@ -500,7 +540,7 @@ public class BattleUIManager : MonoBehaviour
 
         if(currentHealthCount > 0 && currentHealthCount < 1) currentHealthCount = 1f;
 
-        healthInfo.text = currentHealthCount.ToString();
+        healthInfo.text = (Mathf.Round(currentHealthCount)).ToString();
 
         Blink(healthScale, blinkColor, normalHealthColor, 10);
     }
@@ -591,6 +631,7 @@ public class BattleUIManager : MonoBehaviour
         EventManager.EnemiesCount             += GetStartCountEnemies;
         EventManager.EnemyDestroyed           += FillEnemiesBar;
         EventManager.SetBattleBoost           += UpgradeBoostes;
+        EventManager.ShowBoostEffect          += ShowBoostEffect;
     }
 
     private void OnDisable()
@@ -601,5 +642,6 @@ public class BattleUIManager : MonoBehaviour
         EventManager.EnemiesCount             -= GetStartCountEnemies;
         EventManager.EnemyDestroyed           -= FillEnemiesBar;
         EventManager.SetBattleBoost           -= UpgradeBoostes;
+        EventManager.ShowBoostEffect          -= ShowBoostEffect;
     }
 }

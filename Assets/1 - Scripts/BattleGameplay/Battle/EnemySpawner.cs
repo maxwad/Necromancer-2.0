@@ -27,7 +27,8 @@ public class EnemySpawner : MonoBehaviour
 
     [Space]
     private Coroutine spawnCoroutine;
-    private float waitNextEnemyTimeFast = 0.1f;
+    //private float waitNextEnemyTimeFast = 0.1f;
+    private float waitNextEnemyTimeFast = .1f;
     private float waitNextEnemyTimeSlow = 0.5f;
     private float waitNextEnemyTimeStop = 2f;
     private WaitForSeconds waitNextEnemyFast;

@@ -46,12 +46,14 @@ public class BattleBoostManager : MonoBehaviour
     }
 
 
-    public void SetBoost(BoostType type, BoostSender sender,BoostEffect effect, float value)
+    public void SetBoost(BoostType type, BoostSender sender, BoostEffect effect, float value)
     {
         if(type == BoostType.Nothing) return;
 
         boostItemsDict[type].Add(new Boost(sender, effect, value));
         RecalculateBoost(type);
+
+        if(GlobalStorage.instance.isGlobalMode == false) EventManager.OnShowBoostEffectEvent(type, value);
     }
 
     public void DeleteBoost(BoostType type, BoostSender sender, float value)
@@ -84,7 +86,7 @@ public class BattleBoostManager : MonoBehaviour
     }
 
 
-    private void RecalculateBoost(BoostType type)
+    private void RecalculateBoost(BoostType type, bool sendMode = true)
     {
         float result = 0f;
         for(int i = 0; i < boostItemsDict[type].Count; i++)
@@ -95,7 +97,7 @@ public class BattleBoostManager : MonoBehaviour
         commonBoostDict[type] = result;
 
         //Debug.Log(type + " now is " + result);
-        EventManager.OnSetBattleBoostEvent(type, result / 100);
+        if(sendMode == true) EventManager.OnSetBattleBoostEvent(type, result / 100);
     }
 
     public Dictionary<BoostType, List<Boost>> GetBoostDict()
@@ -112,14 +114,16 @@ public class BattleBoostManager : MonoBehaviour
     {
         foreach(var boostList in boostItemsDict)
         {
-            foreach(var boost in boostList.Value)
+            List<Boost> tempList = boostList.Value;
+
+            for(int i = tempList.Count - 1; i >= 0; i--)
             {
-                if(boost.sender == BoostSender.Spell || boost.sender == BoostSender.Rune)
+                if(tempList[i].sender == BoostSender.Spell || tempList[i].sender == BoostSender.Rune)
                 {
-                    boostList.Value.Remove(boost);
+                    tempList.Remove(tempList[i]);
                 }
             }
-            RecalculateBoost(boostList.Key);
+            RecalculateBoost(boostList.Key, false);
         }
     }
 

@@ -97,16 +97,7 @@ public class RunesStorage : MonoBehaviour
     {
         Sprite icon;
         
-        foreach(var rune in availableRunes)
-        {
-            if(rune.rune == type)
-            {
-                icon = rune.activeIcon;
-                return icon;
-            }
-        }
-
-        foreach(var rune in hiddenRunes)
+        foreach(var rune in runes)
         {
             if(rune.rune == type)
             {
@@ -122,7 +113,7 @@ public class RunesStorage : MonoBehaviour
     {
         string text;
 
-        foreach(var rune in availableRunes)
+        foreach(var rune in runes)
         {
             if(rune.rune == type)
             {
@@ -131,14 +122,6 @@ public class RunesStorage : MonoBehaviour
             }
         }
 
-        foreach(var rune in hiddenRunes)
-        {
-            if(rune.rune == type)
-            {
-                text = rune.positiveDescription;
-                return text;
-            }
-        }
-        return null;
+        return "";
     }
 }

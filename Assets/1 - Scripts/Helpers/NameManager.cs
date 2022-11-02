@@ -85,7 +85,8 @@ public static class NameManager
         BoxOnTheMap,
         BonusText,
         DeltaCost,
-        Rune
+        Rune,
+        BattleEffect
 
     }
 
@@ -244,6 +245,11 @@ public static class NameManager
     public enum BoostEffect
     {
         Battle, Global
+    }
+
+    public enum EffectType
+    {
+        Rune, Spell, Enemy
     }
 
     public enum BoostFromType

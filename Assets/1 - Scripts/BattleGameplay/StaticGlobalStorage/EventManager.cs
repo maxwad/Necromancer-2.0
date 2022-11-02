@@ -171,6 +171,19 @@ public static class EventManager
     public static event SetBattleBoostEvent SetBattleBoost;
     public static void OnSetBattleBoostEvent(BoostType boost, float value) => SetBattleBoost?.Invoke(boost, value);
 
+
+    // send to BattleUI one boost effect
+    //
+    //SUBSCRIBERS:
+    // - BattleUIManager
+    //
+    //ACTIVATION:
+    // - BattleBoostManager
+    //
+    public delegate void ShowBoostEffectEvent(BoostType boost, float value);
+    public static event ShowBoostEffectEvent ShowBoostEffect;
+    public static void OnShowBoostEffectEvent(BoostType boost, float value) => ShowBoostEffect?.Invoke(boost, value);
+
     //// 3 player boost system: give new boosted stats to listeners
     ////
     ////SUBSCRIBERS:

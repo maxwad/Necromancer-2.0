@@ -111,6 +111,10 @@ public class RunesWindow : MonoBehaviour
             runeGO.transform.SetAsLastSibling();
             runeGO.SetActive(true);
 
+            CanvasGroup runeCanvas = runeGO.GetComponent<CanvasGroup>();
+            runeCanvas.alpha = 1f;
+            runeCanvas.blocksRaycasts = true;
+
             RuneUIItem runeUI = runeGO.GetComponent<RuneUIItem>();
             runeUI.Init(availableRunes[i]);
 

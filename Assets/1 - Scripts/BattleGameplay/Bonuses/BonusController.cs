@@ -44,7 +44,12 @@ public class BonusController : MonoBehaviour
         bonusType = bonus.bonusType;
         isSpecialBonus = specialMode;
         baseValue = (forceValue == 0) ? bonus.value : forceValue;
-        value = baseValue + baseValue * boostManager.GetBoost(BoostType.BonusAmount);
+
+        if(bonusType == BonusType.TempExp)
+            value = baseValue + baseValue * boostManager.GetBoost(BoostType.Exp);
+        else
+            value = baseValue + baseValue * boostManager.GetBoost(BoostType.BonusAmount);
+
 
         CheckSizeOfBonus();
 

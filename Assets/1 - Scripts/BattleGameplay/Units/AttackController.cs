@@ -44,10 +44,9 @@ public class AttackController : MonoBehaviour
             yield return null;
         }
 
-        speedAttack = unit.speedAttack + unit.speedAttack * boostManager.GetBoost(NameManager.BoostType.CoolDown);
-
         while (unit.quantity != 0)
         {
+            speedAttack = unit.speedAttack + unit.speedAttack * boostManager.GetBoost(NameManager.BoostType.CoolDown);
             weaponStorage.Attack(unit);
 
             yield return new WaitForSeconds(speedAttack);

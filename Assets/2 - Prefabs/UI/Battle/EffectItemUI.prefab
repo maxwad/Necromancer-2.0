@@ -35,7 +35,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 7}
-  m_SizeDelta: {x: 36, y: 36}
+  m_SizeDelta: {x: 24, y: 24}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6108239123492868610
 CanvasRenderer:
@@ -86,6 +86,7 @@ GameObject:
   - component: {fileID: 7547921880689855304}
   - component: {fileID: 8163329088840514870}
   - component: {fileID: 580934044029800109}
+  - component: {fileID: 4111111922546840216}
   - component: {fileID: 6548452806426876742}
   - component: {fileID: 3215694219146229061}
   m_Layer: 0
@@ -114,7 +115,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8163329088840514870
 CanvasRenderer:
@@ -154,6 +155,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &4111111922546840216
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4381708695264293901}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!114 &6548452806426876742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,11 +196,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e58846552693a04699f0f972b7c55b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvas: {fileID: 4111111922546840216}
+  bg: {fileID: 580934044029800109}
   icon: {fileID: 3968363782576342560}
+  iconRect: {fileID: 2329545213882870421}
   amount: {fileID: 5037171867458497140}
   tip: {fileID: 6548452806426876742}
   negativeColor: {r: 1, g: 0, b: 0, a: 1}
   positiveColor: {r: 0, g: 0.6039216, b: 0.003921569, a: 1}
+  runeColor: {r: 1, g: 1, b: 1, a: 1}
+  spellColor: {r: 0.64705884, g: 0.8509804, b: 1, a: 1}
+  enemyColor: {r: 1, g: 0.6862745, b: 0.64705884, a: 1}
+  normalSize: 24
+  bigSize: 64
+  normalFont: 14
+  bigFont: 18
+  lifeTime: 4
 --- !u!1 &5571919083209136840
 GameObject:
   m_ObjectHideFlags: 0
@@ -222,8 +246,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 60, y: 20}
+  m_AnchoredPosition: {x: 0, y: 1}
+  m_SizeDelta: {x: 100, y: 25}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &2456556871521443621
 CanvasRenderer:
