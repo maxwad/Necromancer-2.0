@@ -186,7 +186,8 @@ public class WeaponMovement : MonoBehaviour
             foreach(Collider2D obj in objects)
             {
                 if(obj.CompareTag(TagManager.T_ENEMY) == true)
-                    obj.GetComponent<EnemyController>().TakeDamage(unit.physicAttack, unit.magicAttack, transform.position);
+                    weaponDamage.Hit(obj.GetComponent<EnemyController>(), transform.position);
+                    //obj.GetComponent<EnemyController>().TakeDamage(unit.physicAttack, unit.magicAttack, transform.position);
             }
 
             Destroy(bottleShadow);

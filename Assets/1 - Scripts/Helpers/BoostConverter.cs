@@ -33,74 +33,9 @@ public class BoostConverter : MonoBehaviour
         int runeIndex = (int)rune;
 
         foreach(BoostType boost in Enum.GetValues(typeof(BoostType)))
-        {
             if((int)boost == runeIndex) result = boost;
-        }
 
-
-        Debug.Log("Converted " + rune + " to " + result);
-
-        //switch(rune)
-        //{
-        //    case RunesType.PhysicAttack:
-        //        result = BoostType.PhysicAttack;
-        //        break;
-
-        //    case RunesType.MagicAttack:
-        //        result = BoostType.MagicAttack;
-        //        break;
-
-        //    case RunesType.PhysicDefence:
-        //        result = BoostType.PhysicDefence;
-        //        break;
-
-        //    case RunesType.MagicDefence:
-        //        result = BoostType.MagicDefence;
-        //        break;
-
-        //    case RunesType.CriticalDamage:
-        //        result = BoostType.CriticalDamage;
-        //        break;
-
-        //    case RunesType.BossDamade:
-        //        result = BoostType.BossDamade;
-        //        break;
-
-        //    case RunesType.MovementSpeed:
-        //        result = BoostType.MovementSpeed;
-        //        break;
-
-        //    case RunesType.BonusAmount:
-        //        result = BoostType.BonusAmount;
-        //        break;
-
-        //    case RunesType.BonusRadius:
-        //        result = BoostType.BonusRadius;
-        //        break;
-
-        //    case RunesType.BonusOpportunity:
-        //        result = BoostType.BonusOpportunity;
-        //        break;
-
-        //    case RunesType.WeaponSpeed:
-        //        result = BoostType.WeaponSpeed;
-        //        break;
-
-        //    case RunesType.WeaponSize:
-        //        result = BoostType.WeaponSize;
-        //        break;
-
-        //    case RunesType.CoolDown:
-        //        result = BoostType.PhysicDefence;
-        //        break;
-
-        //    case RunesType.Exp:
-        //        result = BoostType.Exp;
-        //        break;
-
-        //    default:
-        //        break;
-        //}
+        if(result == BoostType.Nothing) Debug.Log("Converted " + rune + " to " + result);       
 
         return result;
     }

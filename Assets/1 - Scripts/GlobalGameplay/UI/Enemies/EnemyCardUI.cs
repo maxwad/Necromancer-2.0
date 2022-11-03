@@ -27,11 +27,11 @@ public class EnemyCardUI : MonoBehaviour
 
         if(showMode == true)
         {
-            health.text   = enemy.health.ToString();
-            pAttack.text  = enemy.physicAttack.ToString();
-            mAttack.text  = enemy.magicAttack.ToString();
-            pDefence.text = enemy.physicDefence.ToString();
-            mDefence.text = enemy.magicDefence.ToString();
+            health.text   = enemy.healthBase.ToString();
+            pAttack.text  = enemy.physicAttackBase.ToString();
+            mAttack.text  = enemy.magicAttackBase.ToString();
+            pDefence.text = enemy.physicDefenceBase.ToString();
+            mDefence.text = enemy.magicDefenceBase.ToString();
         }
         else
         {

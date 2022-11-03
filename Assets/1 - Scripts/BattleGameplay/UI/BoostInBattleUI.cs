@@ -25,7 +25,7 @@ public class BoostInBattleUI : MonoBehaviour
     [SerializeField] private Color spellColor;
     [SerializeField] private Color enemyColor;
 
-    [SerializeField] private float normalSize = 32f;
+    [SerializeField] private float normalSize = 34f;
     [SerializeField] private float bigSize = 64f;
 
     [SerializeField] private float normalFont = 16f;
@@ -41,6 +41,7 @@ public class BoostInBattleUI : MonoBehaviour
 
         Sprite pict = runesManager.runesStorage.GetRuneIcon(runeType);
         string descr = runesManager.runesStorage.GetRuneDescription(runeType);
+        bool isInvertedRune = runesManager.runesStorage.GetRuneInvertion(runeType);
 
         icon.sprite = pict;
 
@@ -51,7 +52,7 @@ public class BoostInBattleUI : MonoBehaviour
 
         Color color;
 
-        if(runeType != RunesType.CoolDown)
+        if(isInvertedRune == false)
             color = (value > 0) ? positiveColor : negativeColor;
         else
             color = (value > 0) ? negativeColor : positiveColor;

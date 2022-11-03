@@ -62,11 +62,11 @@ public class Squadtip : MonoBehaviour
             FillData(
                enemy.icon,
                enemy.enemyName,
-               enemy.health,
-               enemy.physicAttack,
-               enemy.magicAttack,
-               enemy.physicDefence,
-               enemy.magicDefence
+               enemy.healthBase,
+               enemy.physicAttackBase,
+               enemy.magicAttackBase,
+               enemy.physicDefenceBase,
+               enemy.magicDefenceBase
                );
         }
 

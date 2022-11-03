@@ -21,6 +21,7 @@ public class UnitController : MonoBehaviour
     [HideInInspector]public SpriteRenderer unitSprite;
     private Color normalColor;
     private Color originalColor;
+    private Color damageText;
     private Color damageColor = Color.red;
     private float blinkTime = 0.1f;
 
@@ -28,6 +29,7 @@ public class UnitController : MonoBehaviour
 
     [SerializeField] private GameObject damageNote;
     private Color colorDamage = Color.yellow;
+    private Color criticalColor = Color.black;
 
     private TMP_Text unitCountsText;
 
@@ -89,15 +91,28 @@ public class UnitController : MonoBehaviour
         if(currentHealth < unit.health * 0.33f) normalColor = Color.red;
     }
 
-    public void TakeDamage(float physicalDamage, float magicDamage)
+    public void TakeDamage(float physicalDamage, float magicDamage, bool isCritical = false)
     {
         if(isImmortal == true) return;
 
-        //TODO: we need to create some damage formula
-        float damage = physicalDamage + magicDamage;
+        float phDamageComponent = physicalDamage - physicDefence;
+        if(phDamageComponent < 0) phDamageComponent = 0;
+
+        float mDamageComponent = magicDamage - magicDefence;
+        if(mDamageComponent < 0) mDamageComponent = 0;
+
+        float damage = phDamageComponent + mDamageComponent;
         currentHealth -= damage;
 
-        if(GlobalStorage.instance.isGlobalMode == false) ShowDamage(damage, colorDamage);  
+        damageText = colorDamage;
+
+        if(isCritical == true)
+        {
+            damage *= 2;
+            damageText = criticalColor;
+        }
+
+        if(GlobalStorage.instance.isGlobalMode == false) ShowDamage(damage, damageText);  
 
         if (currentHealth <= 0 && unit.quantity > 1)
         {

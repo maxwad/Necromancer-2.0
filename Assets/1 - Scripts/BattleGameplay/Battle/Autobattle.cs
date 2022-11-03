@@ -156,11 +156,11 @@ public class Autobattle : MonoBehaviour
             EnemyController enemy = currentEnemyArmy.squadList[i].GetComponent<EnemyController>();
             int quantity = currentEnemyArmy.quantityList[i];
 
-            magicAttackEnemy += enemy.magicAttack * quantity;
-            physicAttackEnemy += enemy.physicAttack * quantity;
+            magicAttackEnemy += enemy.magicAttackBase * quantity;
+            physicAttackEnemy += enemy.physicAttackBase * quantity;
 
-            magicDefenceEnemy += enemy.magicDefence * quantity;
-            physicDefenceEnemy += enemy.physicDefence * quantity;
+            magicDefenceEnemy += enemy.magicDefenceBase * quantity;
+            physicDefenceEnemy += enemy.physicDefenceBase * quantity;
 
             enemiesQuantity += quantity;
         }

@@ -13,7 +13,6 @@ public class BattleUIManager : MonoBehaviour
     private MacroLevelUpManager levelManager;
     private ResourcesManager resourcesManager;
     private BattleBoostManager boostManager;
-    private RunesManager runesManager;
     private ObjectsPoolManager objectsPool;
     private bool isBattleOver = false;
 
@@ -70,6 +69,7 @@ public class BattleUIManager : MonoBehaviour
 
     [Header("Gold")]
     [SerializeField] private TMP_Text goldInfo;
+    private float startGold;
 
     [Header("Spells")]
     [SerializeField] private Button buttonSpell;
@@ -100,22 +100,8 @@ public class BattleUIManager : MonoBehaviour
     [SerializeField] private RectTransform boostWrapper;
     [SerializeField] private RectTransform tempBoostWrapper;
     [SerializeField] private GameObject boostItem;
-    public class BoostUI
-    {
-        public Sprite icon;
-        public string description;
-        public float value;
-
-        public BoostUI(Sprite pict, string text, float amount)
-        {
-            icon = pict;
-            description = text;
-            value = amount;
-        }
-    }
     private Dictionary<BoostType, float> boostDict = new Dictionary<BoostType, float>();
     private List<GameObject> boostItemList = new List<GameObject>();
-    private List<GameObject> blizEffectList = new List<GameObject>();
 
 
     private void Start()
@@ -125,12 +111,9 @@ public class BattleUIManager : MonoBehaviour
         levelManager = GlobalStorage.instance.macroLevelUpManager;
         resourcesManager = GlobalStorage.instance.resourcesManager;
         boostManager = GlobalStorage.instance.unitBoostManager;
-        runesManager = GlobalStorage.instance.runesManager;
 
         healthScale = healthValue.GetComponent<Image>();
         manaScale = manaValue.GetComponent<Image>();
-
-
     }
 
     private void Update()
@@ -320,7 +303,6 @@ public class BattleUIManager : MonoBehaviour
 
     private void FillPlayerBoost()
     {
-        Debug.Log("Fill effect");
         foreach(var item in boostItemList)
             item.SetActive(false);
         
@@ -351,18 +333,6 @@ public class BattleUIManager : MonoBehaviour
         foreach(var boost in boostDict)
         {
             CreateEffect(boostWrapper, boost.Key, boost.Value, true);
-            ////GameObject boostItemUI = Instantiate(boostItem);
-            //GameObject boostItemUI = objectsPool.GetObject(ObjectPool.BattleEffect);
-            //boostItemUI.transform.SetParent(boostWrapper, false);
-            //boostItemUI.SetActive(true);
-            //boostItemList.Add(boostItemUI);
-
-            //RunesType runeType = BoostConverter.instance.BoostTypeToRune(boost.Key);
-            ////Sprite icon = runesManager.runesStorage.GetRuneIcon(runeType);
-            ////string descr = runesManager.runesStorage.GetRuneDescription(runeType);
-            //float value = boost.Value;
-            //BoostInBattleUI item = boostItemUI.GetComponent<BoostInBattleUI>();
-            //item.Init(runeType, value);
         }
     }
 
@@ -382,24 +352,13 @@ public class BattleUIManager : MonoBehaviour
         float value = boost;
         BoostInBattleUI item = boostItemUI.GetComponent<BoostInBattleUI>();
         item.Init(runeType, value, constMode);
-
-        //return boostItemUI;
     }
 
     private void ShowBoostEffect(BoostType type, float value)
     {
         CreateEffect(tempBoostWrapper, type, value, false);
-
-        //Debug.Log(levelList[(int)currenLevel].gameObject.transform.position - new Vector3(1f, 0f, 0f));
-        //RectTransform rect = newEffect.GetComponent<RectTransform>();
-        //rect.position = levelList[(int)currenLevel].gameObject.transform.position - new Vector3(rect.rect.width, 0 , 0);
-        //rect.pivot = new Vector2(1f, 1f);
-
-        //newEffect.GetComponent<EffectItemMovement>().StartMovement();
-        //blizEffectList.Add(newEffect);
     }
 
-    //private IEnumerator 
     #endregion
 
 
@@ -517,7 +476,7 @@ public class BattleUIManager : MonoBehaviour
         float widthMana = currentManaCount / currentMaxManaCount;
 
         manaScale.fillAmount = widthMana;
-        manaInfo.text = currentManaCount.ToString();
+        manaInfo.text = Mathf.Round(currentManaCount) + "/" + currentMaxManaCount;
 
         Blink(manaScale, blinkColor, normalManaColor, 10);
     }
@@ -525,7 +484,7 @@ public class BattleUIManager : MonoBehaviour
 
     #endregion
 
-    #region HEALTH
+    #region Health
 
     public void FillHealth(float value = 0)
     {   
@@ -540,7 +499,7 @@ public class BattleUIManager : MonoBehaviour
 
         if(currentHealthCount > 0 && currentHealthCount < 1) currentHealthCount = 1f;
 
-        healthInfo.text = (Mathf.Round(currentHealthCount)).ToString();
+        healthInfo.text = Mathf.Round(currentHealthCount) + "/" + currentMaxHealthCount;
 
         Blink(healthScale, blinkColor, normalHealthColor, 10);
     }
@@ -550,8 +509,14 @@ public class BattleUIManager : MonoBehaviour
     #region Gold
     private void FillGold(float value = 0)
     {
-        float current = (value == 0) ? resourcesManager.GetResource(ResourceType.Gold) : value;
-        goldInfo.text = current.ToString();
+        float current = 0;
+
+        if(value == 0) 
+            startGold = resourcesManager.GetResource(ResourceType.Gold);
+        else
+            current = value - startGold;
+
+        goldInfo.text = Mathf.Round(current).ToString();
     }
 
     #endregion

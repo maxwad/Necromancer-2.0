@@ -21,7 +21,7 @@ public class RuneSO : ScriptableObject
     public Sprite inActiveIcon;
     public int level;
     public float value;
-    public StatBoostType valueType;
+    public bool isInvertedRune = false;
     public Cost[] cost;
     public List<Cost> realCost;
     public string positiveDescription;

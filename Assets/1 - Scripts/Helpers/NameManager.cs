@@ -183,7 +183,9 @@ public static class NameManager
         WeaponSpeed = 11,
         WeaponSize = 12,
         CoolDown = 13,
-        Exp = 14
+        Exp = 14,
+        SpellReloading = 23,
+        SpellActionTime = 24
     }
 
     public enum BoostType
@@ -203,7 +205,17 @@ public static class NameManager
         CoolDown = 13,
         Exp = 14,
         HeroDefence = 15,
-        Nothing = 0
+        Nothing = 0,
+        SpellReloading = 23,
+        SpellActionTime = 24,
+
+        EnemyPhysicAttack = 16,
+        EnemyMagicAttack = 17,
+        EnemyPhysicDefence = 18,
+        EnemyMagicDefence = 19,
+        EnemyMovementSpeed = 20,
+        EnemyCoolDown = 21,
+        EnemyHealth  = 22
     }
 
     public enum Spells

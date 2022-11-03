@@ -16,8 +16,8 @@ public class RunesManager : MonoBehaviour
         public RuneBoost(int rowIndex, int cellIndex, RuneSO rune)
         {
             float value = rune.value;
-            if(rowIndex == 1 && rune.rune != RunesType.CoolDown) value = -value;
-            if(rowIndex != 1 && rune.rune == RunesType.CoolDown) value = -value;
+            if(rowIndex == 1 && (rune.rune != RunesType.CoolDown || rune.rune != RunesType.SpellActionTime || rune.rune != RunesType.SpellReloading)) value = -value;
+            if(rowIndex != 1 && (rune.rune == RunesType.CoolDown || rune.rune == RunesType.SpellActionTime || rune.rune == RunesType.SpellReloading)) value = -value;
 
             row = rowIndex;
             cell = cellIndex;
@@ -66,7 +66,6 @@ public class RunesManager : MonoBehaviour
         }
 
         GlobalStorage.instance.LoadNextPart();
-        //runesWindow
     }
 
     public void FillCell(RuneSO rune)
@@ -114,7 +113,7 @@ public class RunesManager : MonoBehaviour
             if(boost.Value < limitValue)
             {
                 overflowType = boost.Key;
-                 List<RuneBoost> tempList = runeBoostesDict[overflowType];
+                List<RuneBoost> tempList = runeBoostesDict[overflowType];
                 for(int i = 0; i < tempList.Count; i++)
                 {
                     if(tempList[i].row == 1)
@@ -185,14 +184,14 @@ public class RunesManager : MonoBehaviour
 
         if(negativeMode == true)
         {
-            if(rune.rune != RunesType.CoolDown)
+            if(rune.rune != RunesType.CoolDown && rune.rune != RunesType.SpellActionTime && rune.rune != RunesType.SpellReloading)
                 result = (commonBoostDict[rune.rune] - rune.value >= limitValue);
             else
                 result = true;
         }
         else
         {
-            if(rune.rune == RunesType.CoolDown)
+            if(rune.rune == RunesType.CoolDown || rune.rune == RunesType.SpellActionTime || rune.rune == RunesType.SpellReloading)
                 result = (commonBoostDict[rune.rune] - rune.value >= limitValue);
             else
                 result = true;
@@ -201,24 +200,45 @@ public class RunesManager : MonoBehaviour
         return result;  
     }
 
-    public bool CanIReplaceThisRune(bool negativeMode, RuneSO oldRune, RuneSO newRune)
+    public bool CanIReplaceThisRune(bool negativeMode, RuneSO oldRune, RuneSO newRune, int row, int cell)
     {
         bool result;
 
         if(negativeMode == true)
         {
-            if(newRune.rune != RunesType.CoolDown)
-                result = (commonBoostDict[oldRune.rune] - newRune.value + oldRune.value >= -99);
+            if(newRune.rune != RunesType.CoolDown && newRune.rune != RunesType.SpellActionTime && newRune.rune != RunesType.SpellReloading)
+                result = (commonBoostDict[oldRune.rune] - newRune.value + oldRune.value >= limitValue);
             else
                 result = true;
         }
         else
         {
-            if(newRune.rune == RunesType.CoolDown)
-                result = (commonBoostDict[oldRune.rune] - newRune.value + oldRune.value >= -99);
+            if(newRune.rune == RunesType.CoolDown || newRune.rune == RunesType.SpellActionTime || newRune.rune == RunesType.SpellReloading)
+                result = (commonBoostDict[oldRune.rune] - newRune.value + oldRune.value >= limitValue);
             else
                 result = true;
         }
+
+        //if(result == false) return result;
+
+        //foreach(var boostList in runeBoostesDict)
+        //{
+        //    float limit = 0;
+        //    if(boostList.Key == oldRune.rune) 
+        //        continue;
+        //    else
+        //    {
+        //        foreach(var boost in boostList.Value)
+        //        {
+        //            if(boost.cell != cell && )
+        //            {
+
+        //            }
+        //        }
+
+        //    }
+
+        //}
 
         return result;
     }

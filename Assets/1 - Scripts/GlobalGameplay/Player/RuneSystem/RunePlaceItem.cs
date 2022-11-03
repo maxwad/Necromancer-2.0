@@ -138,10 +138,13 @@ public class RunePlaceItem : MonoBehaviour, IDropHandler, IPointerClickHandler
 
         currentRune = null;
         runesManager.ApplyRune(indexRow, indexCell, currentRune);
+        if(indexRow == 2)
+        {
 
+            Debug.Log("Clesr");
+        }
         tempRune.ResetRune();
         tempRune = null;
-        //Clear data here
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -187,7 +190,7 @@ public class RunePlaceItem : MonoBehaviour, IDropHandler, IPointerClickHandler
             }
             if(tempRune != null)
             {
-                if(runesManager.CanIReplaceThisRune(isNegativeCell, currentRune, rune.rune) == false)
+                if(runesManager.CanIReplaceThisRune(isNegativeCell, currentRune, rune.rune, indexRow, indexCell) == false)
                 {
                     InfotipManager.ShowWarning("Sorry, but you cannot replace this rune, because in this case, the parameter will be lower than allowed.");
                     return;

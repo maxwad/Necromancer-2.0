@@ -15,17 +15,17 @@ MonoBehaviour:
   unitName: Militia
   unitGO: {fileID: 4387482535749053680, guid: cc78e8712785a1444aa235793b8c9bf5, type: 3}
   unitIcon: {fileID: -3155761069584523039, guid: e756201b1c0648f4b9607dc384c97567, type: 3}
-  UnitHome: 0
-  UnitType: 0
-  health: 20
-  physicAttack: 2
+  unitHome: 0
+  unitType: 0
+  health: 4
+  physicAttack: 5
   physicDefence: 2
-  magicAttack: 0
+  magicAttack: 3
   magicDefence: 0
   speedAttack: 2
   size: 1
   level: 1
-  UnitAbility: 0
+  unitAbility: 0
   attackTool: {fileID: 394755954311998102, guid: aaa8f49f3f3fb474080b0b787f2ae961, type: 3}
   coinsPrice: 100
   foodPrice: 200

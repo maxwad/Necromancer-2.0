@@ -124,4 +124,20 @@ public class RunesStorage : MonoBehaviour
 
         return "";
     }
+
+    public bool GetRuneInvertion(RunesType type)
+    {
+        bool result;
+
+        foreach(var rune in runes)
+        {
+            if(rune.rune == type)
+            {
+                result = rune.isInvertedRune;
+                return result;
+            }
+        }
+
+        return false;
+    }
 }

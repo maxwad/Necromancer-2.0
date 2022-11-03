@@ -4,6 +4,7 @@ using static NameManager;
 public class BattleArmyController : MonoBehaviour
 {
     private Rigidbody2D rbPlayer;
+    private HeroController hero;
 
     private float speedBase;
     private float speed;
@@ -17,14 +18,15 @@ public class BattleArmyController : MonoBehaviour
     private void Start()
     {
         rbPlayer = GetComponent<Rigidbody2D>();
+        hero = GetComponentInChildren<HeroController>();
     }
 
     private void Update()
     {
         if (MenuManager.instance.IsTherePauseOrMiniPause() == false)
         {
-            float horizontalMovement = Input.GetAxisRaw("Horizontal");
-            float verticalMovement = Input.GetAxisRaw("Vertical");
+            float horizontalMovement = (hero.IsHeroDead()) ? 0 : Input.GetAxisRaw("Horizontal");
+            float verticalMovement = (hero.IsHeroDead()) ? 0 : Input.GetAxisRaw("Vertical");
 
             currentDirection = new Vector2(horizontalMovement, verticalMovement).normalized;
 

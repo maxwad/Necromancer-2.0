@@ -16,11 +16,11 @@ MonoBehaviour:
   EnemiesType: 5
   enemyGO: {fileID: 3384413393282376287, guid: 48c05a18defe97e429432194918e2e2f, type: 3}
   enemyIcon: {fileID: 5366457973745487733, guid: 4d7a02af42c41584d9d5e709e3d22033, type: 3}
-  health: 9
-  physicAttack: 3
-  physicDefence: 3
-  magicAttack: 1
-  magicDefence: 1
+  health: 11
+  physicAttack: 8
+  physicDefence: 5
+  magicAttack: 3
+  magicDefence: 3
   speedAttack: 1
   size: 1
   EnemyAbility: 0

@@ -15,7 +15,6 @@ public class WeaponDamage : MonoBehaviour
     private float physicAttack;
     private float magicAttack;
     private float criticalDamage;
-    private float bossMultiplier;
 
     [HideInInspector] public Unit unit;
 
@@ -37,7 +36,6 @@ public class WeaponDamage : MonoBehaviour
         physicAttack = physicAttackBase + physicAttackBase * boostManager.GetBoost(BoostType.PhysicAttack);
         magicAttack = magicAttackBase + magicAttackBase * boostManager.GetBoost(BoostType.MagicAttack);
         criticalDamage = luck + boostManager.GetBoost(BoostType.CriticalDamage);
-        bossMultiplier = boostManager.GetBoost(BoostType.BossDamade);
     }
 
     public void ClearEnemyList()
@@ -52,11 +50,14 @@ public class WeaponDamage : MonoBehaviour
             //we need to check for re-touch. if we don't need this then add enemy in list
             if(enemyList.Contains(collision.gameObject) == false)
             {
+                EnemyController enemy = collision.gameObject.GetComponent<EnemyController>();
+
                 if(unit.unitAbility == UnitsAbilities.Garlic)
                 {
-                    collision.gameObject.GetComponent<EnemyController>().TakeDamage(physicAttack, magicAttack, Vector3.zero);
+                    Hit(enemy, transform.position);
+                    //enemy.TakeDamage(physicAttack, magicAttack, Vector3.zero, isCriticalDamage);
 
-                    if(unit.level == 2) collision.GetComponent<EnemyController>().PushMe(transform.position, 5000f);
+                    if(unit.level == 2) enemy.PushMe(transform.position, 5000f);
                     if(unit.level == 3) collision.GetComponent<EnemyMovement>().MakeMeFixed(true, true);
 
                     enemyList.Add(collision.gameObject);
@@ -68,7 +69,8 @@ public class WeaponDamage : MonoBehaviour
                         unit.unitAbility == UnitsAbilities.Bow   ||
                         unit.unitAbility == UnitsAbilities.Knife)
                 {
-                    collision.gameObject.GetComponent<EnemyController>().TakeDamage(physicAttack, magicAttack, transform.position);
+                    Hit(enemy, transform.position);
+                    //enemy.TakeDamage(physicAttack, magicAttack, transform.position, isCriticalDamage);
                     enemyList.Add(collision.gameObject);
                 }
                 
@@ -79,7 +81,8 @@ public class WeaponDamage : MonoBehaviour
 
                 else
                 {
-                    collision.gameObject.GetComponent<EnemyController>().TakeDamage(physicAttack, magicAttack, transform.position);
+                    Hit(enemy, transform.position);
+                    //enemy.TakeDamage(physicAttack, magicAttack, transform.position);
                 }
             }           
             
@@ -92,12 +95,17 @@ public class WeaponDamage : MonoBehaviour
         }
     }
 
+    public void Hit(EnemyController enemy, Vector3 position)
+    {
+        bool isCriticalDamage = Random.Range(0, 100) < criticalDamage;
+        enemy.TakeDamage(physicAttack, magicAttack, position, isCriticalDamage);
+    }
+
     private void UpgradeParameters(BoostType boost, float value)
     {
         if(boost == BoostType.PhysicAttack) physicAttack = physicAttackBase + physicAttackBase * value;
         if(boost == BoostType.MagicAttack) magicAttack = magicAttackBase + magicAttackBase * value;
         if(boost == BoostType.CriticalDamage) criticalDamage = luck + value;
-        if(boost == BoostType.BossDamade) bossMultiplier = value;
     }
 
     private void OnEnable()

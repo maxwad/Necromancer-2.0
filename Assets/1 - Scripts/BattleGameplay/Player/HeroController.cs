@@ -41,7 +41,9 @@ public class HeroController : MonoBehaviour
 
     [Space]
     [SerializeField] GameObject damageNote;
+    private Color damageText = Color.white;
     private Color colorDamage = new Color(1f, 0.45f, 0.03f, 1);
+    private Color criticalColor = Color.black;
 
     [Header("UI")]
     [Space]
@@ -68,32 +70,12 @@ public class HeroController : MonoBehaviour
         SearchBonuses();
     }
 
-    //private void UpgradeTempExpGoal()
-    //{
-    //    float summExp;
-    //    float totalSummExp = 0;
-
-    //    for(int i = 1; i <= currentTempLevel + 1; i++)
-    //    {
-    //        summExp = (standartTempExpRate * levelMultiplierRate) * i + totalSummExp;
-    //        totalSummExp += summExp;
-    //    }
-
-    //    currentTempExpGoal = totalSummExp;
-    //}
-
     private void UpgradeTempExpGoal()
     {
         currentTempExp = 0;
         currentTempExpGoal = Mathf.Pow(((currentTempLevel + 1) / standartTempExpRate), levelMultiplierRate);
 
     }
-
-    //private void SetNewParameters(PlayersStats stat, float value)
-    //{
-    //    if(stat == PlayersStats.SearchRadius) searchRadius = value;
-    //    if(stat == PlayersStats.Defence) defence = value;
-    //}
 
     private void SetNewParameters(BoostType boost, float value)
     {
@@ -128,17 +110,31 @@ public class HeroController : MonoBehaviour
         unitSprite.color = normalColor;
     }
 
-    public void TakeDamage(float physicalDamage, float magicDamage)
+    public void TakeDamage(float physicalDamage, float magicDamage, bool isCritical = false)
     {
         //TODO: we need to create some damage formula
-        float damage = physicalDamage + magicDamage;
+        float phDamageComponent = physicalDamage - defence;
+        if(phDamageComponent < 0) phDamageComponent = 0;
+
+        float mDamageComponent = magicDamage - defence;
+        if(mDamageComponent < 0) mDamageComponent = 0;
+
+        float damage = phDamageComponent + mDamageComponent;
+
+        damageText = colorDamage;
+
+        if(isCritical == true)
+        {
+            damage *= 2;
+            damageText = criticalColor;
+        }
 
         resourcesManager.ChangeResource(ResourceType.Health, -damage);
         currentHealth = resourcesManager.GetResource(ResourceType.Health);
 
         if(currentHealth < 0) currentHealth = 0;
 
-        ShowDamage(damage, colorDamage);
+        ShowDamage(damage, damageText);
 
         if (currentHealth <= 0)
         {
@@ -146,12 +142,12 @@ public class HeroController : MonoBehaviour
         }
     }
 
-    private void ShowDamage(float damageValue, Color colorDamage)
+    private void ShowDamage(float damageValue, Color color)
     {
         GameObject damageObject = GlobalStorage.instance.objectsPoolManager.GetObject(ObjectPool.DamageText);
         damageObject.transform.position = transform.position;
         damageObject.SetActive(true);
-        damageObject.GetComponent<DamageText>().Iniatilize(damageValue, colorDamage);
+        damageObject.GetComponent<DamageText>().Iniatilize(damageValue, color);
     }
 
     #endregion
@@ -246,10 +242,14 @@ public class HeroController : MonoBehaviour
         resourcesManager.ChangeResource(ResourceType.Health, resourcesManager.maxHealth);
     }
 
+    public bool IsHeroDead()
+    {
+        return isDead;
+    }
+
     private void OnEnable()
     {
         EventManager.BonusPickedUp += AddTempExp;
-        //EventManager.SetNewPlayerStat += SetNewParameters;
         EventManager.SetBattleBoost += SetNewParameters;
         EventManager.SwitchPlayer += ResetTempLevel;
 
@@ -274,7 +274,6 @@ public class HeroController : MonoBehaviour
     private void OnDisable()
     {
         EventManager.BonusPickedUp -= AddTempExp;
-        //EventManager.SetNewPlayerStat -= SetNewParameters;
         EventManager.SetBattleBoost += SetNewParameters;
         EventManager.SwitchPlayer -= ResetTempLevel;
     }

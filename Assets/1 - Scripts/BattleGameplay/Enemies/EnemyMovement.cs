@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static NameManager;
 
 public class EnemyMovement : MonoBehaviour
 {
@@ -8,9 +9,10 @@ public class EnemyMovement : MonoBehaviour
     private Rigidbody2D rbEnemy;
     private Collider2D collEnemy;
     private SpriteRenderer sprite;
+    private BattleBoostManager boostManager;
 
-    private float speed = 1f;
-    private float originalSpeed;
+    private float speedBase = 1f;
+    private float speed;
     private float stuckTime = 0;
     private float maxStuckTime = 1f;
     private bool canICheckStucking = false;
@@ -33,7 +35,20 @@ public class EnemyMovement : MonoBehaviour
 
     private void OnEnable()
     {
-        originalSpeed = speed;
+        EventManager.SetBattleBoost += UpgradeParameters;
+
+        if(boostManager == null) boostManager = GlobalStorage.instance.unitBoostManager;
+        speed = speedBase + speedBase * boostManager.GetBoost(BoostType.EnemyMovementSpeed);
+    }
+
+    private void OnDisable()
+    {
+        EventManager.SetBattleBoost -= UpgradeParameters;
+    }
+
+    private void UpgradeParameters(BoostType boost, float value)
+    {
+        if(boost == BoostType.EnemyMovementSpeed) speed = speedBase + speedBase * value;
     }
 
     void Update()
@@ -107,12 +122,12 @@ public class EnemyMovement : MonoBehaviour
 
     public void BoostSpeed(float boost)
     {
-        speed += (speed * boost);
+        speedBase += (speedBase * boost);
     }
 
     public void ResetSpeed()
     {
-        speed = originalSpeed;
+        speedBase = 1;
     }
 
     private void OnBecameVisible()

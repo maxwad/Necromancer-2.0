@@ -35,7 +35,9 @@ public class RunesWindow : MonoBehaviour
     [SerializeField] private TMP_Text bonusAmount;
     [SerializeField] private TMP_Text bonusOpp;
     [SerializeField] private TMP_Text bonusRadius;
-    [SerializeField] private TMP_Text exp;
+    [SerializeField] private TMP_Text exp;    
+    [SerializeField] private TMP_Text spellActionTime;   
+    [SerializeField] private TMP_Text spellReloading;
 
     private Dictionary<RunesType, TMP_Text> boostDict;
 
@@ -75,7 +77,9 @@ public class RunesWindow : MonoBehaviour
             [RunesType.BonusAmount]      = bonusAmount,
             [RunesType.BonusOpportunity] = bonusOpp,
             [RunesType.BonusRadius]      = bonusRadius,
-            [RunesType.Exp]              = exp
+            [RunesType.Exp]              = exp,
+            [RunesType.SpellActionTime]  = spellActionTime,
+            [RunesType.SpellReloading]   = spellReloading
         };
 
         foreach(var boost in boostDict)
@@ -129,14 +133,14 @@ public class RunesWindow : MonoBehaviour
         string end = "";
 
         if(value > 0) { 
-            currentColor = (type == RunesType.CoolDown) ? negativeEffect : positiveEffect;
+            currentColor = (type == RunesType.CoolDown || type == RunesType.SpellActionTime || type == RunesType.SpellReloading) ? negativeEffect : positiveEffect;
             mark = "+";
             end = "%";
         }
 
         if(value < 0)
         {
-            currentColor = (type == RunesType.CoolDown) ? positiveEffect : negativeEffect;
+            currentColor = (type == RunesType.CoolDown || type == RunesType.SpellActionTime || type == RunesType.SpellReloading) ? positiveEffect : negativeEffect;
             end = "%";
         }
 

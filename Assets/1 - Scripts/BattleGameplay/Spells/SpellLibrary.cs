@@ -246,12 +246,10 @@ public class SpellLibrary : MonoBehaviour
     {
         if(mode == true)
         {
-            Debug.Log("Set boost");
             boostManager.SetBoost( BoostType.BonusAmount, BoostSender.Spell, BoostEffect.Battle, value);
         }
         else
         {
-            Debug.Log("Delete boost");
             boostManager.DeleteBoost(BoostType.BonusAmount, BoostSender.Spell, value);
         }
     }
@@ -405,7 +403,7 @@ public class SpellLibrary : MonoBehaviour
 
     private void ManningLess(bool mode)
     {
-        if(mode == true) bossCoroutine = StartCoroutine(StealMana(1));
+        if(mode == true) bossCoroutine = StartCoroutine(StealMana(-1));
 
         IEnumerator StealMana(float quantity)
         {

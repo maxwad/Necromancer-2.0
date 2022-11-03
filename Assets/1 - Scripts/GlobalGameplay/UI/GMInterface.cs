@@ -14,9 +14,6 @@ public class GMInterface : MonoBehaviour
     private PlayerPersonalWindow personalWindow;
     public Dictionary<ResourceType, float> resourcesDict = new Dictionary<ResourceType, float>();
 
-    [Header("Mana")]
-    [SerializeField] private TMP_Text manaCount;
-
     [Header("Resources")]
     [SerializeField] private TMP_Text goldCount;
     [SerializeField] private TMP_Text foodCount;
@@ -137,7 +134,7 @@ public class GMInterface : MonoBehaviour
             }
             else
             {
-                resource.Value.text = resourcesDict[resource.Key].ToString();
+                resource.Value.text = Mathf.Round(resourcesDict[resource.Key]).ToString();
             }
         }
     }
@@ -146,7 +143,7 @@ public class GMInterface : MonoBehaviour
     {
         if(type == ResourceType.Exp) return;
 
-        resourceCounters[type].text = value.ToString();
+        resourceCounters[type].text = Mathf.Round(value).ToString();
 
         if(type == ResourceType.Health || type == ResourceType.Mana) UpgrateManaHealthUI(type, value);
 
@@ -232,12 +229,14 @@ public class GMInterface : MonoBehaviour
         weekTooltip.content = decade.decadeDescription;
     }
 
+    #region Buttons
+
+    //BUTTON
     public void NextDay()
     {
         calendarManager.NextDay();
     }
 
-    #region Buttons
     public void OpenArmyWindow()
     {
         personalWindow.PressButton(armyKey);
