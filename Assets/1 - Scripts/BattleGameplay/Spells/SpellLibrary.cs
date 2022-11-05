@@ -87,7 +87,8 @@ public class SpellLibrary : MonoBehaviour
 
         if(mode == true)
         {
-            StartCoroutine(DeactivateSpell(spell, duration));            
+            float realDuration = duration + duration * boostManager.GetBoost( BoostType.SpellActionTime);
+            StartCoroutine(DeactivateSpell(spell, realDuration));            
         }
     }
 

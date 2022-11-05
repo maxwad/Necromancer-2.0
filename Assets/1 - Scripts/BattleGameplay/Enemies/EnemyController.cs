@@ -40,7 +40,7 @@ public class EnemyController : MonoBehaviour
     private float delayAttack;
     private float bossDamageMultiplier;
 
-    private float maxDamage = 500;
+    private float maxDamage = 300;
     private SpriteRenderer enemySprite;
     private Color normalColor = Color.white;
     private Color damageColor = Color.black;
@@ -81,7 +81,12 @@ public class EnemyController : MonoBehaviour
     private void LateUpdate()
     {
         // we need check for death here because enemy can get much damage at the same time and activate few dead functions
-        if(currentHealth <= 0) Dead();
+        if(currentHealth <= 0) 
+        {
+            //BuildDebagger.instance.Show("Check health");
+            Dead();
+
+        }
     }
 
     public void Initialize(Enemy stats = null)
@@ -92,7 +97,6 @@ public class EnemyController : MonoBehaviour
         enemyName         = originalStats.enemyName;
         icon              = originalStats.enemyIcon;
 
-        healthBase        = originalStats.health;
         magicAttackBase   = originalStats.magicAttack;
         physicAttackBase  = originalStats.physicAttack;
         magicDefenceBase  = originalStats.magicDefence;
@@ -104,6 +108,9 @@ public class EnemyController : MonoBehaviour
         attackTool        = originalStats.attackTool;
 
         exp               = originalStats.exp;
+
+        healthBase        = originalStats.health;
+        currentHealth     = healthBase;
     }
 
 
@@ -164,7 +171,8 @@ public class EnemyController : MonoBehaviour
 
     public void Kill()
     {
-        float damage = currentHealth > maxDamage ? maxDamage : currentHealth;
+        float damage = currentHealth + magicDefence + physicDefence;
+        if(damage > maxDamage) damage = maxDamage;
         TakeDamage(damage, damage, Vector3.zero);
     }
 
@@ -297,6 +305,7 @@ public class EnemyController : MonoBehaviour
         if(boostManager == null) boostManager = GlobalStorage.instance.unitBoostManager;
 
         health = healthBase + healthBase * boostManager.GetBoost(BoostType.EnemyHealth);
+        currentHealth = health;
         physicAttack = physicAttackBase + physicAttackBase * boostManager.GetBoost(BoostType.EnemyPhysicAttack);
         physicDefence = physicDefenceBase + physicDefenceBase * boostManager.GetBoost(BoostType.EnemyPhysicDefence);
         magicAttack = magicAttackBase + magicAttackBase * boostManager.GetBoost(BoostType.EnemyMagicAttack);
@@ -305,6 +314,8 @@ public class EnemyController : MonoBehaviour
         bossDamageMultiplier = boostManager.GetBoost(BoostType.BossDamade);
 
         delayAttack = speedAttack;
+
+        //BuildDebagger.instance.Show("Enable with " + health + " health"); 
     }
 
     private void OnDisable()

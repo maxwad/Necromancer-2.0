@@ -103,6 +103,8 @@ public class RunePlaceItem : MonoBehaviour, IDropHandler, IPointerClickHandler
 
         allowedLevel = (runesWindow == null) ? -1 : runesWindow.CheckNegativeCell(indexCell);
         isUnlocked = (allowedLevel == -1) ? false : true;
+        if(currentRune != null && allowedLevel < currentRune.level) isUnlocked = false;
+
         lockImage.gameObject.SetActive(!isUnlocked);
 
         if(currentRune != null)
@@ -113,7 +115,10 @@ public class RunePlaceItem : MonoBehaviour, IDropHandler, IPointerClickHandler
             }
             else
             {
-                FillCell();
+                if(allowedLevel < currentRune.level)
+                    ClearCell();
+                else
+                    FillCell();
             }
         }            
     }
@@ -138,11 +143,7 @@ public class RunePlaceItem : MonoBehaviour, IDropHandler, IPointerClickHandler
 
         currentRune = null;
         runesManager.ApplyRune(indexRow, indexCell, currentRune);
-        if(indexRow == 2)
-        {
 
-            Debug.Log("Clesr");
-        }
         tempRune.ResetRune();
         tempRune = null;
     }

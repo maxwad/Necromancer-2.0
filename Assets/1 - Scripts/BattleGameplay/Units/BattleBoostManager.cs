@@ -107,7 +107,10 @@ public class BattleBoostManager : MonoBehaviour
 
     public float GetBoost(BoostType boostType)
     {
-        return (boostType == BoostType.Nothing) ? 0 : commonBoostDict[boostType] / 100;
+        float result = (boostType == BoostType.Nothing) ? 0 : commonBoostDict[boostType] / 100;
+        if(result < -0.99) result = -0.99f;
+   
+        return result;
     }
 
     private void ClearBattleBonuses()

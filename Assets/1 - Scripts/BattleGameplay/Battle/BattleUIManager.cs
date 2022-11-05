@@ -33,6 +33,7 @@ public class BattleUIManager : MonoBehaviour
     private float currentMaxLevel;
     private float currenLevel;
     [SerializeField] private Color activeTempLevelColor;
+    [SerializeField] private Color inactiveTempLevelColor;
     private List<Image> levelList = new List<Image>();
 
     [Header("Exp Effects")]
@@ -387,7 +388,7 @@ public class BattleUIManager : MonoBehaviour
 
             rectLevel.anchoredPosition = new Vector2(0, heigthOneLevel * (i + 1));
 
-            levelPart.GetComponent<Image>().color = Color.white;
+            levelPart.GetComponent<Image>().color = inactiveTempLevelColor;
             levelPart.GetComponentInChildren<TMP_Text>().text = (i + 1).ToString();
 
             levelList.Add(levelPart.GetComponent<Image>());

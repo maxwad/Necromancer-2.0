@@ -16,8 +16,8 @@ public class RunesManager : MonoBehaviour
         public RuneBoost(int rowIndex, int cellIndex, RuneSO rune)
         {
             float value = rune.value;
-            if(rowIndex == 1 && (rune.rune != RunesType.CoolDown || rune.rune != RunesType.SpellActionTime || rune.rune != RunesType.SpellReloading)) value = -value;
-            if(rowIndex != 1 && (rune.rune == RunesType.CoolDown || rune.rune == RunesType.SpellActionTime || rune.rune == RunesType.SpellReloading)) value = -value;
+            if(rowIndex == 1 && rune.isInvertedRune == false) value = -value;
+            if(rowIndex != 1 && rune.isInvertedRune == true) value = -value;
 
             row = rowIndex;
             cell = cellIndex;
@@ -112,21 +112,45 @@ public class RunesManager : MonoBehaviour
         {
             if(boost.Value < limitValue)
             {
+                Debug.Log("We find problem with " + boost.Key);
+                bool isRuneInverted = runesStorage.GetRuneInvertion(boost.Key);
                 overflowType = boost.Key;
                 List<RuneBoost> tempList = runeBoostesDict[overflowType];
                 for(int i = 0; i < tempList.Count; i++)
                 {
-                    if(tempList[i].row == 1)
+                    if(isRuneInverted == true)
                     {
-                        continue;
+                        Debug.Log("Rune INVERTED");
+                        if(tempList[i].row == 1)
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            Debug.Log("Try to find overflow in positive cells");
+                            finded = true;
+                            cell = tempList[tempList.Count - 1].cell;
+                            row = tempList[tempList.Count - 1].row;
+                            break;
+                        }
                     }
                     else
                     {
-                        finded = true;
-                        cell = tempList[tempList.Count - 1].cell;
-                        row = tempList[tempList.Count - 1].row;
-                        break;
+                        Debug.Log("Rune NOT inverted");
+                        if(tempList[i].row != 1)
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            Debug.Log("Try to find overflow in negative cells");
+                            finded = true;
+                            cell = tempList[tempList.Count - 1].cell;
+                            row = tempList[tempList.Count - 1].row;
+                            break;
+                        }
                     }
+                    
                 }                
             }
         }
@@ -184,14 +208,14 @@ public class RunesManager : MonoBehaviour
 
         if(negativeMode == true)
         {
-            if(rune.rune != RunesType.CoolDown && rune.rune != RunesType.SpellActionTime && rune.rune != RunesType.SpellReloading)
+            if(rune.isInvertedRune == false)
                 result = (commonBoostDict[rune.rune] - rune.value >= limitValue);
             else
                 result = true;
         }
         else
         {
-            if(rune.rune == RunesType.CoolDown || rune.rune == RunesType.SpellActionTime || rune.rune == RunesType.SpellReloading)
+            if(rune.isInvertedRune == true)
                 result = (commonBoostDict[rune.rune] - rune.value >= limitValue);
             else
                 result = true;
@@ -206,14 +230,14 @@ public class RunesManager : MonoBehaviour
 
         if(negativeMode == true)
         {
-            if(newRune.rune != RunesType.CoolDown && newRune.rune != RunesType.SpellActionTime && newRune.rune != RunesType.SpellReloading)
+            if(newRune.isInvertedRune == false)
                 result = (commonBoostDict[oldRune.rune] - newRune.value + oldRune.value >= limitValue);
             else
                 result = true;
         }
         else
         {
-            if(newRune.rune == RunesType.CoolDown || newRune.rune == RunesType.SpellActionTime || newRune.rune == RunesType.SpellReloading)
+            if(newRune.isInvertedRune == true)
                 result = (commonBoostDict[oldRune.rune] - newRune.value + oldRune.value >= limitValue);
             else
                 result = true;

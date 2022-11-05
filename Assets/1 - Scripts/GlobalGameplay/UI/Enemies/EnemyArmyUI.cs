@@ -66,9 +66,7 @@ public class EnemyArmyUI : MonoBehaviour
                 ShowMinimumInfo();
             else
                 ShowDetailedInfo();
-        }
-
-        
+        }        
     }
 
     private void ShowMinimumInfo()
@@ -148,19 +146,19 @@ public class EnemyArmyUI : MonoBehaviour
         uiPanel.SetActive(false);
     }
 
-    public void ToTheBattle()
-    {
-        CloseWindow();
-        GlobalStorage.instance.battleManager.InitializeBattle();
-    }
+    //public void ToTheBattle()
+    //{
+    //    CloseWindow();
+    //    GlobalStorage.instance.battleManager.InitializeBattle();
+    //}
 
-    public void AutoBattle()
-    {
-        GlobalStorage.instance.battleManager.AutoBattle();
-    }
+    //public void AutoBattle()
+    //{
+    //    GlobalStorage.instance.battleManager.AutoBattle();
+    //}
 
-    public void StepBack()
-    {
-        CloseWindow();
-    }
+    //public void StepBack()
+    //{
+    //    CloseWindow();
+    //}
 }

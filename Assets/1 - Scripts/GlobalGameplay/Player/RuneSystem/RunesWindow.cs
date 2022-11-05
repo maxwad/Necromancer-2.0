@@ -126,26 +126,27 @@ public class RunesWindow : MonoBehaviour
         }
     }
 
-    public void UpdateParameters(RunesType type, float value)
+    public void UpdateParameters(RunesType currentType, float value)
     {
+        bool isInverted = runesManager.runesStorage.GetRuneInvertion(currentType);
         Color currentColor = Color.white;
         string mark = "";
         string end = "";
 
         if(value > 0) { 
-            currentColor = (type == RunesType.CoolDown || type == RunesType.SpellActionTime || type == RunesType.SpellReloading) ? negativeEffect : positiveEffect;
+            currentColor = (isInverted == true) ? negativeEffect : positiveEffect;
             mark = "+";
             end = "%";
         }
 
         if(value < 0)
         {
-            currentColor = (type == RunesType.CoolDown || type == RunesType.SpellActionTime || type == RunesType.SpellReloading) ? positiveEffect : negativeEffect;
+            currentColor = (isInverted == true) ? positiveEffect : negativeEffect;
             end = "%";
         }
 
-        boostDict[type].color = currentColor;
-        boostDict[type].text = mark + value.ToString() + end;
+        boostDict[currentType].color = currentColor;
+        boostDict[currentType].text = mark + value.ToString() + end;
     }
 
     public void CutRuneFromList(RuneUIItem rune)
@@ -170,9 +171,9 @@ public class RunesWindow : MonoBehaviour
 
     public void FindAndClearRune(int row, int cell)
     {
-        if(row == 1) return;
-
         RunesRowWrapper runesRow = firstRuneRow;
+
+        if(row == 1) runesRow = negativeRuneRow;
 
         if(row == 2) runesRow = bonusRuneRow;
 

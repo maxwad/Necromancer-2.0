@@ -212,7 +212,7 @@ public class PlayerPersonalWindow : MonoBehaviour
             battleButton.SetActive(true);
             stepbackButton.SetActive(true);
 
-            if(playerCuriosity == 3)
+            if(playerCuriosity >= 3)
             {
                 autobattleButton.SetActive(true);
 

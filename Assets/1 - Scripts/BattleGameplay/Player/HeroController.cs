@@ -14,7 +14,9 @@ public class HeroController : MonoBehaviour
     [SerializeField] private float currentTempLevel;
     [SerializeField] public float currentMaxLevel;
 
-    private float standartTempExpRate = 0.5f;
+    //private float standartTempExpRate = 0.5f;
+    //private float levelMultiplierRate = 1f;
+    private float standartTempExpRate = 0.025f;
     private float levelMultiplierRate = 1f;
     private float currentTempExpGoal;
     private float currentTempExp;
@@ -75,6 +77,7 @@ public class HeroController : MonoBehaviour
         currentTempExp = 0;
         currentTempExpGoal = Mathf.Pow(((currentTempLevel + 1) / standartTempExpRate), levelMultiplierRate);
 
+        //Debug.Log(currentTempExpGoal);
     }
 
     private void SetNewParameters(BoostType boost, float value)

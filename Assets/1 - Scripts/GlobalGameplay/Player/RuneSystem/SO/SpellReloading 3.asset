@@ -18,7 +18,7 @@ MonoBehaviour:
   activeIcon: {fileID: -5233075641874642883, guid: 108daa14e3115264995337bc498c548a, type: 3}
   inActiveIcon: {fileID: -7775079168623103626, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
   level: 3
-  value: 7.5
+  value: 8
   isInvertedRune: 1
   cost:
   - type: 7
@@ -29,10 +29,10 @@ MonoBehaviour:
     amount: 100
   realCost:
   - type: 7
-    amount: 50
+    amount: 150
   - type: 1
-    amount: 100
+    amount: 300
   - type: 4
-    amount: 100
+    amount: 300
   positiveDescription: Decreases spell reloading by $%.
   negativeDescription: Increases spell reloading by $%.

@@ -7,6 +7,7 @@ using static NameManager;
 public class SpellButtonController : MonoBehaviour
 {
     private ResourcesManager resourcesManager;
+    private BattleBoostManager boostManager;
 
     [SerializeField] private SpellStat spell;
     [SerializeField] private Image veil;
@@ -35,6 +36,7 @@ public class SpellButtonController : MonoBehaviour
         hero = GlobalStorage.instance.hero;
         spellLibrary = GlobalStorage.instance.spellManager.GetComponent<SpellLibrary>();
         resourcesManager = GlobalStorage.instance.resourcesManager;
+        boostManager = GlobalStorage.instance.unitBoostManager;
 
         spell = newSpell;
 
@@ -71,8 +73,6 @@ public class SpellButtonController : MonoBehaviour
 
     private bool CheckMana()
     {
-        //float currentManaCount = resourcesManager.GetResource(ResourceType.Mana);
-        //return !(currentManaCount - spell.manaCost >= 0);
         return !resourcesManager.CheckMinResource(ResourceType.Mana, spell.manaCost);
     }
 
@@ -104,11 +104,12 @@ public class SpellButtonController : MonoBehaviour
 
         checkDelay = new WaitForSeconds(checkTimeDelay);
         float currentWaitingTime = 0;
+        float reloadingTime = spell.reloading + spell.reloading * boostManager.GetBoost(BoostType.SpellReloading);
 
         veil.gameObject.SetActive(true);
-        float veilStep = 1 / (spell.reloading / checkTimeDelay);
+        float veilStep = 1 / (reloadingTime / checkTimeDelay);
 
-        while(currentWaitingTime <= spell.reloading)
+        while(currentWaitingTime <= reloadingTime)
         {
             currentWaitingTime += checkTimeDelay;
             yield return checkDelay;

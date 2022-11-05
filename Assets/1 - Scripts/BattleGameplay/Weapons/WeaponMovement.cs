@@ -140,7 +140,7 @@ public class WeaponMovement : MonoBehaviour
             weaponDamage.ClearEnemyList();
         }
 
-        if(unit == null)
+        if(unit.unitController == null)
         {
             weaponStorage.isBibleWork = false;
             DestroyWeapon();
