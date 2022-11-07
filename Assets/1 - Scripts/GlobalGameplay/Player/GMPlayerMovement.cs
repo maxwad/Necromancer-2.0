@@ -63,9 +63,9 @@ public class GMPlayerMovement : MonoBehaviour
 
     private void SetParameters()
     {
-        movementPointsMax = playerStats.GetCurrentParameter(PlayersStats.MovementDistance);
+        movementPointsMax = Mathf.Round(playerStats.GetCurrentParameter(PlayersStats.MovementDistance));
         extraMovementPoints = playerStats.GetCurrentParameter(PlayersStats.ExtraMovementPoints);
-        viewRadius = playerStats.GetCurrentParameter(PlayersStats.MovementDistance);
+        viewRadius = Mathf.Round(playerStats.GetCurrentParameter(PlayersStats.MovementDistance));
         luck = playerStats.GetCurrentParameter(PlayersStats.Luck);
     }
 
@@ -112,10 +112,12 @@ public class GMPlayerMovement : MonoBehaviour
     {
         if(stats == PlayersStats.MovementDistance)
         {
-            movementPointsMax = value;
+
+            Debug.Log("Points = " + value);
+            movementPointsMax = Mathf.Round(value);
             ChangeMovementPoints(movementPointsMax);
 
-            viewRadius = value;
+            viewRadius = Mathf.Round(value);
             gmPathFinder.CheckFog(isFogNeeded, viewRadius);
         }
 

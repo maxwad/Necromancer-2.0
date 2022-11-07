@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Reward from Box I
   serieName: Reward from Box
-  abilitySeries: 12
-  ability: 12
+  abilitySeries: 1006
+  ability: 1006
   activeIcon: {fileID: 192945328865011355, guid: 108daa14e3115264995337bc498c548a, type: 3}
   inActiveIcon: {fileID: 5358866250805651070, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
   level: 1

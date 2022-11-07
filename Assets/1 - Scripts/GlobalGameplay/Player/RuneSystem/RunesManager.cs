@@ -275,7 +275,7 @@ public class RunesManager : MonoBehaviour
             {
                 if(boost.cell == level)
                 {
-                    boostManager.SetBoost(BoostConverter.instance.RuneToBoostType(boostList.Key), BoostSender.Rune, BoostEffect.Battle, boost.boost);
+                    boostManager.SetBoost(BoostConverter.instance.RuneToBoostType(boostList.Key), BoostSender.Rune, BoostEffect.PlayerBattle, boost.boost);
                 }
             }            
         }

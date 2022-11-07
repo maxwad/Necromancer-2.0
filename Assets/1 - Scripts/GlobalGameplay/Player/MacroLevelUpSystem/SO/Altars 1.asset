@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Help of the Gods I
   serieName: Help of the Gods
-  abilitySeries: 16
-  ability: 16
+  abilitySeries: 26
+  ability: 26
   activeIcon: {fileID: -8811631546484903431, guid: 108daa14e3115264995337bc498c548a, type: 3}
   inActiveIcon: {fileID: -2774841285692986794, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
   level: 1

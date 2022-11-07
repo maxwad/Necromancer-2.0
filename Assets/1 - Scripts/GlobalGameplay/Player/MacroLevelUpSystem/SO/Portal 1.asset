@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Portal Lord I
   serieName: Portal Lord
-  abilitySeries: 25
-  ability: 25
+  abilitySeries: 1017
+  ability: 1017
   activeIcon: {fileID: -2528446233396318078, guid: 108daa14e3115264995337bc498c548a, type: 3}
   inActiveIcon: {fileID: -113779281116380953, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
   level: 1

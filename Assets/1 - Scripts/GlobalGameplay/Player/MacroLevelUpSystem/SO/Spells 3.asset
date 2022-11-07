@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Magic III
   serieName: Magic
-  abilitySeries: 14
-  ability: 14
+  abilitySeries: 1007
+  ability: 1007
   activeIcon: {fileID: 8708852719514652166, guid: 108daa14e3115264995337bc498c548a, type: 3}
   inActiveIcon: {fileID: 551698477334685344, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
   level: 3

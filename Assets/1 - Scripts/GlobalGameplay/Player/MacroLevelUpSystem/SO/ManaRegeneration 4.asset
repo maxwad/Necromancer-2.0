@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Magic Overflow
   serieName: Craving to wiz
-  abilitySeries: 27
-  ability: 21
+  abilitySeries: 29
+  ability: 1013
   activeIcon: {fileID: -8338915024618380500, guid: 108daa14e3115264995337bc498c548a, type: 3}
   inActiveIcon: {fileID: -1371021556273102822, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
   level: 4

@@ -194,9 +194,15 @@ public class PlayerStats : MonoBehaviour
         allStatsDict[stat] = upgradedStat;
 
         EventManager.OnSetNewPlayerStatEvent(stat, GetCurrentParameter(stat));
-        Debug.Log("Now " + stat + " = " + GetCurrentParameter(stat));
+        //Debug.Log("Now " + stat + " = " + GetCurrentParameter(stat));
     }
     
+    public void ForceUpdateStat(PlayersStats stat)
+    {
+        EventManager.OnSetNewPlayerStatEvent(stat, GetCurrentParameter(stat));
+        Debug.Log("Now " + stat + " = " + GetCurrentParameter(stat));
+    }
+
     //private void AddBoostToStat(PlayersStats stat, float value)
     //{
     //    Stat upgradedStat = allStatsDict[stat];

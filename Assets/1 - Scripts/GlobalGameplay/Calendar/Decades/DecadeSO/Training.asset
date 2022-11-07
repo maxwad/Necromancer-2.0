@@ -13,8 +13,6 @@ MonoBehaviour:
   m_Name: Training
   m_EditorClassIdentifier: 
   decadeName: Week of Training
-  decadeDescription: Experience for battles increased by $%;
-  boostType: 2
-  value: 25
-  isPercentType: 1
-  icon: {fileID: 0}
+  effect: {fileID: 11400000, guid: d9708c0064edb4b4f9477147ed4206c2, type: 2}
+  purpose: 1
+  isNegative: 0

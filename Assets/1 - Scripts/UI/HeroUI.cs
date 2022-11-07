@@ -42,7 +42,7 @@ public class HeroUI : MonoBehaviour
         mana.text = playerStats.GetCurrentParameter(PlayersStats.Mana).ToString();
         defence.text = playerStats.GetCurrentParameter(PlayersStats.Defence).ToString();
         //speed.text = playerStats.GetCurrentParameter(PlayersStats.Speed).ToString();
-        movementPoints.text = playerStats.GetCurrentParameter(PlayersStats.MovementDistance).ToString();
+        movementPoints.text = (Mathf.Round(playerStats.GetCurrentParameter(PlayersStats.MovementDistance))).ToString();
         luck.text = playerStats.GetCurrentParameter(PlayersStats.Luck).ToString();
 
         float hReg = playerStats.GetCurrentParameter(PlayersStats.HealthRegeneration);

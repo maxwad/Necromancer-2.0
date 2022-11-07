@@ -317,7 +317,7 @@ public class BattleUIManager : MonoBehaviour
 
             foreach(var boost in tempList)
             {
-                if(boost.effect == BoostEffect.Battle)
+                if(boost.effect == BoostEffect.PlayerBattle)
                 {
                     if(boostDict.ContainsKey(item.Key))
                         boostDict[item.Key] += boost.value;

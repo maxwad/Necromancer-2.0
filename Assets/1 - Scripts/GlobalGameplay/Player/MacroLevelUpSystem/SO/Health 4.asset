@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: The Best Health
   serieName: Good Health
-  abilitySeries: 1
-  ability: 1
+  abilitySeries: 1001
+  ability: 1001
   activeIcon: {fileID: -9182444569370219373, guid: 108daa14e3115264995337bc498c548a, type: 3}
   inActiveIcon: {fileID: -4984331486207475403, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
   level: 4

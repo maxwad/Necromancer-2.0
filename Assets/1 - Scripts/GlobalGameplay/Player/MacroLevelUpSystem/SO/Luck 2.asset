@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Lucky you II
   serieName: Lucky you
-  abilitySeries: 7
-  ability: 7
+  abilitySeries: 5
+  ability: 5
   activeIcon: {fileID: 3411644457050541746, guid: 108daa14e3115264995337bc498c548a, type: 3}
   inActiveIcon: {fileID: 8333201735923517128, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
   level: 2

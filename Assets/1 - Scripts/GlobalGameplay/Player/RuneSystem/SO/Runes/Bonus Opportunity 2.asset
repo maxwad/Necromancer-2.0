@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86389294920170a4aaa2b768d66bee16, type: 3}
+  m_Name: Bonus Opportunity 2
+  m_EditorClassIdentifier: 
+  runeName: Bonus Opportunity II
+  rune: 10
+  source: 2
+  activeIcon: {fileID: -6803550258357295838, guid: 108daa14e3115264995337bc498c548a, type: 3}
+  inActiveIcon: {fileID: 7462020055656046795, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
+  level: 2
+  value: 10
+  isInvertedRune: 0
+  cost:
+  - type: 7
+    amount: 50
+  - type: 0
+    amount: 1000
+  - type: 4
+    amount: 500
+  realCost:
+  - type: 7
+    amount: 100
+  - type: 0
+    amount: 2000
+  - type: 4
+    amount: 1000
+  positiveDescription: Increases the ability to get a bonus on the battlefield by
+    $%.
+  negativeDescription: Decreases the ability to get a bonus on the battlefield by
+    $%.

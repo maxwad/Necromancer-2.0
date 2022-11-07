@@ -15,8 +15,9 @@ public class Cost
 public class RuneSO : ScriptableObject
 {
     public string runeName;
-    public string serieName;
+    //public string serieName;
     public RunesType rune;
+    public BoostSender source;
     public Sprite activeIcon;
     public Sprite inActiveIcon;
     public int level;

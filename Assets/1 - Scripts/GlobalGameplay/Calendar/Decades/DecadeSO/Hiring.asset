@@ -13,8 +13,6 @@ MonoBehaviour:
   m_Name: Hiring
   m_EditorClassIdentifier: 
   decadeName: Week of Patriotism
-  decadeDescription: Hiring units increased by $%
-  boostType: 0
-  value: 30
-  isPercentType: 1
-  icon: {fileID: 0}
+  effect: {fileID: 11400000, guid: 6618e0ca6d3c379429fb107f399f6fec, type: 2}
+  purpose: 1
+  isNegative: 0

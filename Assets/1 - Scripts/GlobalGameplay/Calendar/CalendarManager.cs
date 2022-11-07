@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static NameManager;
 
 public class CalendarData
 {
@@ -37,31 +38,30 @@ public class CalendarManager : MonoBehaviour
     private int monthsPassed = 0;
 
     private int year = 0;
-    private int yearPassed = 0;
+    private int yearsPassed = 0;
 
     private GMInterface gmInterface;
     private CalendarData calendarData;
-    private CalendarBoostActivator activator;
 
     [Header("Decades List")]
-    [SerializeField] private List<DecadeSO> decadeSOList;
-    [SerializeField] private List<Decade> decadeList = new List<Decade>();
+    [SerializeField] private List<DecadeSO> decadeList;
 
-    private Decade currentDecadeEffect;
+    private DecadeSO currentDecadeEffect;
     private int currentDecadeIndex = 0;
+    private BattleBoostManager boostManager;
 
 
     private void Start()
     {
+        boostManager = GlobalStorage.instance.unitBoostManager;
         gmInterface = GlobalStorage.instance.gmInterface;
-        activator = GetComponent<CalendarBoostActivator>();
         calendarData = new CalendarData(daysLeft, day, decade, month);
         gmInterface.UpdateCalendar(calendarData);
 
-        for(int i = 0; i < decadeSOList.Count; i++)
-        {
-            decadeList.Add(new Decade(decadeSOList[i], i));
-        }
+        //for(int i = 0; i < decadeList.Count; i++)
+        //{
+        //    //decadeList.Add(new Decade(decadeList[i], i));
+        //}
 
         decadeList = ShuffleList(decadeList);
         NewDecade();
@@ -117,7 +117,7 @@ public class CalendarManager : MonoBehaviour
         {        
             //new year
             year++;
-            yearPassed++;
+            yearsPassed++;
             month = 1;
         }
 
@@ -125,9 +125,9 @@ public class CalendarManager : MonoBehaviour
         gmInterface.UpdateCalendar(calendarData);
     }
 
-    private List<Decade> ShuffleList(List<Decade> oldList)
+    private List<DecadeSO> ShuffleList(List<DecadeSO> oldList)
     {
-        List<Decade> newList = new List<Decade>();
+        List<DecadeSO> newList = new List<DecadeSO>();
 
         int counter = oldList.Count;
         for(int i = 0; i < counter; i++)
@@ -141,9 +141,22 @@ public class CalendarManager : MonoBehaviour
     }
 
     private void NewDecade()
-    {      
+    {
+        BoostType boost;
+        float value;
+
+        if(currentDecadeEffect != null)
+        {
+            boost = BoostConverter.instance.RuneToBoostType(currentDecadeEffect.effect.rune);
+            value = (currentDecadeEffect.isNegative == true) ? -currentDecadeEffect.effect.value : currentDecadeEffect.effect.value;
+            boostManager.DeleteBoost(boost, BoostSender.Calendar, value);
+        }        
+
         currentDecadeEffect = decadeList[currentDecadeIndex];
         gmInterface.UpdateDecadeOnCalendar(currentDecadeEffect);
-        activator.ActivateBoost(currentDecadeEffect);
+
+        boost = BoostConverter.instance.RuneToBoostType(currentDecadeEffect.effect.rune);
+        value = (currentDecadeEffect.isNegative == true) ? -currentDecadeEffect.effect.value : currentDecadeEffect.effect.value;
+        boostManager.SetBoost(boost, BoostSender.Calendar, currentDecadeEffect.purpose, value);
     }
 }

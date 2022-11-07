@@ -13,8 +13,6 @@ MonoBehaviour:
   m_Name: Luck
   m_EditorClassIdentifier: 
   decadeName: Week of Luck
-  decadeDescription: Hero's luck increased by $.
-  boostType: 4
-  value: 5
-  isPercentType: 0
-  icon: {fileID: 0}
+  effect: {fileID: 11400000, guid: e2b25286f412dc0439f085b4dffe156b, type: 2}
+  purpose: 1
+  isNegative: 0

@@ -13,8 +13,6 @@ MonoBehaviour:
   m_Name: Movement
   m_EditorClassIdentifier: 
   decadeName: Week of Mobility
-  decadeDescription: Movement points increased by $
-  boostType: 7
-  value: 2
-  isPercentType: 0
-  icon: {fileID: 0}
+  effect: {fileID: 11400000, guid: bc981f35800500847b219f5c2b9ecc49, type: 2}
+  purpose: 1
+  isNegative: 0

@@ -13,8 +13,6 @@ MonoBehaviour:
   m_Name: AntiEnemyDefence
   m_EditorClassIdentifier: 
   decadeName: Week of Weakness
-  decadeDescription: Enemy defence reduced by $
-  boostType: 6
-  value: -1
-  isPercentType: 0
-  icon: {fileID: 0}
+  effect: {fileID: 11400000, guid: e0ddbde5fb942bf44a7f29c1fdd18d7b, type: 2}
+  purpose: 1
+  isNegative: 1

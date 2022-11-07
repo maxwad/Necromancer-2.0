@@ -207,7 +207,7 @@ public class GMInterface : MonoBehaviour
         skillsButton.GetComponent<Animator>().SetBool(TagManager.A_BLINK, mode);
     }
 
-    public void UpdateCurrentMoves( float currentValue)
+    public void UpdateCurrentMoves(float currentValue)
     {
         currentMovesCount.text = currentValue.ToString();
 
@@ -223,10 +223,14 @@ public class GMInterface : MonoBehaviour
         currentMonthCount.text = data.currentMonth.ToString();
     }
 
-    public void UpdateDecadeOnCalendar(Decade decade)
+    public void UpdateDecadeOnCalendar(DecadeSO decade)
     {
         weekDescription.text = decade.decadeName;
-        weekTooltip.content = decade.decadeDescription;
+
+        string description = (decade.isNegative == true) ? decade.effect.negativeDescription : decade.effect.positiveDescription;
+        description = description.Replace("$", decade.effect.value.ToString());
+
+        weekTooltip.content = description;
     }
 
     #region Buttons

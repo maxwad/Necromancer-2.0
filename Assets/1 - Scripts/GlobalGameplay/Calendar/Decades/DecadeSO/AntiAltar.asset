@@ -13,9 +13,6 @@ MonoBehaviour:
   m_Name: AntiAltar
   m_EditorClassIdentifier: 
   decadeName: Week of Wrath of the Gods
-  decadeDescription: The size of the offerings on the altars for healing units is
-    increased by $%
-  boostType: 3
-  value: 50
-  isPercentType: 1
-  icon: {fileID: 0}
+  effect: {fileID: 11400000, guid: 12c2dcf2d1b190847be8b11f013fbebf, type: 2}
+  purpose: 1
+  isNegative: 1

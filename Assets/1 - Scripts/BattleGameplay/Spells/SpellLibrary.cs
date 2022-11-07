@@ -110,7 +110,7 @@ public class SpellLibrary : MonoBehaviour
     {
         if(mode == true)
         {
-            boostManager.SetBoost(BoostType.MovementSpeed, BoostSender.Spell, BoostEffect.Battle, value);
+            boostManager.SetBoost(BoostType.MovementSpeed, BoostSender.Spell, BoostEffect.PlayerBattle, value);
         }
         else
         {
@@ -124,8 +124,8 @@ public class SpellLibrary : MonoBehaviour
     {
         if(mode == true)
         {
-            boostManager.SetBoost(BoostType.MagicAttack, BoostSender.Spell, BoostEffect.Battle, value);
-            boostManager.SetBoost(BoostType.PhysicAttack, BoostSender.Spell, BoostEffect.Battle, value);
+            boostManager.SetBoost(BoostType.MagicAttack, BoostSender.Spell, BoostEffect.PlayerBattle, value);
+            boostManager.SetBoost(BoostType.PhysicAttack, BoostSender.Spell, BoostEffect.PlayerBattle, value);
         }
         else
         {
@@ -140,7 +140,7 @@ public class SpellLibrary : MonoBehaviour
     {
         if(mode == true)
         {
-            boostManager.SetBoost(BoostType.CriticalDamage, BoostSender.Spell, BoostEffect.Battle, value);
+            boostManager.SetBoost(BoostType.CriticalDamage, BoostSender.Spell, BoostEffect.PlayerBattle, value);
         }
         else
         {
@@ -154,7 +154,7 @@ public class SpellLibrary : MonoBehaviour
     {
         if(mode == true)
         {
-            boostManager.SetBoost(BoostType.WeaponSize, BoostSender.Spell, BoostEffect.Battle, value);
+            boostManager.SetBoost(BoostType.WeaponSize, BoostSender.Spell, BoostEffect.PlayerBattle, value);
         }
         else
         {
@@ -247,7 +247,7 @@ public class SpellLibrary : MonoBehaviour
     {
         if(mode == true)
         {
-            boostManager.SetBoost( BoostType.BonusAmount, BoostSender.Spell, BoostEffect.Battle, value);
+            boostManager.SetBoost( BoostType.BonusAmount, BoostSender.Spell, BoostEffect.PlayerBattle, value);
         }
         else
         {

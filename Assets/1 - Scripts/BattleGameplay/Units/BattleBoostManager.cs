@@ -20,15 +20,16 @@ public class Boost
 }
 
 public class BattleBoostManager : MonoBehaviour
-{    
-
+{
+    private PlayerStats playerStats;
     private BoostType[] boostTypes;
     private Dictionary<BoostType, List<Boost>> boostItemsDict = new Dictionary<BoostType, List<Boost>>();
     private Dictionary<BoostType, float> commonBoostDict = new Dictionary<BoostType, float>();
 
-
+    int count = 0;
     private void Awake()
     {
+        playerStats = GlobalStorage.instance.playerStats;
         boostTypes = new BoostType[Enum.GetValues(typeof(BoostType)).Length];
 
         int counter = 0;
@@ -63,7 +64,7 @@ public class BattleBoostManager : MonoBehaviour
 
         foreach(var boost in boostList)
         {
-            if(sender == BoostSender.Spell)
+            if(sender == BoostSender.Spell || sender == BoostSender.Calendar)
             {
                 if(boost.sender == sender)
                 {
@@ -96,8 +97,14 @@ public class BattleBoostManager : MonoBehaviour
 
         commonBoostDict[type] = result;
 
-        //Debug.Log(type + " now is " + result);
-        if(sendMode == true) EventManager.OnSetBattleBoostEvent(type, result / 100);
+        Debug.Log(type + " now is " + result);
+        if(sendMode == true) 
+        {
+            EventManager.OnSetBattleBoostEvent(type, result / 100);
+
+            PlayersStats stat = BoostConverter.instance.BoostTypeToPlayerStat(type);
+            if(stat != PlayersStats.Level) playerStats.ForceUpdateStat(stat);
+        }
     }
 
     public Dictionary<BoostType, List<Boost>> GetBoostDict()
@@ -107,9 +114,15 @@ public class BattleBoostManager : MonoBehaviour
 
     public float GetBoost(BoostType boostType)
     {
-        float result = (boostType == BoostType.Nothing) ? 0 : commonBoostDict[boostType] / 100;
+        float result = 0;
+
+        if(boostType != BoostType.Nothing && commonBoostDict.ContainsKey(boostType) == true)
+            result = commonBoostDict[boostType] / 100;
+
         if(result < -0.99) result = -0.99f;
-   
+        count++;
+
+        //Debug.Log(count);
         return result;
     }
 

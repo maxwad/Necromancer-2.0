@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Double Box Reward
   serieName: Reward from Box
-  abilitySeries: 12
-  ability: 17
+  abilitySeries: 1006
+  ability: 1009
   activeIcon: {fileID: -1126867286079670681, guid: 108daa14e3115264995337bc498c548a, type: 3}
   inActiveIcon: {fileID: 5147491945923066374, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
   level: 4

@@ -8,7 +8,8 @@ public class RunesStorage : MonoBehaviour
 {
     public List<RuneSO> runes;
     [HideInInspector] public List<RuneSO> availableRunes = new List<RuneSO>();
-    [HideInInspector] public List<RuneSO> hiddenRunes = new List<RuneSO>();
+    [HideInInspector] public List<RuneSO> calendarRunes = new List<RuneSO>();
+    [HideInInspector] public List<RuneSO> enemySystemRunes = new List<RuneSO>();
 
     private RunesType[] runesTypes;
     private int maxRuneLevel = 3;
@@ -24,31 +25,36 @@ public class RunesStorage : MonoBehaviour
             counter++;
         }            
 
-
         for(int i = 0; i < runes.Count; i++)
         {
-            availableRunes.Add(runes[i]);
-            Cost[] runeCost = availableRunes[i].cost;
-            for(int j = 0; j < runeCost.Length; j++)
+            if(runes[i].source == BoostSender.Rune)
             {
-                Cost realCost = new Cost();
-                realCost.type = runeCost[j].type;
-                realCost.amount = runeCost[j].amount * availableRunes[i].level;
+                availableRunes.Add(runes[i]);
+                Cost[] runeCost = availableRunes[i].cost;
+                for(int j = 0; j < runeCost.Length; j++)
+                {
+                    Cost realCost = new Cost();
+                    realCost.type = runeCost[j].type;
+                    realCost.amount = runeCost[j].amount * availableRunes[i].level;
 
-                availableRunes[i].realCost[j] = realCost;
-            }            
+                    availableRunes[i].realCost[j] = realCost;
+                } 
+            }
+
+            if(runes[i].source == BoostSender.Calendar)
+            {
+                calendarRunes.Add(runes[i]);
+            }
+
+            if(runes[i].source == BoostSender.EnemySystem)
+            {
+                enemySystemRunes.Add(runes[i]);
+            }
         }
-
-        //foreach(var rune in runes)
-        //{
-        //    availableRunes.Add(rune);
-        //}
     }
 
     public List<RuneSO> GetAvailableRunes()
     {
-
-        //Debug.Log(availableRunes[0]);
         return SortingRunes(availableRunes);
     }
 

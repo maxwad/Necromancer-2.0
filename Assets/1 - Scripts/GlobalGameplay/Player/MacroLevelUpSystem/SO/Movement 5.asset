@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: No more darkness!
   serieName: Only forward
-  abilitySeries: 8
-  ability: 19
+  abilitySeries: 30
+  ability: 1011
   activeIcon: {fileID: -1471750050107456339, guid: 108daa14e3115264995337bc498c548a, type: 3}
   inActiveIcon: {fileID: 6301032568206646264, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
   level: 5

@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Defence IV
   serieName: Defence
-  abilitySeries: 5
-  ability: 5
+  abilitySeries: 15
+  ability: 15
   activeIcon: {fileID: 3294469710807108791, guid: 108daa14e3115264995337bc498c548a, type: 3}
   inActiveIcon: {fileID: 453748327925508808, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
   level: 4

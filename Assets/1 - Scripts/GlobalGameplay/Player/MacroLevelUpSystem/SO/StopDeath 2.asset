@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Rest in Peace II
   serieName: Rest in Peace
-  abilitySeries: 28
-  ability: 28
+  abilitySeries: 1019
+  ability: 1019
   activeIcon: {fileID: 4976946514587307212, guid: 108daa14e3115264995337bc498c548a, type: 3}
   inActiveIcon: {fileID: -2781250998571224138, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
   level: 2

@@ -13,8 +13,6 @@ MonoBehaviour:
   m_Name: EnemyHealth
   m_EditorClassIdentifier: 
   decadeName: Week of Evil
-  decadeDescription: Enemies hit points increased by $%
-  boostType: 5
-  value: 25
-  isPercentType: 1
-  icon: {fileID: 0}
+  effect: {fileID: 11400000, guid: 9609be0ee7146934cb62d1aef5704fd9, type: 2}
+  purpose: 1
+  isNegative: 0

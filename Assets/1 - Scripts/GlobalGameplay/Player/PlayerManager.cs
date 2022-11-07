@@ -58,7 +58,7 @@ public class PlayerManager : MonoBehaviour
 
     private void NewTurn()
     {
-        if(manaRegeneration != 0)
+        if(manaRegeneration > 0)
         {
             resourcesManager.ChangeResource(ResourceType.Mana, manaRegeneration);
             BonusTipUIManager.ShowVisualEffect(PlayersStats.Mana, manaRegeneration);
@@ -73,7 +73,7 @@ public class PlayerManager : MonoBehaviour
             }
         }
 
-        if(healthRegeneration != 0)
+        if(healthRegeneration > 0)
         {
             resourcesManager.ChangeResource(ResourceType.Health, healthRegeneration);
             BonusTipUIManager.ShowVisualEffect(PlayersStats.Health, healthRegeneration);

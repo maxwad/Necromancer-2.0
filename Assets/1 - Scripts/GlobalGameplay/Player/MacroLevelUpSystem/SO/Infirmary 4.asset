@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Camp infirmary III
   serieName: Camp infirmary
-  abilitySeries: 6
-  ability: 6
+  abilitySeries: 1004
+  ability: 1004
   activeIcon: {fileID: 7085552107377350783, guid: 108daa14e3115264995337bc498c548a, type: 3}
   inActiveIcon: {fileID: -6830987058661217921, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
   level: 4

@@ -133,39 +133,39 @@ public static class NameManager
 
     public enum PlayersStats
     {
-        Level, 
-        Health, 
-        Mana, 
-        Speed,//later
-        SearchRadius,//later
-        Defence,
-        Infirmary,
-        Luck,
+        Level = 0, 
+        Health = 1001, 
+        Mana = 1002, 
+        Speed = 7,
+        SearchRadius = 1003,
+        Defence = 15,
+        Infirmary = 1004,
+        Luck = 5,
 
-        MovementDistance,
-        HealthRegeneration,
-        RadiusView,
-        ExtraResourcesProduce,//later
-        ExtraBoxReward,
-        ExtraExpReward,
+        MovementDistance = 30,
+        HealthRegeneration = 27,
+        RadiusView = 1005,
+        ExtraResourcesProduce = 25,//later
+        ExtraBoxReward = 1006,
+        ExtraExpReward = 31,
 
-        Spell,//later
-        NegativeCell,
-        MedicAltar,//later
-        DoubleBonusFromBox,
-        ExtraMovementPoints,
-        Fog,
-        HealthBigRegeneration,
-        ManaBigRegeneration,
-        Learning, 
+        Spell = 1007,//later
+        NegativeCell = 1008,
+        MedicAltar = 26,//later
+        DoubleBonusFromBox = 1009,
+        ExtraMovementPoints = 1010,
+        Fog = 1011,
+        HealthBigRegeneration = 1012,
+        ManaBigRegeneration = 1013,
+        Learning = 1014,
 
-        MedicTry,//later
-        Curiosity,
-        Portal,
-        ExtraAfterBattleReward,
-        ManaRegeneration,
-        HeroArmyToEnemy,//later
-        InfirmaryTime
+        MedicTry = 1015,//later
+        Curiosity = 1016,
+        Portal = 1017,
+        ExtraAfterBattleReward = 1018,
+        ManaRegeneration = 29,
+        HeroArmyToEnemy = 1019,//later
+        InfirmaryTime = 1020
     }
 
     public enum RunesType
@@ -184,8 +184,22 @@ public static class NameManager
         WeaponSize = 12,
         CoolDown = 13,
         Exp = 14,
+        EnemyPhysicAttack = 16,
+        EnemyMagicAttack = 17,
+        EnemyPhysicDefence = 18,
+        EnemyMagicDefence = 19,
+        EnemyMovementSpeed = 20,
+        EnemyCoolDown = 21,
+        EnemyHealth = 22,
         SpellReloading = 23,
-        SpellActionTime = 24
+        SpellActionTime = 24,
+        ExtraResourcesProduce = 25,
+        Altar = 26,
+        HealthRegeneration = 27,
+        Hiring = 28,
+        ManaRegeneration = 29,
+        MovementPoints = 30,
+        ExpAfterBattle = 31
     }
 
     public enum BoostType
@@ -215,7 +229,15 @@ public static class NameManager
         EnemyMagicDefence = 19,
         EnemyMovementSpeed = 20,
         EnemyCoolDown = 21,
-        EnemyHealth  = 22
+        EnemyHealth  = 22,
+
+        ExtraResourcesProduce = 25,
+        Altar = 26,
+        HealthRegeneration = 27,
+        Hiring = 28,
+        ManaRegeneration = 29,
+        MovementPoints = 30,
+        ExpAfterBattle = 31
     }
 
     public enum Spells
@@ -251,31 +273,17 @@ public static class NameManager
 
     public enum BoostSender
     {
-        Spell, Calendar, Rune
+        Spell, Calendar, Rune, EnemySystem
     }
 
     public enum BoostEffect
     {
-        Battle, Global
+        PlayerBattle, Global, EnemiesBattle
     }
 
     public enum EffectType
     {
         Rune, Spell, Enemy
-    }
-
-    public enum BoostFromType
-    {
-        Hiring,
-        ResourcesBilding,
-        BattleExpirience,
-        Altar,
-        Luck,
-        EnemyHealth,
-        EnemyDefence,
-        Movement,
-        Regeneration,
-        Mana
     }
 
     public enum UISlotTypes

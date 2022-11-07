@@ -13,8 +13,6 @@ MonoBehaviour:
   m_Name: HealthRegeneration
   m_EditorClassIdentifier: 
   decadeName: Week of Health
-  decadeDescription: Hero regeneration increased by $%
-  boostType: 8
-  value: 20
-  isPercentType: 1
-  icon: {fileID: 0}
+  effect: {fileID: 11400000, guid: b77772fb801807c44a667794e9112f28, type: 2}
+  purpose: 1
+  isNegative: 0
