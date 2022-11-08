@@ -96,14 +96,14 @@ public class GMInterface : MonoBehaviour
             [ResourceType.Iron] = ironContainer,
             [ResourceType.Magic] = magicContainer
         };
+
+        FillStartResources();
     }
 
     private void Start()
     {
         healthMax = resourcesManager.GetMaxHealth();
         manaMax = resourcesManager.GetMaxMana();
-
-        FillStartResources();
     }
 
     private void EnableUI(bool mode)

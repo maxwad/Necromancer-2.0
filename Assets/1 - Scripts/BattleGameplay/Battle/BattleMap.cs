@@ -58,6 +58,7 @@ public class BattleMap : MonoBehaviour
 
     [Header("Enemy")]
     private EnemySpawner enemySpawner;
+    private Army currentArmy;
 
 
     private void Start()
@@ -85,14 +86,15 @@ public class BattleMap : MonoBehaviour
     {
         if (mode == false)
         {
-            GetBattleMapSize();
+            GetBattleData();
             DrawTheBackgroundMap();
 
-            if (isDefendBattle == true) DrawObjects(towersPrefab, towerContainer, towerStats, towersOnMap, quantityOfTowers);
+            if (currentArmy.isThisASiege == true) DrawObjects(towersPrefab, towerContainer, towerStats, towersOnMap, quantityOfTowers);
             DrawObstacles();
             DrawObjects(torchPrefab, null, torchStats, torchesOnMap, quantityOfTorches);
             //MarkFilledCells();
 
+            enemySpawner.Initialize(currentArmy);
             enemySpawner.ReadyToSpawnEnemy();
         }
         else
@@ -423,7 +425,7 @@ public class BattleMap : MonoBehaviour
         }
     }
 
-    public void GetBattleMapSize()
+    public void GetBattleData()
     {
         Vector3Int size = GlobalStorage.instance.battleManager.GetBattleMapSize();
         sizeX = size.x;
@@ -435,6 +437,7 @@ public class BattleMap : MonoBehaviour
         player.transform.position = new Vector3 ((sizeX + 2 * widthOfBound) / 2, (sizeY + 2 * widthOfBound) / 2, spawnZOffset);
 
         quantityOfTorches = (sizeX * sizeY * torchQuotePerSomeCells) / someCells;
+        currentArmy = GlobalStorage.instance.battleManager.GetArmy();
     }
 
     private void ClearSpaceUnderObject(GameObject obj)

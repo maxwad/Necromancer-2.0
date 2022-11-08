@@ -386,7 +386,6 @@ public class GlobalMapPathfinder : MonoBehaviour
             fogMap.gameObject.SetActive(false);
             return;
         }
-
         fogMap.gameObject.SetActive(true);
 
         Vector3Int center = fogMap.WorldToCell(player.transform.position);

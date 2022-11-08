@@ -41,11 +41,13 @@ public class EnemyController : MonoBehaviour
     private float bossDamageMultiplier;
 
     private float maxDamage = 300;
-    private SpriteRenderer enemySprite;
+    private SpriteRenderer enemySpriteRenderer;
+    private Sprite enemySprite;
     private Color normalColor = Color.white;
     private Color damageColor = Color.black;
     private float blinkTime = 0.1f;
     [HideInInspector] public bool isBoss = false;
+    private BossController bossController;
     private float bossCreateMainMultiplier = 2f;
     private float bossCreateSecondMultiplier = 20f;
 
@@ -69,7 +71,8 @@ public class EnemyController : MonoBehaviour
         hero = GlobalStorage.instance.hero;
 
         currentHealth = healthBase;
-        enemySprite = GetComponent<SpriteRenderer>();
+        enemySpriteRenderer = GetComponent<SpriteRenderer>();
+        enemySprite = enemySpriteRenderer.sprite;
         movementScript = GetComponent<EnemyMovement>();
     }
 
@@ -85,7 +88,6 @@ public class EnemyController : MonoBehaviour
         {
             //BuildDebagger.instance.Show("Check health");
             Dead();
-
         }
     }
 
@@ -112,7 +114,6 @@ public class EnemyController : MonoBehaviour
         healthBase        = originalStats.health;
         currentHealth     = healthBase;
     }
-
 
     private void OnCollisionStay2D(Collision2D collision)
     {
@@ -161,6 +162,11 @@ public class EnemyController : MonoBehaviour
 
             currentHealth -= damage;
 
+            if(isBoss == true && bossController != null)
+            {
+                bossController.UpdateBossHealth(currentHealth > 0 ? currentHealth : 0);
+            }
+
             Blink();
             ShowDamage(damage, damageText);
 
@@ -178,14 +184,14 @@ public class EnemyController : MonoBehaviour
 
     public void Blink()
     {
-        enemySprite.color = damageColor;
+        enemySpriteRenderer.color = damageColor;
         Invoke("ColorBack", blinkTime);
     }
 
     private void ColorBack()
     {
         CheckColors();
-        enemySprite.color = normalColor;
+        enemySpriteRenderer.color = normalColor;
     }
 
     private void CheckColors()
@@ -263,8 +269,8 @@ public class EnemyController : MonoBehaviour
         exp                  *= bossCreateSecondMultiplier;
 
         movementScript.BoostSpeed(0.2f);
-        BossController bossController = gameObject.AddComponent<BossController>();
-        bossController.Init();
+        bossController = gameObject.AddComponent<BossController>();
+        bossController.Init(currentHealth, enemySprite);
     }    
 
     private void ReturnBossToOrdinaryEnemy()

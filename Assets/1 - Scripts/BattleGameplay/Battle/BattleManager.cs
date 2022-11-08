@@ -22,10 +22,9 @@ public class BattleManager : MonoBehaviour
     public List<int> falseEnemiesQuantity;
 
     private Army currentArmy = new Army();
-    private GameObject currentEnemySquad;
     private EnemyArmyOnTheMap currentEnemyArmyOnTheMap;
-    private List<GameObject> currentEnemies = new List<GameObject>();
-    private List<int> currentEnemiesQuantity = new List<int>();
+    //private List<GameObject> currentEnemies = new List<GameObject>();
+    //private List<int> currentEnemiesQuantity = new List<int>();
 
 
     private void Start()
@@ -39,16 +38,18 @@ public class BattleManager : MonoBehaviour
 
     public void InitializeBattle()
     {
-        GlobalStorage.instance.ChangePlayMode(false);
-
-        //for testing!
-        if (currentEnemies.Count == 0)
+        if (currentArmy == null)
         {
-            currentEnemies = falsEnemyArmy;
-            currentEnemiesQuantity = falseEnemiesQuantity;
+            Debug.Log("We don't have an army!");
+            return;
         }
 
-        enemySpawner.Initialize(currentEnemies, currentEnemiesQuantity);
+        GlobalStorage.instance.ChangePlayMode(false);        
+    }
+
+    public Army GetArmy()
+    {
+        return currentArmy;
     }
 
     public Vector3Int GetBattleMapSize()
@@ -86,9 +87,8 @@ public class BattleManager : MonoBehaviour
     {
         currentArmy = army;
         currentEnemyArmyOnTheMap = currentEnemyArmy;
-        currentEnemySquad = currentEnemyArmy.gameObject;
-        currentEnemies = army.squadList;
-        currentEnemiesQuantity = army.quantityList;
+        //currentEnemies = army.squadList;
+        //currentEnemiesQuantity = army.quantityList;
 
         playerArmyWindow.OpenWindow(PlayersWindow.Battle, currentEnemyArmy);
     }

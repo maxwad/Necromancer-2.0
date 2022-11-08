@@ -17,7 +17,6 @@ public class GlobalStorage : MonoBehaviour
     public PlayerManager playerManager;
     public MacroLevelUpManager macroLevelUpManager;
     public RunesManager runesManager;
-    public PlayerBoostManager playerBoostManager;
     public BonusManager bonusManager;
     public ResourcesManager resourcesManager;
     public InfirmaryManager infirmaryManager;
@@ -128,6 +127,13 @@ public class GlobalStorage : MonoBehaviour
         
         canILoadNextPart = false;
         runesManager.Init();
+        while(canILoadNextPart == false)
+        {
+            yield return null;
+        }
+
+        canILoadNextPart = false;
+        calendarManager.Init();
         while(canILoadNextPart == false)
         {
             yield return null;

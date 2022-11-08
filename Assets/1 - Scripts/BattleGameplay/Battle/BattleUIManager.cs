@@ -19,16 +19,16 @@ public class BattleUIManager : MonoBehaviour
     #region VALUES
 
     [Header("Left Column Exp")]
-    [SerializeField] private RectTransform currentScaleValue;
-    private Image currentScaleValueImage;
+    //[SerializeField] private RectTransform currentScaleValue;
+    [SerializeField] private Image leftExpScale;
     [SerializeField] private Color levelUpColor;
     [SerializeField] private Color normalLevelColor;
 
     [Header("Rigth Column Exp")]
     [SerializeField] private GameObject tempLevelGO;
     [SerializeField] private RectTransform currentTempLevelWrapper;
-    [SerializeField] private RectTransform currentScaleTempLevelValue;
-    private Image currentScaleTempLevelValueImage;
+    //[SerializeField] private RectTransform currentScaleTempLevelValue;
+    [SerializeField] private Image rightExpScale;
     private float heigthOneLevel;
     private float currentMaxLevel;
     private float currenLevel;
@@ -40,7 +40,7 @@ public class BattleUIManager : MonoBehaviour
     private float blinkTime = 0.005f;
 
     [Header("Infirmary")]
-    [SerializeField] private RectTransform infirmaryValue;
+    [SerializeField] private Image infirmaryScale;
     [SerializeField] private TMP_Text infirmaryInfo;
     private float currentMaxInfirmaryCount;
     private float currentInfirmaryCount;
@@ -49,9 +49,9 @@ public class BattleUIManager : MonoBehaviour
     [SerializeField] private Color normalInfirmaryColor;
 
     [Header("Mana")]
-    [SerializeField] private RectTransform manaValue;
+    //[SerializeField] private RectTransform manaValue;
     [SerializeField] private TMP_Text manaInfo;
-    private Image manaScale;
+    [SerializeField] private Image manaScale;
     private float currentMaxManaCount;
     private float currentManaCount;
     [SerializeField] private Color manaUpColor;
@@ -59,9 +59,9 @@ public class BattleUIManager : MonoBehaviour
     [SerializeField] private Color normalManaColor;
 
     [Header("Health")]
-    [SerializeField] private RectTransform healthValue;
+    //[SerializeField] private RectTransform healthValue;
     [SerializeField] private TMP_Text healthInfo;
-    private Image healthScale;
+    [SerializeField] private Image healthScale;
     private float currentMaxHealthCount;
     private float currentHealthCount;
     [SerializeField] private Color healthUpColor;
@@ -81,11 +81,16 @@ public class BattleUIManager : MonoBehaviour
     private int currentSpellIndex = -1;
 
     [Header("Enemy")]
-    [SerializeField] private RectTransform enemiesWrapper;
-    [SerializeField] private RectTransform enemiesValue;
+    [SerializeField] private RectTransform bossWrapper;
+    [SerializeField] private Image enemiesValue;
+    [SerializeField] private Image spawnValue;
     [SerializeField] private TMP_Text enemiesInfo;
     private float maxEnemiesCount = 0;
     private float currentEnemiesCount = 0;
+    private float bossIndex = 0;
+    [SerializeField] private GameObject bossMark;
+    private List<GameObject> bossMarkList = new List<GameObject>();
+    private BossData[] bosses;
 
     [Header("End of Battle")]
     [SerializeField] private GameObject leaveBlock;
@@ -112,10 +117,9 @@ public class BattleUIManager : MonoBehaviour
         levelManager = GlobalStorage.instance.macroLevelUpManager;
         resourcesManager = GlobalStorage.instance.resourcesManager;
         boostManager = GlobalStorage.instance.unitBoostManager;
-
-        healthScale = healthValue.GetComponent<Image>();
-        manaScale = manaValue.GetComponent<Image>();
     }
+
+    #region Helpers
 
     private void Update()
     {
@@ -187,14 +191,26 @@ public class BattleUIManager : MonoBehaviour
     public void Inizialize(bool mode)
     {   
         uiCanvas.gameObject.SetActive(!mode);
-
-        currentScaleValueImage = currentScaleValue.GetComponent<Image>();
         isBattleOver = false;
 
         if(mode == false) ResetCanvas();
     }
+    public void UpgradeResourceUI(ResourceType type, float value)
+    {
+        GetMaxManaHealth();
 
-    #region Helpers
+        if(type == ResourceType.Health) FillHealth(value);
+        if(type == ResourceType.Mana) FillMana(value);
+        if(type == ResourceType.Gold) FillGold(value);
+    }
+
+    private void GetMaxManaHealth()
+    {
+        currentMaxManaCount = resourcesManager.GetMaxMana();
+        currentMaxHealthCount = resourcesManager.GetMaxHealth();
+    }
+
+
     private void ResetCanvas()
     {
         FillRigthTempLevelScale();
@@ -208,7 +224,7 @@ public class BattleUIManager : MonoBehaviour
 
         FillSpells(-1);
 
-        FillEnemiesBar(null);
+        FillDeadEnemiesBar(null);
 
         FillPlayerBoost();
     }
@@ -362,20 +378,18 @@ public class BattleUIManager : MonoBehaviour
 
     #endregion
 
-
     #region TempExp
     private void FillRigthTempLevelScale()
     {
         levelList.Clear();
-        currentScaleTempLevelValueImage = currentScaleTempLevelValue.GetComponent<Image>();
 
         foreach(Transform child in currentTempLevelWrapper.transform) 
         {
             if(child.transform.localScale.z == -1) Destroy(child.gameObject);
         }
 
-        currentScaleValueImage.fillAmount = 0;
-        currentScaleTempLevelValueImage.fillAmount = 0;
+        leftExpScale.fillAmount = 0;
+        rightExpScale.fillAmount = 0;
         currentMaxLevel = levelManager.GetCurrentLevel();
 
         heigthOneLevel = currentTempLevelWrapper.rect.height / currentMaxLevel;
@@ -401,17 +415,17 @@ public class BattleUIManager : MonoBehaviour
         currenLevel = oldLevel;
 
         if(oldLevel + 1 < levelList.Count)
-            currentScaleValueImage.fillAmount = 0;
+            leftExpScale.fillAmount = 0;
 
-        currentScaleTempLevelValueImage.fillAmount = heigthOneLevel * (oldLevel + 1) / currentTempLevelWrapper.rect.height;
+        rightExpScale.fillAmount = heigthOneLevel * (oldLevel + 1) / currentTempLevelWrapper.rect.height;
 
-        Blink(currentScaleTempLevelValueImage, levelUpColor, normalLevelColor, 100);
+        Blink(rightExpScale, levelUpColor, normalLevelColor, 100);
     }
 
     public void UpgradeScale(float scale, float value)
     {
-        currentScaleValueImage.fillAmount = value / scale;
-        Blink(currentScaleValueImage, levelUpColor, normalLevelColor);
+        leftExpScale.fillAmount = value / scale;
+        Blink(leftExpScale, levelUpColor, normalLevelColor);
     }
 
     #endregion
@@ -433,8 +447,6 @@ public class BattleUIManager : MonoBehaviour
             currentInfirmaryCount = current;
         }
 
-        Image infirmaryScale = infirmaryValue.GetComponent<Image>();
-
         float widthInfirmary = currentInfirmaryCount / currentMaxInfirmaryCount;
 
         infirmaryScale.fillAmount = widthInfirmary;
@@ -448,21 +460,6 @@ public class BattleUIManager : MonoBehaviour
     }
 
     #endregion
-
-    public void UpgradeResourceUI(ResourceType type, float value)
-    {
-        GetMaxManaHealth();
-
-        if(type == ResourceType.Health) FillHealth(value);
-        if(type == ResourceType.Mana) FillMana(value);
-        if(type == ResourceType.Gold) FillGold(value);
-    }
-
-    private void GetMaxManaHealth()
-    {
-        currentMaxManaCount = resourcesManager.GetMaxMana();
-        currentMaxHealthCount = resourcesManager.GetMaxHealth();
-    }
 
     #region Mana
 
@@ -571,21 +568,97 @@ public class BattleUIManager : MonoBehaviour
     #endregion
 
     #region EnemiesBar
-    private void GetStartCountEnemies(int count)
-    {
+    public void SetStartEnemiesParameters(int count, BossData[] bossesData)
+    {        
         maxEnemiesCount = count;
         currentEnemiesCount = count;
+
+        bosses = bossesData;
+        bossIndex = 0;
+        bossDict.Clear();
+
+        foreach(GameObject child in bossMarkList)
+            Destroy(child);
+
+        bossMarkList.Clear();
+        float wrapperWidth = bossWrapper.rect.width;
+
+        for(int i = 0; i < bosses.Length; i++)
+        {
+            GameObject bossItem = Instantiate(bossMark);
+            bossItem.transform.SetParent(bossWrapper.transform, false);
+
+            float wPosition = (maxEnemiesCount - bosses[i].bound) / maxEnemiesCount;
+            bossItem.GetComponent<RectTransform>().localPosition = new Vector3(wPosition * wrapperWidth, 0, 0);
+
+            bossMarkList.Add(bossItem);
+        }
     }
 
-    public void FillEnemiesBar(GameObject enemy)
+    public Image ActivateBossMark()
+    {
+        Image mark = null;
+
+        if(bossIndex < bossMarkList.Count) 
+        {
+            mark = bossMarkList[(int)bossIndex].GetComponent<Image>();
+            mark.color = Color.white;
+        } 
+
+        bossIndex++;
+
+        return mark;
+    }
+
+    public void FillSpawnEnemiesBar(int currentQuantity, bool isBoss)
+    {
+        float widthEnemyScale = (maxEnemiesCount - currentQuantity) / maxEnemiesCount;
+        spawnValue.fillAmount = widthEnemyScale;
+
+        //if(isBoss == true) ActivateBossMark();
+    }
+
+    public void FillDeadEnemiesBar(GameObject enemy)
     {
         if(enemy != null) currentEnemiesCount--;
 
         float widthEnemyScale = (maxEnemiesCount - currentEnemiesCount) / maxEnemiesCount;
 
-        enemiesValue.GetComponent<Image>().fillAmount = widthEnemyScale;
+        enemiesValue.fillAmount = widthEnemyScale;
         enemiesInfo.text = currentEnemiesCount.ToString();
     }
+
+    public class BossUIData 
+    {
+        public BossController boss;
+        public Image bossMark;
+        public RuneSO rune;
+    }
+
+    private Dictionary<BossController, BossUIData> bossDict = new Dictionary<BossController, BossUIData>();
+
+    public void RegisterBoss(float health, BossController bossC)
+    {
+        Image mark = ActivateBossMark();
+
+        bossDict[bossC] = new BossUIData
+        {
+            boss = bossC,
+            bossMark = mark,
+            rune = bossC.rune
+        };
+    }
+
+    public void UnRegisterBoss(BossController boss)
+    {
+
+    }
+
+    public void UpdateBossHealth(float health, BossController boss)
+    {
+
+    }
+
 
     #endregion
 
@@ -594,8 +667,8 @@ public class BattleUIManager : MonoBehaviour
         EventManager.SwitchPlayer             += Inizialize;
         EventManager.UpdateInfirmaryUI        += UpdateInfirmaryUI;
         EventManager.UpgradeResource          += UpgradeResourceUI;
-        EventManager.EnemiesCount             += GetStartCountEnemies;
-        EventManager.EnemyDestroyed           += FillEnemiesBar;
+        //EventManager.EnemiesCount             += GetStartCountEnemies;
+        EventManager.EnemyDestroyed           += FillDeadEnemiesBar;
         EventManager.SetBattleBoost           += UpgradeBoostes;
         EventManager.ShowBoostEffect          += ShowBoostEffect;
     }
@@ -605,8 +678,8 @@ public class BattleUIManager : MonoBehaviour
         EventManager.SwitchPlayer             -= Inizialize;
         EventManager.UpdateInfirmaryUI        -= UpdateInfirmaryUI;
         EventManager.UpgradeResource          -= UpgradeResourceUI;
-        EventManager.EnemiesCount             -= GetStartCountEnemies;
-        EventManager.EnemyDestroyed           -= FillEnemiesBar;
+        //EventManager.EnemiesCount             -= GetStartCountEnemies;
+        EventManager.EnemyDestroyed           -= FillDeadEnemiesBar;
         EventManager.SetBattleBoost           -= UpgradeBoostes;
         EventManager.ShowBoostEffect          -= ShowBoostEffect;
     }

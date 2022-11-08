@@ -146,4 +146,9 @@ public class RunesStorage : MonoBehaviour
 
         return false;
     }
+
+    public RuneSO GetRuneForBoss()
+    {
+        return null;
+    }
 }

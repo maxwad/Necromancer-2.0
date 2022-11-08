@@ -313,17 +313,17 @@ public static class EventManager
 
 
 
-    //calls when battle starts, we send common enemies quantity
-    //
-    //SUBSCRIBERS:
-    // - BattleUIManager
-    //
-    //ACTIVATION:
-    // - EnemySpawner
-    //
-    public delegate void EnemiesCountEvent(int count);
-    public static event EnemiesCountEvent EnemiesCount;
-    public static void OnEnemiesCountEvent(int count) => EnemiesCount?.Invoke(count);
+    ////calls when battle starts, we send common enemies quantity
+    ////
+    ////SUBSCRIBERS:
+    //// - BattleUIManager
+    ////
+    ////ACTIVATION:
+    //// - EnemySpawner
+    ////
+    //public delegate void EnemiesCountEvent(int count, BossData[] bosses);
+    //public static event EnemiesCountEvent EnemiesCount;
+    //public static void OnEnemiesCountEvent(int count, BossData[] bosses) => EnemiesCount?.Invoke(count, bosses);
 
 
     //calls when player win the battle

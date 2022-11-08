@@ -50,23 +50,28 @@ public class CalendarManager : MonoBehaviour
     private int currentDecadeIndex = 0;
     private BattleBoostManager boostManager;
 
-
-    private void Start()
+    public void Init()
     {
         boostManager = GlobalStorage.instance.unitBoostManager;
         gmInterface = GlobalStorage.instance.gmInterface;
         calendarData = new CalendarData(daysLeft, day, decade, month);
         gmInterface.UpdateCalendar(calendarData);
 
-        //for(int i = 0; i < decadeList.Count; i++)
-        //{
-        //    //decadeList.Add(new Decade(decadeList[i], i));
-        //}
+        //decadeList = ShuffleList(decadeList);
+        StartCoroutine(SetStartDecade());
 
-        decadeList = ShuffleList(decadeList);
-        NewDecade();
+        GlobalStorage.instance.LoadNextPart();
     }
 
+    private IEnumerator SetStartDecade()
+    {
+        while(GlobalStorage.instance.isGameLoaded == false)
+        {
+            yield return null;
+        }
+
+        NewDecade();
+    }
 
     void Update()
     {

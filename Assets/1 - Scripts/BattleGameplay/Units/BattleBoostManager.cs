@@ -97,7 +97,6 @@ public class BattleBoostManager : MonoBehaviour
 
         commonBoostDict[type] = result;
 
-        Debug.Log(type + " now is " + result);
         if(sendMode == true) 
         {
             EventManager.OnSetBattleBoostEvent(type, result / 100);

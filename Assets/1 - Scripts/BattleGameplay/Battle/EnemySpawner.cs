@@ -3,14 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using static NameManager;
 
+public class BossData {
+    public bool wasCreated = false;
+    public bool isDead = false;
+    public float bound = 0;
+}
+
 public class EnemySpawner : MonoBehaviour
 {
-    private List<GameObject> enemiesList;
+    private ArmyStrength currentStrength;
+    private List<GameObject> enemiesList = new List<GameObject>();
     public List<int> enemiesQuantityList = new List<int>();
     private int currentCommonQuantity = 0;
     private int maxQuantity = 0;
     private int removeQuantity = 0;
-    //[SerializeField] private GameObject enemiesContainer;
     public List<GameObject> enemiesOnTheMap = new List<GameObject>();
 
     [Space]
@@ -21,9 +27,6 @@ public class EnemySpawner : MonoBehaviour
     private int enemySlowCount = 100;
     private int enemyTooSlowCount = 150;
     private float spawnOffset = 5f;
-
-    private float bossAppearMultiplier = 0.25f;
-    private bool isBossCreated = false;
 
     [Space]
     private Coroutine spawnCoroutine;
@@ -39,16 +42,28 @@ public class EnemySpawner : MonoBehaviour
     //private BattleMap battleMap;
 
     private bool[,] battleMap;
+    private EnemyEffector enemyEffector;
+    private BattleUIManager battleUIManager;
+    private BossData[] bossBounds;
 
-    public void Initialize(List<GameObject> enemiesPrefabs, List<int> quantity)
+    private void Start()
     {
-        enemiesList = enemiesPrefabs;
+        enemyEffector = GetComponent<EnemyEffector>();
+        battleUIManager = GlobalStorage.instance.battleIUManager;
+    }
+
+    public void Initialize(Army army)
+    {
+        currentStrength = army.strength;
+
+        enemiesList.Clear();
+        foreach(var squad in army.squadList)
+            enemiesList.Add(squad);
 
         enemiesQuantityList.Clear();
-        foreach(var item in quantity)
-        {
-            enemiesQuantityList.Add(item);
-        }
+        foreach(var squad in army.quantityList)
+            enemiesQuantityList.Add(squad);
+
         waitNextEnemyFast = new WaitForSeconds(waitNextEnemyTimeFast);
         waitNextEnemySlow = new WaitForSeconds(waitNextEnemyTimeSlow);
         waitNextEnemyStop = new WaitForSeconds(waitNextEnemyTimeStop);
@@ -61,7 +76,26 @@ public class EnemySpawner : MonoBehaviour
 
         maxQuantity = currentCommonQuantity;
 
-        EventManager.OnEnemiesCountEvent(currentCommonQuantity);
+        CreateBossStructure();
+
+        battleUIManager.SetStartEnemiesParameters(currentCommonQuantity, bossBounds);
+    }
+
+    private void CreateBossStructure()
+    {
+        float enemyQuantity = maxQuantity;
+        float bossCount = (int)currentStrength;
+        float bossPortion = Mathf.Round((maxQuantity / (bossCount + 1)));
+        bossBounds = new BossData[(int)bossCount];
+
+        for(int i = 0; i < bossCount; i++)
+        {
+            bossBounds[i] = new BossData();
+            enemyQuantity -= bossPortion;
+            bossBounds[i].bound = enemyQuantity;
+            bossBounds[i].isDead = false;
+            bossBounds[i].wasCreated = false;
+        }
     }
 
     private void Update()
@@ -84,13 +118,11 @@ public class EnemySpawner : MonoBehaviour
     public void StopSpawnEnemy()
     {
         canISpawn = false;
-        isBossCreated = false;
         enemiesOnTheMap.Clear();
     }
 
     private IEnumerator SpawnEnemy()
     {
-
         //List<float> currentProbably = new List<float>();
 
         while (canISpawn == true)
@@ -130,19 +162,35 @@ public class EnemySpawner : MonoBehaviour
                 enemy.SetActive(true);
 
                 //Create boss
-                if(currentCommonQuantity <= (maxQuantity * (1 - bossAppearMultiplier)) && isBossCreated == false)
+                bool isBoss = false;
+                if(ShouldICreateBoss(currentCommonQuantity) == true)
                 {
                     enemy.GetComponent<EnemyController>().MakeBoss();
-                    isBossCreated = true;
+                    isBoss = true;
                 }
 
                 enemiesOnTheMap.Add(enemy);
                 enemiesQuantityList[randomIndex]--;
                 currentCommonQuantity--;
+                battleUIManager.FillSpawnEnemiesBar(currentCommonQuantity, isBoss);
             }
 
             yield return waitNextEnemy;
         }
+    }
+
+    private bool ShouldICreateBoss(int currentCount)
+    {
+        for(int i = 0; i < bossBounds.Length; i++)
+        {
+            if(currentCount <= bossBounds[i].bound && bossBounds[i].wasCreated == false)
+            {
+                bossBounds[i].wasCreated = true;
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private Vector3 GetSpawnPosition()

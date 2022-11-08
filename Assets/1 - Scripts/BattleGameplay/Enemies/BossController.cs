@@ -10,26 +10,45 @@ public class BossController : MonoBehaviour
     private float timeAttack = 10f;
     private float timeStep = 1f;
 
+    [HideInInspector] public float healthMax;
+    [HideInInspector] public float currentHealth;
+    [HideInInspector] public Sprite sprite;
+
     private float radiusPlayerSearch = 20;
     private BattleArmyController player;
     private EnemyMovement movementScript;
+    private BattleUIManager battleUIManager;
     private SimpleAnimator animatorScript;
 
     private bool isSpelling = false;
     private BossSpells spell;
     private Coroutine spelling;
 
-    public void Init()
+    [HideInInspector] public RuneSO rune;
+    private RunesManager runesManager;
+
+    public void Init(float maxHealth, Sprite pict)
     {
+        battleUIManager = GlobalStorage.instance.battleIUManager;
         movementScript = GetComponent<EnemyMovement>();
         animatorScript = GetComponent<SimpleAnimator>();
         player = GlobalStorage.instance.battlePlayer;
+        runesManager = GlobalStorage.instance.runesManager;
 
         spell = (BossSpells)UnityEngine.Random.Range(0, Enum.GetValues(typeof(BossSpells)).Length);
         //spell = (BossSpells)1;
 
         spelling = StartCoroutine(Spelling());
 
+        healthMax = maxHealth;
+        sprite = pict;
+        rune = runesManager.runesStorage.GetRuneForBoss();
+        battleUIManager.RegisterBoss(healthMax, this);
+    }
+
+    public void UpdateBossHealth(float maxHealth)
+    {
+        battleUIManager.UpdateBossHealth(maxHealth, this);
     }
 
     public void StopSpelling()

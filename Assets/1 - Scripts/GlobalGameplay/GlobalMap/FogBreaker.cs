@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 using static NameManager;
 
 public class FogBreaker : MonoBehaviour
@@ -22,7 +23,7 @@ public class FogBreaker : MonoBehaviour
     {
         if(stats == PlayersStats.MovementDistance)
         {
-            viewRadius = value;
+            viewRadius = (float)Math.Round(value, MidpointRounding.AwayFromZero);
             transform.localScale = new Vector3(scaleConstant * viewRadius, scaleConstant * viewRadius, 0);
         }        
     }

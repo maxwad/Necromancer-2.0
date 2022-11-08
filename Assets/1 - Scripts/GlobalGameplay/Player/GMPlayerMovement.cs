@@ -1,4 +1,5 @@
 using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using static NameManager;
@@ -33,7 +34,7 @@ public class GMPlayerMovement : MonoBehaviour
     private Vector2 previousPosition = Vector2.zero;
     private Vector2 currentPosition = Vector2.zero;
 
-    private void Start()
+    private void Awake()
     {
         sprite = GetComponent<SpriteRenderer>();
         sprite.color = activeColor;
@@ -42,6 +43,10 @@ public class GMPlayerMovement : MonoBehaviour
         gmPathFinder = GlobalStorage.instance.globalMap.GetComponent<GlobalMapPathfinder>();
         resourcesManager = GlobalStorage.instance.resourcesManager;
         positionChecker = GetComponent<GMPlayerPositionChecker>();
+    }
+
+    private void Start()
+    {        
         SetParameters();
 
         currentPosition = gameObject.transform.position;
@@ -63,9 +68,9 @@ public class GMPlayerMovement : MonoBehaviour
 
     private void SetParameters()
     {
-        movementPointsMax = Mathf.Round(playerStats.GetCurrentParameter(PlayersStats.MovementDistance));
+        movementPointsMax = (float)Math.Round(playerStats.GetCurrentParameter(PlayersStats.MovementDistance), MidpointRounding.AwayFromZero);
         extraMovementPoints = playerStats.GetCurrentParameter(PlayersStats.ExtraMovementPoints);
-        viewRadius = Mathf.Round(playerStats.GetCurrentParameter(PlayersStats.MovementDistance));
+        viewRadius = movementPointsMax;
         luck = playerStats.GetCurrentParameter(PlayersStats.Luck);
     }
 
@@ -113,11 +118,10 @@ public class GMPlayerMovement : MonoBehaviour
         if(stats == PlayersStats.MovementDistance)
         {
 
-            Debug.Log("Points = " + value);
-            movementPointsMax = Mathf.Round(value);
+            movementPointsMax = (float)Math.Round(value, MidpointRounding.AwayFromZero);
             ChangeMovementPoints(movementPointsMax);
 
-            viewRadius = Mathf.Round(value);
+            viewRadius = movementPointsMax;
             gmPathFinder.CheckFog(isFogNeeded, viewRadius);
         }
 
@@ -212,7 +216,7 @@ public class GMPlayerMovement : MonoBehaviour
     {
         if(extraMovementPoints == 0 || isExtraMovementWaisted == true) return;
 
-        if(Random.Range(0, 101) <= luck)
+        if(UnityEngine.Random.Range(0, 101) <= luck)
         {
             ChangeMovementPoints(extraMovementPoints);
             isExtraMovementWaisted = true;
