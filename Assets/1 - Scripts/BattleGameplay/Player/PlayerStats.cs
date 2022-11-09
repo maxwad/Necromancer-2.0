@@ -107,7 +107,7 @@ public class PlayerStats : MonoBehaviour
 
     private void Awake()
     {
-        boostManager = GlobalStorage.instance.unitBoostManager;
+        boostManager = GlobalStorage.instance.boostManager;
         InitStartParameters();
     }
 
@@ -200,7 +200,7 @@ public class PlayerStats : MonoBehaviour
     public void ForceUpdateStat(PlayersStats stat)
     {
         EventManager.OnSetNewPlayerStatEvent(stat, GetCurrentParameter(stat));
-        Debug.Log("Now " + stat + " = " + GetCurrentParameter(stat));
+        Debug.Log("ForceUpdate: Now " + stat + " = " + GetCurrentParameter(stat));
     }
 
     //private void AddBoostToStat(PlayersStats stat, float value)

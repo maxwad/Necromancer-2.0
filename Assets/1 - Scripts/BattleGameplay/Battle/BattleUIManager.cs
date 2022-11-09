@@ -81,7 +81,7 @@ public class BattleUIManager : MonoBehaviour
     private int currentSpellIndex = -1;
 
     [Header("Enemy")]
-    [SerializeField] private RectTransform bossWrapper;
+    [SerializeField] private RectTransform bossSpawnWrapper;
     [SerializeField] private Image enemiesValue;
     [SerializeField] private Image spawnValue;
     [SerializeField] private TMP_Text enemiesInfo;
@@ -89,6 +89,8 @@ public class BattleUIManager : MonoBehaviour
     private float currentEnemiesCount = 0;
     private float bossIndex = 0;
     [SerializeField] private GameObject bossMark;
+    [SerializeField] private GameObject bossUI;
+    [SerializeField] private RectTransform bossUIItemWrapper;
     private List<GameObject> bossMarkList = new List<GameObject>();
     private BossData[] bosses;
 
@@ -103,12 +105,14 @@ public class BattleUIManager : MonoBehaviour
     #endregion
 
     [Header("Boost")]
-    [SerializeField] private RectTransform boostWrapper;
-    [SerializeField] private RectTransform tempBoostWrapper;
+    [SerializeField] private RectTransform unitsBoostWrapper;
+    [SerializeField] private RectTransform enemiesBoostWrapper;
+    [SerializeField] private RectTransform fleshBoostWrapper;
     [SerializeField] private GameObject boostItem;
-    private Dictionary<BoostType, float> boostDict = new Dictionary<BoostType, float>();
+    private Dictionary<BoostType, float> unitsBoostDict = new Dictionary<BoostType, float>();
+    private Dictionary<BoostType, float> enemiesBoostDict = new Dictionary<BoostType, float>();
     private List<GameObject> boostItemList = new List<GameObject>();
-
+    private float boostLimit = -99f;
 
     private void Start()
     {
@@ -116,7 +120,7 @@ public class BattleUIManager : MonoBehaviour
         playerStats = GlobalStorage.instance.playerStats;
         levelManager = GlobalStorage.instance.macroLevelUpManager;
         resourcesManager = GlobalStorage.instance.resourcesManager;
-        boostManager = GlobalStorage.instance.unitBoostManager;
+        boostManager = GlobalStorage.instance.boostManager;
     }
 
     #region Helpers
@@ -324,7 +328,8 @@ public class BattleUIManager : MonoBehaviour
             item.SetActive(false);
         
         boostItemList.Clear();
-        boostDict.Clear();
+        unitsBoostDict.Clear();
+        enemiesBoostDict.Clear();
 
         Dictionary<BoostType, List<Boost>> boosts = boostManager.GetBoostDict();
         foreach(var item in boosts)
@@ -335,21 +340,36 @@ public class BattleUIManager : MonoBehaviour
             {
                 if(boost.effect == BoostEffect.PlayerBattle)
                 {
-                    if(boostDict.ContainsKey(item.Key))
-                        boostDict[item.Key] += boost.value;
+                    if(unitsBoostDict.ContainsKey(item.Key))
+                        unitsBoostDict[item.Key] += boost.value;
                     else
-                        boostDict[item.Key] = boost.value;
+                        unitsBoostDict[item.Key] = boost.value;
+
+                    if(unitsBoostDict[item.Key] < boostLimit) unitsBoostDict[item.Key] = boostLimit;
                 }
-                else
+
+                if(boost.effect == BoostEffect.EnemiesBattle)
                 {
-                    break;
+                    if(enemiesBoostDict.ContainsKey(item.Key))
+                        enemiesBoostDict[item.Key] += boost.value;
+                    else
+                        enemiesBoostDict[item.Key] = boost.value;
+
+                    if(enemiesBoostDict[item.Key] < boostLimit) enemiesBoostDict[item.Key] = boostLimit;
                 }
             }
         }
 
-        foreach(var boost in boostDict)
+        foreach(var boost in unitsBoostDict)
         {
-            CreateEffect(boostWrapper, boost.Key, boost.Value, true);
+            if(boost.Value != 0f) 
+                CreateEffect(unitsBoostWrapper, EffectType.Rune, boost.Key, boost.Value, true);
+        }
+
+        foreach(var boost in enemiesBoostDict)
+        {
+            if(boost.Value != 0f)
+                CreateEffect(enemiesBoostWrapper, EffectType.Enemy, boost.Key, boost.Value, true);
         }
     }
 
@@ -358,22 +378,27 @@ public class BattleUIManager : MonoBehaviour
         FillPlayerBoost();
     }
 
-    private void CreateEffect(Transform parent, BoostType type, float boost, bool constMode = true)
+    private void CreateEffect(Transform parent, EffectType effectType, BoostType type, float boost, bool constMode = true)
     {
         GameObject boostItemUI = objectsPool.GetObject(ObjectPool.BattleEffect);
         boostItemUI.transform.SetParent(parent, false);
         boostItemUI.SetActive(true);
-        if(parent == boostWrapper) boostItemList.Add(boostItemUI);
+        if(parent != fleshBoostWrapper) boostItemList.Add(boostItemUI);
 
         RunesType runeType = BoostConverter.instance.BoostTypeToRune(type);
         float value = boost;
         BoostInBattleUI item = boostItemUI.GetComponent<BoostInBattleUI>();
-        item.Init(runeType, value, constMode);
+        item.Init(runeType, value, constMode, effectType);
     }
 
-    private void ShowBoostEffect(BoostType type, float value)
+    private void ShowBoostEffect(BoostSender sender, BoostType type, float value)
     {
-        CreateEffect(tempBoostWrapper, type, value, false);
+        EffectType effectType = EffectType.Rune;
+
+        if(sender == BoostSender.EnemySystem) effectType = EffectType.Enemy;
+        if(sender == BoostSender.Spell) effectType = EffectType.Spell;
+   
+        CreateEffect(fleshBoostWrapper, effectType, type, value, false);
     }
 
     #endregion
@@ -575,21 +600,26 @@ public class BattleUIManager : MonoBehaviour
 
         bosses = bossesData;
         bossIndex = 0;
+
+        foreach(var boss in bossDict)
+        {
+            UnRegisterBoss(boss.Key, false);
+        }
         bossDict.Clear();
 
         foreach(GameObject child in bossMarkList)
             Destroy(child);
 
         bossMarkList.Clear();
-        float wrapperWidth = bossWrapper.rect.width;
+        float wrapperWidth = bossSpawnWrapper.rect.width;
 
         for(int i = 0; i < bosses.Length; i++)
         {
             GameObject bossItem = Instantiate(bossMark);
-            bossItem.transform.SetParent(bossWrapper.transform, false);
+            bossItem.transform.SetParent(bossSpawnWrapper.transform, false);
 
             float wPosition = (maxEnemiesCount - bosses[i].bound) / maxEnemiesCount;
-            bossItem.GetComponent<RectTransform>().localPosition = new Vector3(wPosition * wrapperWidth, 0, 0);
+            bossItem.GetComponent<RectTransform>().localPosition = new Vector3(wrapperWidth - wPosition * wrapperWidth, 0, 0);
 
             bossMarkList.Add(bossItem);
         }
@@ -610,12 +640,10 @@ public class BattleUIManager : MonoBehaviour
         return mark;
     }
 
-    public void FillSpawnEnemiesBar(int currentQuantity, bool isBoss)
+    public void FillSpawnEnemiesBar(int currentQuantity)
     {
         float widthEnemyScale = (maxEnemiesCount - currentQuantity) / maxEnemiesCount;
         spawnValue.fillAmount = widthEnemyScale;
-
-        //if(isBoss == true) ActivateBossMark();
     }
 
     public void FillDeadEnemiesBar(GameObject enemy)
@@ -633,6 +661,7 @@ public class BattleUIManager : MonoBehaviour
         public BossController boss;
         public Image bossMark;
         public RuneSO rune;
+        public BattleBossUI bossUI;
     }
 
     private Dictionary<BossController, BossUIData> bossDict = new Dictionary<BossController, BossUIData>();
@@ -640,23 +669,33 @@ public class BattleUIManager : MonoBehaviour
     public void RegisterBoss(float health, BossController bossC)
     {
         Image mark = ActivateBossMark();
+        GameObject bossUIGO = Instantiate(bossUI);
+        bossUIGO.transform.SetParent(bossUIItemWrapper, false);
+        BattleBossUI bossUIConmponent = bossUIGO.GetComponent<BattleBossUI>();
+
+        string tip = bossC.rune.positiveDescription.Replace("$", bossC.rune.value.ToString());
+        bossUIConmponent.Init(bossC.sprite, bossC.rune.activeIcon, tip, health);
 
         bossDict[bossC] = new BossUIData
         {
             boss = bossC,
             bossMark = mark,
-            rune = bossC.rune
+            rune = bossC.rune,
+            bossUI = bossUIConmponent
         };
     }
 
-    public void UnRegisterBoss(BossController boss)
+    public void UnRegisterBoss(BossController boss, bool cleanningMode)
     {
+        Destroy(bossDict[boss].bossMark.gameObject);
+        Destroy(bossDict[boss].bossUI.gameObject);
 
+        if(cleanningMode == true) bossDict.Remove(boss);
     }
 
-    public void UpdateBossHealth(float health, BossController boss)
+    public void UpdateBossHealth(float currentHealth, BossController boss)
     {
-
+        bossDict[boss].bossUI.UpdateHealth(currentHealth);
     }
 
 

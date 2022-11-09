@@ -24,7 +24,7 @@ public class WeaponDamage : MonoBehaviour
     {
         if(boostManager == null)
         {
-            boostManager = GlobalStorage.instance.unitBoostManager;
+            boostManager = GlobalStorage.instance.boostManager;
             playersStats = GlobalStorage.instance.playerStats;
         }
 

@@ -180,9 +180,9 @@ public static class EventManager
     //ACTIVATION:
     // - BattleBoostManager
     //
-    public delegate void ShowBoostEffectEvent(BoostType boost, float value);
+    public delegate void ShowBoostEffectEvent(BoostSender sender, BoostType boost, float value);
     public static event ShowBoostEffectEvent ShowBoostEffect;
-    public static void OnShowBoostEffectEvent(BoostType boost, float value) => ShowBoostEffect?.Invoke(boost, value);
+    public static void OnShowBoostEffectEvent(BoostSender sender, BoostType boost, float value) => ShowBoostEffect?.Invoke(sender, boost, value);
 
     //// 3 player boost system: give new boosted stats to listeners
     ////

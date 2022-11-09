@@ -12,7 +12,8 @@ public class RunesStorage : MonoBehaviour
     [HideInInspector] public List<RuneSO> enemySystemRunes = new List<RuneSO>();
 
     private RunesType[] runesTypes;
-    private int maxRuneLevel = 3;
+    private int maxRuneLevel = 4;
+    private int bossRuneLevel = 2;
 
     public void Init()
     {
@@ -115,7 +116,7 @@ public class RunesStorage : MonoBehaviour
         return null;
     }
 
-    public string GetRuneDescription(RunesType type)
+    public string GetRuneDescription(RunesType type, bool descriptionMode)
     {
         string text;
 
@@ -123,7 +124,7 @@ public class RunesStorage : MonoBehaviour
         {
             if(rune.rune == type)
             {
-                text = rune.positiveDescription;
+                text = (descriptionMode == true) ? rune.positiveDescription : rune.negativeDescription;
                 return text;
             }
         }
@@ -149,6 +150,18 @@ public class RunesStorage : MonoBehaviour
 
     public RuneSO GetRuneForBoss()
     {
-        return null;
+        RuneSO bossRune = null;
+        int count = 0;
+        while(bossRune == null)
+        {
+            int randomIndex = UnityEngine.Random.Range(0, enemySystemRunes.Count);
+            count++;
+
+            //if(enemySystemRunes[randomIndex].level == bossRuneLevel && enemySystemRunes[randomIndex].rune == RunesType.EnemyHealth)
+            if(enemySystemRunes[randomIndex].level == bossRuneLevel)
+                bossRune = enemySystemRunes[randomIndex];
+        }
+
+        return bossRune;
     }
 }

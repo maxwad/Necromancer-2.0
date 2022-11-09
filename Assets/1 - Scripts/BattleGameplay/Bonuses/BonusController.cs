@@ -36,7 +36,7 @@ public class BonusController : MonoBehaviour
     public void Init(bool specialMode, BonusSO bonus, float forceValue = 0)
     {
         if(bonus == null) return;
-        if(boostManager == null) boostManager = GlobalStorage.instance.unitBoostManager;
+        if(boostManager == null) boostManager = GlobalStorage.instance.boostManager;
 
         ResetBonusValue();
 

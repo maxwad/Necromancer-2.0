@@ -162,17 +162,15 @@ public class EnemySpawner : MonoBehaviour
                 enemy.SetActive(true);
 
                 //Create boss
-                bool isBoss = false;
                 if(ShouldICreateBoss(currentCommonQuantity) == true)
                 {
                     enemy.GetComponent<EnemyController>().MakeBoss();
-                    isBoss = true;
                 }
 
                 enemiesOnTheMap.Add(enemy);
                 enemiesQuantityList[randomIndex]--;
                 currentCommonQuantity--;
-                battleUIManager.FillSpawnEnemiesBar(currentCommonQuantity, isBoss);
+                battleUIManager.FillSpawnEnemiesBar(currentCommonQuantity);
             }
 
             yield return waitNextEnemy;

@@ -198,11 +198,11 @@ public class EnemyController : MonoBehaviour
     {
         float multiplier = isBoss == true ? bossCreateSecondMultiplier : 1;
 
-        if(currentHealth > healthBase * multiplier * 0.66f) normalColor = Color.white;
+        if(currentHealth > health * multiplier * 0.66f) normalColor = Color.white;
 
-        if(currentHealth < healthBase * multiplier * 0.66f) normalColor = Color.gray;
+        if(currentHealth < health * multiplier * 0.66f) normalColor = Color.gray;
 
-        if(currentHealth < healthBase * multiplier * 0.33f) normalColor = Color.red;
+        if(currentHealth < health * multiplier * 0.33f) normalColor = Color.red;
     }
 
     public void PushMe(Vector3 direction, float force)
@@ -244,7 +244,7 @@ public class EnemyController : MonoBehaviour
             //some event
         }
 
-        currentHealth = healthBase;
+        currentHealth = health;
         ColorBack();
         movementScript.MakeMeFixed(false);
         movementScript.StopMoving(false);
@@ -283,8 +283,13 @@ public class EnemyController : MonoBehaviour
         rbEnemy.mass         /= bossCreateMainMultiplier;
         exp                  /= bossCreateSecondMultiplier;
 
-        gameObject.GetComponent<BossController>().StopSpelling();
-        Destroy(gameObject.GetComponent<BossController>());
+        if(bossController != null)
+        {
+            bossController.StopSpelling();
+            if(currentHealth <= 0) bossController.BossDeath();
+
+            Destroy(bossController);
+        }
     }
 
     private void BackToPool()
@@ -294,7 +299,12 @@ public class EnemyController : MonoBehaviour
 
     private void UpgradeParameters(BoostType boost, float value)
     {
-        if(boost == BoostType.EnemyHealth) health = healthBase + healthBase * value;
+        if(boost == BoostType.EnemyHealth)
+        {
+            health = healthBase + healthBase * value;
+            if(isBoss == false && currentHealth > health) currentHealth = health;
+        }
+
         if(boost == BoostType.EnemyPhysicAttack) physicAttack = physicAttackBase + physicAttackBase * value;
         if(boost == BoostType.EnemyPhysicDefence) physicDefence = physicDefenceBase + physicDefenceBase * value;
         if(boost == BoostType.EnemyMagicAttack) magicAttack = magicAttackBase + magicAttackBase * value;
@@ -308,10 +318,15 @@ public class EnemyController : MonoBehaviour
         EventManager.EndOfBattle += BackToPool;
         EventManager.SetBattleBoost += UpgradeParameters;
 
-        if(boostManager == null) boostManager = GlobalStorage.instance.unitBoostManager;
+        if(boostManager == null) boostManager = GlobalStorage.instance.boostManager;
 
         health = healthBase + healthBase * boostManager.GetBoost(BoostType.EnemyHealth);
         currentHealth = health;
+        //if(GlobalStorage.instance.isGlobalMode == false)
+        //{
+        //    Debug.Log(gameObject.name + " = " + currentHealth);
+        //}
+        
         physicAttack = physicAttackBase + physicAttackBase * boostManager.GetBoost(BoostType.EnemyPhysicAttack);
         physicDefence = physicDefenceBase + physicDefenceBase * boostManager.GetBoost(BoostType.EnemyPhysicDefence);
         magicAttack = magicAttackBase + magicAttackBase * boostManager.GetBoost(BoostType.EnemyMagicAttack);

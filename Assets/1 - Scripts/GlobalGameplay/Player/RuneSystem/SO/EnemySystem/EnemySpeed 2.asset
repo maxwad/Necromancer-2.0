@@ -18,7 +18,7 @@ MonoBehaviour:
   activeIcon: {fileID: -8200830578034748404, guid: 108daa14e3115264995337bc498c548a, type: 3}
   inActiveIcon: {fileID: 4067945093906407306, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
   level: 2
-  value: 20
+  value: 50
   isInvertedRune: 0
   cost: []
   realCost: []

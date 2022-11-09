@@ -26,6 +26,7 @@ public class BossController : MonoBehaviour
 
     [HideInInspector] public RuneSO rune;
     private RunesManager runesManager;
+    private BattleBoostManager boostManager;
 
     public void Init(float maxHealth, Sprite pict)
     {
@@ -34,6 +35,7 @@ public class BossController : MonoBehaviour
         animatorScript = GetComponent<SimpleAnimator>();
         player = GlobalStorage.instance.battlePlayer;
         runesManager = GlobalStorage.instance.runesManager;
+        boostManager = GlobalStorage.instance.boostManager;
 
         spell = (BossSpells)UnityEngine.Random.Range(0, Enum.GetValues(typeof(BossSpells)).Length);
         //spell = (BossSpells)1;
@@ -44,11 +46,40 @@ public class BossController : MonoBehaviour
         sprite = pict;
         rune = runesManager.runesStorage.GetRuneForBoss();
         battleUIManager.RegisterBoss(healthMax, this);
+
+        ApplyRune(false);
     }
 
-    public void UpdateBossHealth(float maxHealth)
+    public void UpdateBossHealth(float currentHealth)
     {
-        battleUIManager.UpdateBossHealth(maxHealth, this);
+        battleUIManager.UpdateBossHealth(currentHealth, this);
+    }
+
+    public void ApplyRune(bool changeMode)
+    {
+        BoostType type = BoostConverter.instance.RuneToBoostType(rune.rune);
+        float value;
+        if(changeMode == false)
+            value = (rune.isInvertedRune == true) ? -rune.value : rune.value;
+        else
+            value = (rune.isInvertedRune == true) ? rune.value : -rune.value;
+
+        boostManager.SetBoost(type, BoostSender.EnemySystem, BoostEffect.EnemiesBattle, value);
+    }
+
+    public void DeleteRune()
+    {
+        BoostType type = BoostConverter.instance.RuneToBoostType(rune.rune);
+        float value = (rune.isInvertedRune == true) ? -rune.value : rune.value;
+        boostManager.DeleteBoost(type, BoostSender.EnemySystem, value);
+
+        ApplyRune(true);
+    }
+
+    public void BossDeath()
+    {
+        DeleteRune();
+        battleUIManager.UnRegisterBoss(this, true);
     }
 
     public void StopSpelling()
@@ -102,5 +133,10 @@ public class BossController : MonoBehaviour
         //we need this checking because when we turn off Editor, at this moment Unity had already destroyed most of objects and we receive error
         if(GlobalStorage.instance != null && GlobalStorage.instance.spellManager != null)
             GlobalStorage.instance.spellManager.GetComponent<SpellLibrary>().ActivateBossSpell(spell, false);
+    }
+
+    private void OnDestroy()
+    {
+        StopSpelling();
     }
 }

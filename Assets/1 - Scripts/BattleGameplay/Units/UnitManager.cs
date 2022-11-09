@@ -23,7 +23,7 @@ public class UnitManager : MonoBehaviour
 
     private void Awake()
     {
-        boostManager = GlobalStorage.instance.unitBoostManager;        
+        boostManager = GlobalStorage.instance.boostManager;        
     }
 
     public void LoadUnits()

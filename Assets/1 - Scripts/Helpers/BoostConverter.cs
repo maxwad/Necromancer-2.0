@@ -54,7 +54,7 @@ public class BoostConverter : MonoBehaviour
             }
         }
 
-        if(result == PlayersStats.Level) Debug.Log("FAIL: Converted " + boost + " to " + result);
+        //if(result == PlayersStats.Level) Debug.Log("FAIL: Converted " + boost + " to " + result);
 
         return result;
     }

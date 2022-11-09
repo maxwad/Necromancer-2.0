@@ -54,7 +54,7 @@ public class BattleBoostManager : MonoBehaviour
         boostItemsDict[type].Add(new Boost(sender, effect, value));
         RecalculateBoost(type);
 
-        if(GlobalStorage.instance.isGlobalMode == false) EventManager.OnShowBoostEffectEvent(type, value);
+        if(GlobalStorage.instance.isGlobalMode == false) EventManager.OnShowBoostEffectEvent(sender, type, value);
     }
 
     public void DeleteBoost(BoostType type, BoostSender sender, float value)
@@ -97,8 +97,10 @@ public class BattleBoostManager : MonoBehaviour
 
         commonBoostDict[type] = result;
 
+        Debug.Log("Now " + type + " = " + result);
         if(sendMode == true) 
         {
+            if(result < -99) result = -99f;
             EventManager.OnSetBattleBoostEvent(type, result / 100);
 
             PlayersStats stat = BoostConverter.instance.BoostTypeToPlayerStat(type);
@@ -133,7 +135,7 @@ public class BattleBoostManager : MonoBehaviour
 
             for(int i = tempList.Count - 1; i >= 0; i--)
             {
-                if(tempList[i].sender == BoostSender.Spell || tempList[i].sender == BoostSender.Rune)
+                if(tempList[i].sender != BoostSender.Calendar)
                 {
                     tempList.Remove(tempList[i]);
                 }

@@ -57,7 +57,7 @@ public class WeaponStorage : MonoBehaviour
         if(objectsPool == null) 
         { 
             objectsPool = GlobalStorage.instance.objectsPoolManager;
-            boostManager = GlobalStorage.instance.unitBoostManager;
+            boostManager = GlobalStorage.instance.boostManager;
         }
 
         if(unit.unitController == null) return null;

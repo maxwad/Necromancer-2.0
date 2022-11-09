@@ -47,7 +47,7 @@ public class RunesManager : MonoBehaviour
         runesStorage = gameObject.GetComponentInChildren<RunesStorage>();
         runesWindow = GlobalStorage.instance.playerMilitaryWindow.GetComponentInChildren<RunesWindow>();
         levelUpManager = GlobalStorage.instance.macroLevelUpManager;
-        boostManager = GlobalStorage.instance.unitBoostManager;
+        boostManager = GlobalStorage.instance.boostManager;
 
         runesStorage.Init();
         availableRunes = runesStorage.GetAvailableRunes();

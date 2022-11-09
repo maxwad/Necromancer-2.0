@@ -31,7 +31,7 @@ public class BoostInBattleUI : MonoBehaviour
     [SerializeField] private float normalFont = 16f;
     [SerializeField] private float bigFont = 24f;
 
-    [SerializeField] private float lifeTime = 3f;
+    [SerializeField] private float lifeTime = 5f;
 
     private Coroutine fadeCoroutine;
 
@@ -39,9 +39,12 @@ public class BoostInBattleUI : MonoBehaviour
     {
         if(runesManager == null) runesManager = GlobalStorage.instance.runesManager;
 
-        Sprite pict = runesManager.runesStorage.GetRuneIcon(runeType);
-        string descr = runesManager.runesStorage.GetRuneDescription(runeType);
         bool isInvertedRune = runesManager.runesStorage.GetRuneInvertion(runeType);
+        Sprite pict = runesManager.runesStorage.GetRuneIcon(runeType);
+
+        bool descrMode = false;
+        if((value > 0 && isInvertedRune == false) || (value < 0 && isInvertedRune == true)) descrMode = true;
+        string descr = runesManager.runesStorage.GetRuneDescription(runeType, descrMode);
 
         icon.sprite = pict;
 
@@ -61,7 +64,7 @@ public class BoostInBattleUI : MonoBehaviour
 
         amount.color = color;
 
-        tip.content = descr.Replace("$", value.ToString());
+        tip.content = descr.Replace("$", Mathf.Abs(value).ToString());
 
         Refactoring(constEffect, effectType);
     }

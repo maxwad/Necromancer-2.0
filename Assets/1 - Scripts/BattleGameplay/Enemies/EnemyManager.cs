@@ -24,7 +24,7 @@ public class EnemyManager : MonoBehaviour
 
     public void InitializeEnemies()
     {
-        boostManager = GlobalStorage.instance.unitBoostManager;
+        boostManager = GlobalStorage.instance.boostManager;
         enemyArragement = GetComponent<EnemyArragement>();
         enemySquadGenerator = GetComponent<EnemySquadGenerator>();
 

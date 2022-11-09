@@ -44,7 +44,7 @@ public class UnitController : MonoBehaviour
 
     public void Initilize(Unit unitSource) 
     {
-        if(boostManager == null) boostManager = GlobalStorage.instance.unitBoostManager;
+        if(boostManager == null) boostManager = GlobalStorage.instance.boostManager;
 
         unit = unitSource;
         currentHealth = unitSource.health;

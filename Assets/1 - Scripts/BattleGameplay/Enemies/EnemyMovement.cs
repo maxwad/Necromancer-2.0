@@ -37,7 +37,7 @@ public class EnemyMovement : MonoBehaviour
     {
         EventManager.SetBattleBoost += UpgradeParameters;
 
-        if(boostManager == null) boostManager = GlobalStorage.instance.unitBoostManager;
+        if(boostManager == null) boostManager = GlobalStorage.instance.boostManager;
         speed = speedBase + speedBase * boostManager.GetBoost(BoostType.EnemyMovementSpeed);
     }
 

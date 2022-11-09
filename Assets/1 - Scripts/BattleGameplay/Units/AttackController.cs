@@ -21,7 +21,7 @@ public class AttackController : MonoBehaviour
         {
             unit = GetComponent<UnitController>().unit;
             weaponStorage = GlobalStorage.instance.player.GetComponent<WeaponStorage>();
-            boostManager = GlobalStorage.instance.unitBoostManager;
+            boostManager = GlobalStorage.instance.boostManager;
         }
 
         startAttackDelay = Random.Range(startAttackDelay * 10 - startAttackDelay, startAttackDelay * 10 + startAttackDelay) / 10;

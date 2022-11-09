@@ -78,7 +78,7 @@ public class WeaponMovement : MonoBehaviour
         if(weaponDamage == null)
         {
             weaponDamage = GetComponent<WeaponDamage>();
-            boostManager = GlobalStorage.instance.unitBoostManager;        
+            boostManager = GlobalStorage.instance.boostManager;        
         }
     }
 

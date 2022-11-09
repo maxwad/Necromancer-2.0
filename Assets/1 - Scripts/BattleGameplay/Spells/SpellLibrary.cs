@@ -14,7 +14,7 @@ public class SpellLibrary : MonoBehaviour
     private void Start()
     {
         resourcesManager = GlobalStorage.instance.resourcesManager;
-        boostManager = GlobalStorage.instance.unitBoostManager;
+        boostManager = GlobalStorage.instance.boostManager;
     }
 
     public void ActivateSpell(Spells spell, bool mode, float value = 0, float duration = 0)

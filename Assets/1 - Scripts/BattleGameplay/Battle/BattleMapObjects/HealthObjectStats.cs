@@ -29,7 +29,7 @@ public class HealthObjectStats : MonoBehaviour
 
     private void Start()
     {
-        boostManager = GlobalStorage.instance.unitBoostManager;
+        boostManager = GlobalStorage.instance.boostManager;
         currentHealth = health;
         sprite = GetComponent<SpriteRenderer>();
         if(sprite != null) normalColor = sprite.color;

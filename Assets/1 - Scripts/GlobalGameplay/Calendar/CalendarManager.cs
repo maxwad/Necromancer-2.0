@@ -52,7 +52,7 @@ public class CalendarManager : MonoBehaviour
 
     public void Init()
     {
-        boostManager = GlobalStorage.instance.unitBoostManager;
+        boostManager = GlobalStorage.instance.boostManager;
         gmInterface = GlobalStorage.instance.gmInterface;
         calendarData = new CalendarData(daysLeft, day, decade, month);
         gmInterface.UpdateCalendar(calendarData);

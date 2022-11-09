@@ -36,7 +36,7 @@ public class SpellButtonController : MonoBehaviour
         hero = GlobalStorage.instance.hero;
         spellLibrary = GlobalStorage.instance.spellManager.GetComponent<SpellLibrary>();
         resourcesManager = GlobalStorage.instance.resourcesManager;
-        boostManager = GlobalStorage.instance.unitBoostManager;
+        boostManager = GlobalStorage.instance.boostManager;
 
         spell = newSpell;
 
