@@ -21,6 +21,7 @@ public class EnemySquadGenerator : MonoBehaviour
 
     private float playerLevel;
     private float countOfSquad;
+    private float defaultMultiplier = 0.25f;
     private float sizeOfSquadMultiplier;
     public float maxCountOfSquad = 15; //random number
     public float enemyQuantityDivider = 2;
@@ -42,7 +43,7 @@ public class EnemySquadGenerator : MonoBehaviour
         countOfSquad = Mathf.Ceil(playerLevel / enemyQuantityDivider);
         if(countOfSquad > maxCountOfSquad) countOfSquad = maxCountOfSquad;
 
-        sizeOfSquadMultiplier = Mathf.Ceil(playerLevel / enemySizeDivider) * (int)armyStrength;
+        sizeOfSquadMultiplier = Mathf.Ceil(playerLevel / enemySizeDivider) * (1 + defaultMultiplier * ((int)armyStrength - 1));
 
         Army newArmy = new Army();
         newArmy.strength = armyStrength;
@@ -54,7 +55,7 @@ public class EnemySquadGenerator : MonoBehaviour
             GameObject randomSquad = allEnemiesPrefabList[randomIndex];
             newArmy.squadList.Add(randomSquad);
 
-            int randomQuantity = (int)sizeOfSquadMultiplier * Mathf.RoundToInt(
+            int randomQuantity = Mathf.RoundToInt(sizeOfSquadMultiplier *
                 Random.Range((enemyPortion - enemyPortion * percentGap), (enemyPortion + enemyPortion * percentGap))
                 );
             newArmy.quantityList.Add(randomQuantity);

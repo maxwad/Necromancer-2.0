@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   decadeName: Week of Endurance
   effect: {fileID: 11400000, guid: e0ddbde5fb942bf44a7f29c1fdd18d7b, type: 2}
-  purpose: 1
+  purpose: 2
   isNegative: 0

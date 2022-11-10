@@ -8,7 +8,7 @@ public class LigthningController : MonoBehaviour
     [SerializeField] private GameObject ray;
     [SerializeField] private Collider2D dangerCollider;
 
-    private float originalSize;
+    [SerializeField] float originalSize = 6;
     private float currentSize = 0;
     private float appearTime = 1.5f;
     private float stepTime = 0.01f;
@@ -16,17 +16,18 @@ public class LigthningController : MonoBehaviour
     private float minPlayerDamage = 10f;
     private float maxPlayerDamage = 15f;
 
-    private void Start()
-    {
-        originalSize = transform.localScale.x;
-        transform.localScale = Vector3.zero;
+    private Coroutine coroutine;
 
+    private void OnEnable()
+    {
+        transform.localScale = Vector3.zero;
+        currentSize = 0;
         //dangerCollider = GetComponent<Collider2D>();
         dangerCollider.enabled = false;
 
         ray.SetActive(false);
 
-        StartCoroutine(Appearing());
+        coroutine = StartCoroutine(Appearing());
     }
 
     private IEnumerator Appearing()
@@ -50,7 +51,7 @@ public class LigthningController : MonoBehaviour
 
         yield return new WaitForSeconds(0.2f);
 
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -66,5 +67,10 @@ public class LigthningController : MonoBehaviour
             float damage = Random.Range(minPlayerDamage, maxPlayerDamage);
             collision.GetComponent<UnitController>().TakeDamage(damage / 2, damage / 2);
         }
+    }
+
+    private void OnDisable()
+    {
+        if(coroutine != null) StopCoroutine(coroutine);
     }
 }

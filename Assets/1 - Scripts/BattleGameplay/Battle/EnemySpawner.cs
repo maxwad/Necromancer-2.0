@@ -113,11 +113,13 @@ public class EnemySpawner : MonoBehaviour
         removeQuantity = 0;
         battleMap = GetComponent<BattleMap>().battleArray;
         spawnCoroutine = StartCoroutine(SpawnEnemy());
+        enemyEffector.Init(currentStrength);
     }
 
     public void StopSpawnEnemy()
     {
         canISpawn = false;
+        enemyEffector.StopEffector();
         enemiesOnTheMap.Clear();
     }
 

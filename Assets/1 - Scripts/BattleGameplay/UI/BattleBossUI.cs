@@ -18,7 +18,7 @@ public class BattleBossUI : MonoBehaviour
     {
         bossIcon.sprite = bossPict;
         runeIcon.sprite = runePict;
-        tooltip.content = "Current effect (kill this boss to get reverse effect):" + tip;
+        tooltip.content = "Current effect (kill this boss to get reverse effect): " + tip;
         maxHealth = Mathf.Round(health);
         healthCount.text = maxHealth + "/" + maxHealth;
     }

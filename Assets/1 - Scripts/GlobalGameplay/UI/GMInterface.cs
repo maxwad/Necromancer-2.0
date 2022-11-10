@@ -163,7 +163,7 @@ public class GMInterface : MonoBehaviour
             healthMax = maxValue;
             type = ResourceType.Health;
         }
-
+        Debug.Log("NEW");
         UpgrateManaHealthUI(type, resourcesDict[type]);
     }
 
@@ -192,6 +192,8 @@ public class GMInterface : MonoBehaviour
 
         scale.fillAmount = currentAmount / maxAmount;
         currentText.text = Mathf.Round(currentAmount) + "/" + maxAmount;
+
+        Debug.Log("Current = " + currentAmount + "max = " + maxAmount);
     }
 
     public void UpgradeLevel(LevelData data)

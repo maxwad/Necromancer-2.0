@@ -13,7 +13,7 @@ public class EnemyArmyOnTheMap : MonoBehaviour
     [HideInInspector] public Army army;
     [HideInInspector] public int commonCount = 0;
 
-    private ArmyStrength armyStrength = ArmyStrength.Middle;
+    private ArmyStrength armyStrength = ArmyStrength.High;
     public TypeOfArmy typeOfArmy = TypeOfArmy.OnTheMap;
 
     private SpriteRenderer sprite;

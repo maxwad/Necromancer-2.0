@@ -1,14 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class ShurikenController : MonoBehaviour
 {
     private Rigidbody2D rb;
     Vector3 direction;
     public float movementSpeed = 20;
-    public float rotationSpeed = 1;
+    public float rotationSpeed = 2;
 
     void Start()
     {

@@ -1,32 +1,40 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using static NameManager;
 
 public class BossController : MonoBehaviour
 {
-    private float delayAttack = 20f;
-    private float timeAttack = 10f;
-    private float timeStep = 1f;
-
     [HideInInspector] public float healthMax;
     [HideInInspector] public float currentHealth;
     [HideInInspector] public Sprite sprite;
 
-    private float radiusPlayerSearch = 20;
     private BattleArmyController player;
     private EnemyMovement movementScript;
     private BattleUIManager battleUIManager;
     private SimpleAnimator animatorScript;
 
+    [Header("Attack")]
+    private float delayAttack = 5f;
+    private float timeAttack = 10f;
+    private float attackPeriod = 2f;
+    private float timeStep = 1f;
+    private float radiusPlayerSearch = 20;
+
     private bool isSpelling = false;
     private BossSpells spell;
     private Coroutine spelling;
 
+    private EnemyBossWeapons bossWeapon;
+    private Coroutine waitCoroutine;
+    private Coroutine attackCoroutine;
+
+    [Header("Runes")]
     [HideInInspector] public RuneSO rune;
     private RunesManager runesManager;
     private BattleBoostManager boostManager;
+
+    #region HELPERS
 
     public void Init(float maxHealth, Sprite pict)
     {
@@ -37,24 +45,46 @@ public class BossController : MonoBehaviour
         runesManager = GlobalStorage.instance.runesManager;
         boostManager = GlobalStorage.instance.boostManager;
 
-        spell = (BossSpells)UnityEngine.Random.Range(0, Enum.GetValues(typeof(BossSpells)).Length);
-        //spell = (BossSpells)1;
-
-        spelling = StartCoroutine(Spelling());
-
         healthMax = maxHealth;
         sprite = pict;
         rune = runesManager.runesStorage.GetRuneForBoss();
         battleUIManager.RegisterBoss(healthMax, this);
 
         ApplyRune(false);
+
+        bossWeapon = gameObject.AddComponent<EnemyBossWeapons>();
+        spell = (BossSpells)UnityEngine.Random.Range(0, Enum.GetValues(typeof(BossSpells)).Length);
+        spell = (BossSpells)0;
+
+        //spelling = StartCoroutine(Spelling());
+
+        waitCoroutine = StartCoroutine(Waiting());
     }
 
     public void UpdateBossHealth(float currentHealth)
     {
         battleUIManager.UpdateBossHealth(currentHealth, this);
     }
+   
+    public void BossDeath()
+    {
+        DeleteRune();
+        battleUIManager.UnRegisterBoss(this, true);
 
+        bossWeapon.ActivateBossWeapon(spell, false);
+        if(waitCoroutine != null) StopCoroutine(waitCoroutine);
+
+        Destroy(bossWeapon);
+    }
+
+    private void OnDestroy()
+    {
+        bossWeapon.ActivateBossWeapon(spell, false);
+    }
+
+    #endregion
+
+    #region RUNES
     public void ApplyRune(bool changeMode)
     {
         BoostType type = BoostConverter.instance.RuneToBoostType(rune.rune);
@@ -76,67 +106,82 @@ public class BossController : MonoBehaviour
         ApplyRune(true);
     }
 
-    public void BossDeath()
-    {
-        DeleteRune();
-        battleUIManager.UnRegisterBoss(this, true);
-    }
+    #endregion
 
-    public void StopSpelling()
-    {
-        if(spelling != null) StopCoroutine(spelling);
-        StopSpell();
-    }
+    //private IEnumerator Spelling()
+    //{
+    //    WaitForSeconds timeStepDelay = new WaitForSeconds(timeStep);
 
-    private IEnumerator Spelling()
-    {
-        WaitForSeconds timeStepDelay = new WaitForSeconds(timeStep);
+    //    while(true)
+    //    {
+    //        yield return new WaitForSeconds(delayAttack);
+    //        float countTime = 0;
 
+    //        while(Vector3.Distance(transform.position, player.transform.position) > radiusPlayerSearch)
+    //        {
+    //            yield return timeStepDelay;
+    //        }
+
+    //        movementScript.StopMoving(true);
+    //        animatorScript.ChangeAnimation(Animations.Attack);
+
+    //        while(countTime <= timeAttack)
+    //        {
+    //            yield return timeStepDelay;
+    //            countTime += timeStep;
+
+    //            if(countTime > 0 && isSpelling == false)
+    //            {
+    //                Spell(timeAttack - countTime);
+    //                isSpelling = true;
+    //            }
+    //        }
+
+    //        movementScript.StopMoving(false);
+    //        animatorScript.ChangeAnimation(Animations.Walk);
+    //        isSpelling = false;
+    //    }        
+    //}
+
+    private IEnumerator Waiting()
+    {
         while(true)
         {
+            float actionTime = 0;
+
             yield return new WaitForSeconds(delayAttack);
-            float countTime = 0;
 
             while(Vector3.Distance(transform.position, player.transform.position) > radiusPlayerSearch)
             {
-                yield return timeStepDelay;
+                yield return timeStep;
             }
 
             movementScript.StopMoving(true);
             animatorScript.ChangeAnimation(Animations.Attack);
 
-            while(countTime <= timeAttack)
+            while(actionTime <= timeAttack)
             {
-                yield return timeStepDelay;
-                countTime += timeStep;
+                actionTime += attackPeriod;
 
-                if(countTime > 0 && isSpelling == false)
-                {
-                    Spell(timeAttack - countTime);
-                    isSpelling = true;
-                }
+                bossWeapon.ActivateBossWeapon(spell, true);
+
+                yield return new WaitForSeconds(attackPeriod);
             }
+
+            bossWeapon.ActivateBossWeapon(spell, false);
 
             movementScript.StopMoving(false);
             animatorScript.ChangeAnimation(Animations.Walk);
-            isSpelling = false;
-        }        
+        }
     }
 
-    private void Spell(float duration)
-    {        
-        GlobalStorage.instance.spellManager.GetComponent<SpellLibrary>().ActivateBossSpell(spell, true, duration);
-    }
+    //private void Spell(float duration)
+    //{
+    //    bossWeapon.ActivateBossWeapon(spell, true, duration);
+    //}
 
-    private void StopSpell()
-    {
-        //we need this checking because when we turn off Editor, at this moment Unity had already destroyed most of objects and we receive error
-        if(GlobalStorage.instance != null && GlobalStorage.instance.spellManager != null)
-            GlobalStorage.instance.spellManager.GetComponent<SpellLibrary>().ActivateBossSpell(spell, false);
-    }
-
-    private void OnDestroy()
-    {
-        StopSpelling();
-    }
+    //private void StopSpell()
+    //{
+    //    bossWeapon.ActivateBossWeapon(spell, false);
+    //}
 }

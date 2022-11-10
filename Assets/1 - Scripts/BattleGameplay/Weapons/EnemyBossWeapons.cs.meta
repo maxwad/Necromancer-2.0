@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 1f53769aa129bfe4392b3dc78617ceea
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - lightningPrefab: {fileID: 340905655479658512, guid: 668b28be8a7dbb44da428b32fab74c42, type: 3}
+  - manningLessPrefab: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

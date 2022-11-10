@@ -5,7 +5,6 @@ using static NameManager;
 
 public class SpellLibrary : MonoBehaviour
 {
-    private ResourcesManager resourcesManager;
     private BattleBoostManager boostManager;
 
     [SerializeField] private GameObject shuriken;
@@ -13,7 +12,6 @@ public class SpellLibrary : MonoBehaviour
 
     private void Start()
     {
-        resourcesManager = GlobalStorage.instance.resourcesManager;
         boostManager = GlobalStorage.instance.boostManager;
     }
 
@@ -331,114 +329,4 @@ public class SpellLibrary : MonoBehaviour
 
     #endregion
 
-    ///////////////////////////////////////
-    ///////////////////////////////////////
-    ///////////////////////////////////////
-
-    #region Boss's Spells
-
-    private List<BossSpells> currentBossSpellList = new List<BossSpells>();
-    private Coroutine bossCoroutine;
-
-    [SerializeField] private GameObject lightningPrefab;
-
-    public void ActivateBossSpell(BossSpells bossSpell, bool mode, float duration = 0)
-    {
-        switch(bossSpell)
-        {
-            case BossSpells.InvertMovement:
-                InvertMovement(mode);
-                break;
-
-            case BossSpells.Lightning:
-                Lightning(mode);
-                break;
-
-            case BossSpells.ManningLess:
-                ManningLess(mode);
-                break;
-
-            default:
-                break;
-        }
-
-        if(mode == true)
-        {
-            currentBossSpellList.Add(bossSpell);
-            StartCoroutine(DeactivateBossSpell(bossSpell, duration));
-        }
-        else
-        {
-            currentBossSpellList.Remove(bossSpell);
-            if(bossCoroutine != null) StopCoroutine(bossCoroutine);
-        }
-    }
-
-    private IEnumerator DeactivateBossSpell(BossSpells spell, float duration)
-    {
-        yield return new WaitForSeconds(duration);
-
-        ActivateBossSpell(spell, false);
-    }
-
-    private void DeactivateAllBossSpells(bool mode)
-    {
-        if(mode == true)
-        {
-            foreach(var item in currentBossSpellList)
-            {
-                StartCoroutine(DeactivateBossSpell(item, 0));
-            }
-        }
-    }
-
-    public void AbortBossSpell()
-    {
-        DeactivateAllBossSpells(true);
-    }
-
-    private void InvertMovement(bool mode)
-    {
-        GlobalStorage.instance.battlePlayer.MovementInverting(mode);
-    }
-
-    private void ManningLess(bool mode)
-    {
-        if(mode == true) bossCoroutine = StartCoroutine(StealMana(-1));
-
-        IEnumerator StealMana(float quantity)
-        {
-            while(true)
-            {
-                yield return new WaitForSeconds(2f);
-                resourcesManager.ChangeResource(ResourceType.Mana, quantity);
-            }           
-        }
-    }
-    private void Lightning(bool mode) 
-    {
-        if(mode == true) bossCoroutine = StartCoroutine(StartLightning());
-
-        IEnumerator StartLightning()
-        {
-            while(true)
-            {
-                yield return new WaitForSeconds(2f);
-                GameObject ray = Instantiate(lightningPrefab, GlobalStorage.instance.hero.transform.position, Quaternion.identity);
-                ray.transform.SetParent(GlobalStorage.instance.effectsContainer.transform);
-            }
-        }
-    }
-
-    #endregion
-
-    private void OnEnable()
-    {
-        EventManager.SwitchPlayer += DeactivateAllBossSpells;
-    }
-
-    private void OnDisable()
-    {
-        EventManager.SwitchPlayer += DeactivateAllBossSpells;
-    }
 }

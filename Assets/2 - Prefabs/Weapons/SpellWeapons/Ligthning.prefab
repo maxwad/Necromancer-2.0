@@ -256,3 +256,4 @@ MonoBehaviour:
   dangerZone: {fileID: 340905655180563606}
   ray: {fileID: 340905654987921925}
   dangerCollider: {fileID: 6652811305992876120}
+  originalSize: 6

@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   decadeName: Week of Evil
   effect: {fileID: 11400000, guid: 9609be0ee7146934cb62d1aef5704fd9, type: 2}
-  purpose: 1
+  purpose: 2
   isNegative: 0

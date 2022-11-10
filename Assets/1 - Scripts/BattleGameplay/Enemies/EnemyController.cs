@@ -285,7 +285,7 @@ public class EnemyController : MonoBehaviour
 
         if(bossController != null)
         {
-            bossController.StopSpelling();
+            //bossController.StopSpelling();
             if(currentHealth <= 0) bossController.BossDeath();
 
             Destroy(bossController);

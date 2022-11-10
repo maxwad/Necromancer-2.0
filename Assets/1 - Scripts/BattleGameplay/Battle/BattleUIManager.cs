@@ -87,12 +87,26 @@ public class BattleUIManager : MonoBehaviour
     [SerializeField] private TMP_Text enemiesInfo;
     private float maxEnemiesCount = 0;
     private float currentEnemiesCount = 0;
+
     private float bossIndex = 0;
     [SerializeField] private GameObject bossMark;
     [SerializeField] private GameObject bossUI;
     [SerializeField] private RectTransform bossUIItemWrapper;
     private List<GameObject> bossMarkList = new List<GameObject>();
     private BossData[] bosses;
+    public class BossUIData
+    {
+        public BossController boss;
+        public Image bossMark;
+        public RuneSO rune;
+        public BattleBossUI bossUI;
+    }
+    private Dictionary<BossController, BossUIData> bossDict = new Dictionary<BossController, BossUIData>();
+
+    [SerializeField] private Image nextRune;
+    [SerializeField] private TMP_Text runeTimer;
+    [SerializeField] private TooltipTrigger runeTip;
+    [SerializeField] private CanvasGroup runeCanvas;
 
     [Header("End of Battle")]
     [SerializeField] private GameObject leaveBlock;
@@ -401,6 +415,26 @@ public class BattleUIManager : MonoBehaviour
         CreateEffect(fleshBoostWrapper, effectType, type, value, false);
     }
 
+    public void SetRuneTimer(Sprite pict, float count, string tip)
+    {
+        nextRune.sprite = pict;
+        runeTimer.text = count.ToString();
+        runeTip.content = "Next enemies' boost: " + tip;
+        Fading.instance.Fade(true, runeCanvas);
+    }
+
+    public void ClearRuneTimer()
+    {
+        Fading.instance.Fade(false, runeCanvas);
+        runeTimer.text = "";
+        runeTip.content = "";
+    }
+
+    public void UpdateRunetimer(float count)
+    {
+        runeTimer.text = count.ToString();
+    }
+
     #endregion
 
     #region TempExp
@@ -655,16 +689,6 @@ public class BattleUIManager : MonoBehaviour
         enemiesValue.fillAmount = widthEnemyScale;
         enemiesInfo.text = currentEnemiesCount.ToString();
     }
-
-    public class BossUIData 
-    {
-        public BossController boss;
-        public Image bossMark;
-        public RuneSO rune;
-        public BattleBossUI bossUI;
-    }
-
-    private Dictionary<BossController, BossUIData> bossDict = new Dictionary<BossController, BossUIData>();
 
     public void RegisterBoss(float health, BossController bossC)
     {

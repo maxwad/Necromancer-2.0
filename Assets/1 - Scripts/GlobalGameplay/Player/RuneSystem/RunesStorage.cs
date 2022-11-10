@@ -164,4 +164,9 @@ public class RunesStorage : MonoBehaviour
 
         return bossRune;
     }
+
+    public List<RuneSO> GetEnemySystemRunes()
+    {
+        return enemySystemRunes;
+    }
 }

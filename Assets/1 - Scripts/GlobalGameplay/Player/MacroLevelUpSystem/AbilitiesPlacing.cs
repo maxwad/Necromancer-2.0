@@ -112,9 +112,5 @@ public class AbilitiesPlacing : MonoBehaviour
                 }
             }
         }
-        else
-        {
-            Debug.Log("Skills are ended.");
-        }
     }
 }
