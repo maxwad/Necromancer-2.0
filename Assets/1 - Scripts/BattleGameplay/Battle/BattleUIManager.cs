@@ -148,18 +148,18 @@ public class BattleUIManager : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.End))
         {
-            if(GlobalStorage.instance.isGlobalMode == false) Victory();
+            if(GlobalStorage.instance.isGlobalMode == false && isBattleOver == false) Victory();
         }
         if(Input.GetKeyDown(KeyCode.Delete))
         {
-            if(GlobalStorage.instance.isGlobalMode == false) Defeat();
+            if(GlobalStorage.instance.isGlobalMode == false && isBattleOver == false) Defeat();
         }
         if(Input.GetKeyDown(KeyCode.Home))
         {
-            if(GlobalStorage.instance.isGlobalMode == false) LeaveTheBattle();
+            if(GlobalStorage.instance.isGlobalMode == false && isBattleOver == false) LeaveTheBattle();
         }
 
-        if(GlobalStorage.instance.isGlobalMode == false) Spelling();
+        if(GlobalStorage.instance.isGlobalMode == false && isBattleOver == false) Spelling();
     }
 
     private void Spelling()

@@ -7,7 +7,7 @@ using static NameManager;
 public class InfotipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
 {
     private Unit unit;
-    private EnemyController enemy;
+    private EnemySO enemy;
     private MacroAbilitySO skill;
     private RuneSO rune;
 
@@ -90,7 +90,7 @@ public class InfotipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         tipsType = TipsType.Unit;
     }
 
-    public void SetEnemy(EnemyController squad)
+    public void SetEnemy(EnemySO squad)
     {
         enemy = squad;
         tipsType = TipsType.Enemy;

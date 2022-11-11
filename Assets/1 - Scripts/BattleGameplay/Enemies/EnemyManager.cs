@@ -2,17 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static NameManager;
 
 public class EnemyManager : MonoBehaviour
 {
     public List<EnemySO> allEnemiesSO;
-
-    public List<Enemy> allEnemiesBase = new List<Enemy>();
-    public List<Enemy> allBoostEnemies = new List<Enemy>();
-    public List<GameObject> finalEnemiesListGO = new List<GameObject>();
-    public List<EnemyController> finalEnemiesListEC = new List<EnemyController>();
-
-    private BattleBoostManager boostManager;
+    public List<EnemiesTypes> allEnemiesTypes;
+    public Dictionary<EnemiesTypes, EnemySO> allEnemiesSODict = new Dictionary<EnemiesTypes, EnemySO>();
 
     private EnemyArragement enemyArragement;
     private Dictionary<EnemyArmyOnTheMap, Vector3> enemiesPointsDict = new Dictionary<EnemyArmyOnTheMap, Vector3>();
@@ -24,51 +20,49 @@ public class EnemyManager : MonoBehaviour
 
     public void InitializeEnemies()
     {
-        boostManager = GlobalStorage.instance.boostManager;
         enemyArragement = GetComponent<EnemyArragement>();
         enemySquadGenerator = GetComponent<EnemySquadGenerator>();
 
-        CreateAllEnemiesBase();
+        CreateEnemiesDict();
+
+        enemySquadGenerator.SetAllEnemiesList(allEnemiesTypes);
         enemyArragement.GenerateEnemiesOnTheMap(this);
 
         GlobalStorage.instance.LoadNextPart();
     }
 
-    #region CREATE ENEMY FOR BATTLE (GO)
-
-    private void CreateAllEnemiesBase()
+    private void CreateEnemiesDict()
     {
-        foreach (var item in allEnemiesSO)
-            allEnemiesBase.Add(new Enemy(item));
-
-        CreatetAllEnemiesBoost();
-    }
-
-    private void CreatetAllEnemiesBoost()
-    {
-        //foreach(Enemy item in allEnemiesBase)
-        //    allBoostEnemies.Add(boostManager.AddBonusStatsToEnemy(item));
-        foreach (Enemy item in allEnemiesBase)
-            allBoostEnemies.Add(item);
-
-        CreateFinalEnemiesListGO();
-    }
-
-    private void CreateFinalEnemiesListGO()
-    {
-        foreach (Enemy item in allBoostEnemies)
+        foreach(EnemiesTypes type in Enum.GetValues(typeof(EnemiesTypes)))
         {
-            GameObject enemy = item.enemyGO;
-            EnemyController enemyController = enemy.GetComponent<EnemyController>();
-            enemyController.Initialize(item);
-            finalEnemiesListGO.Add(enemy);
-            finalEnemiesListEC.Add(enemyController);
-        }
-
-        enemySquadGenerator.SetAllEnemiesList(finalEnemiesListGO);
+            for(int i = 0; i < allEnemiesSO.Count; i++)
+            {
+                if(allEnemiesSO[i].EnemiesType == type)
+                {
+                    allEnemiesTypes.Add(type);
+                    allEnemiesSODict[type] = allEnemiesSO[i];
+                    break;
+                }
+            }
+        }            
     }
 
-    #endregion
+    public EnemySO GetEnemySO(EnemiesTypes enemiesTypes)
+    {
+        if(allEnemiesSODict.ContainsKey(enemiesTypes) == true)
+        {
+            return allEnemiesSODict[enemiesTypes];
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    public List<EnemiesTypes> GetEnemiesList()
+    {
+        return allEnemiesTypes;
+    }
 
     public void SetEnemiesPointsDict(Dictionary<EnemyArmyOnTheMap, Vector3> points)
     {

@@ -5,15 +5,17 @@ using UnityEngine;
 public class ShurikenController : MonoBehaviour
 {
     private Rigidbody2D rb;
-    Vector3 direction;
+    private Vector3 direction;
     public float movementSpeed = 20;
     public float rotationSpeed = 2;
 
-    void Start()
-    {
-        transform.SetParent(GlobalStorage.instance.effectsContainer.transform);
+    public float damage = 100;
 
-        rb = GetComponent<Rigidbody2D>();
+    private void OnEnable()
+    {
+        EventManager.EndOfBattle += Stop;
+
+        if(rb == null) rb = GetComponent<Rigidbody2D>();
         direction = rb.transform.up * movementSpeed;
     }
 
@@ -26,11 +28,21 @@ public class ShurikenController : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.gameObject.CompareTag(TagManager.T_ENEMY) == true)
-            collision.gameObject.GetComponent<EnemyController>().Kill();
+            collision.gameObject.GetComponent<EnemyController>().TakeDamage(damage / 2, damage / 2, transform.position);
+    }
+
+    private void Stop()
+    {
+        gameObject.SetActive(false);
     }
 
     private void OnBecameInvisible()
     {
-        Destroy(gameObject);
+        Stop();
+    }
+
+    private void OnDisable()
+    {
+        EventManager.EndOfBattle -= Stop;
     }
 }

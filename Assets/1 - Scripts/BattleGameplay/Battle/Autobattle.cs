@@ -23,6 +23,7 @@ public class Autobattle : MonoBehaviour
     private BattleManager battleManager;
     private SpellManager spellManager;
     private PlayerStats playerStats;
+    private EnemyManager enemyManager;
 
     [Header("Start Parameters")]
     private Unit[] playersArmy = new Unit[4];
@@ -64,6 +65,7 @@ public class Autobattle : MonoBehaviour
         battleManager = GlobalStorage.instance.battleManager;
         spellManager = GlobalStorage.instance.spellManager;
         playerStats = GlobalStorage.instance.playerStats;
+        enemyManager = GlobalStorage.instance.enemyManager;
     }
 
     public void Preview(Army enemyArmy)
@@ -153,14 +155,14 @@ public class Autobattle : MonoBehaviour
 
         for(int i = 0; i < currentEnemyArmy.squadList.Count; i++)
         {
-            EnemyController enemy = currentEnemyArmy.squadList[i].GetComponent<EnemyController>();
+            EnemySO enemy = enemyManager.GetEnemySO(currentEnemyArmy.squadList[i]);
             int quantity = currentEnemyArmy.quantityList[i];
 
-            magicAttackEnemy += enemy.magicAttackBase * quantity;
-            physicAttackEnemy += enemy.physicAttackBase * quantity;
+            magicAttackEnemy += enemy.magicAttack * quantity;
+            physicAttackEnemy += enemy.physicAttack * quantity;
 
-            magicDefenceEnemy += enemy.magicDefenceBase * quantity;
-            physicDefenceEnemy += enemy.physicDefenceBase * quantity;
+            magicDefenceEnemy += enemy.magicDefence * quantity;
+            physicDefenceEnemy += enemy.physicDefence * quantity;
 
             enemiesQuantity += quantity;
         }

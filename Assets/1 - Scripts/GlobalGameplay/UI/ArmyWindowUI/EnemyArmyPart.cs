@@ -7,9 +7,10 @@ using static NameManager;
 
 public class EnemyArmyPart : MonoBehaviour
 {
+    public EnemyManager enemyManager;
     public GameObject uiPanel;
     private EnemyArmyOnTheMap currentEnemyArmy;
-    public List<GameObject> currentEnemiesList = new List<GameObject>();
+    public List<EnemiesTypes> currentEnemiesList = new List<EnemiesTypes>();
     public List<int> currentEnemiesQuantityList = new List<int>();
 
     [Header("Small Form")]
@@ -24,7 +25,7 @@ public class EnemyArmyPart : MonoBehaviour
     public GameObject enemySlotPrefab;
     public GameObject placeForEnemySlots;
 
-    private List<GameObject> allEnemiesList = new List<GameObject>();
+    private List<EnemiesTypes> allEnemiesList = new List<EnemiesTypes>();
     private List<GameObject> allSlotsList = new List<GameObject>();
 
     private float playerCuriosity;
@@ -32,6 +33,8 @@ public class EnemyArmyPart : MonoBehaviour
     public void Init(EnemyArmyOnTheMap enemyArmy)
     {
         if(enemyArmy == null) return;
+
+        if(enemyManager == null) enemyManager = GlobalStorage.instance.enemyManager;
 
         currentEnemyArmy = enemyArmy;
         currentEnemiesList = enemyArmy.army.squadList;
@@ -46,7 +49,7 @@ public class EnemyArmyPart : MonoBehaviour
         if(currentEnemyArmy != null)
         {
             playerCuriosity = GlobalStorage.instance.playerStats.GetCurrentParameter(PlayersStats.Curiosity);
-            if(allEnemiesList.Count == 0) allEnemiesList = GlobalStorage.instance.enemyManager.finalEnemiesListGO;
+            if(allEnemiesList.Count == 0) allEnemiesList = enemyManager.GetEnemiesList();
 
             if(playerCuriosity < 1)
                 ShowMinimumInfo();
@@ -92,18 +95,20 @@ public class EnemyArmyPart : MonoBehaviour
             {
                 if(currentEnemiesList[i] == allEnemiesList[k])
                 {
-                    CreateSlot(allEnemiesList[k].GetComponent<EnemyController>(), currentEnemiesQuantityList[i]);
+                    CreateSlot(allEnemiesList[k], currentEnemiesQuantityList[i]);
                     break;
                 }
             }
         }
     }
 
-    private void CreateSlot(EnemyController enemy, int amount)
+    private void CreateSlot(EnemiesTypes enemyType, int amount)
     {
         GameObject enemySlot = Instantiate(enemySlotPrefab, placeForEnemySlots.transform);
 
         EnemySlotUI slotUI = enemySlot.GetComponent<EnemySlotUI>();
+
+        EnemySO enemy = enemyManager.GetEnemySO(enemyType);
         slotUI.Initialize(enemy, amount);
         allSlotsList.Add(enemySlot);
     }

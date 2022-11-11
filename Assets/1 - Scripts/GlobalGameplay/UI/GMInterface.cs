@@ -97,13 +97,13 @@ public class GMInterface : MonoBehaviour
             [ResourceType.Magic] = magicContainer
         };
 
-        FillStartResources();
     }
 
     private void Start()
     {
         healthMax = resourcesManager.GetMaxHealth();
         manaMax = resourcesManager.GetMaxMana();
+        FillStartResources();
     }
 
     private void EnableUI(bool mode)
@@ -130,6 +130,7 @@ public class GMInterface : MonoBehaviour
         {
             if(resource.Key == ResourceType.Mana || resource.Key == ResourceType.Health)
             {
+                //Debug.Log("HERE Current = " + currentAmount + "max = " + maxAmount);
                 UpgrateManaHealthUI(resource.Key, resourcesDict[resource.Key]);
             }
             else
@@ -163,7 +164,7 @@ public class GMInterface : MonoBehaviour
             healthMax = maxValue;
             type = ResourceType.Health;
         }
-        Debug.Log("NEW");
+
         UpgrateManaHealthUI(type, resourcesDict[type]);
     }
 
@@ -192,8 +193,6 @@ public class GMInterface : MonoBehaviour
 
         scale.fillAmount = currentAmount / maxAmount;
         currentText.text = Mathf.Round(currentAmount) + "/" + maxAmount;
-
-        //Debug.Log("Current = " + currentAmount + "max = " + maxAmount);
     }
 
     public void UpgradeLevel(LevelData data)

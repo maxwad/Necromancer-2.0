@@ -6,13 +6,16 @@ using static NameManager;
 public class SpellLibrary : MonoBehaviour
 {
     private BattleBoostManager boostManager;
+    private ObjectsPoolManager objectsPool;
 
     [SerializeField] private GameObject shuriken;
     [SerializeField] private GameObject kickAssCircle;
 
+
     private void Start()
     {
         boostManager = GlobalStorage.instance.boostManager;
+        objectsPool = GlobalStorage.instance.objectsPoolManager;
     }
 
     public void ActivateSpell(Spells spell, bool mode, float value = 0, float duration = 0)
@@ -170,9 +173,10 @@ public class SpellLibrary : MonoBehaviour
 
             for(int i = 0; i < value; i++)
             {
-                GameObject item = Instantiate(shuriken);
+                GameObject item = objectsPool.GetObject(ObjectPool.Shuriken);
                 item.transform.position = GlobalStorage.instance.hero.transform.position;
-                item.transform.rotation = Quaternion.Euler(0f, 0f, angleItem * i);             
+                item.transform.rotation = Quaternion.Euler(0f, 0f, angleItem * i);
+                item.SetActive(true);
             }
         }
     }

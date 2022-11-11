@@ -49,8 +49,7 @@ public static class NameManager
         Bible,
         Bow,
         Knife,
-        Bottle,
-        EnemyLigthning
+        Bottle
     }
 
     public enum EnemiesTypes
@@ -87,7 +86,11 @@ public static class NameManager
         BonusText,
         DeltaCost,
         Rune,
-        BattleEffect
+        BattleEffect,
+        ManaSpot,
+        ManaDeath,
+        EnemyLigthning,
+        Shuriken
 
     }
 

@@ -5,7 +5,6 @@ using UnityEngine;
 public class BloodSpot : MonoBehaviour
 {
     [SerializeField] private List<Sprite> spriteList;
-    private List<Sprite> currentSpriteLis = new List<Sprite>();
 
     private SpriteRenderer spriteRenderer;
 

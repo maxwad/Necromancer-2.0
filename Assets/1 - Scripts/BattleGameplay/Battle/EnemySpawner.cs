@@ -12,7 +12,7 @@ public class BossData {
 public class EnemySpawner : MonoBehaviour
 {
     private ArmyStrength currentStrength;
-    private List<GameObject> enemiesList = new List<GameObject>();
+    private List<EnemiesTypes> enemiesList = new List<EnemiesTypes>();
     public List<int> enemiesQuantityList = new List<int>();
     private int currentCommonQuantity = 0;
     private int maxQuantity = 0;
@@ -158,8 +158,9 @@ public class EnemySpawner : MonoBehaviour
                 //    currentProbably[i] = Mathf.Round((enemiesQuantityList[i] / commonQuantity) * 100);
                 //}
 
-                EnemiesTypes enemyType = enemiesList[randomIndex].GetComponent<EnemyController>().enemiesType;
+                EnemiesTypes enemyType = enemiesList[randomIndex];
                 GameObject enemy = GlobalStorage.instance.objectsPoolManager.GetEnemy(enemyType);
+
                 enemy.transform.position = randomPosition;
                 enemy.SetActive(true);
 

@@ -46,7 +46,7 @@ public class Squadtip : MonoBehaviour
         Fading.instance.FadeWhilePause(true, canvas);
     }
 
-    public void Init(EnemyController enemy)
+    public void Init(EnemySO enemy)
     {
         if(canvas == null) canvas = GetComponent<CanvasGroup>();
         ShowAbility(false);
@@ -55,18 +55,18 @@ public class Squadtip : MonoBehaviour
         curiosity = playerStats.GetCurrentParameter(PlayersStats.Curiosity);
         if(curiosity < 2)
         {
-            FillData(enemy.icon, enemy.enemyName);
+            FillData(enemy.enemyIcon, enemy.enemyName);
         }
         else
         {
             FillData(
-               enemy.icon,
+               enemy.enemyIcon,
                enemy.enemyName,
-               enemy.healthBase,
-               enemy.physicAttackBase,
-               enemy.magicAttackBase,
-               enemy.physicDefenceBase,
-               enemy.magicDefenceBase
+               enemy.health,
+               enemy.physicAttack,
+               enemy.magicAttack,
+               enemy.physicDefence,
+               enemy.magicDefence
                );
         }
 

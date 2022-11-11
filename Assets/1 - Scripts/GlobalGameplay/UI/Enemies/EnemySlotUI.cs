@@ -8,12 +8,12 @@ public class EnemySlotUI : MonoBehaviour
     public TMP_Text amount;
     private InfotipTrigger squadtipTrigger;
 
-    public void Initialize(EnemyController enemy, int count)
+    public void Initialize(EnemySO enemy, int count)
     {
         if(squadtipTrigger == null) squadtipTrigger = GetComponent<InfotipTrigger>();
         squadtipTrigger.SetEnemy(enemy);
 
-        icon.sprite = enemy.icon;
+        icon.sprite = enemy.enemyIcon;
         amount.text = count.ToString();
     }
 }

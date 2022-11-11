@@ -5,7 +5,7 @@ using static NameManager;
 
 public class EnemyController : MonoBehaviour
 {
-    private Enemy originalStats;
+    private EnemySO originalStats;
 
     public EnemiesTypes enemiesType;
     public string enemyName;
@@ -13,19 +13,14 @@ public class EnemyController : MonoBehaviour
     public float healthBase;
     public float health;
 
-    public float magicAttackBase;
-    public float magicAttack;
+    public float mAttack;
 
-    public float physicAttackBase;
-    public float physicAttack;
+    public float pAttack;
 
-    public float magicDefenceBase;
-    public float magicDefence;
+    public float mDefence;
 
-    public float physicDefenceBase;
-    public float physicDefence;
+    public float pDefence;
 
-    public float speedAttackBase;
     public float speedAttack;
 
     public float size;
@@ -64,17 +59,15 @@ public class EnemyController : MonoBehaviour
 
     private EnemyMovement movementScript;
     private BattleBoostManager boostManager;
+    public EnemyManager enemyManager;
 
     private void Awake()
     {
         rbEnemy = GetComponent<Rigidbody2D>();
         hero = GlobalStorage.instance.hero;
-
-        currentHealth = healthBase;
         enemySpriteRenderer = GetComponent<SpriteRenderer>();
         enemySprite = enemySpriteRenderer.sprite;
         movementScript = GetComponent<EnemyMovement>();
-        Debug.Log("Health after Awake = " + currentHealth);
     }
 
     private void Update()
@@ -92,30 +85,27 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    public void Initialize(Enemy stats = null)
+    public void InitializeParameters()
     {
-        if(originalStats == null) originalStats = stats;
+        if(originalStats == null) return;
 
-        enemiesType       = originalStats.EnemiesType;
-        enemyName         = originalStats.enemyName;
-        icon              = originalStats.enemyIcon;
+        enemyName   = originalStats.enemyName;
+        icon        = originalStats.enemyIcon;
 
-        magicAttackBase   = originalStats.magicAttack;
-        physicAttackBase  = originalStats.physicAttack;
-        magicDefenceBase  = originalStats.magicDefence;
-        physicDefenceBase = originalStats.physicDefence;
-        speedAttackBase   = originalStats.speedAttack;
-        size              = originalStats.size;
+        pAttack     = originalStats.physicAttack + originalStats.physicAttack * boostManager.GetBoost(BoostType.EnemyPhysicAttack);
+        pDefence    = originalStats.physicDefence + originalStats.physicDefence * boostManager.GetBoost(BoostType.EnemyPhysicDefence);
+        mAttack     = originalStats.magicAttack + originalStats.magicAttack * boostManager.GetBoost(BoostType.EnemyMagicAttack);
+        mDefence    = originalStats.magicDefence + originalStats.magicDefence * boostManager.GetBoost(BoostType.EnemyMagicDefence);
+        speedAttack = originalStats.speedAttack + originalStats.speedAttack * boostManager.GetBoost(BoostType.EnemyCoolDown);
+        delayAttack = speedAttack;
 
-        EnemyAbility      = originalStats.EnemyAbility;
-        attackTool        = originalStats.attackTool;
+        size        = originalStats.size;
+        exp         = originalStats.exp;
 
-        exp               = originalStats.exp;
+        health      = originalStats.health + originalStats.health * boostManager.GetBoost(BoostType.EnemyHealth);
+        currentHealth = health;
 
-        healthBase        = originalStats.health;
-        currentHealth     = healthBase;
-
-        Debug.Log("Health after Initializing = " + originalStats.health);
+        bossDamageMultiplier = boostManager.GetBoost(BoostType.BossDamade);
     }
 
     private void OnCollisionStay2D(Collision2D collision)
@@ -128,13 +118,13 @@ public class EnemyController : MonoBehaviour
                 bool isCriticalDamage = Random.Range(0, 100) < luck;
                 if (obj.collider.gameObject.CompareTag(TagManager.T_PLAYER) == true)
                 {
-                    hero.TakeDamage(physicAttackBase, magicAttackBase, isCriticalDamage);
+                    hero.TakeDamage(pAttack, mAttack, isCriticalDamage);
                     delayAttack = speedAttack;
                 }
 
                 if (obj.collider.gameObject.CompareTag(TagManager.T_SQUAD) == true)
                 {
-                    obj.collider.gameObject.GetComponent<UnitController>().TakeDamage(physicAttackBase, magicAttackBase, isCriticalDamage);
+                    obj.collider.gameObject.GetComponent<UnitController>().TakeDamage(pAttack, mAttack, isCriticalDamage);
                     delayAttack = speedAttack;
                 }
             }
@@ -145,10 +135,10 @@ public class EnemyController : MonoBehaviour
     {
         if(currentHealth > 0)
         {
-            float phDamageComponent = physicalDamage - physicDefence;
+            float phDamageComponent = physicalDamage - pDefence;
             if(phDamageComponent < 0) phDamageComponent = 0;
 
-            float mDamageComponent = magicDamage - magicDefence;
+            float mDamageComponent = magicDamage - mDefence;
             if(mDamageComponent < 0) mDamageComponent = 0;
 
             float damage = phDamageComponent + mDamageComponent;
@@ -180,7 +170,7 @@ public class EnemyController : MonoBehaviour
 
     public void Kill()
     {
-        float damage = currentHealth + magicDefence + physicDefence;
+        float damage = currentHealth + mDefence + pDefence;
         if(damage > maxDamage) damage = maxDamage;
         TakeDamage(damage, damage, Vector3.zero);
     }
@@ -241,11 +231,7 @@ public class EnemyController : MonoBehaviour
 
     private void ResetEnemy()
     {
-        if(isBoss == true)
-        {
-            ReturnBossToOrdinaryEnemy();
-            //some event
-        }
+        if(isBoss == true) ReturnBossToOrdinaryEnemy();
 
         currentHealth = health;
         ColorBack();
@@ -265,8 +251,8 @@ public class EnemyController : MonoBehaviour
     {
         isBoss               = true;
         currentHealth        *= bossCreateSecondMultiplier;
-        magicAttackBase      *= bossCreateMainMultiplier;
-        physicAttackBase     *= bossCreateMainMultiplier;
+        mAttack              *= bossCreateMainMultiplier;
+        pAttack             *= bossCreateMainMultiplier;
         transform.localScale *= bossCreateMainMultiplier;
         rbEnemy.mass         *= bossCreateMainMultiplier;
         exp                  *= bossCreateSecondMultiplier;
@@ -280,17 +266,16 @@ public class EnemyController : MonoBehaviour
     {
         isBoss               = false;
         currentHealth        /= bossCreateSecondMultiplier;
-        magicAttackBase      /= bossCreateMainMultiplier;
-        physicAttackBase     /= bossCreateMainMultiplier;
+        mAttack              /= bossCreateMainMultiplier;
+        pAttack              /= bossCreateMainMultiplier;
         transform.localScale /= bossCreateMainMultiplier;
         rbEnemy.mass         /= bossCreateMainMultiplier;
         exp                  /= bossCreateSecondMultiplier;
 
         if(bossController != null)
         {
-            //bossController.StopSpelling();
-            //if(currentHealth <= 0) bossController.BossDeath();
-            bossController.BossDeath();
+            bool runeClear = (currentHealth <= 0) ? true : false;
+            bossController.BossDeath(runeClear);
             Destroy(bossController);
         }
     }
@@ -304,16 +289,16 @@ public class EnemyController : MonoBehaviour
     {
         if(boost == BoostType.EnemyHealth)
         {
-            health = healthBase + healthBase * value;
+            health = originalStats.health + originalStats.health * value;
             if(isBoss == false && currentHealth > health) currentHealth = health;
-            Debug.Log("Health after Upgrade = " + currentHealth);
+            //Debug.Log("Health after Upgrade = " + currentHealth);
         }
 
-        if(boost == BoostType.EnemyPhysicAttack) physicAttack = physicAttackBase + physicAttackBase * value;
-        if(boost == BoostType.EnemyPhysicDefence) physicDefence = physicDefenceBase + physicDefenceBase * value;
-        if(boost == BoostType.EnemyMagicAttack) magicAttack = magicAttackBase + magicAttackBase * value;
-        if(boost == BoostType.EnemyMagicDefence) magicDefence = magicDefenceBase + magicDefenceBase * value;
-        if(boost == BoostType.EnemyCoolDown) speedAttack = speedAttackBase + speedAttackBase * value;
+        if(boost == BoostType.EnemyPhysicAttack) pAttack       = originalStats.physicAttack + originalStats.physicAttack * value;
+        if(boost == BoostType.EnemyPhysicDefence) pDefence     = originalStats.physicDefence + originalStats.physicDefence * value;
+        if(boost == BoostType.EnemyMagicAttack) mAttack        = originalStats.magicAttack + originalStats.magicAttack * value;
+        if(boost == BoostType.EnemyMagicDefence) mDefence      = originalStats.magicDefence + originalStats.magicDefence * value;
+        if(boost == BoostType.EnemyCoolDown) speedAttack       = originalStats.speedAttack + originalStats.speedAttack * value;
         if(boost == BoostType.BossDamade) bossDamageMultiplier = value;
     }
 
@@ -322,28 +307,14 @@ public class EnemyController : MonoBehaviour
         EventManager.EndOfBattle += BackToPool;
         EventManager.SetBattleBoost += UpgradeParameters;
 
-        if(boostManager == null) boostManager = GlobalStorage.instance.boostManager;
+        if(boostManager == null)
+        {
+            enemyManager = GlobalStorage.instance.enemyManager;
+            boostManager = GlobalStorage.instance.boostManager;
+        }
 
-        health = healthBase + healthBase * boostManager.GetBoost(BoostType.EnemyHealth);
-        currentHealth = health;
-
-
-        Debug.Log("Health after Enable = " + currentHealth);
-        //if(GlobalStorage.instance.isGlobalMode == false)
-        //{
-        //    Debug.Log(gameObject.name + " = " + currentHealth);
-        //}
-        
-        physicAttack = physicAttackBase + physicAttackBase * boostManager.GetBoost(BoostType.EnemyPhysicAttack);
-        physicDefence = physicDefenceBase + physicDefenceBase * boostManager.GetBoost(BoostType.EnemyPhysicDefence);
-        magicAttack = magicAttackBase + magicAttackBase * boostManager.GetBoost(BoostType.EnemyMagicAttack);
-        magicDefence = magicDefenceBase + magicDefenceBase * boostManager.GetBoost(BoostType.EnemyMagicDefence);
-        speedAttack = speedAttackBase + speedAttackBase * boostManager.GetBoost(BoostType.EnemyCoolDown);
-        bossDamageMultiplier = boostManager.GetBoost(BoostType.BossDamade);
-
-        delayAttack = speedAttack;
-
-        //BuildDebagger.instance.Show("Enable with " + health + " health"); 
+        if(originalStats == null) originalStats = enemyManager.GetEnemySO(enemiesType);
+        InitializeParameters();
     }
 
     private void OnDisable()

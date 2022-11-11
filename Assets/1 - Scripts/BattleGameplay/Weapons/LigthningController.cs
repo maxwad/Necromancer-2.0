@@ -20,6 +20,8 @@ public class LigthningController : MonoBehaviour
 
     private void OnEnable()
     {
+        EventManager.EndOfBattle += BackToPool;
+
         transform.localScale = Vector3.zero;
         currentSize = 0;
         //dangerCollider = GetComponent<Collider2D>();
@@ -69,8 +71,14 @@ public class LigthningController : MonoBehaviour
         }
     }
 
+    private void BackToPool()
+    {
+        gameObject.SetActive(false);
+    }
+
     private void OnDisable()
     {
         if(coroutine != null) StopCoroutine(coroutine);
+        EventManager.EndOfBattle -= BackToPool;
     }
 }

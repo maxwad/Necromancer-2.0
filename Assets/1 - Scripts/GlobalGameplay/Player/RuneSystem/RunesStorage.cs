@@ -157,8 +157,8 @@ public class RunesStorage : MonoBehaviour
             int randomIndex = UnityEngine.Random.Range(0, enemySystemRunes.Count);
             count++;
 
-            //if(enemySystemRunes[randomIndex].level == bossRuneLevel && enemySystemRunes[randomIndex].rune == RunesType.EnemyHealth)
-            if(enemySystemRunes[randomIndex].level == bossRuneLevel)
+            if(enemySystemRunes[randomIndex].level == bossRuneLevel && enemySystemRunes[randomIndex].rune == RunesType.EnemyHealth)
+            //if(enemySystemRunes[randomIndex].level == bossRuneLevel)
                 bossRune = enemySystemRunes[randomIndex];
         }
 

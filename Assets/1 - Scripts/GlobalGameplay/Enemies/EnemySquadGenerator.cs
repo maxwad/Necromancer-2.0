@@ -5,7 +5,7 @@ using static NameManager;
 
 public class Army
 {
-    public List<GameObject> squadList = new List<GameObject>();
+    public List<EnemiesTypes> squadList = new List<EnemiesTypes>();
     public List<int> quantityList = new List<int>();
     public bool isThisASiege = false;
     public TypeOfArmy typeOfArmy = TypeOfArmy.OnTheMap;
@@ -17,7 +17,7 @@ public class Army
 public class EnemySquadGenerator : MonoBehaviour
 {
     [HideInInspector] public List<Army> allArmies = new List<Army>();
-    [HideInInspector] public List<GameObject> allEnemiesPrefabList = new List<GameObject>();
+    [HideInInspector] public List<EnemiesTypes> allEnemiesList = new List<EnemiesTypes>();
 
     private float playerLevel;
     private float countOfSquad;
@@ -29,9 +29,9 @@ public class EnemySquadGenerator : MonoBehaviour
     public float enemyPortion = 100;
     public float percentGap = 0.2f;
 
-    public void SetAllEnemiesList(List<GameObject> enemies)
+    public void SetAllEnemiesList(List<EnemiesTypes> enemies)
     {
-        allEnemiesPrefabList = enemies;
+        allEnemiesList = enemies;
     }
 
     public Army GenerateArmy(ArmyStrength armyStrength, TypeOfArmy typeOfArmy)
@@ -51,8 +51,8 @@ public class EnemySquadGenerator : MonoBehaviour
 
         for(int i = 0; i < countOfSquad; i++)
         {
-            int randomIndex = Random.Range(0, allEnemiesPrefabList.Count);
-            GameObject randomSquad = allEnemiesPrefabList[randomIndex];
+            int randomIndex = Random.Range(0, allEnemiesList.Count);
+            EnemiesTypes randomSquad = allEnemiesList[randomIndex];
             newArmy.squadList.Add(randomSquad);
 
             int randomQuantity = Mathf.RoundToInt(sizeOfSquadMultiplier *

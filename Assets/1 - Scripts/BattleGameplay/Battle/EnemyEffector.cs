@@ -17,7 +17,7 @@ public class EnemyEffector : MonoBehaviour
 
     private ArmyStrength currentArmyStrenght;
     private float timeScaler = 20;
-    private float timePortionDefault = 180;
+    private float timePortionDefault = 5;
     private float timePortion;
     private float timerCount;
     //private int countOfStrengthening;

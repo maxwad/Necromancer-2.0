@@ -21,13 +21,10 @@ public class BossController : MonoBehaviour
     private float timeStep = 1f;
     private float radiusPlayerSearch = 20;
 
-    private bool isSpelling = false;
     private BossSpells spell;
-    private Coroutine spelling;
 
     private EnemyBossWeapons bossWeapon;
     private Coroutine waitCoroutine;
-    private Coroutine attackCoroutine;
 
     [Header("Runes")]
     [HideInInspector] public RuneSO rune;
@@ -54,9 +51,7 @@ public class BossController : MonoBehaviour
 
         bossWeapon = gameObject.AddComponent<EnemyBossWeapons>();
         spell = (BossSpells)UnityEngine.Random.Range(0, Enum.GetValues(typeof(BossSpells)).Length);
-        spell = (BossSpells)0;
-
-        //spelling = StartCoroutine(Spelling());
+        spell = (BossSpells)1;
 
         waitCoroutine = StartCoroutine(Waiting());
     }
@@ -66,9 +61,10 @@ public class BossController : MonoBehaviour
         battleUIManager.UpdateBossHealth(currentHealth, this);
     }
    
-    public void BossDeath()
+    public void BossDeath(bool runeDeleting)
     {
-        DeleteRune();
+        if(runeDeleting == true) DeleteRune();
+
         battleUIManager.UnRegisterBoss(this, true);
 
         bossWeapon.ActivateBossWeapon(spell, false);
@@ -108,41 +104,6 @@ public class BossController : MonoBehaviour
 
     #endregion
 
-    //private IEnumerator Spelling()
-    //{
-    //    WaitForSeconds timeStepDelay = new WaitForSeconds(timeStep);
-
-    //    while(true)
-    //    {
-    //        yield return new WaitForSeconds(delayAttack);
-    //        float countTime = 0;
-
-    //        while(Vector3.Distance(transform.position, player.transform.position) > radiusPlayerSearch)
-    //        {
-    //            yield return timeStepDelay;
-    //        }
-
-    //        movementScript.StopMoving(true);
-    //        animatorScript.ChangeAnimation(Animations.Attack);
-
-    //        while(countTime <= timeAttack)
-    //        {
-    //            yield return timeStepDelay;
-    //            countTime += timeStep;
-
-    //            if(countTime > 0 && isSpelling == false)
-    //            {
-    //                Spell(timeAttack - countTime);
-    //                isSpelling = true;
-    //            }
-    //        }
-
-    //        movementScript.StopMoving(false);
-    //        animatorScript.ChangeAnimation(Animations.Walk);
-    //        isSpelling = false;
-    //    }        
-    //}
-
     private IEnumerator Waiting()
     {
         while(true)
@@ -174,14 +135,4 @@ public class BossController : MonoBehaviour
             animatorScript.ChangeAnimation(Animations.Walk);
         }
     }
-
-    //private void Spell(float duration)
-    //{
-    //    bossWeapon.ActivateBossWeapon(spell, true, duration);
-    //}
-
-    //private void StopSpell()
-    //{
-    //    bossWeapon.ActivateBossWeapon(spell, false);
-    //}
 }

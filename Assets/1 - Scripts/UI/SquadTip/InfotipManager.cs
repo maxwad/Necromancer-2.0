@@ -35,7 +35,7 @@ public class InfotipManager : MonoBehaviour
         instance.squadTip.Init(unit);
     }
 
-    public static void Show(EnemyController enemy)
+    public static void Show(EnemySO enemy)
     {
         if(enemy == null) return;
 

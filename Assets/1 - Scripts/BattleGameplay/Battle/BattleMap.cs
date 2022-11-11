@@ -29,7 +29,6 @@ public class BattleMap : MonoBehaviour
     public List<Tile> boundsBG;
 
     [Header("DefenderTowers")]
-    private bool isDefendBattle = true;
     private int quantityOfTowers = 4;
     [SerializeField] private GameObject towerContainer;
     private List<GameObject> towersOnMap = new List<GameObject>();

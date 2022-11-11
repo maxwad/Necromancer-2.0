@@ -98,14 +98,14 @@ public class BattleBoostManager : MonoBehaviour
         commonBoostDict[type] = result;
 
         //Debug.Log("Now " + type + " = " + result);
-        //if(sendMode == true) 
-        //{
-        //    if(result < -99) result = -99f;
-        //    EventManager.OnSetBattleBoostEvent(type, result / 100);
+        if(sendMode == true)
+        {
+            if(result < -99) result = -99f;
+            EventManager.OnSetBattleBoostEvent(type, result / 100);
 
-        //    PlayersStats stat = BoostConverter.instance.BoostTypeToPlayerStat(type);
-        //    if(stat != PlayersStats.Level) playerStats.ForceUpdateStat(stat);
-        //}
+            PlayersStats stat = BoostConverter.instance.BoostTypeToPlayerStat(type);
+            if(stat != PlayersStats.Level) playerStats.ForceUpdateStat(stat);
+        }
     }
 
     public Dictionary<BoostType, List<Boost>> GetBoostDict()
