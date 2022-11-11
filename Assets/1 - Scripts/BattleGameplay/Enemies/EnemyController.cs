@@ -74,6 +74,7 @@ public class EnemyController : MonoBehaviour
         enemySpriteRenderer = GetComponent<SpriteRenderer>();
         enemySprite = enemySpriteRenderer.sprite;
         movementScript = GetComponent<EnemyMovement>();
+        Debug.Log("Health after Awake = " + currentHealth);
     }
 
     private void Update()
@@ -113,6 +114,8 @@ public class EnemyController : MonoBehaviour
 
         healthBase        = originalStats.health;
         currentHealth     = healthBase;
+
+        Debug.Log("Health after Initializing = " + originalStats.health);
     }
 
     private void OnCollisionStay2D(Collision2D collision)
@@ -286,8 +289,8 @@ public class EnemyController : MonoBehaviour
         if(bossController != null)
         {
             //bossController.StopSpelling();
-            if(currentHealth <= 0) bossController.BossDeath();
-
+            //if(currentHealth <= 0) bossController.BossDeath();
+            bossController.BossDeath();
             Destroy(bossController);
         }
     }
@@ -303,6 +306,7 @@ public class EnemyController : MonoBehaviour
         {
             health = healthBase + healthBase * value;
             if(isBoss == false && currentHealth > health) currentHealth = health;
+            Debug.Log("Health after Upgrade = " + currentHealth);
         }
 
         if(boost == BoostType.EnemyPhysicAttack) physicAttack = physicAttackBase + physicAttackBase * value;
@@ -322,6 +326,9 @@ public class EnemyController : MonoBehaviour
 
         health = healthBase + healthBase * boostManager.GetBoost(BoostType.EnemyHealth);
         currentHealth = health;
+
+
+        Debug.Log("Health after Enable = " + currentHealth);
         //if(GlobalStorage.instance.isGlobalMode == false)
         //{
         //    Debug.Log(gameObject.name + " = " + currentHealth);

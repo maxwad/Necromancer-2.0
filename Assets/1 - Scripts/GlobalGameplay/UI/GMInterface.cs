@@ -193,7 +193,7 @@ public class GMInterface : MonoBehaviour
         scale.fillAmount = currentAmount / maxAmount;
         currentText.text = Mathf.Round(currentAmount) + "/" + maxAmount;
 
-        Debug.Log("Current = " + currentAmount + "max = " + maxAmount);
+        //Debug.Log("Current = " + currentAmount + "max = " + maxAmount);
     }
 
     public void UpgradeLevel(LevelData data)
