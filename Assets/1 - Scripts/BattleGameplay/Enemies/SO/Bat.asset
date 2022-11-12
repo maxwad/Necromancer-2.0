@@ -22,7 +22,7 @@ MonoBehaviour:
   magicAttack: 3
   magicDefence: 1
   speedAttack: 1
-  size: 1
+  size: 2
   EnemyAbility: 0
   attackTool: {fileID: 0}
   coinsPrice: 300

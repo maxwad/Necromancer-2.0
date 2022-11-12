@@ -31,7 +31,7 @@ public class ObjectsPoolManager : MonoBehaviour
     public List<ObjectPoolWeapon> weaponList;
     private Dictionary<UnitsAbilities, List<GameObject>> allWeaponsDict = new Dictionary<UnitsAbilities, List<GameObject>>();
 
-    private int minElementsCount = 10;
+    private int minElementsCount = 2;
     private List<GameObject> currentObjectsList = new List<GameObject>();
 
     private void Awake()

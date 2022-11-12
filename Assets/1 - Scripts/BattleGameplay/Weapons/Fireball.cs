@@ -6,41 +6,39 @@ using static NameManager;
 public class Fireball : MonoBehaviour
 {
     private Rigidbody2D rb;
+    private SpriteRenderer spriteRenderer;
     Vector3 direction;
-    public float movementSpeed = 20;
-    public float rotationSpeed = 2;
-    public float playerDamage = 10f;
-    public float enemyDamage = 100f;
+    private float movementSpeed = 5;
 
-    public float damage = 100;
-    private bool isEnemyDamage = true;
-
-    public void Init(bool targetMode)
-    {
-        isEnemyDamage = targetMode;
-
-    }
+    private float damage = 15;
 
     private void OnEnable()
     {
         EventManager.EndOfBattle += Stop;
 
-        transform.SetParent(GlobalStorage.instance.effectsContainer.transform);
-
-        rb = GetComponent<Rigidbody2D>();
-        direction = rb.transform.up * movementSpeed;
+        //transform.SetParent(GlobalStorage.instance.effectsContainer.transform);
+        if(rb == null)
+        {
+            spriteRenderer = GetComponent<SpriteRenderer>();
+            rb = GetComponent<Rigidbody2D>();
+        }
     }
 
     private void Update()
     {
-        rb.velocity = direction;
-        rb.transform.Rotate(0, 0, rotationSpeed);
+        rb.velocity = transform.right * movementSpeed;
+        spriteRenderer.sortingOrder = -Mathf.RoundToInt(transform.position.y * 100);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.CompareTag(TagManager.T_ENEMY) == true)
-            collision.gameObject.GetComponent<EnemyController>().TakeDamage(damage / 2, damage / 2, transform.position);
+
+        //Debug.Log("touch");
+        if(collision.gameObject.CompareTag(TagManager.T_PLAYER) == true)
+            collision.gameObject.GetComponent<HeroController>().TakeDamage(damage / 2, damage / 2);
+
+        if(collision.gameObject.CompareTag(TagManager.T_SQUAD) == true)
+            collision.gameObject.GetComponent<UnitController>().TakeDamage(damage / 2, damage / 2);
     }
 
     private void Stop()

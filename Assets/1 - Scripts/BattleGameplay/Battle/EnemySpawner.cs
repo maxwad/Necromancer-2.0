@@ -185,7 +185,7 @@ public class EnemySpawner : MonoBehaviour
         for(int i = 0; i < bossBounds.Length; i++)
         {
             if(currentCount <= bossBounds[i].bound && bossBounds[i].wasCreated == false)
-            {
+            {                
                 bossBounds[i].wasCreated = true;
                 return true;
             }

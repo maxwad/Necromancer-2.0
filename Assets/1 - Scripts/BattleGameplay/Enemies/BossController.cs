@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 using static NameManager;
@@ -16,8 +17,8 @@ public class BossController : MonoBehaviour
 
     [Header("Attack")]
     private float delayAttack = 5f;
-    private float timeAttack = 10f;
-    private float attackPeriod = 2f;
+    private float timeAttack = 12f;
+    private float attackPeriod = 3f;
     private float timeStep = 1f;
     private float radiusPlayerSearch = 20;
 
@@ -30,6 +31,7 @@ public class BossController : MonoBehaviour
     [HideInInspector] public RuneSO rune;
     private RunesManager runesManager;
     private BattleBoostManager boostManager;
+    private EnemyManager enemyManager;
 
     #region HELPERS
 
@@ -41,6 +43,7 @@ public class BossController : MonoBehaviour
         player = GlobalStorage.instance.battlePlayer;
         runesManager = GlobalStorage.instance.runesManager;
         boostManager = GlobalStorage.instance.boostManager;
+        enemyManager = GlobalStorage.instance.enemyManager;
 
         healthMax = maxHealth;
         sprite = pict;
@@ -50,8 +53,13 @@ public class BossController : MonoBehaviour
         ApplyRune(false);
 
         bossWeapon = gameObject.AddComponent<EnemyBossWeapons>();
-        spell = (BossSpells)UnityEngine.Random.Range(0, Enum.GetValues(typeof(BossSpells)).Length);
-        spell = (BossSpells)1;
+
+        BossSpell boosSpell = enemyManager.GetComponent<BossesArsenal>().GetBossSpell();
+
+        spell = boosSpell.spell;
+        attackPeriod = boosSpell.attackPeriod;
+        //spell = (BossSpells)UnityEngine.Random.Range(0, Enum.GetValues(typeof(BossSpells)).Length);
+        //spell = (BossSpells)1;
 
         waitCoroutine = StartCoroutine(Waiting());
     }
@@ -67,7 +75,7 @@ public class BossController : MonoBehaviour
 
         battleUIManager.UnRegisterBoss(this, true);
 
-        bossWeapon.ActivateBossWeapon(spell, false);
+        bossWeapon.ActivateBossWeapon(spell, false, transform.position);
         if(waitCoroutine != null) StopCoroutine(waitCoroutine);
 
         Destroy(bossWeapon);
@@ -75,7 +83,7 @@ public class BossController : MonoBehaviour
 
     private void OnDestroy()
     {
-        bossWeapon.ActivateBossWeapon(spell, false);
+        if(bossWeapon != null) bossWeapon.ActivateBossWeapon(spell, false, transform.position);
     }
 
     #endregion
@@ -120,16 +128,16 @@ public class BossController : MonoBehaviour
             movementScript.StopMoving(true);
             animatorScript.ChangeAnimation(Animations.Attack);
 
-            while(actionTime <= timeAttack)
+            while(actionTime < timeAttack)
             {
                 actionTime += attackPeriod;
 
-                bossWeapon.ActivateBossWeapon(spell, true);
+                bossWeapon.ActivateBossWeapon(spell, true, transform.position);
 
                 yield return new WaitForSeconds(attackPeriod);
             }
 
-            bossWeapon.ActivateBossWeapon(spell, false);
+            bossWeapon.ActivateBossWeapon(spell, false, transform.position);
 
             movementScript.StopMoving(false);
             animatorScript.ChangeAnimation(Animations.Walk);

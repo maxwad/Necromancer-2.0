@@ -10,17 +10,13 @@ public class EnemyController : MonoBehaviour
     public EnemiesTypes enemiesType;
     public string enemyName;
     public Sprite icon;
+
     public float healthBase;
     public float health;
-
     public float mAttack;
-
     public float pAttack;
-
     public float mDefence;
-
     public float pDefence;
-
     public float speedAttack;
 
     public float size;
@@ -89,6 +85,20 @@ public class EnemyController : MonoBehaviour
     {
         if(originalStats == null) return;
 
+        if(isBoss == true)
+        {
+            isBoss = false;
+
+            bossController = GetComponent<BossController>();
+            if(bossController != null) Destroy(bossController);
+
+            EnemyBossWeapons bossWeapons = GetComponent<EnemyBossWeapons>();
+            if(bossWeapons != null) Destroy(bossWeapons);
+
+
+            Debug.Log("Reset");
+        }
+
         enemyName   = originalStats.enemyName;
         icon        = originalStats.enemyIcon;
 
@@ -104,8 +114,11 @@ public class EnemyController : MonoBehaviour
 
         health      = originalStats.health + originalStats.health * boostManager.GetBoost(BoostType.EnemyHealth);
         currentHealth = health;
+        transform.localScale = new Vector3(size, size, size);
 
         bossDamageMultiplier = boostManager.GetBoost(BoostType.BossDamade);
+
+
     }
 
     private void OnCollisionStay2D(Collision2D collision)

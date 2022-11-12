@@ -90,7 +90,9 @@ public static class NameManager
         ManaSpot,
         ManaDeath,
         EnemyLigthning,
-        Shuriken
+        Shuriken,
+        Fireball,
+        EnemyFireball,
 
     }
 
@@ -272,7 +274,8 @@ public static class NameManager
     {
         InvertMovement = 0,
         Lightning = 1,
-        ManningLess = 2
+        ManningLess = 2,
+        Fireball = 3
     }
 
     public enum BoostSender

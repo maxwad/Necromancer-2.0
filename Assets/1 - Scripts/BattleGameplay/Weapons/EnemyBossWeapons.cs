@@ -7,7 +7,7 @@ public class EnemyBossWeapons : MonoBehaviour
 {
     private GameObject currentWeapon;
 
-    public void ActivateBossWeapon(BossSpells bossSpell, bool mode)
+    public void ActivateBossWeapon(BossSpells bossSpell, bool mode, Vector3 position)
     {
         switch(bossSpell)
         {
@@ -24,6 +24,8 @@ public class EnemyBossWeapons : MonoBehaviour
                 break;
 
             default:
+            case BossSpells.Fireball:
+                Fireball(mode, position);
                 break;
         }
     }
@@ -57,6 +59,27 @@ public class EnemyBossWeapons : MonoBehaviour
             ray.transform.SetParent(GlobalStorage.instance.effectsContainer.transform);
             currentWeapon = ray;
             currentWeapon.SetActive(true);
+        }
+    }
+
+    private void Fireball(bool mode, Vector3 position)
+    {
+        GameObject area = null;
+
+        if(mode == true)
+        {
+            area = GlobalStorage.instance.objectsPoolManager.GetObject(ObjectPool.EnemyFireball);
+            area.transform.position = position;
+            area.transform.SetParent(GlobalStorage.instance.effectsContainer.transform);
+            currentWeapon = area;
+            currentWeapon.SetActive(true);
+        }
+        else
+        {
+            if(area != null)
+            {
+                area.GetComponent<FireballsController>().AbortCoroutine();
+            }
         }
     }
 }
