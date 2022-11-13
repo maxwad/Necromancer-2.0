@@ -105,14 +105,14 @@ public class EnemyEffector : MonoBehaviour
         if(rune == null) return;
 
         string tip = rune.positiveDescription.Replace("$", rune.value.ToString());
-        battleUI.SetRuneTimer(rune.activeIcon, timePortion, tip);
+        battleUI.boostPart.SetRuneTimer(rune.activeIcon, timePortion, tip);
 
         timerCoroutine = StartCoroutine(Timer());
     }
 
     private void SendAfterRune(RuneSO rune)
     {
-        battleUI.ClearRuneTimer();
+        battleUI.boostPart.ClearRuneTimer();
 
         BoostType type = BoostConverter.instance.RuneToBoostType(rune.rune);
         float value = (rune.isInvertedRune == true) ? -rune.value : rune.value;
@@ -135,7 +135,7 @@ public class EnemyEffector : MonoBehaviour
     {
         while(timerCount > 0)
         {
-            battleUI.UpdateRunetimer(timerCount);
+            battleUI.boostPart.UpdateRunetimer(timerCount);
             timerCount--;
             yield return new WaitForSeconds(timerStep);
         }
@@ -145,7 +145,7 @@ public class EnemyEffector : MonoBehaviour
 
     public void StopEffector()
     {
-        battleUI.ClearRuneTimer();
+        battleUI.boostPart.ClearRuneTimer();
         if(nextRuneCoroutine != null) StopCoroutine(nextRuneCoroutine);
 
         if(timerCoroutine != null) StopCoroutine(timerCoroutine);

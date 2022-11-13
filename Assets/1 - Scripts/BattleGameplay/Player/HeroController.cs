@@ -178,13 +178,13 @@ public class HeroController : MonoBehaviour
                 value--;
                 currentTempExp++;
 
-                battleUIManager.UpgradeScale(currentTempExpGoal, currentTempExp);
+                battleUIManager.expPart.UpgradeScale(currentTempExpGoal, currentTempExp);
 
                 if(currentTempExp >= currentTempExpGoal)
                 {
                     if(currentTempLevel < currentMaxLevel)
                     {
-                        battleUIManager.TempLevelUp(currentTempLevel);
+                        battleUIManager.expPart.TempLevelUp(currentTempLevel);
                         currentTempLevel++;
 
                         if(currentTempLevel <= currentMaxLevel) runesManager.TurnOnRune(currentTempLevel - 1);

@@ -78,7 +78,7 @@ public class EnemySpawner : MonoBehaviour
 
         CreateBossStructure();
 
-        battleUIManager.SetStartEnemiesParameters(currentCommonQuantity, bossBounds);
+        battleUIManager.enemyPart.SetStartEnemiesParameters(currentCommonQuantity, bossBounds);
     }
 
     private void CreateBossStructure()
@@ -173,7 +173,7 @@ public class EnemySpawner : MonoBehaviour
                 enemiesOnTheMap.Add(enemy);
                 enemiesQuantityList[randomIndex]--;
                 currentCommonQuantity--;
-                battleUIManager.FillSpawnEnemiesBar(currentCommonQuantity);
+                battleUIManager.enemyPart.FillSpawnEnemiesBar(currentCommonQuantity);
             }
 
             yield return waitNextEnemy;

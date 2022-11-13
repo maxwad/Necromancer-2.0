@@ -48,7 +48,7 @@ public class BossController : MonoBehaviour
         healthMax = maxHealth;
         sprite = pict;
         rune = runesManager.runesStorage.GetRuneForBoss();
-        battleUIManager.RegisterBoss(healthMax, this);
+        battleUIManager.enemyPart.RegisterBoss(healthMax, this);
 
         ApplyRune(false);
 
@@ -66,14 +66,14 @@ public class BossController : MonoBehaviour
 
     public void UpdateBossHealth(float currentHealth)
     {
-        battleUIManager.UpdateBossHealth(currentHealth, this);
+        battleUIManager.enemyPart.UpdateBossHealth(currentHealth, this);
     }
    
     public void BossDeath(bool runeDeleting)
     {
         if(runeDeleting == true) DeleteRune();
 
-        battleUIManager.UnRegisterBoss(this, true);
+        battleUIManager.enemyPart.UnRegisterBoss(this, true);
 
         bossWeapon.ActivateBossWeapon(spell, false, transform.position);
         if(waitCoroutine != null) StopCoroutine(waitCoroutine);
