@@ -89,11 +89,16 @@ public static class NameManager
         BattleEffect,
         ManaSpot,
         ManaDeath,
-        EnemyLigthning,
         Shuriken,
         Fireball,
-        EnemyFireball,
+        Ligthning,
+        Cannonball
 
+    }
+
+    public enum BossWeapons
+    {
+        Ligthning, Fireball, ManningLess, Inverting
     }
 
     public enum Animations

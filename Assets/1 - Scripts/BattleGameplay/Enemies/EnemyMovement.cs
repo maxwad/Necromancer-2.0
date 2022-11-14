@@ -67,11 +67,16 @@ public class EnemyMovement : MonoBehaviour
             sprite.flipX = true;
         else
             sprite.flipX = false;
-        Vector2 movementVector = (player.transform.position - transform.position).normalized + unStackVector;
+        Vector3 movementVector = (player.transform.position - transform.position).normalized + unStackVector;
         rbEnemy.AddForce(movementVector * Time.fixedDeltaTime * acceleration * speed,
         ForceMode2D.Impulse);
 
         rbEnemy.velocity = Vector3.ClampMagnitude(rbEnemy.velocity, speed);
+
+        if(transform.position.z != 20)
+        { 
+            Debug.Log("ENEMY IS LOST! Z = " + transform.position.z + " local = " + transform.localPosition.z);
+        }
     }
 
     public void MakeMeFixed(bool mode = false, bool autoEnable = false)
@@ -100,7 +105,7 @@ public class EnemyMovement : MonoBehaviour
                 unStackVectors[1] = -Vector3.Cross(player.transform.position - transform.position, Vector3.up).normalized;
 
                 int index = Random.Range(0, unStackVectors.Length);
-                unStackVector = unStackVectors[index] * 5;
+                unStackVector = unStackVectors[index] * 7;
             }
         }
     }

@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using static NameManager;
+using System;
 
 public class UnitController : MonoBehaviour
 {
@@ -146,7 +147,7 @@ public class UnitController : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private void MakeMeImmortal(bool mode)
+    private void MakeMeImmortal(bool mode = true)
     {
         isImmortal = mode;
     }
@@ -186,16 +187,24 @@ public class UnitController : MonoBehaviour
         if(boost == BoostType.MagicDefence) magicDefence = magicDefenceBase + magicDefenceBase * value;
     }
 
+    private void Victory()
+    {
+        MakeMeImmortal(true);
+    }
+
     private void OnEnable()
     {
         EventManager.SpellImmortal += MakeMeImmortal;
         EventManager.SetBattleBoost += UpgradeParameters;
+        EventManager.Victory += Victory;
+
+        MakeMeImmortal(false);
     }
 
     private void OnDisable()
     {
         EventManager.SpellImmortal -= MakeMeImmortal;
         EventManager.SetBattleBoost -= UpgradeParameters;
+        EventManager.Victory -= Victory;
     }
-
 }

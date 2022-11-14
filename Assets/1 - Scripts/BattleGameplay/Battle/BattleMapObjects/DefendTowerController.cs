@@ -1,26 +1,29 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class DefendTowerController : MonoBehaviour
 {
+    private ObjectsPoolManager poolManager;
     [SerializeField] private GameObject[] shootingPoints;
     private GameObject player;
     private GameObject effectsContainer;
-    [SerializeField] private GameObject cannonball;
+    //[SerializeField] private GameObject cannonball;
 
     [SerializeField] private GameObject startDust;
 
     public float shootingDelay = 3f;
     private float currentDelay = 0;
     private float coroutineStep = 0.1f;
+    private Coroutine coroutine;
 
-    private void Start()
+    private void Awake()
     {
         effectsContainer = GlobalStorage.instance.effectsContainer;
+        poolManager = GlobalStorage.instance.objectsPoolManager;
 
         coroutineStep = shootingDelay;
-        StartCoroutine(Reloading());
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -78,9 +81,11 @@ public class DefendTowerController : MonoBehaviour
 
     private void CreateBullet(Vector3 point)
     {
-        GameObject bullet = Instantiate(cannonball);
+        //GameObject bullet = Instantiate(cannonball);
+        GameObject bullet = poolManager.GetObject(NameManager.ObjectPool.Cannonball);
         bullet.transform.position = point;
-        bullet.transform.SetParent(effectsContainer.transform);
+        bullet.SetActive(true);
+        //bullet.transform.SetParent(effectsContainer.transform);
         bullet.GetComponent<CannonballController>().Initialize(player.transform.position);
     }
 
@@ -92,5 +97,21 @@ public class DefendTowerController : MonoBehaviour
         PrefabSettings settings = dust.GetComponent<PrefabSettings>();
 
         if(settings != null) settings.SetSettings(color: Color.white, sortingOrder: 11, sortingLayer: TagManager.T_PLAYER, animationSpeed: 0.05f);
+    }
+    private void Victory()
+    {
+        if(coroutine != null) StopCoroutine(coroutine);
+    }
+
+    private void OnEnable()
+    {
+        EventManager.Victory += Victory;
+
+        coroutine = StartCoroutine(Reloading());
+    }
+
+    private void OnDisable()
+    {
+        EventManager.Victory -= Victory;
     }
 }

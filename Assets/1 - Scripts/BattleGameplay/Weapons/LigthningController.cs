@@ -8,6 +8,8 @@ public class LigthningController : MonoBehaviour
     [SerializeField] private GameObject ray;
     [SerializeField] private Collider2D dangerCollider;
 
+    private HeroController hero;
+
     [SerializeField] float originalSize = 6;
     private float currentSize = 0;
     private float appearTime = 1.5f;
@@ -22,13 +24,16 @@ public class LigthningController : MonoBehaviour
     {
         EventManager.EndOfBattle += BackToPool;
 
+        hero = GlobalStorage.instance.hero;
+
         transform.localScale = Vector3.zero;
         currentSize = 0;
-        //dangerCollider = GetComponent<Collider2D>();
         dangerCollider.enabled = false;
-
         ray.SetActive(false);
 
+        if(hero.gameObject.activeInHierarchy == false) return;
+
+        transform.position = hero.transform.position;
         coroutine = StartCoroutine(Appearing());
     }
 
@@ -73,12 +78,13 @@ public class LigthningController : MonoBehaviour
 
     private void BackToPool()
     {
+        if(coroutine != null) StopCoroutine(coroutine);
         gameObject.SetActive(false);
     }
 
     private void OnDisable()
     {
-        if(coroutine != null) StopCoroutine(coroutine);
         EventManager.EndOfBattle -= BackToPool;
+        if(coroutine != null) StopCoroutine(coroutine);
     }
 }

@@ -150,4 +150,19 @@ public class EnemyEffector : MonoBehaviour
 
         if(timerCoroutine != null) StopCoroutine(timerCoroutine);
     }
+
+    private void Victory()
+    {
+        StopEffector();
+    }
+
+    private void OnEnable()
+    {
+        EventManager.Victory += Victory;
+    }
+
+    private void OnDisable()
+    {
+        EventManager.Victory -= Victory;
+    }
 }

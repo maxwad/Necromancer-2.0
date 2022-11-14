@@ -92,10 +92,6 @@ public class EnemyController : MonoBehaviour
             bossController = GetComponent<BossController>();
             if(bossController != null) Destroy(bossController);
 
-            EnemyBossWeapons bossWeapons = GetComponent<EnemyBossWeapons>();
-            if(bossWeapons != null) Destroy(bossWeapons);
-
-
             Debug.Log("Reset");
         }
 
@@ -117,8 +113,6 @@ public class EnemyController : MonoBehaviour
         transform.localScale = new Vector3(size, size, size);
 
         bossDamageMultiplier = boostManager.GetBoost(BoostType.BossDamade);
-
-
     }
 
     private void OnCollisionStay2D(Collision2D collision)
@@ -265,10 +259,10 @@ public class EnemyController : MonoBehaviour
         isBoss               = true;
         currentHealth        *= bossCreateSecondMultiplier;
         mAttack              *= bossCreateMainMultiplier;
-        pAttack             *= bossCreateMainMultiplier;
+        pAttack              *= bossCreateMainMultiplier;
         transform.localScale *= bossCreateMainMultiplier;
         rbEnemy.mass         *= bossCreateMainMultiplier;
-        exp                  *= bossCreateSecondMultiplier;
+        exp                  *= (bossCreateSecondMultiplier * bossCreateMainMultiplier);
 
         movementScript.BoostSpeed(0.2f);
         bossController = gameObject.AddComponent<BossController>();
@@ -283,7 +277,7 @@ public class EnemyController : MonoBehaviour
         pAttack              /= bossCreateMainMultiplier;
         transform.localScale /= bossCreateMainMultiplier;
         rbEnemy.mass         /= bossCreateMainMultiplier;
-        exp                  /= bossCreateSecondMultiplier;
+        exp                  /= (bossCreateSecondMultiplier * bossCreateMainMultiplier);
 
         if(bossController != null)
         {
@@ -304,7 +298,6 @@ public class EnemyController : MonoBehaviour
         {
             health = originalStats.health + originalStats.health * value;
             if(isBoss == false && currentHealth > health) currentHealth = health;
-            //Debug.Log("Health after Upgrade = " + currentHealth);
         }
 
         if(boost == BoostType.EnemyPhysicAttack) pAttack       = originalStats.physicAttack + originalStats.physicAttack * value;

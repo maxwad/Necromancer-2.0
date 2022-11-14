@@ -14,8 +14,6 @@ public class HeroController : MonoBehaviour
     [SerializeField] private float currentTempLevel;
     [SerializeField] public float currentMaxLevel;
 
-    //private float standartTempExpRate = 0.5f;
-    //private float levelMultiplierRate = 1f;
     private float standartTempExpRate = 0.025f;
     private float levelMultiplierRate = 1f;
     private float currentTempExpGoal;
@@ -32,6 +30,7 @@ public class HeroController : MonoBehaviour
     private float defence;
 
     [Header("Damage")]
+    private bool isBattleEnded = false;
     [HideInInspector] public bool isDead = false;
     [Space]
     private SpriteRenderer unitSprite;
@@ -63,8 +62,6 @@ public class HeroController : MonoBehaviour
         battleUIManager = GlobalStorage.instance.battleIUManager;
 
         dalayTime = new WaitForSeconds(autoLevelUpTime);
-
-        UpgradeTempExpGoal();
     }
 
     private void Update()
@@ -115,7 +112,8 @@ public class HeroController : MonoBehaviour
 
     public void TakeDamage(float physicalDamage, float magicDamage, bool isCritical = false)
     {
-        //TODO: we need to create some damage formula
+        if(isBattleEnded == true) return;
+
         float phDamageComponent = physicalDamage - defence;
         if(phDamageComponent < 0) phDamageComponent = 0;
 
@@ -215,7 +213,6 @@ public class HeroController : MonoBehaviour
         while(isFigthingStarted == true)
         {
             yield return dalayTime;
-            //AddTempExp(BonusType.TempExp, (currentTempLevel == 0 ? 1 : currentTempLevel));
             AddTempExp(BonusType.TempExp, 1);
         }        
     }
@@ -250,11 +247,18 @@ public class HeroController : MonoBehaviour
         return isDead;
     }
 
+    private void Victory()
+    {
+        isBattleEnded = true;
+        if(autoLevelUp != null) StopCoroutine(autoLevelUp);
+    }
+
     private void OnEnable()
     {
         EventManager.BonusPickedUp += AddTempExp;
         EventManager.SetBattleBoost += SetNewParameters;
         EventManager.SwitchPlayer += ResetTempLevel;
+        EventManager.Victory += Victory;
 
         if(playerStats == null)
         {
@@ -272,6 +276,10 @@ public class HeroController : MonoBehaviour
         defence = defenceBase;
 
         currentHealth = resourcesManager.GetResource(ResourceType.Health);
+
+        isBattleEnded = false;
+
+        UpgradeTempExpGoal();
     }
 
     private void OnDisable()
@@ -279,5 +287,6 @@ public class HeroController : MonoBehaviour
         EventManager.BonusPickedUp -= AddTempExp;
         EventManager.SetBattleBoost += SetNewParameters;
         EventManager.SwitchPlayer -= ResetTempLevel;
+        EventManager.Victory -= Victory;
     }
 }

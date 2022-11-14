@@ -22,6 +22,13 @@ public class ObjectsPoolManager : MonoBehaviour
         public GameObject weapon;
     }
 
+    [Serializable]
+    public class ObjectPoolBossWeapon
+    {
+        public BossWeapons type;
+        public GameObject weapon;
+    }
+
     public List<ObjectPoolObjects> objectsList;
     private Dictionary<ObjectPool, List<GameObject>> allObjectsDict = new Dictionary<ObjectPool, List<GameObject>>();
 
@@ -30,6 +37,9 @@ public class ObjectsPoolManager : MonoBehaviour
 
     public List<ObjectPoolWeapon> weaponList;
     private Dictionary<UnitsAbilities, List<GameObject>> allWeaponsDict = new Dictionary<UnitsAbilities, List<GameObject>>();
+
+    public List<ObjectPoolBossWeapon> bossWeaponList;
+    private Dictionary<BossWeapons, List<GameObject>> allBossWeaponList = new Dictionary<BossWeapons, List<GameObject>>();
 
     private int minElementsCount = 5;
     private List<GameObject> currentObjectsList = new List<GameObject>();
@@ -67,6 +77,15 @@ public class ObjectsPoolManager : MonoBehaviour
                 objectList.Add(CreateObject(weaponList[x].weapon));
 
             allWeaponsDict.Add(weaponList[x].type, objectList);
+        }
+
+        for(int x = 0; x < bossWeaponList.Count; x++)
+        {
+            List<GameObject> objectList = new List<GameObject>();
+            for(int i = 0; i < minElementsCount; i++)
+                objectList.Add(CreateObject(bossWeaponList[x].weapon));
+
+            allBossWeaponList.Add(bossWeaponList[x].type, objectList);
         }
 
         for(int x = 0; x < objectsList.Count; x++)
@@ -114,6 +133,24 @@ public class ObjectsPoolManager : MonoBehaviour
         GameObject obj = null;
 
         currentObjectsList = allWeaponsDict[type];
+
+        for(int i = 0; i < currentObjectsList.Count; i++)
+        {
+            if(currentObjectsList[i].activeInHierarchy == false)
+                obj = currentObjectsList[i];
+        }
+
+        if(obj == null)
+            obj = AddObject(currentObjectsList);
+
+        return obj;
+    }
+
+    public GameObject GetBossWeapon(BossWeapons type)
+    {
+        GameObject obj = null;
+
+        currentObjectsList = allBossWeaponList[type];
 
         for(int i = 0; i < currentObjectsList.Count; i++)
         {

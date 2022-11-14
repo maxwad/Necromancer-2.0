@@ -48,6 +48,7 @@ public class EnemySquadGenerator : MonoBehaviour
         Army newArmy = new Army();
         newArmy.strength = armyStrength;
         newArmy.typeOfArmy = typeOfArmy;
+        newArmy.isThisASiege = true;
 
         for(int i = 0; i < countOfSquad; i++)
         {
