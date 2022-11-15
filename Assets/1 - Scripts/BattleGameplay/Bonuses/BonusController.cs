@@ -28,9 +28,6 @@ public class BonusController : MonoBehaviour
     {
         currentInertion = inertion;
         value = baseValue;
-
-        bonusManager = GlobalStorage.instance.bonusManager;
-        animator = GetComponent<SimpleAnimator>();
     }
 
     public void Init(bool specialMode, BonusSO bonus, float forceValue = 0)
@@ -50,10 +47,9 @@ public class BonusController : MonoBehaviour
         else
             value = baseValue + baseValue * boostManager.GetBoost(BoostType.BonusAmount);
 
+        gameObject.SetActive(true);
 
         CheckSizeOfBonus();
-
-        gameObject.SetActive(true);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -145,6 +141,12 @@ public class BonusController : MonoBehaviour
         EventManager.Victory += ActivatateBonus;
         EventManager.EndOfBattle += DestroyMe;
         EventManager.SetBattleBoost += UpgradeParameters;
+
+        if(animator == null)
+        {
+            bonusManager = GlobalStorage.instance.bonusManager;
+            animator = GetComponent<SimpleAnimator>();
+        }
     }
 
     private void OnDisable()

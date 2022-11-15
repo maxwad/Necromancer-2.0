@@ -11,20 +11,10 @@ public class UnitManager : MonoBehaviour
     public List<UnitSO> allUnitsSO;
 
     public List<Unit> allUnitsBase = new List<Unit>();
-    public List<Unit> allCurrentBaseUnitsByTypes = new List<Unit>();
+    public List<Unit> allUnitsByTypes = new List<Unit>();
     public List<Unit> allCurrentBoostUnitsByTypes = new List<Unit>();
 
     private Dictionary<UnitsTypes, Sprite> allUnitsIconsDict = new Dictionary<UnitsTypes, Sprite>();
-
-    private BattleBoostManager boostManager;
-
-    //NEW
-
-
-    private void Awake()
-    {
-        boostManager = GlobalStorage.instance.boostManager;        
-    }
 
     public void LoadUnits()
     {
@@ -32,14 +22,12 @@ public class UnitManager : MonoBehaviour
         //we return signal to next step load in PlayersArmy script
     } 
 
-    #region Start army creation 
     private void StartCreatingPlayersArmy()
     {
         CreateCurrentLevelOfUnits();
         CreateAllUnitsBase();
     }
 
-    #region OLD
     private void CreateCurrentLevelOfUnits()
     {
         foreach(UnitsTypes item in Enum.GetValues(typeof(UnitsTypes)))
@@ -47,7 +35,7 @@ public class UnitManager : MonoBehaviour
 
         //формируем список начальных уровней всех юнитов
         foreach (UnitsTypes type in unitsTypesList)
-            currentLevelOfUnitsDict.Add(type, 2);
+            currentLevelOfUnitsDict.Add(type, 3);
     }
 
     private void CreateAllUnitsBase()
@@ -66,9 +54,9 @@ public class UnitManager : MonoBehaviour
         {
             foreach (var itemUnit in allUnitsBase)
             {
-                if (itemUnit.unitType == type && itemUnit.level == 2)
+                if (itemUnit.unitType == type && itemUnit.level == 1)
                 {
-                    allCurrentBaseUnitsByTypes.Add(itemUnit);
+                    allUnitsByTypes.Add(itemUnit);
                     break;
                 }
             }
@@ -80,10 +68,9 @@ public class UnitManager : MonoBehaviour
     private void CreateAllCurrentBoostUnitsByTypes()
     {
         //накладываем эффекты на все базовые юниты
-        foreach (var item in allCurrentBaseUnitsByTypes)
+        foreach (var item in allUnitsByTypes)
         {
             //allCurrentBoostUnitsByTypes.Add(boostManager.AddBonusStatsToUnit(item));
-            allCurrentBoostUnitsByTypes.Add(item);
             allUnitsIconsDict.Add(item.unitType, item.unitIcon);
         }
 
@@ -95,7 +82,6 @@ public class UnitManager : MonoBehaviour
         return allUnitsIconsDict;
     }
 
-    #endregion
 
 
     public Unit[] GetUnitsForPlayersArmy()
@@ -105,7 +91,7 @@ public class UnitManager : MonoBehaviour
         {
             if (i < unitsTypesList.Count)
             {
-                foreach (var item in allCurrentBoostUnitsByTypes)
+                foreach (var item in allUnitsByTypes)
                 {
                     if (unitsTypesList[i] == item.unitType)
                     {
@@ -122,12 +108,28 @@ public class UnitManager : MonoBehaviour
         return army;
     }
 
-    public Unit GetNewSquad(UnitsTypes type)
+    public Unit GetNewSquad(UnitsTypes type, int level = 1)
     {
-        foreach(var unit in allCurrentBoostUnitsByTypes)
+        if(level == 1)
         {
-            if(unit.unitType == type) return unit;
+            foreach(var unit in allUnitsByTypes)
+            {
+                if(unit.unitType == type) return unit;
+            }
         }
+        else
+        {
+            if(currentLevelOfUnitsDict[type] >= level)
+            {
+                foreach(var unit in allUnitsBase)
+                {
+                    if(unit.unitType == type && unit.level == level)
+                    {
+                        return unit;
+                    }
+                }
+            }            
+        }        
 
         return null;
     }
@@ -139,9 +141,6 @@ public class UnitManager : MonoBehaviour
 
     public List<Unit> GetActualArmy()
     {
-        return allCurrentBoostUnitsByTypes;
+        return allUnitsByTypes;
     }
-
-    #endregion
-
 }

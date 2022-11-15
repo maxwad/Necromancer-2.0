@@ -111,6 +111,12 @@ public class ObjectsPoolManager : MonoBehaviour
         return obj;
     }
 
+    //NOTICE:
+    // in GET-functions we need condition:
+    // currentObjectsList[i].activeInHierarchy == false && i != 0
+    // because otherwise we take GO which is on the Scene with different parameters.
+    // With this condition we always will be have dafault object
+
     public GameObject GetEnemy(EnemiesTypes enemyTypes)
     {
         GameObject obj = null;
@@ -118,7 +124,7 @@ public class ObjectsPoolManager : MonoBehaviour
 
         for(int i = 0; i < currentObjectsList.Count; i++)
         {
-            if(currentObjectsList[i].activeInHierarchy == false)
+            if(currentObjectsList[i].activeInHierarchy == false && i != 0)
                 obj = currentObjectsList[i];
         }
 
@@ -136,7 +142,7 @@ public class ObjectsPoolManager : MonoBehaviour
 
         for(int i = 0; i < currentObjectsList.Count; i++)
         {
-            if(currentObjectsList[i].activeInHierarchy == false)
+            if(currentObjectsList[i].activeInHierarchy == false && i != 0)
                 obj = currentObjectsList[i];
         }
 
@@ -154,7 +160,7 @@ public class ObjectsPoolManager : MonoBehaviour
 
         for(int i = 0; i < currentObjectsList.Count; i++)
         {
-            if(currentObjectsList[i].activeInHierarchy == false)
+            if(currentObjectsList[i].activeInHierarchy == false && i != 0)
                 obj = currentObjectsList[i];
         }
 
@@ -178,7 +184,7 @@ public class ObjectsPoolManager : MonoBehaviour
                 continue;
             }
 
-            if (currentObjectsList[i].activeInHierarchy == false)
+            if (currentObjectsList[i].activeInHierarchy == false && i != 0)
             {
                 obj = currentObjectsList[i];
                 break;

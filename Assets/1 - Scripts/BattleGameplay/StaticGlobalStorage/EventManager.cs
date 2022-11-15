@@ -298,6 +298,18 @@ public static class EventManager
     public static void OnEnemyDestroyedEvent(GameObject objectOnMap) => EnemyDestroyed?.Invoke(objectOnMap);
 
 
+    //calls when we destroy enemy
+    //
+    //SUBSCRIBERS:
+    // - UnitController
+    //
+    //ACTIVATION:
+    // - EnemyController
+    //
+    public delegate void KillEnemyByEvent(UnitsAbilities weapon);
+    public static event KillEnemyByEvent KillEnemyBy;
+    public static void OnKillEnemyByEvent(UnitsAbilities weapon) => KillEnemyBy?.Invoke(weapon);
+
 
     //calls when we rich max level in the battle
     //

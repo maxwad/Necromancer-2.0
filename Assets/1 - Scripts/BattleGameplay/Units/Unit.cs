@@ -31,6 +31,7 @@ public class Unit
     public int stonePrice;
     public int magicPrice;
 
+    public float killToNextLevel;
     public int quantity;
     public float currentHealth;
 
@@ -64,7 +65,7 @@ public class Unit
         stonePrice = unitSO.stonePrice;
         magicPrice = unitSO.magicPrice;
 
-
+        killToNextLevel = unitSO.killToNextLevel;
         quantity = 1;
         currentHealth = health;
     }
@@ -75,5 +76,10 @@ public class Unit
     public void SetUnitController(UnitController unitControllerSource)
     {
         unitController = unitControllerSource;
+    }
+
+    public void SetQuantity(int count)
+    {
+        quantity = count;
     }
 }

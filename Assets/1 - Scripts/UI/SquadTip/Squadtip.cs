@@ -14,8 +14,10 @@ public class Squadtip : MonoBehaviour
     [SerializeField] private TMP_Text mAttackCount;
     [SerializeField] private TMP_Text phDefenceCount;
     [SerializeField] private TMP_Text mDefenceCount;
+    [SerializeField] private TMP_Text killCount;
     [SerializeField] private TMP_Text abilityDescription;
 
+    [SerializeField] private GameObject killBlock;
     [SerializeField] private GameObject descriptionBlock;
 
     private PlayerStats playerStats;
@@ -23,7 +25,7 @@ public class Squadtip : MonoBehaviour
     private string gag = "???";
 
     [SerializeField] private RectTransform rectTransform;
-    private float heigthForUnit = 490f;
+    private float heigthForUnit = 530f;
     private float heigthForEnemy = 390f;
 
     public void Init(Unit unit)
@@ -39,6 +41,7 @@ public class Squadtip : MonoBehaviour
             unit.magicAttack,
             unit.physicDefence,
             unit.magicDefence,
+            unit.killToNextLevel,
             unit.abilityDescription
             );
 
@@ -74,7 +77,7 @@ public class Squadtip : MonoBehaviour
         Fading.instance.FadeWhilePause(true, canvas);
     }
 
-    private void FillData(Sprite pict, string name, float health, float pA, float mA, float pD, float mD, string desc = "") 
+    private void FillData(Sprite pict, string name, float health, float pA, float mA, float pD, float mD, float kill = 0, string desc = "") 
     {
         icon.sprite = pict;
         nameItem.text = name;
@@ -82,6 +85,7 @@ public class Squadtip : MonoBehaviour
         phAttackCount.text = pA.ToString();
         mAttackCount.text = mA.ToString();
         phDefenceCount.text = pD.ToString();
+        killCount.text = kill.ToString();
         mDefenceCount.text = mD.ToString();
 
         if(desc != "") abilityDescription.text = desc.ToString();
@@ -100,6 +104,7 @@ public class Squadtip : MonoBehaviour
 
     private void ShowAbility(bool mode)
     {
+        killBlock.SetActive(mode);
         descriptionBlock.SetActive(mode);
     }
 

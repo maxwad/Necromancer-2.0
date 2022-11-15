@@ -25,6 +25,7 @@ MonoBehaviour:
   speedAttack: 2
   size: 1
   level: 1
+  killToNextLevel: 12
   unitAbility: 3
   attackTool: {fileID: 4421521410223311930, guid: 676584de6f412b741bac0840b94f0816, type: 3}
   coinsPrice: 746

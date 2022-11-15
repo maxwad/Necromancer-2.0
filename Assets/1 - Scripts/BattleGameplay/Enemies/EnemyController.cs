@@ -52,10 +52,12 @@ public class EnemyController : MonoBehaviour
     private float pushForce = 4000f;
 
     public BonusType bonusType;
+    private UnitsAbilities sourceOfDeath = UnitsAbilities.Notning;
 
     private EnemyMovement movementScript;
     private BattleBoostManager boostManager;
     public EnemyManager enemyManager;
+    public BonusManager bonusManager;
 
     private void Awake()
     {
@@ -138,7 +140,7 @@ public class EnemyController : MonoBehaviour
         }                
     }
 
-    public void TakeDamage(float physicalDamage, float magicDamage, Vector3 forceDirection, bool isCritical = false)
+    public void TakeDamage(float physicalDamage, float magicDamage, Vector3 forceDirection, bool isCritical = false, UnitsAbilities killSource = UnitsAbilities.Notning)
     {
         if(currentHealth > 0)
         {
@@ -161,6 +163,7 @@ public class EnemyController : MonoBehaviour
             }
 
             currentHealth -= damage;
+            sourceOfDeath = killSource;
 
             if(isBoss == true && bossController != null)
             {
@@ -233,6 +236,8 @@ public class EnemyController : MonoBehaviour
 
         EventManager.OnEnemyDestroyedEvent(gameObject);
 
+        if(sourceOfDeath != UnitsAbilities.Notning) EventManager.OnKillEnemyByEvent(sourceOfDeath);
+
         ResetEnemy();
     }
 
@@ -251,7 +256,7 @@ public class EnemyController : MonoBehaviour
 
     private void CreateBonus()
     {
-        GlobalStorage.instance.bonusManager.CreateBonus(isBoss, bonusType, transform.position, exp);
+        bonusManager.CreateBonus(isBoss, bonusType, transform.position, exp);
     }
 
     public void MakeBoss() 
@@ -317,6 +322,7 @@ public class EnemyController : MonoBehaviour
         {
             enemyManager = GlobalStorage.instance.enemyManager;
             boostManager = GlobalStorage.instance.boostManager;
+            bonusManager = GlobalStorage.instance.bonusManager;
         }
 
         if(originalStats == null) originalStats = enemyManager.GetEnemySO(enemiesType);

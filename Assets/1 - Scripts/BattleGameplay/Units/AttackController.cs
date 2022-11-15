@@ -17,7 +17,7 @@ public class AttackController : MonoBehaviour
 
     private void OnEnable()
     {
-        if(unit == null)
+        if(weaponStorage == null)
         {
             unit = GetComponent<UnitController>().unit;
             weaponStorage = GlobalStorage.instance.player.GetComponent<WeaponStorage>();
@@ -29,9 +29,17 @@ public class AttackController : MonoBehaviour
         attack = StartCoroutine(Attack());
     }
 
+    public void ReloadAttack(UnitController unitController)
+    {
+        unit = unitController.unit;
+        startAttackDelay = Random.Range(startAttackDelay * 10 - startAttackDelay, startAttackDelay * 10 + startAttackDelay) / 10;
+        if(attack != null) StopCoroutine(attack);
+        attack = StartCoroutine(Attack());
+    }
+
     private void OnDisable()
     {
-        StopCoroutine(attack);
+        if(attack != null) StopCoroutine(attack);
     }
 
     private IEnumerator Attack()
@@ -46,6 +54,7 @@ public class AttackController : MonoBehaviour
 
         while (unit.quantity != 0)
         {
+            Debug.Log("Attack level " + unit.level);
             speedAttack = unit.speedAttack + unit.speedAttack * boostManager.GetBoost(NameManager.BoostType.CoolDown);
             weaponStorage.Attack(unit);
 

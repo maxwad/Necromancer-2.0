@@ -6,11 +6,17 @@ using static NameManager;
 public class BonusManager : MonoBehaviour
 {
     [Header("Prefabs")]
+    private ObjectsPoolManager poolManager;
     [SerializeField] private List<BonusSO> bonuses;
     public List<GameObject> bonusesOnTheMap = new List<GameObject>();
 
     private bool isEnoughTempExp = false;
     private BonusType alternativeBonusType = BonusType.Gold;
+
+    private void Start()
+    {
+        poolManager = GlobalStorage.instance.objectsPoolManager;        
+    }
 
     public void CreateBonus(bool isThisFromBoss, BonusType type, Vector3 position, float value = 0)
     {
@@ -32,7 +38,7 @@ public class BonusManager : MonoBehaviour
             }
         }
 
-        bonus = GlobalStorage.instance.objectsPoolManager.GetObject(ObjectPool.BattleBonus);
+        bonus = poolManager.GetObject(ObjectPool.BattleBonus);
         bonus.transform.position = position;
         bonus.transform.SetParent(GlobalStorage.instance.bonusesContainer.transform);
         bonus.GetComponent<BonusController>().Init(isThisFromBoss, bonusSO, value);        

@@ -49,7 +49,8 @@ public static class NameManager
         Bible,
         Bow,
         Knife,
-        Bottle
+        Bottle,
+        Notning
     }
 
     public enum EnemiesTypes

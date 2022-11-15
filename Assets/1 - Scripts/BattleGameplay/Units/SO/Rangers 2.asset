@@ -18,13 +18,14 @@ MonoBehaviour:
   unitHome: 0
   unitType: 1
   health: 9
-  physicAttack: 6
+  physicAttack: 11
   physicDefence: 4
   magicAttack: 4
   magicDefence: 2
   speedAttack: 1.75
   size: 1
   level: 2
+  killToNextLevel: 15
   unitAbility: 5
   attackTool: {fileID: 4421521410223311930, guid: ca44c805e3b0f45459a198ac42386b96, type: 3}
   coinsPrice: 887

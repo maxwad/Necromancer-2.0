@@ -98,7 +98,7 @@ public class WeaponDamage : MonoBehaviour
     public void Hit(EnemyController enemy, Vector3 position)
     {
         bool isCriticalDamage = Random.Range(0, 100) < criticalDamage;
-        enemy.TakeDamage(physicAttack, magicAttack, position, isCriticalDamage);
+        enemy.TakeDamage(physicAttack, magicAttack, position, isCriticalDamage, unit.unitAbility);
     }
 
     private void UpgradeParameters(BoostType boost, float value)
