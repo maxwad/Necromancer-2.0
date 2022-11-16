@@ -172,8 +172,7 @@ public class ObjectsPoolManager : MonoBehaviour
 
     public GameObject GetObject(ObjectPool type)
     {
-        GameObject obj = null;        
-
+        GameObject obj = null;
         currentObjectsList = allObjectsDict[type];
 
         for (int i = 0; i < currentObjectsList.Count; i++)

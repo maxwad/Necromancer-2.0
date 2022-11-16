@@ -116,15 +116,15 @@ public class Autobattle : MonoBehaviour
         {
             if(playersArmy[i] != null)
             {
-                magicAttackUnits += playersArmy[i].magicAttack * playersArmy[i].quantity;
-                physicAttackUnits += playersArmy[i].physicAttack * playersArmy[i].quantity;
+                magicAttackUnits += playersArmy[i].magicAttack * playersArmy[i].unitController.quantity;
+                physicAttackUnits += playersArmy[i].physicAttack * playersArmy[i].unitController.quantity;
 
-                magicDefenceUnits += playersArmy[i].magicDefence * playersArmy[i].quantity;
-                physicDefenceUnits += playersArmy[i].physicDefence * playersArmy[i].quantity;
+                magicDefenceUnits += playersArmy[i].magicDefence * playersArmy[i].unitController.quantity;
+                physicDefenceUnits += playersArmy[i].physicDefence * playersArmy[i].unitController.quantity;
 
-                unitsQuantity += playersArmy[i].quantity;
+                unitsQuantity += playersArmy[i].unitController.quantity;
 
-                level += playersArmy[i].level * playersArmy[i].quantity;
+                level += playersArmy[i].level * playersArmy[i].unitController.quantity;
                 commonQuantitySquads++;
             }
         }

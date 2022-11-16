@@ -6,13 +6,15 @@ using static NameManager;
 public class PlayersArmyPart : MonoBehaviour
 {
     private PlayersArmy playersArmy;
+    private ObjectsPoolManager poolManager;
+    [SerializeField] private GameObject uiSlot;
 
     [Header("Army")]
-    [SerializeField] private ArmySlot[] armySlots;
+    [SerializeField] private SquadSlotPlacing[] armySlots;
 
     [Header("Reserve")]
-    [SerializeField] private ArmySlot[] reserveSlots;
-    [SerializeField] private GameObject reserveVeil;
+    [SerializeField] private SquadSlotPlacing[] reserveSlots;
+    [SerializeField] private GameObject storeVeil;
 
     [Header("Infirmary")]
     [SerializeField] private InfirmarySlot[] infirmarySlots;
@@ -24,21 +26,71 @@ public class PlayersArmyPart : MonoBehaviour
     private void Awake()
     {
         playersArmy = GlobalStorage.instance.player.GetComponent<PlayersArmy>();
+        poolManager = GlobalStorage.instance.objectsPoolManager;
     }
 
     public void CreateReserveScheme(Unit[] army)
     {
         for(int i = 0; i < army.Length; i++)
         {
-            reserveSlots[i].FillTheArmySlot(army[i]);
+            //reserveSlots[i].FillTheArmySlot(army[i]);
         }
     }
+
+    public void CreateReserveScheme(Dictionary<UnitsTypes, FullSquad> armyDict)
+    {
+        if(armyDict.Count != reserveSlots.Length) 
+        {
+            Debug.Log("Squads != slots!");
+            return;
+        }
+
+        foreach(var item in reserveSlots)
+        {
+            if(item.squad != null) Destroy(item.squad.gameObject);           
+        }
+
+        int i = 0;
+        foreach(var squad in armyDict)
+        {
+            if(squad.Value.unit.status == UnitStatus.Store)
+            {
+                GameObject squadUI = Instantiate(uiSlot);
+                squadUI.GetComponent<ArmySlot>().Init(squad.Value.unit);
+                reserveSlots[i].FillSlot(squadUI);
+            }
+
+            i++;
+        }
+    }
+
 
     public void CreateArmyScheme(Unit[] army)
     {
         for (int i = 0; i < army.Length; i++)
         {
-            armySlots[i].FillTheArmySlot(army[i]);
+            //armySlots[i].FillTheArmySlot(army[i]);
+        }
+    }
+
+    public void CreateArmyScheme(Dictionary<UnitsTypes, FullSquad> armyDict)
+    {
+        foreach(var item in armySlots)
+        {
+            if(item.squad != null) Destroy(item.squad.gameObject);
+        }
+
+        int i = 0;
+        foreach(var squad in armyDict)
+        {
+            if(squad.Value.unit.status == UnitStatus.Army)
+            {
+                GameObject squadUI = Instantiate(uiSlot);
+                squadUI.GetComponent<ArmySlot>().Init(squad.Value.unit);
+                armySlots[i].FillSlot(squadUI);
+            }
+
+            i++;
         }
     }
 
@@ -75,14 +127,17 @@ public class PlayersArmyPart : MonoBehaviour
 
     public void UpdateArmyWindow()
     {
-        CreateReserveScheme(playersArmy.reserveArmy);
-        CreateArmyScheme(playersArmy.playersArmy);
+        //CreateReserveScheme(playersArmy.storeArmy);
+        //CreateArmyScheme(playersArmy.playersArmy);
+        CreateReserveScheme(playersArmy.fullArmy);
+        CreateArmyScheme(playersArmy.fullArmy);
+
         CreateInfirmaryScheme();
 
         if(GlobalStorage.instance.isGlobalMode == true)
-            reserveVeil.SetActive(false);
+            storeVeil.SetActive(false);
         else
-            reserveVeil.SetActive(true);
+            storeVeil.SetActive(true);
     }
 
     #endregion      

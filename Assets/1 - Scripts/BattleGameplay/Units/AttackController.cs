@@ -7,6 +7,7 @@ public class AttackController : MonoBehaviour
     private BattleBoostManager boostManager;
     private WeaponStorage weaponStorage;
     private Unit unit;
+    private UnitController unitController;
 
     private float speedAttack;
 
@@ -19,7 +20,8 @@ public class AttackController : MonoBehaviour
     {
         if(weaponStorage == null)
         {
-            unit = GetComponent<UnitController>().unit;
+            unitController = GetComponent<UnitController>();
+            unit = unitController.unit;
             weaponStorage = GlobalStorage.instance.player.GetComponent<WeaponStorage>();
             boostManager = GlobalStorage.instance.boostManager;
         }
@@ -52,7 +54,7 @@ public class AttackController : MonoBehaviour
             yield return null;
         }
 
-        while (unit.quantity != 0)
+        while (unitController.quantity != 0)
         {
             Debug.Log("Attack level " + unit.level);
             speedAttack = unit.speedAttack + unit.speedAttack * boostManager.GetBoost(NameManager.BoostType.CoolDown);

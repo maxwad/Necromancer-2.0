@@ -84,24 +84,18 @@ public class UnitManager : MonoBehaviour
 
 
 
-    public Unit[] GetUnitsForPlayersArmy()
+    public Unit[] GetAllUnits()
     {
         Unit[] army = new Unit[unitsTypesList.Count];
         for (int i = 0; i < army.Length; i++)
         {
-            if (i < unitsTypesList.Count)
+            foreach(var item in allUnitsByTypes)
             {
-                foreach (var item in allUnitsByTypes)
+                if(unitsTypesList[i] == item.unitType)
                 {
-                    if (unitsTypesList[i] == item.unitType)
-                    {
-                        army[i] = item;
-                    }
+                    army[i] = item;
+                    break;
                 }
-            }
-            else
-            {
-                army[i] = null;
             }
         }
 
@@ -142,5 +136,10 @@ public class UnitManager : MonoBehaviour
     public List<Unit> GetActualArmy()
     {
         return allUnitsByTypes;
+    }
+
+    public List<UnitsTypes> GetUnitsTypesList()
+    {
+        return unitsTypesList;
     }
 }

@@ -11,7 +11,10 @@ public class UnitController : MonoBehaviour
     private UnitManager unitManager;
     private AttackController attackController;
 
+    private bool isActive = false;
+
     [HideInInspector] public Unit unit;
+    public int quantity = 1;
     public float currentHealth;
 
     private float physicDefenceBase;
@@ -56,12 +59,17 @@ public class UnitController : MonoBehaviour
         unitCountsText = GetComponentInChildren<TMP_Text>();
     }
 
+    public void Activate(bool mode)
+    {
+        gameObject.SetActive(mode);
+    }
+
     public void Initilize(Unit unitSource) 
     {
         if(boostManager == null) boostManager = GlobalStorage.instance.boostManager;
 
-        int tempQuantity = 0;
-        if(unit != null) tempQuantity = unit.quantity;
+        //int tempQuantity = 0;
+        //if(unit != null) tempQuantity = unit.quantity;
 
         unit = unitSource;
         currentHealth = unitSource.health;
@@ -73,7 +81,7 @@ public class UnitController : MonoBehaviour
         magicDefence = magicDefenceBase + magicDefenceBase * boostManager.GetBoost(BoostType.MagicDefence);
 
         unit.SetUnitController(this);
-        if(tempQuantity != 0) unit.SetQuantity(tempQuantity);
+        //if(tempQuantity != 0) unit.SetQuantity(tempQuantity);
 
         level = unitSource.level;
         killToNextLevel = unitSource.killToNextLevel;
@@ -94,6 +102,10 @@ public class UnitController : MonoBehaviour
         }
     }
 
+    public void SetQuantity(int amount)
+    {
+        quantity = amount;
+    }
 
     #region Damage
 
@@ -130,17 +142,17 @@ public class UnitController : MonoBehaviour
 
         if(GlobalStorage.instance.isGlobalMode == false) ShowDamage(damage, damageText);
 
-        if (currentHealth <= 0 && unit.quantity > 1)
+        if (currentHealth <= 0 && quantity > 1)
         {
-            unit.quantity--;
+            quantity--;
             currentHealth = unit.health;
             CheckColors();
             UpdateSquad(false);
         }
 
-        if (unit.quantity <= 1 && currentHealth <= 0)
+        if (quantity <= 1 && currentHealth <= 0)
         {
-            unit.quantity--;
+            quantity--;
             UpdateSquad(false);
             Dead();
         }
@@ -160,7 +172,8 @@ public class UnitController : MonoBehaviour
         GameObject death = poolManager.GetObject(ObjectPool.EnemyDeath);
         death.transform.position = transform.position;
         death.SetActive(true);
-        Destroy(gameObject);
+        Activate(false);
+        //Destroy(gameObject);
     }
 
     private void MakeMeImmortal(bool mode = true)
@@ -179,27 +192,22 @@ public class UnitController : MonoBehaviour
     #region SQUAD UPDATE
 
     public void UpdateSquad(bool mode)
-    {
+    {        
         if(unitCountsText != null)
         {
-            if(unit.quantity != 0) unitCountsText.text = unit.quantity.ToString();
+            if(quantity != 0) unitCountsText.text = quantity.ToString();
         }
 
+        if(quantity == 1)
+        {
+            Activate(true);
+
+        }
         currentLevelBounds = RecalculateLevelUpBound();
         UpdateLevelUpScale();
         CheckNewLevel();
 
         if(mode == false) EventManager.OnWeLostOneUnitEvent(unit.unitType);
-    }
-
-    public UnitsTypes GetTypeUnit()
-    {
-        return unit.unitType;
-    }
-
-    public int GetQuantityUnit()
-    {
-        return unit.quantity;
     }
 
     #endregion

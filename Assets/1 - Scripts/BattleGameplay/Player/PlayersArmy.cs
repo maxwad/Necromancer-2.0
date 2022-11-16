@@ -5,12 +5,37 @@ using TMPro;
 using static NameManager;
 using System;
 
+public class SquadStatus
+{
+    public UnitStatus status;
+}
+
+public class FullSquad
+{
+    public Unit unit;
+    public GameObject unitGO;
+    public UnitController unitController;
+    public ArmySlot squadUI;
+}
+
 public class PlayersArmy : MonoBehaviour
 {
     private UnitManager unitManager;
+    private ObjectsPoolManager poolManager;
+
+    private List<UnitsTypes> unitsTypesList;
+    public Dictionary<UnitsTypes, FullSquad> fullArmy = new Dictionary<UnitsTypes, FullSquad>();
+
+
+
+
+
 
     //TODO: we need to change start parameters army in future
-    [HideInInspector] public Unit[] reserveArmy;
+    [HideInInspector] public Unit[] storeArmy;
+    [HideInInspector] public GameObject[] unitsGO;
+
+
     private List<GameObject> unitsInReserveList = new List<GameObject>();
     //private Dictionary<UnitsTypes, GameObject> unitsInReserveDict = new Dictionary<UnitsTypes, GameObject>();
 
@@ -34,35 +59,105 @@ public class PlayersArmy : MonoBehaviour
     private void  InitializeArmy()
     {
         unitManager = GlobalStorage.instance.unitManager;
-        reserveArmy = unitManager.GetUnitsForPlayersArmy();
+        poolManager = GlobalStorage.instance.objectsPoolManager;
 
-        //TODO: delete manual quantity
-        foreach (var item in reserveArmy)
+        unitsTypesList = unitManager.GetUnitsTypesList();
+        storeArmy = unitManager.GetAllUnits();
+
+        foreach(var squad in unitsTypesList)
         {
-            if (item != null)
-            {
-                item.SetQuantity(UnityEngine.Random.Range(5, 9));
-                item.currentHealth = item.health;
-            }
+            FullSquad newSquad = new FullSquad();
+            newSquad.unit = unitManager.GetNewSquad(squad);
+
+            newSquad.unitGO = Instantiate(newSquad.unit.unitGO);
+            newSquad.unitGO.transform.SetParent(reserveArmyContainer.transform);
+
+            newSquad.unitController = newSquad.unitGO.GetComponent<UnitController>();
+            newSquad.unitController.Initilize(newSquad.unit);
+            newSquad.unitController.SetQuantity(UnityEngine.Random.Range(5, 9));
+
+            newSquad.unitGO.GetComponentInChildren<TMP_Text>().text = newSquad.unitController.quantity.ToString();
+
+            GameObject uiSlot = poolManager.GetObject(ObjectPool.SquadSlot);
+            newSquad.squadUI = uiSlot.GetComponent<ArmySlot>();
+            newSquad.squadUI.Init(newSquad.unit);
+            //uiSlot.SetActive(false);
+
+            newSquad.unitGO.SetActive(false);
+
+            fullArmy.Add(squad, newSquad);
         }
 
-        CreateRealUnitsInReserve();
+        playersArmyWindow.UpdateArmyWindow();
+
+
+
+        //TODO: delete manual quantity
+        //foreach (var item in reserveArmy)
+        //{
+        //    if (item != null)
+        //    {
+        //        //item.SetQuantity(UnityEngine.Random.Range(5, 9));
+        //        item.currentHealth = item.health;
+        //    }
+        //}
+
+        //CreateRealUnitsInReserve();
 
         //end of loading Units and Army
         GlobalStorage.instance.LoadNextPart();
     }
 
+
+    public void UpdateSquad(UnitsTypes type)
+    {
+        FullSquad newSquad = fullArmy[type];
+
+        newSquad.unit = unitManager.GetNewSquad(type);
+        newSquad.unitController.Initilize(newSquad.unit);
+        newSquad.unitGO.GetComponentInChildren<TMP_Text>().text = newSquad.unitController.quantity.ToString();
+        newSquad.squadUI.Init(newSquad.unit);
+
+        fullArmy[type] = newSquad;
+
+        EventManager.OnUpdateSquadEvent(type);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     private void CreateRealUnitsInReserve()
     {
-        for(int i = 0; i < reserveArmy.Length; i++)
+        for(int i = 0; i < storeArmy.Length; i++)
         {
-            if(reserveArmy[i] != null)
+            if(storeArmy[i] != null)
             {
-                GameObject unit = Instantiate(reserveArmy[i].unitGO);
+                GameObject unit = Instantiate(storeArmy[i].unitGO);
                 unit.transform.SetParent(reserveArmyContainer.transform);
-                unit.GetComponentInChildren<TMP_Text>().text = reserveArmy[i].quantity.ToString();
-
-                unit.GetComponent<UnitController>().Initilize(reserveArmy[i]);
+                UnitController unitController = unit.GetComponent<UnitController>();
+                unitController.Initilize(storeArmy[i]);
+                //TODO: delete manual quantity
+                unitController.SetQuantity(UnityEngine.Random.Range(5, 9));
+                unit.GetComponentInChildren<TMP_Text>().text = unitController.quantity.ToString();
                 unit.SetActive(false);
                 unitsInReserveList.Add(unit);
             }
@@ -74,8 +169,8 @@ public class PlayersArmy : MonoBehaviour
         ResetReplaceIndexes();
         if(unit == null) return;
 
-        Unit[] targetUnitArray = (mode == true) ? playersArmy : reserveArmy;
-        Unit[] sourceUnitArray = (mode == true) ? reserveArmy : playersArmy;
+        Unit[] targetUnitArray = (mode == true) ? playersArmy : storeArmy;
+        Unit[] sourceUnitArray = (mode == true) ? storeArmy : playersArmy;
 
         bool checkEmptySlotInArmy = false;
         int index = 0;
@@ -182,8 +277,8 @@ public class PlayersArmy : MonoBehaviour
             }
         }
 
-        playersArmyWindow.CreateReserveScheme(reserveArmy);
-        playersArmyWindow.CreateArmyScheme(playersArmy);
+        //playersArmyWindow.CreateReserveScheme(storeArmy);
+        //playersArmyWindow.CreateArmyScheme(playersArmy);
     }
 
     public void UpgradeArmy(UnitsTypes unitType)
@@ -194,7 +289,7 @@ public class PlayersArmy : MonoBehaviour
             {
                 //playersArmy[i].quantity--;
 
-                if (playersArmy[i].quantity == 0)
+                if (playersArmy[i].unitController.quantity == 0)
                 {
                     playersArmy[i] = null;
                 }               
@@ -214,7 +309,9 @@ public class PlayersArmy : MonoBehaviour
         {
             if(playersArmy[i]?.unitType == unitType)
             {
-                playersArmy[i].quantity++;
+                //playersArmy[i].quantity++;
+
+                //Debug.Log("New Quantity = " + playersArmy[i].quantity);
                 playersArmy[i].unitController.UpdateSquad(true);
                 isSquadFinded = true;
                 break;
@@ -231,12 +328,12 @@ public class PlayersArmy : MonoBehaviour
     {
         bool isSquadFinded = false;
 
-        for(int i = 0; i < reserveArmy.Length; i++)
+        for(int i = 0; i < storeArmy.Length; i++)
         {
-            if(reserveArmy[i]?.unitType == unitType)
+            if(storeArmy[i]?.unitType == unitType)
             {
-                reserveArmy[i].quantity++;
-                reserveArmy[i].unitController.UpdateSquad(true);
+                storeArmy[i].unitController.quantity++;
+                storeArmy[i].unitController.UpdateSquad(true);
                 isSquadFinded = true;
                 break;
             }
@@ -245,11 +342,12 @@ public class PlayersArmy : MonoBehaviour
         if(isSquadFinded == false)
         {
             Unit newSquad = unitManager.GetNewSquad(unitType);
-            newSquad.quantity = 1;
 
             GameObject realUnit = Instantiate(newSquad.unitGO);
-            realUnit.GetComponentInChildren<TMP_Text>().text = newSquad.quantity.ToString();
+            UnitController unitController = realUnit.GetComponent<UnitController>();
+            unitController.quantity = 1;
             realUnit.GetComponent<UnitController>().Initilize(newSquad);
+            realUnit.GetComponentInChildren<TMP_Text>().text = newSquad.unitController.quantity.ToString();
 
             TryToCreateUnitInArmy(newSquad, realUnit);
         }
@@ -278,7 +376,7 @@ public class PlayersArmy : MonoBehaviour
             newUnitGO.transform.position = (Vector3)playersArmyPositions[findedIndex] + battleArmyController.gameObject.transform.position;
             newUnitGO.transform.SetParent(battleArmyController.transform);
 
-            playersArmyWindow.CreateArmyScheme(playersArmy);
+            //playersArmyWindow.CreateArmyScheme(playersArmy);
         }
         else
         {
@@ -291,9 +389,9 @@ public class PlayersArmy : MonoBehaviour
         bool isFreePlaceFinded = false;
         int findedIndex = -1;
 
-        for(int i = 0; i < reserveArmy.Length; i++)
+        for(int i = 0; i < storeArmy.Length; i++)
         {
-            if(reserveArmy[i] == null)
+            if(storeArmy[i] == null)
             {
                 isFreePlaceFinded = true;
                 findedIndex = i;
@@ -303,13 +401,13 @@ public class PlayersArmy : MonoBehaviour
 
         if(isFreePlaceFinded == true)
         {
-            reserveArmy[findedIndex] = newUnit;
+            storeArmy[findedIndex] = newUnit;
             newUnitGO.transform.SetParent(reserveArmyContainer.transform);
 
             newUnitGO.SetActive(false);
             unitsInReserveList.Add(newUnitGO);
 
-            playersArmyWindow.CreateReserveScheme(reserveArmy);
+            //playersArmyWindow.CreateReserveScheme(storeArmy);
         }
         else
         {
@@ -331,7 +429,7 @@ public class PlayersArmy : MonoBehaviour
         {
             if(playersArmy[i] != null)
             {
-                commonCountUnits += playersArmy[i].quantity;
+                commonCountUnits += playersArmy[i].unitController.quantity;
             }
         }
 
@@ -374,7 +472,7 @@ public class PlayersArmy : MonoBehaviour
         {
             if(playersArmy[i] != null)
             {
-                float countToKill = playersArmy[i].quantity;
+                float countToKill = playersArmy[i].unitController.quantity;
                 for(int j = 0; j < countToKill; j++)
                 {
                     playersArmy[i].unitController.KillOneUnit();

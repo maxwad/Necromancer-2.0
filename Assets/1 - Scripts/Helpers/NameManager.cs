@@ -40,6 +40,11 @@ public static class NameManager
 
     }
 
+    public enum UnitStatus
+    {
+        Army, Store, Nowhere
+    }
+
     public enum UnitsAbilities
     {
         Whip,  
@@ -93,7 +98,8 @@ public static class NameManager
         Shuriken,
         Fireball,
         Ligthning,
-        Cannonball
+        Cannonball,
+        SquadSlot
 
     }
 
@@ -301,7 +307,7 @@ public static class NameManager
 
     public enum UISlotTypes
     {
-        Army, Reserve
+        Army, Store
     }
 
 
