@@ -10,17 +10,17 @@ public class PlayersArmyPart : MonoBehaviour
     [SerializeField] private GameObject uiSlot;
 
     [Header("Army")]
-    [SerializeField] private SquadSlotPlacing[] armySlots;
+    public SquadSlotPlacing[] armySlots;
 
     [Header("Reserve")]
-    [SerializeField] private SquadSlotPlacing[] reserveSlots;
+    public SquadSlotPlacing[] reserveSlots;
     [SerializeField] private GameObject storeVeil;
 
     [Header("Infirmary")]
     [SerializeField] private InfirmarySlot[] infirmarySlots;
     [SerializeField] private TMP_Text infirmaryCount;
 
-
+    [HideInInspector] public bool isStartInit = true;
     #region Schemes
 
     private void Awake()
@@ -58,9 +58,8 @@ public class PlayersArmyPart : MonoBehaviour
                 GameObject squadUI = Instantiate(uiSlot);
                 squadUI.GetComponent<ArmySlot>().Init(squad.Value.unit);
                 reserveSlots[i].FillSlot(squadUI);
+                i++;
             }
-
-            i++;
         }
     }
 
@@ -88,9 +87,8 @@ public class PlayersArmyPart : MonoBehaviour
                 GameObject squadUI = Instantiate(uiSlot);
                 squadUI.GetComponent<ArmySlot>().Init(squad.Value.unit);
                 armySlots[i].FillSlot(squadUI);
+                i++;
             }
-
-            i++;
         }
     }
 
@@ -129,10 +127,16 @@ public class PlayersArmyPart : MonoBehaviour
     {
         //CreateReserveScheme(playersArmy.storeArmy);
         //CreateArmyScheme(playersArmy.playersArmy);
-        CreateReserveScheme(playersArmy.fullArmy);
-        CreateArmyScheme(playersArmy.fullArmy);
+        //CreateReserveScheme(playersArmy.fullArmy);
+        //CreateArmyScheme(playersArmy.fullArmy);
 
-        CreateInfirmaryScheme();
+        //CreateInfirmaryScheme();
+        if(isStartInit == true)
+        {
+            CreateArmyScheme(playersArmy.fullArmy);
+            CreateReserveScheme(playersArmy.fullArmy);
+            isStartInit = false;
+        }
 
         if(GlobalStorage.instance.isGlobalMode == true)
             storeVeil.SetActive(false);

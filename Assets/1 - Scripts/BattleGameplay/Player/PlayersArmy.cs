@@ -5,11 +5,6 @@ using TMPro;
 using static NameManager;
 using System;
 
-public class SquadStatus
-{
-    public UnitStatus status;
-}
-
 public class FullSquad
 {
     public Unit unit;
@@ -22,6 +17,7 @@ public class PlayersArmy : MonoBehaviour
 {
     private UnitManager unitManager;
     private ObjectsPoolManager poolManager;
+    [SerializeField] private PlayersArmyPart playersArmyWindow;
 
     private List<UnitsTypes> unitsTypesList;
     public Dictionary<UnitsTypes, FullSquad> fullArmy = new Dictionary<UnitsTypes, FullSquad>();
@@ -43,7 +39,6 @@ public class PlayersArmy : MonoBehaviour
     private GameObject[] unitsOnBattlefield = new GameObject[4];
 
     [Space]
-    [SerializeField] private PlayersArmyPart playersArmyWindow;
     private int firstIndexForReplaceUnit = -1;
     private int secondIndexForReplaceUnit = -1;
 
@@ -109,7 +104,7 @@ public class PlayersArmy : MonoBehaviour
     }
 
 
-    public void UpdateSquad(UnitsTypes type)
+    public void UpgradeSquad(UnitsTypes type)
     {
         FullSquad newSquad = fullArmy[type];
 
@@ -123,7 +118,57 @@ public class PlayersArmy : MonoBehaviour
         EventManager.OnUpdateSquadEvent(type);
     }
 
+    public void UpdateSquads()
+    {
+        for(int i = 0; i < playersArmy.Length; i++)
+        {
+            playersArmy[i] = null;
+        }
 
+        foreach(var item in playersArmyWindow.armySlots)
+        {
+            if(item.squad != null)
+            {
+                playersArmy[item.index] = fullArmy[item.squad.unitInSlot.unitType].unit;
+            }
+        }
+
+        for(int i = 0; i < playersArmy.Length; i++)
+        {
+            if(playersArmy[i] != null)
+            {
+                Debug.Log(playersArmy[i].unitType + " in army slot!");
+            }
+        }
+
+        if(GlobalStorage.instance.isGlobalMode == false)
+        {
+            ShowSquadsOnBattleField(false);
+        }
+    }
+
+    public void ShowSquadsOnBattleField(bool mode)
+    {
+        foreach(var squad in fullArmy)
+        {
+            squad.Value.unitGO.transform.SetParent(reserveArmyContainer.transform);
+            squad.Value.unitGO.SetActive(false);
+        }
+
+        if(mode == false)
+        {
+            for(int i = 0; i < playersArmy.Length; i++)
+            {
+                if(playersArmy[i] != null && playersArmy[i].isUnitActive == true)
+                {
+                    GameObject unit = fullArmy[playersArmy[i].unitType].unitGO;
+                    unit.transform.SetParent(battleArmyController.gameObject.transform);
+                    unit.transform.position = (Vector3)playersArmyPositions[i] + battleArmyController.gameObject.transform.position;
+                    unit.SetActive(true);                
+                }
+            }
+        }
+    }
 
 
 
@@ -495,6 +540,7 @@ public class PlayersArmy : MonoBehaviour
         EventManager.WeLostOneUnit += UpgradeArmy;
         //EventManager.SwitchUnit += SwitchUnit;
         EventManager.ResurrectUnit += TryResurrectUnitFromArmy;
+        EventManager.SwitchPlayer += ShowSquadsOnBattleField;
     }
 
     private void OnDisable()
@@ -503,5 +549,6 @@ public class PlayersArmy : MonoBehaviour
         EventManager.WeLostOneUnit -= UpgradeArmy;
         //EventManager.SwitchUnit -= SwitchUnit; 
         EventManager.ResurrectUnit -= TryResurrectUnitFromArmy;
+        EventManager.SwitchPlayer -= ShowSquadsOnBattleField;
     }
 }

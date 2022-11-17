@@ -9,7 +9,7 @@ using System;
 
 public class SquadSlotPlacing : MonoBehaviour, IDropHandler, IPointerClickHandler
 {
-    public UISlotTypes slotTypes;
+    public UnitStatus slotType;
     public ArmySlot squad = null;
     public int index = 0;
 
@@ -17,6 +17,8 @@ public class SquadSlotPlacing : MonoBehaviour, IDropHandler, IPointerClickHandle
     {
         squad = currentSquad.GetComponent<ArmySlot>();
         squad.index = index;
+        squad.slotType = slotType;
+        squad.unitInSlot.status = slotType;
 
         currentSquad.transform.SetParent(transform, false);
         currentSquad.transform.localPosition = Vector3.zero;
@@ -28,11 +30,19 @@ public class SquadSlotPlacing : MonoBehaviour, IDropHandler, IPointerClickHandle
         ArmySlot slot = eventData.pointerDrag.GetComponent<ArmySlot>();
         if(slot != null)
         {
-            squad = slot;
-            squad.unitInSlot.status = (slotTypes == UISlotTypes.Army) ? UnitStatus.Army : UnitStatus.Store;
+            if(squad != null) EventManager.OnSwitchSlotsEvent(slot.index, slot.unitInSlot.status, squad.gameObject);
 
-            eventData.pointerDrag.transform.SetParent(transform, false);
-            eventData.pointerDrag.transform.localPosition = Vector3.zero;
+            FillSlot(eventData.pointerDrag);
+            //squad = slot;
+            //squad.unitInSlot.status = (slotTypes == UISlotTypes.Army) ? UnitStatus.Army : UnitStatus.Store;
+
+            //eventData.pointerDrag.transform.SetParent(transform, false);
+            //eventData.pointerDrag.transform.localPosition = Vector3.zero;
+        }
+        else
+        {
+
+            Debug.Log("THERE IS NO SLOT");
         }
     }
 
@@ -44,12 +54,27 @@ public class SquadSlotPlacing : MonoBehaviour, IDropHandler, IPointerClickHandle
         }
     }
 
-    private void ClearSlot()
+    public void ClearSlot()
     {
         if(squad != null)
         {
             squad.unitInSlot.status = UnitStatus.Store;
             squad = null;
         }
+    }
+
+    private void SwitchSlot(int ind, UnitStatus place, GameObject slot)
+    {
+        if(index == ind && slotType == place) FillSlot(slot);
+    }
+
+    private void OnEnable()
+    {
+        EventManager.SwitchSlots += SwitchSlot;
+    }
+
+    private void OnDisable()
+    {
+        EventManager.SwitchSlots += SwitchSlot;
     }
 }

@@ -10,19 +10,35 @@ public class ArmySlot : MonoBehaviour, IPointerClickHandler, IDragHandler, IEndD
     public TMP_Text quantity;
     public int index;
     public Image backlight;
-    public UISlotTypes slotType;
+    public UnitStatus slotType;
 
     public Color visible;
     public Color unvisible;
     public Unit unitInSlot;
 
     private InfotipTrigger squadtipTrigger;
+    private CanvasGroup canvasGroup;
 
     private PlayersArmy playersArmy;
+    private PlayersArmyPart playersArmyUI;
+
+
+    private Transform currentParent;
+    private Transform parentStorage;
+    private Canvas dragdropZone;
 
     private void OnEnable()
     {
-        if(playersArmy == null) playersArmy = GlobalStorage.instance.player.GetComponent<PlayersArmy>();
+        if(playersArmy == null) 
+        { 
+            playersArmy = GlobalStorage.instance.player.GetComponent<PlayersArmy>();
+            playersArmyUI = GlobalStorage.instance.playerMilitaryWindow.GetComponent<PlayersArmyPart>();
+
+            canvasGroup = GetComponent<CanvasGroup>();
+            Canvas[] group = GlobalStorage.instance.playerMilitaryWindow.GetComponentsInChildren<Canvas>();
+            dragdropZone = group[group.Length - 1];
+
+        }
         backlight.color = unvisible;
     }
 
@@ -63,21 +79,56 @@ public class ArmySlot : MonoBehaviour, IPointerClickHandler, IDragHandler, IEndD
         //}
     }
 
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        if(unitInSlot == null || unitInSlot.isUnitActive == false)
+        {
+            return;
+        }
+
+        currentParent = transform.parent;
+        SquadSlotPlacing parentPlace = currentParent.GetComponent<SquadSlotPlacing>();
+        if(parentPlace != null) parentPlace.ClearSlot();
+
+        parentStorage = transform.parent;
+
+        transform.SetParent(dragdropZone.transform, false);
+        canvasGroup.blocksRaycasts = false;
+    }
+
     public void OnDrag(PointerEventData eventData)
     {
-
-        Debug.Log("Draging");
+        if(unitInSlot == null || unitInSlot.isUnitActive == false)
+        {
+            return;
+        }
+        else
+        {
+            transform.position = Input.mousePosition;
+        }
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        Debug.Log("END Draging");
+        if(transform.parent != dragdropZone.transform)
+        {
+            if(transform.parent != currentParent)
+            {
+                currentParent = transform.parent;
+            }
+        }
+        else
+        {
+            transform.parent = parentStorage;
+            transform.localPosition = Vector3.zero;
+            currentParent = transform.parent;
+        }
+
+        canvasGroup.blocksRaycasts = true;
+
+        playersArmy.UpdateSquads();
     }
 
-    public void OnBeginDrag(PointerEventData eventData)
-    {
-        Debug.Log("BEGIN Draging");
-    }
 
     //public void ResetSelecting()
     //{

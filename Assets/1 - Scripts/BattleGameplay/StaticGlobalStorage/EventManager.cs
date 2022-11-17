@@ -119,6 +119,18 @@ public static class EventManager
     public static event UpdateSquadEvent UpdateSquad;
     public static void OnUpdateSquadEvent(UnitsTypes type) => UpdateSquad?.Invoke(type);
 
+
+    //calls when want to switch squads in Army
+    //
+    //SUBSCRIBERS:
+    // - SquadSlotPlacing
+    // 
+    //ACTIVATION:
+    // - SquadSlotPlacing
+    //
+    public delegate void SwitchSlotsEvent(int index, UnitStatus place, GameObject slot);
+    public static event SwitchSlotsEvent SwitchSlots;
+    public static void OnSwitchSlotsEvent(int index, UnitStatus place, GameObject slot) => SwitchSlots?.Invoke(index, place, slot);
     #endregion
 
 
@@ -129,6 +141,7 @@ public static class EventManager
     // - BattleMap
     // - PlayerManager
     // - PlayerStats
+    // - PlayersArmy
     // - BattleUIManager
     // - HeroController
     // - SpellLibrary
