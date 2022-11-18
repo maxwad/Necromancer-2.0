@@ -6,7 +6,6 @@ using static NameManager;
 public class PlayersArmyPart : MonoBehaviour
 {
     private PlayersArmy playersArmy;
-    private ObjectsPoolManager poolManager;
     [SerializeField] private GameObject uiSlot;
 
     [Header("Army")]
@@ -26,7 +25,6 @@ public class PlayersArmyPart : MonoBehaviour
     private void Awake()
     {
         playersArmy = GlobalStorage.instance.player.GetComponent<PlayersArmy>();
-        poolManager = GlobalStorage.instance.objectsPoolManager;
     }
 
     public void CreateReserveScheme(Unit[] army)
@@ -45,19 +43,13 @@ public class PlayersArmyPart : MonoBehaviour
             return;
         }
 
-        foreach(var item in reserveSlots)
-        {
-            if(item.squad != null) Destroy(item.squad.gameObject);           
-        }
-
         int i = 0;
         foreach(var squad in armyDict)
         {
             if(squad.Value.unit.status == UnitStatus.Store)
             {
-                GameObject squadUI = Instantiate(uiSlot);
-                squadUI.GetComponent<ArmySlot>().Init(squad.Value.unit);
-                reserveSlots[i].FillSlot(squadUI);
+                reserveSlots[i].FillSlot(squad.Value.squadUI.gameObject);
+                squad.Value.squadUI.gameObject.SetActive(true);
                 i++;
             }
         }
@@ -74,20 +66,42 @@ public class PlayersArmyPart : MonoBehaviour
 
     public void CreateArmyScheme(Dictionary<UnitsTypes, FullSquad> armyDict)
     {
-        foreach(var item in armySlots)
-        {
-            if(item.squad != null) Destroy(item.squad.gameObject);
-        }
-
         int i = 0;
         foreach(var squad in armyDict)
         {
             if(squad.Value.unit.status == UnitStatus.Army)
             {
-                GameObject squadUI = Instantiate(uiSlot);
-                squadUI.GetComponent<ArmySlot>().Init(squad.Value.unit);
-                armySlots[i].FillSlot(squadUI);
+                armySlots[i].FillSlot(squad.Value.squadUI.gameObject);
+                squad.Value.squadUI.gameObject.SetActive(true);
                 i++;
+            }
+        }
+    }
+
+    public void ForceClearCell(ArmySlot armySlot, bool directionMode = true)
+    {
+        if(directionMode == true)
+        {
+            foreach(var item in reserveSlots)
+            {
+                if(item.squad == null)
+                {
+                    item.HandlingNewSlot(armySlot);
+                    break;
+                }
+            }
+        }
+        else
+        {
+            int i = reserveSlots.Length - 1;
+            while(i >= 0)
+            {
+                if(reserveSlots[i].squad == null)
+                {
+                    reserveSlots[i].HandlingNewSlot(armySlot);
+                    break;
+                }
+                i--;
             }
         }
     }
@@ -123,26 +137,43 @@ public class PlayersArmyPart : MonoBehaviour
         }        
     }
 
+    private void DisableAllSlots(Dictionary<UnitsTypes, FullSquad> armyDict)
+    {
+        foreach(var item in armyDict)
+        {
+            item.Value.squadUI.gameObject.SetActive(false);
+        }
+    }
+
     public void UpdateArmyWindow()
     {
-        //CreateReserveScheme(playersArmy.storeArmy);
-        //CreateArmyScheme(playersArmy.playersArmy);
-        //CreateReserveScheme(playersArmy.fullArmy);
-        //CreateArmyScheme(playersArmy.fullArmy);
-
         //CreateInfirmaryScheme();
         if(isStartInit == true)
         {
+            DisableAllSlots(playersArmy.fullArmy);
             CreateArmyScheme(playersArmy.fullArmy);
             CreateReserveScheme(playersArmy.fullArmy);
             isStartInit = false;
         }
 
+        storeVeil.SetActive(!GlobalStorage.instance.isGlobalMode);
+
         if(GlobalStorage.instance.isGlobalMode == true)
-            storeVeil.SetActive(false);
-        else
-            storeVeil.SetActive(true);
+            SortingUnits();
     }
+
+
+    public void SortingUnits()
+    {
+        foreach(var item in playersArmy.fullArmy)
+        {
+            if(item.Value.unit.isUnitActive == false)
+            {
+                ForceClearCell(item.Value.squadUI, false);
+            }
+        }
+    }
+
 
     #endregion      
 }

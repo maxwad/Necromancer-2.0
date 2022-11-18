@@ -37,46 +37,55 @@ public class ArmySlot : MonoBehaviour, IPointerClickHandler, IDragHandler, IEndD
             canvasGroup = GetComponent<CanvasGroup>();
             Canvas[] group = GlobalStorage.instance.playerMilitaryWindow.GetComponentsInChildren<Canvas>();
             dragdropZone = group[group.Length - 1];
-
         }
-        backlight.color = unvisible;
+
+        if(unitInSlot != null) quantity.text = unitInSlot.unitController.quantity.ToString();
+
+        //backlight.color = unvisible;
     }
 
     public void Init(Unit unit)
     {
         if(squadtipTrigger == null) squadtipTrigger = GetComponent<InfotipTrigger>();
 
-        if (unit.unitController != null && unit.unitController.quantity != 0)
-        {
-            unitInSlot = unit;
-            icon.sprite = unit.unitIcon;
-            quantity.text = unit.unitController.quantity.ToString();
-            squadtipTrigger.SetUnit(unit);
-        }
-        else
-        {
-            unitInSlot = null;
-            icon.sprite = null;
-            quantity.text = null;
-            squadtipTrigger.SetUnit(null);
-        }
+        unitInSlot = unit;
+        icon.sprite = unit.unitIcon;
+        quantity.text = unit.unitController.quantity.ToString();
+        squadtipTrigger.SetUnit(unit);
 
-        backlight.color = unvisible;
+        //if (unit.unitController != null && unit.unitController.quantity != 0)
+        //{
+        //    unitInSlot = unit;
+        //    icon.sprite = unit.unitIcon;
+        //    quantity.text = unit.unitController.quantity.ToString();
+        //    squadtipTrigger.SetUnit(unit);
+        //}
+        //else
+        //{
+        //    unitInSlot = null;
+        //    icon.sprite = null;
+        //    quantity.text = null;
+        //    squadtipTrigger.SetUnit(null);
+        //}
+
+        //backlight.color = unvisible;
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        //if(slotType == UISlotTypes.Army && eventData.button == PointerEventData.InputButton.Right)
-        //{
-        //    backlight.color = backlight.color == unvisible ? visible : unvisible;
-        //    playersArmy.UnitsReplacementUI(index);
-        //}
-
-        //if(eventData.button == PointerEventData.InputButton.Left && GlobalStorage.instance.isGlobalMode == true)
-        //{
-        //    bool mode = slotType == UISlotTypes.Reserve ? true : false;
-        //    playersArmy.SwitchUnit(mode, unitInSlot);
-        //}
+        if(eventData.button == PointerEventData.InputButton.Right)
+        {
+            if(unitInSlot.status == UnitStatus.Army)
+            {
+                if(GlobalStorage.instance.isGlobalMode == true)
+                    playersArmyUI.ForceClearCell(this);
+                else
+                {
+                    InfotipManager.ShowWarning("You can not delete any squads from hero's army during the battle.");
+                    return;
+                }
+            }
+        }
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -86,10 +95,13 @@ public class ArmySlot : MonoBehaviour, IPointerClickHandler, IDragHandler, IEndD
             return;
         }
 
-        currentParent = transform.parent;
-        SquadSlotPlacing parentPlace = currentParent.GetComponent<SquadSlotPlacing>();
-        if(parentPlace != null) parentPlace.ClearSlot();
+        if(unitInSlot.status == UnitStatus.Store && GlobalStorage.instance.isGlobalMode == false)
+        {
+            InfotipManager.ShowWarning("You can not add any squads to your hero during the battle.");
+            return;
+        }
 
+        currentParent = transform.parent;
         parentStorage = transform.parent;
 
         transform.SetParent(dragdropZone.transform, false);
@@ -98,6 +110,12 @@ public class ArmySlot : MonoBehaviour, IPointerClickHandler, IDragHandler, IEndD
 
     public void OnDrag(PointerEventData eventData)
     {
+        if(unitInSlot.status == UnitStatus.Store && GlobalStorage.instance.isGlobalMode == false)
+        {
+            InfotipManager.ShowWarning("You can not add any squads to your hero during the battle.");
+            return;
+        }
+
         if(unitInSlot == null || unitInSlot.isUnitActive == false)
         {
             return;
@@ -110,6 +128,12 @@ public class ArmySlot : MonoBehaviour, IPointerClickHandler, IDragHandler, IEndD
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        if(unitInSlot.status == UnitStatus.Store && GlobalStorage.instance.isGlobalMode == false)
+        {
+            InfotipManager.ShowWarning("You can not add any squads to your hero during the battle.");
+            return;
+        }
+
         if(transform.parent != dragdropZone.transform)
         {
             if(transform.parent != currentParent)
@@ -119,20 +143,13 @@ public class ArmySlot : MonoBehaviour, IPointerClickHandler, IDragHandler, IEndD
         }
         else
         {
-            transform.parent = parentStorage;
+            transform.SetParent(parentStorage);
             transform.localPosition = Vector3.zero;
             currentParent = transform.parent;
         }
 
         canvasGroup.blocksRaycasts = true;
 
-        playersArmy.UpdateSquads();
+        //playersArmy.UpdateSquads();
     }
-
-
-    //public void ResetSelecting()
-    //{
-    //    backlight.color = unvisible;
-    //    playersArmy.ResetReplaceIndexes();
-    //}
 }

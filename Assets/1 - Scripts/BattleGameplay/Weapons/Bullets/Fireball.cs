@@ -28,9 +28,12 @@ public class Fireball : MonoBehaviour
 
     private void Update()
     {
-        rb.velocity = direction;
-        rb.transform.Rotate(0, 0, rotationSpeed);
-        spriteRenderer.sortingOrder = -Mathf.RoundToInt(transform.position.y * 100);
+        if(MenuManager.instance.IsTherePauseOrMiniPause() == false)
+        {
+            rb.velocity = direction;
+            rb.transform.Rotate(0, 0, rotationSpeed);
+            spriteRenderer.sortingOrder = -Mathf.RoundToInt(transform.position.y * 100);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

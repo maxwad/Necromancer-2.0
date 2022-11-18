@@ -76,6 +76,7 @@ public class EnemyMovement : MonoBehaviour
         if(transform.position.z != 20)
         { 
             Debug.Log("ENEMY IS LOST! Z = " + transform.position.z + " local = " + transform.localPosition.z);
+            transform.position = new Vector3(transform.position.x, transform.position.y, 20f);
         }
     }
 

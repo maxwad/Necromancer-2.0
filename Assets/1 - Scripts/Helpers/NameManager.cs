@@ -42,7 +42,7 @@ public static class NameManager
 
     public enum UnitStatus
     {
-        Army, Store, Nowhere
+        Army, Store, Nowhere, Infirmary
     }
 
     public enum UnitsAbilities
