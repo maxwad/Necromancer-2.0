@@ -11,6 +11,7 @@ public class AutobattleUI : MonoBehaviour
     private Autobattle autobattle;
     private BattleManager battleManager;
     private BattleResult battleResult;
+    private PlayersArmy playersArmyScript;
 
     public Toggle[] attackToggles;
     public Toggle manaToggle;
@@ -30,13 +31,14 @@ public class AutobattleUI : MonoBehaviour
             autobattle = autobattleScript;
             battleManager = GlobalStorage.instance.battleManager;
             battleResult = GetComponent<BattleResult>();
+            playersArmyScript = GlobalStorage.instance.playersArmy;
             canvas = uiPanel.GetComponentInChildren<CanvasGroup>();
         }
 
         MenuManager.instance.MiniPause(true);
         GlobalStorage.instance.ModalWindowOpen(true);
 
-        battleResult.StartCheckingUnitDeath();
+        playersArmyScript.StopControlUnitDeath(false);
         uiPanel.SetActive(true);
         Fading.instance.Fade(true, canvas);
 
@@ -90,7 +92,7 @@ public class AutobattleUI : MonoBehaviour
         if(isCancel == true)
         {
             battleManager.ReopenPreBattleWindow();
-            battleResult.CloseCheckingUnitDeath();
+            playersArmyScript.StopControlUnitDeath(true);
         }
 
         uiPanel.SetActive(false);

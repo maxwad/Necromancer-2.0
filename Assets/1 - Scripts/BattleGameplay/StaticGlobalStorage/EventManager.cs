@@ -36,19 +36,19 @@ public static class EventManager
 
 
 
-    //calls when we lose 1 unit from squad
-    //
-    //SUBSCRIBERS:
-    // - PlayersArmy
-    // - BattleArmyController
-    // - InfirmaryManager
-    // 
-    //ACTIVATION:
-    // - UnitController
-    //
-    public delegate void WeLostOneUnitEvent(UnitsTypes unitType);
-    public static event WeLostOneUnitEvent WeLostOneUnit;
-    public static void OnWeLostOneUnitEvent(UnitsTypes unitType) => WeLostOneUnit?.Invoke(unitType);
+    ////calls when we lose 1 unit from squad
+    ////
+    ////SUBSCRIBERS:
+    //// - PlayersArmy
+    //// - BattleArmyController
+    //// - InfirmaryManager
+    //// 
+    ////ACTIVATION:
+    //// - UnitController
+    ////
+    //public delegate void WeLostOneUnitEvent(UnitsTypes unitType);
+    //public static event WeLostOneUnitEvent WeLostOneUnit;
+    //public static void OnWeLostOneUnitEvent(UnitsTypes unitType) => WeLostOneUnit?.Invoke(unitType);
 
 
 
@@ -66,31 +66,31 @@ public static class EventManager
 
 
 
-    //calls when need to resurrect unit from Infirmary
-    //
-    //SUBSCRIBERS:
-    // - InfirmaryManager
-    // 
-    //ACTIVATION:
-    // - SpellLibrary
-    //
-    public delegate void RemoveUnitFromInfirmaryEvent(bool mode, bool order, float quantity);
-    public static event RemoveUnitFromInfirmaryEvent RemoveUnitFromInfirmary;
-    public static void OnRemoveUnitFromInfirmaryEvent(bool mode, bool order, float quantity) => RemoveUnitFromInfirmary?.Invoke(mode, order, quantity);
+    ////calls when need to resurrect unit from Infirmary
+    ////
+    ////SUBSCRIBERS:
+    //// - InfirmaryManager
+    //// 
+    ////ACTIVATION:
+    //// - SpellLibrary
+    ////
+    //public delegate void RemoveUnitFromInfirmaryEvent(UnitsTypes type);
+    //public static event RemoveUnitFromInfirmaryEvent RemoveUnitFromInfirmary;
+    //public static void OnRemoveUnitFromInfirmaryEvent(UnitsTypes type) => RemoveUnitFromInfirmary?.Invoke(type);
 
 
 
-    //calls when need to add resurrected unit to hero's army
-    //
-    //SUBSCRIBERS:
-    // - ...
-    // 
-    //ACTIVATION:
-    // - InfirmaryManager
-    //
-    public delegate void ResurrectUnitEvent(UnitsTypes unitType);
-    public static event ResurrectUnitEvent ResurrectUnit;
-    public static void OnResurrectUnitEvent(UnitsTypes unitType) => ResurrectUnit?.Invoke(unitType);
+    ////calls when need to add resurrected unit to hero's army
+    ////
+    ////SUBSCRIBERS:
+    //// - ...
+    //// 
+    ////ACTIVATION:
+    //// - InfirmaryManager
+    ////
+    //public delegate void ResurrectUnitEvent(UnitsTypes unitType);
+    //public static event ResurrectUnitEvent ResurrectUnit;
+    //public static void OnResurrectUnitEvent(UnitsTypes unitType) => ResurrectUnit?.Invoke(unitType);
 
 
 

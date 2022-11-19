@@ -25,8 +25,8 @@ public class SquadSlotPlacing : MonoBehaviour, IDropHandler, IPointerClickHandle
         currentSquad.transform.SetParent(transform, false);
         currentSquad.transform.localPosition = Vector3.zero;
 
-        if(playersArmy == null) playersArmy = GlobalStorage.instance.player.GetComponent<PlayersArmy>();
-        playersArmy.UpdateSquads();
+        if(playersArmy == null) playersArmy = GlobalStorage.instance.playersArmy;
+        playersArmy.UpdateArmy();
     }
 
 

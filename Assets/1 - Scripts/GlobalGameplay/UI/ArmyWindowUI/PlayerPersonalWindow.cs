@@ -61,7 +61,7 @@ public class PlayerPersonalWindow : MonoBehaviour
     private void Start()
     {
         autobattleButtonComponent = autobattleButton.GetComponent<Button>();
-        playersArmy = GlobalStorage.instance.player.GetComponent<PlayersArmy>();
+        playersArmy = GlobalStorage.instance.playersArmy;
         playersArmyUIPart = GetComponent<PlayersArmyPart>();
         enemyArmyUIPart = GetComponent<EnemyArmyPart>();
         macroLevelUI = GetComponentInChildren<MacroLevelWindow>();

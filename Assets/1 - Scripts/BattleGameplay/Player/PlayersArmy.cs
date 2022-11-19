@@ -18,11 +18,15 @@ public class PlayersArmy : MonoBehaviour
     private UnitManager unitManager;
     private ObjectsPoolManager poolManager;
     [SerializeField] private PlayersArmyPart playersArmyWindow;
+    private InfirmaryManager infirmary;
 
     private List<UnitsTypes> unitsTypesList;
     public Dictionary<UnitsTypes, FullSquad> fullArmy = new Dictionary<UnitsTypes, FullSquad>();
 
-
+    private bool isDeadRegistrating = false;
+    private Dictionary<UnitsTypes, int> deadUnitsInCurrentBattle = new Dictionary<UnitsTypes, int>();
+    //for Random selecting
+    private List<UnitsTypes> deadUnitsInCurrentBattleList = new List<UnitsTypes>();
 
 
 
@@ -54,6 +58,7 @@ public class PlayersArmy : MonoBehaviour
     private void  InitializeArmy()
     {
         unitManager = GlobalStorage.instance.unitManager;
+        infirmary = GlobalStorage.instance.infirmaryManager;
         poolManager = GlobalStorage.instance.objectsPoolManager;
 
         unitsTypesList = unitManager.GetUnitsTypesList();
@@ -103,7 +108,7 @@ public class PlayersArmy : MonoBehaviour
         EventManager.OnUpdateSquadEvent(type);
     }
 
-    public void UpdateSquads()
+    public void UpdateArmy()
     {
         for(int i = 0; i < playersArmy.Length; i++)
         {
@@ -119,14 +124,14 @@ public class PlayersArmy : MonoBehaviour
         }
 
 
-        Debug.Log("***********************");
-        for(int i = 0; i < playersArmy.Length; i++)
-        {
-            if(playersArmy[i] != null && playersArmy[i].isUnitActive == true)
-            {
-                Debug.Log(playersArmy[i].unitType + " in army slot!");
-            }
-        }
+        //Debug.Log("***********************");
+        //for(int i = 0; i < playersArmy.Length; i++)
+        //{
+        //    if(playersArmy[i] != null && playersArmy[i].isUnitActive == true)
+        //    {
+        //        Debug.Log(playersArmy[i].unitType + " in army slot!");
+        //    }
+        //}
 
         if(GlobalStorage.instance.isGlobalMode == false)
         {
@@ -158,17 +163,31 @@ public class PlayersArmy : MonoBehaviour
         }
     }
 
-    //public void ActivateSquad(UnitsTypes unitType, bool mode)
-    //{
-    //    fullArmy[unitType].unit.isUnitActive = false;
-    //    fullArmy[unitType].unitGO.SetActive(mode);
-    //    fullArmy[unitType].squadUI.gameObject.SetActive(mode);
-    //}
+    public void ResurrectionFewUnit(float quantity)
+    {
+        int counter = 0;
+
+        for(int i = 0; i < quantity; i++)
+        {
+            if(deadUnitsInCurrentBattleList.Count == 0) {                
+                break;
+            }
+            else
+            {
+                UnitsTypes unitType = deadUnitsInCurrentBattleList[UnityEngine.Random.Range(0, deadUnitsInCurrentBattleList.Count)];
+                ResurrectionUnit(unitType);
+                counter++;
+            }
+        }
+
+        if(counter == 0)
+            InfotipManager.ShowWarning("You don't have dead units in this battle yet.");
+        else
+            InfotipManager.ShowMessage("Resurrected units: " + counter);
+    }
 
     public void ResurrectionUnit(UnitsTypes unitType)
     {
-        Debug.Log("RESURECTION");
-
         fullArmy[unitType].unitController.quantity++;
         fullArmy[unitType].unitController.UpdateQuantity();
 
@@ -179,9 +198,12 @@ public class PlayersArmy : MonoBehaviour
             fullArmy[unitType].unitController.Activate(true);
             ShowSquadsOnBattleField(false);
         }
+
+        DeleteDeadUnit(unitType);
+        infirmary.RemoveUnitFromInfirmary(unitType);
     }
 
-    public void UpdateArmy(UnitsTypes unitType)
+    public void SquadLost(UnitsTypes unitType)
     {
         fullArmy[unitType].unitController.quantity--;
         fullArmy[unitType].unitController.UpdateQuantity();
@@ -194,6 +216,61 @@ public class PlayersArmy : MonoBehaviour
             fullArmy[unitType].unitController.Activate(false);
             ShowSquadsOnBattleField(false);
         }
+
+        RegisterDeadUnit(unitType);
+        infirmary.AddUnitToInfirmary(unitType);
+    }
+
+    private void RegisterDeadUnit(UnitsTypes unitType)
+    {
+        if(isDeadRegistrating == true)
+        {
+            if(deadUnitsInCurrentBattle.ContainsKey(unitType) == true)
+                deadUnitsInCurrentBattle[unitType]++;
+            else
+            {
+                deadUnitsInCurrentBattle.Add(unitType, 1);
+                deadUnitsInCurrentBattleList.Add(unitType);
+            }
+        }
+    }
+
+    private void DeleteDeadUnit(UnitsTypes unitType)
+    {
+        if(isDeadRegistrating == true)
+        {
+            if(deadUnitsInCurrentBattle.ContainsKey(unitType) == true)
+            {
+                deadUnitsInCurrentBattle[unitType]--;
+
+                if(deadUnitsInCurrentBattle[unitType] == 0)
+                {
+                    deadUnitsInCurrentBattle.Remove(unitType);
+                    deadUnitsInCurrentBattleList.Remove(unitType);
+                }                    
+            }
+        }
+    }
+
+    public void StopControlUnitDeath(bool mode)
+    {
+        isDeadRegistrating = !mode;
+    }
+
+    public void StopControlUnitDeathByEvent(bool mode)
+    {
+        if(mode == false) isDeadRegistrating = true;
+    }
+
+    public void ClearDeadUnits()
+    {
+        deadUnitsInCurrentBattle.Clear();
+        deadUnitsInCurrentBattleList.Clear();
+    }
+
+    public Dictionary<UnitsTypes, int> GetDeadUnits()
+    {
+        return deadUnitsInCurrentBattle;
     }
 
 
@@ -220,8 +297,7 @@ public class PlayersArmy : MonoBehaviour
 
 
 
-
-
+    #region OLD
 
 
     //private void CreateRealUnitsInReserve()
@@ -494,30 +570,33 @@ public class PlayersArmy : MonoBehaviour
     //    }
     //}
 
-    //#endregion
+    #endregion
 
     #region DAMAGE army after defeat/escape
 
     public void EscapeDamage(float count = -1)
     {
-        float commonCountUnits = 0;
+        int amount = 0;
+        List<UnitsTypes> unitForKillingList = new List<UnitsTypes>();
         float countToKill;
-        float tryToKill = 1000;
 
-        for(int i = 0; i < playersArmy.Length; i++)
+        foreach(var squad in fullArmy)
         {
-            if(playersArmy[i] != null)
+            if(squad.Value.unit.status == UnitStatus.Army && squad.Value.unit.isUnitActive == true)
             {
-                commonCountUnits += playersArmy[i].unitController.quantity;
+                amount += squad.Value.unitController.quantity;
+                unitForKillingList.Add(squad.Value.unit.unitType);
             }
         }
 
-        if(commonCountUnits == 0) return;
+        if(amount == 0) return;
 
-        if(count != -1 )
-            countToKill = count;
+        if(count == -1)
+            countToKill = Mathf.Ceil(amount * damageArmyByEscape);
+        else if(count == -2)
+            countToKill = amount;
         else
-            countToKill = Mathf.Ceil(commonCountUnits * damageArmyByEscape);
+            countToKill = count;
 
         for(int i = 0; i < countToKill; i++)
         {
@@ -526,38 +605,17 @@ public class PlayersArmy : MonoBehaviour
 
         void KillUnit()
         {
-            tryToKill--;
-            if(tryToKill == 0)
-            {
-                Debug.Log("To much tries, sorry...");
-                return;
-            }
+            UnitsTypes unitType = unitForKillingList[UnityEngine.Random.Range(0, unitForKillingList.Count)];
+            SquadLost(unitType);
 
-            int randomUnit = UnityEngine.Random.Range(0, playersArmy.Length);
-            if(playersArmy[randomUnit] != null)
-            {
-                playersArmy[randomUnit].unitController.KillOneUnit();
-            }
-            else
-            {
-                KillUnit();
-            }
+            if(fullArmy[unitType].unitController.quantity == 0)
+                unitForKillingList.Remove(unitType);            
         }
     }
 
     public void DefeatDamage()
     {
-        for(int i = 0; i < playersArmy.Length; i++)
-        {
-            if(playersArmy[i] != null)
-            {
-                float countToKill = playersArmy[i].unitController.quantity;
-                for(int j = 0; j < countToKill; j++)
-                {
-                    playersArmy[i].unitController.KillOneUnit();
-                }
-            }
-        }
+        EscapeDamage(-2);        
     }
 
 
@@ -571,18 +629,20 @@ public class PlayersArmy : MonoBehaviour
     private void OnEnable()
     {
         EventManager.AllUnitsIsReady += InitializeArmy;
-        EventManager.WeLostOneUnit += UpdateArmy;
+        //EventManager.WeLostOneUnit += SquadDamage;
         //EventManager.SwitchUnit += SwitchUnit;
-        EventManager.ResurrectUnit += ResurrectionUnit;
+        //EventManager.ResurrectUnit += ResurrectionUnit;
         EventManager.SwitchPlayer += ShowSquadsOnBattleField;
+        EventManager.SwitchPlayer += StopControlUnitDeathByEvent;
     }
 
     private void OnDisable()
     {
         EventManager.AllUnitsIsReady -= InitializeArmy;
-        EventManager.WeLostOneUnit -= UpdateArmy;
+        //EventManager.WeLostOneUnit -= SquadDamage;
         //EventManager.SwitchUnit -= SwitchUnit; 
-        EventManager.ResurrectUnit -= ResurrectionUnit;
+        //EventManager.ResurrectUnit -= ResurrectionUnit;
         EventManager.SwitchPlayer -= ShowSquadsOnBattleField;
+        EventManager.SwitchPlayer -= StopControlUnitDeathByEvent;
     }
 }

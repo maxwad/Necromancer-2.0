@@ -56,8 +56,6 @@ public class UnitController : MonoBehaviour
         unitSprite = GetComponent<SpriteRenderer>();
         normalColor = unitSprite.color;
         originalColor = unitSprite.color;
-
-        unitCountsText = GetComponentInChildren<TMP_Text>();
     }
 
     public void Activate(bool mode)
@@ -144,11 +142,12 @@ public class UnitController : MonoBehaviour
 
         //if(GlobalStorage.instance.isGlobalMode == false) ShowDamage(damage, damageText);
 
-        if (currentHealth <= 0 && quantity > 1)
+        if (currentHealth <= 0)
         {
             //quantity--;
             currentHealth = unit.health;
-            EventManager.OnWeLostOneUnitEvent(unit.unitType);
+            playersArmy.SquadLost(unit.unitType);
+            //EventManager.OnWeLostOneUnitEvent(unit.unitType);
             CheckColors();
             //UpdateSquad(false);
         }
@@ -189,7 +188,7 @@ public class UnitController : MonoBehaviour
 
     public void KillOneUnit()
     {
-        TakeDamage(currentHealth, currentHealth);
+        TakeDamage(unit.health + physicDefence, unit.health + magicDefence);
     }
 
     #endregion
@@ -199,7 +198,7 @@ public class UnitController : MonoBehaviour
 
     public void UpdateQuantity()
     {
-        if(quantity != 0) unitCountsText.text = quantity.ToString();
+        unitCountsText.text = quantity.ToString();
 
         currentLevelBounds = RecalculateLevelUpBound();
         UpdateLevelUpScale();
@@ -343,10 +342,11 @@ public class UnitController : MonoBehaviour
 
         if(unitManager == null)
         {
-            playersArmy = GlobalStorage.instance.player.GetComponent<PlayersArmy>();
+            playersArmy = GlobalStorage.instance.playersArmy;
             poolManager = GlobalStorage.instance.objectsPoolManager;
             unitManager = GlobalStorage.instance.unitManager;
             attackController = GetComponent<AttackController>();
+            unitCountsText = GetComponentInChildren<TMP_Text>();
         }
 
         //if(unit != null)

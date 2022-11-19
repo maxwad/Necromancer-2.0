@@ -39,7 +39,6 @@ public class BattleResult : MonoBehaviour
     [SerializeField] private GameObject retreatIcon;
     [SerializeField] private GameObject defeatIcon;
 
-    private bool isDeadRegistrating = false;
     private Dictionary<UnitsTypes, int> lostUnitsDict = new Dictionary<UnitsTypes, int>();
 
     private List<Unit> actualUnits = new List<Unit>();
@@ -89,7 +88,7 @@ public class BattleResult : MonoBehaviour
             resourcesIcons   = resourcesManager.GetAllResourcesIcons();
             enemyManager     = GlobalStorage.instance.enemyManager;
             macroManager     = GlobalStorage.instance.macroLevelUpManager; 
-            playersArmy      = GlobalStorage.instance.player.GetComponent<PlayersArmy>();
+            playersArmy      = GlobalStorage.instance.playersArmy;
             playerMovement   = GlobalStorage.instance.globalPlayer;
 
             CreateLists();
@@ -240,6 +239,7 @@ public class BattleResult : MonoBehaviour
 
     private void FillLosses()
     {
+        lostUnitsDict = playersArmy.GetDeadUnits();
         if(lostUnitsDict.Count == 0) return;
 
         lossesBlock.SetActive(true);
@@ -277,29 +277,29 @@ public class BattleResult : MonoBehaviour
     }
 
     #region HELPERS
-    private void RegisterDeadUnit(UnitsTypes unitType)
-    {
-        if(isDeadRegistrating == true)
-        {
-            if(lostUnitsDict.ContainsKey(unitType) == true)
-                lostUnitsDict[unitType]++;
-            else
-                lostUnitsDict.Add(unitType, 1);
-        }
-    }
+    //private void RegisterDeadUnit(UnitsTypes unitType)
+    //{
+    //    if(isDeadRegistrating == true)
+    //    {
+    //        if(lostUnitsDict.ContainsKey(unitType) == true)
+    //            lostUnitsDict[unitType]++;
+    //        else
+    //            lostUnitsDict.Add(unitType, 1);
+    //    }
+    //}
 
-    private void DeleteDeadUnit(UnitsTypes unitType)
-    {
-        if(isDeadRegistrating == true)
-        {
-            if(lostUnitsDict.ContainsKey(unitType) == true)
-            {
-                lostUnitsDict[unitType]--;
+    //private void DeleteDeadUnit(UnitsTypes unitType)
+    //{
+    //    if(isDeadRegistrating == true)
+    //    {
+    //        if(lostUnitsDict.ContainsKey(unitType) == true)
+    //        {
+    //            lostUnitsDict[unitType]--;
 
-                if(lostUnitsDict[unitType] == 0) lostUnitsDict.Remove(unitType);
-            }
-        }
-    }
+    //            if(lostUnitsDict[unitType] == 0) lostUnitsDict.Remove(unitType);
+    //        }
+    //    }
+    //}
 
     private void RefactoringContainer()
     {
@@ -376,24 +376,25 @@ public class BattleResult : MonoBehaviour
         }
     }
 
-    public void StartCheckingUnitDeath(bool mode = false)
-    {
-        if(mode == false) isDeadRegistrating = true;
-    }
+    //public void StartCheckingUnitDeath(bool mode = false)
+    //{
+    //    if(mode == false) isDeadRegistrating = true;
+    //}
 
-    public void CloseCheckingUnitDeath()
-    {
-        // we need second function because we start reg automaticaly, but close - by command
-        isDeadRegistrating = false;
-    }
+    //public void CloseCheckingUnitDeath()
+    //{
+    //    // we need second function because we start reg automaticaly, but close - by command
+    //    isDeadRegistrating = false;
+    //}
 
     #endregion
 
     //Button
     public void CloseWindow()
     {
-        CloseCheckingUnitDeath();
-        lostUnitsDict.Clear();
+        playersArmy.StopControlUnitDeath(true);
+        playersArmy.ClearDeadUnits();
+
         currentEnemyArmy = null;
         if(levelGrowningCoroutine != null) StopCoroutine(levelGrowningCoroutine);
 
@@ -412,15 +413,15 @@ public class BattleResult : MonoBehaviour
 
     private void OnEnable()
     { 
-        EventManager.SwitchPlayer += StartCheckingUnitDeath;
-        EventManager.WeLostOneUnit += RegisterDeadUnit;
-        EventManager.ResurrectUnit += DeleteDeadUnit;
+        //EventManager.SwitchPlayer += StartCheckingUnitDeath;
+        //EventManager.WeLostOneUnit += RegisterDeadUnit;
+        //EventManager.ResurrectUnit += DeleteDeadUnit;
     }
 
     private void OnDisable()
     {
-        EventManager.SwitchPlayer -= StartCheckingUnitDeath;
-        EventManager.WeLostOneUnit -= RegisterDeadUnit;
-        EventManager.ResurrectUnit -= DeleteDeadUnit;
+        //EventManager.SwitchPlayer -= StartCheckingUnitDeath;
+        //EventManager.WeLostOneUnit -= RegisterDeadUnit;
+        //EventManager.ResurrectUnit -= DeleteDeadUnit;
     }
 }

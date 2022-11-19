@@ -46,6 +46,7 @@ public class GlobalStorage : MonoBehaviour
     public BattleArmyController battlePlayer;
     public HeroController hero;
     public PlayerStats playerStats;
+    public PlayersArmy playersArmy;
 
     [Header("Maps")]
     public GameObject globalMap;

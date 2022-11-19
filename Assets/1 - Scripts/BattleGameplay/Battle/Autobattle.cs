@@ -60,7 +60,7 @@ public class Autobattle : MonoBehaviour
     private void Start()
     {
         autobattleUI = GlobalStorage.instance.autobattleUI;
-        playersArmyScript = GlobalStorage.instance.player.GetComponent<PlayersArmy>();
+        playersArmyScript = GlobalStorage.instance.playersArmy;
         resourcesManager = GlobalStorage.instance.resourcesManager;
         battleManager = GlobalStorage.instance.battleManager;
         spellManager = GlobalStorage.instance.spellManager;

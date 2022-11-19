@@ -24,7 +24,7 @@ public class PlayersArmyPart : MonoBehaviour
 
     private void Awake()
     {
-        playersArmy = GlobalStorage.instance.player.GetComponent<PlayersArmy>();
+        playersArmy = GlobalStorage.instance.playersArmy;
     }
 
     public void CreateReserveScheme(Unit[] army)

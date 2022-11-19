@@ -31,7 +31,7 @@ public class ArmySlot : MonoBehaviour, IPointerClickHandler, IDragHandler, IEndD
     {
         if(playersArmy == null) 
         { 
-            playersArmy = GlobalStorage.instance.player.GetComponent<PlayersArmy>();
+            playersArmy = GlobalStorage.instance.playersArmy;
             playersArmyUI = GlobalStorage.instance.playerMilitaryWindow.GetComponent<PlayersArmyPart>();
 
             canvasGroup = GetComponent<CanvasGroup>();

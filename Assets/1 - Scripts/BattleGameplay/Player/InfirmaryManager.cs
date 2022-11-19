@@ -9,6 +9,7 @@ public class InfirmaryManager : MonoBehaviour
     private float dayToDeath;
 
     public List<UnitsTypes> injuredList = new List<UnitsTypes>();
+    public Dictionary<UnitsTypes, int> injuredDict = new Dictionary<UnitsTypes, int>();
 
     PlayerStats playerStats;
 
@@ -24,7 +25,7 @@ public class InfirmaryManager : MonoBehaviour
         if(type == PlayersStats.Infirmary) currentCapacity = value;
     }
 
-    private void AddUnitToInfirmary(UnitsTypes unitType)
+    public void AddUnitToInfirmary(UnitsTypes unitType)
     {
         if(injuredList.Count < currentCapacity) 
         {
@@ -33,46 +34,60 @@ public class InfirmaryManager : MonoBehaviour
         }
     }
 
-    private void RemoveUnitFromInfirmary(bool mode, bool order, float quantity)
+    public void RemoveUnitFromInfirmary(UnitsTypes unitType)
     {
         // mode == false = death; mode == true - resurrect 
         // order == false = random; order == true - the last one 
 
-        int index = (injuredList.Count - 1) >= 0 ? (injuredList.Count - 1) : 0;
-
-        if(mode == false)
+        int index = injuredList.Count - 1;
+        while(index >= 0)
         {
-            if(quantity == 0)
+            if(injuredList[index] == unitType)
             {
-                injuredList.Clear();
+                injuredList.RemoveAt(index);
+                break;
             }
-            else
-            {
-                for(int i = 0; i < quantity; i++)
-                {
-                    if(order == false) index = Random.Range(0, injuredList.Count);
 
-                    if(injuredList.Count != 0) injuredList.Remove(injuredList[index]);
-                }
-            }                      
-        }
-        else
-        {
-            for(int i = 0; i < quantity; i++)
-            {
-                index = (injuredList.Count - 1) >= 0 ? (injuredList.Count - 1) : 0;
-
-                if(order == false) index = Random.Range(0, injuredList.Count);
-
-                if(injuredList.Count != 0)
-                {
-                    EventManager.OnResurrectUnitEvent(injuredList[index]);
-                    injuredList.Remove(injuredList[index]);
-                }   
-            }
+            index--;
         }
 
         EventManager.OnUpdateInfirmaryUIEvent(injuredList.Count, currentCapacity);
+
+        //index = (injuredList.Count - 1) >= 0 ? (injuredList.Count - 1) : 0;
+
+        //if(mode == false)
+        //{
+        //    if(quantity == 0)
+        //    {
+        //        injuredList.Clear();
+        //    }
+        //    else
+        //    {
+        //        for(int i = 0; i < quantity; i++)
+        //        {
+        //            if(order == false) index = Random.Range(0, injuredList.Count);
+
+        //            if(injuredList.Count != 0) injuredList.Remove(injuredList[index]);
+        //        }
+        //    }                      
+        //}
+        //else
+        //{
+        //    for(int i = 0; i < quantity; i++)
+        //    {
+        //        index = (injuredList.Count - 1) >= 0 ? (injuredList.Count - 1) : 0;
+
+        //        if(order == false) index = Random.Range(0, injuredList.Count);
+
+        //        if(injuredList.Count != 0)
+        //        {
+        //            EventManager.OnResurrectUnitEvent(injuredList[index]);
+        //            injuredList.Remove(injuredList[index]);
+        //        }   
+        //    }
+        //}
+
+        //EventManager.OnUpdateInfirmaryUIEvent(injuredList.Count, currentCapacity);
     }
 
     public int GetCurrentInjuredQuantity()
@@ -102,14 +117,14 @@ public class InfirmaryManager : MonoBehaviour
     private void OnEnable()
     {
         EventManager.SetNewPlayerStat += UpgradeParameter;
-        EventManager.WeLostOneUnit += AddUnitToInfirmary;
-        EventManager.RemoveUnitFromInfirmary += RemoveUnitFromInfirmary;
+        //EventManager.WeLostOneUnit += AddUnitToInfirmary;
+        //EventManager.RemoveUnitFromInfirmary += RemoveUnitFromInfirmary;
     }
 
     private void OnDisable()
     {
         EventManager.SetNewPlayerStat -= UpgradeParameter;
-        EventManager.WeLostOneUnit -= AddUnitToInfirmary;
-        EventManager.RemoveUnitFromInfirmary -= RemoveUnitFromInfirmary;
+        //EventManager.WeLostOneUnit -= AddUnitToInfirmary;
+        //EventManager.RemoveUnitFromInfirmary -= RemoveUnitFromInfirmary;
     }
 }

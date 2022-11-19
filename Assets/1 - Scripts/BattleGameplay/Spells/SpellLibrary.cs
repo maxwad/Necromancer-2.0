@@ -7,6 +7,7 @@ public class SpellLibrary : MonoBehaviour
 {
     private BattleBoostManager boostManager;
     private ObjectsPoolManager objectsPool;
+    private PlayersArmy playersArmy;
 
     [SerializeField] private GameObject shuriken;
     [SerializeField] private GameObject kickAssCircle;
@@ -16,6 +17,7 @@ public class SpellLibrary : MonoBehaviour
     {
         boostManager = GlobalStorage.instance.boostManager;
         objectsPool = GlobalStorage.instance.objectsPoolManager;
+        playersArmy = GlobalStorage.instance.playersArmy;
     }
 
     public void ActivateSpell(Spells spell, bool mode, float value = 0, float duration = 0)
@@ -327,7 +329,7 @@ public class SpellLibrary : MonoBehaviour
     {
         if(mode == true)
         {
-            EventManager.OnRemoveUnitFromInfirmaryEvent(mode, true, 1);
+            playersArmy.ResurrectionFewUnit(5);
         }
     }
 
