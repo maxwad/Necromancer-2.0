@@ -82,8 +82,6 @@ public class UnitManager : MonoBehaviour
         return allUnitsIconsDict;
     }
 
-
-
     public Unit[] GetAllUnits()
     {
         Unit[] army = new Unit[unitsTypesList.Count];
@@ -104,26 +102,38 @@ public class UnitManager : MonoBehaviour
 
     public Unit GetNewSquad(UnitsTypes type, int level = 1)
     {
-        if(level == 1)
+        if(currentLevelOfUnitsDict[type] >= level)
         {
-            foreach(var unit in allUnitsByTypes)
+            foreach(var unit in allUnitsBase)
             {
-                if(unit.unitType == type) return unit;
+                if(unit.unitType == type && unit.level == level)
+                {
+                    unit.isUnitActive = true;
+                    return unit;
+                }
             }
         }
-        else
-        {
-            if(currentLevelOfUnitsDict[type] >= level)
-            {
-                foreach(var unit in allUnitsBase)
-                {
-                    if(unit.unitType == type && unit.level == level)
-                    {
-                        return unit;
-                    }
-                }
-            }            
-        }        
+
+        //    if(level == 1)
+        //    {
+        //        foreach(var unit in allUnitsByTypes)
+        //        {
+        //            if(unit.unitType == type) return unit;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        if(currentLevelOfUnitsDict[type] >= level)
+        //        {
+        //            foreach(var unit in allUnitsBase)
+        //            {
+        //                if(unit.unitType == type && unit.level == level)
+        //                {
+        //                    return unit;
+        //                }
+        //            }
+        //        }            
+        //    }        
 
         return null;
     }

@@ -12,8 +12,6 @@ public class UnitController : MonoBehaviour
     private PlayersArmy playersArmy;
     private AttackController attackController;
 
-    private bool isActive = false;
-
     [HideInInspector] public Unit unit;
     public int quantity = 1;
     public float currentHealth;
@@ -58,18 +56,15 @@ public class UnitController : MonoBehaviour
         originalColor = unitSprite.color;
     }
 
-    public void Activate(bool mode)
+    public void Activate()
     {
-        isActive = mode;
         isDead = false;
+        stopLevelUp = false;
     }
 
     public void Initilize(Unit unitSource) 
     {
         if(boostManager == null) boostManager = GlobalStorage.instance.boostManager;
-
-        //int tempQuantity = 0;
-        //if(unit != null) tempQuantity = unit.quantity;
 
         unit = unitSource;
         currentHealth = unitSource.health;
@@ -81,7 +76,6 @@ public class UnitController : MonoBehaviour
         magicDefence = magicDefenceBase + magicDefenceBase * boostManager.GetBoost(BoostType.MagicDefence);
 
         unit.SetUnitController(this);
-        //if(tempQuantity != 0) unit.SetQuantity(tempQuantity);
 
         level = unitSource.level;
         killToNextLevel = unitSource.killToNextLevel;
@@ -89,17 +83,12 @@ public class UnitController : MonoBehaviour
         levelUpSprite.color = scaleColorUsual;
         currentKillCount = 0;
         currentLevelBounds = RecalculateLevelUpBound();
+        UpdateLevelUpScale();
 
-        //if(attackController == null) attackController = GetComponent<AttackController>();
+        attackController.ReloadAttack(unit);
+        CheckColors();
 
-
-        if(level != 1)
-        {
-            attackController.ReloadAttack(this);
-            Debug.Log("Controller level " + unit.level);
-            //Debug.Log("NEW LEVEL = " + level);
-            //visual upgrade
-        }
+        if(level != 1) ShowEffectLevelUp();
     }
 
     public void SetQuantity(int amount)
@@ -108,16 +97,6 @@ public class UnitController : MonoBehaviour
     }
 
     #region Damage
-
-    //private void OnCollisionStay2D(Collision2D collision)
-    //{
-    //    if (collision.gameObject.CompareTag(TagManager.T_ENEMY) == true && isDead == false)
-    //    {
-    //        if(isImmortal == true) return;
-
-    //        Blink();
-    //    }
-    //}
 
     public void TakeDamage(float physicalDamage, float magicDamage, bool isCritical = false)
     {
@@ -140,23 +119,10 @@ public class UnitController : MonoBehaviour
             damageText = criticalColor;
         }
 
-        //if(GlobalStorage.instance.isGlobalMode == false) ShowDamage(damage, damageText);
-
         if (currentHealth <= 0)
         {
-            //quantity--;
             currentHealth = unit.health;
             playersArmy.SquadLost(unit.unitType);
-            //EventManager.OnWeLostOneUnitEvent(unit.unitType);
-            CheckColors();
-            //UpdateSquad(false);
-        }
-
-        if (quantity <= 1 && currentHealth <= 0)
-        {
-            //quantity--;
-            //UpdateSquad(false);
-            //Dead();
         }
 
         ShowDamage(damage, damageText);
@@ -178,7 +144,6 @@ public class UnitController : MonoBehaviour
         GameObject death = poolManager.GetObject(ObjectPool.EnemyDeath);
         death.transform.position = transform.position;
         death.SetActive(true);
-        //Activate(false);        
     }
 
     private void MakeMeImmortal(bool mode = true)
@@ -186,45 +151,16 @@ public class UnitController : MonoBehaviour
         isImmortal = mode;
     }
 
-    public void KillOneUnit()
-    {
-        TakeDamage(unit.health + physicDefence, unit.health + magicDefence);
-    }
-
     #endregion
-
-
-    #region SQUAD UPDATE
 
     public void UpdateQuantity()
     {
         unitCountsText.text = quantity.ToString();
 
+        //because bound depend from quantity
         currentLevelBounds = RecalculateLevelUpBound();
-        UpdateLevelUpScale();
         CheckNewLevel();
-
     }
-    //public void UpdateSquad(bool mode)
-    //{        
-    //    if(unitCountsText != null)
-    //    {
-    //        if(quantity != 0) unitCountsText.text = quantity.ToString();
-    //    }
-
-    //    //if(quantity == 1)
-    //    //{
-    //    //    Activate(true);
-
-    //    //}
-    //    currentLevelBounds = RecalculateLevelUpBound();
-    //    UpdateLevelUpScale();
-    //    CheckNewLevel();
-
-    //    if(mode == false) EventManager.OnWeLostOneUnitEvent(unit.unitType);
-    //}
-
-    #endregion
 
     private void UpgradeParameters(BoostType boost, float value)
     {
@@ -242,7 +178,6 @@ public class UnitController : MonoBehaviour
         if(isDead == false && weapon == unit.unitAbility && stopLevelUp == false)
         {
             currentKillCount++;
-            UpdateLevelUpScale();
             CheckNewLevel();
         }
     }
@@ -257,18 +192,18 @@ public class UnitController : MonoBehaviour
     {
         if(currentKillCount >= currentLevelBounds)
         {
-            Unit newUnit = unitManager.GetNewSquad(unit.unitType, level + 1);
-            if(newUnit != null) 
-                Initilize(newUnit);
-            else
+            if(playersArmy.UpgradeSquad(unit.unitType) == false)
                 stopLevelUp = true;
+            else
+                stopLevelUp = false;
         }
+
+        UpdateLevelUpScale();
     }
 
     private void UpdateLevelUpScale()
     {
         float width = currentKillCount / currentLevelBounds;
-        levelUpSprite.size = new Vector2(width, levelUpSprite.size.y);
 
         if(width < 1f)
         {
@@ -276,13 +211,30 @@ public class UnitController : MonoBehaviour
         }
         else
         {
+            width = (stopLevelUp == false) ? 0f : 1f;
             levelUpSprite.color = scaleColorNewLevel;
         }
+        levelUpSprite.size = new Vector2(width, levelUpSprite.size.y);
     }
 
     private void ResetLevelUpBar()
     {
         if(blinkCoroutine != null) StopCoroutine(blinkCoroutine);
+    }
+
+    public void ShowEffectRessurection(int amount)
+    {
+        BonusTipUIManager.ShowVisualEffectInBattle(transform.position, BattleVisualEffects.Resurection, amount, mark: "+");
+    }
+
+    public void ShowEffectDeath()
+    {
+        BonusTipUIManager.ShowVisualEffectInBattle(transform.position, BattleVisualEffects.Death);
+    }
+
+    public void ShowEffectLevelUp()
+    {
+        BonusTipUIManager.ShowVisualEffectInBattle(transform.position, BattleVisualEffects.LevelUp, text: "LevelUp!");
     }
 
     #region BLINK
@@ -292,6 +244,7 @@ public class UnitController : MonoBehaviour
         Invoke("ColorBack", blinkTime);
     }
 
+    //for Invoke
     private void ColorBack()
     {
         CheckColors();
@@ -302,9 +255,9 @@ public class UnitController : MonoBehaviour
     {
         if(currentHealth > unit.health * 0.66f) normalColor = originalColor;
 
-        if(currentHealth < unit.health * 0.66f) normalColor = Color.gray;
+        if(currentHealth <= unit.health * 0.66f) normalColor = Color.gray;
 
-        if(currentHealth < unit.health * 0.33f) normalColor = Color.red;
+        if(currentHealth <= unit.health * 0.33f) normalColor = Color.red;
     }
 
     public void BlinkOfLevel()
@@ -318,15 +271,14 @@ public class UnitController : MonoBehaviour
 
     private IEnumerator ColorBackLevel(Color normalColor)
     {
-        //the bigger divider the slower animation
-        float divider = 3;
+        WaitForSeconds delay = new WaitForSeconds(blinkTime);
         float time = 0;
 
         while(levelUpSprite.color != normalColor)
         {
             time += Time.deltaTime;
-            levelUpSprite.color = Color.Lerp(levelUpSprite.color, normalColor, time / divider);
-            yield return new WaitForSeconds(blinkTime);
+            levelUpSprite.color = Color.Lerp(levelUpSprite.color, normalColor, time);
+            yield return delay;
         }
     }
 
@@ -349,14 +301,10 @@ public class UnitController : MonoBehaviour
             unitCountsText = GetComponentInChildren<TMP_Text>();
         }
 
-        //if(unit != null)
-        //{
-        //    Unit newUnit = unitManager.GetNewSquad(unit.unitType);
-        //    if(newUnit != null) Initilize(newUnit);
-        //}
-
         MakeMeImmortal(false);
         levelUpSprite.size = new Vector2(0, levelUpSprite.size.y);
+        stopLevelUp = false;
+        isDead = false;
     }
 
     private void OnDisable()

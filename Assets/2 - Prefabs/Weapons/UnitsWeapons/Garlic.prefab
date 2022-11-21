@@ -99,9 +99,9 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.1, y: 0}
+  m_Offset: {x: -0.0639019, y: 0}
   serializedVersion: 2
-  m_Radius: 1.8
+  m_Radius: 3.2679906
 --- !u!114 &8134034289209027055
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -114,9 +114,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53293a8a24d971141a3a2644e99de30b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  physicAttack: 0
-  magicAttack: 0
-  controller: {fileID: 0}
 --- !u!114 &4473842170158308117
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -132,4 +129,4 @@ MonoBehaviour:
   bottleDeath: {fileID: 0}
   bottleShadowPrefab: {fileID: 0}
   speed: 1
-  lifeTime: 0.2
+  lifeTime: 0

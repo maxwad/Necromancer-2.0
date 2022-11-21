@@ -22,7 +22,7 @@ MonoBehaviour:
   physicDefence: 3
   magicAttack: 6
   magicDefence: 2
-  speedAttack: 1.5
+  speedAttack: 0.3
   size: 1
   level: 3
   killToNextLevel: 7

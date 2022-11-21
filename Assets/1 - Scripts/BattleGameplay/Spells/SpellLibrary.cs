@@ -329,7 +329,7 @@ public class SpellLibrary : MonoBehaviour
     {
         if(mode == true)
         {
-            playersArmy.ResurrectionFewUnit(5);
+            playersArmy.ResurrectionFewUnitInTheBattle(4);
         }
     }
 

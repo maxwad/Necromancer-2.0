@@ -55,7 +55,6 @@ public class WeaponDamage : MonoBehaviour
                 if(unit.unitAbility == UnitsAbilities.Garlic)
                 {
                     Hit(enemy, transform.position);
-                    //enemy.TakeDamage(physicAttack, magicAttack, Vector3.zero, isCriticalDamage);
 
                     if(unit.level == 2) enemy.PushMe(transform.position, 5000f);
                     if(unit.level == 3) collision.GetComponent<EnemyMovement>().MakeMeFixed(true, true);
@@ -70,7 +69,6 @@ public class WeaponDamage : MonoBehaviour
                         unit.unitAbility == UnitsAbilities.Knife)
                 {
                     Hit(enemy, transform.position);
-                    //enemy.TakeDamage(physicAttack, magicAttack, transform.position, isCriticalDamage);
                     enemyList.Add(collision.gameObject);
                 }
                 
@@ -82,7 +80,6 @@ public class WeaponDamage : MonoBehaviour
                 else
                 {
                     Hit(enemy, transform.position);
-                    //enemy.TakeDamage(physicAttack, magicAttack, transform.position);
                 }
             }           
             
@@ -99,6 +96,8 @@ public class WeaponDamage : MonoBehaviour
     {
         bool isCriticalDamage = Random.Range(0, 100) < criticalDamage;
         enemy.TakeDamage(physicAttack, magicAttack, position, isCriticalDamage, unit.unitAbility);
+
+        //Debug.Log("Ph attack = " + physicAttack);
     }
 
     private void UpgradeParameters(BoostType boost, float value)

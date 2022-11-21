@@ -98,6 +98,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5354ddffd438f294ab5fa951fdaefc61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minPlayerDamage: 5
+  maxPlayerDamage: 9
+  minEnemyDamage: 5
+  maxEnemyDamage: 7
+  radiusExplosion: 1
   death: {fileID: 2389708433616454076, guid: 340d686e91f01964187d4a5f275c3bcb, type: 3}
 --- !u!58 &-4541956387227817449
 CircleCollider2D:

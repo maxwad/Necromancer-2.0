@@ -68,13 +68,10 @@ public class EnemyController : MonoBehaviour
         movementScript = GetComponent<EnemyMovement>();
     }
 
-    private void Update()
-    {
-        delayAttack -= Time.deltaTime;      
-    }
-
     private void LateUpdate()
     {
+        delayAttack -= Time.deltaTime;
+
         // we need check for death here because enemy can get much damage at the same time and activate few dead functions
         if(currentHealth <= 0) 
         {
@@ -119,26 +116,35 @@ public class EnemyController : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        //TODO: check depending of time
-        if (delayAttack <= 0)
+        if (collision.collider.CompareTag(TagManager.T_PLAYER) == true || collision.collider.CompareTag(TagManager.T_SQUAD) == true)
         {
             foreach(ContactPoint2D obj in collision.contacts)
             {
                 bool isCriticalDamage = Random.Range(0, 100) < luck;
+                
                 if (obj.collider.gameObject.CompareTag(TagManager.T_PLAYER) == true)
                 {
-                    hero.TakeDamage(pAttack, mAttack, isCriticalDamage);
-                    delayAttack = speedAttack;
+                    //without this check we have double damage becouse there are few contact points
+                    if(delayAttack <= 0)
+                    {
+                        hero.TakeDamage(pAttack, mAttack, isCriticalDamage);
+                        delayAttack = speedAttack;
+                    }
                 }
 
                 if (obj.collider.gameObject.CompareTag(TagManager.T_SQUAD) == true)
                 {
-                    obj.collider.gameObject.GetComponent<UnitController>().TakeDamage(pAttack, mAttack, isCriticalDamage);
-                    delayAttack = speedAttack;
+                    if(delayAttack <= 0)
+                    {
+                        obj.collider.gameObject.GetComponent<UnitController>().TakeDamage(pAttack, mAttack, isCriticalDamage);
+                        delayAttack = speedAttack;
+                    }                    
                 }
             }
-        }                
+        }
+
     }
+        //TODO: check depending of time
 
     public void TakeDamage(float physicalDamage, float magicDamage, Vector3 forceDirection, bool isCritical = false, UnitsAbilities killSource = UnitsAbilities.Notning)
     {

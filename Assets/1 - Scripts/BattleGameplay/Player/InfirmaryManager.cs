@@ -9,7 +9,7 @@ public class InfirmaryManager : MonoBehaviour
     private float dayToDeath;
 
     public List<UnitsTypes> injuredList = new List<UnitsTypes>();
-    public Dictionary<UnitsTypes, int> injuredDict = new Dictionary<UnitsTypes, int>();
+    //public Dictionary<UnitsTypes, int> injuredDict = new Dictionary<UnitsTypes, int>();
 
     PlayerStats playerStats;
 
@@ -103,6 +103,11 @@ public class InfirmaryManager : MonoBehaviour
     public float GetCurrentCapacity()
     {
         return currentCapacity;
+    }
+
+    public int GetEmptySpaces()
+    {
+        return (int)currentCapacity - injuredList.Count;
     }
 
     private void UpgradeParameter(PlayersStats stat, float value)

@@ -10,13 +10,21 @@ public class BonusTipUIManager : MonoBehaviour
     private ObjectsPoolManager poolManager;
 
     [Serializable]
-    public class SpriteAssosiating
+    public class GMSpriteAssosiating
     {
         public PlayersStats stat;
         public Sprite sprite;
     }
 
-    public List<SpriteAssosiating> objectsList;
+    [Serializable]
+    public class BattleSpriteAssosiating
+    {
+        public BattleVisualEffects effect;
+        public Sprite sprite;
+    }
+
+    public List<GMSpriteAssosiating> objectsGMList;
+    public List<BattleSpriteAssosiating> objectsBattleList;
 
     private int currentHeigth = 0;
 
@@ -34,7 +42,7 @@ public class BonusTipUIManager : MonoBehaviour
     {
         Sprite findedSprite = null;
 
-        foreach(var icon in instance.objectsList)
+        foreach(var icon in instance.objectsGMList)
         {
             if(icon.stat == stat)
             {
@@ -55,6 +63,26 @@ public class BonusTipUIManager : MonoBehaviour
         rewardText.SetActive(true);
         rewardText.GetComponent<BonusTip>().Show(instance.currentHeigth, sprite, quantity, text);
         instance.currentHeigth++;
+    }
+
+    public static void ShowVisualEffectInBattle(Vector3 position, BattleVisualEffects effect, float quantity = 0, string text = "", string mark = "")
+    {
+        Sprite findedSprite = null;
+
+        foreach(var icon in instance.objectsBattleList)
+        {
+            if(icon.effect == effect)
+            {
+                findedSprite = icon.sprite;
+                break;
+            }
+        }
+
+        GameObject rewardText = instance.poolManager.GetObject(ObjectPool.BonusText);
+
+        rewardText.transform.position = position;
+        rewardText.SetActive(true);
+        rewardText.GetComponent<BonusTip>().Show(instance.currentHeigth, findedSprite, quantity, text, mark);
     }
 
     public static void HideVisualEffect()

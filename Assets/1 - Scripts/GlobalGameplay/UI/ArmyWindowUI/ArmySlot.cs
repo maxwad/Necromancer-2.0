@@ -40,35 +40,20 @@ public class ArmySlot : MonoBehaviour, IPointerClickHandler, IDragHandler, IEndD
         }
 
         if(unitInSlot != null) quantity.text = unitInSlot.unitController.quantity.ToString();
-
-        //backlight.color = unvisible;
     }
 
     public void Init(Unit unit)
     {
         if(squadtipTrigger == null) squadtipTrigger = GetComponent<InfotipTrigger>();
-
+        //if(unitInSlot != null)
+        //{
+        //    Debug.Log("ArmySlot Level was = " + unitInSlot.level + " and became " + unit.level);
+        //}
+        
         unitInSlot = unit;
         icon.sprite = unit.unitIcon;
         quantity.text = unit.unitController.quantity.ToString();
         squadtipTrigger.SetUnit(unit);
-
-        //if (unit.unitController != null && unit.unitController.quantity != 0)
-        //{
-        //    unitInSlot = unit;
-        //    icon.sprite = unit.unitIcon;
-        //    quantity.text = unit.unitController.quantity.ToString();
-        //    squadtipTrigger.SetUnit(unit);
-        //}
-        //else
-        //{
-        //    unitInSlot = null;
-        //    icon.sprite = null;
-        //    quantity.text = null;
-        //    squadtipTrigger.SetUnit(null);
-        //}
-
-        //backlight.color = unvisible;
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -89,9 +74,10 @@ public class ArmySlot : MonoBehaviour, IPointerClickHandler, IDragHandler, IEndD
     }
 
     public void OnBeginDrag(PointerEventData eventData)
-    {
+    {        
         if(unitInSlot == null || unitInSlot.isUnitActive == false)
         {
+            Debug.Log("Take: slot = " + unitInSlot.isUnitActive);
             return;
         }
 
@@ -110,18 +96,19 @@ public class ArmySlot : MonoBehaviour, IPointerClickHandler, IDragHandler, IEndD
 
     public void OnDrag(PointerEventData eventData)
     {
-        if(unitInSlot.status == UnitStatus.Store && GlobalStorage.instance.isGlobalMode == false)
-        {
-            InfotipManager.ShowWarning("You can not add any squads to your hero during the battle.");
-            return;
-        }
-
         if(unitInSlot == null || unitInSlot.isUnitActive == false)
         {
+            Debug.Log("drag: slot = " + unitInSlot.isUnitActive);
             return;
         }
         else
         {
+            if(unitInSlot.status == UnitStatus.Store && GlobalStorage.instance.isGlobalMode == false)
+            {
+                InfotipManager.ShowWarning("You can not add any squads to your hero during the battle.");
+                return;
+            }
+
             transform.position = Input.mousePosition;
         }
     }

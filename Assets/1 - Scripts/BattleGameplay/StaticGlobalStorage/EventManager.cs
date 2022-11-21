@@ -107,17 +107,17 @@ public static class EventManager
     //public static void OnBoostUnitStatEvent(bool boostAll, bool addBoost, BoostSender sender, UnitStats stat, float value, UnitsTypes types = UnitsTypes.Militias) => BoostUnitStat?.Invoke(boostAll, addBoost, sender, stat, value, types);
 
 
-    //calls when need to add resurrected unit to hero's army
-    //
-    //SUBSCRIBERS:
-    // - ...
-    // 
-    //ACTIVATION:
-    // - PlayersArmy
-    //
-    public delegate void UpdateSquadEvent(UnitsTypes type);
-    public static event UpdateSquadEvent UpdateSquad;
-    public static void OnUpdateSquadEvent(UnitsTypes type) => UpdateSquad?.Invoke(type);
+    ////calls when need to add resurrected unit to hero's army
+    ////
+    ////SUBSCRIBERS:
+    //// - ...
+    //// 
+    ////ACTIVATION:
+    //// - PlayersArmy
+    ////
+    //public delegate void UpdateSquadEvent(UnitsTypes type);
+    //public static event UpdateSquadEvent UpdateSquad;
+    //public static void OnUpdateSquadEvent(UnitsTypes type) => UpdateSquad?.Invoke(type);
 
 
     //calls when want to switch squads in Army

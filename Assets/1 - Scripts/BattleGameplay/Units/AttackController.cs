@@ -31,9 +31,15 @@ public class AttackController : MonoBehaviour
         attack = StartCoroutine(Attack());
     }
 
-    public void ReloadAttack(UnitController unitController)
+    public void ReloadAttack(Unit newUnit)
     {
-        unit = unitController.unit;
+        if(unit != null)
+        {
+            //Debug.Log("Reload was = " + unit.level + " and became " + newUnit.level);
+        }
+        if(gameObject.activeInHierarchy == false) return;
+
+        unit = newUnit;
         startAttackDelay = Random.Range(startAttackDelay * 10 - startAttackDelay, startAttackDelay * 10 + startAttackDelay) / 10;
         if(attack != null) StopCoroutine(attack);
         attack = StartCoroutine(Attack());
@@ -48,17 +54,17 @@ public class AttackController : MonoBehaviour
     {
         yield return new WaitForSeconds(startAttackDelay);
 
-        while(unit == null)
+        while(unitController.unit == null)
         {
-            unit = GetComponent<UnitController>().unit;
+            //unitController.unit = GetComponent<UnitController>().unit;
             yield return null;
         }
 
         while (unitController.quantity != 0)
         {
             //Debug.Log("Attack level " + unit.level);
-            speedAttack = unit.speedAttack + unit.speedAttack * boostManager.GetBoost(NameManager.BoostType.CoolDown);
-            weaponStorage.Attack(unit);
+            speedAttack = unitController.unit.speedAttack + unitController.unit.speedAttack * boostManager.GetBoost(NameManager.BoostType.CoolDown);
+            weaponStorage.Attack(unitController.unit);
 
             yield return new WaitForSeconds(speedAttack);
         }

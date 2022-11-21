@@ -34,8 +34,6 @@ public class Unit
     public float killToNextLevel;
     public bool isUnitActive = true;
     public UnitStatus status = UnitStatus.Store;
-    //public int quantity;
-    //public float currentHealth;
 
     public Unit(UnitSO unitSO)
     {
@@ -68,10 +66,6 @@ public class Unit
         magicPrice = unitSO.magicPrice;
 
         killToNextLevel = unitSO.killToNextLevel;
-
-
-        //quantity = 1;
-        //currentHealth = health;
     }
 
 
@@ -80,15 +74,5 @@ public class Unit
     public void SetUnitController(UnitController unitControllerSource)
     {
         unitController = unitControllerSource;
-    }
-
-    public void SetQuantity(int count)
-    {
-        //quantity = count;
-    }
-
-    public void ActivateUnit(bool mode)
-    {
-        isUnitActive = mode;
     }
 }

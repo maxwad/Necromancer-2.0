@@ -5,6 +5,10 @@ using static NameManager;
 public class WeaponStorage : MonoBehaviour
 {
     [HideInInspector] public bool isBibleWork = false;
+    //this is gross, i need rework it
+    [HideInInspector] public Unit unitForBible;
+
+    public Vector3 weaponOffset;
     private ObjectsPoolManager objectsPool;
     private BattleBoostManager boostManager;
     [SerializeField] private GameObject weaponContainer;
@@ -30,6 +34,7 @@ public class WeaponStorage : MonoBehaviour
                 break;
 
             case UnitsAbilities.Bible:
+                unitForBible = unit;
                 if(isBibleWork == false) BibleAction(unit);
                 break;
 
@@ -60,11 +65,16 @@ public class WeaponStorage : MonoBehaviour
             boostManager = GlobalStorage.instance.boostManager;
         }
 
-        if(unit.unitController == null) return null;
+        if(unit.isUnitActive == false)
+        {
+            Debug.Log("Unit is unActive in WeaponScript");
+            return null;
+        }
 
+        weaponOffset = new Vector3(0, transform.localScale.y / 2, 0);
         GameObject weapon = objectsPool.GetWeapon(unit.unitAbility);
 
-        weapon.transform.position = unit.unitController.gameObject.transform.position + new Vector3 (0, transform.localScale.y / 2, 0);
+        weapon.transform.position = unit.unitController.gameObject.transform.position;
         float weaponSize = unit.size + unit.size * boostManager.GetBoost(BoostType.WeaponSize);
 
         weapon.transform.localScale = new Vector3(weaponSize, weaponSize, weaponSize);
@@ -215,7 +225,6 @@ public class WeaponStorage : MonoBehaviour
             weapon.transform.eulerAngles = new Vector3(0, 0, angleZ);
 
             GameObject weaponInner = weapon.transform.GetChild(0).gameObject;
-            //weaponInner.transform.Rotate(0, 0, -angleZ);
             weaponInner.transform.localRotation = Quaternion.Euler(0, 0, -angleZ);
 
             weapon.GetComponent<WeaponMovement>().ActivateWeapon(unit);

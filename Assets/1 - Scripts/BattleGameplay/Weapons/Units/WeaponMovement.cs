@@ -11,6 +11,7 @@ public class WeaponMovement : MonoBehaviour
     private Rigidbody2D rbWeapon;
 
     private SpriteRenderer bible;
+    private int bibleLevel;
 
     [SerializeField] private GameObject bottleDeath;
     [SerializeField] private GameObject bottleShadowPrefab;
@@ -101,7 +102,7 @@ public class WeaponMovement : MonoBehaviour
                 break;
 
             case UnitsAbilities.Bible:
-                ActivateBible();
+                ActivateBible(unit);
                 break;
 
             case UnitsAbilities.Bow:
@@ -131,6 +132,9 @@ public class WeaponMovement : MonoBehaviour
 
     private void BibleMovement()
     {
+        float weaponSize = unit.size + unit.size * boostManager.GetBoost(BoostType.WeaponSize);
+        transform.localScale = new Vector3(weaponSize, weaponSize, weaponSize);
+
         transform.RotateAround(transform.position, Vector3.forward, speed * Time.deltaTime);
         bible.transform.RotateAround(bible.transform.position, Vector3.forward, -speed * Time.deltaTime);
 
@@ -140,7 +144,9 @@ public class WeaponMovement : MonoBehaviour
             weaponDamage.ClearEnemyList();
         }
 
-        if(unit.unitController == null)
+        //control of new level and new position
+        transform.position = unit.unitController.gameObject.transform.position + weaponStorage.weaponOffset;
+        if(unit.isUnitActive == false || bibleLevel != weaponStorage.unitForBible.level)
         {
             weaponStorage.isBibleWork = false;
             DestroyWeapon();
@@ -200,27 +206,24 @@ public class WeaponMovement : MonoBehaviour
     #region Activators
     private void ActivateGarlic()
     {
-
         StartCoroutine(Resize());
 
         IEnumerator Resize()
         {
-            float lifetime = unit.speedAttack;
-            float currentSize;
-            float sizeStep = 0.075f;
-            
-            gameObject.transform.localScale = new Vector3(0, 0, 0);
-            currentSize = 0;             
+            int countOfSteps = 100;
+            float currentSize = 0;
+            float endSize = gameObject.transform.localScale.x;
+            float sizeStep = endSize / countOfSteps;
 
-            while(currentSize <= lifetime)
+            gameObject.transform.localScale = new Vector3(0, 0, 0);           
+
+            while(currentSize <= endSize)
             {
-                yield return new WaitForSeconds(0.005f);
+                yield return new WaitForSeconds(0.01f);
                 currentSize += sizeStep;
-
                 gameObject.transform.localScale = new Vector3(currentSize, currentSize, currentSize);
             }
-            gameObject.transform.localScale = new Vector3(0, 0, 0);
-            //yield return new WaitForSeconds(controller.speedAttack);
+            gameObject.SetActive(false);
         }
     }
 
@@ -285,10 +288,11 @@ public class WeaponMovement : MonoBehaviour
         isReadyToWork = true;
     }
 
-    private void ActivateBible()
+    private void ActivateBible(Unit currentUnit)
     {
         bible = GetComponentInChildren<SpriteRenderer>();
         isReadyToWork = true;
+        bibleLevel = currentUnit.level;
     }
 
     private void ActivateBow()
@@ -369,7 +373,7 @@ public class WeaponMovement : MonoBehaviour
 
     // We don't need this part because we disable weapon when it is invisible
 
-    private void DestroyWeapon()
+    private void DestroyWeapon(bool mode = false)
     {
         if(bottleShadow != null)
         {
@@ -385,14 +389,15 @@ public class WeaponMovement : MonoBehaviour
 
     private void OnEnable()
     {
-        //EventManager.ChangePlayer += DestroyWeapon;
+        EventManager.SwitchPlayer += DestroyWeapon;
         currentLifeTime = 0;
         if(weaponStorage == null) weaponStorage = GlobalStorage.instance.player.GetComponent<WeaponStorage>();
     }
 
     private void OnDisable()
     {
-        //EventManager.ChangePlayer += DestroyWeapon;
-        DestroyWeapon();
+        EventManager.SwitchPlayer -= DestroyWeapon;
+        //Debug.Log("NO ME");
+        //DestroyWeapon();
     }
 }

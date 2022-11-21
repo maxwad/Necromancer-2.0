@@ -17,13 +17,20 @@ public class SquadSlotPlacing : MonoBehaviour, IDropHandler, IPointerClickHandle
 
     public void FillSlot(GameObject currentSquad)
     {
-        squad = currentSquad.GetComponent<ArmySlot>();
-        squad.index = index;
-        squad.slotType = slotType;
-        squad.unitInSlot.status = slotType;
+        if(currentSquad == null)
+        {
+            squad = null;
+        }
+        else
+        {
+            squad = currentSquad.GetComponent<ArmySlot>();
+            squad.index = index;
+            squad.slotType = slotType;
+            squad.unitInSlot.status = slotType;
 
-        currentSquad.transform.SetParent(transform, false);
-        currentSquad.transform.localPosition = Vector3.zero;
+            currentSquad.transform.SetParent(transform, false);
+            currentSquad.transform.localPosition = Vector3.zero;
+        }
 
         if(playersArmy == null) playersArmy = GlobalStorage.instance.playersArmy;
         playersArmy.UpdateArmy();
@@ -47,28 +54,14 @@ public class SquadSlotPlacing : MonoBehaviour, IDropHandler, IPointerClickHandle
                 InfotipManager.ShowWarning("You can not delete any squads from hero's army during the battle.");
                 return;
             }
-        }
-        
+        }        
 
         if(slot != null)
         {
             HandlingNewSlot(slot);
-
-            //if(squad != null) 
-            //    EventManager.OnSwitchSlotsEvent(slot.index, slot.unitInSlot.status, squad.gameObject);
-            //else
-            //    EventManager.OnSwitchSlotsEvent(slot.index, slot.unitInSlot.status, null);
-
-
-            //FillSlot(eventData.pointerDrag);
-
-
-            //eventData.pointerDrag.transform.SetParent(transform, false);
-            //eventData.pointerDrag.transform.localPosition = Vector3.zero;
         }
         else
         {
-
             Debug.Log("THERE IS NO SLOT");
         }
     }
@@ -94,25 +87,14 @@ public class SquadSlotPlacing : MonoBehaviour, IDropHandler, IPointerClickHandle
 
     public void ClearSlot()
     {
-        if(squad != null)
-        {
-            //squad.unitInSlot.status = UnitStatus.Store;
-            squad = null;
-        }
+        squad = null;
     }
 
     private void SwitchSlot(int ind, UnitStatus place, GameObject slot)
     {
         if(index == ind && slotType == place)
         {
-            if(slot != null)
-            {
-                FillSlot(slot);
-            }
-            else
-            {
-                squad = null;
-            }
+            FillSlot(slot);
         }
     }
 
@@ -123,6 +105,6 @@ public class SquadSlotPlacing : MonoBehaviour, IDropHandler, IPointerClickHandle
 
     private void OnDisable()
     {
-        EventManager.SwitchSlots += SwitchSlot;
+        EventManager.SwitchSlots -= SwitchSlot;
     }
 }

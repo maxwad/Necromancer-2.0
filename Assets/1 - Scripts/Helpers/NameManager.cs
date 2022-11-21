@@ -311,6 +311,11 @@ public static class NameManager
     }
 
 
+    public enum BattleVisualEffects
+    {
+        Death, Resurection, LevelUp
+    }
+
     #region GlobalMap
 
     public enum NeighborsDirection

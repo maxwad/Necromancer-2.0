@@ -27,14 +27,6 @@ public class PlayersArmyPart : MonoBehaviour
         playersArmy = GlobalStorage.instance.playersArmy;
     }
 
-    public void CreateReserveScheme(Unit[] army)
-    {
-        for(int i = 0; i < army.Length; i++)
-        {
-            //reserveSlots[i].FillTheArmySlot(army[i]);
-        }
-    }
-
     public void CreateReserveScheme(Dictionary<UnitsTypes, FullSquad> armyDict)
     {
         if(armyDict.Count != reserveSlots.Length) 
@@ -52,15 +44,6 @@ public class PlayersArmyPart : MonoBehaviour
                 squad.Value.squadUI.gameObject.SetActive(true);
                 i++;
             }
-        }
-    }
-
-
-    public void CreateArmyScheme(Unit[] army)
-    {
-        for (int i = 0; i < army.Length; i++)
-        {
-            //armySlots[i].FillTheArmySlot(army[i]);
         }
     }
 

@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using TMPro;
+using System;
 
 public class BonusTip : MonoBehaviour
 {
@@ -9,14 +10,15 @@ public class BonusTip : MonoBehaviour
     private float smallWaitTime = 0.01f;
     private WaitForSeconds smallWait;
 
-    private float lifeTime = 3f;
+    private float lifeTime = 10f;
     private float currentTime = 0f;
     private float heigthOffset = 0;
     private Vector3 startOffset;
 
     private SpriteRenderer spriteRenderer;
+    private Coroutine coroutine;
 
-    public void Show(int counter, Sprite sprite, float quantity, string text = "")
+    public void Show(int counter, Sprite sprite, float quantity, string text = "", string mark = "+")
     {
         if(spriteRenderer == null)
         {
@@ -29,7 +31,7 @@ public class BonusTip : MonoBehaviour
 
         spriteRenderer.sprite = sprite;
 
-        bonusText.text = "+" + quantity;
+        bonusText.text = mark + quantity;
         bonusText.color = Color.white;
         if(quantity == 0) 
         {
@@ -38,9 +40,11 @@ public class BonusTip : MonoBehaviour
         }        
   
         transform.position += startOffset * 0.5f;
-        transform.position += startOffset * (counter + 1);
 
-        StartCoroutine(ShowBonus());
+        if(GlobalStorage.instance.isGlobalMode == true)
+            transform.position += startOffset * (counter + 1);
+
+        coroutine = StartCoroutine(ShowBonus());
     }
 
     private IEnumerator ShowBonus()
@@ -49,6 +53,7 @@ public class BonusTip : MonoBehaviour
 
         while(currentTime <= lifeTime)
         {
+            //Debug.Log(currentTime);
             currentTime += smallWaitTime;
             transform.position += new Vector3(0, smallWaitTime, 0);
 
@@ -57,7 +62,27 @@ public class BonusTip : MonoBehaviour
 
         currentTime = 0;
         spriteRenderer.sprite = null;
-        BonusTipUIManager.HideVisualEffect();
+
+        if(GlobalStorage.instance.isGlobalMode == true)
+            BonusTipUIManager.HideVisualEffect();
+
         gameObject.SetActive(false);
+    }
+
+    private void Deactivation(bool mode)
+    {
+        Debug.Log("Deactivation");
+        if(coroutine != null) StopCoroutine(coroutine);
+        gameObject.SetActive(false);
+    }
+
+    private void OnEnable()
+    {
+        EventManager.SwitchPlayer += Deactivation;        
+    }
+
+    private void OnDisable()
+    {
+        EventManager.SwitchPlayer -= Deactivation;
     }
 }
