@@ -26,7 +26,6 @@ public class BattleBoostManager : MonoBehaviour
     private Dictionary<BoostType, List<Boost>> boostItemsDict = new Dictionary<BoostType, List<Boost>>();
     private Dictionary<BoostType, float> commonBoostDict = new Dictionary<BoostType, float>();
 
-    int count = 0;
     private void Awake()
     {
         playerStats = GlobalStorage.instance.playerStats;
@@ -54,7 +53,18 @@ public class BattleBoostManager : MonoBehaviour
         boostItemsDict[type].Add(new Boost(sender, effect, value));
         RecalculateBoost(type);
 
-        if(GlobalStorage.instance.isGlobalMode == false) EventManager.OnShowBoostEffectEvent(sender, type, value);
+        if(GlobalStorage.instance.isGlobalMode == false)
+        {
+            if(value < 999 && value > -999)
+            {
+                EventManager.OnShowBoostEffectEvent(sender, type, value);
+            }
+            else
+            {
+                Debug.Log("We have special strength from " + sender);
+            }
+
+        }
     }
 
     public void DeleteBoost(BoostType type, BoostSender sender, float value)
@@ -121,9 +131,7 @@ public class BattleBoostManager : MonoBehaviour
             result = commonBoostDict[boostType] / 100;
 
         if(result < -0.99) result = -0.99f;
-        count++;
 
-        //Debug.Log(count);
         return result;
     }
 
@@ -146,14 +154,12 @@ public class BattleBoostManager : MonoBehaviour
 
     private void OnEnable()
     {
-        //EventManager.BoostUnitStat += SetBoost;
         EventManager.EndOfBattle += ClearBattleBonuses;
     }
 
 
     private void OnDisable()
     {
-        //EventManager.BoostUnitStat -= SetBoost;
         EventManager.EndOfBattle -= ClearBattleBonuses;
     }
 }

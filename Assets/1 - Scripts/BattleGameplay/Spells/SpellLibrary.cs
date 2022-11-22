@@ -9,10 +9,6 @@ public class SpellLibrary : MonoBehaviour
     private ObjectsPoolManager objectsPool;
     private PlayersArmy playersArmy;
 
-    [SerializeField] private GameObject shuriken;
-    [SerializeField] private GameObject kickAssCircle;
-
-
     private void Start()
     {
         boostManager = GlobalStorage.instance.boostManager;
@@ -101,12 +97,13 @@ public class SpellLibrary : MonoBehaviour
     {
         yield return new WaitForSeconds(duration);
 
-        ActivateSpell(spell, false);
+        if(GlobalStorage.instance.IsGlobalMode() == false)
+            ActivateSpell(spell, false);
     }
 
     #endregion
 
-    #region Hero's Spells
+    #region SPELLS
 
     //Increases the hero's movement speed by 20% for 30 seconds.
     private void SpeedUp(bool mode, float value)
@@ -188,26 +185,11 @@ public class SpellLibrary : MonoBehaviour
     private void GoAway(bool mode, float value)
     {
         if(mode == true)
-        {            
-            GameObject circle = Instantiate(kickAssCircle);
+        {
+            GameObject circle = objectsPool.GetObject(ObjectPool.PushCircle);
             circle.transform.position = GlobalStorage.instance.hero.transform.position;
-            circle.transform.SetParent(GlobalStorage.instance.effectsContainer.transform);
-
-            float currentSize = 0;
-            StartCoroutine(Size());
-
-            IEnumerator Size()
-            {
-                WaitForSeconds delay = new WaitForSeconds(0.01f);
-                while(currentSize <= value * 2)
-                {
-                    currentSize += 0.4f;
-                    circle.transform.localScale = new Vector3(currentSize, currentSize, 1);
-                    yield return delay;
-                };
-
-                Destroy(circle);
-            }
+            circle.SetActive(true);
+            circle.GetComponent<PushCircleController>().Init(value);
         }
     }
 
@@ -263,7 +245,17 @@ public class SpellLibrary : MonoBehaviour
     //Make units immortal for 30 seconds.
     private void Immortal(bool mode, float value)
     {
-        EventManager.OnSpellImmortalEvent(mode);
+        if(mode == true)
+        {
+            boostManager.SetBoost(BoostType.MagicDefence, BoostSender.Spell, BoostEffect.PlayerBattle, 10000);
+            boostManager.SetBoost(BoostType.PhysicDefence, BoostSender.Spell, BoostEffect.PlayerBattle, 10000);
+        }
+        else
+        {
+            boostManager.DeleteBoost(BoostType.MagicDefence, BoostSender.Spell, 10000);
+            boostManager.DeleteBoost(BoostType.PhysicDefence, BoostSender.Spell, 10000);
+        }
+        //EventManager.OnSpellImmortalEvent(mode);
     }
 
 
@@ -329,10 +321,25 @@ public class SpellLibrary : MonoBehaviour
     {
         if(mode == true)
         {
-            playersArmy.ResurrectionFewUnitInTheBattle(4);
+            playersArmy.ResurrectionFewUnitInTheBattle(value);
         }
     }
 
     #endregion
 
+    private void AllStop()
+    {
+        StopAllCoroutines();
+    }
+
+    private void OnEnable()
+    {
+        EventManager.EndOfBattle += AllStop;
+    }
+
+
+    private void OnDisable()
+    {
+        EventManager.EndOfBattle -= AllStop;
+    }
 }

@@ -158,6 +158,11 @@ public class EnemySpawner : MonoBehaviour
                 //    currentProbably[i] = Mathf.Round((enemiesQuantityList[i] / commonQuantity) * 100);
                 //}
 
+                if(GlobalStorage.instance.IsGlobalMode() == true)
+                {
+                    Debug.Log("1 ERROR");
+                }
+
                 EnemiesTypes enemyType = enemiesList[randomIndex];
                 GameObject enemy = GlobalStorage.instance.objectsPoolManager.GetEnemy(enemyType);
 
@@ -174,6 +179,11 @@ public class EnemySpawner : MonoBehaviour
                 enemiesQuantityList[randomIndex]--;
                 currentCommonQuantity--;
                 battleUIManager.enemyPart.FillSpawnEnemiesBar(currentCommonQuantity);
+
+                if(GlobalStorage.instance.IsGlobalMode() == true)
+                {
+                    Debug.Log("2 ERROR");
+                }
             }
 
             yield return waitNextEnemy;

@@ -99,7 +99,9 @@ public static class NameManager
         Fireball,
         Ligthning,
         Cannonball,
-        SquadSlot
+        SquadSlot,
+        SpellEffect,
+        PushCircle
 
     }
 

@@ -8,8 +8,9 @@ public class SpellButtonController : MonoBehaviour
 {
     private ResourcesManager resourcesManager;
     private BattleBoostManager boostManager;
+    private BattleUISpellPart battleUISpellPart;
 
-    [SerializeField] private SpellStat spell;
+    [SerializeField] private SpellSO spell;
     [SerializeField] private Image veil;
     [SerializeField] private Image icon;
     [SerializeField] private Button button;
@@ -31,12 +32,13 @@ public class SpellButtonController : MonoBehaviour
 
     private TooltipTrigger tooltipTrigger;
 
-    public void InitializeButton(SpellStat newSpell, int slot = -1)
+    public void InitializeButton(BattleUISpellPart uiPart, SpellSO newSpell, int slot = -1)
     {
         hero = GlobalStorage.instance.hero;
         spellLibrary = GlobalStorage.instance.spellManager.GetComponent<SpellLibrary>();
         resourcesManager = GlobalStorage.instance.resourcesManager;
         boostManager = GlobalStorage.instance.boostManager;
+        battleUISpellPart = uiPart;
 
         spell = newSpell;
 
@@ -49,8 +51,12 @@ public class SpellButtonController : MonoBehaviour
 
         button.onClick.AddListener(ActivateSpell);
 
+        string description = spell.description.Replace("$", spell.value.ToString());
+        description = description.Replace("&", spell.actionTime.ToString());
+        description += " (Cost: " + spell.manaCost;
+        description += " Reload: " + spell.reloading + " sec.)";
         tooltipTrigger = GetComponent<TooltipTrigger>();
-        if(tooltipTrigger != null) tooltipTrigger.content = spell.description + " (Cost: " + spell.manaCost + ")";
+        if(tooltipTrigger != null) tooltipTrigger.content = description;
 
         if(coroutine != null) StopCoroutine(coroutine);
         coroutine = StartCoroutine(CheckDisabling());
@@ -67,6 +73,9 @@ public class SpellButtonController : MonoBehaviour
 
         resourcesManager.ChangeResource(ResourceType.Mana, -spell.manaCost);
         spellLibrary.ActivateSpell(spell.spell, true, spell.value, spell.actionTime);
+
+        if(spell.actionTime != 0)
+            battleUISpellPart.AddUISpellEffect(spell);
 
         StartCoroutine(StartDelay());
     }

@@ -252,7 +252,7 @@ public class WeaponMovement : MonoBehaviour
     {
         rbWeapon = GetComponent<Rigidbody2D>();
 
-        float searchRadius = 25f;
+        float searchRadius = 15f;
         float distance = 9999999;
         Vector2 nearestEnemyPosition = Vector2.zero;
 

@@ -30,7 +30,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6782845278681690980}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 20}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 9083621552088023502}
@@ -171,22 +171,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01d8168c13be6f343809ffef6f497f8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isBoss: 0
   enemiesType: 9
+  enemyName: 
   icon: {fileID: -1871929004497759837, guid: 4d7a02af42c41584d9d5e709e3d22033, type: 3}
+  healthBase: 0
   health: 20
-  magicAttack: 2
-  physicAttack: 1
-  magicDefence: 2
-  physicDefence: 1
+  mAttack: 0
+  pAttack: 0
+  mDefence: 0
+  pDefence: 0
   speedAttack: 1
   size: 1
   EnemyAbility: 0
   attackTool: {fileID: 0}
   exp: 1
+  luck: 3
   currentHealth: 0
+  isBoss: 0
   damageNote: {fileID: 4223726373541259902, guid: dc8112cb6cbc981458351f24ddb13002, type: 3}
   bonusType: 3
+  enemyManager: {fileID: 0}
+  bonusManager: {fileID: 0}
 --- !u!1 &7850010169775612513
 GameObject:
   m_ObjectHideFlags: 0

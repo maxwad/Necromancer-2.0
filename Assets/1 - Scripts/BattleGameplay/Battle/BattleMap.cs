@@ -77,7 +77,7 @@ public class BattleMap : MonoBehaviour
     {
         if (readyToCheckObstacles == true)
         {
-            CheckObstaclesOnBattle();
+            //CheckObstaclesOnBattle();
         }
     }
 

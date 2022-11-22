@@ -28,7 +28,7 @@ public class Autobattle : MonoBehaviour
     [Header("Start Parameters")]
     private Unit[] playersArmy = new Unit[4];
     private Army currentEnemyArmy;
-    private List<SpellStat> currentSpells = new List<SpellStat>();
+    private List<SpellSO> currentSpells = new List<SpellSO>();
 
     private bool isAttackMode = false;
     private bool isManaMode = false;

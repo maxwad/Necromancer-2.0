@@ -5,9 +5,9 @@ using UnityEngine.UI;
 
 public class SpellManager : MonoBehaviour
 {
-    [SerializeField] private List<SpellStat> allSpells;
-    private List<SpellStat> availableSpells = new List<SpellStat>();
-    private List<SpellStat> currentSpells = new List<SpellStat>();
+    [SerializeField] private List<SpellSO> allSpells;
+    private List<SpellSO> availableSpells = new List<SpellSO>();
+    private List<SpellSO> currentSpells = new List<SpellSO>();
 
     private void Start()
     {
@@ -25,7 +25,7 @@ public class SpellManager : MonoBehaviour
     }
 
     //TODO: handling for finding new spells and unlocking
-    public void UnlockSpell(SpellStat spell)
+    public void UnlockSpell(SpellSO spell)
     {
         foreach(var item in availableSpells)
         {
@@ -37,7 +37,7 @@ public class SpellManager : MonoBehaviour
         }
     }
 
-    public List<SpellStat> GetCurrentSpells()
+    public List<SpellSO> GetCurrentSpells()
     {
         return currentSpells;
     }

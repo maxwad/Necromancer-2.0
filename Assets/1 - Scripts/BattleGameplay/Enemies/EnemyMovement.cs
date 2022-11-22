@@ -18,6 +18,7 @@ public class EnemyMovement : MonoBehaviour
     private bool canICheckStucking = false;
     private Vector3 unStackVector = Vector3.zero;
     private Vector3[] unStackVectors = new Vector3[2];
+    private float unstackMultiplier = 7f;
 
     //for playmode: 10, for editor: 3
     private float acceleration = 10f;
@@ -75,7 +76,7 @@ public class EnemyMovement : MonoBehaviour
 
         if(transform.position.z != 20)
         { 
-            Debug.Log("ENEMY IS LOST! Z = " + transform.position.z + " local = " + transform.localPosition.z);
+            Debug.Log("2 ENEMY " + gameObject.name + " IS LOST! Z = " + transform.position.z + " local = " + transform.localPosition.z);
             transform.position = new Vector3(transform.position.x, transform.position.y, 20f);
         }
     }
@@ -106,7 +107,7 @@ public class EnemyMovement : MonoBehaviour
                 unStackVectors[1] = -Vector3.Cross(player.transform.position - transform.position, Vector3.up).normalized;
 
                 int index = Random.Range(0, unStackVectors.Length);
-                unStackVector = unStackVectors[index] * 7;
+                unStackVector = new Vector3(unStackVectors[index].x, unStackVectors[index].y, 0) * unstackMultiplier;
             }
         }
     }
@@ -136,13 +137,13 @@ public class EnemyMovement : MonoBehaviour
         speedBase = 1;
     }
 
-    private void OnBecameVisible()
-    {
-        collEnemy.enabled = true;
-    }
+    //private void OnBecameVisible()
+    //{
+    //    collEnemy.enabled = true;
+    //}
 
-    private void OnBecameInvisible()
-    {
-        collEnemy.enabled = false;
-    }
+    //private void OnBecameInvisible()
+    //{
+    //    collEnemy.enabled = false;
+    //}
 }

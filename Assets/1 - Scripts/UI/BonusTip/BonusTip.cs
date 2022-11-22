@@ -53,7 +53,6 @@ public class BonusTip : MonoBehaviour
 
         while(currentTime <= lifeTime)
         {
-            //Debug.Log(currentTime);
             currentTime += smallWaitTime;
             transform.position += new Vector3(0, smallWaitTime, 0);
 
@@ -71,8 +70,7 @@ public class BonusTip : MonoBehaviour
 
     private void Deactivation(bool mode)
     {
-        Debug.Log("Deactivation");
-        if(coroutine != null) StopCoroutine(coroutine);
+        if(coroutine != null) StopCoroutine("ShowBonus");
         gameObject.SetActive(false);
     }
 

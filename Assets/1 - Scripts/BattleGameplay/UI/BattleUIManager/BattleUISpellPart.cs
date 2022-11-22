@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,12 +8,17 @@ using static NameManager;
 public class BattleUISpellPart : MonoBehaviour
 {
     private BattleUIManager battleUIManager;
+    private ObjectsPoolManager poolManager;
 
     [Header("Spells")]
     [SerializeField] private Button buttonSpell;
-    private List<SpellStat> currentSpells = new List<SpellStat>();
+    private List<SpellSO> currentSpells = new List<SpellSO>();
     [SerializeField] private GameObject spellButtonContainer;
     private List<Button> currentSpellsButtons = new List<Button>();
+
+    [SerializeField] private GameObject spellEffectsContainer;
+    private List<GameObject> currentSpellsEffect = new List<GameObject>();
+
     private int countOfActiveSpells = 6;
     private int currentSpellIndex = -1;
 
@@ -73,6 +79,15 @@ public class BattleUISpellPart : MonoBehaviour
 
     public void FillSpells(int numberOfSpell)
     {
+        if(poolManager == null) poolManager = GlobalStorage.instance.objectsPoolManager;
+
+        if(currentSpellsEffect.Count != 0)
+        {
+            for(int i = 0; i < currentSpellsEffect.Count; i++)
+                currentSpellsEffect[i].SetActive(false);
+            currentSpellsEffect.Clear();
+        }
+
         currentSpells = GlobalStorage.instance.spellManager.GetCurrentSpells();
 
         if(numberOfSpell == -1)
@@ -92,7 +107,7 @@ public class BattleUISpellPart : MonoBehaviour
                 }
 
                 Button button = Instantiate(buttonSpell);
-                button.GetComponent<SpellButtonController>().InitializeButton(currentSpells[i], slotNumber);
+                button.GetComponent<SpellButtonController>().InitializeButton(this, currentSpells[i], slotNumber);
                 currentSpellsButtons.Add(button);
                 button.transform.SetParent(spellButtonContainer.transform, false);
 
@@ -105,7 +120,7 @@ public class BattleUISpellPart : MonoBehaviour
                 if(i == numberOfSpell)
                 {
                     Button button = Instantiate(buttonSpell);
-                    button.GetComponent<SpellButtonController>().InitializeButton(currentSpells[i]);
+                    button.GetComponent<SpellButtonController>().InitializeButton(this, currentSpells[i]);
                     currentSpellsButtons.Add(button);
                     button.transform.SetParent(spellButtonContainer.transform, false);
 
@@ -115,4 +130,26 @@ public class BattleUISpellPart : MonoBehaviour
         }
     }
 
+    public void AddUISpellEffect(SpellSO spell)
+    {
+        GameObject effectUI = poolManager.GetObject(ObjectPool.SpellEffect);
+        effectUI.transform.SetParent(spellEffectsContainer.transform, false);
+        effectUI.SetActive(true);
+        effectUI.GetComponent<SpellBattleUI>().Init(spell);
+    }
+
+    //private void OnEnable()
+    //{
+    //    EventManager.SwitchPlayer += ClearEffects;
+    //}
+
+    //private void OnDisable()
+    //{
+    //    EventManager.SwitchPlayer -= ClearEffects;
+    //}
+
+    //private void ClearEffects(bool mode)
+    //{
+    //    //throw new NotImplementedException();
+    //}
 }

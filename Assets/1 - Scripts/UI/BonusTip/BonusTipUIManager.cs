@@ -67,6 +67,8 @@ public class BonusTipUIManager : MonoBehaviour
 
     public static void ShowVisualEffectInBattle(Vector3 position, BattleVisualEffects effect, float quantity = 0, string text = "", string mark = "")
     {
+        if(GlobalStorage.instance.IsGlobalMode() == true) return;
+
         Sprite findedSprite = null;
 
         foreach(var icon in instance.objectsBattleList)
