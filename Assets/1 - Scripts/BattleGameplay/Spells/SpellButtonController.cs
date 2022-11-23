@@ -1,14 +1,16 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
 using static NameManager;
 
-public class SpellButtonController : MonoBehaviour
+public class SpellButtonController : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     private ResourcesManager resourcesManager;
     private BattleBoostManager boostManager;
     private BattleUISpellPart battleUISpellPart;
+    private PreSpellLibrary preSpellLibrary;
 
     [SerializeField] private SpellSO spell;
     [SerializeField] private Image veil;
@@ -19,6 +21,7 @@ public class SpellButtonController : MonoBehaviour
 
     private bool disabledBecauseMana = false;
     private bool disabledBecauseDelay = false;
+    private bool disabledBecauseBattleIsOver = false;
     private bool isDisabled = false;
 
     private Coroutine coroutine;
@@ -36,6 +39,7 @@ public class SpellButtonController : MonoBehaviour
     {
         hero = GlobalStorage.instance.hero;
         spellLibrary = GlobalStorage.instance.spellManager.GetComponent<SpellLibrary>();
+        preSpellLibrary = spellLibrary.GetComponent<PreSpellLibrary>();
         resourcesManager = GlobalStorage.instance.resourcesManager;
         boostManager = GlobalStorage.instance.boostManager;
         battleUISpellPart = uiPart;
@@ -51,8 +55,9 @@ public class SpellButtonController : MonoBehaviour
 
         button.onClick.AddListener(ActivateSpell);
 
-        string description = spell.description.Replace("$", spell.value.ToString());
-        description = description.Replace("&", spell.actionTime.ToString());
+        string description = spell.description.Replace("$V", spell.value.ToString());
+        description = description.Replace("$T", spell.actionTime.ToString());
+        description = description.Replace("$R", spell.radius.ToString());
         description += " (Cost: " + spell.manaCost;
         description += " Reload: " + spell.reloading + " sec.)";
         tooltipTrigger = GetComponent<TooltipTrigger>();
@@ -71,11 +76,26 @@ public class SpellButtonController : MonoBehaviour
 
         if(hero.isDead == true) return;
 
+        ActivatePreSpell(false);
+
         resourcesManager.ChangeResource(ResourceType.Mana, -spell.manaCost);
-        spellLibrary.ActivateSpell(spell.spell, true, spell.value, spell.actionTime);
 
         if(spell.actionTime != 0)
-            battleUISpellPart.AddUISpellEffect(spell);
+        {
+            if(battleUISpellPart.CheckSpell(spell) == true)
+            {
+                battleUISpellPart.ProlongSpell(spell);
+            }
+            else
+            {
+                spellLibrary.ActivateSpell(spell, true);
+                battleUISpellPart.AddUISpellEffect(spell);
+            }
+        }
+        else
+        {
+            spellLibrary.ActivateSpell(spell, true);
+        }
 
         StartCoroutine(StartDelay());
     }
@@ -83,6 +103,11 @@ public class SpellButtonController : MonoBehaviour
     private bool CheckMana()
     {
         return !resourcesManager.CheckMinResource(ResourceType.Mana, spell.manaCost);
+    }
+
+    private bool CheckBattleOver()
+    {
+        return battleUISpellPart.CheckBattleOver();
     }
 
     private IEnumerator CheckDisabling()
@@ -94,8 +119,9 @@ public class SpellButtonController : MonoBehaviour
             yield return checkManaPeriod;
 
             disabledBecauseMana = CheckMana();
+            disabledBecauseBattleIsOver = CheckBattleOver();
 
-            if(disabledBecauseDelay == true || disabledBecauseMana == true)
+            if(disabledBecauseDelay == true || disabledBecauseMana == true || disabledBecauseBattleIsOver == true)
                 isDisabled = true;
             else
                 isDisabled = false;
@@ -134,5 +160,29 @@ public class SpellButtonController : MonoBehaviour
     private void OnDestroy()
     {
         button.onClick.RemoveListener(ActivateSpell);
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if(isDisabled == true) return;
+
+        if(MenuManager.instance.IsTherePauseOrMiniPause() == true) return;
+
+        if(hero.isDead == true) return;
+
+        ActivatePreSpell(true);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        ActivatePreSpell(false);        
+    }
+
+    private void ActivatePreSpell(bool mode)
+    {
+        if(spell != null && spell.hasPreSpell == true)
+        {
+            preSpellLibrary.Activate(spell, mode);
+        }
     }
 }

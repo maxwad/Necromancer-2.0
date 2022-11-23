@@ -20,7 +20,7 @@ MonoBehaviour:
   health: 10
   physicAttack: 7
   physicDefence: 3
-  magicAttack: 9
+  magicAttack: 8
   magicDefence: 4
   speedAttack: 1.5
   size: 1

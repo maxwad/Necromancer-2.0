@@ -53,6 +53,9 @@ public class BoostInBattleUI : MonoBehaviour
         string after = "%";
         amount.text = before + value + after;
 
+        if(value > 1000) amount.text = "+" + "####";
+        if(value < -1000) amount.text = "-" + "####";
+
         Color color;
 
         if(isInvertedRune == false)

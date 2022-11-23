@@ -20,7 +20,8 @@ MonoBehaviour:
   hasPreSpell: 1
   manaCost: 1
   value: 8
+  radius: 8
   actionTime: 0
   reloading: 3
   icon: {fileID: 2914983793677538037, guid: 54d98c65c3b37744baea457e9292557a, type: 3}
-  description: Hero throws $ shurikens.
+  description: Hero throws $V shurikens, each of which deals 100 damage.

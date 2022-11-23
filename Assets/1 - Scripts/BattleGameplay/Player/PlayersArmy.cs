@@ -55,6 +55,8 @@ public class PlayersArmy : MonoBehaviour
         foreach(var squad in unitsTypesList)
         {
             FullSquad newSquad = new FullSquad();
+            fullArmy.Add(squad, newSquad);
+
             newSquad.unit = unitManager.GetNewSquad(squad);
 
             newSquad.unitGO = Instantiate(newSquad.unit.unitGO);
@@ -62,7 +64,7 @@ public class PlayersArmy : MonoBehaviour
 
             newSquad.unitController = newSquad.unitGO.GetComponent<UnitController>();
             newSquad.unitController.Initilize(newSquad.unit);
-            newSquad.unitController.SetQuantity(UnityEngine.Random.Range(2, 4));
+            newSquad.unitController.AddQuantity(UnityEngine.Random.Range(2, 4));
 
             newSquad.unitGO.GetComponentInChildren<TMP_Text>().text = newSquad.unitController.quantity.ToString();
 
@@ -73,7 +75,6 @@ public class PlayersArmy : MonoBehaviour
 
             newSquad.unitGO.SetActive(false);
 
-            fullArmy.Add(squad, newSquad);
         }
 
         playersArmyWindow.UpdateArmyWindow();
@@ -107,6 +108,14 @@ public class PlayersArmy : MonoBehaviour
         }
 
         return true;
+    }
+
+    public bool CheckNextUnitLevel(UnitsTypes type)
+    {
+        int level = fullArmy[type].unit.level + 1;
+        Unit upgradedUnit = unitManager.GetNewSquad(type, level);
+
+        return (upgradedUnit != null);
     }
 
     private void ResetArmy()
@@ -211,8 +220,8 @@ public class PlayersArmy : MonoBehaviour
 
     public void ResurrectionUnit(UnitsTypes unitType)
     {
-        fullArmy[unitType].unitController.quantity++;
-        fullArmy[unitType].unitController.UpdateQuantity();
+        fullArmy[unitType].unitController.AddQuantity(1);
+        //fullArmy[unitType].unitController.UpdateQuantity();
 
         if(fullArmy[unitType].unitController.quantity == 1)
         {
@@ -230,8 +239,8 @@ public class PlayersArmy : MonoBehaviour
     {
         if(fullArmy[unitType].unitController.quantity <= 0) return;
 
-        fullArmy[unitType].unitController.quantity--;
-        fullArmy[unitType].unitController.UpdateQuantity();
+        fullArmy[unitType].unitController.AddQuantity(-1);
+        //fullArmy[unitType].unitController.UpdateQuantity();
         fullArmy[unitType].unitController.ShowEffectDeath();
 
         if(fullArmy[unitType].unitController.quantity == 0)

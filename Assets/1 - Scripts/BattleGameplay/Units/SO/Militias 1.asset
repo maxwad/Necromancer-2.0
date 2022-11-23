@@ -18,10 +18,10 @@ MonoBehaviour:
   unitHome: 0
   unitType: 0
   health: 4
-  physicAttack: 5
+  physicAttack: 6
   physicDefence: 2
-  magicAttack: 3
-  magicDefence: 0
+  magicAttack: 4
+  magicDefence: 1
   speedAttack: 2
   size: 1
   level: 1

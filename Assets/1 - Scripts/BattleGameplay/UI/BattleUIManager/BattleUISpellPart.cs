@@ -9,6 +9,7 @@ public class BattleUISpellPart : MonoBehaviour
 {
     private BattleUIManager battleUIManager;
     private ObjectsPoolManager poolManager;
+    private BattleBoostManager boostManager;
 
     [Header("Spells")]
     [SerializeField] private Button buttonSpell;
@@ -18,6 +19,8 @@ public class BattleUISpellPart : MonoBehaviour
 
     [SerializeField] private GameObject spellEffectsContainer;
     private List<GameObject> currentSpellsEffect = new List<GameObject>();
+    private List<SpellSO> activeSpells = new List<SpellSO>();
+    private Dictionary<SpellSO, SpellBattleUI> currentActiveSpells = new Dictionary<SpellSO, SpellBattleUI>();
 
     private int countOfActiveSpells = 6;
     private int currentSpellIndex = -1;
@@ -79,14 +82,19 @@ public class BattleUISpellPart : MonoBehaviour
 
     public void FillSpells(int numberOfSpell)
     {
-        if(poolManager == null) poolManager = GlobalStorage.instance.objectsPoolManager;
-
-        if(currentSpellsEffect.Count != 0)
+        if(poolManager == null) 
         {
-            for(int i = 0; i < currentSpellsEffect.Count; i++)
-                currentSpellsEffect[i].SetActive(false);
-            currentSpellsEffect.Clear();
+            poolManager = GlobalStorage.instance.objectsPoolManager;
+            boostManager = GlobalStorage.instance.boostManager;
         }
+
+        currentActiveSpells.Clear();
+        //if(currentSpellsEffect.Count != 0)
+        //{
+        //    for(int i = 0; i < currentSpellsEffect.Count; i++)
+        //        currentSpellsEffect[i].SetActive(false);
+        //    currentSpellsEffect.Clear();
+        //}
 
         currentSpells = GlobalStorage.instance.spellManager.GetCurrentSpells();
 
@@ -130,26 +138,52 @@ public class BattleUISpellPart : MonoBehaviour
         }
     }
 
-    public void AddUISpellEffect(SpellSO spell)
+
+    
+    public bool CheckBattleOver()
     {
-        GameObject effectUI = poolManager.GetObject(ObjectPool.SpellEffect);
-        effectUI.transform.SetParent(spellEffectsContainer.transform, false);
-        effectUI.SetActive(true);
-        effectUI.GetComponent<SpellBattleUI>().Init(spell);
+        return battleUIManager.isBattleOver;
     }
 
-    //private void OnEnable()
-    //{
-    //    EventManager.SwitchPlayer += ClearEffects;
-    //}
+    public bool CheckSpell(SpellSO spell)
+    {
+        return currentActiveSpells.ContainsKey(spell);
+    }
 
-    //private void OnDisable()
-    //{
-    //    EventManager.SwitchPlayer -= ClearEffects;
-    //}
+    public void AddUISpellEffect(SpellSO spell)
+    {
+        GameObject effectGO = poolManager.GetObject(ObjectPool.SpellEffect);
+        effectGO.transform.SetParent(spellEffectsContainer.transform, false);
+        effectGO.SetActive(true);
+        SpellBattleUI effectUI = effectGO.GetComponent<SpellBattleUI>();
+        effectUI.Init(this, spell);
+        currentActiveSpells.Add(spell, effectUI);
+    }
 
-    //private void ClearEffects(bool mode)
-    //{
-    //    //throw new NotImplementedException();
-    //}
+    public void DeleteUISpellEffect(SpellSO spell)
+    {
+        if(currentActiveSpells.ContainsKey(spell) == true)
+        {
+            currentActiveSpells.Remove(spell);
+
+            List<BoostType> boosts = EnumConverter.instance.SpellToBoost(spell.spell);
+            if(boosts.Count == 0)
+            {
+                Debug.Log("There is smth wrong!");
+            }
+            else
+            {
+                foreach(var item in boosts)
+                {
+                    boostManager.DeleteBoost(item, BoostSender.Spell, spell.value);
+                }
+            }
+
+        }
+    }
+
+    public void ProlongSpell(SpellSO spell)
+    {
+        currentActiveSpells[spell].AddActionTime(spell.actionTime);
+    }
 }

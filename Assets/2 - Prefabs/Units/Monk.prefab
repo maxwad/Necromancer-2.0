@@ -535,6 +535,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 842615d641a68cb45a4fea407e8f2466, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  quantity: 0
   currentHealth: 0
   scaleColorUsual: {r: 0.627451, g: 0, b: 0.98039216, a: 1}
   scaleColorNewLevel: {r: 1, g: 0.6627451, b: 0.015686275, a: 1}

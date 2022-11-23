@@ -15,38 +15,52 @@ public class SpellBattleUI : MonoBehaviour
     private Coroutine coroutine;
     private float timeStep = 0.1f;
     private WaitForSeconds delay;
-    
-    public void Init(SpellSO spell)
-    {
-        icon.sprite = spell.icon;
+    private float currentTime = 0;
 
-        string description = spell.description.Replace("$", spell.value.ToString());
-        description = description.Replace("&", spell.actionTime.ToString());
+    private BattleUISpellPart uiManager;
+    [HideInInspector] public SpellSO spell;
+
+    public void Init(BattleUISpellPart manager, SpellSO newSpell)
+    {
+        uiManager = manager;
+        spell = newSpell;
+
+        icon.sprite = newSpell.icon;
+        string description = spell.description.Replace("$V", spell.value.ToString());
+        description = description.Replace("$T", spell.actionTime.ToString());
+        description = description.Replace("$R", spell.radius.ToString());
         tooltip.content = description;
 
+        currentTime = newSpell.actionTime;
         delay = new WaitForSeconds(timeStep);
-        coroutine = StartCoroutine(Timer(spell.actionTime));
+        coroutine = StartCoroutine(Timer());
     }
 
-    private IEnumerator Timer(float time)
+    private IEnumerator Timer()
     {
-        double  startTime = Math.Round(time, 1);
-
-        while(startTime > 0)
+        while(currentTime > 0)
         {
             yield return delay;
 
-            startTime -= timeStep;
-            timer.text = (Math.Round(startTime, 1)).ToString();
+            currentTime -= timeStep;
+            timer.text = (Math.Round(currentTime, 1)).ToString();
+            if(timer.text.Contains(",") == false)
+                timer.text += ",0";
         }
 
+        uiManager.DeleteUISpellEffect(spell);
+        spell = null;
         gameObject.SetActive(false);
+    }
+
+    internal void AddActionTime(float actionTime)
+    {
+        currentTime += actionTime;
     }
 
     private void ClearEffect(bool mode)
     {
         if(coroutine != null) StopCoroutine(coroutine);
-
         gameObject.SetActive(false);
     }
 

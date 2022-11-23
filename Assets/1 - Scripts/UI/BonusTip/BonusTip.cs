@@ -10,7 +10,7 @@ public class BonusTip : MonoBehaviour
     private float smallWaitTime = 0.01f;
     private WaitForSeconds smallWait;
 
-    private float lifeTime = 10f;
+    private float lifeTime = 3f;
     private float currentTime = 0f;
     private float heigthOffset = 0;
     private Vector3 startOffset;

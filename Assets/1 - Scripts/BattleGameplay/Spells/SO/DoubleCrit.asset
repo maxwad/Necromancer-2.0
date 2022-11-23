@@ -20,7 +20,8 @@ MonoBehaviour:
   hasPreSpell: 0
   manaCost: 1
   value: 100
+  radius: 0
   actionTime: 10
   reloading: 3
   icon: {fileID: 3687465974505754858, guid: 54d98c65c3b37744baea457e9292557a, type: 3}
-  description: All damage becomes critical for & seconds.
+  description: All damage becomes critical for $T seconds.

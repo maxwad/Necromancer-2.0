@@ -19,8 +19,9 @@ MonoBehaviour:
   level: 1
   hasPreSpell: 1
   manaCost: 1
-  value: 15
+  value: 200
+  radius: 10
   actionTime: 0
   reloading: 3
   icon: {fileID: 1526934011099985568, guid: 54d98c65c3b37744baea457e9292557a, type: 3}
-  description: Destroys all enemies within a radius of $ meters.
+  description: Deals $V damage all enemies within a radius of $R meters.

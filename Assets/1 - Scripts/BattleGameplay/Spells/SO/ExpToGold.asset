@@ -17,10 +17,11 @@ MonoBehaviour:
   spell: 13
   type: 2
   level: 1
-  hasPreSpell: 0
+  hasPreSpell: 1
   manaCost: 1
-  value: 20
+  value: 0
+  radius: 15
   actionTime: 0
   reloading: 3
   icon: {fileID: -8072868309065578990, guid: 54d98c65c3b37744baea457e9292557a, type: 3}
-  description: Turns all experience bonuses within $ meters into gold.
+  description: Turns all experience bonuses within $R meters into gold.

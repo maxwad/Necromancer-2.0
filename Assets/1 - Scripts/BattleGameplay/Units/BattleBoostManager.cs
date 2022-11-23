@@ -55,15 +55,12 @@ public class BattleBoostManager : MonoBehaviour
 
         if(GlobalStorage.instance.isGlobalMode == false)
         {
-            if(value < 999 && value > -999)
-            {
-                EventManager.OnShowBoostEffectEvent(sender, type, value);
-            }
-            else
-            {
-                Debug.Log("We have special strength from " + sender);
-            }
-
+            EventManager.OnShowBoostEffectEvent(sender, type, value);
+            //checking for spell effect
+            //if(value < 999 && value > -999)
+            //{
+            //    EventManager.OnShowBoostEffectEvent(sender, type, value);
+            //}
         }
     }
 
@@ -113,7 +110,7 @@ public class BattleBoostManager : MonoBehaviour
             if(result < -99) result = -99f;
             EventManager.OnSetBattleBoostEvent(type, result / 100);
 
-            PlayersStats stat = BoostConverter.instance.BoostTypeToPlayerStat(type);
+            PlayersStats stat = EnumConverter.instance.BoostTypeToPlayerStat(type);
             if(stat != PlayersStats.Level) playerStats.ForceUpdateStat(stat);
         }
     }

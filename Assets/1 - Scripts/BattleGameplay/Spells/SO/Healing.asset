@@ -20,7 +20,8 @@ MonoBehaviour:
   hasPreSpell: 0
   manaCost: 1
   value: 20
+  radius: 0
   actionTime: 0
   reloading: 3
   icon: {fileID: -8072868309065578990, guid: 54d98c65c3b37744baea457e9292557a, type: 3}
-  description: Heals the hero by $.
+  description: Heals the hero by $V.

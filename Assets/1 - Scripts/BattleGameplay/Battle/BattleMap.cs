@@ -252,7 +252,7 @@ public class BattleMap : MonoBehaviour
                 {
                     GameObject obstacle = Instantiate(currentObstacle, new Vector3(x, y, spawnZOffset), Quaternion.identity);
                     obstacle.transform.SetParent(obstaclesContainer.transform);
-                    obstacle.SetActive(false);
+                    obstacle.SetActive(true);
                     obstaclesOnMap.Add(obstacle);
 
                     FillCells(x, y, obstacleSizeX, obstacleSizeY, obstacleGap, false);

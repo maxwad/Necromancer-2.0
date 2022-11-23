@@ -19,8 +19,9 @@ MonoBehaviour:
   level: 1
   hasPreSpell: 0
   manaCost: 1
-  value: 1000
+  value: 10000
+  radius: 0
   actionTime: 20
   reloading: 3
   icon: {fileID: 2704745366019506510, guid: 54d98c65c3b37744baea457e9292557a, type: 3}
-  description: Makes units immortal for & seconds.
+  description: Makes units immortal for $T seconds.

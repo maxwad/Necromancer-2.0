@@ -17,6 +17,7 @@ public class SpellSO : ScriptableObject
 
     public float manaCost;
     public float value;
+    public float radius;
     public float actionTime;
     public float reloading;
     public Sprite icon;

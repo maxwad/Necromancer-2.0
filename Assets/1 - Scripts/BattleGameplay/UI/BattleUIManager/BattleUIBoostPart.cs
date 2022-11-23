@@ -90,19 +90,6 @@ public class BattleUIBoostPart : MonoBehaviour
         FillPlayerBoost();
     }
 
-    private void CreateEffect(Transform parent, EffectType effectType, BoostType type, float boost, bool constMode = true)
-    {
-        GameObject boostItemUI = objectsPool.GetObject(ObjectPool.BattleEffect);
-        boostItemUI.transform.SetParent(parent, false);
-        boostItemUI.SetActive(true);
-        if(parent != fleshBoostWrapper) boostItemList.Add(boostItemUI);
-
-        RunesType runeType = BoostConverter.instance.BoostTypeToRune(type);
-        float value = boost;
-        BoostInBattleUI item = boostItemUI.GetComponent<BoostInBattleUI>();
-        item.Init(runeType, value, constMode, effectType);
-    }
-
     private void ShowBoostEffect(BoostSender sender, BoostType type, float value)
     {
         EffectType effectType = EffectType.Rune;
@@ -111,6 +98,19 @@ public class BattleUIBoostPart : MonoBehaviour
         if(sender == BoostSender.Spell) effectType = EffectType.Spell;
 
         CreateEffect(fleshBoostWrapper, effectType, type, value, false);
+    }
+
+    private void CreateEffect(Transform parent, EffectType effectType, BoostType type, float boost, bool constMode = true)
+    {
+        GameObject boostItemUI = objectsPool.GetObject(ObjectPool.BattleEffect);
+        boostItemUI.transform.SetParent(parent, false);
+        boostItemUI.SetActive(true);
+        if(parent != fleshBoostWrapper) boostItemList.Add(boostItemUI);
+
+        RunesType runeType = EnumConverter.instance.BoostTypeToRune(type);
+        float value = boost;
+        BoostInBattleUI item = boostItemUI.GetComponent<BoostInBattleUI>();
+        item.Init(runeType, value, constMode, effectType);
     }
 
     public void SetRuneTimer(Sprite pict, float count, string tip)

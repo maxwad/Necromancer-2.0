@@ -262,21 +262,29 @@ public static class NameManager
 
     public enum Spells
     {
-        SpeedUp,
-        AttackUp,
-        DoubleCrit,
-        Shurikens,
-        GoAway,
-        AllBonuses,
-        Healing,
-        DoubleBonuses,
-        WeaponSize,
-        Maning,
-        Immortal,
-        EnemiesStop,
-        DestroyEnemies,
-        ExpToGold,
-        ResurrectUnit
+        SpeedUp = 0,
+        AttackUp = 1,
+        DoubleCrit = 2,
+        Shurikens = 3,
+        GoAway = 4,
+        AllBonuses = 5,
+        Healing = 6,
+        DoubleBonuses = 7,
+        WeaponSize = 8,
+        Maning = 9,
+        Immortal = 10,
+        EnemiesStop = 11,
+        DestroyEnemies = 12,
+        ExpToGold = 13,
+        ResurrectUnit = 14
+    }
+
+    public enum PreSpells
+    {
+        Shurikens = 3,
+        GoAway = 4,
+        DestroyEnemies = 12,
+        ExpToGold = 13
     }
 
     public enum TypeOfSpell

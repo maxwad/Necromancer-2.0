@@ -184,9 +184,15 @@ public class EnemyController : MonoBehaviour
         }   
     }
 
-    public void Kill()
+    public void Kill(float value = 0)
     {
-        float damage = currentHealth + mDefence + pDefence;
+        float damage;
+
+        if(value == 0)
+            damage = currentHealth + mDefence + pDefence;
+        else
+            damage = value;
+
         if(damage > maxDamage) damage = maxDamage;
         TakeDamage(damage, damage, Vector3.zero);
     }

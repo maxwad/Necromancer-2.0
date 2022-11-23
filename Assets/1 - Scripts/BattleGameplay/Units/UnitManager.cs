@@ -35,7 +35,7 @@ public class UnitManager : MonoBehaviour
 
         //формируем список начальных уровней всех юнитов
         foreach (UnitsTypes type in unitsTypesList)
-            currentLevelOfUnitsDict.Add(type, 3);
+            currentLevelOfUnitsDict.Add(type, 2);
     }
 
     private void CreateAllUnitsBase()

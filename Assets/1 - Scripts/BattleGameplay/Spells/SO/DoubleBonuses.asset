@@ -20,7 +20,8 @@ MonoBehaviour:
   hasPreSpell: 0
   manaCost: 1
   value: 100
+  radius: 0
   actionTime: 20
   reloading: 3
   icon: {fileID: -6924916163348001851, guid: 54d98c65c3b37744baea457e9292557a, type: 3}
-  description: Double all bonuses for & seconds.
+  description: Double all bonuses for $T seconds.

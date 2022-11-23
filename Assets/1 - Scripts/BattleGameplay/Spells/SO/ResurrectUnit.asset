@@ -20,7 +20,8 @@ MonoBehaviour:
   hasPreSpell: 0
   manaCost: 1
   value: 2
+  radius: 0
   actionTime: 0
   reloading: 3
   icon: {fileID: -1190754557913613987, guid: 54d98c65c3b37744baea457e9292557a, type: 3}
-  description: Resurrects $ unit(s) from the infirmary killed in current battle.
+  description: Resurrects $V units from the infirmary killed in current battle.
