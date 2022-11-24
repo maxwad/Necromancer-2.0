@@ -19,7 +19,7 @@ public class BonusTipUIManager : MonoBehaviour
     [Serializable]
     public class BattleSpriteAssosiating
     {
-        public BattleVisualEffects effect;
+        public VisualEffects effect;
         public Sprite sprite;
     }
 
@@ -65,7 +65,7 @@ public class BonusTipUIManager : MonoBehaviour
         instance.currentHeigth++;
     }
 
-    public static void ShowVisualEffectInBattle(Vector3 position, BattleVisualEffects effect, float quantity = 0, string text = "", string mark = "")
+    public static void ShowVisualEffectInBattle(Vector3 position, VisualEffects effect, float quantity = 0, string text = "", string mark = "")
     {
         if(GlobalStorage.instance.IsGlobalMode() == true) return;
 

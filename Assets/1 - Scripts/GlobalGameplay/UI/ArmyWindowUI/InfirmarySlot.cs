@@ -6,33 +6,26 @@ using UnityEngine.UI;
 
 public class InfirmarySlot : MonoBehaviour
 {
-    public Image icon;
-    public TMP_Text quantity;
-    public Image backlight;
+    [SerializeField] public GameObject content;
+    [SerializeField] public Image icon;
+    [SerializeField] public Image timerVeil;
+    [SerializeField] public TMP_Text quantity;
 
     public Color grey;
     public Color red;
 
-    private InfotipTrigger squadtipTrigger;
-
-    private void Start()
-    {
-        squadtipTrigger = GetComponent<InfotipTrigger>();
-        backlight.color = grey;
-    }
+    [SerializeField] private InfotipTrigger squadtipTrigger;
+    [SerializeField] private TooltipTrigger tooltipTrigger;
 
     public void ResetSlot()
     {
-        backlight.color = grey;
-        icon.enabled = false;
-        quantity.enabled = false;
+        content.SetActive(false);
+        squadtipTrigger.SetUnit(null);
     }
 
     public void FillTheInfarmarySlot(Unit unit, int count)
     {
         squadtipTrigger.SetUnit(unit);
-
-        backlight.color = red;
 
         icon.enabled = true;
 

@@ -14,6 +14,7 @@ public class BonusTip : MonoBehaviour
     private float currentTime = 0f;
     private float heigthOffset = 0;
     private Vector3 startOffset;
+    private Vector3 battleScale = new Vector3(0.7f, 0.7f, 0.7f);
 
     private SpriteRenderer spriteRenderer;
     private Coroutine coroutine;
@@ -42,7 +43,14 @@ public class BonusTip : MonoBehaviour
         transform.position += startOffset * 0.5f;
 
         if(GlobalStorage.instance.isGlobalMode == true)
+        {
             transform.position += startOffset * (counter + 1);
+            transform.localScale = Vector3.one;
+        }
+        else
+        {
+            transform.localScale = battleScale;
+        }
 
         coroutine = StartCoroutine(ShowBonus());
     }

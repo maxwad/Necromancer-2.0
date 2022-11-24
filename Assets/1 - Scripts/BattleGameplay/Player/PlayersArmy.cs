@@ -210,7 +210,6 @@ public class PlayersArmy : MonoBehaviour
             InfotipManager.ShowWarning("You have no units that you can resurrect.");
         else
         {
-            InfotipManager.ShowMessage("Resurrected units: " + counter);
             foreach(var squad in tempRegistrationDict)
             {
                 fullArmy[squad.Key].unitController.ShowEffectRessurection(squad.Value);

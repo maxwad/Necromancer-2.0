@@ -19,10 +19,10 @@ MonoBehaviour:
   activeIcon: {fileID: -2942086348935061010, guid: 108daa14e3115264995337bc498c548a, type: 3}
   inActiveIcon: {fileID: -7122834044152699686, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
   level: 3
-  value: 2
+  value: 3
   valueType: 3
   cost: 1
   fakeDescription: Nobody dies today!
   schemeDescription: Increases the unit's lifetime in the infirmary by $ days.
-  realDescription: Increases the unit's lifetime in the infirmary by 2 days.
+  realDescription: Increases the unit's lifetime in the infirmary by 3 days.
   luckDepending: 0

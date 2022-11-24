@@ -18,8 +18,6 @@ public class BattleUISpellPart : MonoBehaviour
     private List<Button> currentSpellsButtons = new List<Button>();
 
     [SerializeField] private GameObject spellEffectsContainer;
-    private List<GameObject> currentSpellsEffect = new List<GameObject>();
-    private List<SpellSO> activeSpells = new List<SpellSO>();
     private Dictionary<SpellSO, SpellBattleUI> currentActiveSpells = new Dictionary<SpellSO, SpellBattleUI>();
 
     private int countOfActiveSpells = 6;
@@ -89,12 +87,6 @@ public class BattleUISpellPart : MonoBehaviour
         }
 
         currentActiveSpells.Clear();
-        //if(currentSpellsEffect.Count != 0)
-        //{
-        //    for(int i = 0; i < currentSpellsEffect.Count; i++)
-        //        currentSpellsEffect[i].SetActive(false);
-        //    currentSpellsEffect.Clear();
-        //}
 
         currentSpells = GlobalStorage.instance.spellManager.GetCurrentSpells();
 

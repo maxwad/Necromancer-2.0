@@ -249,17 +249,17 @@ public class UnitController : MonoBehaviour
 
     public void ShowEffectRessurection(int amount)
     {
-        BonusTipUIManager.ShowVisualEffectInBattle(transform.position, BattleVisualEffects.Resurection, amount, mark: "+");
+        BonusTipUIManager.ShowVisualEffectInBattle(transform.position, VisualEffects.Resurection, amount, mark: "+");
     }
 
     public void ShowEffectDeath()
     {
-        BonusTipUIManager.ShowVisualEffectInBattle(transform.position, BattleVisualEffects.Death);
+        BonusTipUIManager.ShowVisualEffectInBattle(transform.position, VisualEffects.Death);
     }
 
     public void ShowEffectLevelUp()
     {
-        BonusTipUIManager.ShowVisualEffectInBattle(transform.position, BattleVisualEffects.LevelUp, text: "LevelUp!");
+        BonusTipUIManager.ShowVisualEffectInBattle(transform.position, VisualEffects.LevelUp, text: "LevelUp!");
     }
 
     #region BLINK

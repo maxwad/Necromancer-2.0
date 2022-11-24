@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,21 +9,19 @@ public class InfirmaryManager : MonoBehaviour
     private float currentCapacity;
     private float dayToDeath;
 
+    //we have 2 structure for convenience: dict for timeCount and list for simple information about capacity
     public List<UnitsTypes> injuredList = new List<UnitsTypes>();
-    //public Dictionary<UnitsTypes, int> injuredDict = new Dictionary<UnitsTypes, int>();
+    public Dictionary<UnitsTypes, float> injuredTimersDict = new Dictionary<UnitsTypes, float>();
 
-    PlayerStats playerStats;
+    private PlayerStats playerStats;
+    private GameObject player;
 
     private void Start()
     {
         playerStats = GlobalStorage.instance.playerStats;
+        player = GlobalStorage.instance.player;
         currentCapacity = playerStats.GetCurrentParameter(PlayersStats.Infirmary);
         dayToDeath = playerStats.GetCurrentParameter(PlayersStats.InfirmaryTime);
-    }
-
-    private void SetStartInfarmary(PlayersStats type, float value)
-    {
-        if(type == PlayersStats.Infirmary) currentCapacity = value;
     }
 
     public void AddUnitToInfirmary(UnitsTypes unitType)
@@ -31,14 +30,14 @@ public class InfirmaryManager : MonoBehaviour
         {
             injuredList.Add(unitType);
             EventManager.OnUpdateInfirmaryUIEvent(injuredList.Count, currentCapacity);
+
+            if(injuredTimersDict.ContainsKey(unitType) == false)
+                injuredTimersDict.Add(unitType, dayToDeath);
         }
     }
 
     public void RemoveUnitFromInfirmary(UnitsTypes unitType)
     {
-        // mode == false = death; mode == true - resurrect 
-        // order == false = random; order == true - the last one 
-
         int index = injuredList.Count - 1;
         while(index >= 0)
         {
@@ -53,41 +52,18 @@ public class InfirmaryManager : MonoBehaviour
 
         EventManager.OnUpdateInfirmaryUIEvent(injuredList.Count, currentCapacity);
 
-        //index = (injuredList.Count - 1) >= 0 ? (injuredList.Count - 1) : 0;
+        bool unitFinded = false;
+        foreach(var unit in injuredList)
+        {
+            if(unit == unitType)
+            {
+                unitFinded = true;
+                break;
+            }
+        }
 
-        //if(mode == false)
-        //{
-        //    if(quantity == 0)
-        //    {
-        //        injuredList.Clear();
-        //    }
-        //    else
-        //    {
-        //        for(int i = 0; i < quantity; i++)
-        //        {
-        //            if(order == false) index = Random.Range(0, injuredList.Count);
+        if(unitFinded == false) injuredTimersDict.Remove(unitType);
 
-        //            if(injuredList.Count != 0) injuredList.Remove(injuredList[index]);
-        //        }
-        //    }                      
-        //}
-        //else
-        //{
-        //    for(int i = 0; i < quantity; i++)
-        //    {
-        //        index = (injuredList.Count - 1) >= 0 ? (injuredList.Count - 1) : 0;
-
-        //        if(order == false) index = Random.Range(0, injuredList.Count);
-
-        //        if(injuredList.Count != 0)
-        //        {
-        //            EventManager.OnResurrectUnitEvent(injuredList[index]);
-        //            injuredList.Remove(injuredList[index]);
-        //        }   
-        //    }
-        //}
-
-        //EventManager.OnUpdateInfirmaryUIEvent(injuredList.Count, currentCapacity);
     }
 
     public int GetCurrentInjuredQuantity()
@@ -115,21 +91,44 @@ public class InfirmaryManager : MonoBehaviour
         if(stat == PlayersStats.Infirmary)
             currentCapacity = value;
 
-        if(stat == PlayersStats.Infirmary)
-            currentCapacity = value;
+        if(stat == PlayersStats.InfirmaryTime)
+            dayToDeath = value;
+    }
+
+    private void NewDay()
+    {
+        foreach(var unit in injuredTimersDict)
+        {
+            injuredTimersDict[unit.Key]--;
+        }
+
+        int countOfDeath = 0;
+        Dictionary<UnitsTypes, float> tempDict = injuredTimersDict;
+        foreach(var unit in tempDict)
+        {
+            if(unit.Value <= 0) 
+            {
+                injuredTimersDict.Remove(unit.Key);
+                injuredList.Remove(unit.Key);
+                countOfDeath++;               
+            }
+        }
+
+        if(countOfDeath > 0)
+        {
+            BonusTipUIManager.ShowVisualEffectInBattle(player.transform.position, VisualEffects.Death, countOfDeath);
+        }
     }
 
     private void OnEnable()
     {
         EventManager.SetNewPlayerStat += UpgradeParameter;
-        //EventManager.WeLostOneUnit += AddUnitToInfirmary;
-        //EventManager.RemoveUnitFromInfirmary += RemoveUnitFromInfirmary;
+        EventManager.NewMove += NewDay;
     }
 
     private void OnDisable()
     {
         EventManager.SetNewPlayerStat -= UpgradeParameter;
-        //EventManager.WeLostOneUnit -= AddUnitToInfirmary;
-        //EventManager.RemoveUnitFromInfirmary -= RemoveUnitFromInfirmary;
+        EventManager.NewMove -= NewDay;
     }
 }

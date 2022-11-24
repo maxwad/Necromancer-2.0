@@ -321,7 +321,7 @@ public static class NameManager
     }
 
 
-    public enum BattleVisualEffects
+    public enum VisualEffects
     {
         Death, Resurection, LevelUp
     }
