@@ -65,6 +65,27 @@ public class BonusTipUIManager : MonoBehaviour
         instance.currentHeigth++;
     }
 
+    public static void ShowVisualEffect(Vector3 position, VisualEffects effect, float quantity = 0, string text = "", string mark = "")
+    {
+        Sprite findedSprite = null;
+
+        foreach(var icon in instance.objectsBattleList)
+        {
+            if(icon.effect == effect)
+            {
+                findedSprite = icon.sprite;
+                break;
+            }
+        }
+
+        GameObject rewardText = instance.poolManager.GetObject(ObjectPool.BonusText);
+
+        rewardText.transform.position = position;
+        rewardText.SetActive(true);
+        rewardText.GetComponent<BonusTip>().Show(instance.currentHeigth, findedSprite, quantity, text, mark);
+        instance.currentHeigth++;
+    }
+
     public static void ShowVisualEffectInBattle(Vector3 position, VisualEffects effect, float quantity = 0, string text = "", string mark = "")
     {
         if(GlobalStorage.instance.IsGlobalMode() == true) return;

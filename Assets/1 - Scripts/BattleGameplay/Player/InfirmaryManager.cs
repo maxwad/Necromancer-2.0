@@ -19,7 +19,7 @@ public class InfirmaryManager : MonoBehaviour
     private void Start()
     {
         playerStats = GlobalStorage.instance.playerStats;
-        player = GlobalStorage.instance.player;
+        player = GlobalStorage.instance.globalPlayer.gameObject;
         currentCapacity = playerStats.GetCurrentParameter(PlayersStats.Infirmary);
         dayToDeath = playerStats.GetCurrentParameter(PlayersStats.InfirmaryTime);
     }
@@ -71,9 +71,25 @@ public class InfirmaryManager : MonoBehaviour
         return injuredList.Count;
     }
 
+    public int GetCurrentInjuredQuantityByType(UnitsTypes type)
+    {
+        int count = 0;
+        for(int i = 0; i < injuredList.Count; i++)
+        {
+            if(injuredList[i] == type) count++;
+        }
+
+        return count;
+    }
+
     public List<UnitsTypes> GetCurrentInjuredList()
     {
         return injuredList;
+    }
+
+    public Dictionary<UnitsTypes, float> GetCurrentInjuredDict()
+    {
+        return injuredTimersDict;
     }
 
     public float GetCurrentCapacity()
@@ -97,26 +113,38 @@ public class InfirmaryManager : MonoBehaviour
 
     private void NewDay()
     {
-        foreach(var unit in injuredTimersDict)
+        List<UnitsTypes> tempList = new List<UnitsTypes>(injuredTimersDict.Keys);
+
+        foreach(var unit in tempList)
         {
-            injuredTimersDict[unit.Key]--;
+            injuredTimersDict[unit] = injuredTimersDict[unit] - 1; 
         }
 
-        int countOfDeath = 0;
-        Dictionary<UnitsTypes, float> tempDict = injuredTimersDict;
-        foreach(var unit in tempDict)
+        List<UnitsTypes> squadDeaths = new List<UnitsTypes>();
+        int countOfUnitsDeath = 0;
+
+        foreach(var unit in tempList)
         {
-            if(unit.Value <= 0) 
+            if(injuredTimersDict[unit] <= 0) 
             {
-                injuredTimersDict.Remove(unit.Key);
-                injuredList.Remove(unit.Key);
-                countOfDeath++;               
+                countOfUnitsDeath++;
+                injuredList.Remove(unit);
+
+                int unitsLeft = GetCurrentInjuredQuantityByType(unit);
+                if(unitsLeft == 0)
+                {
+                    injuredTimersDict.Remove(unit);
+                }
+                else
+                {
+                    injuredTimersDict[unit] = dayToDeath;
+                }
             }
         }
 
-        if(countOfDeath > 0)
+        if(countOfUnitsDeath > 0)
         {
-            BonusTipUIManager.ShowVisualEffectInBattle(player.transform.position, VisualEffects.Death, countOfDeath);
+            BonusTipUIManager.ShowVisualEffect(player.transform.position, VisualEffects.Death, countOfUnitsDeath);
         }
     }
 

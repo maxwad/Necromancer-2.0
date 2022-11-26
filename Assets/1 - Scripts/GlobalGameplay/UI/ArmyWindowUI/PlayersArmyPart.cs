@@ -6,6 +6,9 @@ using static NameManager;
 public class PlayersArmyPart : MonoBehaviour
 {
     private PlayersArmy playersArmy;
+    private InfirmaryManager infirmaryManager;
+    private UnitManager unitManager;
+
     [SerializeField] private GameObject uiSlot;
 
     [Header("Army")]
@@ -25,6 +28,8 @@ public class PlayersArmyPart : MonoBehaviour
     private void Awake()
     {
         playersArmy = GlobalStorage.instance.playersArmy;
+        infirmaryManager = GlobalStorage.instance.infirmaryManager;
+        unitManager = GlobalStorage.instance.unitManager;
     }
 
     public void CreateReserveScheme(Dictionary<UnitsTypes, FullSquad> armyDict)
@@ -89,35 +94,28 @@ public class PlayersArmyPart : MonoBehaviour
         }
     }
 
-    public void CreateInfirmaryScheme()
+    public void UpdateInfirmaryScheme()
     {
-        List<UnitsTypes> injuredList = GlobalStorage.instance.infirmaryManager.GetCurrentInjuredList();
-        List<Unit> actualUnits = GlobalStorage.instance.unitManager.GetActualArmy();
-        float infarmaryCapacity = GlobalStorage.instance.infirmaryManager.GetCurrentCapacity();
-        float currentInjuredCount = injuredList.Count;
-
+        float infarmaryCapacity = infirmaryManager.GetCurrentCapacity();
+        float currentInjuredCount = infirmaryManager.GetCurrentInjuredQuantity();
         infirmaryCount.text = "[" + currentInjuredCount + "/" + infarmaryCapacity + "]";
 
         for(int i = 0; i < infirmarySlots.Length; i++)
-        {
             infirmarySlots[i].ResetSlot();
-        }
+
+        Dictionary<UnitsTypes, float> injuredDict = infirmaryManager.GetCurrentInjuredDict();
 
         int slotIndex = 0;
-        foreach(var unit in actualUnits)
+        foreach(var unit in injuredDict)
         {
-            int count = 0;
-            foreach(var injuredUnit in injuredList)
-            {
-                if(injuredUnit == unit.unitType) count++;
-            }
+            //this need rework, because GetNewSquad set unit as active, but we don't need it
+            //Unit injuredUnit = unitManager.GetNewSquad(unit.Key, 1);
+            Sprite icon = unitManager.GetUnitsIcon(unit.Key);
+            int count = infirmaryManager.GetCurrentInjuredQuantityByType(unit.Key);
 
-            if(count != 0)
-            {
-                infirmarySlots[slotIndex].FillTheInfarmarySlot(unit, count);
-                slotIndex++;
-            }
-        }        
+            infirmarySlots[slotIndex].FillTheInfarmarySlot(icon, count, unit.Value);
+            slotIndex++;
+        }
     }
 
     private void DisableAllSlots(Dictionary<UnitsTypes, FullSquad> armyDict)
@@ -130,7 +128,6 @@ public class PlayersArmyPart : MonoBehaviour
 
     public void UpdateArmyWindow()
     {
-        //CreateInfirmaryScheme();
         if(isStartInit == true)
         {
             DisableAllSlots(playersArmy.fullArmy);
@@ -143,6 +140,8 @@ public class PlayersArmyPart : MonoBehaviour
 
         if(GlobalStorage.instance.isGlobalMode == true)
             SortingUnits();
+
+        UpdateInfirmaryScheme();
     }
 
 

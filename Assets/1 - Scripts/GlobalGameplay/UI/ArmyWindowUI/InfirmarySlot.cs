@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class InfirmarySlot : MonoBehaviour
 {
+    private PlayerStats playerStats;
+
     [SerializeField] public GameObject content;
     [SerializeField] public Image icon;
     [SerializeField] public Image timerVeil;
@@ -23,15 +25,18 @@ public class InfirmarySlot : MonoBehaviour
         squadtipTrigger.SetUnit(null);
     }
 
-    public void FillTheInfarmarySlot(Unit unit, int count)
+    public void FillTheInfarmarySlot(Sprite pict, int count, float days)
     {
-        squadtipTrigger.SetUnit(unit);
+        if(playerStats == null) playerStats = GlobalStorage.instance.playerStats;
 
-        icon.enabled = true;
+        float infirmaryCapacity = playerStats.GetCurrentParameter(NameManager.PlayersStats.InfirmaryTime);
 
-        icon.sprite = unit.unitIcon;
-
-        quantity.enabled = true;
+        content.SetActive(true);
+        //squadtipTrigger.SetUnit(unit);
+        
+        tooltipTrigger.content = "Next unit from this squad will die in " + days + " day(s)";
+        icon.sprite = pict;
+        timerVeil.fillAmount = 1 - (days / infirmaryCapacity);
         quantity.text = count.ToString();        
     }
 }

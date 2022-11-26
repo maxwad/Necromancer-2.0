@@ -82,6 +82,11 @@ public class UnitManager : MonoBehaviour
         return allUnitsIconsDict;
     }
 
+    public Sprite GetUnitsIcon(UnitsTypes type)
+    {
+        return allUnitsIconsDict[type];
+    }
+
     public Unit[] GetAllUnits()
     {
         Unit[] army = new Unit[unitsTypesList.Count];

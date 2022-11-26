@@ -64,7 +64,7 @@ public class PlayersArmy : MonoBehaviour
 
             newSquad.unitController = newSquad.unitGO.GetComponent<UnitController>();
             newSquad.unitController.Initilize(newSquad.unit);
-            newSquad.unitController.AddQuantity(UnityEngine.Random.Range(2, 4));
+            newSquad.unitController.AddQuantity(UnityEngine.Random.Range(5, 10));
 
             newSquad.unitGO.GetComponentInChildren<TMP_Text>().text = newSquad.unitController.quantity.ToString();
 
@@ -237,7 +237,6 @@ public class PlayersArmy : MonoBehaviour
     public void SquadLost(UnitsTypes unitType)
     {
         if(fullArmy[unitType].unitController.quantity <= 0) return;
-
         fullArmy[unitType].unitController.AddQuantity(-1);
         //fullArmy[unitType].unitController.UpdateQuantity();
         fullArmy[unitType].unitController.ShowEffectDeath();
@@ -326,8 +325,12 @@ public class PlayersArmy : MonoBehaviour
         {
             if(squad.Value.unit.status == UnitStatus.Army && squad.Value.unit.isUnitActive == true)
             {
-                amount += squad.Value.unitController.quantity;
-                unitForKillingList.Add(squad.Value.unit.unitType);
+                Debug.Log(squad.Value.unit.unitType + " in army");
+                if(squad.Value.unitController.quantity != 0)
+                {
+                    amount += squad.Value.unitController.quantity;
+                    unitForKillingList.Add(squad.Value.unit.unitType);
+                }
             }
         }
 
