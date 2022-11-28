@@ -19,7 +19,7 @@ public class BossController : MonoBehaviour
     private float delayAttack = 5f;
     private float attackPeriod = 3f;
     private float timeStep = 1f;
-    private float radiusPlayerSearch = 20;
+    private float radiusPlayerSearch = 15;
 
     private GameObject weapon;
     private BossWeapons weaponType;

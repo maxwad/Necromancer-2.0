@@ -48,6 +48,9 @@ public class GlobalStorage : MonoBehaviour
     public PlayerStats playerStats;
     public PlayersArmy playersArmy;
 
+    [Header("Buildings")]
+    public HeroFortress heroFortress;
+
     [Header("Maps")]
     public GameObject globalMap;
     public GameObject battleMap;

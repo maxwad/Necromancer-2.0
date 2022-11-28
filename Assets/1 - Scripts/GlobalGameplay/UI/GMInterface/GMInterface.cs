@@ -15,6 +15,7 @@ public class GMInterface : MonoBehaviour
     public Dictionary<ResourceType, float> resourcesDict = new Dictionary<ResourceType, float>();
 
     [Header("Resources")]
+    [SerializeField] private GameObject resourcesContainer;
     [SerializeField] private TMP_Text goldCount;
     [SerializeField] private TMP_Text foodCount;
     [SerializeField] private TMP_Text woodCount;
@@ -30,10 +31,10 @@ public class GMInterface : MonoBehaviour
     [SerializeField] private GameObject stoneContainer;
     [SerializeField] private GameObject ironContainer;
     [SerializeField] private GameObject magicContainer;
-    [SerializeField] private GameObject manaContainer;
     private Dictionary<ResourceType, GameObject> deltaContainers = new Dictionary<ResourceType, GameObject>();
 
     [Header("Calendar")]
+    [SerializeField] private GameObject calendarContainer;
     [SerializeField] private TMP_Text currentDayCount;
     [SerializeField] private TMP_Text currentWeekCount;
     [SerializeField] private TMP_Text currentMonthCount;
@@ -42,12 +43,14 @@ public class GMInterface : MonoBehaviour
 
 
     [Header("Moves")]
+    [SerializeField] private GameObject movesContainer;
     [SerializeField] private TMP_Text currentMovesCount;
     [SerializeField] private TMP_Text leftDaysCount;
     [SerializeField] private Button nextDayButton;
     private Animator nextDayBtnAnimator;
 
     [Header("Hero")]
+    [SerializeField] private GameObject heroContainer;
     [SerializeField] private TMP_Text manaAmount;
     [SerializeField] private Image manaScale;
     private float manaMax;
@@ -103,6 +106,8 @@ public class GMInterface : MonoBehaviour
     {
         healthMax = resourcesManager.GetMaxHealth();
         manaMax = resourcesManager.GetMaxMana();
+        uiPanel.SetActive(true);
+
         FillStartResources();
     }
 
@@ -233,6 +238,14 @@ public class GMInterface : MonoBehaviour
 
         weekTooltip.content = description;
     }
+
+    public void ShowInterfaceElements(bool mode)
+    {
+        calendarContainer.SetActive(mode);
+        movesContainer.SetActive(mode);
+        heroContainer.SetActive(mode);
+    }
+
 
     #region Buttons
 

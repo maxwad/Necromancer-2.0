@@ -40,9 +40,12 @@ public class ClickableObject : MonoBehaviour
     private void CallManagerYouNeed(TypeOfObjectOnTheMap type, bool modeClick, bool modeUISize)
     {
         bool isThereManager = false;
+
         switch(type)
         {
             case TypeOfObjectOnTheMap.PlayersCastle:
+                GlobalStorage.instance.heroFortress.OpenWindow(modeClick);
+                isThereManager = true;
                 break;
 
             case TypeOfObjectOnTheMap.NecromancerCastle:

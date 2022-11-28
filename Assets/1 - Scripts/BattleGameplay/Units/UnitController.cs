@@ -106,7 +106,7 @@ public class UnitController : MonoBehaviour
 
         quantity += amount;
         unitCountsText.text = quantity.ToString();
-        UpdateLevel();
+        if(quantity != 0) UpdateLevel();
     }
 
     #region Damage

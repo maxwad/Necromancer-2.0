@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using static NameManager;
 
-public class TooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class TooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     public string header;
     public string content;
@@ -15,6 +15,7 @@ public class TooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     private float currentWaitTime = 0;
     private bool isWaiting = false;
     private bool isTooltipOpen = false;
+    private bool canIShowTipAgain = true;
 
     private GlobalMapTileManager gmManager;
 
@@ -31,11 +32,12 @@ public class TooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         {
             currentWaitTime += Time.unscaledDeltaTime;
 
-            if(currentWaitTime >= timeDelay)
+            if(currentWaitTime >= timeDelay && canIShowTipAgain == true)
             {
                 InfotipManager.Show(content, header, status);
                 isTooltipOpen = true;
                 isWaiting = false;
+                canIShowTipAgain = false;
             }
         }
     }
@@ -50,14 +52,6 @@ public class TooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         isWaiting = true;
     }
 
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        if(isWaiting == false) InfotipManager.Hide(TipsType.Tool);
-
-        isTooltipOpen = false;
-        isWaiting = false;
-        currentWaitTime = 0;
-    }
 
     private void OnMouseEnter()
     {
@@ -76,7 +70,7 @@ public class TooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         return gmManager.fogMap.HasTile(checkPosition);        
     }
 
-    private void OnMouseExit()
+    private void CloseTip()
     {
         if(isWaiting == false) InfotipManager.Hide(TipsType.Tool);
 
@@ -85,8 +79,30 @@ public class TooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         currentWaitTime = 0;
     }
 
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        canIShowTipAgain = true;
+        CloseTip();
+    }
+
+    private void OnMouseExit()
+    {
+        canIShowTipAgain = true;
+        CloseTip();
+    }
+
+    private void OnMouseDown()
+    {
+        CloseTip();
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        CloseTip();
+    }
+
     private void OnDisable()
     {
-        if (isTooltipOpen == true) InfotipManager.Hide(TipsType.Tool);
-    }    
+        if(isTooltipOpen == true) CloseTip();
+    }
 }

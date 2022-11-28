@@ -54,7 +54,7 @@ public class BoostInBattleUI : MonoBehaviour
         amount.text = before + value + after;
 
         if(value > 1000) amount.text = "+" + "####";
-        if(value < -1000) amount.text = "-" + "####";
+        if(value <= -98) amount.text = "-" + "####";
 
         Color color;
 

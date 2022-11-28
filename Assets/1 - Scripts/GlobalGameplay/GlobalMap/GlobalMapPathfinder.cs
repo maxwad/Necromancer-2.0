@@ -76,7 +76,7 @@ public class GlobalMapPathfinder : MonoBehaviour
     public void LClick() 
     {
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        
+
         RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
         ClickableObject checkingObject;
         if(hit.collider != null && (checkingObject = hit.collider.GetComponent<ClickableObject>()) != null)
