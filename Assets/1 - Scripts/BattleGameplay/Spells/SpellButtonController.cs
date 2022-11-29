@@ -8,7 +8,7 @@ using static NameManager;
 public class SpellButtonController : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     private ResourcesManager resourcesManager;
-    private BattleBoostManager boostManager;
+    private BoostManager boostManager;
     private BattleUISpellPart battleUISpellPart;
     private PreSpellLibrary preSpellLibrary;
 

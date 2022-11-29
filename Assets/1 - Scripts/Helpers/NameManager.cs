@@ -219,7 +219,8 @@ public static class NameManager
         Hiring = 28,
         ManaRegeneration = 29,
         MovementPoints = 30,
-        ExpAfterBattle = 31
+        ExpAfterBattle = 31,
+        BuildingsDiscount = 32
     }
 
     public enum BoostType
@@ -257,7 +258,8 @@ public static class NameManager
         Hiring = 28,
         ManaRegeneration = 29,
         MovementPoints = 30,
-        ExpAfterBattle = 31
+        ExpAfterBattle = 31,
+        BuildingsDiscount = 32
     }
 
     public enum Spells
@@ -292,17 +294,21 @@ public static class NameManager
         Attack, Defence, Bonus
     }
 
-    public enum BossSpells
-    {
-        InvertMovement = 0,
-        Lightning = 1,
-        ManningLess = 2,
-        Fireball = 3
-    }
+    //public enum BossSpells
+    //{
+    //    InvertMovement = 0,
+    //    Lightning = 1,
+    //    ManningLess = 2,
+    //    Fireball = 3
+    //}
 
     public enum BoostSender
     {
-        Spell, Calendar, Rune, EnemySystem
+        Spell, 
+        Calendar, 
+        Rune, 
+        EnemySystem, 
+        Building
     }
 
     public enum BoostEffect
@@ -372,6 +378,24 @@ public static class NameManager
 
     #endregion
 
+    #region BUILDINGS
+
+    public enum FortressBuildings
+    {
+        Barracks,
+        TrainingCamp,
+        MagicAcademy,
+        Market,
+        DefenceTowers,
+        Shelter,
+        Tavern,
+        TaxService,
+        Manufactory,
+        RecruitmentCenter,
+        MagicalSanctuary
+    }
+    #endregion
+
     #region Helpers
 
     public enum CursorView
@@ -408,7 +432,8 @@ public static class NameManager
         Spell,
         Rune,
         Tool,
-        Warning
+        Warning,
+        BuildingCost
     }
 
     #endregion

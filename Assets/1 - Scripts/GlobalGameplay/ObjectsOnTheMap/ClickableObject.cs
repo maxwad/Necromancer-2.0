@@ -7,6 +7,8 @@ using static NameManager;
 public class ClickableObject : MonoBehaviour
 {
     public TypeOfObjectOnTheMap objectType;
+    public bool isItDoor = false;
+
     public bool isNormalUIWindow = true;
     public bool canBeOpenedByClick = true;
     public bool canBeOpenedByMove = true;
@@ -14,8 +16,6 @@ public class ClickableObject : MonoBehaviour
     //[HideInInspector] public TooltipTrigger tooltip;
     private CursorManager cursorManager;
     public CursorView cursor = CursorView.Default;
-
-
 
     private void Start()
     {        
@@ -33,18 +33,67 @@ public class ClickableObject : MonoBehaviour
             if(canBeOpenedByClick == false && modeClick == true) return;
             if(canBeOpenedByMove == false && modeClick == false) return;
 
-            CallManagerYouNeed(objectType, modeClick, isNormalUIWindow);            
+            if(isItDoor == false)
+            {
+                CallManagerYouNeed(modeClick, isNormalUIWindow);
+            }
+            else
+            {
+                OpenDoorTo(modeClick);
+            }                      
         }
     }
 
-    private void CallManagerYouNeed(TypeOfObjectOnTheMap type, bool modeClick, bool modeUISize)
+    private void CallManagerYouNeed(bool modeClick, bool modeUISize)
     {
         bool isThereManager = false;
 
-        switch(type)
+        switch(objectType)
+        {
+            case TypeOfObjectOnTheMap.Portal:
+                GlobalStorage.instance.portalsManager.OpenWindow(modeClick, this);
+                isThereManager = true;
+                break;
+
+            case TypeOfObjectOnTheMap.RoadPointer:
+                break;
+
+            case TypeOfObjectOnTheMap.Resource:
+                GlobalStorage.instance.bonusOnTheMapUI.OpenWindow(this);
+                isThereManager = true;
+                break;
+
+            case TypeOfObjectOnTheMap.BoxBonus:
+                GlobalStorage.instance.bonusOnTheMapUI.OpenWindow(this);
+                isThereManager = true;
+                break;
+
+            case TypeOfObjectOnTheMap.Enemy:
+                GlobalStorage.instance.enemyArmyUI.OpenWindow(modeClick, gameObject.GetComponent<EnemyArmyOnTheMap>());
+                isThereManager = true;
+                break;
+
+            case TypeOfObjectOnTheMap.Player:
+                GlobalStorage.instance.playerMilitaryWindow.OpenWindow(PlayersWindow.PlayersArmy);
+                isThereManager = true;
+                break;
+
+
+            default:
+                break;
+        }
+
+        if(isThereManager == false) GlobalStorage.instance.commonUIManager.OpenWindow(modeClick, modeUISize, this);
+    }
+
+    private void OpenDoorTo(bool modeClick)
+    {
+        bool isThereManager = false;
+
+        switch(objectType)
         {
             case TypeOfObjectOnTheMap.PlayersCastle:
-                GlobalStorage.instance.heroFortress.OpenWindow(modeClick);
+                GlobalStorage.instance.heroFortress.Open(modeClick, this);
                 isThereManager = true;
                 break;
 
@@ -75,46 +124,17 @@ public class ClickableObject : MonoBehaviour
             case TypeOfObjectOnTheMap.Altar:
                 break;
 
-            case TypeOfObjectOnTheMap.Portal:
-                GlobalStorage.instance.portalsManager.OpenWindow(modeClick, this);
-                isThereManager = true;
-                break;
-
-            case TypeOfObjectOnTheMap.RoadPointer:
-                break;
-
             case TypeOfObjectOnTheMap.Arena:
                 break;
 
             case TypeOfObjectOnTheMap.Tomb:
                 break;
 
-            case TypeOfObjectOnTheMap.Resource:
-                GlobalStorage.instance.bonusOnTheMapUI.OpenWindow(this);
-                isThereManager = true;
-                break;
-
-            case TypeOfObjectOnTheMap.BoxBonus:
-                GlobalStorage.instance.bonusOnTheMapUI.OpenWindow(this);
-                isThereManager = true;
-                break;
-
-            case TypeOfObjectOnTheMap.Enemy:
-                GlobalStorage.instance.enemyArmyUI.OpenWindow(modeClick, gameObject.GetComponent<EnemyArmyOnTheMap>());
-                isThereManager = true;
-                break;
-
-            case TypeOfObjectOnTheMap.Player:
-                GlobalStorage.instance.playerMilitaryWindow.OpenWindow(PlayersWindow.PlayersArmy);
-                isThereManager = true;
-                break;
-
-
             default:
                 break;
         }
 
-        if(isThereManager == false) GlobalStorage.instance.commonUIManager.OpenWindow(modeClick, modeUISize, this);
+        if(isThereManager == false) GlobalStorage.instance.commonUIManager.OpenWindow(modeClick, true, this);
     }
 
     private void OnMouseEnter()

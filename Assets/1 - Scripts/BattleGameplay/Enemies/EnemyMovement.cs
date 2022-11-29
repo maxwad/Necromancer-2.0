@@ -9,7 +9,7 @@ public class EnemyMovement : MonoBehaviour
     private Rigidbody2D rbEnemy;
     private Collider2D collEnemy;
     private SpriteRenderer sprite;
-    private BattleBoostManager boostManager;
+    private BoostManager boostManager;
 
     private float speedBase = 1f;
     private float speed;

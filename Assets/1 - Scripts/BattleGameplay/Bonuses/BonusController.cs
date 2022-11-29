@@ -5,7 +5,7 @@ using static NameManager;
 
 public class BonusController : MonoBehaviour
 {
-    private BattleBoostManager boostManager;
+    private BoostManager boostManager;
 
     private BonusSO bonusSO;
     public BonusType bonusType;

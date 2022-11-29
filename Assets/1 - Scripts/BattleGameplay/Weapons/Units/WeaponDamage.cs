@@ -5,7 +5,7 @@ using static NameManager;
 
 public class WeaponDamage : MonoBehaviour
 {
-    private BattleBoostManager boostManager;
+    private BoostManager boostManager;
     private PlayerStats playersStats;
 
     private float physicAttackBase;

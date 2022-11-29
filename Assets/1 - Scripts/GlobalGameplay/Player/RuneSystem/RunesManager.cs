@@ -27,7 +27,7 @@ public class RunesManager : MonoBehaviour
     }
 
     private MacroLevelUpManager levelUpManager;
-    private BattleBoostManager boostManager;
+    private BoostManager boostManager;
     [HideInInspector] public RunesStorage runesStorage;
     private RunesWindow runesWindow;
 

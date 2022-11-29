@@ -55,7 +55,7 @@ public class EnemyController : MonoBehaviour
     private UnitsAbilities sourceOfDeath = UnitsAbilities.Notning;
 
     private EnemyMovement movementScript;
-    private BattleBoostManager boostManager;
+    private BoostManager boostManager;
     public EnemyManager enemyManager;
     public BonusManager bonusManager;
 

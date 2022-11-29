@@ -9,7 +9,7 @@ using System;
 public class BattleUIBoostPart : MonoBehaviour
 {
     private BattleUIManager battleUIManager;
-    private BattleBoostManager boostManager;
+    private BoostManager boostManager;
     private ObjectsPoolManager objectsPool;
 
     [Header("Boost")]

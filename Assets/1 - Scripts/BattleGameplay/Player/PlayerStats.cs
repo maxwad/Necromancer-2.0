@@ -101,7 +101,7 @@ public class PlayerStats : MonoBehaviour
         //}
     }
 
-    private BattleBoostManager boostManager;
+    private BoostManager boostManager;
     [SerializeField] private Dictionary<PlayersStats, Stat> allStatsDict = new Dictionary<PlayersStats, Stat>();
 
 

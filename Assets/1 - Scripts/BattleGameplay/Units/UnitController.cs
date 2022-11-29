@@ -6,7 +6,7 @@ using System;
 
 public class UnitController : MonoBehaviour
 {
-    private BattleBoostManager boostManager;
+    private BoostManager boostManager;
     private ObjectsPoolManager poolManager;
     private UnitManager unitManager;
     private PlayersArmy playersArmy;

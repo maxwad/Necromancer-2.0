@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AttackController : MonoBehaviour
 {
-    private BattleBoostManager boostManager;
+    private BoostManager boostManager;
     private WeaponStorage weaponStorage;
     private Unit unit;
     private UnitController unitController;

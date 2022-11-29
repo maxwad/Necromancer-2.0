@@ -29,7 +29,7 @@ public class WeaponMovement : MonoBehaviour
     private Coroutine coroutine;
     private WeaponStorage weaponStorage;
     private WeaponDamage weaponDamage;
-    private BattleBoostManager boostManager;
+    private BoostManager boostManager;
 
     private void Update()
     {

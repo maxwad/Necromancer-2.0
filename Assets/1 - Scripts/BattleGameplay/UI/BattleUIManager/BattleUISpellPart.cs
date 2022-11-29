@@ -9,7 +9,7 @@ public class BattleUISpellPart : MonoBehaviour
 {
     private BattleUIManager battleUIManager;
     private ObjectsPoolManager poolManager;
-    private BattleBoostManager boostManager;
+    private BoostManager boostManager;
 
     [Header("Spells")]
     [SerializeField] private Button buttonSpell;

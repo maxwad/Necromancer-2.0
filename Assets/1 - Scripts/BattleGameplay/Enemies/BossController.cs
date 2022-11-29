@@ -29,7 +29,7 @@ public class BossController : MonoBehaviour
     [Header("Runes")]
     [HideInInspector] public RuneSO rune;
     private RunesManager runesManager;
-    private BattleBoostManager boostManager;
+    private BoostManager boostManager;
     private ObjectsPoolManager poolManager;
 
     #region HELPERS

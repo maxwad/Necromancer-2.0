@@ -96,6 +96,11 @@ public class TooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         CloseTip();
     }
 
+    private void OnMouseOver()
+    {
+        if(Input.GetMouseButtonDown(1)) CloseTip();
+    }
+
     public void OnPointerClick(PointerEventData eventData)
     {
         CloseTip();

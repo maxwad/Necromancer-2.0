@@ -6,7 +6,7 @@ using static NameManager;
 public class EnemyEffector : MonoBehaviour
 {
     private RunesManager runesManager;
-    private BattleBoostManager boostManager;
+    private BoostManager boostManager;
     private BattleUIManager battleUI;
 
     private List<RunesType> availableRuneTypes = new List<RunesType>();

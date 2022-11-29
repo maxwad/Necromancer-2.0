@@ -5,7 +5,7 @@ using static NameManager;
 
 public class HealthObjectStats : MonoBehaviour
 {
-    private BattleBoostManager boostManager;
+    private BoostManager boostManager;
 
     public bool isFromPool = false;
 

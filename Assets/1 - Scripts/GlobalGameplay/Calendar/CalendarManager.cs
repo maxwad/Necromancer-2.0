@@ -48,7 +48,7 @@ public class CalendarManager : MonoBehaviour
 
     private DecadeSO currentDecadeEffect;
     private int currentDecadeIndex = 0;
-    private BattleBoostManager boostManager;
+    private BoostManager boostManager;
 
     public void Init()
     {

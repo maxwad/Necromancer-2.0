@@ -10,7 +10,7 @@ public class WeaponStorage : MonoBehaviour
 
     public Vector3 weaponOffset;
     private ObjectsPoolManager objectsPool;
-    private BattleBoostManager boostManager;
+    private BoostManager boostManager;
     [SerializeField] private GameObject weaponContainer;
 
     public void Attack(Unit unit)

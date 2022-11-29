@@ -5,7 +5,7 @@ using static NameManager;
 
 public class SpellLibrary : MonoBehaviour
 {
-    private BattleBoostManager boostManager;
+    private BoostManager boostManager;
     private ObjectsPoolManager objectsPool;
     private PlayersArmy playersArmy;
 

@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86389294920170a4aaa2b768d66bee16, type: 3}
+  m_Name: BuildingsDiscount 2
+  m_EditorClassIdentifier: 
+  runeName: BuildingsDiscount 2
+  rune: 32
+  source: 4
+  activeIcon: {fileID: 3585913512928522145, guid: 108daa14e3115264995337bc498c548a, type: 3}
+  inActiveIcon: {fileID: 7220173164116165746, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
+  level: 2
+  value: 30
+  isInvertedRune: 1
+  cost: []
+  realCost: []
+  positiveDescription: Reduces construction cost by &V%.
+  negativeDescription: Increases construction cost by &V%.
