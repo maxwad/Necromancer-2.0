@@ -433,7 +433,7 @@ public static class NameManager
         Rune,
         Tool,
         Warning,
-        BuildingCost
+        Cost
     }
 
     #endregion

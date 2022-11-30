@@ -5,6 +5,7 @@ using static NameManager;
 
 public class HeroFortress : MonoBehaviour
 {
+    private OpeningBuildingWindow door;
     private GMInterface gmInterface;
     private CanvasGroup canvas;
     [SerializeField] private GameObject uiPanel;
@@ -15,6 +16,7 @@ public class HeroFortress : MonoBehaviour
 
     private void Start()
     {
+        door = GlobalStorage.instance.fortressBuildingDoor;
         gmInterface = GlobalStorage.instance.gmInterface;
         canvas = uiPanel.GetComponent<CanvasGroup>();
         //TEMPER
@@ -25,17 +27,20 @@ public class HeroFortress : MonoBehaviour
     {
         gmInterface.ShowInterfaceElements(false);
 
+        MenuManager.instance.MiniPause(true);
         GlobalStorage.instance.ModalWindowOpen(true);
 
         uiPanel.SetActive(true);
-        Fading.instance.Fade(true, canvas);
+        Fading.instance.FadeWhilePause(true, canvas);
     }
 
     public void Close()
     {
         gmInterface.ShowInterfaceElements(true);
 
+        MenuManager.instance.MiniPause(false);
         GlobalStorage.instance.ModalWindowOpen(false);
+        door.Close();
         uiPanel.SetActive(false);
     }
 }

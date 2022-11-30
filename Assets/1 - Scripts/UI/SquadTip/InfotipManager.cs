@@ -16,6 +16,7 @@ public class InfotipManager : MonoBehaviour
     public SkillTip skillTip;
     public HeroUI heroTip;
     public RuneTip runeTip;
+    public CostTip costTip;
 
     private void Awake()
     {
@@ -83,6 +84,12 @@ public class InfotipManager : MonoBehaviour
         instance.warningTip.Show(content, true);
     }
 
+    public static void Show(List<UpgradeCost> cost)
+    {
+        instance.costTip.gameObject.SetActive(true);
+        instance.costTip.Init(cost);
+    }
+
     #endregion
 
     public static void Hide(TipsType tipsType)
@@ -112,6 +119,11 @@ public class InfotipManager : MonoBehaviour
             case TipsType.Tool:
                 instance.tooltip?.gameObject?.SetActive(false);
                 break;
+
+            case TipsType.Cost:
+                instance.costTip?.gameObject?.SetActive(false);
+                break;
+
             default:
                 break;
         }

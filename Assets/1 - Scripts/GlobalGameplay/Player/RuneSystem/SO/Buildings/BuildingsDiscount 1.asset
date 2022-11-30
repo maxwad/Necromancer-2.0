@@ -22,5 +22,5 @@ MonoBehaviour:
   isInvertedRune: 1
   cost: []
   realCost: []
-  positiveDescription: Reduces construction cost by &V%.
-  negativeDescription: Increases construction cost by &V%.
+  positiveDescription: Reduces construction cost by $V%.
+  negativeDescription: Increases construction cost by $V%.

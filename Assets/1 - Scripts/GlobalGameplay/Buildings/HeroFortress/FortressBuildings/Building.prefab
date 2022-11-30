@@ -89,6 +89,7 @@ GameObject:
   - component: {fileID: 4926041196328218254}
   - component: {fileID: 4926041196328218249}
   - component: {fileID: 4926041196328218248}
+  - component: {fileID: 5892224686033767739}
   m_Layer: 0
   m_Name: Building
   m_TagString: Untagged
@@ -181,7 +182,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.7058824}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -213,24 +214,48 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   building: 0
+  isPassiveEffect: 1
   level: 0
   maxLevel: 3
   activeIcon: {fileID: 3585913512928522145, guid: 108daa14e3115264995337bc498c548a, type: 3}
   inactiveIcon: {fileID: 7220173164116165746, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
   effects: []
   cost:
-    coins: 0
-    food: 0
-    iron: 0
-    wood: 0
-    stone: 0
+  - resourceType: 0
+    resoursAmount: 0
+  - resourceType: 0
+    resoursAmount: 0
+  - resourceType: 0
+    resoursAmount: 0
+  - resourceType: 0
+    resoursAmount: 0
+  - resourceType: 0
+    resoursAmount: 0
   buildingDescription: 
+  buildingButton: {fileID: 4926041196328218249}
   buildingsIcon: {fileID: 4926041196336271600}
   levelBlock: {fileID: 2576742995880963360}
   levelText: {fileID: 4769282502244469382}
-  buildButton: {fileID: 2349240250774322109}
-  description: {fileID: 2215289693994731355}
+  upgradeButton: {fileID: 2349240250774322109}
+  description: {fileID: 5892224686033767739}
   costDescription: {fileID: 3044364661679766076}
+--- !u!114 &5892224686033767739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4926041196328218250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a24be4621a224594d936a1f2093eadd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  header: 
+  content: 
+  visitedStatus: 
+  notVisitedStatus: 
+  status: 
 --- !u!1 &4926041196336271602
 GameObject:
   m_ObjectHideFlags: 0

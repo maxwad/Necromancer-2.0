@@ -10,6 +10,7 @@ public class InfotipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     private EnemySO enemy;
     private MacroAbilitySO skill;
     private RuneSO rune;
+    private List<UpgradeCost> cost;
 
     [SerializeField] private TipsType tipsType;
 
@@ -45,10 +46,14 @@ public class InfotipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
                         break;
 
                     case TipsType.Spell:
-
                         break;
+
                     case TipsType.Rune:
                         InfotipManager.Show(rune);
+                        break;
+
+                    case TipsType.Cost:
+                        InfotipManager.Show(cost);
                         break;
 
                     default:
@@ -106,6 +111,12 @@ public class InfotipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         this.rune = rune;
         tipsType = TipsType.Rune;
+    }
+
+    public void SetCost(List<UpgradeCost> cost)
+    {
+        this.cost = cost;
+        tipsType = TipsType.Cost;
     }
 
 

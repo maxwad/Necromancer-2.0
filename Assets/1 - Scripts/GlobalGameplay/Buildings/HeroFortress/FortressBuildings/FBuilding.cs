@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
 using static NameManager;
@@ -9,65 +10,67 @@ using static NameManager;
 [Serializable]
 public class UpgradeCost
 {
-    public float coins = 0;
-    public float food = 0;
-    public float iron = 0;
-    public float wood = 0;
-    public float stone = 0;
+    public ResourceType resourceType;
+    public float resoursAmount = 0;
 }
 
-public class FBuilding : MonoBehaviour
+public class FBuilding : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler
 {
-    [Header("Start Parameters")]
+    [Header("Parameters")]
     public FortressBuildings building;
+    public bool isPassiveEffect = true;
     public int level = 0;
     public int maxLevel = 3;
     public Sprite activeIcon;
     public Sprite inactiveIcon;
 
     public List<RuneSO> effects;
-    public UpgradeCost cost;
+    public List<UpgradeCost> cost;
     public string buildingDescription;
 
     [Header("UI Elements")]
+    [SerializeField] private Button buildingButton;
     [SerializeField] private Image buildingsIcon;
     [SerializeField] private GameObject levelBlock;
     [SerializeField] private TMP_Text levelText;
-    [SerializeField] private Button buildButton;
+    [SerializeField] private Button upgradeButton;
     [SerializeField] private TooltipTrigger description;
     [SerializeField] private InfotipTrigger costDescription;
 
-
     private BoostManager boostManager;
+    private OpeningBuildingWindow door;
+
+    private void Start()
+    { 
+        boostManager = GlobalStorage.instance.boostManager;
+        door = GlobalStorage.instance.fortressBuildingDoor;
+    }
 
     private void OnEnable()
     {
-        if(boostManager == null)
-        {
-            boostManager = GlobalStorage.instance.boostManager;
-        }
-
         Init();
     }
 
     private void Init()
     {
-        buildButton.gameObject.SetActive(true);
+        upgradeButton.gameObject.SetActive(true);
 
         description.header = building.ToString();
         description.content = buildingDescription;
 
         if(level == 0)
         {
+            buildingButton.interactable = false;
             buildingsIcon.sprite = inactiveIcon;
             levelBlock.SetActive(false);
         }
         else
         {
+            buildingButton.interactable = true;
             buildingsIcon.sprite = activeIcon;
             levelBlock.SetActive(true);
             levelText.text = LevelConverter();
-            if(level >= maxLevel) buildButton.gameObject.SetActive(false);
+            if(level >= maxLevel) upgradeButton.gameObject.SetActive(false);
         }
     }
 
@@ -76,16 +79,18 @@ public class FBuilding : MonoBehaviour
         return level;
     }
 
-    public UpgradeCost GetBuildingsCost()
+    public List<UpgradeCost> GetCost()
     {
         float discount = boostManager.GetBoost(BoostType.BuildingsDiscount);
 
-        UpgradeCost currentCost = new UpgradeCost();
-        currentCost.coins = (cost.coins + cost.coins * discount) * (level + 1);
-        currentCost.food = (cost.food + cost.food * discount) * (level + 1);
-        currentCost.wood = (cost.wood + cost.wood * discount) * (level + 1);
-        currentCost.iron = (cost.iron + cost.iron * discount) * (level + 1);
-        currentCost.stone = (cost.stone + cost.stone * discount) * (level + 1);
+        List<UpgradeCost> currentCost = new List<UpgradeCost>();
+        foreach(var item in cost)
+        {
+            UpgradeCost itemCost = new UpgradeCost();
+            itemCost.resourceType = item.resourceType;
+            itemCost.resoursAmount = Mathf.Round(item.resoursAmount + item.resoursAmount * discount) * (level + 1);
+            currentCost.Add(itemCost);
+        }
 
         return currentCost;
     }
@@ -100,12 +105,36 @@ public class FBuilding : MonoBehaviour
 
         return levelText;
     }
-
+    
+    //Button
     public void Upgrade()
     {
         if(level < maxLevel) level++;
 
         Init();
-        Debug.Log("Now level is " + level);
+    }
+
+    public void Downgrade()
+    {
+        if(level > 0) level--;
+
+        Init();
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if(level != maxLevel) costDescription.SetCost(GetCost());
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if(level > 0)
+        {
+            door.Open(this);
+        }
+        else
+        {
+            InfotipManager.ShowMessage("This building has not yet been built.");
+        }
     }
 }
