@@ -219,8 +219,7 @@ public static class NameManager
         Hiring = 28,
         ManaRegeneration = 29,
         MovementPoints = 30,
-        ExpAfterBattle = 31,
-        BuildingsDiscount = 32
+        ExpAfterBattle = 31
     }
 
     public enum BoostType
@@ -258,8 +257,7 @@ public static class NameManager
         Hiring = 28,
         ManaRegeneration = 29,
         MovementPoints = 30,
-        ExpAfterBattle = 31,
-        BuildingsDiscount = 32
+        ExpAfterBattle = 31
     }
 
     public enum Spells
@@ -380,7 +378,7 @@ public static class NameManager
 
     #region BUILDINGS
 
-    public enum FortressBuildings
+    public enum CastleBuildings
     {
         Barracks,
         TrainingCamp,

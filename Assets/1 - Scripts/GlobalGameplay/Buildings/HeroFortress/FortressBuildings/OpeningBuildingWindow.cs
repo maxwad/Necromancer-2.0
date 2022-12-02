@@ -8,46 +8,56 @@ using static NameManager;
 
 public class OpeningBuildingWindow : MonoBehaviour
 {
+    private FortressBuildings allBuildings;
+    private HeroFortress fortress;
+
     [SerializeField] private CanvasGroup canvas;
 
     [SerializeField] private TMP_Text caption;
     [SerializeField] private GameObject status;
     [SerializeField] private List<GameObject> levelsList;
 
-    //[SerializeField] private Image levelIcon;
-    //[SerializeField] private Color lockColor;
-    //[SerializeField] private Color unlockColor;
-    //[SerializeField] private Sprite lockIcon;
-    //[SerializeField] private Sprite unlockIcon;
-
     [SerializeField] private List<GameObject> activeScreens;
+    [SerializeField] private Market market;
 
 
     public void Open(FBuilding building)
     {
+        if(allBuildings == null) 
+        {
+            allBuildings = GlobalStorage.instance.fortressBuildings;
+            fortress = GlobalStorage.instance.heroFortress;
+        }
+
         foreach(var screen in activeScreens)
             screen.SetActive(false);
 
         caption.text = building.building.ToString();
 
-        if(building.isPassiveEffect == true)
-        {
-            status.SetActive(true);
-        }
-        else
+        if(building.isSpecialBuilding == true)
         {
             status.SetActive(false);
             //Enabling active component
+            if(building.building == CastleBuildings.Market)
+            {
+                //market.gameObject.SetActive(true);
+                market.Init();
+            }
+        }
+        else
+        {
+            status.SetActive(true);
         }
 
-        List<RuneSO> levelEffects = building.effects;
         int currentLevel = building.level;
-        for(int i = 0; i < levelEffects.Count; i++)
+        for(int i = 0; i < levelsList.Count; i++)
         {
+            FortressUpgradeSO bonus = allBuildings.GetBuildingBonus(building.building, i + 1);
+
             levelsList[i].transform.GetChild(0).gameObject.SetActive((i + 1 == currentLevel));
 
-            string levelDescription = levelEffects[i].positiveDescription;
-            levelDescription = levelDescription.Replace("$V", levelEffects[i].value.ToString());
+            string levelDescription = bonus.description;
+            levelDescription = levelDescription.Replace("$V", bonus.value.ToString());
             TMP_Text[] texts = levelsList[i].GetComponentsInChildren<TMP_Text>();
             texts[texts.Length - 1].text = levelDescription;
         }
@@ -58,6 +68,8 @@ public class OpeningBuildingWindow : MonoBehaviour
 
     public void Close()
     {
+        //TEMPER
+        GlobalStorage.instance.heroFortress.ShowAllBuildings(true);
         canvas.gameObject.SetActive(false);
     }
 }

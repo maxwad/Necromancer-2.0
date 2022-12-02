@@ -1,24 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 using static NameManager;
+using System;
 
 public class HeroFortress : MonoBehaviour
 {
     private OpeningBuildingWindow door;
     private GMInterface gmInterface;
     private CanvasGroup canvas;
+
+    [SerializeField] private TMP_Text fortressLevel;
+
     [SerializeField] private GameObject uiPanel;
-    [SerializeField] private List<FBuilding> allBuildings;
+    [SerializeField] private List<GameObject> allBuildings;
     [SerializeField] private List<FBuilding> activeBuildings;
 
-    private bool isSiege = false;
+    private int marketDays = 0;
 
     private void Start()
     {
         door = GlobalStorage.instance.fortressBuildingDoor;
         gmInterface = GlobalStorage.instance.gmInterface;
         canvas = uiPanel.GetComponent<CanvasGroup>();
+        UpgradeFortressLevel(0);
         //TEMPER
         Close();
     }
@@ -37,10 +43,47 @@ public class HeroFortress : MonoBehaviour
     public void Close()
     {
         gmInterface.ShowInterfaceElements(true);
-
-        MenuManager.instance.MiniPause(false);
+        
+        MenuManager.instance?.MiniPause(false);
         GlobalStorage.instance.ModalWindowOpen(false);
+
         door.Close();
         uiPanel.SetActive(false);
+    }
+
+    public void UpgradeFortressLevel(int level)
+    {
+        fortressLevel.text = level.ToString();
+    }
+
+    public void ShowAllBuildings(bool showMode)
+    {
+        foreach(var building in allBuildings)
+        {
+            building.SetActive(showMode);
+        }
+    }
+
+    private void NewDay()
+    {
+        marketDays++;
+    }
+
+    public int GetMarketPause()
+    {
+        int result = marketDays;
+        marketDays = 0;
+
+        return result;
+    }
+
+    private void OnEnable()
+    {
+        EventManager.NewMove += NewDay;
+    }
+
+    private void OnDisable()
+    {
+        EventManager.NewMove -= NewDay;
     }
 }

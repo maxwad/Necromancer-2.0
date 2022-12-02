@@ -84,7 +84,7 @@ public class InfotipManager : MonoBehaviour
         instance.warningTip.Show(content, true);
     }
 
-    public static void Show(List<UpgradeCost> cost)
+    public static void Show(List<Cost> cost)
     {
         instance.costTip.gameObject.SetActive(true);
         instance.costTip.Init(cost);

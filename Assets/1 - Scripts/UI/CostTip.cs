@@ -20,7 +20,7 @@ public class CostTip : MonoBehaviour
 
     private ResourcesManager resourcesManager;
 
-    public void Init(List<UpgradeCost> cost)
+    public void Init(List<Cost> cost)
     {
         if(resourcesManager == null)
         {
@@ -42,10 +42,10 @@ public class CostTip : MonoBehaviour
         for(int i = 0; i < cost.Count; i++)
         {
             labels[i].transform.parent.gameObject.SetActive(true);
-            labels[i].text = cost[i].resourceType.ToString();
-            bool checkColor = resourcesManager.CheckMinResource(cost[i].resourceType, cost[i].resoursAmount);
+            labels[i].text = cost[i].type.ToString();
+            bool checkColor = resourcesManager.CheckMinResource(cost[i].type, cost[i].amount);
             amounts[i].color = (checkColor == true) ? allowColor : deniedColor;
-            amounts[i].text = cost[i].resoursAmount.ToString();
+            amounts[i].text = cost[i].amount.ToString();
             itemCount++;
         }
 

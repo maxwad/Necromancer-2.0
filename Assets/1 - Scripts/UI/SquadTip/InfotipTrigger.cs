@@ -10,7 +10,7 @@ public class InfotipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     private EnemySO enemy;
     private MacroAbilitySO skill;
     private RuneSO rune;
-    private List<UpgradeCost> cost;
+    private List<Cost> cost;
 
     [SerializeField] private TipsType tipsType;
 
@@ -113,7 +113,7 @@ public class InfotipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         tipsType = TipsType.Rune;
     }
 
-    public void SetCost(List<UpgradeCost> cost)
+    public void SetCost(List<Cost> cost)
     {
         this.cost = cost;
         tipsType = TipsType.Cost;
