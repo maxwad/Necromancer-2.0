@@ -12,14 +12,14 @@ public static class NameManager
         Paladins
     }
 
-    public enum UnitsHouses
-    {
-        Kasarma,
-        Avanpost,
-        Tower,
-        Sklep,
-        Church
-    }
+    //public enum UnitsHouses
+    //{
+    //    Kasarma,
+    //    Avanpost,
+    //    Tower,
+    //    Sklep,
+    //    Church
+    //}
 
     public enum UnitStats
     {
@@ -145,7 +145,6 @@ public static class NameManager
         Stone,
         Wood,
         Iron,
-        Magic,
         Exp, 
         Mana,
         Health

@@ -17,7 +17,7 @@ MonoBehaviour:
   activeIcon: {fileID: -709458913004607758, guid: 108daa14e3115264995337bc498c548a, type: 3}
   inActiveIcon: {fileID: 3241740257632897240, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
   level: 1
-  value: 1
+  value: 5
   percentValueType: 0
   isInverted: 0
   cost:
@@ -31,5 +31,5 @@ MonoBehaviour:
     amount: 1000
   - type: 4
     amount: 1000
-  description: Allows you to recruit melee units.
-  BuildingDescription: Allows you to recruit and melee ranged units.
+  description: Allows you to recruit $V melee units per week.
+  BuildingDescription: Allows you to recruit and upgrade melee units.

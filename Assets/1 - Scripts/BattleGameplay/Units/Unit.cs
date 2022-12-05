@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 using static NameManager;
 
 public class Unit
@@ -8,7 +9,7 @@ public class Unit
     public Sprite unitIcon;
 
     //battle parameters
-    public UnitsHouses unitHome;
+    public CastleBuildings unitHome;
     public UnitsTypes unitType;
     public float health;
     public float magicAttack;
@@ -23,13 +24,7 @@ public class Unit
 
     public GameObject attackTool;
 
-    //cost parameters
-    public int coinsPrice;
-    public int foodPrice;
-    public int woodPrice;
-    public int ironPrice;
-    public int stonePrice;
-    public int magicPrice;
+    public List<Cost> costs = new List<Cost>();
 
     public float killToNextLevel;
     public bool isUnitActive = true;
@@ -57,13 +52,8 @@ public class Unit
         attackTool     = unitSO.attackTool;
         abilityDescription = WeaponsDictionary.instance.GetAbilityDescription(unitAbility, level);
 
-
-        coinsPrice = unitSO.coinsPrice;
-        foodPrice  = unitSO.foodPrice;
-        woodPrice  = unitSO.woodPrice;
-        ironPrice  = unitSO.ironPrice;
-        stonePrice = unitSO.stonePrice;
-        magicPrice = unitSO.magicPrice;
+        foreach(var cost in unitSO.costs)
+            costs.Add(cost);
 
         killToNextLevel = unitSO.killToNextLevel;
     }

@@ -48,7 +48,6 @@ public class ResourcesManager : MonoBehaviour
             [ResourceType.Stone]  = stoneIcon,
             [ResourceType.Wood]   = woodIcon,
             [ResourceType.Iron]   = ironIcon,
-            [ResourceType.Magic]  = magicIcon,
             [ResourceType.Exp]    = expIcon,
             [ResourceType.Mana]   = manaIcon,
             [ResourceType.Health] = healthIcon
@@ -61,7 +60,6 @@ public class ResourcesManager : MonoBehaviour
             [ResourceType.Stone]  = startStone,
             [ResourceType.Wood]   = startWood,
             [ResourceType.Iron]   = startIron,
-            [ResourceType.Magic]  = startMagic,
             [ResourceType.Mana]   = startMana,
             [ResourceType.Health] = startHealth
         };

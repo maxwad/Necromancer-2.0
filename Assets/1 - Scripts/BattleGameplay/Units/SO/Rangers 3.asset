@@ -15,7 +15,7 @@ MonoBehaviour:
   unitName: Raider
   unitGO: {fileID: 4387482535749053680, guid: 8287f0b32cd023a44b93e64ea4f07225, type: 3}
   unitIcon: {fileID: -192181715012131653, guid: e756201b1c0648f4b9607dc384c97567, type: 3}
-  unitHome: 0
+  unitHome: 1
   unitType: 1
   health: 12
   physicAttack: 12
@@ -28,9 +28,10 @@ MonoBehaviour:
   killToNextLevel: 5
   unitAbility: 5
   attackTool: {fileID: 4421521410223311930, guid: ca44c805e3b0f45459a198ac42386b96, type: 3}
-  coinsPrice: 877
-  foodPrice: 766
-  woodPrice: 76
-  ironPrice: 777
-  stonePrice: 87
-  magicPrice: 86
+  costs:
+  - type: 0
+    amount: 700
+  - type: 1
+    amount: 500
+  - type: 3
+    amount: 400

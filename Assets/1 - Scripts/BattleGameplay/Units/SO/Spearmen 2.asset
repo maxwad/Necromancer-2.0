@@ -15,7 +15,7 @@ MonoBehaviour:
   unitName: Pikeman
   unitGO: {fileID: 4387482535749053680, guid: c2afcf460fb228841b8bdf0f34d933fa, type: 3}
   unitIcon: {fileID: -6843328530170947977, guid: e756201b1c0648f4b9607dc384c97567, type: 3}
-  unitHome: 0
+  unitHome: 1
   unitType: 3
   health: 7
   physicAttack: 6
@@ -28,9 +28,10 @@ MonoBehaviour:
   killToNextLevel: 12
   unitAbility: 3
   attackTool: {fileID: 4421521410223311930, guid: 676584de6f412b741bac0840b94f0816, type: 3}
-  coinsPrice: 76
-  foodPrice: 767
-  woodPrice: 546
-  ironPrice: 757
-  stonePrice: 777
-  magicPrice: 86
+  costs:
+  - type: 0
+    amount: 500
+  - type: 1
+    amount: 400
+  - type: 4
+    amount: 200

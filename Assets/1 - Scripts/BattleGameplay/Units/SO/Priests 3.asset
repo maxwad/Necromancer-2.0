@@ -15,7 +15,7 @@ MonoBehaviour:
   unitName: Archbishop
   unitGO: {fileID: 4387482535749053680, guid: d14268db3608c964cb6f71ae4726ccbf, type: 3}
   unitIcon: {fileID: -1960546628078278901, guid: e756201b1c0648f4b9607dc384c97567, type: 3}
-  unitHome: 0
+  unitHome: 2
   unitType: 5
   health: 9
   physicAttack: 7
@@ -28,9 +28,10 @@ MonoBehaviour:
   killToNextLevel: 7
   unitAbility: 4
   attackTool: {fileID: 3536435520410461348, guid: 18413b0f22dab8e40869d5c9a9dcdebd, type: 3}
-  coinsPrice: 746
-  foodPrice: 876
-  woodPrice: 687
-  ironPrice: 6
-  stonePrice: 555
-  magicPrice: 6
+  costs:
+  - type: 0
+    amount: 600
+  - type: 1
+    amount: 400
+  - type: 4
+    amount: 400

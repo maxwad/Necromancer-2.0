@@ -18,9 +18,7 @@ public class Market : MonoBehaviour
     [SerializeField] private Toggle[] playersStorage;
     [SerializeField] private Toggle[] marketsStorage;
 
-    [SerializeField] private Toggle[] typeOfDeal;
     [SerializeField] private Slider playersSlider;
-    [SerializeField] private Slider marketsSlider;
     [SerializeField] private TMP_Text playersSum;
     [SerializeField] private TMP_Text marketsSum;
     [SerializeField] private Image playersResource;
@@ -40,14 +38,11 @@ public class Market : MonoBehaviour
     private float currentRate = 0f;
     private float minRate = 0.1f;
 
-    private float timeDiscountCurrent = 0f;
     private float inflationStep = 0.05f;
     private float inflationPortion = 1000f;
     private float currentInflation = 0;
 
     private float marketDiscount = 0f;
-
-    private float rate = 0f;
 
     public void Init()
     {
@@ -56,6 +51,7 @@ public class Market : MonoBehaviour
             fortress = GlobalStorage.instance.heroFortress;
             allBuildings = GlobalStorage.instance.fortressBuildings;
             resourcesManager = GlobalStorage.instance.resourcesManager;
+
             resourcesIcons = resourcesManager.GetAllResourcesIcons();
             resources.Add(0, ResourceType.Gold);
             resources.Add(1, ResourceType.Food);
@@ -94,17 +90,11 @@ public class Market : MonoBehaviour
         marketsSum.text = "0";
 
         playersSlider.value = 0;
-        //marketsSlider.value = 0;
-
-        //playersSlider.gameObject.SetActive(typeOfDeal[0].isOn);
-        //marketsSlider.gameObject.SetActive(!typeOfDeal[0].isOn);
 
         CalculateRate();
 
         rateUI.color = (currentRate < exchangeRate) ? errorColor : normalColor;
         rateUI.text = currentRate.ToString();
-
-        Debug.Log("Infl = " + currentInflation + "; rate = " + rate);
     }
 
     private void CalculateRate()
@@ -112,7 +102,7 @@ public class Market : MonoBehaviour
         marketDiscount = allBuildings.GetBonusAmount(CastleBuildings.Market);
 
         //"-" because we have negative parameter
-        rate = exchangeRate - (exchangeRate * marketDiscount);
+        currentRate = exchangeRate - (exchangeRate * marketDiscount);
 
         float inflationCount = currentInflation / inflationPortion;
         int marketPause = fortress.GetMarketPause();
@@ -125,14 +115,12 @@ public class Market : MonoBehaviour
         else
         {
             for(int i = 0; i < difference; i++)
-                rate -= exchangeRate * inflationStep;
+                currentRate -= exchangeRate * inflationStep;
 
             currentInflation -= inflationPortion * marketPause;
         }
 
-        if(rate < minRate) rate = minRate;
-
-        currentRate = rate;
+        if(currentRate < minRate) currentRate = minRate;
     }
 
     //Toggle Buttons
@@ -157,7 +145,6 @@ public class Market : MonoBehaviour
         }
 
         marketsStorage[index].interactable = false;
-        //ChangeResource(currentPlayersRes);
     }
 
     //Toggle Buttons
@@ -165,13 +152,6 @@ public class Market : MonoBehaviour
     {
         currentMarketsRes = resources[index];
         marketsResource.sprite = resourcesIcons[resources[index]];
-    }
-
-    private void  ChangeResource(ResourceType newResource)
-    {
-        //currentMarketsRes = newResource;
-        currentMaxAmount = resourcesManager.GetResource(newResource);
-        playersSlider.value = 0;
     }
 
     //Slider

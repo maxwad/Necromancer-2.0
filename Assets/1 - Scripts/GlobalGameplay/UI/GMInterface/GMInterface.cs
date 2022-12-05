@@ -21,7 +21,6 @@ public class GMInterface : MonoBehaviour
     [SerializeField] private TMP_Text woodCount;
     [SerializeField] private TMP_Text stoneCount;
     [SerializeField] private TMP_Text ironCount;
-    [SerializeField] private TMP_Text magicCount;
     private Dictionary<ResourceType, TMP_Text> resourceCounters = new Dictionary<ResourceType, TMP_Text>();
 
     [Header("Deltas")]
@@ -30,7 +29,6 @@ public class GMInterface : MonoBehaviour
     [SerializeField] private GameObject woodContainer;
     [SerializeField] private GameObject stoneContainer;
     [SerializeField] private GameObject ironContainer;
-    [SerializeField] private GameObject magicContainer;
     private Dictionary<ResourceType, GameObject> deltaContainers = new Dictionary<ResourceType, GameObject>();
 
     [Header("Calendar")]
@@ -85,7 +83,6 @@ public class GMInterface : MonoBehaviour
             [ResourceType.Stone] = stoneCount,
             [ResourceType.Wood] = woodCount,
             [ResourceType.Iron] = ironCount,
-            [ResourceType.Magic] = magicCount,
             [ResourceType.Mana] = manaAmount,
             [ResourceType.Health] = healthAmount
         };
@@ -96,8 +93,7 @@ public class GMInterface : MonoBehaviour
             [ResourceType.Food] = foodContainer,
             [ResourceType.Stone] = stoneContainer,
             [ResourceType.Wood] = woodContainer,
-            [ResourceType.Iron] = ironContainer,
-            [ResourceType.Magic] = magicContainer
+            [ResourceType.Iron] = ironContainer
         };
 
     }

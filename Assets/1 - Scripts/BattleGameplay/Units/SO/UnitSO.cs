@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static NameManager;
@@ -11,7 +10,7 @@ public class UnitSO : ScriptableObject
     public Sprite unitIcon;
 
     //battle parameters
-    public UnitsHouses unitHome;
+    public CastleBuildings unitHome;
     public UnitsTypes unitType;
     public float health;
     public float physicAttack;
@@ -26,12 +25,5 @@ public class UnitSO : ScriptableObject
 
     public GameObject attackTool;
 
-    //cost parameters
-    public int coinsPrice;
-    public int foodPrice;
-    public int woodPrice;
-    public int ironPrice;
-    public int stonePrice;
-    public int magicPrice;
-
+    public List<Cost> costs;
 }

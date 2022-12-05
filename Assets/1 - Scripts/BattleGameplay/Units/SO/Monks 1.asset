@@ -15,7 +15,7 @@ MonoBehaviour:
   unitName: Monk
   unitGO: {fileID: 4387482535749053680, guid: 580ccd906fa69804d91d5a8e23be6bc9, type: 3}
   unitIcon: {fileID: 3554242101514492605, guid: e756201b1c0648f4b9607dc384c97567, type: 3}
-  unitHome: 0
+  unitHome: 2
   unitType: 4
   health: 6
   physicAttack: 5
@@ -28,9 +28,10 @@ MonoBehaviour:
   killToNextLevel: 2
   unitAbility: 1
   attackTool: {fileID: 3522437187258658667, guid: 9c7e287e49b080e488f4467e15a7ffeb, type: 3}
-  coinsPrice: 667
-  foodPrice: 9
-  woodPrice: 884
-  ironPrice: 545
-  stonePrice: 54
-  magicPrice: 54
+  costs:
+  - type: 0
+    amount: 600
+  - type: 1
+    amount: 400
+  - type: 2
+    amount: 300

@@ -15,7 +15,7 @@ MonoBehaviour:
   unitName: Paladin
   unitGO: {fileID: 4387482535749053680, guid: 99badb2ce7affe2419582b51de5967b5, type: 3}
   unitIcon: {fileID: -6040395888309531655, guid: e756201b1c0648f4b9607dc384c97567, type: 3}
-  unitHome: 0
+  unitHome: 2
   unitType: 7
   health: 7
   physicAttack: 5
@@ -28,9 +28,10 @@ MonoBehaviour:
   killToNextLevel: 4
   unitAbility: 7
   attackTool: {fileID: 1527494786819468798, guid: c13b2348938144b43aa256682e784a30, type: 3}
-  coinsPrice: 746
-  foodPrice: 876
-  woodPrice: 687
-  ironPrice: 6
-  stonePrice: 555
-  magicPrice: 6
+  costs:
+  - type: 0
+    amount: 300
+  - type: 1
+    amount: 200
+  - type: 3
+    amount: 100

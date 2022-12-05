@@ -5,15 +5,13 @@ using static NameManager;
 
 public class UnitManager : MonoBehaviour
 {
-    public Dictionary<UnitsTypes, int> currentLevelOfUnitsDict = new Dictionary<UnitsTypes, int>();
-    public List<UnitsTypes> unitsTypesList = new List<UnitsTypes>();
-
     public List<UnitSO> allUnitsSO;
 
     public List<Unit> allUnitsBase = new List<Unit>();
     public List<Unit> allUnitsByTypes = new List<Unit>();
-    public List<Unit> allCurrentBoostUnitsByTypes = new List<Unit>();
 
+    public Dictionary<UnitsTypes, int> currentLevelOfUnitsDict = new Dictionary<UnitsTypes, int>();
+    public List<UnitsTypes> unitsTypesList = new List<UnitsTypes>();
     private Dictionary<UnitsTypes, Sprite> allUnitsIconsDict = new Dictionary<UnitsTypes, Sprite>();
 
     public void LoadUnits()
@@ -62,24 +60,17 @@ public class UnitManager : MonoBehaviour
             }
         }
 
-        CreateAllCurrentBoostUnitsByTypes();
+        CreateIconDict();
     }
 
-    private void CreateAllCurrentBoostUnitsByTypes()
+    private void CreateIconDict()
     {
-        //накладываем эффекты на все базовые юниты
         foreach (var item in allUnitsByTypes)
         {
-            //allCurrentBoostUnitsByTypes.Add(boostManager.AddBonusStatsToUnit(item));
             allUnitsIconsDict.Add(item.unitType, item.unitIcon);
         }
 
         EventManager.OnAllUnitsIsReadyEvent();
-    }
-
-    public Dictionary<UnitsTypes, Sprite> GetUnitsIcons()
-    {
-        return allUnitsIconsDict;
     }
 
     public Sprite GetUnitsIcon(UnitsTypes type)
@@ -87,23 +78,23 @@ public class UnitManager : MonoBehaviour
         return allUnitsIconsDict[type];
     }
 
-    public Unit[] GetAllUnits()
-    {
-        Unit[] army = new Unit[unitsTypesList.Count];
-        for (int i = 0; i < army.Length; i++)
-        {
-            foreach(var item in allUnitsByTypes)
-            {
-                if(unitsTypesList[i] == item.unitType)
-                {
-                    army[i] = item;
-                    break;
-                }
-            }
-        }
+    //public Unit[] GetAllUnits()
+    //{
+    //    Unit[] army = new Unit[unitsTypesList.Count];
+    //    for (int i = 0; i < army.Length; i++)
+    //    {
+    //        foreach(var item in allUnitsByTypes)
+    //        {
+    //            if(unitsTypesList[i] == item.unitType)
+    //            {
+    //                army[i] = item;
+    //                break;
+    //            }
+    //        }
+    //    }
 
-        return army;
-    }
+    //    return army;
+    //}
 
     public Unit GetNewSquad(UnitsTypes type, int level = 1)
     {
@@ -117,28 +108,20 @@ public class UnitManager : MonoBehaviour
                     return unit;
                 }
             }
-        }
+        }     
 
-        //    if(level == 1)
-        //    {
-        //        foreach(var unit in allUnitsByTypes)
-        //        {
-        //            if(unit.unitType == type) return unit;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        if(currentLevelOfUnitsDict[type] >= level)
-        //        {
-        //            foreach(var unit in allUnitsBase)
-        //            {
-        //                if(unit.unitType == type && unit.level == level)
-        //                {
-        //                    return unit;
-        //                }
-        //            }
-        //        }            
-        //    }        
+        return null;
+    }
+
+    public Unit GetUnitForTip(UnitsTypes type, int level = 1)
+    {
+        foreach(var unit in allUnitsBase)
+        {
+            if(unit.unitType == type && unit.level == level)
+            {
+                return unit;
+            }
+        }
 
         return null;
     }
@@ -146,6 +129,11 @@ public class UnitManager : MonoBehaviour
     public void UpgradeUnitLevel(UnitsTypes unitType, int level)
     {
         currentLevelOfUnitsDict[unitType] = level;
+    }
+
+    public bool IsUnitOpen(UnitsTypes unitType, int level)
+    {
+        return currentLevelOfUnitsDict[unitType] >= level;
     }
 
     public List<Unit> GetActualArmy()
@@ -156,5 +144,17 @@ public class UnitManager : MonoBehaviour
     public List<UnitsTypes> GetUnitsTypesList()
     {
         return unitsTypesList;
+    }
+
+    public List<UnitsTypes> GetUnitsByBuildings(CastleBuildings building)
+    {
+        List<UnitsTypes> unitsList = new List<UnitsTypes>();
+
+        foreach(var unit in allUnitsByTypes)
+        {
+            if(unit.unitHome == building) unitsList.Add(unit.unitType);
+        }
+
+        return unitsList;
     }
 }

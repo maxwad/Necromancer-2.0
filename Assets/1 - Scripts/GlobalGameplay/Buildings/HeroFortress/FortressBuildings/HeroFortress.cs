@@ -18,6 +18,8 @@ public class HeroFortress : MonoBehaviour
     [SerializeField] private List<FBuilding> activeBuildings;
 
     private int marketDays = 0;
+    private int maxUnitLevel = 3;
+    private int LevelUpMultiplier = 10;
 
     private void Start()
     {
@@ -28,6 +30,8 @@ public class HeroFortress : MonoBehaviour
         //TEMPER
         Close();
     }
+
+    #region HELPERS
 
     public void Open(bool openMode, ClickableObject building)
     {
@@ -64,6 +68,10 @@ public class HeroFortress : MonoBehaviour
         }
     }
 
+#endregion
+
+    #region BUILDINGS FUNCTION
+
     private void NewDay()
     {
         marketDays++;
@@ -76,6 +84,18 @@ public class HeroFortress : MonoBehaviour
 
         return result;
     }
+
+    public int GetMaxLevel()
+    {
+        return maxUnitLevel;
+    }
+
+    public int GetLevelUpMultiplier()
+    {
+        return LevelUpMultiplier;
+    }
+
+    #endregion
 
     private void OnEnable()
     {

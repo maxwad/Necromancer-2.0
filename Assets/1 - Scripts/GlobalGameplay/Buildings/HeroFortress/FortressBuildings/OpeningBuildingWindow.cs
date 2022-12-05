@@ -14,11 +14,12 @@ public class OpeningBuildingWindow : MonoBehaviour
     [SerializeField] private CanvasGroup canvas;
 
     [SerializeField] private TMP_Text caption;
-    [SerializeField] private GameObject status;
+    [SerializeField] private TMP_Text statusText;
     [SerializeField] private List<GameObject> levelsList;
 
     [SerializeField] private List<GameObject> activeScreens;
     [SerializeField] private Market market;
+    [SerializeField] private Military military;
 
 
     public void Open(FBuilding building)
@@ -36,17 +37,23 @@ public class OpeningBuildingWindow : MonoBehaviour
 
         if(building.isSpecialBuilding == true)
         {
-            status.SetActive(false);
+            statusText.gameObject.SetActive(false);
             //Enabling active component
             if(building.building == CastleBuildings.Market)
-            {
-                //market.gameObject.SetActive(true);
                 market.Init();
+
+            if(building.building == CastleBuildings.Barracks
+               || building.building == CastleBuildings.TrainingCamp
+               || building.building == CastleBuildings.MagicAcademy)
+            {
+                military.Init(building.building);
             }
         }
         else
         {
-            status.SetActive(true);
+            statusText.gameObject.SetActive(true);
+            FortressUpgradeSO bonus = allBuildings.GetBuildingBonus(building.building, 1);
+            statusText.text = bonus.BuildingDescription;
         }
 
         int currentLevel = building.level;

@@ -28,9 +28,10 @@ MonoBehaviour:
   killToNextLevel: 10
   unitAbility: 2
   attackTool: {fileID: 7525087813452890241, guid: 106e8eb83f1e3fd48acade3987cadefd, type: 3}
-  coinsPrice: 679
-  foodPrice: 63
-  woodPrice: 123
-  ironPrice: 43
-  stonePrice: 554
-  magicPrice: 98
+  costs:
+  - type: 0
+    amount: 500
+  - type: 1
+    amount: 400
+  - type: 4
+    amount: 200
