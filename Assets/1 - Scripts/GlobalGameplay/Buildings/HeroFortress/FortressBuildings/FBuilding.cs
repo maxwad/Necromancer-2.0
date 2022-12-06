@@ -13,6 +13,8 @@ public class FBuilding : MonoBehaviour, IPointerClickHandler
     public CastleBuildings building;
     public bool isSpecialBuilding = true;
     [HideInInspector] public int level = 0;
+    [HideInInspector] public string buildingName;
+    [HideInInspector] public string buildingDescr;
 
     [Header("UI Elements")]
     [SerializeField] private Button buildingButton;
@@ -21,7 +23,7 @@ public class FBuilding : MonoBehaviour, IPointerClickHandler
     [SerializeField] private TMP_Text levelText;
     [SerializeField] private Button upgradeButton;
     [SerializeField] private TooltipTrigger description;
-    [SerializeField] private InfotipTrigger costDescription;
+    [SerializeField] private InfotipTrigger costDescription;    
 
     private OpeningBuildingWindow door;
     private FortressBuildings allBuildings;
@@ -33,14 +35,6 @@ public class FBuilding : MonoBehaviour, IPointerClickHandler
         door = GlobalStorage.instance.fortressBuildingDoor;
         resourcesManager = GlobalStorage.instance.resourcesManager;
         fortress = GlobalStorage.instance.heroFortress;
-    }
-
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.Delete))
-        {
-            Downgrade();
-        }
     }
 
     private void OnEnable()
@@ -56,6 +50,8 @@ public class FBuilding : MonoBehaviour, IPointerClickHandler
 
         upgradeButton.gameObject.SetActive(true);
 
+        buildingName = bonus.buildingName;
+        buildingDescr = bonus.BuildingDescription;
         description.header = bonus.buildingName;
         description.content = bonus.BuildingDescription;
 
@@ -95,7 +91,7 @@ public class FBuilding : MonoBehaviour, IPointerClickHandler
     {
         if(CanIBuild() == true)
         {
-            //Build();
+            Build();
 
             if(level < allBuildings.GetMaxLevel()) level++;
 

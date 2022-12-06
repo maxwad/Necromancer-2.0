@@ -8,6 +8,8 @@ public class FortressBuildings : MonoBehaviour
     private HeroFortress fortress;
 
     public int maxLevel = 3;
+    public int destroyBuildings = 3;
+
     public Dictionary<CastleBuildings, int> buildingsLevels = new Dictionary<CastleBuildings, int>();
     public Dictionary<CastleBuildings, FBuilding> allBuildings = new Dictionary<CastleBuildings, FBuilding>();
     public List<FortressUpgradeSO> upgradesList;
@@ -19,6 +21,14 @@ public class FortressBuildings : MonoBehaviour
 
         foreach(CastleBuildings item in Enum.GetValues(typeof(CastleBuildings)))
             buildingsLevels.Add(item, 0);
+    }
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Delete))
+        {
+            DestroyBuildings();
+        }
     }
 
     public void RegisterBuilding(CastleBuildings building, FBuilding buildingComponent)
@@ -111,5 +121,33 @@ public class FortressBuildings : MonoBehaviour
             level += item.Value;
 
         fortress.UpgradeFortressLevel(level);
+    }
+
+    public void DestroyBuildings()
+    {
+        for(int i = 0; i < destroyBuildings; i++)
+        {
+            List<CastleBuildings> buildings = new List<CastleBuildings>();
+
+            foreach(var buildingItem in buildingsLevels)
+            {
+                if(buildingItem.Value > 0)
+                {
+                    buildings.Add(buildingItem.Key);
+                }
+            }
+
+            if(buildings.Count == 0)
+            {
+                Debug.Log("GAMEOVER");
+                break;
+            }
+            else
+            {
+                CastleBuildings randomBuilding = buildings[UnityEngine.Random.Range(0, buildings.Count)];
+                FBuilding building = allBuildings[randomBuilding];
+                building.Downgrade();
+            }
+        }
     }
 }

@@ -8,6 +8,7 @@ public class GlobalStorage : MonoBehaviour
     [HideInInspector] public static GlobalStorage instance;
 
     [Header("Managers")]
+    public GameStarter gameStarter;
     public ObjectsPoolManager objectsPoolManager;
     public MenuManager menuManager;
     public UnitManager unitManager;
@@ -140,6 +141,13 @@ public class GlobalStorage : MonoBehaviour
 
         canILoadNextPart = false;
         calendarManager.Init();
+        while(canILoadNextPart == false)
+        {
+            yield return null;
+        }
+
+        canILoadNextPart = false;
+        gameStarter.Init();
         while(canILoadNextPart == false)
         {
             yield return null;

@@ -5,6 +5,7 @@ using static NameManager;
 
 public class UnitManager : MonoBehaviour
 {
+    [HideInInspector] public int maxUnitLevel = 3;
     public List<UnitSO> allUnitsSO;
 
     public List<Unit> allUnitsBase = new List<Unit>();
@@ -33,7 +34,7 @@ public class UnitManager : MonoBehaviour
 
         //формируем список начальных уровней всех юнитов
         foreach (UnitsTypes type in unitsTypesList)
-            currentLevelOfUnitsDict.Add(type, 3);
+            currentLevelOfUnitsDict.Add(type, 1);
     }
 
     private void CreateAllUnitsBase()

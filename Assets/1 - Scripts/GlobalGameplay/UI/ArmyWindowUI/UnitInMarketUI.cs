@@ -13,24 +13,32 @@ public class UnitInMarketUI : MonoBehaviour
     private Military root;
 
     [SerializeField] private TMP_Text unitName;
+    [SerializeField] private Image iconBG;
     [SerializeField] private Image unitIcon;
 
     [SerializeField] private GameObject nextBlock;
     [SerializeField] private GameObject costsBlock;
+    [SerializeField] private GameObject nextMark;
     [SerializeField] private Button nextBtn;
     [SerializeField] private List<GameObject> costs;
     [SerializeField] private InfotipTrigger tip;
 
     [SerializeField] private Color normalColor;
     [SerializeField] private Color warningColor;
+    [SerializeField] private Color openedColor;
 
     private int levelUpMultiplier;
-    private List<float> costList = new List<float>();
+    private Dictionary<ResourceType, float> costList = new Dictionary<ResourceType, float>();
     private bool canIUpgradeUnit = true;
+    private UnitsTypes unitsType;
+    private int level;
+
 
     public void Init(Military military, Unit unit, bool nextLevel)
     {
         root = military;
+        unitsType = unit.unitType;
+        level = unit.level;
 
         if(resourcesManager == null)
         {
@@ -54,7 +62,7 @@ public class UnitInMarketUI : MonoBehaviour
         {
             nextBlock.SetActive(true);
 
-            if(root.IsUnitOpen(unit.unitType, unit.level) == true)
+            if(root.IsUnitOpen(unit.unitType, unit.level + 1) == true)
             {
                 costsBlock.SetActive(false);
             }
@@ -65,6 +73,27 @@ public class UnitInMarketUI : MonoBehaviour
             }
         }
 
+        iconBG.color = (root.IsUnitOpen(unit.unitType, unit.level)) ? openedColor : warningColor;
+        nextMark.SetActive(false);
+
+        if((root.IsUnitOpen(unit.unitType, unit.level) == true))
+        {
+            if(root.IsUnitOpen(unit.unitType, unit.level + 1) == true)
+            {
+                nextBtn.gameObject.SetActive(false);
+                nextMark.SetActive(true);
+            }
+            else
+            {
+                nextBtn.gameObject.SetActive(true);
+                nextBtn.interactable = true;
+            }
+        }
+        else
+        {
+            nextBtn.gameObject.SetActive(true);
+            nextBtn.interactable = false;
+        }
 
     }
 
@@ -84,27 +113,27 @@ public class UnitInMarketUI : MonoBehaviour
 
         for(int i = 0; i < costs.Count; i++)
         {
-            costs[i].SetActive(!(i > unit.costs.Count));
+            costs[i].SetActive(!(i >= unit.costs.Count));
         }
 
         for(int i = 0; i < unit.costs.Count; i++)
         {
             ResourceType resourceType = unit.costs[i].type;
-            TMP_Text amount = costs[i].GetComponent<TMP_Text>();
+            TMP_Text amount = costs[i].GetComponentInChildren<TMP_Text>();
 
             float discount = 1f;
-            if(resourceType == ResourceType.Gold) discount = goldDiscount;
-            if(resourceType == ResourceType.Food) discount = foodDiscount;
+            if(resourceType == ResourceType.Gold) discount = 1 - goldDiscount;
+            if(resourceType == ResourceType.Food) discount = 1 - foodDiscount;
 
             float resumeCost = Mathf.Round(unit.costs[i].amount * (unit.level + 1) * levelUpMultiplier * discount);
-            costList.Add(resumeCost);
+            costList.Add(unit.costs[i].type, resumeCost);
 
             bool checkCost = resourcesManager.CheckMinResource(resourceType, resumeCost);
             if(checkCost == false) canIUpgradeUnit = false;
 
             amount.color = (checkCost == true) ? normalColor : warningColor;
             amount.text = resumeCost.ToString();
-            costs[i].GetComponent<Image>().sprite = resourcesIcons[resourceType];
+            costs[i].GetComponentInChildren<Image>().sprite = resourcesIcons[resourceType];
         }
     }
 
@@ -112,7 +141,13 @@ public class UnitInMarketUI : MonoBehaviour
     {
         if(canIUpgradeUnit == true)
         {
-            
+            foreach(var costItem in costList)
+            {
+                resourcesManager.ChangeResource(costItem.Key, -costItem.Value);
+            }
+
+            root.UpgradeUnitLevel(unitsType, level + 1);
+            root.Init(root.currentBuilding);
         }
         else
         {

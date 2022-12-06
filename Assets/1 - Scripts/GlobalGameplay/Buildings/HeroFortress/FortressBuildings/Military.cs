@@ -14,11 +14,12 @@ public class Military : MonoBehaviour
     [SerializeField] private List<GameObject> unitsRows;
 
     private int maxUnitLevel;
-
+    [HideInInspector] public CastleBuildings currentBuilding;
 
 
     public void Init(CastleBuildings building)
     {
+        currentBuilding = building;
         if(fortress == null)
         {
             unitManager = GlobalStorage.instance.unitManager;
@@ -38,11 +39,15 @@ public class Military : MonoBehaviour
         {
             GameObject unitsRow = unitsRows[i];
             unitsRow.SetActive(true);
-            UnitInMarketUI[] unitsInBuilding = unitsRow.GetComponentsInChildren<UnitInMarketUI>();
+            UnitInMarketUI[] unitsInBuilding = unitsRow.GetComponentsInChildren<UnitInMarketUI>(true);
+
             for(int j = 0; j < unitsInBuilding.Length; j++)
             {
-                Unit unit = unitManager.GetUnitForTip(units[i], j + 1);                
-                unitsInBuilding[j].Init(this, unit, j < maxUnitLevel);
+                Unit unit = unitManager.GetUnitForTip(units[i], j + 1);
+                if(unit != null)
+                {
+                    unitsInBuilding[j].Init(this, unit, j < maxUnitLevel - 1);
+                }
             }
         }
     }
@@ -63,5 +68,10 @@ public class Military : MonoBehaviour
     public bool IsUnitOpen(UnitsTypes unitType, int level)
     {
         return unitManager.IsUnitOpen(unitType, level);
+    }
+
+    public void UpgradeUnitLevel(UnitsTypes unitType, int level)
+    {
+        unitManager.UpgradeUnitLevel(unitType, level);
     }
 }

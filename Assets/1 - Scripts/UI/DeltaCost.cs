@@ -16,7 +16,6 @@ public class DeltaCost : MonoBehaviour
 
     private string positiveMark = "+";
 
-
     public void ShowDelta(float value)
     {
         if(canvasGroup == null)
@@ -24,6 +23,8 @@ public class DeltaCost : MonoBehaviour
             canvasGroup = GetComponent<CanvasGroup>();
             text = GetComponentInChildren<TMP_Text>();
         }
+
+        gameObject.SetActive(true);
 
         canvasGroup.alpha = 1;
         text.text = "";

@@ -14,7 +14,6 @@ public class ResourcesManager : MonoBehaviour
     public float startStone  = 10;
     public float startWood   = 10;
     public float startIron   = 10;
-    public float startMagic  = 0;
     public float startMana   = 10;
     public float startHealth = 100;
 

@@ -33,7 +33,7 @@ public class OpeningBuildingWindow : MonoBehaviour
         foreach(var screen in activeScreens)
             screen.SetActive(false);
 
-        caption.text = building.building.ToString();
+        caption.text = building.buildingName;
 
         if(building.isSpecialBuilding == true)
         {
@@ -52,8 +52,7 @@ public class OpeningBuildingWindow : MonoBehaviour
         else
         {
             statusText.gameObject.SetActive(true);
-            FortressUpgradeSO bonus = allBuildings.GetBuildingBonus(building.building, 1);
-            statusText.text = bonus.BuildingDescription;
+            statusText.text = building.buildingDescr;
         }
 
         int currentLevel = building.level;
@@ -75,8 +74,12 @@ public class OpeningBuildingWindow : MonoBehaviour
 
     public void Close()
     {
-        //TEMPER
         GlobalStorage.instance.heroFortress.ShowAllBuildings(true);
+
+        market.gameObject.SetActive(false);
+        military.gameObject.SetActive(false);
+        //market.gameObject.SetActive(false);
+
         canvas.gameObject.SetActive(false);
     }
 }
