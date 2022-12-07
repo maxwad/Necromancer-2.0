@@ -12,6 +12,7 @@ public class FBuilding : MonoBehaviour, IPointerClickHandler
     [Header("Parameters")]
     public CastleBuildings building;
     public bool isSpecialBuilding = true;
+    public bool isMilitarySource = false;
     [HideInInspector] public int level = 0;
     [HideInInspector] public string buildingName;
     [HideInInspector] public string buildingDescr;

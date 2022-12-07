@@ -20,6 +20,7 @@ public class OpeningBuildingWindow : MonoBehaviour
     [SerializeField] private List<GameObject> activeScreens;
     [SerializeField] private Market market;
     [SerializeField] private Military military;
+    [SerializeField] private UnitCenter unitCenter;
 
 
     public void Open(FBuilding building)
@@ -47,6 +48,11 @@ public class OpeningBuildingWindow : MonoBehaviour
                || building.building == CastleBuildings.MagicAcademy)
             {
                 military.Init(building.building);
+            }
+
+            if(building.building == CastleBuildings.RecruitmentCenter)
+            {
+                unitCenter.Init();
             }
         }
         else

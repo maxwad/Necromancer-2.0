@@ -14,7 +14,6 @@ public class FortressBuildings : MonoBehaviour
     public Dictionary<CastleBuildings, FBuilding> allBuildings = new Dictionary<CastleBuildings, FBuilding>();
     public List<FortressUpgradeSO> upgradesList;
 
-
     private void Awake()
     {
         fortress = GetComponent<HeroFortress>();
@@ -112,6 +111,23 @@ public class FortressBuildings : MonoBehaviour
     public int GetMaxLevel()
     {
         return maxLevel;
+    }
+
+    public List<CastleBuildings> GetMilitary()
+    {
+        List<CastleBuildings> buildings = new List<CastleBuildings>();
+
+        foreach(var building in allBuildings)
+        {
+            if(building.Value.isMilitarySource == true)
+            {
+                if(buildingsLevels[building.Key] != 0)
+                {
+                    buildings.Add(building.Key);
+                }
+            }
+        }
+        return buildings;
     }
 
     public void UpgradeFortressLevel()

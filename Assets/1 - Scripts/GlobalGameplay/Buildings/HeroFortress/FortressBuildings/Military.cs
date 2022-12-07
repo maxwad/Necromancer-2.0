@@ -7,7 +7,6 @@ public class Military : MonoBehaviour
 {
     private UnitManager unitManager;
     [HideInInspector] public HeroFortress fortress;
-    private FortressBuildings allBuildings;
     private ResourcesManager resourcesManager;
     public Dictionary<ResourceType, Sprite> resourcesIcons;
 
@@ -24,7 +23,6 @@ public class Military : MonoBehaviour
         {
             unitManager = GlobalStorage.instance.unitManager;
             fortress = GlobalStorage.instance.heroFortress;
-            allBuildings = GlobalStorage.instance.fortressBuildings;
             resourcesManager = GlobalStorage.instance.resourcesManager;
 
             resourcesIcons = resourcesManager.GetAllResourcesIcons();

@@ -7,14 +7,21 @@ public class GameStarter : MonoBehaviour
 {
     private HeroFortress heroFortress;
     private ResourcesManager resourcesManager;
+    private Garrison garrison;
+    private UnitManager unitManager;
 
     [Header("Resources")]
     public List<Cost> startResources;
 
+    [Header("Units")]
+    public List<HiringAmount> startAmounts = new List<HiringAmount>();
+
     public void Init()
     {
         heroFortress = GlobalStorage.instance.heroFortress;
+        garrison = heroFortress.GetComponent<Garrison>();
         resourcesManager = GlobalStorage.instance.resourcesManager;
+        unitManager = GlobalStorage.instance.unitManager;
 
         StartCoroutine(Launch());
     }
@@ -25,6 +32,7 @@ public class GameStarter : MonoBehaviour
         SetResources();
 
         yield return null;
+        SetUnits();
 
         GlobalStorage.instance.LoadNextPart();
     }
@@ -34,6 +42,19 @@ public class GameStarter : MonoBehaviour
         foreach(var resource in startResources)
         {
             resourcesManager.ChangeResource(resource.type, resource.amount);
+        }
+    }
+
+    private void SetUnits()
+    {
+        foreach(var building in startAmounts)
+        {
+            List<UnitsTypes> units = unitManager.GetUnitsByBuildings(building.building);
+
+            foreach(var unit in units)
+            {
+                garrison.ChangeUnitsAmount(unit, building.amount);
+            }
         }
     }
 }
