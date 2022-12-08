@@ -7,33 +7,32 @@ using System;
 
 public class HeroFortress : MonoBehaviour
 {
-    private OpeningBuildingWindow door;
     private GMInterface gmInterface;
     private CanvasGroup canvas;
 
-    [SerializeField] private TMP_Text fortressLevel;
-
     [SerializeField] private GameObject uiPanel;
-    [SerializeField] private List<GameObject> allBuildings;
-    [SerializeField] private List<FBuilding> activeBuildings;
+    private OpeningBuildingWindow door;
+    private Garrison garrison;
 
     private int marketDays = 0;
     private int maxUnitLevel = 3;
-    private int LevelUpMultiplier = 10;
+    private int levelUpMultiplier = 10;
+
+    private bool isHeroInside = false;
 
     private void Start()
     {
-        door = GlobalStorage.instance.fortressBuildingDoor;
         gmInterface = GlobalStorage.instance.gmInterface;
         canvas = uiPanel.GetComponent<CanvasGroup>();
-        UpgradeFortressLevel(0);
+        door = GlobalStorage.instance.fortressBuildingDoor;
+        garrison = GetComponent<Garrison>();
         //TEMPER
         Close();
     }
 
     #region HELPERS
 
-    public void Open(bool openMode, ClickableObject building)
+    public void Open(bool openByClick, ClickableObject building)
     {
         gmInterface.ShowInterfaceElements(false);
 
@@ -41,6 +40,11 @@ public class HeroFortress : MonoBehaviour
         GlobalStorage.instance.ModalWindowOpen(true);
 
         uiPanel.SetActive(true);
+        door.Close();
+
+        isHeroInside = !openByClick;
+        garrison.Init(isHeroInside);
+
         Fading.instance.FadeWhilePause(true, canvas);
     }
 
@@ -51,21 +55,7 @@ public class HeroFortress : MonoBehaviour
         MenuManager.instance?.MiniPause(false);
         GlobalStorage.instance.ModalWindowOpen(false);
 
-        door.Close();
         uiPanel.SetActive(false);
-    }
-
-    public void UpgradeFortressLevel(int level)
-    {
-        fortressLevel.text = level.ToString();
-    }
-
-    public void ShowAllBuildings(bool showMode)
-    {
-        foreach(var building in allBuildings)
-        {
-            building.SetActive(showMode);
-        }
     }
 
     #endregion
@@ -92,7 +82,7 @@ public class HeroFortress : MonoBehaviour
 
     public int GetLevelUpMultiplier()
     {
-        return LevelUpMultiplier;
+        return levelUpMultiplier;
     }
 
     #endregion

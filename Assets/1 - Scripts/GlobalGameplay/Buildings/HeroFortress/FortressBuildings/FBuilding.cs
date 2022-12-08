@@ -29,13 +29,11 @@ public class FBuilding : MonoBehaviour, IPointerClickHandler
     private OpeningBuildingWindow door;
     private FortressBuildings allBuildings;
     private ResourcesManager resourcesManager;
-    private HeroFortress fortress;
 
     private void Start()
     { 
         door = GlobalStorage.instance.fortressBuildingDoor;
         resourcesManager = GlobalStorage.instance.resourcesManager;
-        fortress = GlobalStorage.instance.heroFortress;
     }
 
     private void OnEnable()
@@ -142,7 +140,7 @@ public class FBuilding : MonoBehaviour, IPointerClickHandler
     {
         if(level > 0)
         {
-            fortress.ShowAllBuildings(false);
+            allBuildings.ShowAllBuildings(false);
             door.Open(this);
         }
         else

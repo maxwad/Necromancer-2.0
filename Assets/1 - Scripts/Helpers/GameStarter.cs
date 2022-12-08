@@ -53,7 +53,7 @@ public class GameStarter : MonoBehaviour
 
             foreach(var unit in units)
             {
-                garrison.ChangeUnitsAmount(unit, building.amount);
+                garrison.ChangePotentialUnitsAmount(unit, building.amount);
             }
         }
     }

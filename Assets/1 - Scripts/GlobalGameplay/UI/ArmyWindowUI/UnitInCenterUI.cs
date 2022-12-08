@@ -15,6 +15,7 @@ public class UnitInCenterUI : MonoBehaviour, IPointerClickHandler
     private Garrison garrison;
     private UnitCenter uCenter;
 
+    [SerializeField] private Button thisButton;
     [SerializeField] private TMP_Text unitName;
     [SerializeField] private Image unitIcon;
 
@@ -26,6 +27,7 @@ public class UnitInCenterUI : MonoBehaviour, IPointerClickHandler
 
     private List<Cost> realCosts = new List<Cost>();
     private Unit currentUnit;
+    private int currentAmount;
 
     public void Init(Unit unit, UnitCenter center)
     {
@@ -56,10 +58,12 @@ public class UnitInCenterUI : MonoBehaviour, IPointerClickHandler
     private void FillGrowth(Unit unit)
     {
         int amountPerWeek = garrison.GetHiringGrowth(unit.unitHome);
-        unitGrowth.text = amountPerWeek.ToString();
+        unitGrowth.text = "+" + amountPerWeek.ToString();
 
         int amount = garrison.GetHiringAmount(unit.unitType);
         unitAmount.text = amount.ToString();
+        currentAmount = amount;
+        thisButton.interactable = (currentAmount != 0);
     }
 
     private void FillCost(Unit unit)
@@ -100,6 +104,6 @@ public class UnitInCenterUI : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        uCenter.SetUnitForHiring(currentUnit, realCosts);
+        uCenter.SetUnitForHiring(currentUnit, currentAmount, realCosts);
     }    
 }

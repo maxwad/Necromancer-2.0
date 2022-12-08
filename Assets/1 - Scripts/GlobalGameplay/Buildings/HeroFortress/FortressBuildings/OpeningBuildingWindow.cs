@@ -9,7 +9,6 @@ using static NameManager;
 public class OpeningBuildingWindow : MonoBehaviour
 {
     private FortressBuildings allBuildings;
-    private HeroFortress fortress;
 
     [SerializeField] private CanvasGroup canvas;
 
@@ -28,7 +27,6 @@ public class OpeningBuildingWindow : MonoBehaviour
         if(allBuildings == null) 
         {
             allBuildings = GlobalStorage.instance.fortressBuildings;
-            fortress = GlobalStorage.instance.heroFortress;
         }
 
         foreach(var screen in activeScreens)
@@ -80,11 +78,7 @@ public class OpeningBuildingWindow : MonoBehaviour
 
     public void Close()
     {
-        GlobalStorage.instance.heroFortress.ShowAllBuildings(true);
-
-        market.gameObject.SetActive(false);
-        military.gameObject.SetActive(false);
-        //market.gameObject.SetActive(false);
+        GlobalStorage.instance.fortressBuildings.ShowAllBuildings(true);
 
         canvas.gameObject.SetActive(false);
     }

@@ -212,6 +212,7 @@ public class GMInterface : MonoBehaviour
         currentMovesCount.text = currentValue.ToString();
 
         bool mode = (currentValue == 0) ? true : false;
+
         nextDayBtnAnimator.SetBool(TagManager.A_BLINK, mode);         
     }
 

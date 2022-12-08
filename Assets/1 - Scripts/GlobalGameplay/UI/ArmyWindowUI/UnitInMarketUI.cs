@@ -151,7 +151,7 @@ public class UnitInMarketUI : MonoBehaviour
         }
         else
         {
-            InfotipManager.ShowWarning("You don't have enough resources to upgrade a unit");
+            InfotipManager.ShowWarning("You don't have enough resources to upgrade a unit.");
         }
     }
 }

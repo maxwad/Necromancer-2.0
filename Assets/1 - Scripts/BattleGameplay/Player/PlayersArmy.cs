@@ -28,11 +28,6 @@ public class PlayersArmy : MonoBehaviour
     private int possibleResurrections = 0;
     private List<UnitsTypes> unitsForResurrectionList = new List<UnitsTypes>();
 
-
-
-
-
-
     [HideInInspector] public Unit[] playersArmy = new Unit[4];   
 
     [Space]
@@ -140,16 +135,6 @@ public class PlayersArmy : MonoBehaviour
             }
         }
 
-
-        //Debug.Log("***********************");
-        //for(int i = 0; i < playersArmy.Length; i++)
-        //{
-        //    if(playersArmy[i] != null && playersArmy[i].isUnitActive == true)
-        //    {
-        //        Debug.Log(playersArmy[i].unitType + " in army slot!");
-        //    }
-        //}
-
         if(GlobalStorage.instance.isGlobalMode == false)
         {
             ShowSquadsOnBattleField(false);
@@ -180,6 +165,18 @@ public class PlayersArmy : MonoBehaviour
         else
         {
             ResetArmy();
+        }
+    }
+
+    public void HiringUnits(UnitsTypes unitType, int quantity)
+    {
+        if(quantity > 0)
+        {
+
+        }
+        else
+        {
+
         }
     }
 
@@ -220,7 +217,6 @@ public class PlayersArmy : MonoBehaviour
     public void ResurrectionUnit(UnitsTypes unitType)
     {
         fullArmy[unitType].unitController.AddQuantity(1);
-        //fullArmy[unitType].unitController.UpdateQuantity();
 
         if(fullArmy[unitType].unitController.quantity == 1)
         {
@@ -238,7 +234,6 @@ public class PlayersArmy : MonoBehaviour
     {
         if(fullArmy[unitType].unitController.quantity <= 0) return;
         fullArmy[unitType].unitController.AddQuantity(-1);
-        //fullArmy[unitType].unitController.UpdateQuantity();
         fullArmy[unitType].unitController.ShowEffectDeath();
 
         if(fullArmy[unitType].unitController.quantity == 0)
@@ -325,7 +320,6 @@ public class PlayersArmy : MonoBehaviour
         {
             if(squad.Value.unit.status == UnitStatus.Army && squad.Value.unit.isUnitActive == true)
             {
-                Debug.Log(squad.Value.unit.unitType + " in army");
                 if(squad.Value.unitController.quantity != 0)
                 {
                     amount += squad.Value.unitController.quantity;

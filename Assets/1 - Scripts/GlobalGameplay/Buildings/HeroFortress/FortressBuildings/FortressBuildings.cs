@@ -1,14 +1,17 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 using static NameManager;
 
 public class FortressBuildings : MonoBehaviour
 {
-    private HeroFortress fortress;
+    [SerializeField] private TMP_Text fortressLevel;
 
     public int maxLevel = 3;
     public int destroyBuildings = 3;
+
+    [SerializeField] private List<GameObject> buildingsGOList;
 
     public Dictionary<CastleBuildings, int> buildingsLevels = new Dictionary<CastleBuildings, int>();
     public Dictionary<CastleBuildings, FBuilding> allBuildings = new Dictionary<CastleBuildings, FBuilding>();
@@ -16,10 +19,10 @@ public class FortressBuildings : MonoBehaviour
 
     private void Awake()
     {
-        fortress = GetComponent<HeroFortress>();
-
         foreach(CastleBuildings item in Enum.GetValues(typeof(CastleBuildings)))
             buildingsLevels.Add(item, 0);
+
+        UpgradeFortressLevel();
     }
 
     private void Update()
@@ -30,12 +33,19 @@ public class FortressBuildings : MonoBehaviour
         }
     }
 
+    public void ShowAllBuildings(bool showMode)
+    {
+        foreach(var building in buildingsGOList)
+        {
+            building.SetActive(showMode);
+        }
+    }
+
     public void RegisterBuilding(CastleBuildings building, FBuilding buildingComponent)
     {
         if(allBuildings.ContainsKey(building) == false)
             allBuildings.Add(building, buildingComponent);
     }
-
 
     public void UpgradeBuilding(CastleBuildings building, int newLevel)
     {
@@ -136,7 +146,7 @@ public class FortressBuildings : MonoBehaviour
         foreach(var item in buildingsLevels)
             level += item.Value;
 
-        fortress.UpgradeFortressLevel(level);
+        fortressLevel.text = level.ToString();
     }
 
     public void DestroyBuildings()

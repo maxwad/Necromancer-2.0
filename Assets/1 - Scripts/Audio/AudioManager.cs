@@ -39,7 +39,6 @@ public class AudioManager : MonoBehaviour
         else
         {
             instanse = this;
-            DontDestroyOnLoad(instanse);
 
             library = GetComponent<SoundLibrary>();
             musicSource = musicSourceObj.GetComponent<AudioSource>();
