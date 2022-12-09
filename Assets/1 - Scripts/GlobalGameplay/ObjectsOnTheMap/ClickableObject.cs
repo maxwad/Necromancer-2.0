@@ -93,7 +93,7 @@ public class ClickableObject : MonoBehaviour
         switch(objectType)
         {
             case TypeOfObjectOnTheMap.PlayersCastle:
-                GlobalStorage.instance.heroFortress.Open(modeClick, this);
+                GlobalStorage.instance.heroFortress.Open(modeClick);
                 isThereManager = true;
                 break;
 

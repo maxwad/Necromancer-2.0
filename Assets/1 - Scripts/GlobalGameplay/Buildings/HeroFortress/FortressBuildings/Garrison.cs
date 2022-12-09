@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 using static NameManager;
 
 [Serializable]
@@ -17,11 +18,14 @@ public class Garrison : MonoBehaviour
     private UnitManager unitManager;
     private FortressBuildings fortressBuildings;
     private PlayersArmy playersArmy;
+    private PlayerStats playerStats;
 
     public List<HiringAmount> growthAmounts;
 
     private Dictionary<UnitsTypes, int> potentialAmounts = new Dictionary<UnitsTypes, int>();
     private Dictionary<UnitsTypes, int> currentAmounts = new Dictionary<UnitsTypes, int>();
+    private int squadMaxAmount;
+    Dictionary<UnitsTypes, FullSquad> fullPlayerArmy;
 
     private bool isHeroInside = false;
     [SerializeField] private GameObject heroIcon;
@@ -29,6 +33,15 @@ public class Garrison : MonoBehaviour
     [SerializeField] private List<CastleSquadSlot> castleArmy;
     [SerializeField] private List<CastleSquadSlot> heroArmy;
     [SerializeField] private Toggle takeWholeSquad;
+
+    [SerializeField] private GameObject exchangeBlock;
+    [SerializeField] private Slider exchangeSlider;
+    [SerializeField] private TMP_Text heroAmount;
+    [SerializeField] private TMP_Text castleAmount;
+    [SerializeField] private Image unitIcon;
+    private UnitsTypes currentUnitForExchange;
+    private int heroAmountToSet = 0;
+    private int castleAmountToSet = 0;
 
 
     private void Awake()
@@ -45,6 +58,7 @@ public class Garrison : MonoBehaviour
         unitManager = GlobalStorage.instance.unitManager;
         fortressBuildings = GlobalStorage.instance.fortressBuildings;
         playersArmy = GlobalStorage.instance.playersArmy;
+        playerStats = GlobalStorage.instance.playerStats;
 
         takeWholeSquad.isOn = false;
     }
@@ -52,6 +66,8 @@ public class Garrison : MonoBehaviour
     public void Init(bool heroMode)
     {
         isHeroInside = heroMode;
+        squadMaxAmount = Mathf.RoundToInt(playerStats.GetCurrentParameter(PlayersStats.SquadMaxSize));
+        fullPlayerArmy = playersArmy.fullArmy;
 
         UpdateArmies();
     }
@@ -114,33 +130,100 @@ public class Garrison : MonoBehaviour
     {
         if(isHeroInside == false) return;
 
-        Dictionary<UnitsTypes, FullSquad> fullArmy = playersArmy.fullArmy;
-
         if(takeWholeSquad.isOn == true)
         {
-            if(isCastlesSquad == true)
+            WholeExchange(isCastlesSquad, unitType);
+        }
+        else
+        {
+            PartExchange(unitType);
+        }
+    }
+
+    private void WholeExchange(bool isCastlesSquad, UnitsTypes unitType)
+    {
+        if(isCastlesSquad == true)
+        {
+            int allowQuantity = CheckOverflow(unitType);
+
+            if(allowQuantity != currentAmounts[unitType])
             {
-                playersArmy.HiringUnits(unitType, currentAmounts[unitType]);
-                currentAmounts[unitType] = 0;
+                InfotipManager.ShowMessage("Attention! You've reached the maximum squad size.");
             }
-            else
-            {
-                playersArmy.HiringUnits(unitType, -fullArmy[unitType].unitController.quantity);
-                currentAmounts[unitType] += fullArmy[unitType].unitController.quantity;
-            }
+            playersArmy.HiringUnits(unitType, allowQuantity);
+            currentAmounts[unitType] -= allowQuantity;
+        }
+        else
+        {
+            currentAmounts[unitType] += fullPlayerArmy[unitType].unitController.quantity;
+            playersArmy.HiringUnits(unitType, -fullPlayerArmy[unitType].unitController.quantity);
         }
 
         UpdateArmies();
     }
 
-    private void ToCastleArmy()
+    private void PartExchange(UnitsTypes unitType)
     {
+        exchangeBlock.SetActive(true);
+        currentUnitForExchange = unitType;
+        unitIcon.sprite = fullPlayerArmy[unitType].unit.unitIcon;
 
+        castleAmount.text = currentAmounts[unitType].ToString();
+        castleAmountToSet = currentAmounts[unitType];
+
+        heroAmount.text = fullPlayerArmy[unitType].unitController.quantity.ToString();
+        heroAmountToSet = fullPlayerArmy[unitType].unitController.quantity;
+
+        exchangeSlider.value = exchangeSlider.maxValue - ((float)castleAmountToSet / (float)(castleAmountToSet + heroAmountToSet));
     }
 
-    private void ToHeroArmy()
+    //Slider
+    public void ChangeAmounts()
     {
+        int comnonAmounts = currentAmounts[currentUnitForExchange] + fullPlayerArmy[currentUnitForExchange].unitController.quantity;
 
+        castleAmountToSet = Mathf.RoundToInt((exchangeSlider.maxValue - exchangeSlider.value) * comnonAmounts);
+        heroAmountToSet = comnonAmounts - castleAmountToSet;
+
+        if(heroAmountToSet > squadMaxAmount)
+        {
+            InfotipManager.ShowMessage("Attention! You've reached the maximum squad size.");
+            heroAmountToSet = squadMaxAmount;
+            castleAmountToSet = comnonAmounts - heroAmountToSet;
+            exchangeSlider.value = exchangeSlider.maxValue - (float)castleAmountToSet / (float)(castleAmountToSet + heroAmountToSet);
+        }
+
+        castleAmount.text = castleAmountToSet.ToString();
+        heroAmount.text = heroAmountToSet.ToString();
+    }
+
+    //Button
+    public void Cancel()
+    {
+        exchangeBlock.SetActive(false);
+    }
+
+    //Button
+    public void Deal()
+    {
+        currentAmounts[currentUnitForExchange] = castleAmountToSet;
+        playersArmy.HiringUnits(currentUnitForExchange, heroAmountToSet, true);
+
+        UpdateArmies();
+        Cancel();
+    }
+
+    private int CheckOverflow(UnitsTypes unitType)
+    {
+        if(fullPlayerArmy[unitType].unitController.quantity >= squadMaxAmount)
+        {
+            return 0;
+        }
+        else
+        {
+            int difference = squadMaxAmount - fullPlayerArmy[unitType].unitController.quantity;
+            return (currentAmounts[unitType] > difference) ? difference : currentAmounts[unitType];
+        }
     }
 
     #endregion

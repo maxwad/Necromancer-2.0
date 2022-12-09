@@ -22,7 +22,6 @@ MonoBehaviour:
   value: 3
   valueType: 3
   cost: 1
+  description: Adds $V movement points to the hero.
   fakeDescription: Get the opportunity to go even further, which means to do more!
-  schemeDescription: Adds $ movement points to the hero.
-  realDescription: Adds 3 movement points to the hero.
   luckDepending: 0

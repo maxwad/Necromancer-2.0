@@ -22,7 +22,6 @@ MonoBehaviour:
   value: 1
   valueType: 1
   cost: 1
+  description: The hero can use portals to a specific destination.
   fakeDescription: I want to see the end of the world!
-  schemeDescription: The hero can use portals to a specific destination.
-  realDescription: The hero can use portals to a specific destination.
   luckDepending: 0

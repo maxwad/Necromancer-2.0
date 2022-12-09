@@ -22,7 +22,6 @@ MonoBehaviour:
   value: 10
   valueType: 3
   cost: 1
+  description: Adds $V mana points to the hero.
   fakeDescription: Amplify your magic!
-  schemeDescription: Adds $ mana points to the hero.
-  realDescription: Adds 10 mana points to the hero.
   luckDepending: 0

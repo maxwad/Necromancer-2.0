@@ -19,6 +19,7 @@ public class PlayersArmy : MonoBehaviour
     private ObjectsPoolManager poolManager;
     [SerializeField] private PlayersArmyPart playersArmyWindow;
     private InfirmaryManager infirmary;
+    private PlayerStats playerStats;
 
     private List<UnitsTypes> unitsTypesList;
     public Dictionary<UnitsTypes, FullSquad> fullArmy = new Dictionary<UnitsTypes, FullSquad>();
@@ -44,6 +45,7 @@ public class PlayersArmy : MonoBehaviour
         unitManager = GlobalStorage.instance.unitManager;
         infirmary = GlobalStorage.instance.infirmaryManager;
         poolManager = GlobalStorage.instance.objectsPoolManager;
+        playerStats = GlobalStorage.instance.playerStats;
 
         unitsTypesList = unitManager.GetUnitsTypesList();
 
@@ -120,6 +122,7 @@ public class PlayersArmy : MonoBehaviour
             UpgradeSquad(squad.Value.unit.unitType, false);
         }
     }
+
     public void UpdateArmy()
     {
         for(int i = 0; i < playersArmy.Length; i++)
@@ -168,16 +171,30 @@ public class PlayersArmy : MonoBehaviour
         }
     }
 
-    public void HiringUnits(UnitsTypes unitType, int quantity)
+    public void HiringUnits(UnitsTypes unitType, int quantity, bool setMode = false)
     {
-        if(quantity > 0)
+        if(setMode == true)
         {
-
+            fullArmy[unitType].unitController.quantity = quantity;
         }
         else
         {
-
+            fullArmy[unitType].unitController.quantity += quantity;
         }
+
+        if(fullArmy[unitType].unitController.quantity > 0)
+        {
+            fullArmy[unitType].unit.isUnitActive = true;
+            fullArmy[unitType].squadUI.gameObject.SetActive(true);
+        }
+        else
+        {
+            fullArmy[unitType].unitController.quantity = 0;
+            fullArmy[unitType].unit.isUnitActive = false;
+            fullArmy[unitType].squadUI.gameObject.SetActive(false);            
+        }
+
+        ShowSquadsOnBattleField(false);
     }
 
     public void ResurrectionFewUnitInTheBattle(float quantity)
@@ -193,6 +210,10 @@ public class PlayersArmy : MonoBehaviour
             else
             {
                 UnitsTypes unitType = unitsForResurrectionList[UnityEngine.Random.Range(0, unitsForResurrectionList.Count)];
+
+                if(fullArmy[unitType].unitController.quantity >= playerStats.GetCurrentParameter(PlayersStats.SquadMaxSize))
+                    continue;
+
                 ResurrectionUnit(unitType);
                 counter++;
 

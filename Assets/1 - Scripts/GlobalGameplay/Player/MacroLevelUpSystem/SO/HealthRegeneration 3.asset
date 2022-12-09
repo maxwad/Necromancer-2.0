@@ -19,10 +19,9 @@ MonoBehaviour:
   activeIcon: {fileID: -157299190641410595, guid: 108daa14e3115264995337bc498c548a, type: 3}
   inActiveIcon: {fileID: 7195525275188718610, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
   level: 3
-  value: 5
+  value: 3
   valueType: 3
   cost: 1
+  description: Increases the hero's health regeneration by $V per day.
   fakeDescription: Your wounds look like scratches!
-  schemeDescription: Increases the hero's health regeneration by $ per day.
-  realDescription: Increases the hero's health regeneration by 5 per day.
   luckDepending: 0

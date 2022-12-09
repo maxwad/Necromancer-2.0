@@ -17,6 +17,8 @@ public class FortressUpgradeSO : ScriptableObject
     public float value;
     public bool percentValueType = false;
     public bool isInverted = false;
+    public int fortressLevel;
+    public int constructuionTime;
     public List<Cost> cost;
     
     public string description;

@@ -22,7 +22,6 @@ MonoBehaviour:
   value: 1
   valueType: 0
   cost: 2
+  description: he map is no longer obscured by fog of war.
   fakeDescription: What is fog?
-  schemeDescription: The map is no longer obscured by fog of war.
-  realDescription: The map is no longer obscured by fog of war.
   luckDepending: 0

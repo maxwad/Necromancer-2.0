@@ -22,9 +22,7 @@ MonoBehaviour:
   value: 20
   valueType: 3
   cost: 1
+  description: Reduces the percentage of your killed soldiers respawning into    
+    the Necromancer's army by $V%.
   fakeDescription: Bury the fallen soldiers!
-  schemeDescription: Reduces the percentage of your killed soldiers respawning into
-    the Necromancer's army by $%.
-  realDescription: Reduces the percentage of your killed soldiers respawning into
-    the Necromancer's army by 20%.
   luckDepending: 0

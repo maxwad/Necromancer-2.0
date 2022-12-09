@@ -20,6 +20,8 @@ MonoBehaviour:
   value: 20
   percentValueType: 1
   isInverted: 1
+  fortressLevel: 0
+  constructuionTime: 5
   cost:
   - type: 0
     amount: 1000

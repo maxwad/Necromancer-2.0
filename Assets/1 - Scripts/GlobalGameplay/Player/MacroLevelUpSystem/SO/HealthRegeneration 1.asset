@@ -22,7 +22,6 @@ MonoBehaviour:
   value: 5
   valueType: 3
   cost: 1
+  description: Hero restores $V health points per day.
   fakeDescription: Your wounds don't look fatal!
-  schemeDescription: Regenerate $ hero health points per day.
-  realDescription: Regenerate 5 hero health points per day.
   luckDepending: 0

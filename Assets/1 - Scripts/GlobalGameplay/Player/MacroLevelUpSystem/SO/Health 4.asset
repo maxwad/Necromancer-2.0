@@ -22,7 +22,6 @@ MonoBehaviour:
   value: 30
   valueType: 3
   cost: 2
+  description: Adds $V health points to the hero.
   fakeDescription: Do you want to live forever?
-  schemeDescription: Adds $ health points to the hero.
-  realDescription: Adds 30 health points to the hero.
   luckDepending: 0

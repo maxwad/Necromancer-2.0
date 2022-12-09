@@ -44,7 +44,7 @@ public class PlayerPersonalWindow : MonoBehaviour
     [SerializeField] private GameObject activeSpellsTab;
 
 
-    private PlayersArmy playersArmy;
+    private GMInterface gmInterface;
     private EnemyArmyOnTheMap currentEnemy;
     private MacroLevelWindow macroLevelUI;
     private RunesWindow runesWindow;
@@ -61,11 +61,11 @@ public class PlayerPersonalWindow : MonoBehaviour
     private void Start()
     {
         autobattleButtonComponent = autobattleButton.GetComponent<Button>();
-        playersArmy = GlobalStorage.instance.playersArmy;
         playersArmyUIPart = GetComponent<PlayersArmyPart>();
         enemyArmyUIPart = GetComponent<EnemyArmyPart>();
         macroLevelUI = GetComponentInChildren<MacroLevelWindow>();
         runesWindow = GetComponentInChildren<RunesWindow>();
+        gmInterface = GlobalStorage.instance.gmInterface;
     }
 
     private void Update()
@@ -154,6 +154,7 @@ public class PlayerPersonalWindow : MonoBehaviour
 
         MenuManager.instance.MiniPause(true);
         GlobalStorage.instance.ModalWindowOpen(true);
+        gmInterface.ShowInterfaceElements(false);
 
         isWindowOpened = true;
         currentMode = mode;
@@ -171,9 +172,6 @@ public class PlayerPersonalWindow : MonoBehaviour
 
     public void CloseWindow()
     {
-        //if(macroLevelUI.CheckOpenedMiniWindow() == false) return;
-
-        //playersArmy.ResetReplaceIndexes();
         playerArmyPanel.SetActive(false);
         rootCanvas.SetActive(false);
 
@@ -183,6 +181,7 @@ public class PlayerPersonalWindow : MonoBehaviour
 
         MenuManager.instance.MiniPause(false);
         GlobalStorage.instance.ModalWindowOpen(false);
+        gmInterface.ShowInterfaceElements(true);
     }
 
     private void Refactoring()

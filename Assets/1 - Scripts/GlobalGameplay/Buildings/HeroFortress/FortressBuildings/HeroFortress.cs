@@ -9,6 +9,7 @@ public class HeroFortress : MonoBehaviour
 {
     private GMInterface gmInterface;
     private CanvasGroup canvas;
+    private bool isWindowOpen = false;
 
     [SerializeField] private GameObject uiPanel;
     private OpeningBuildingWindow door;
@@ -30,9 +31,26 @@ public class HeroFortress : MonoBehaviour
         Close();
     }
 
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.F))
+        {
+            if(isWindowOpen == false)
+            {
+                if(MenuManager.instance.isGamePaused == false && GlobalStorage.instance.isModalWindowOpen == false)
+                {
+                    Open(true);
+                }
+            }
+            else
+            {
+                Close();
+            }
+        }
+    }
     #region HELPERS
 
-    public void Open(bool openByClick, ClickableObject building)
+    public void Open(bool openByClick)
     {
         gmInterface.ShowInterfaceElements(false);
 
@@ -40,6 +58,7 @@ public class HeroFortress : MonoBehaviour
         GlobalStorage.instance.ModalWindowOpen(true);
 
         uiPanel.SetActive(true);
+        isWindowOpen = true;
         door.Close();
 
         isHeroInside = !openByClick;
@@ -54,6 +73,7 @@ public class HeroFortress : MonoBehaviour
         
         MenuManager.instance?.MiniPause(false);
         GlobalStorage.instance.ModalWindowOpen(false);
+        isWindowOpen = false;
 
         uiPanel.SetActive(false);
     }

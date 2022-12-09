@@ -326,6 +326,7 @@ public class UnitController : MonoBehaviour
             unitCountsText = GetComponentInChildren<TMP_Text>();
         }
 
+        unitCountsText.text = quantity.ToString();
         MakeMeImmortal(false);
         isDead = false;
     }

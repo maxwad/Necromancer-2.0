@@ -22,7 +22,6 @@ MonoBehaviour:
   value: 50
   valueType: 3
   cost: 2
+  description: Possibility to recover $ health points.
   fakeDescription: Can you even be killed?
-  schemeDescription: Possibility to recover $ health points.
-  realDescription: Possibility to recover 50 health points.
   luckDepending: 1

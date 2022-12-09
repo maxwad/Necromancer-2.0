@@ -22,7 +22,6 @@ MonoBehaviour:
   value: 1
   valueType: 3
   cost: 1
+  description: You can use 1 spell more in combat.
   fakeDescription: Look at my perfect magic!
-  schemeDescription: You can use 6 spells in combat.
-  realDescription: You can use 6 spells in combat.
   luckDepending: 0

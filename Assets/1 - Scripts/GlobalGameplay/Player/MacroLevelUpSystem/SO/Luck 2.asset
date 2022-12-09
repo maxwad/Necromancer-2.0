@@ -22,7 +22,6 @@ MonoBehaviour:
   value: 2
   valueType: 3
   cost: 1
+  description: Increases the hero's luck by $V.
   fakeDescription: Ride your luck!
-  schemeDescription: Increases the hero's luck by $.
-  realDescription: Increases the hero's luck by 2.
   luckDepending: 0

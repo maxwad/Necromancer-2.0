@@ -27,7 +27,7 @@ public class SkillTip : MonoBehaviour
         caption.text = skill.abilityName;
         icon.sprite = skill.activeIcon;
         cost.text = skill.cost.ToString();
-        description.text = skill.realDescription;
+        description.text = skill.description.Replace("$V", skill.value.ToString());
         fakeDescription.text = skill.fakeDescription;
         luck.SetActive(skill.luckDepending);
 

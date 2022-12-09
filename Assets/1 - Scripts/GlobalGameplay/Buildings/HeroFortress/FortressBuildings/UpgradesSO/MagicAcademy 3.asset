@@ -17,9 +17,11 @@ MonoBehaviour:
   activeIcon: {fileID: -17023485657906984, guid: 108daa14e3115264995337bc498c548a, type: 3}
   inActiveIcon: {fileID: -5320704427865081083, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
   level: 3
-  value: 3
-  percentValueType: 0
-  isInverted: 0
+  value: 50
+  percentValueType: 1
+  isInverted: 1
+  fortressLevel: 15
+  constructuionTime: 15
   cost:
   - type: 0
     amount: 1000
@@ -31,5 +33,5 @@ MonoBehaviour:
     amount: 1000
   - type: 4
     amount: 1000
-  description: Allows you to upgrade magic units up to level $V.
+  description: Allows you to reduce the cost of upgrading magic units by $V%
   BuildingDescription: Allows you to recruit and upgrade magical units.

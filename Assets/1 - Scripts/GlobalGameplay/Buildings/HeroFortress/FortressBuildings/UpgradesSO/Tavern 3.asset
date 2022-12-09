@@ -20,6 +20,8 @@ MonoBehaviour:
   value: 50
   percentValueType: 1
   isInverted: 1
+  fortressLevel: 18
+  constructuionTime: 22
   cost:
   - type: 0
     amount: 1000
@@ -31,5 +33,5 @@ MonoBehaviour:
     amount: 1000
   - type: 4
     amount: 1000
-  description: Reduces the amount of food needed to recruit units by $V%.
+  description: Reduces the amount of food and gold needed to recruit units by $V%.
   BuildingDescription: Reduces the cost of hiring units.

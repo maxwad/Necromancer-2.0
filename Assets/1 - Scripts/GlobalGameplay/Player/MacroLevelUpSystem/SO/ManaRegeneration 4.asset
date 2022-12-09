@@ -22,7 +22,6 @@ MonoBehaviour:
   value: 30
   valueType: 3
   cost: 2
+  description: Possibility to recover $V mana points.
   fakeDescription: Where do you get so much magic?
-  schemeDescription: Possibility to recover $ mana points.
-  realDescription: Possibility to recover 30 mana points.
   luckDepending: 1

@@ -22,7 +22,6 @@ MonoBehaviour:
   value: 10
   valueType: 3
   cost: 1
+  description: Increases the experience gained after the battle by $V%.
   fakeDescription: This battle taught me a lesson!
-  schemeDescription: Increases the experience gained after the battle by $%.
-  realDescription: Increases the experience gained after the battle by 10%.
   luckDepending: 0

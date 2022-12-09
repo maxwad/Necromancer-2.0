@@ -22,7 +22,6 @@ MonoBehaviour:
   value: 1
   valueType: 1
   cost: 1
+  description: Increases the hero's defence by $V point.
   fakeDescription: Where are my gloves?
-  schemeDescription: Increases the hero's defence by $ point.
-  realDescription: Increases the hero's defence by 1 point.
   luckDepending: 0

@@ -22,7 +22,6 @@ MonoBehaviour:
   value: 1
   valueType: 0
   cost: 2
+  description: You can use the negative scale of the scrolls.
   fakeDescription: Weaken yourself to become stronger!
-  schemeDescription: You can use the negative scale of the scrolls.
-  realDescription: You can use the negative scale of the scrolls.
   luckDepending: 0

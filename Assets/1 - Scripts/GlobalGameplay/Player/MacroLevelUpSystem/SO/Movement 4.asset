@@ -22,9 +22,7 @@ MonoBehaviour:
   value: 5
   valueType: 3
   cost: 1
+  description: Opportunity to get another $V movement points when their number reaches
+    zero.
   fakeDescription: Become a successful traveler!
-  schemeDescription: Opportunity to get another $ movement points when their number
-    reaches zero.
-  realDescription: Opportunity to get another 5 movement points when their number
-    reaches zero.
   luckDepending: 1

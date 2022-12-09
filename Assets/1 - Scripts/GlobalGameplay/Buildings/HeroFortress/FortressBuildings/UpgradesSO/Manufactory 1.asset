@@ -17,9 +17,11 @@ MonoBehaviour:
   activeIcon: {fileID: 5248849806553544285, guid: 108daa14e3115264995337bc498c548a, type: 3}
   inActiveIcon: {fileID: -3320154820447594872, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
   level: 1
-  value: 10
-  percentValueType: 1
-  isInverted: 1
+  value: 1
+  percentValueType: 0
+  isInverted: 0
+  fortressLevel: 0
+  constructuionTime: 5
   cost:
   - type: 0
     amount: 1000
@@ -31,5 +33,5 @@ MonoBehaviour:
     amount: 1000
   - type: 4
     amount: 1000
-  description: Reduces the cost of build or upgrade buildings by $V%.
-  BuildingDescription: Reduces the construction cost of all buildings.
+  description: Reduces building construction time by $V day
+  BuildingDescription: Reduces building construction time.

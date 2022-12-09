@@ -22,7 +22,6 @@ MonoBehaviour:
   value: 30
   valueType: 3
   cost: 2
+  description: Adds $V mana points to the hero.
   fakeDescription: Tireless Wizard!
-  schemeDescription: Adds $ mana points to the hero.
-  realDescription: Adds 30 mana points to the hero.
   luckDepending: 0

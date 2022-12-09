@@ -22,9 +22,6 @@ MonoBehaviour:
   value: -2
   valueType: 3
   cost: 3
+  description: Hero will get 2 ability points every 3 levels.
   fakeDescription: I can do more!
-  schemeDescription: Hero will get 2 ability points every 3 levels instead of every
-    5
-  realDescription: Hero will get 2 ability points every 3 levels instead of every
-    5
   luckDepending: 0

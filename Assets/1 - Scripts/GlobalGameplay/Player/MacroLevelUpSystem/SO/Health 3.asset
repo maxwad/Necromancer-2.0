@@ -22,7 +22,6 @@ MonoBehaviour:
   value: 10
   valueType: 3
   cost: 1
+  description: Adds $V health points to the hero.
   fakeDescription: Upgrade your health!
-  schemeDescription: Adds $ health points to the hero.
-  realDescription: Adds 10 health points to the hero.
   luckDepending: 0

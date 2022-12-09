@@ -19,10 +19,9 @@ MonoBehaviour:
   activeIcon: {fileID: -8338915024618380500, guid: 108daa14e3115264995337bc498c548a, type: 3}
   inActiveIcon: {fileID: -1371021556273102822, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
   level: 1
-  value: 2
+  value: 1
   valueType: 3
   cost: 1
+  description: Hero restores $V mana points per day.
   fakeDescription: Why are you glowing?
-  schemeDescription: Hero restores $ mana points per day.
-  realDescription: Hero restores 2 mana points per day.
   luckDepending: 0

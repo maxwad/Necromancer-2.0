@@ -184,7 +184,8 @@ public static class NameManager
         ExtraAfterBattleReward = 1018,
         ManaRegeneration = 29,
         HeroArmyToEnemy = 1019,//later
-        InfirmaryTime = 1020
+        InfirmaryTime = 1020,
+        SquadMaxSize = 32
     }
 
     public enum RunesType
@@ -218,7 +219,8 @@ public static class NameManager
         Hiring = 28,
         ManaRegeneration = 29,
         MovementPoints = 30,
-        ExpAfterBattle = 31
+        ExpAfterBattle = 31,
+        SquadMaxSize = 32
     }
 
     public enum BoostType
@@ -256,7 +258,8 @@ public static class NameManager
         Hiring = 28,
         ManaRegeneration = 29,
         MovementPoints = 30,
-        ExpAfterBattle = 31
+        ExpAfterBattle = 31,
+        SquadMaxSize = 32
     }
 
     public enum Spells

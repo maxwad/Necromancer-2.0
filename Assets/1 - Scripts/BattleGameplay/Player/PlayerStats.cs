@@ -34,6 +34,8 @@ public class PlayerStats : MonoBehaviour
 
     [SerializeField] private float learningBase = 5f;
 
+    [SerializeField] private float squadMaxSizeBase = 30;
+
     [Header("Number Parameters")]
     [Space]
     //3, 4
@@ -177,6 +179,10 @@ public class PlayerStats : MonoBehaviour
 
                 case PlayersStats.NegativeCell:
                     baseValue = 1;
+                    break;
+
+                case PlayersStats.SquadMaxSize:
+                    baseValue = squadMaxSizeBase;
                     break;
 
                 default:

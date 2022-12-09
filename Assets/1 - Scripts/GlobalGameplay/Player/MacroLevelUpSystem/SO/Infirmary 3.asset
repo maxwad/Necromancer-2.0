@@ -22,7 +22,6 @@ MonoBehaviour:
   value: 3
   valueType: 3
   cost: 1
+  description: Increases the unit's lifetime in the infirmary by $V days.
   fakeDescription: Nobody dies today!
-  schemeDescription: Increases the unit's lifetime in the infirmary by $ days.
-  realDescription: Increases the unit's lifetime in the infirmary by 3 days.
   luckDepending: 0

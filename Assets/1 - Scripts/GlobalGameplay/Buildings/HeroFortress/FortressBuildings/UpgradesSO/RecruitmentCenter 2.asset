@@ -20,6 +20,8 @@ MonoBehaviour:
   value: 3
   percentValueType: 0
   isInverted: 0
+  fortressLevel: 8
+  constructuionTime: 10
   cost:
   - type: 0
     amount: 1000
@@ -32,4 +34,4 @@ MonoBehaviour:
   - type: 4
     amount: 1000
   description: Increases growth of units in the castle by $V of each type.
-  BuildingDescription: Increases the weekly growth of soldiers in the castle.
+  BuildingDescription: Allows you to recruit units and increases their weekly growth.
