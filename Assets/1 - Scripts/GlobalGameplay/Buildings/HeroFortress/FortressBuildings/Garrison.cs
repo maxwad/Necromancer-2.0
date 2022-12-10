@@ -242,7 +242,7 @@ public class Garrison : MonoBehaviour
             }
         }
 
-        amount += (int)fortressBuildings.GetBonusAmount(CastleBuildings.RecruitmentCenter);
+        amount += (int)fortressBuildings.GetBonusAmount(CastleBuildingsBonuses.HiringAmount);
 
         return amount;
     }

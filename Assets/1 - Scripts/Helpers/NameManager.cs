@@ -394,6 +394,22 @@ public static class NameManager
         RecruitmentCenter,
         MagicalSanctuary
     }
+
+    public enum CastleBuildingsBonuses
+    {
+        MeleeLevel,
+        RangedLevel,
+        MagicLevel,
+        MarketRate,
+        SiegeTime,
+        ShelterBonus,
+        HiringDiscount,
+        BuildingDiscount,
+        BuildingTime,
+        HiringAmount,
+        SealStep,
+        BuildingLimit
+    }
     #endregion
 
     #region Helpers

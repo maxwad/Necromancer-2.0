@@ -99,7 +99,7 @@ public class Market : MonoBehaviour
 
     private void CalculateRate()
     {
-        marketDiscount = allBuildings.GetBonusAmount(CastleBuildings.Market);
+        marketDiscount = allBuildings.GetBonusAmount(CastleBuildingsBonuses.MarketRate);
 
         //"-" because we have negative parameter
         currentRate = exchangeRate - (exchangeRate * marketDiscount);

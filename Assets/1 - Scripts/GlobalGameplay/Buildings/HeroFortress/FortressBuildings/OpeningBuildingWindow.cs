@@ -62,7 +62,7 @@ public class OpeningBuildingWindow : MonoBehaviour
         int currentLevel = building.level;
         for(int i = 0; i < levelsList.Count; i++)
         {
-            FortressUpgradeSO bonus = allBuildings.GetBuildingBonus(building.building, i + 1);
+            FortressUpgradeSO bonus = allBuildings.GetBuildingBonus(building.building, i);
 
             levelsList[i].transform.GetChild(0).gameObject.SetActive((i + 1 == currentLevel));
 

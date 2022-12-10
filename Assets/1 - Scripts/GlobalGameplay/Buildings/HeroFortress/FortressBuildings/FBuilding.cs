@@ -11,11 +11,14 @@ public class FBuilding : MonoBehaviour, IPointerClickHandler
 {
     [Header("Parameters")]
     public CastleBuildings building;
+    public CastleBuildingsBonuses buildingBonus;
     public bool isSpecialBuilding = true;
     public bool isMilitarySource = false;
     [HideInInspector] public int level = 0;
     [HideInInspector] public string buildingName;
     [HideInInspector] public string buildingDescr;
+    private FortressUpgradeSO currentBonus;
+    private ConstructionTime constructionTime;
 
     [Header("UI Elements")]
     [SerializeField] private Button buildingButton;
@@ -24,7 +27,12 @@ public class FBuilding : MonoBehaviour, IPointerClickHandler
     [SerializeField] private TMP_Text levelText;
     [SerializeField] private Button upgradeButton;
     [SerializeField] private TooltipTrigger description;
-    [SerializeField] private InfotipTrigger costDescription;    
+    [SerializeField] private InfotipTrigger costDescription;
+
+    [Header("BuildProcess")]
+    [SerializeField] private GameObject processBlock;
+    [SerializeField] private Image processScale;
+    [SerializeField] private TMP_Text processText;
 
     private OpeningBuildingWindow door;
     private FortressBuildings allBuildings;
@@ -45,34 +53,35 @@ public class FBuilding : MonoBehaviour, IPointerClickHandler
     {
         if(allBuildings == null) allBuildings = GlobalStorage.instance.fortressBuildings;
         //we don't care about level, we need common info
-        FortressUpgradeSO bonus = allBuildings.GetBuildingBonus(building, 1);
+        currentBonus = allBuildings.GetBuildingBonus(building, 1);
 
         upgradeButton.gameObject.SetActive(true);
 
-        buildingName = bonus.buildingName;
-        buildingDescr = bonus.BuildingDescription;
-        description.header = bonus.buildingName;
-        description.content = bonus.BuildingDescription;
+        buildingName = currentBonus.buildingName;
+        buildingDescr = currentBonus.BuildingDescription;
+        description.header = currentBonus.buildingName;
+        description.content = currentBonus.BuildingDescription;
 
         if(level == 0)
         {
             buildingButton.interactable = false;
-            buildingsIcon.sprite = bonus.inActiveIcon;
+            buildingsIcon.sprite = currentBonus.inActiveIcon;
             levelBlock.SetActive(false);
         }
         else
         {
             buildingButton.interactable = true;
-            buildingsIcon.sprite = bonus.activeIcon;
+            buildingsIcon.sprite = currentBonus.activeIcon;
             levelBlock.SetActive(true);
             levelText.text = LevelConverter();
-            if(level >= allBuildings.GetMaxLevel()) upgradeButton.gameObject.SetActive(false);
+            if(level >= allBuildings.GetMaxLevel()) 
+                upgradeButton.gameObject.SetActive(false);
         }
     }
 
     public List<Cost> GetCost()
     {
-        return allBuildings.GetCost(building);
+        return allBuildings.GetBuildingCost(building);
     }
 
     private string LevelConverter()
@@ -86,30 +95,68 @@ public class FBuilding : MonoBehaviour, IPointerClickHandler
         return levelText;
     }
     
-    public void Upgrade()
+    public void StartToBuild()
     {
-        if(CanIBuild() == true)
+        if(allBuildings.CheckNeededLevel(building) == false)
         {
-            Build();
-
-            if(level < allBuildings.GetMaxLevel()) level++;
-
-            allBuildings.UpgradeBuilding(building, level);
-            if(level == 1) allBuildings.RegisterBuilding(building, this);
-
-            Init();
+            InfotipManager.ShowWarning("First you need to increase the level of hero's fortress.");
+            return;
         }
-        else
+
+        if(allBuildings.CanIBuild() == false)
+        {
+            InfotipManager.ShowWarning("There are no free slots for building. Wait for the construction of current buildings to finish.");
+            return;
+        }
+
+        if(CanIBuild() == false)
         {
             InfotipManager.ShowWarning("You need to dig up resources.");
+            return;
         }
+
+        constructionTime = allBuildings.StartBuildingBuilding(building);
+        Pay();
+        StartBuildingProcess();        
+    }
+
+    private void StartBuildingProcess()
+    {
+        processBlock.SetActive(true);
+        processScale.fillAmount = 0;
+        processText.text = constructionTime.daysLeft.ToString();
+
+        upgradeButton.gameObject.SetActive(false);
+    }
+
+    public void UpdateBuildingProcess(ConstructionTime term)
+    {
+        processScale.fillAmount = (float)(term.term - term.daysLeft) / (float)term.term;
+
+        processText.text = term.daysLeft.ToString();
+
+        if(term.daysLeft <= 0)
+        {
+            processBlock.SetActive(false);
+            Upgrade();
+        }
+    }
+
+    public void Upgrade()
+    {
+        if(level < allBuildings.GetMaxLevel()) level++;
+
+        allBuildings.UpgradeBuilding(building, level, buildingBonus);
+        if(level == 1) allBuildings.RegisterBuilding(building, this);
+
+        Init();
     }
 
     public void Downgrade()
     {
         if(level > 0) level--;
 
-        allBuildings.UpgradeBuilding(building, level);
+        allBuildings.UpgradeBuilding(building, level, buildingBonus);
         Init();
     }
 
@@ -126,7 +173,7 @@ public class FBuilding : MonoBehaviour, IPointerClickHandler
         return true;
     }
 
-    private void Build()
+    private void Pay()
     {
         List<Cost> prices = GetCost();
 

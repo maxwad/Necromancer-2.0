@@ -11,7 +11,7 @@ public class UpgradeButton : MonoBehaviour, IPointerEnterHandler, IPointerClickH
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        building.Upgrade();
+        building.StartToBuild();
     }
 
     public void OnPointerEnter(PointerEventData eventData)

@@ -9,6 +9,7 @@ public class FortressUpgradeSO : ScriptableObject
 {
     public CastleBuildings building;
     public string buildingName;
+    public CastleBuildingsBonuses buildingBonus;
 
     public Sprite activeIcon;
     public Sprite inActiveIcon;

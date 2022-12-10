@@ -70,8 +70,7 @@ public class UnitInCenterUI : MonoBehaviour, IPointerClickHandler
     {
         realCosts.Clear();
 
-        float goldDiscount = allBuildings.GetBonusAmount(CastleBuildings.TaxService);
-        float foodDiscount = allBuildings.GetBonusAmount(CastleBuildings.Tavern);
+        float discount = allBuildings.GetBonusAmount(CastleBuildingsBonuses.HiringDiscount);
 
         for(int i = 0; i < costs.Count; i++)
         {
@@ -83,11 +82,11 @@ public class UnitInCenterUI : MonoBehaviour, IPointerClickHandler
             ResourceType resourceType = unit.costs[i].type;
             TMP_Text amount = costs[i].GetComponentInChildren<TMP_Text>();
 
-            float discount = 1f;
-            if(resourceType == ResourceType.Gold) discount = 1 - goldDiscount;
-            if(resourceType == ResourceType.Food) discount = 1 - foodDiscount;
+            float price = 1f;
+            if(resourceType == ResourceType.Gold) price = 1 - discount;
+            if(resourceType == ResourceType.Food) price = 1 - discount;
 
-            float resumeCost = Mathf.Round(unit.costs[i].amount * discount);
+            float resumeCost = Mathf.Round(unit.costs[i].amount * price);
             
             costs[i].GetComponentInChildren<Image>().sprite = resourcesIcons[resourceType];
             amount.text = resumeCost.ToString();
