@@ -10,6 +10,7 @@ using System;
 public class UnitInCenterUI : MonoBehaviour, IPointerClickHandler
 {
     private ResourcesManager resourcesManager;
+    private BoostManager boostManager;
     private Dictionary<ResourceType, Sprite> resourcesIcons;
     private FortressBuildings allBuildings;
     private Garrison garrison;
@@ -33,6 +34,7 @@ public class UnitInCenterUI : MonoBehaviour, IPointerClickHandler
     {
         if(resourcesManager == null)
         {
+            boostManager = GlobalStorage.instance.boostManager;
             resourcesManager = GlobalStorage.instance.resourcesManager;
             resourcesIcons = resourcesManager.GetAllResourcesIcons();
             allBuildings = GlobalStorage.instance.fortressBuildings;
@@ -57,7 +59,7 @@ public class UnitInCenterUI : MonoBehaviour, IPointerClickHandler
 
     private void FillGrowth(Unit unit)
     {
-        int amountPerWeek = garrison.GetHiringGrowth(unit.unitHome);
+        int amountPerWeek = garrison.GetHiringGrowth(unit.unitType);
         unitGrowth.text = "+" + amountPerWeek.ToString();
 
         int amount = garrison.GetHiringAmount(unit.unitType);
@@ -83,8 +85,9 @@ public class UnitInCenterUI : MonoBehaviour, IPointerClickHandler
             TMP_Text amount = costs[i].GetComponentInChildren<TMP_Text>();
 
             float price = 1f;
-            if(resourceType == ResourceType.Gold) price = 1 - discount;
-            if(resourceType == ResourceType.Food) price = 1 - discount;
+            //"+" becouse discount has negative  value
+            if(resourceType == ResourceType.Gold) price = 1 + discount;
+            if(resourceType == ResourceType.Food) price = 1 + discount;
 
             float resumeCost = Mathf.Round(unit.costs[i].amount * price);
             

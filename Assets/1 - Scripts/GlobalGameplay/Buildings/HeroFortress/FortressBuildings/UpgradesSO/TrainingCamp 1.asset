@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   building: 1
   buildingName: Training Camp
+  buildingBonus: 1
   activeIcon: {fileID: 5231017938356255605, guid: 108daa14e3115264995337bc498c548a, type: 3}
   inActiveIcon: {fileID: -2088324953303684670, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
   level: 1

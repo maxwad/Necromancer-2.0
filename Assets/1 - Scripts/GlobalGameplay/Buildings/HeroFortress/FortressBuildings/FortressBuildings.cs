@@ -11,8 +11,24 @@ public class ConstructionTime
     public int daysLeft;
 }
 
+public class ConstractionData
+{
+    public string constractionName;
+    public Sprite icon;
+    public int daysLeft;
+}
+
+public class castleDataForUI
+{
+    public int level;
+    public bool canIBuild;
+    public List<ConstractionData> constractions = new List<ConstractionData>();
+}
+
 public class FortressBuildings : MonoBehaviour
 {
+    private GMInterface gmInterface;
+
     [SerializeField] private TMP_Text fortressLevelText;
     private int fortressLevel = 0;
 
@@ -31,7 +47,8 @@ public class FortressBuildings : MonoBehaviour
     public Dictionary<CastleBuildingsBonuses, float> buildingsBonuses = new Dictionary<CastleBuildingsBonuses, float>();
 
     private Dictionary<CastleBuildings, ConstructionTime> buildingsInProgress = new Dictionary<CastleBuildings, ConstructionTime>();
-    private int maxCountOfProgress = 1;
+    private int maxCountOfProgress = 3;
+
 
     private void Awake()
     {
@@ -62,6 +79,11 @@ public class FortressBuildings : MonoBehaviour
         }
 
         UpgradeFortressLevel();
+    }
+
+    private void Start()
+    {
+        gmInterface = GlobalStorage.instance.gmInterface;
     }
 
     public void Test()
@@ -106,6 +128,8 @@ public class FortressBuildings : MonoBehaviour
 
         buildingsInProgress.Remove(building);
         SetBonus(building, buildingBonus);
+
+        gmInterface.UpdateCastleStatus();
     }
 
     public void UpgradeFortressLevel()
@@ -145,6 +169,8 @@ public class FortressBuildings : MonoBehaviour
                 building.Downgrade();
             }
         }
+
+        gmInterface.UpdateCastleStatus();
     }
 
     #endregion
@@ -154,93 +180,42 @@ public class FortressBuildings : MonoBehaviour
     public FortressUpgradeSO GetBuildingBonus(CastleBuildings building, int checkLevel = 0)
     {
         int level = (checkLevel == 0) ? 0 : checkLevel;
-        FortressUpgradeSO bonus = upgradesDict[building][level];
-
-        //foreach(var item in upgradesList)
-        //{
-        //    if(item.building == building && item.level == level)
-        //    {
-        //        bonus = item;
-        //        break;
-        //    }
-        //}
-
-        return bonus;
+        return upgradesDict[building][level]; 
     }
 
     private void SetBonus(CastleBuildings building, CastleBuildingsBonuses buildingBonus)
     {
-        float bonusAmount;
+        float bonusAmount = 0;
+        int level = buildingsLevels[building];
 
-        FortressUpgradeSO bonus = upgradesDict[building][buildingsLevels[building] - 1];
-        bonusAmount = (bonus.isInverted == true) ? -bonus.value : bonus.value;
-        bonusAmount = (bonus.percentValueType == true) ? bonusAmount * 0.01f : bonusAmount;
-
-        //if(buildingsLevels[building] != 0)
-        //{
-        //    FortressUpgradeSO bonus = upgradesDict[building][buildingsLevels[building]];
-        //    bonusAmount = (bonus.isInverted == true) ? -bonus.value : bonus.value;
-        //    bonusAmount = (bonus.percentValueType == true) ? bonusAmount * 0.01f : bonusAmount;
-        //}
-        //else
-        //{
-        //    bonusAmount = 0;
-        //}
+        if(level >= 1)
+        {
+            FortressUpgradeSO bonus = upgradesDict[building][level - 1];
+            bonusAmount = (bonus.isInverted == true) ? -bonus.value : bonus.value;
+            bonusAmount = (bonus.percentValueType == true) ? bonusAmount * 0.01f : bonusAmount;
+        }
 
         buildingsBonuses[buildingBonus] = bonusAmount;
-
-        Test();
+        //Test();
     }
 
     public float GetBonusAmount(CastleBuildingsBonuses buildingBonus)
     {
-        float bonus = buildingsBonuses[buildingBonus];
-
-        //int level = buildingsLevels[building];
-
-        //FortressUpgradeSO item = upgradesDict[building][level];
-
-        //bonus = (item.isInverted == true) ? -item.value : item.value;
-        //bonus = (item.percentValueType == true) ? bonus * 0.01f : bonus;
-
-        //foreach(var item in upgradesList)
-        //{
-        //    if(item.building == building && item.level == level)
-        //    {
-        //        bonus = (item.isInverted == true) ? -item.value : item.value;
-        //        bonus = (item.percentValueType == true) ? bonus * 0.01f : bonus;
-        //        break;
-        //    }
-        //}
-
-
-
-        return bonus;
+        return buildingsBonuses[buildingBonus];
     }
 
     public List<Cost> GetBuildingCost(CastleBuildings building)
     {
         float discount = GetBonusAmount(CastleBuildingsBonuses.BuildingDiscount);
 
-        List<Cost> defaultCosts = new List<Cost>();
-
+        List<Cost> defaultCosts;
         int level = buildingsLevels[building];
         defaultCosts = upgradesDict[building][level].cost;
-
-        //foreach(var item in upgradesList)
-        //{
-        //    if(item.building == building && item.level == level + 1)
-        //    {
-        //        defaultCosts = item.cost;
-        //        break;
-        //    }
-        //}
 
         List<Cost> costs = new List<Cost>();
         for(int i = 0; i < defaultCosts.Count; i++)
         {
             Cost costItem = new Cost();
-
             costItem.type = defaultCosts[i].type;
             costItem.amount = Mathf.Round(defaultCosts[i].amount + defaultCosts[i].amount * discount) * (level + 1);
             costs.Add(costItem);
@@ -252,6 +227,11 @@ public class FortressBuildings : MonoBehaviour
     public int GetMaxLevel()
     {
         return maxLevel;
+    }
+
+    public int GetFortressLevel()
+    {
+        return fortressLevel;
     }
 
     public List<CastleBuildings> GetMilitary()
@@ -271,22 +251,44 @@ public class FortressBuildings : MonoBehaviour
         return buildings;
     }
 
-    //public int GetConstructionTime(CastleBuildings building) 
-    //{
-    //    int maxDays = 0;
-    //    int level = buildingsLevels[building];
+    public bool GetConstructionStatus(CastleBuildings building)
+    {
+        return buildingsInProgress.ContainsKey(building);
+    }
 
-    //    maxDays = upgradesDict[building][buildingsLevels[building] + 1].constructuionTime;
+    public castleDataForUI GetDataForUI()
+    {
+        castleDataForUI newData = new castleDataForUI();
+        newData.level = fortressLevel;
 
-    //    //foreach(var item in upgradesList)
-    //    //{
-    //    //    if(item.building == building && item.level == (buildingsLevels[building] + 1))
-    //    //    {
-    //    //        neededLevel = item.fortressLevel;
-    //    //        break;
-    //    //    }
-    //    //}
-    //}
+        newData.canIBuild = false;
+        if(buildingsInProgress.Count < maxCountOfProgress)
+        {
+            newData.canIBuild = (CheckBuildingsStatus() > 0) ? true : false;
+        }
+
+        List<ConstractionData> constractions = new List<ConstractionData>();
+
+        foreach(var building in buildingsInProgress)
+        {
+            ConstractionData constractionData = new ConstractionData();
+            constractionData.constractionName = buildingsComponentDict[building.Key].buildingName;
+            constractionData.icon = upgradesDict[building.Key][0].activeIcon;
+            constractionData.daysLeft = building.Value.daysLeft;
+
+            constractions.Add(constractionData);
+        }
+
+        newData.constractions = constractions;
+
+        return newData;
+    }
+
+    public int GetRequiredLevel(CastleBuildings building)
+    { 
+        return upgradesDict[building][buildingsLevels[building]].fortressLevel;
+    }
+
 
     #endregion
 
@@ -296,18 +298,31 @@ public class FortressBuildings : MonoBehaviour
     {
         int neededLevel = upgradesDict[building][buildingsLevels[building]].fortressLevel;
 
-        Debug.Log("You need level: " + neededLevel);
-
-        //foreach(var item in upgradesList)
-        //{
-        //    if(item.building == building && item.level == (buildingsLevels[building] + 1))
-        //    {
-        //        neededLevel = item.fortressLevel;
-        //        break;
-        //    }
-        //}
-
         return fortressLevel >= neededLevel;
+    }
+
+    public int CheckBuildingsStatus()
+    {
+        int quantity = 0;
+
+        foreach(var building in buildingsComponentDict)
+        {
+            if(buildingsLevels[building.Key] < maxLevel)
+            {
+                int neededLevel = upgradesDict[building.Key][buildingsLevels[building.Key]].fortressLevel;
+                if(fortressLevel >= neededLevel)
+                {
+                    building.Value.UpdateStatus(true);
+                    quantity++;
+                }
+                else
+                {
+                    building.Value.UpdateStatus(false);
+                }
+            }
+        }
+
+        return quantity;
     }
 
     public bool CanIBuild()
@@ -317,45 +332,25 @@ public class FortressBuildings : MonoBehaviour
 
     public ConstructionTime StartBuildingBuilding(CastleBuildings building)
     {
-        //if(buildingsInProgress.Count >= maxCountOfProgress) return null;
-
         ConstructionTime constructionTime = new ConstructionTime();
 
         float discountDays;
         int originalDays = upgradesDict[building][buildingsLevels[building]].constructuionTime;
         constructionTime.originalTerm = originalDays;
 
-        //foreach(var item in upgradesList)
-        //{
-        //    if(item.building == building && item.level == (buildingsLevels[building] + 1))
-        //    {
-        //        originalDays = (int)item.constructuionTime;
-        //        break;
-        //    }
-        //}
-
         if(buildingsLevels[CastleBuildings.Manufactory] == 0)
         {
             discountDays = 0f;
-            maxCountOfProgress = 1;
+            maxCountOfProgress = 3;
         }
         else
         {
             discountDays = buildingsBonuses[CastleBuildingsBonuses.BuildingTime];
-
-            //foreach(var item in upgradesList)
-            //{
-            //    if(item.building == CastleBuildings.Manufactory && item.level == buildingsLevels[CastleBuildings.Manufactory])
-            //    {
-            //        discountDays = (int)-item.value;
-            //        break;
-            //    }
-            //}
-            maxCountOfProgress = buildingsLevels[CastleBuildings.Manufactory];
+            maxCountOfProgress = 3;
+            //maxCountOfProgress = buildingsLevels[CastleBuildings.Manufactory];
         }
         constructionTime.term = originalDays + Mathf.FloorToInt(originalDays * discountDays);
         constructionTime.daysLeft = constructionTime.term;
-
         buildingsInProgress.Add(building, constructionTime);
 
         return constructionTime;
@@ -371,6 +366,8 @@ public class FortressBuildings : MonoBehaviour
             buildingsInProgress[item].daysLeft--;
             buildingsComponentDict[item].UpdateBuildingProcess(buildingsInProgress[item]);
         }
+
+        gmInterface.UpdateCastleStatus();
     }
 
     private void OnEnable()

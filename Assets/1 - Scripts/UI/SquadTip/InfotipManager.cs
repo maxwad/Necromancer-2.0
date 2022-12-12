@@ -84,10 +84,10 @@ public class InfotipManager : MonoBehaviour
         instance.warningTip.Show(content, true);
     }
 
-    public static void Show(List<Cost> cost)
+    public static void Show(BuildingsRequirements requirements)
     {
         instance.costTip.gameObject.SetActive(true);
-        instance.costTip.Init(cost);
+        instance.costTip.Init(requirements);
     }
 
     #endregion
@@ -120,7 +120,7 @@ public class InfotipManager : MonoBehaviour
                 instance.tooltip?.gameObject?.SetActive(false);
                 break;
 
-            case TipsType.Cost:
+            case TipsType.Requirements:
                 instance.costTip?.gameObject?.SetActive(false);
                 break;
 

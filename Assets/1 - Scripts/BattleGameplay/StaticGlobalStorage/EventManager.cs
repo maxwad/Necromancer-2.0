@@ -479,6 +479,20 @@ public static class EventManager
     public static event NewMonthEvent NewMonth;
     public static void OnNewMonthEvent() => NewMonth?.Invoke();
 
+
+    //calls when week ends on Global Map
+    //
+    //SUBSCRIBERS:
+    // Garrison
+    //
+    //ACTIVATION:
+    // - CalendarManager
+    //
+    public delegate void WeekEndEvent();
+    public static event WeekEndEvent WeekEnd;
+    public static void OnWeekEndEvent() => WeekEnd?.Invoke();
+
+
     //calls when start new week on Global Map
     //
     //SUBSCRIBERS:

@@ -449,7 +449,7 @@ public static class NameManager
         Rune,
         Tool,
         Warning,
-        Cost
+        Requirements
     }
 
     #endregion

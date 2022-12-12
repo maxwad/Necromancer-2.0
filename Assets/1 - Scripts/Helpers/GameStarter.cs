@@ -47,14 +47,9 @@ public class GameStarter : MonoBehaviour
 
     private void SetUnits()
     {
-        foreach(var building in startAmounts)
+        foreach(var amount in startAmounts)
         {
-            List<UnitsTypes> units = unitManager.GetUnitsByBuildings(building.building);
-
-            foreach(var unit in units)
-            {
-                garrison.ChangePotentialUnitsAmount(unit, building.amount);
-            }
+            garrison.ChangePotentialUnitsAmount(amount.unitType, amount.amount);
         }
     }
 }

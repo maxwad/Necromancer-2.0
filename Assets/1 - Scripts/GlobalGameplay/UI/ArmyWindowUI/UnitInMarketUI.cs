@@ -31,6 +31,7 @@ public class UnitInMarketUI : MonoBehaviour
     private Dictionary<ResourceType, float> costList = new Dictionary<ResourceType, float>();
     private bool canIUpgradeUnit = true;
     private UnitsTypes unitsType;
+    private CastleBuildings unitBuilding;
     private int level;
 
 
@@ -38,6 +39,7 @@ public class UnitInMarketUI : MonoBehaviour
     {
         root = military;
         unitsType = unit.unitType;
+        unitBuilding = unit.unitHome;
         level = unit.level;
 
         if(resourcesManager == null)
@@ -108,7 +110,11 @@ public class UnitInMarketUI : MonoBehaviour
         costList.Clear();
         canIUpgradeUnit = true;
 
-        float discount = allBuildings.GetBonusAmount(CastleBuildingsBonuses.HiringDiscount);
+        CastleBuildingsBonuses discountType = CastleBuildingsBonuses.MeleeLevel;
+        if(unitBuilding == CastleBuildings.TrainingCamp) discountType = CastleBuildingsBonuses.RangedLevel;
+        if(unitBuilding == CastleBuildings.MagicAcademy) discountType = CastleBuildingsBonuses.MagicLevel;
+
+        float discount = allBuildings.GetBonusAmount(discountType);
 
         for(int i = 0; i < costs.Count; i++)
         {
@@ -121,8 +127,9 @@ public class UnitInMarketUI : MonoBehaviour
             TMP_Text amount = costs[i].GetComponentInChildren<TMP_Text>();
 
             float price = 1f;
-            if(resourceType == ResourceType.Gold) price = 1 - discount;
-            if(resourceType == ResourceType.Food) price = 1 - discount;
+            //"+" becouse discount has negative  value
+            if(resourceType == ResourceType.Gold) price = 1 + discount;
+            if(resourceType == ResourceType.Food) price = 1 + discount;
 
             float resumeCost = Mathf.Round(unit.costs[i].amount * (unit.level + 1) * levelUpMultiplier * price);
             costList.Add(unit.costs[i].type, resumeCost);

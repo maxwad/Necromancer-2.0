@@ -140,7 +140,7 @@ public class Market : MonoBehaviour
 
         if(checkIndex == index)
         {
-            checkIndex = (index == 1) ? 0 : 1;
+            checkIndex = (index == 0) ? 1 : 0;
             marketsStorage[checkIndex].isOn = true;
         }
 

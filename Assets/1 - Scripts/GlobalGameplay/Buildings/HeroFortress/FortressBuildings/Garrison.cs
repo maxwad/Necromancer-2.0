@@ -9,13 +9,14 @@ using static NameManager;
 [Serializable]
 public class HiringAmount
 {
-    public CastleBuildings building;
+    public UnitsTypes unitType;
     public int amount;
 }
 
 public class Garrison : MonoBehaviour
 {
     private UnitManager unitManager;
+    private BoostManager boostManager;
     private FortressBuildings fortressBuildings;
     private PlayersArmy playersArmy;
     private PlayerStats playerStats;
@@ -50,17 +51,18 @@ public class Garrison : MonoBehaviour
             potentialAmounts.Add(item, 0);
 
         foreach(UnitsTypes item in Enum.GetValues(typeof(UnitsTypes)))
-            currentAmounts.Add(item, 0);
+            currentAmounts.Add(item, 0);        
     }
 
     private void Start()
     {
+        boostManager = GlobalStorage.instance.boostManager;
         unitManager = GlobalStorage.instance.unitManager;
         fortressBuildings = GlobalStorage.instance.fortressBuildings;
         playersArmy = GlobalStorage.instance.playersArmy;
         playerStats = GlobalStorage.instance.playerStats;
 
-        takeWholeSquad.isOn = false;
+        takeWholeSquad.isOn = false;           
     }
 
     public void Init(bool heroMode)
@@ -230,12 +232,12 @@ public class Garrison : MonoBehaviour
 
     #region GETTINGS
 
-    public int GetHiringGrowth(CastleBuildings building)
+    public int GetHiringGrowth(UnitsTypes unit)
     {
         int amount = 0;
         for(int i = 0; i < growthAmounts.Count; i++)
         {
-            if(growthAmounts[i].building == building)
+            if(growthAmounts[i].unitType == unit)
             {
                 amount = growthAmounts[i].amount;
                 break;
@@ -243,6 +245,8 @@ public class Garrison : MonoBehaviour
         }
 
         amount += (int)fortressBuildings.GetBonusAmount(CastleBuildingsBonuses.HiringAmount);
+        float bonusAmount = boostManager.GetBoost(BoostType.Hiring);
+        amount += Mathf.RoundToInt(amount * bonusAmount);
 
         return amount;
     }
@@ -271,4 +275,23 @@ public class Garrison : MonoBehaviour
     }
 
     #endregion
+
+    private void HiringInGarrison()
+    {
+        foreach(var unit in growthAmounts)
+        {
+            int amount = GetHiringGrowth(unit.unitType);
+            potentialAmounts[unit.unitType] += amount;
+        }
+    }
+
+    private void OnEnable()
+    {
+        EventManager.WeekEnd += HiringInGarrison;
+    }
+
+    private void OnDisable()
+    {
+        EventManager.WeekEnd -= HiringInGarrison;
+    }
 }

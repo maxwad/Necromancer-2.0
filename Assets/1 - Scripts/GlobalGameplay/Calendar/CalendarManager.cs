@@ -100,8 +100,9 @@ public class CalendarManager : MonoBehaviour
             day = 1;
 
             currentDecadeIndex++;
-            if(currentDecadeIndex >= decadeList.Count) currentDecadeIndex = 0;          
+            if(currentDecadeIndex >= decadeList.Count) currentDecadeIndex = 0;
 
+            EventManager.OnWeekEndEvent();
             NewDecade();
             EventManager.OnNewWeekEvent(decadesPassed);
 

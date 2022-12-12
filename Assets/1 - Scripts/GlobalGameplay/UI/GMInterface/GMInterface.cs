@@ -12,6 +12,7 @@ public class GMInterface : MonoBehaviour
     private ResourcesManager resourcesManager;
     private CalendarManager calendarManager;
     private PlayerPersonalWindow personalWindow;
+    private HeroFortress heroFortress;
     public Dictionary<ResourceType, float> resourcesDict = new Dictionary<ResourceType, float>();
 
     [Header("Resources")]
@@ -67,13 +68,19 @@ public class GMInterface : MonoBehaviour
     public KeyCode microKey;
     public KeyCode spellsKey;
 
+    [Header("Parts")]
+    private GMInterfaceCastle castlePart;
+
 
     private void Awake()
     {
+        castlePart = GetComponent<GMInterfaceCastle>();
+
         poolManager = GlobalStorage.instance.objectsPoolManager;
         resourcesManager = GlobalStorage.instance.resourcesManager;
         calendarManager = GlobalStorage.instance.calendarManager;
         personalWindow = GlobalStorage.instance.playerMilitaryWindow;
+        heroFortress = GlobalStorage.instance.heroFortress;
         nextDayBtnAnimator = nextDayButton.GetComponent<Animator>();
 
         resourceCounters = new Dictionary<ResourceType, TMP_Text>()
@@ -239,6 +246,7 @@ public class GMInterface : MonoBehaviour
         calendarContainer.SetActive(mode);
         movesContainer.SetActive(mode);
         heroContainer.SetActive(mode);
+        castlePart.ShowBlock(mode);
     }
 
 
@@ -268,6 +276,20 @@ public class GMInterface : MonoBehaviour
     public void OpenSpellsWindow()
     {
         personalWindow.PressButton(spellsKey);
+    }
+
+    public void OpenHeroFortressWindow()
+    {
+        heroFortress.Open(true);
+    }
+
+    #endregion
+
+    #region CASTLE
+
+    public void UpdateCastleStatus()
+    {
+        castlePart.Init();
     }
 
     #endregion

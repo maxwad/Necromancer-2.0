@@ -7,6 +7,13 @@ using UnityEngine.UI;
 using TMPro;
 using static NameManager;
 
+public class BuildingsRequirements
+{
+    public List<Cost> costs;
+    public int fortressLevel;
+    public bool canIBuild;
+}
+
 public class FBuilding : MonoBehaviour, IPointerClickHandler
 {
     [Header("Parameters")]
@@ -26,6 +33,7 @@ public class FBuilding : MonoBehaviour, IPointerClickHandler
     [SerializeField] private GameObject levelBlock;
     [SerializeField] private TMP_Text levelText;
     [SerializeField] private Button upgradeButton;
+    [SerializeField] private UpgradeButton upgradeButtonC;
     [SerializeField] private TooltipTrigger description;
     [SerializeField] private InfotipTrigger costDescription;
 
@@ -42,6 +50,7 @@ public class FBuilding : MonoBehaviour, IPointerClickHandler
     { 
         door = GlobalStorage.instance.fortressBuildingDoor;
         resourcesManager = GlobalStorage.instance.resourcesManager;
+        //upgradeButtonC = upgradeButton.GetComponent<UpgradeButton>();
     }
 
     private void OnEnable()
@@ -62,6 +71,8 @@ public class FBuilding : MonoBehaviour, IPointerClickHandler
         description.header = currentBonus.buildingName;
         description.content = currentBonus.BuildingDescription;
 
+        processBlock.SetActive(allBuildings.GetConstructionStatus(building));
+
         if(level == 0)
         {
             buildingButton.interactable = false;
@@ -74,14 +85,22 @@ public class FBuilding : MonoBehaviour, IPointerClickHandler
             buildingsIcon.sprite = currentBonus.activeIcon;
             levelBlock.SetActive(true);
             levelText.text = LevelConverter();
-            if(level >= allBuildings.GetMaxLevel()) 
+
+            if(level >= allBuildings.GetMaxLevel())
+            {
                 upgradeButton.gameObject.SetActive(false);
+            }
         }
     }
 
-    public List<Cost> GetCost()
+    public BuildingsRequirements GetRequirements()
     {
-        return allBuildings.GetBuildingCost(building);
+        BuildingsRequirements requirements = new BuildingsRequirements();
+        requirements.costs = allBuildings.GetBuildingCost(building);
+        requirements.fortressLevel = allBuildings.GetRequiredLevel(building);
+        requirements.canIBuild = upgradeButton.interactable;
+
+        return requirements;
     }
 
     private string LevelConverter()
@@ -137,7 +156,6 @@ public class FBuilding : MonoBehaviour, IPointerClickHandler
 
         if(term.daysLeft <= 0)
         {
-            processBlock.SetActive(false);
             Upgrade();
         }
     }
@@ -154,15 +172,24 @@ public class FBuilding : MonoBehaviour, IPointerClickHandler
 
     public void Downgrade()
     {
-        if(level > 0) level--;
+        if(level > 0) 
+            level--;
 
         allBuildings.UpgradeBuilding(building, level, buildingBonus);
         Init();
     }
 
+    public void UpdateStatus(bool canIBeBuilt)
+    {
+        upgradeButton.interactable = canIBeBuilt;
+
+        //if(canIBeBuilt == false && allBuildings != null)
+        //    upgradeButtonC.SetRequiredLevel(allBuildings.GetRequiredLevel(building));
+    }
+
     private bool CanIBuild()
     {
-        List<Cost> prices = GetCost();
+        List<Cost> prices = allBuildings.GetBuildingCost(building);
 
         for(int i = 0; i < prices.Count; i++)
         {
@@ -175,7 +202,7 @@ public class FBuilding : MonoBehaviour, IPointerClickHandler
 
     private void Pay()
     {
-        List<Cost> prices = GetCost();
+        List<Cost> prices = allBuildings.GetBuildingCost(building);
 
         for(int i = 0; i < prices.Count; i++)
         {

@@ -8,10 +8,15 @@ using static NameManager;
 public class CostTip : MonoBehaviour
 {
     [SerializeField] private RectTransform tipBlock;
-    private float minHeight = 60;
-    private float itemHeight = 22;
-    private int itemCount = 0;
+    private float fullHeigth;
+    private float differenceHeigth;
+    private float levelBlockHeigth = 0;
+    private float resumeHeigth = 0;
 
+    [SerializeField] private GameObject levelBlock;
+    [SerializeField] private TMP_Text fortressLevel;
+
+    [SerializeField] private GameObject costBlock;
     [SerializeField] private List<TMP_Text> labels;
     [SerializeField] private List<TMP_Text> amounts;
 
@@ -20,11 +25,13 @@ public class CostTip : MonoBehaviour
 
     private ResourcesManager resourcesManager;
 
-    public void Init(List<Cost> cost)
+    public void Init(BuildingsRequirements requirements)
     {
         if(resourcesManager == null)
         {
             resourcesManager = GlobalStorage.instance.resourcesManager;
+            levelBlockHeigth = levelBlock.GetComponent<RectTransform>().rect.height;
+            fullHeigth = tipBlock.rect.height;
         }
 
         foreach(var item in labels)
@@ -32,13 +39,19 @@ public class CostTip : MonoBehaviour
             item.transform.parent.gameObject.SetActive(false);
         }
 
+        levelBlock.SetActive(!requirements.canIBuild);
+        fortressLevel.text = requirements.fortressLevel.ToString();
+        fortressLevel.color = (requirements.canIBuild == true) ? allowColor : deniedColor;
+        differenceHeigth = (requirements.canIBuild == true) ? levelBlockHeigth : 0;
+            
+        List<Cost> cost = requirements.costs;
+
         if(labels.Count < cost.Count)
         {
             Debug.Log("Too much costs!");
             return;
         }
 
-        itemCount = 0;
         for(int i = 0; i < cost.Count; i++)
         {
             labels[i].transform.parent.gameObject.SetActive(true);
@@ -46,10 +59,9 @@ public class CostTip : MonoBehaviour
             bool checkColor = resourcesManager.CheckMinResource(cost[i].type, cost[i].amount);
             amounts[i].color = (checkColor == true) ? allowColor : deniedColor;
             amounts[i].text = cost[i].amount.ToString();
-            itemCount++;
         }
 
-        float blockHeight = minHeight + itemHeight * itemCount;
-        tipBlock.SetSizeWithCurrentAnchors( RectTransform.Axis.Vertical, blockHeight);
+        resumeHeigth = fullHeigth - differenceHeigth;
+        tipBlock.SetSizeWithCurrentAnchors( RectTransform.Axis.Vertical, resumeHeigth);
     }
 }
