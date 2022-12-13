@@ -183,7 +183,7 @@ public class ResourcesManager : MonoBehaviour
         resourcesDict[type] += realValue;
 
         if(type != ResourceType.Health && type != ResourceType.Mana)
-            gmInterface.ShowDelta(type, value);
+            gmInterface.resourcesPart.ShowDelta(type, value);
 
         EventManager.OnUpgradeResourceEvent(type, resourcesDict[type]);
     }

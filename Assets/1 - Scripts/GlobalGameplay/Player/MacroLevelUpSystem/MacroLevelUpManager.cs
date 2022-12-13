@@ -61,8 +61,8 @@ public class MacroLevelUpManager : MonoBehaviour
         //}
         UpgradeTempExpGoal(false);
 
-        gmInterface.UpgradeLevel(GetLevelData());
-        gmInterface.UpgradeAbilityPoints(abilityPoints);
+        gmInterface.heroPart.UpgradeLevel(GetLevelData());
+        gmInterface.heroPart.UpgradeAbilityPoints(abilityPoints);
 
         GlobalStorage.instance.LoadNextPart();
     }
@@ -81,7 +81,7 @@ public class MacroLevelUpManager : MonoBehaviour
             currentExp += value;
         }
 
-        gmInterface.UpgradeLevel(GetLevelData());
+        gmInterface.heroPart.UpgradeLevel(GetLevelData());
     }
 
     private void UpgradeTempExpGoal(bool levelUpMode)
@@ -116,7 +116,7 @@ public class MacroLevelUpManager : MonoBehaviour
     public void ChangeAbilityPoints(int delta)
     {
         abilityPoints += delta;
-        gmInterface.UpgradeAbilityPoints(abilityPoints);
+        gmInterface.heroPart.UpgradeAbilityPoints(abilityPoints);
     }
 
     public void OpenAbility(MacroAbilitySO newAbility)

@@ -55,7 +55,7 @@ public class CalendarManager : MonoBehaviour
         boostManager = GlobalStorage.instance.boostManager;
         gmInterface = GlobalStorage.instance.gmInterface;
         calendarData = new CalendarData(daysLeft, day, decade, month);
-        gmInterface.UpdateCalendar(calendarData);
+        gmInterface.calendarPart.UpdateCalendar(calendarData);
 
         //decadeList = ShuffleList(decadeList);
         StartCoroutine(SetStartDecade());
@@ -128,7 +128,7 @@ public class CalendarManager : MonoBehaviour
         }
 
         calendarData = new CalendarData(daysLeft, day, decade, month);
-        gmInterface.UpdateCalendar(calendarData);
+        gmInterface.calendarPart.UpdateCalendar(calendarData);
     }
 
     private List<DecadeSO> ShuffleList(List<DecadeSO> oldList)
@@ -159,7 +159,7 @@ public class CalendarManager : MonoBehaviour
         }        
 
         currentDecadeEffect = decadeList[currentDecadeIndex];
-        gmInterface.UpdateDecadeOnCalendar(currentDecadeEffect);
+        gmInterface.calendarPart.UpdateDecadeOnCalendar(currentDecadeEffect);
 
         boost = EnumConverter.instance.RuneToBoostType(currentDecadeEffect.effect.rune);
         value = (currentDecadeEffect.isNegative == true) ? -currentDecadeEffect.effect.value : currentDecadeEffect.effect.value;

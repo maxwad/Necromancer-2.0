@@ -102,7 +102,7 @@ public class GMPlayerMovement : MonoBehaviour
         currentMovementPoints += value;
         if(currentMovementPoints > movementPointsMax) currentMovementPoints = movementPointsMax;
 
-        gmInterface.UpdateCurrentMoves(currentMovementPoints);
+        gmInterface.movesPart.UpdateCurrentMoves(currentMovementPoints);
         if(gmPathFinder != null && value > 0) gmPathFinder.RefreshPath(currentPosition, currentMovementPoints);
 
         ChangeActiveStatus(!(currentMovementPoints == 0));

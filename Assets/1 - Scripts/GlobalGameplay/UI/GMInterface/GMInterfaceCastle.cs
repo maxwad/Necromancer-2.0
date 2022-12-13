@@ -7,6 +7,9 @@ using static NameManager;
 
 public class GMInterfaceCastle : MonoBehaviour
 {
+    private FortressBuildings fortressBuildings;
+    private HeroFortress heroFortress;
+
     [SerializeField] private GameObject castleBlock;
     private RectTransform castleRect;
     [SerializeField] private TMP_Text levelText;
@@ -20,13 +23,12 @@ public class GMInterfaceCastle : MonoBehaviour
     [SerializeField] private Animator animator;
 
     public float minWidth = 110f;
-    public float itemWidth;
-    public float spaceWidth = 0;
-
-    private FortressBuildings fortressBuildings;
+    private float itemWidth;
+    private float spaceWidth = 0;
 
     private void Start()
     {
+        heroFortress = GlobalStorage.instance.heroFortress;
         fortressBuildings = GlobalStorage.instance.fortressBuildings;
         castleRect = castleBlock.GetComponent<RectTransform>();
 
@@ -78,5 +80,15 @@ public class GMInterfaceCastle : MonoBehaviour
 
         float width = minWidth + (itemWidth + spaceWidth) * newData.constractions.Count;
         castleRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, width);
+    }
+
+    public void UpdateCastleStatus()
+    {
+        Init();
+    }
+
+    public void OpenHeroFortressWindow()
+    {
+        heroFortress.Open(true);
     }
 }

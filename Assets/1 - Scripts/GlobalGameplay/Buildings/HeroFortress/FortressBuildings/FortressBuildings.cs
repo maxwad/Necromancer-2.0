@@ -129,7 +129,7 @@ public class FortressBuildings : MonoBehaviour
         buildingsInProgress.Remove(building);
         SetBonus(building, buildingBonus);
 
-        gmInterface.UpdateCastleStatus();
+        gmInterface.castlePart.UpdateCastleStatus();
     }
 
     public void UpgradeFortressLevel()
@@ -170,7 +170,7 @@ public class FortressBuildings : MonoBehaviour
             }
         }
 
-        gmInterface.UpdateCastleStatus();
+        gmInterface.castlePart.UpdateCastleStatus();
     }
 
     #endregion
@@ -367,7 +367,7 @@ public class FortressBuildings : MonoBehaviour
             buildingsComponentDict[item].UpdateBuildingProcess(buildingsInProgress[item]);
         }
 
-        gmInterface.UpdateCastleStatus();
+        gmInterface.castlePart.UpdateCastleStatus();
     }
 
     private void OnEnable()
