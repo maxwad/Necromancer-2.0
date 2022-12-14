@@ -35,4 +35,4 @@ MonoBehaviour:
   - type: 4
     amount: 1000
   description: Increases growth of units in the castle by $V of each type.
-  BuildingDescription: Allows you to recruit units and increases their weekly growth.
+  buildingDescription: Allows you to recruit units and increases their weekly growth.

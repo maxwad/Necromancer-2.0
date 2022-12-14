@@ -72,4 +72,16 @@ public class Military : MonoBehaviour
     {
         unitManager.UpgradeUnitLevel(unitType, level);
     }
+
+    public void CloseAllConfirms()
+    {
+        foreach(var row in unitsRows)
+        {
+            UnitInMarketUI[] unitsInBuilding = row.GetComponentsInChildren<UnitInMarketUI>();
+            for(int j = 0; j < unitsInBuilding.Length; j++)
+            {
+                unitsInBuilding[j].CloseConfirm();
+            }
+        }
+    }
 }

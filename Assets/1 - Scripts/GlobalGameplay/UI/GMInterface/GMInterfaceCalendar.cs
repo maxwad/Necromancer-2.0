@@ -16,13 +16,9 @@ public class GMInterfaceCalendar : MonoBehaviour
     [SerializeField] private TMP_Text weekDescription;
     [SerializeField] private TooltipTrigger weekTooltip;
 
-    private void Start()
-    {
-        mainInterface = GetComponent<GMInterface>();
-    }
-
     public void UpdateCalendar(CalendarData data)
     {
+        if(mainInterface == null) mainInterface = GetComponent<GMInterface>();
         mainInterface.movesPart.DaysLeft(data.daysLeft);
 
         currentDayCount.text = data.currentDay.ToString();

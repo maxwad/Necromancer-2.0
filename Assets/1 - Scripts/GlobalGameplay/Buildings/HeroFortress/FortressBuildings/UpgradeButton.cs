@@ -11,17 +11,10 @@ public class UpgradeButton : MonoBehaviour, IPointerEnterHandler, IPointerClickH
     [SerializeField] private Button button;
     [SerializeField] private FBuilding building;
     [SerializeField] private InfotipTrigger costDescription;
-    [SerializeField] private GameObject warningBlock;
-    [SerializeField] private TMP_Text requiredLevel;
-
-    //public void SetRequiredLevel(int level)
-    //{
-    //    requiredLevel.text = level.ToString();
-    //}
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        building.StartToBuild();
+        building.TryToBuild();
     }
 
     public void OnPointerEnter(PointerEventData eventData)

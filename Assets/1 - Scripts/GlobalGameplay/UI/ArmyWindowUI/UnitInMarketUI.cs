@@ -22,6 +22,7 @@ public class UnitInMarketUI : MonoBehaviour
     [SerializeField] private Button nextBtn;
     [SerializeField] private List<GameObject> costs;
     [SerializeField] private InfotipTrigger tip;
+    [SerializeField] private GameObject confirmBlock;
 
     [SerializeField] private Color normalColor;
     [SerializeField] private Color warningColor;
@@ -143,21 +144,46 @@ public class UnitInMarketUI : MonoBehaviour
         }
     }
 
-    public void Deal()
+    //Button
+    public void Confirm()
+    {
+        Deal();
+        CloseConfirm();
+    }
+
+    //Button
+    public void TryDeal()
     {
         if(canIUpgradeUnit == true)
         {
-            foreach(var costItem in costList)
-            {
-                resourcesManager.ChangeResource(costItem.Key, -costItem.Value);
-            }
-
-            root.UpgradeUnitLevel(unitsType, level + 1);
-            root.Init(root.currentBuilding);
+            root.CloseAllConfirms();
+            ShowConfirm();
         }
         else
         {
             InfotipManager.ShowWarning("You don't have enough resources to upgrade a unit.");
         }
+    }
+
+    public void Deal() 
+    {
+        foreach(var costItem in costList)
+        {
+            resourcesManager.ChangeResource(costItem.Key, -costItem.Value);
+        }
+
+        root.UpgradeUnitLevel(unitsType, level + 1);
+        root.Init(root.currentBuilding);
+    }
+
+    public void ShowConfirm()
+    {
+        allBuildings.CloseAnotherConfirm();
+        confirmBlock.SetActive(true);
+    }
+
+    public void CloseConfirm()
+    {
+        confirmBlock.SetActive(false);
     }
 }

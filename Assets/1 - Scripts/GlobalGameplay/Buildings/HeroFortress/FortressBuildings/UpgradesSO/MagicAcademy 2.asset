@@ -35,4 +35,4 @@ MonoBehaviour:
   - type: 4
     amount: 1000
   description: Allows you to reduce the cost of upgrading magic units by $V%
-  BuildingDescription: Allows you to recruit and upgrade magical units.
+  buildingDescription: Allows you to recruit and upgrade magical units.

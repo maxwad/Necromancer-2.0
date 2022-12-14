@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 using static NameManager;
 
@@ -32,9 +33,6 @@ public class FortressBuildings : MonoBehaviour
     [SerializeField] private TMP_Text fortressLevelText;
     private int fortressLevel = 0;
 
-    public int maxLevel = 3;
-    public int destroyBuildings = 3;
-
     [SerializeField] private List<GameObject> buildingsGOList;
     private Dictionary<CastleBuildings, FBuilding> buildingsComponentDict = new Dictionary<CastleBuildings, FBuilding>();
 
@@ -45,16 +43,35 @@ public class FortressBuildings : MonoBehaviour
     public Dictionary<CastleBuildings, List<FortressUpgradeSO>> upgradesDict = new Dictionary<CastleBuildings, List<FortressUpgradeSO>>();
 
     public Dictionary<CastleBuildingsBonuses, float> buildingsBonuses = new Dictionary<CastleBuildingsBonuses, float>();
+   
+    [Space]
+    [Header("Descriptions")]
+    [SerializeField] private GameObject buildingDescription;
+    private CanvasGroup buildingCanvas;
+    [SerializeField] private List<GameObject> descriptionLevels;
+    [SerializeField] private TMP_Text descriptionCaption;
+    [SerializeField] private TMP_Text descriptionText;
 
-    private Dictionary<CastleBuildings, ConstructionTime> buildingsInProgress = new Dictionary<CastleBuildings, ConstructionTime>();
+    [Space]
+    [Header("BuildingProgress")]
     private int maxCountOfProgress = 3;
+    private Dictionary<CastleBuildings, ConstructionTime> buildingsInProgress = new Dictionary<CastleBuildings, ConstructionTime>();
+    [SerializeField] private TMP_Text countOfProgressText;
+    [SerializeField] private Image progressBG;
+    [SerializeField] private Color emptyColor;
+    [SerializeField] private Color normalColor;
+    [SerializeField] private Color warningColor;
 
+    [Space]
+    [Header("Params")]
+    public int maxLevel = 3;
+    public int destroyBuildings = 3;
 
     private void Awake()
     {
         foreach(var item in buildingsGOList)
         {
-            FBuilding buildingComponent = item.GetComponentInChildren<FBuilding>(true);
+            FBuilding buildingComponent = item.GetComponent<FBuilding>();
             buildingsComponentDict.Add(buildingComponent.building, buildingComponent);
         }
 
@@ -78,12 +95,15 @@ public class FortressBuildings : MonoBehaviour
             upgradesDict.Add(item, upgrades);
         }
 
+        buildingCanvas = buildingDescription.GetComponent<CanvasGroup>();
+
         UpgradeFortressLevel();
     }
 
     private void Start()
     {
         gmInterface = GlobalStorage.instance.gmInterface;
+        UpdateBuildProgressUI();
     }
 
     public void Test()
@@ -127,6 +147,7 @@ public class FortressBuildings : MonoBehaviour
         if(newLevel == 0) allReadyBuildings.Remove(building);
 
         buildingsInProgress.Remove(building);
+        UpdateBuildProgressUI();
         SetBonus(building, buildingBonus);
 
         gmInterface.castlePart.UpdateCastleStatus();
@@ -325,6 +346,15 @@ public class FortressBuildings : MonoBehaviour
         return quantity;
     }
 
+    public void UpdateBuildingsStatus()
+    {        
+        foreach(var building in buildingsComponentDict)
+        {
+
+            building.Value.CheckRequirements();            
+        }
+    }
+
     public bool CanIBuild()
     {
         return buildingsInProgress.Count < maxCountOfProgress;
@@ -352,11 +382,14 @@ public class FortressBuildings : MonoBehaviour
         constructionTime.term = originalDays + Mathf.FloorToInt(originalDays * discountDays);
         constructionTime.daysLeft = constructionTime.term;
         buildingsInProgress.Add(building, constructionTime);
+        UpdateBuildProgressUI();
 
         return constructionTime;
     }
 
     #endregion
+
+    #region UI
 
     private void NewDay()
     {
@@ -369,6 +402,55 @@ public class FortressBuildings : MonoBehaviour
 
         gmInterface.castlePart.UpdateCastleStatus();
     }
+
+    private void UpdateBuildProgressUI()
+    {
+        if(buildingsInProgress.Count == 0)
+            progressBG.color = emptyColor;
+        else if(buildingsInProgress.Count == maxCountOfProgress)
+            progressBG.color = warningColor;
+        else
+            progressBG.color = normalColor;
+
+        countOfProgressText.text = buildingsInProgress.Count + "/" + maxCountOfProgress;
+    }
+
+    public void ShowDescription(CastleBuildings building)
+    {
+        descriptionCaption.text = upgradesDict[building][0].buildingName;
+        descriptionText.text = upgradesDict[building][0].buildingDescription;
+
+        int currentLevel = buildingsLevels[building];
+        for(int i = 0; i < descriptionLevels.Count; i++)
+        {
+            FortressUpgradeSO bonus = GetBuildingBonus(building, i);
+
+            descriptionLevels[i].transform.GetChild(0).gameObject.SetActive((i + 1 == currentLevel));
+
+            string levelDescription = bonus.description;
+            levelDescription = levelDescription.Replace("$V", bonus.value.ToString());
+            TMP_Text[] texts = descriptionLevels[i].GetComponentsInChildren<TMP_Text>();
+            texts[texts.Length - 1].text = levelDescription;
+        }
+
+        buildingDescription.SetActive(true);
+        Fading.instance.FadeWhilePause(true, buildingCanvas);
+    }
+
+    public void CloseDescription()
+    {
+        buildingDescription.SetActive(false);
+    }
+
+    public void CloseAnotherConfirm()
+    {
+        foreach(var building in buildingsComponentDict)
+        {
+            building.Value.CloseConfirm();
+        }
+    }
+
+    #endregion
 
     private void OnEnable()
     {

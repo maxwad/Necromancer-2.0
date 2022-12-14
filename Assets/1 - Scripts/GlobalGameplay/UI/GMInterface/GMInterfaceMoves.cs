@@ -13,12 +13,10 @@ public class GMInterfaceMoves : MonoBehaviour
     [SerializeField] private GameObject movesContainer;
     [SerializeField] private TMP_Text currentMovesCount;
     [SerializeField] private TMP_Text leftDaysCount;
-    [SerializeField] private Button nextDayButton;
-    private Animator nextDayBtnAnimator;
+    [SerializeField] private Animator nextDayButton;
 
     private void Start()
     {
-        nextDayBtnAnimator = nextDayButton.GetComponent<Animator>();
         calendarManager = GlobalStorage.instance.calendarManager;
     }
 
@@ -28,7 +26,7 @@ public class GMInterfaceMoves : MonoBehaviour
 
         bool mode = (currentValue == 0) ? true : false;
 
-        nextDayBtnAnimator.SetBool(TagManager.A_BLINK, mode);
+        nextDayButton.SetBool(TagManager.A_BLINK, mode);
     }
 
     public void DaysLeft(int days)

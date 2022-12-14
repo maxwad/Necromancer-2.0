@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 using static NameManager;
 
@@ -17,21 +18,26 @@ public class CostTip : MonoBehaviour
     [SerializeField] private TMP_Text fortressLevel;
 
     [SerializeField] private GameObject costBlock;
-    [SerializeField] private List<TMP_Text> labels;
-    [SerializeField] private List<TMP_Text> amounts;
+    private List<Image> labels;
+    private List<TMP_Text> amounts;
 
     [SerializeField] private Color allowColor;
     [SerializeField] private Color deniedColor;
 
     private ResourcesManager resourcesManager;
+    public Dictionary<ResourceType, Sprite> resourcesIcons;
 
     public void Init(BuildingsRequirements requirements)
     {
         if(resourcesManager == null)
         {
             resourcesManager = GlobalStorage.instance.resourcesManager;
+            resourcesIcons = resourcesManager.GetAllResourcesIcons();
             levelBlockHeigth = levelBlock.GetComponent<RectTransform>().rect.height;
             fullHeigth = tipBlock.rect.height;
+
+            labels = new List<Image>(costBlock.GetComponentsInChildren<Image>());
+            amounts = new List<TMP_Text>(costBlock.GetComponentsInChildren<TMP_Text>());
         }
 
         foreach(var item in labels)
@@ -55,7 +61,7 @@ public class CostTip : MonoBehaviour
         for(int i = 0; i < cost.Count; i++)
         {
             labels[i].transform.parent.gameObject.SetActive(true);
-            labels[i].text = cost[i].type.ToString();
+            labels[i].sprite = resourcesIcons[cost[i].type];
             bool checkColor = resourcesManager.CheckMinResource(cost[i].type, cost[i].amount);
             amounts[i].color = (checkColor == true) ? allowColor : deniedColor;
             amounts[i].text = cost[i].amount.ToString();

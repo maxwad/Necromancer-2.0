@@ -23,6 +23,6 @@ public class FortressUpgradeSO : ScriptableObject
     public List<Cost> cost;
     
     public string description;
-    public string BuildingDescription;
+    public string buildingDescription;
 
 }

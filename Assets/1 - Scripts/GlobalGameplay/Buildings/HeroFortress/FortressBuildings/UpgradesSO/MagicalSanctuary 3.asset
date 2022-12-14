@@ -35,5 +35,5 @@ MonoBehaviour:
   - type: 4
     amount: 1000
   description: Creating a Legendary Seal.
-  BuildingDescription: Allows you to conduct an experiment to create a Legendary
+  buildingDescription: Allows you to conduct an experiment to create a Legendary
     Seal.

@@ -35,4 +35,4 @@ MonoBehaviour:
   - type: 4
     amount: 1000
   description: Increases the duration of the siege by $V days.
-  BuildingDescription: Increases the duration of the siege of the hero's castle.
+  buildingDescription: Increases the duration of the siege of the hero's castle.

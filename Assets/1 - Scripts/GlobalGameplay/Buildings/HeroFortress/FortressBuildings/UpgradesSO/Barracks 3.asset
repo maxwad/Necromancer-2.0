@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   building: 0
   buildingName: Barracks
+  buildingBonus: 0
   activeIcon: {fileID: -709458913004607758, guid: 108daa14e3115264995337bc498c548a, type: 3}
   inActiveIcon: {fileID: 3241740257632897240, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
   level: 3
@@ -34,4 +35,4 @@ MonoBehaviour:
   - type: 4
     amount: 1000
   description: Allows you to reduce the cost of upgrading melee units by $V%
-  BuildingDescription: Allows you to recruit and upgrade melee units.
+  buildingDescription: Allows you to recruit and upgrade melee units.

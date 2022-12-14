@@ -34,7 +34,7 @@ MonoBehaviour:
     amount: 1000
   - type: 4
     amount: 1000
-  description: 'Reduces building construction time by $V%. Number of parallel buildings:
+  description: 'Reduces building construction time by $V%. Construction queue limit:
     2.'
-  BuildingDescription: Reduces building construction time and allows you to build
-    several buildings at the same time.
+  buildingDescription: Reduces building construction time and increases construction
+    queue limit.

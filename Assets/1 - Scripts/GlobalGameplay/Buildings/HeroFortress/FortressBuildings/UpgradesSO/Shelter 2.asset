@@ -35,4 +35,4 @@ MonoBehaviour:
   - type: 4
     amount: 1000
   description: When visiting the castle, the hero fully restores health.
-  BuildingDescription: Gives the hero a rest once a week.
+  buildingDescription: Gives the hero a rest once a week.

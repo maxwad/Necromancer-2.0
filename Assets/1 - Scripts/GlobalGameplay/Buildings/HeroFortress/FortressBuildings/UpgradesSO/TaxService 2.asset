@@ -35,4 +35,4 @@ MonoBehaviour:
   - type: 4
     amount: 1000
   description: Reduces the cost of build or upgrade buildings by $V%.
-  BuildingDescription: Reduces the construction cost of all buildings.
+  buildingDescription: Reduces the construction cost of all buildings.

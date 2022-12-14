@@ -14,7 +14,7 @@ public class BuildingsRequirements
     public bool canIBuild;
 }
 
-public class FBuilding : MonoBehaviour, IPointerClickHandler
+public class FBuilding : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [Header("Parameters")]
     public CastleBuildings building;
@@ -26,21 +26,39 @@ public class FBuilding : MonoBehaviour, IPointerClickHandler
     [HideInInspector] public string buildingDescr;
     private FortressUpgradeSO currentBonus;
     private ConstructionTime constructionTime;
+    private bool canIBuild = true;
 
     [Header("UI Elements")]
-    [SerializeField] private Button buildingButton;
+    [SerializeField] private Image buildingsBG;
     [SerializeField] private Image buildingsIcon;
-    [SerializeField] private GameObject levelBlock;
-    [SerializeField] private TMP_Text levelText;
+    [SerializeField] private GameObject statusBuild;
+    [SerializeField] private GameObject statusUpgrade;
+    [SerializeField] private Button buildingButton;
     [SerializeField] private Button upgradeButton;
     [SerializeField] private UpgradeButton upgradeButtonC;
-    [SerializeField] private TooltipTrigger description;
+    [SerializeField] private TMP_Text caption;
+    [SerializeField] private TMP_Text levelText;
     [SerializeField] private InfotipTrigger costDescription;
+    [SerializeField] private string zeroStatus = "Not built";
+
+    [Header("ConfirmBlock")]
+    [SerializeField] private GameObject confirmBlock;
+
+    [Header("Warnings")]
+    [SerializeField] private GameObject levelBlock;
+    [SerializeField] private GameObject warningBlock;
+    [SerializeField] private GameObject warningLevel;
+    [SerializeField] private GameObject warningQueue;
+    [SerializeField] private GameObject warningCost;
+    [SerializeField] private Color warningColor;
+    [SerializeField] private Color normalColor;
 
     [Header("BuildProcess")]
     [SerializeField] private GameObject processBlock;
     [SerializeField] private Image processScale;
     [SerializeField] private TMP_Text processText;
+    [SerializeField] private TMP_Text levelFromText;
+    [SerializeField] private TMP_Text levelToText;
 
     private OpeningBuildingWindow door;
     private FortressBuildings allBuildings;
@@ -49,8 +67,6 @@ public class FBuilding : MonoBehaviour, IPointerClickHandler
     private void Start()
     { 
         door = GlobalStorage.instance.fortressBuildingDoor;
-        resourcesManager = GlobalStorage.instance.resourcesManager;
-        //upgradeButtonC = upgradeButton.GetComponent<UpgradeButton>();
     }
 
     private void OnEnable()
@@ -60,37 +76,60 @@ public class FBuilding : MonoBehaviour, IPointerClickHandler
 
     private void Init()
     {
-        if(allBuildings == null) allBuildings = GlobalStorage.instance.fortressBuildings;
+        if(allBuildings == null)
+        {
+            allBuildings = GlobalStorage.instance.fortressBuildings;
+            resourcesManager = GlobalStorage.instance.resourcesManager;
+            door = GlobalStorage.instance.fortressBuildingDoor;
+        }
         //we don't care about level, we need common info
         currentBonus = allBuildings.GetBuildingBonus(building, 1);
 
         upgradeButton.gameObject.SetActive(true);
 
         buildingName = currentBonus.buildingName;
-        buildingDescr = currentBonus.BuildingDescription;
-        description.header = currentBonus.buildingName;
-        description.content = currentBonus.BuildingDescription;
+        caption.text = buildingName;
 
-        processBlock.SetActive(allBuildings.GetConstructionStatus(building));
+        buildingDescr = currentBonus.buildingDescription;
 
-        if(level == 0)
+        if(allBuildings.GetConstructionStatus(building) == true)
         {
-            buildingButton.interactable = false;
-            buildingsIcon.sprite = currentBonus.inActiveIcon;
+            processBlock.SetActive(true);
             levelBlock.SetActive(false);
+            warningBlock.SetActive(false);
+            upgradeButton.gameObject.SetActive(false);
         }
         else
         {
-            buildingButton.interactable = true;
-            buildingsIcon.sprite = currentBonus.activeIcon;
-            levelBlock.SetActive(true);
-            levelText.text = LevelConverter();
+            processBlock.SetActive(false);
 
-            if(level >= allBuildings.GetMaxLevel())
+            levelBlock.SetActive(true);
+            levelText.text = (level == 0) ? zeroStatus : ("Level " + level);
+            warningBlock.SetActive(true);
+            CheckRequirements();
+
+            if(level == 0)
             {
-                upgradeButton.gameObject.SetActive(false);
+                buildingsBG.color = new Color(buildingsBG.color.r, buildingsBG.color.g, buildingsBG.color.b, 0.9f);
+                buildingsIcon.sprite = currentBonus.inActiveIcon;
+                levelText.color = warningColor;
+                statusBuild.SetActive(true);
+                statusUpgrade.SetActive(false);
             }
-        }
+            else
+            {
+                levelText.color = Color.white;
+                buildingsBG.color = new Color(buildingsBG.color.r, buildingsBG.color.g, buildingsBG.color.b, 1f);
+                buildingsIcon.sprite = currentBonus.activeIcon;
+                statusBuild.SetActive(false);
+                statusUpgrade.SetActive(true);
+
+                if(level >= allBuildings.GetMaxLevel())
+                {
+                    upgradeButton.gameObject.SetActive(false);
+                }
+            }
+        }      
     }
 
     public BuildingsRequirements GetRequirements()
@@ -98,23 +137,46 @@ public class FBuilding : MonoBehaviour, IPointerClickHandler
         BuildingsRequirements requirements = new BuildingsRequirements();
         requirements.costs = allBuildings.GetBuildingCost(building);
         requirements.fortressLevel = allBuildings.GetRequiredLevel(building);
-        requirements.canIBuild = upgradeButton.interactable;
+        requirements.canIBuild = canIBuild;
 
         return requirements;
     }
-
-    private string LevelConverter()
-    {
-        string levelText = "";
-
-        if(level == 1) levelText = "I";
-        if(level == 2) levelText = "II";
-        if(level == 3) levelText = "III";
-
-        return levelText;
-    }
     
-    public void StartToBuild()
+    public void CheckRequirements()
+    {
+        BuildingsRequirements requirements = GetRequirements();
+
+        bool costFlag = true;
+        for(int i = 0; i < requirements.costs.Count; i++)
+        {
+            if(resourcesManager.CheckMinResource(requirements.costs[i].type, requirements.costs[i].amount) == false)
+            {
+                costFlag = false;
+                break;
+            }            
+        }
+
+        warningCost.SetActive(!costFlag);
+
+        bool levelFlag = requirements.canIBuild;
+        warningLevel.SetActive(!levelFlag);
+
+        bool queueFlag = allBuildings.CanIBuild();
+        warningQueue.SetActive(!queueFlag);
+
+        bool permission = true;
+        if(costFlag == false || levelFlag == false || queueFlag == false)
+        {
+            permission = false;
+        }
+
+        var colors = upgradeButton.colors;
+        colors.normalColor = (permission == true) ? normalColor : warningColor;
+        colors.selectedColor = (permission == true) ? normalColor : warningColor;
+        upgradeButton.colors = colors;
+    }
+
+    public void TryToBuild()
     {
         if(allBuildings.CheckNeededLevel(building) == false)
         {
@@ -134,9 +196,16 @@ public class FBuilding : MonoBehaviour, IPointerClickHandler
             return;
         }
 
+        ShowConfirm();   
+    }
+
+    //Button
+    public void Confirm()
+    {
         constructionTime = allBuildings.StartBuildingBuilding(building);
         Pay();
-        StartBuildingProcess();        
+        StartBuildingProcess();
+        CloseConfirm();
     }
 
     private void StartBuildingProcess()
@@ -145,7 +214,15 @@ public class FBuilding : MonoBehaviour, IPointerClickHandler
         processScale.fillAmount = 0;
         processText.text = constructionTime.daysLeft.ToString();
 
+        levelBlock.SetActive(false);
+        levelFromText.text = level.ToString();
+        levelToText.text = (level + 1).ToString();
+
+        warningBlock.SetActive(false);
+
         upgradeButton.gameObject.SetActive(false);
+
+        allBuildings.UpdateBuildingsStatus();
     }
 
     public void UpdateBuildingProcess(ConstructionTime term)
@@ -181,10 +258,7 @@ public class FBuilding : MonoBehaviour, IPointerClickHandler
 
     public void UpdateStatus(bool canIBeBuilt)
     {
-        upgradeButton.interactable = canIBeBuilt;
-
-        //if(canIBeBuilt == false && allBuildings != null)
-        //    upgradeButtonC.SetRequiredLevel(allBuildings.GetRequiredLevel(building));
+        canIBuild = canIBeBuilt;
     }
 
     private bool CanIBuild()
@@ -210,6 +284,17 @@ public class FBuilding : MonoBehaviour, IPointerClickHandler
         }
     }
 
+    public void ShowConfirm()
+    {
+        allBuildings.CloseAnotherConfirm();
+        confirmBlock.SetActive(true);
+    }
+
+    public void CloseConfirm()
+    {
+        confirmBlock.SetActive(false);
+    }
+
     public void OnPointerClick(PointerEventData eventData)
     {
         if(level > 0)
@@ -219,5 +304,15 @@ public class FBuilding : MonoBehaviour, IPointerClickHandler
         }
         else
             InfotipManager.ShowMessage("This building has not yet been built.");
-    }    
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        allBuildings.ShowDescription(building);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        allBuildings.CloseDescription();
+    }
 }

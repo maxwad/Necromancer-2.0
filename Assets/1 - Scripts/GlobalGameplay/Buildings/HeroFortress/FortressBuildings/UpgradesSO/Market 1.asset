@@ -35,4 +35,4 @@ MonoBehaviour:
   - type: 4
     amount: 1000
   description: Reduces the base resource exchange rate by $V%.
-  BuildingDescription: Reduces the base resource exchange rate in the market.
+  buildingDescription: Reduces the base resource exchange rate in the market.

@@ -69,6 +69,8 @@ public class HeroFortress : MonoBehaviour
         uiPanel.SetActive(true);
         isWindowOpen = true;
         door.Close();
+        buildings.CloseDescription();
+        buildings.CloseAnotherConfirm();
 
         isHeroInside = !openByClick;
         garrison.Init(isHeroInside);
