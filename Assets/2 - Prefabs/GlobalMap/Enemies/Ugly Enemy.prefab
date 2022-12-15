@@ -132,7 +132,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb3ddc64c2e8b774aa147bf5ed605f5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectType: 15
+  objectType: 12
+  isItDoor: 0
   isNormalUIWindow: 0
   canBeOpenedByClick: 1
   canBeOpenedByMove: 1
@@ -150,5 +151,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   commonCount: 0
-  armyStrength: 1
   typeOfArmy: 0

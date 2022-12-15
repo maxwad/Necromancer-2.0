@@ -7,33 +7,32 @@ public class ResourceBuilder : MonoBehaviour
 {
     private GlobalMapTileManager gmManager;
 
-    public Tilemap resoursesMap;
-    private List<Vector3> resoursesPoints = new List<Vector3>();
-    public List<GameObject> resoursesPrefabs;
-
+    public Tilemap resourcesMap;
+    [SerializeField] private GameObject buildingsContainer;
+    private List<Vector3> resourcesPoints = new List<Vector3>();
+    public GameObject resourcePrefab;
 
     public void Build(GlobalMapTileManager manager)
     {
         if(gmManager == null) gmManager = manager;
 
-        for(int x = 0; x < resoursesMap.size.x; x++)
+        for(int x = 0; x < resourcesMap.size.x; x++)
         {
-            for(int y = 0; y < resoursesMap.size.y; y++)
+            for(int y = 0; y < resourcesMap.size.y; y++)
             {
                 Vector3Int position = new Vector3Int(x, y, 0);
-                if(resoursesMap.HasTile(position) == true)
+                if(resourcesMap.HasTile(position) == true)
                 {
-                    resoursesPoints.Add(resoursesMap.CellToWorld(position));
-                    resoursesMap.SetTile(position, null);
+                    resourcesPoints.Add(resourcesMap.CellToWorld(position));
+                    resourcesMap.SetTile(position, null);
                 }
             }
         }
 
-        for(int i = 0; i < resoursesPoints.Count; i++)
+        for(int i = 0; i < resourcesPoints.Count; i++)
         {
-            GameObject randomBuilding = resoursesPrefabs[Random.Range(0, resoursesPrefabs.Count)];
-            GameObject resBuilding = Instantiate(randomBuilding, resoursesPoints[i], Quaternion.identity);
-            resBuilding.transform.SetParent(resoursesMap.transform);
+            GameObject resBuilding = Instantiate(resourcePrefab, resourcesPoints[i], Quaternion.identity);
+            resBuilding.transform.SetParent(buildingsContainer.transform);
 
             manager.AddBuildingToAllOnTheMap(resBuilding);
         }

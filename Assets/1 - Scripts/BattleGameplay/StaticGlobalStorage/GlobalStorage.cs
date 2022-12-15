@@ -41,6 +41,7 @@ public class GlobalStorage : MonoBehaviour
     public PlayerPersonalWindow playerMilitaryWindow;
     public TemperCommonUIManager commonUIManager;
     public OpeningBuildingWindow fortressBuildingDoor;
+    public ResourceBuildingDoor resourceBuildingDoor;
 
     [Header("Player")]
     public GameObject player;

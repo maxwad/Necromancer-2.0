@@ -132,11 +132,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb3ddc64c2e8b774aa147bf5ed605f5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectType: 8
+  objectType: 5
+  isItDoor: 0
   isNormalUIWindow: 1
   canBeOpenedByClick: 1
   canBeOpenedByMove: 1
-  tooltip: {fileID: 0}
   cursor: 3
 --- !u!114 &8960518752840200900
 MonoBehaviour:

@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03d9dc33cb48cc14abc2285efd58cab3, type: 3}
+  m_Name: DefenceTowers
+  m_EditorClassIdentifier: 
+  upgradeName: Defence Towers
+  upgradeBonus: 1
+  activeIcon: {fileID: -7024677493080287692, guid: 108daa14e3115264995337bc498c548a, type: 3}
+  inActiveIcon: {fileID: -8251309438438452782, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
+  value: 5
+  percentValueType: 0
+  isInverted: 0
+  cost:
+  - type: 0
+    amount: 1000
+  - type: 1
+    amount: 2000
+  - type: 2
+    amount: 2000
+  - type: 3
+    amount: 500
+  - type: 4
+    amount: 1000
+  description: Defensive towers appear near the building, which increase the duration
+    of the siege by $V days.

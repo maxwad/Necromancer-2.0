@@ -150,6 +150,22 @@ public static class NameManager
         Health
     }
 
+    public enum ResourceBuildings
+    {
+        Farm,
+        Quarry,
+        Mine,
+        Sawmill,
+    }
+
+    public enum ResourceBuildingsUpgrades
+    {
+        Garrison,
+        SiegeTime,
+        ResourceBonus,
+        DailyResources
+    }
+
     public enum PlayersStats
     {
         Level = 0, 
@@ -344,10 +360,7 @@ public static class NameManager
         PlayersCastle,
         NecromancerCastle,
         Castle,
-        ResoursesFarm,
-        ResoursesQuarry,
-        ResoursesMine,
-        ResoursesSawmill,
+        ResourceBuilding,
         Outpost,
         Camp,
         Altar,

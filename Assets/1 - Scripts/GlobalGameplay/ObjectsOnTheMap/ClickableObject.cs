@@ -103,16 +103,9 @@ public class ClickableObject : MonoBehaviour
             case TypeOfObjectOnTheMap.Castle:
                 break;
 
-            case TypeOfObjectOnTheMap.ResoursesFarm:
-                break;
-
-            case TypeOfObjectOnTheMap.ResoursesQuarry:
-                break;
-
-            case TypeOfObjectOnTheMap.ResoursesMine:
-                break;
-
-            case TypeOfObjectOnTheMap.ResoursesSawmill:
+            case TypeOfObjectOnTheMap.ResourceBuilding:
+                ResourceBuilding rBuilding = GetComponent<ResourceBuilding>();
+                GlobalStorage.instance.resourceBuildingDoor.Open(modeClick, rBuilding);
                 break;
 
             case TypeOfObjectOnTheMap.Outpost:

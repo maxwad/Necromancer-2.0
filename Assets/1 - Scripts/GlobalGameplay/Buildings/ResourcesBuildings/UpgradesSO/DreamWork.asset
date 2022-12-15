@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03d9dc33cb48cc14abc2285efd58cab3, type: 3}
+  m_Name: DreamWork
+  m_EditorClassIdentifier: 
+  upgradeName: Dream Work
+  upgradeBonus: 2
+  activeIcon: {fileID: -121169853405687627, guid: 108daa14e3115264995337bc498c548a, type: 3}
+  inActiveIcon: {fileID: -3057057298042063049, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
+  value: 50
+  percentValueType: 1
+  isInverted: 0
+  cost:
+  - type: 0
+    amount: 2000
+  - type: 1
+    amount: 1000
+  - type: 2
+    amount: 1000
+  - type: 3
+    amount: 2000
+  - type: 4
+    amount: 2000
+  description: Increases building income by $V%.

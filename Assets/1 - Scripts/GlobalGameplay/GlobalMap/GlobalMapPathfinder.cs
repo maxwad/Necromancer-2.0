@@ -36,7 +36,7 @@ public class GlobalMapPathfinder : MonoBehaviour
     private Dictionary<Vector2, GameObject> counterStepDict = new Dictionary<Vector2, GameObject>();
 
     public Dictionary<GameObject, Vector3> enterPointsDict = new Dictionary<GameObject, Vector3>();
-    public GameObject focusObject = null;
+    [HideInInspector] public GameObject focusObject = null;
     private bool shouldIClearPath = false;
 
     private void Awake()

@@ -190,8 +190,11 @@ public class GlobalMapTileManager : MonoBehaviour
             Vector3Int enterPoint = SearchRealEmptyCellNearRoad(false, allBuildingsOnTheMap[i].transform.position);
             pos = roadMap.CellToWorld(enterPoint);
             //roadMap.SetTile(enterPoint, fogTile);
-            enterPointsDict.Add(allBuildingsOnTheMap[i], pos);
-            SortingBuildings(allBuildingsOnTheMap[i], pos);
+            if(enterPointsDict.ContainsKey(allBuildingsOnTheMap[i]) == false)
+            {
+                enterPointsDict.Add(allBuildingsOnTheMap[i], pos);
+                SortingBuildings(allBuildingsOnTheMap[i], pos);
+            }
         }
     }
 
@@ -303,13 +306,7 @@ public class GlobalMapTileManager : MonoBehaviour
                 break;
             case TypeOfObjectOnTheMap.Castle:
                 break;
-            case TypeOfObjectOnTheMap.ResoursesFarm:
-                break;
-            case TypeOfObjectOnTheMap.ResoursesQuarry:
-                break;
-            case TypeOfObjectOnTheMap.ResoursesMine:
-                break;
-            case TypeOfObjectOnTheMap.ResoursesSawmill:
+            case TypeOfObjectOnTheMap.ResourceBuilding:
                 break;
             case TypeOfObjectOnTheMap.Outpost:
                 break;
