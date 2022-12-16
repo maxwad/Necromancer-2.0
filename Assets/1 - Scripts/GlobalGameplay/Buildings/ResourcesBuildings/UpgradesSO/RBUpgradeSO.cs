@@ -5,7 +5,7 @@ using static NameManager;
 
 [CreateAssetMenu(fileName = "RBUpgradeData", menuName = "RBUpgradeItem")]
 
-public class ResourceBuildingUpgradeSO : ScriptableObject
+public class RBUpgradeSO : ScriptableObject
 {
     public string upgradeName;
     public ResourceBuildingsUpgrades upgradeBonus;

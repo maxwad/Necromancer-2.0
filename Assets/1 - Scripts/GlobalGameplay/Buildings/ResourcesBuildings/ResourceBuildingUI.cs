@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using static NameManager;
 
-public class ResourceBuildingDoor : MonoBehaviour
+public class ResourceBuildingUI : MonoBehaviour
 {
     private ResourceBuilding currentBuilding;
     private ResourcesManager resourcesManager;
@@ -17,6 +17,14 @@ public class ResourceBuildingDoor : MonoBehaviour
     [Header("UI")]
     [SerializeField] private GameObject uiPanel;
     [SerializeField] private TMP_Text caption;
+    [SerializeField] private TMP_Text upgradesLimit;
+    [SerializeField] private Image resourceIcon;
+    [SerializeField] private TMP_Text resourceAmount;
+    [SerializeField] private GameObject garrisonBlock;
+    [SerializeField] private BuildingGarrison garrison;
+
+
+    [SerializeField] private List<RBUpgradeItemUI> upgradesUIList;
 
     private void Start()
     {
@@ -56,7 +64,22 @@ public class ResourceBuildingDoor : MonoBehaviour
 
     private void Init()
     {
+        caption.text = currentBuilding.buildingName;
+        resourceIcon.sprite = currentBuilding.resourceSprite;
 
+        currentBuilding.ResetResourceAmount();
+        resourceAmount.text = "+" + currentBuilding.resourceAmount;
+
+        upgradesLimit.text = currentBuilding.GetCountOfActiveUpgrades() + "/" + currentBuilding.maxCountUpgrades;
+
+        int index = 0;
+        foreach(var item in currentBuilding.upgradesStatus)
+        {
+            upgradesUIList[index].Init(item.Key, item.Value);
+            index++;
+        }
+
+        garrisonBlock.SetActive(currentBuilding.isGarrisonThere);
     }
 
 

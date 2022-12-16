@@ -45,10 +45,13 @@ public class CostTip : MonoBehaviour
             item.transform.parent.gameObject.SetActive(false);
         }
 
-        levelBlock.SetActive(!requirements.canIBuild);
-        fortressLevel.text = requirements.fortressLevel.ToString();
-        fortressLevel.color = (requirements.canIBuild == true) ? allowColor : deniedColor;
-        differenceHeigth = (requirements.canIBuild == true) ? levelBlockHeigth : 0;
+        if(requirements.isCostForCastle == true)
+        {
+            levelBlock.SetActive(!requirements.canIBuild);
+            fortressLevel.text = requirements.fortressLevel.ToString();
+            fortressLevel.color = (requirements.canIBuild == true) ? allowColor : deniedColor;
+            differenceHeigth = (requirements.canIBuild == true) ? levelBlockHeigth : 0;
+        }
             
         List<Cost> cost = requirements.costs;
 
@@ -57,6 +60,9 @@ public class CostTip : MonoBehaviour
             Debug.Log("Too much costs!");
             return;
         }
+
+
+        Debug.Log(cost.Count);
 
         for(int i = 0; i < cost.Count; i++)
         {

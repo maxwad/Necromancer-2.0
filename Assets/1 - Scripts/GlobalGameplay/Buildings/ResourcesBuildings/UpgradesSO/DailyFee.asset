@@ -30,4 +30,4 @@ MonoBehaviour:
     amount: 1000
   - type: 4
     amount: 1000
-  description: Resources enter the treasury daily (in proportion).
+  description: Resources enter the castle daily (in proportion).

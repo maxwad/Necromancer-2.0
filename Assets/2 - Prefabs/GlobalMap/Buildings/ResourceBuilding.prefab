@@ -135,7 +135,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectType: 3
-  isItDoor: 0
+  isItDoor: 1
   isNormalUIWindow: 1
   canBeOpenedByClick: 1
   canBeOpenedByMove: 1
@@ -167,8 +167,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cd3a89c6579e024e89eb67e4184c164, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  garrison: {fileID: 6385564124425461224}
   isRandomResource: 1
   buildingType: 0
+  buildingName: 
+  resourceSprite: {fileID: 0}
+  upgrades:
+  - {fileID: 11400000, guid: 05710b1c23daf5340b3c19657bf9c7c1, type: 2}
+  - {fileID: 11400000, guid: 65adc71254af1774bb0e187d7f0b2403, type: 2}
+  - {fileID: 11400000, guid: 33ea80ab188a8cb4eaee490d626372e0, type: 2}
+  - {fileID: 11400000, guid: 4497423a30b539e468f67625c21a780b, type: 2}
+  - {fileID: 11400000, guid: 95bf376ce9dff114a923aa30b53ceffb, type: 2}
+  - {fileID: 11400000, guid: 1de677ddc60b9bb46a284f6d56130400, type: 2}
+  maxCountUpgrades: 3
+  siegeDaysBase: 3
+  siegeDays: 0
+  resourceBonus: 0
+  resourceAmount: 0
+  dailyFee: 0
+  daysInWeek: 10
+  isGarrisonThere: 0
 --- !u!114 &6385564124425461224
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -176,7 +194,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5840141713861184889}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d44dc2fd513bc9d428a6a48d2f2d1d80, type: 3}
   m_Name: 

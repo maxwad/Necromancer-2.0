@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03d9dc33cb48cc14abc2285efd58cab3, type: 3}
   m_Name: DefenceTowers
   m_EditorClassIdentifier: 
-  upgradeName: Defence Towers
+  upgradeName: Towers
   upgradeBonus: 1
   activeIcon: {fileID: -7024677493080287692, guid: 108daa14e3115264995337bc498c548a, type: 3}
   inActiveIcon: {fileID: -8251309438438452782, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
@@ -30,5 +30,5 @@ MonoBehaviour:
     amount: 500
   - type: 4
     amount: 1000
-  description: Defensive towers appear near the building, which increase the duration
-    of the siege by $V days.
+  description: Workers are trained in military craft. The duration of the siege is
+    increased by $V days.

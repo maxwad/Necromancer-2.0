@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using static NameManager;
 
-public interface IDoorable<T>
+public interface IUpgradable
 {
-    void Open(T building);
+    public void TryToBuild();
+
+    public BuildingsRequirements GetRequirements();
 }

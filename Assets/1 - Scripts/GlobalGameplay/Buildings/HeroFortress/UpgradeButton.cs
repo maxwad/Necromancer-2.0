@@ -6,29 +6,24 @@ using TMPro;
 using UnityEngine.EventSystems;
 using static NameManager;
 
-public class UpgradeButton : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler, IPointerExitHandler
+public class UpgradeButton : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler
 {
-    [SerializeField] private Button button;
-    [SerializeField] private FBuilding building;
-    [SerializeField] private InfotipTrigger costDescription;
+    private IUpgradable parent;
+    private InfotipTrigger costDescription;
+
+    private void Start()
+    {
+        parent = transform.parent.GetComponent<IUpgradable>();
+        costDescription = GetComponent<InfotipTrigger>();
+    }
 
     public void OnPointerClick(PointerEventData eventData)
-    {
-        building.TryToBuild();
+    {      
+        parent.TryToBuild();
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        costDescription.SetCost(building.GetRequirements());
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        //warningBlock.SetActive(false);
-    }
-
-    private void OnDisable()
-    {
-        //warningBlock.SetActive(false);
+        costDescription.SetCost(parent.GetRequirements());
     }
 }

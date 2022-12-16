@@ -36,6 +36,8 @@ public class PlayerStats : MonoBehaviour
 
     [SerializeField] private float squadMaxSizeBase = 30;
 
+    [SerializeField] private float ExtraResources = 1;
+
     [Header("Number Parameters")]
     [Space]
     //3, 4
@@ -185,6 +187,10 @@ public class PlayerStats : MonoBehaviour
                     baseValue = squadMaxSizeBase;
                     break;
 
+                case PlayersStats.ExtraResourcesProduce:
+                    baseValue = ExtraResources;
+                    break;
+
                 default:
                     break;
             }
@@ -209,45 +215,11 @@ public class PlayerStats : MonoBehaviour
         Debug.Log("ForceUpdate: Now " + stat + " = " + GetCurrentParameter(stat));
     }
 
-    //private void AddBoostToStat(PlayersStats stat, float value)
-    //{
-    //    Stat upgradedStat = allStatsDict[stat];
-    //    upgradedStat.SetTempBoost(value);
-    //    allStatsDict[stat] = upgradedStat;
-
-    //    EventManager.OnSetNewPlayerStatEvent(stat, upgradedStat.maxValue);
-    //}
-
-    //private void UpgradeStatCurrentValue(PlayersStats stat, float maxValue, float currentValue)
-    //{
-    //    Stat currentStat = allStatsDict[stat];
-    //    currentStat.SetCurrentValue(currentValue);
-    //    allStatsDict[stat] = currentStat;
-    //}
-
-    //public void GetAllStartParameters()
-    //{
-    //    foreach(PlayersStats itemStat in Enum.GetValues(typeof(PlayersStats)))
-    //        EventManager.OnSetNewPlayerStatEvent(itemStat, allStatsDict[itemStat].maxValue);
-    //}
-
     public float GetCurrentParameter(PlayersStats stat)
     {
         float result = allStatsDict[stat].maxValue;
         float boost = boostManager.GetBoost(EnumConverter.instance.PlayerStatToBoostType(stat));
 
         return result + (result * boost);
-    }
-
-    private void OnEnable()
-    {
-        //EventManager.SetBoostToStat += AddBoostToStat;
-        //EventManager.UpgradeStatCurrentValue += UpgradeStatCurrentValue;
-    }
-
-    private void OnDisable()
-    {
-        //EventManager.SetBoostToStat -= AddBoostToStat;
-        //EventManager.UpgradeStatCurrentValue -= UpgradeStatCurrentValue;
     }
 }

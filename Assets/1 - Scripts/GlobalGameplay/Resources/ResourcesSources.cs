@@ -17,7 +17,9 @@ public class ResourceBuildingData
 public class ResourcesSources : MonoBehaviour
 {
     [SerializeField] private List<ResourceBuildingData> resourceBuildings;
+    [SerializeField] private List<RBUpgradeSO> upgrades;
 
+    #region GETTINGS
     public ResourceBuildingData GetResourceBuildingData(ResourceBuildings buildingType)
     {
         foreach(var building in resourceBuildings)
@@ -30,4 +32,12 @@ public class ResourcesSources : MonoBehaviour
 
         return null;
     }
+
+
+    public List<RBUpgradeSO> GetUpgrades()
+    {
+        return upgrades;
+    }
+
+    #endregion
 }

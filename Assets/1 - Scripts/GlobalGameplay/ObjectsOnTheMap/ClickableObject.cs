@@ -106,6 +106,7 @@ public class ClickableObject : MonoBehaviour
             case TypeOfObjectOnTheMap.ResourceBuilding:
                 ResourceBuilding rBuilding = GetComponent<ResourceBuilding>();
                 GlobalStorage.instance.resourceBuildingDoor.Open(modeClick, rBuilding);
+                isThereManager = true;
                 break;
 
             case TypeOfObjectOnTheMap.Outpost:
