@@ -156,6 +156,7 @@ public static class NameManager
         Quarry,
         Mine,
         Sawmill,
+        Castle
     }
 
     public enum ResourceBuildingsUpgrades

@@ -15,7 +15,7 @@ public class ResourceBuilding : MonoBehaviour
     [SerializeField] private bool isRandomResource = true;
     [SerializeField] private ResourceBuildings buildingType;
     [HideInInspector] public string buildingName;
-    private ResourceType resourceType;
+    [HideInInspector] public ResourceType resourceType;
     private SpriteRenderer spriteRenderer;
     [HideInInspector] public Sprite resourceSprite;
     private float resourceBaseQuote = 0;
@@ -30,11 +30,13 @@ public class ResourceBuilding : MonoBehaviour
     [Header("Bonuses")]
     [HideInInspector] public int siegeDaysBase = 3;
     [HideInInspector] public int siegeDays;
+    [HideInInspector] public int currentSiegeDays;
     [HideInInspector] public float resourceBonus;
     [HideInInspector] public float resourceAmount;
     [HideInInspector] public bool dailyFee = false;
     [HideInInspector] public float daysInWeek = 10;
     [HideInInspector] public bool isGarrisonThere = false;
+    private float resourceMultiplier = 1;
 
 
     private void Start()
@@ -46,16 +48,22 @@ public class ResourceBuilding : MonoBehaviour
         boostManager     = GlobalStorage.instance.boostManager;
 
         if(isRandomResource == true)
-            buildingType = (ResourceBuildings)UnityEngine.Random.Range(0, Enum.GetValues(typeof(ResourceBuildings)).Length);
+            buildingType = (ResourceBuildings)UnityEngine.Random.Range(0, Enum.GetValues(typeof(ResourceBuildings)).Length - 1);
 
         ResourceBuildingData data = resourcesSources.GetResourceBuildingData(buildingType);
-        if(data != null)
+        if(buildingType != ResourceBuildings.Castle)
         {
             buildingName = data.resourceBuilding.ToString();
             resourceType = data.resourceType;
             spriteRenderer.sprite = data.buildingSprite;
             resourceSprite = data.resourceSprite;
             resourceBaseQuote = data.resourceBaseIncome;
+        }
+        else
+        {
+            resourceType = data.resourceType;
+            resourceBaseQuote = data.resourceBaseIncome;
+            Register();
         }
 
         foreach(var upgrade in upgrades)
@@ -69,9 +77,9 @@ public class ResourceBuilding : MonoBehaviour
 
     #region UPGRADES
 
-    public bool CheckUpgrade(RBUpgradeSO upgrade)
+    public bool CheckSiegeStatus()
     {
-        return upgradesStatus[upgrade];
+        return isSiege;
     }
 
     public int GetCountOfActiveUpgrades()
@@ -85,12 +93,42 @@ public class ResourceBuilding : MonoBehaviour
         return count;
     }
 
+    public float GetAmount()
+    {
+        ResetResourceAmount();
+        return resourceAmount * resourceMultiplier;
+    }
+
+    public void SetResourceMultiplier(float number)
+    {
+        resourceMultiplier = number;
+    }
+
     public void ApplyUpgrade(RBUpgradeSO upgrade, bool activeMode = true)
     {
         upgradesStatus[upgrade] = activeMode;
         ResetBonuses();
     }
 
+    private void CheckSiege()
+    {
+        if(isSiege == true)
+        {
+            currentSiegeDays--;
+            if(currentSiegeDays == 0)
+            {
+                Unregister();
+                InfotipManager.ShowWarning("You lost " + buildingName + "...");
+            }
+        }
+        else
+        {
+            if(currentSiegeDays < siegeDays)
+            {
+                currentSiegeDays++;
+            }
+        }
+    }
     #endregion
 
     #region Bonuses
@@ -111,6 +149,8 @@ public class ResourceBuilding : MonoBehaviour
             if(upgrade.Value == true && upgrade.Key.upgradeBonus == ResourceBuildingsUpgrades.SiegeTime)
                 siegeDays += (int)upgrade.Key.value;
         }
+
+        if(isSiege == false) currentSiegeDays = siegeDays;
     }
 
     public void ResetResourceAmount()
@@ -141,6 +181,8 @@ public class ResourceBuilding : MonoBehaviour
 
     public void ResetGarrisonStatus()
     {
+        if(garrison == null) return;
+
         isGarrisonThere = false;
 
         foreach(var upgrade in upgradesStatus)
@@ -152,17 +194,26 @@ public class ResourceBuilding : MonoBehaviour
         garrison.enabled = isGarrisonThere;
     }
 
+    public void Register()
+    {
+        resourcesSources.Register(this);
+    }
+
+    public void Unregister()
+    {
+        resourcesSources.Unregister(this);
+    }
+
+
     #endregion
 
     private void OnEnable()
     {
-        //EventManager.NewMove += NewDay;
-
+        EventManager.NewMove += CheckSiege;
     }
 
     private void OnDisable()
     {
-        //EventManager.NewMove -= NewDay;
-
+        EventManager.NewMove -= CheckSiege;
     }
 }

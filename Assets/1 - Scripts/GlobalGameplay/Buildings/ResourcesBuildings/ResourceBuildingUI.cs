@@ -8,10 +8,9 @@ using static NameManager;
 public class ResourceBuildingUI : MonoBehaviour
 {
     private ResourceBuilding currentBuilding;
-    private ResourcesManager resourcesManager;
+    private ResourcesSources resourcesSources;
     private GMInterface gmInterface;
     private CanvasGroup canvas;
-    private bool isWindowOpen = false;
     private bool isHeroInside = false;
 
     [Header("UI")]
@@ -20,9 +19,9 @@ public class ResourceBuildingUI : MonoBehaviour
     [SerializeField] private TMP_Text upgradesLimit;
     [SerializeField] private Image resourceIcon;
     [SerializeField] private TMP_Text resourceAmount;
+    [SerializeField] private TMP_Text siegeAmount;
     [SerializeField] private GameObject garrisonBlock;
     [SerializeField] private BuildingGarrison garrison;
-
 
     [SerializeField] private List<RBUpgradeItemUI> upgradesUIList;
 
@@ -30,7 +29,7 @@ public class ResourceBuildingUI : MonoBehaviour
     {
         gmInterface = GlobalStorage.instance.gmInterface;
         canvas = uiPanel.GetComponent<CanvasGroup>();
-        resourcesManager = GlobalStorage.instance.resourcesManager;
+        resourcesSources = GlobalStorage.instance.resourcesManager.GetComponent<ResourcesSources>();
     }
 
     public void Open(bool openByClick, ResourceBuilding rBuilding)
@@ -42,9 +41,9 @@ public class ResourceBuildingUI : MonoBehaviour
         GlobalStorage.instance.ModalWindowOpen(true);
 
         uiPanel.SetActive(true);
-        isWindowOpen = true;
 
         isHeroInside = !openByClick;
+        if(isHeroInside == true) rBuilding.Register();
 
         Init();
 
@@ -57,7 +56,6 @@ public class ResourceBuildingUI : MonoBehaviour
 
         MenuManager.instance?.MiniPause(false);
         GlobalStorage.instance.ModalWindowOpen(false);
-        isWindowOpen = false;
 
         uiPanel.SetActive(false);
     }
@@ -70,17 +68,33 @@ public class ResourceBuildingUI : MonoBehaviour
         currentBuilding.ResetResourceAmount();
         resourceAmount.text = "+" + currentBuilding.resourceAmount;
 
-        upgradesLimit.text = currentBuilding.GetCountOfActiveUpgrades() + "/" + currentBuilding.maxCountUpgrades;
+        currentBuilding.ResetSiegeDays();
+        siegeAmount.text = currentBuilding.currentSiegeDays + "/" + currentBuilding.siegeDays.ToString();
+
+        int currentUpgrades = currentBuilding.GetCountOfActiveUpgrades();
+        upgradesLimit.text = currentUpgrades + "/" + currentBuilding.maxCountUpgrades;
+
+        bool isMax = currentUpgrades >= currentBuilding.maxCountUpgrades;
 
         int index = 0;
         foreach(var item in currentBuilding.upgradesStatus)
         {
-            upgradesUIList[index].Init(item.Key, item.Value);
+            upgradesUIList[index].Init(this, item.Key, item.Value);
+            if(isMax == true) upgradesUIList[index].ItemOff(item.Value);
             index++;
         }
 
         garrisonBlock.SetActive(currentBuilding.isGarrisonThere);
     }
 
+    public void Upgrade(RBUpgradeSO upgrade)
+    {
+        currentBuilding.ApplyUpgrade(upgrade);
+        Init();
+    }
 
+    public bool CheckSiegeStatus()
+    {
+        return currentBuilding.CheckSiegeStatus();
+    }
 }

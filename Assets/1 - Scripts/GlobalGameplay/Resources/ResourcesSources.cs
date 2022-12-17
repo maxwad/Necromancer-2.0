@@ -16,8 +16,19 @@ public class ResourceBuildingData
 
 public class ResourcesSources : MonoBehaviour
 {
+    private ResourcesManager resourcesManager;
     [SerializeField] private List<ResourceBuildingData> resourceBuildings;
     [SerializeField] private List<RBUpgradeSO> upgrades;
+
+    private List<ResourceBuilding> sources = new List<ResourceBuilding>();
+
+    private Dictionary<ResourceType, float> dailyIncome = new Dictionary<ResourceType, float>();
+    private Dictionary<ResourceType, float> weeklyIncome = new Dictionary<ResourceType, float>();
+
+    private void Start()
+    {
+        resourcesManager = GetComponent<ResourcesManager>();
+    }
 
     #region GETTINGS
     public ResourceBuildingData GetResourceBuildingData(ResourceBuildings buildingType)
@@ -33,11 +44,92 @@ public class ResourcesSources : MonoBehaviour
         return null;
     }
 
-
-    public List<RBUpgradeSO> GetUpgrades()
+    public void Register(ResourceBuilding building)
     {
-        return upgrades;
+        bool isBuildingInList = false;
+        for(int i = 0; i < sources.Count; i++)
+        {
+            if(sources[i] == building)
+            {
+                isBuildingInList = true;
+                break;
+            }
+        }
+
+        if(isBuildingInList == false)
+        {
+            sources.Add(building);
+        }
     }
 
+    public void Unregister(ResourceBuilding building)
+    {
+        sources.Remove(building);        
+    }
+
+
+
     #endregion
+
+    private void CheckDailyIncome()
+    {
+        dailyIncome.Clear();
+
+        foreach(var building in sources)
+        {
+            if(building.dailyFee == true)
+            {
+                if(dailyIncome.ContainsKey(building.resourceType))
+                {
+                    dailyIncome[building.resourceType] += building.GetAmount() / 10;
+                }
+                else
+                {
+                    dailyIncome.Add(building.resourceType, building.GetAmount() / 10);
+                }
+            }
+        }
+
+        foreach(var resource in dailyIncome)
+        {
+            resourcesManager.ChangeResource(resource.Key, resource.Value);
+        }
+    }
+
+    private void CheckWeeklyIncome(int counter)
+    {
+        weeklyIncome.Clear();
+
+        foreach(var building in sources)
+        {
+            if(building.dailyFee == false)
+            {
+                if(weeklyIncome.ContainsKey(building.resourceType))
+                {
+                    weeklyIncome[building.resourceType] += building.GetAmount();
+                }
+                else
+                {
+                    weeklyIncome.Add(building.resourceType, building.GetAmount());
+                }
+            }
+        }
+
+        foreach(var resource in weeklyIncome)
+        {
+            resourcesManager.ChangeResource(resource.Key, resource.Value);
+        }
+    }
+
+    private void OnEnable()
+    {
+        EventManager.NewMove += CheckDailyIncome;
+        EventManager.NewWeek += CheckWeeklyIncome;
+    }
+
+    private void OnDisable()
+    {
+        EventManager.NewMove -= CheckDailyIncome;
+        EventManager.NewWeek -= CheckWeeklyIncome;
+    }
 }

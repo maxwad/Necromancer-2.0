@@ -10,6 +10,8 @@ public class RBUpgradeItemUI : MonoBehaviour, IPointerEnterHandler, IPointerExit
 {
     private FortressBuildings fortressBuildings;
     private ResourcesManager resourcesManager;
+    private ResourceBuildingUI currentBuilding;
+    private RBUpgradeSO currentUpgrade;
 
     private List<Cost> price = new List<Cost>();
 
@@ -19,16 +21,22 @@ public class RBUpgradeItemUI : MonoBehaviour, IPointerEnterHandler, IPointerExit
     [SerializeField] private GameObject descriptionBG;
     [SerializeField] private TMP_Text description;
     [SerializeField] private GameObject status;
-    [SerializeField] private GameObject upgradeButton;
+    [SerializeField] private Button upgradeButton;
     [SerializeField] private GameObject confirmBlock;
 
-    public void Init(RBUpgradeSO upgrade, bool activeMode) 
+    private bool canIUpgrade = true;
+    [SerializeField] Color warningColor;
+    [SerializeField] Color normalColor;
+
+    public void Init(ResourceBuildingUI building, RBUpgradeSO upgrade, bool activeMode) 
     {
         if(fortressBuildings == null)
         {
             fortressBuildings = GlobalStorage.instance.fortressBuildings;
             resourcesManager = GlobalStorage.instance.resourcesManager;
         }
+        currentBuilding = building;
+        currentUpgrade = upgrade;
 
         border.enabled = !activeMode;
 
@@ -39,10 +47,22 @@ public class RBUpgradeItemUI : MonoBehaviour, IPointerEnterHandler, IPointerExit
         description.text = upgrade.description.Replace("$V", upgrade.value.ToString());
 
         status.SetActive(activeMode);
-        upgradeButton.SetActive(!activeMode);
+        upgradeButton.gameObject.SetActive(!activeMode);
 
         price = CheckPriceDiscount(upgrade.cost);
+        confirmBlock.SetActive(false);
 
+        var colors = upgradeButton.colors;
+        colors.normalColor = (currentBuilding.CheckSiegeStatus() == false && CanIUpgrade() == true) ? normalColor : warningColor;
+        colors.selectedColor = (currentBuilding.CheckSiegeStatus() == false && CanIUpgrade() == true) ? normalColor : warningColor;
+        upgradeButton.colors = colors;
+
+        ItemOff(true);
+    }
+
+    public void ItemOff(bool showMode)
+    {
+        gameObject.SetActive(showMode);
     }
 
     private List<Cost> CheckPriceDiscount(List<Cost> oldCost)
@@ -83,9 +103,16 @@ public class RBUpgradeItemUI : MonoBehaviour, IPointerEnterHandler, IPointerExit
     //Button
     public void TryToBuild()
     {
+        if(currentBuilding.CheckSiegeStatus() == true)
+        {
+            InfotipManager.ShowWarning("You can't upgrade this building during the siege!");
+            return;
+        }
+
         if(CanIUpgrade() == false)
         {
             InfotipManager.ShowWarning("You need to dig up resources.");
+            return;
         }
         else
         {
@@ -95,10 +122,10 @@ public class RBUpgradeItemUI : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     public void ShowConfirm()
     {
-        //allBuildings.CloseAnotherConfirm();
         confirmBlock.SetActive(true);
     }
 
+    //Button
     public void CloseConfirm()
     {
         confirmBlock.SetActive(false);
@@ -107,7 +134,17 @@ public class RBUpgradeItemUI : MonoBehaviour, IPointerEnterHandler, IPointerExit
     //Button
     public void Upgrade()
     {
+        Pay();
+        CloseConfirm();
+        currentBuilding.Upgrade(currentUpgrade);
+    }
 
+    private void Pay()
+    {
+        for(int i = 0; i < price.Count; i++)
+        {
+            resourcesManager.ChangeResource(price[i].type, -price[i].amount);
+        }
     }
 
     public BuildingsRequirements GetRequirements()

@@ -207,8 +207,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 45, y: 0}
-  m_SizeDelta: {x: 60, y: 30}
+  m_AnchoredPosition: {x: 0, y: -33.7}
+  m_SizeDelta: {x: 100, y: 25}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &4920697568727049837
 CanvasRenderer:
@@ -292,8 +292,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: FBuilding, Assembly-CSharp
+      - m_Target: {fileID: 8211352688196755634}
+        m_TargetAssemblyTypeName: RBUpgradeItemUI, Assembly-CSharp
         m_MethodName: CloseConfirm
         m_Mode: 1
         m_Arguments:
@@ -369,8 +369,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Increases the duration of the siege by $V days. $V days. $V days. $V days.
-    $V days. $V days. $V days. $V days. $V days. $V days.
+  m_text: 'Increases the duration of the siege by $V days. $V days. $V days. $V days.
+    $V days. '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2409b418a306d27448ea5fae101880d0, type: 2}
   m_sharedMaterial: {fileID: -8628556238563695093, guid: 2409b418a306d27448ea5fae101880d0, type: 2}
@@ -1034,8 +1034,10 @@ MonoBehaviour:
   descriptionBG: {fileID: 5249957702261059900}
   description: {fileID: 8262223606533840007}
   status: {fileID: 2241968807096663531}
-  upgradeButton: {fileID: 5890707366012917739}
-  confirmBlock: {fileID: 0}
+  upgradeButton: {fileID: 4343436141351503580}
+  confirmBlock: {fileID: 4707441869301430985}
+  warningColor: {r: 0.990566, g: 0.5186454, b: 0.5186454, a: 1}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &2121682202055726776
 GameObject:
   m_ObjectHideFlags: 0
@@ -1354,8 +1356,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -130}
-  m_SizeDelta: {x: 180, y: 30}
+  m_AnchoredPosition: {x: 0, y: -140}
+  m_SizeDelta: {x: 180, y: 70}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!1 &3347723199582313308
 GameObject:
@@ -1811,8 +1813,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -45, y: 0}
-  m_SizeDelta: {x: 60, y: 30}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 25}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &2887438271764172398
 CanvasRenderer:
@@ -1896,9 +1898,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: FBuilding, Assembly-CSharp
-        m_MethodName: Confirm
+      - m_Target: {fileID: 8211352688196755634}
+        m_TargetAssemblyTypeName: RBUpgradeItemUI, Assembly-CSharp
+        m_MethodName: Upgrade
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1947,8 +1949,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -70}
-  m_SizeDelta: {x: 180, y: 180}
+  m_AnchoredPosition: {x: 0, y: -90}
+  m_SizeDelta: {x: 140, y: 220}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4661065347482165280
 CanvasRenderer:
@@ -2519,7 +2521,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8083276097282488254}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8211352688196755634}
+        m_TargetAssemblyTypeName: RBUpgradeItemUI, Assembly-CSharp
+        m_MethodName: TryToBuild
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &3955022629140088669
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2545,9 +2559,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff129465973e0c94fbbacb31ad27a346, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  button: {fileID: 0}
-  building: {fileID: 0}
-  costDescription: {fileID: 0}
 --- !u!1 &6377099244305264019
 GameObject:
   m_ObjectHideFlags: 0
@@ -2658,7 +2669,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: -70}
-  m_SizeDelta: {x: 180, y: 20}
+  m_SizeDelta: {x: 110, y: 50}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &2741760345571297659
 CanvasRenderer:
@@ -3303,7 +3314,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -10}
+  m_AnchoredPosition: {x: 0, y: -15}
   m_SizeDelta: {x: 150, y: 30}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &4504512430868365772
@@ -3361,8 +3372,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 22
+  m_fontSizeBase: 22
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

@@ -29,6 +29,7 @@ public class castleDataForUI
 public class FortressBuildings : MonoBehaviour
 {
     private GMInterface gmInterface;
+    private ResourceBuilding mint;
 
     [SerializeField] private TMP_Text fortressLevelText;
     private int fortressLevel = 0;
@@ -95,6 +96,7 @@ public class FortressBuildings : MonoBehaviour
             upgradesDict.Add(item, upgrades);
         }
 
+        mint = GetComponent<ResourceBuilding>();
         buildingCanvas = buildingDescription.GetComponent<CanvasGroup>();
 
         UpgradeFortressLevel();
@@ -162,6 +164,7 @@ public class FortressBuildings : MonoBehaviour
         fortressLevel = level;
 
         fortressLevelText.text = level.ToString();
+        mint.SetResourceMultiplier(fortressLevel);
     }
 
     public void DestroyBuildings()
