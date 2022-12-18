@@ -8,7 +8,7 @@ using static NameManager;
 
 public class CastleSquadSlot : MonoBehaviour, IPointerClickHandler
 {
-    private Garrison garrison;
+    private IGarrison garrison;
 
     [SerializeField] private bool isCastlesSquad = true;
     private bool isActive = false;
@@ -19,7 +19,7 @@ public class CastleSquadSlot : MonoBehaviour, IPointerClickHandler
     [SerializeField] private TMP_Text amount;
     [SerializeField] private InfotipTrigger infoTip;
 
-    public void Init(Garrison gar, Unit unit, int quantity)
+    public void Init(IGarrison gar, Unit unit, int quantity)
     {
         garrison = gar;
         infoTip.SetUnit(unit);

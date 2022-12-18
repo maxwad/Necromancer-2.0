@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
 using static NameManager;
@@ -13,7 +14,7 @@ public class HiringAmount
     public int amount;
 }
 
-public class Garrison : MonoBehaviour
+public class Garrison : MonoBehaviour, IGarrison
 {
     private UnitManager unitManager;
     private BoostManager boostManager;

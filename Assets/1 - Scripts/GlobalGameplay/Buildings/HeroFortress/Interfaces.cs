@@ -9,3 +9,9 @@ public interface IUpgradable
 
     public BuildingsRequirements GetRequirements();
 }
+
+public interface IGarrison
+{
+    public void StartExchange(bool isCastlesSquad, UnitsTypes unitType);
+
+}

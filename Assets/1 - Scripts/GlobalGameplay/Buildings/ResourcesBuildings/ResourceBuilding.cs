@@ -181,6 +181,7 @@ public class ResourceBuilding : MonoBehaviour
 
     public void ResetGarrisonStatus()
     {
+        //for Castle
         if(garrison == null) return;
 
         isGarrisonThere = false;
@@ -189,6 +190,7 @@ public class ResourceBuilding : MonoBehaviour
         {
             if(upgrade.Key.upgradeBonus == ResourceBuildingsUpgrades.Garrison && upgrade.Value == true)
                 isGarrisonThere = true;
+
         }
 
         garrison.enabled = isGarrisonThere;
