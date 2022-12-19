@@ -17,8 +17,6 @@ public class HiringAmount
 public class GarrisonUI : MonoBehaviour, IGarrison
 {
     private UnitManager unitManager;
-    private BoostManager boostManager;
-    private FortressBuildings fortressBuildings;
     private PlayersArmy playersArmy;
     private PlayerStats playerStats;
     private Garrison garrison;
@@ -48,17 +46,24 @@ public class GarrisonUI : MonoBehaviour, IGarrison
 
     private void Start()
     {
-        boostManager = GlobalStorage.instance.boostManager;
-        unitManager = GlobalStorage.instance.unitManager;
-        fortressBuildings = GlobalStorage.instance.fortressBuildings;
-        playersArmy = GlobalStorage.instance.playersArmy;
-        playerStats = GlobalStorage.instance.playerStats;
+        //unitManager = GlobalStorage.instance.unitManager;
+        //playersArmy = GlobalStorage.instance.playersArmy;
+        //playerStats = GlobalStorage.instance.playerStats;
 
-        takeWholeSquad.isOn = false;           
+        //takeWholeSquad.isOn = true;
     }
 
     public void Init(bool heroMode, Garrison gar)
     {
+        if(playerStats == null)
+        {
+            unitManager = GlobalStorage.instance.unitManager;
+            playersArmy = GlobalStorage.instance.playersArmy;
+            playerStats = GlobalStorage.instance.playerStats;
+
+            takeWholeSquad.isOn = true;
+        }
+
         isHeroInside = heroMode;
         squadMaxAmount = Mathf.RoundToInt(playerStats.GetCurrentParameter(PlayersStats.SquadMaxSize));
         fullPlayerArmy = playersArmy.fullArmy;
@@ -149,12 +154,10 @@ public class GarrisonUI : MonoBehaviour, IGarrison
             }
             playersArmy.HiringUnits(unitType, allowQuantity);
             garrison.AddUnits(unitType, -allowQuantity);
-            //currentAmounts[unitType] -= allowQuantity;
         }
         else
         {
             garrison.AddUnits(unitType, fullPlayerArmy[unitType].unitController.quantity);
-            //currentAmounts[unitType] += fullPlayerArmy[unitType].unitController.quantity;
             playersArmy.HiringUnits(unitType, -fullPlayerArmy[unitType].unitController.quantity);
         }
 
@@ -205,7 +208,6 @@ public class GarrisonUI : MonoBehaviour, IGarrison
     //Button
     public void Deal()
     {
-        //currentAmounts[currentUnitForExchange] = castleAmountToSet;
         garrison.AddUnits(currentUnitForExchange, castleAmountToSet, false);
         playersArmy.HiringUnits(currentUnitForExchange, heroAmountToSet, true);
 
@@ -228,69 +230,4 @@ public class GarrisonUI : MonoBehaviour, IGarrison
     }
 
     #endregion
-
-    #region GETTINGS
-
-    //public int GetHiringGrowth(UnitsTypes unit)
-    //{
-    //    int amount = 0;
-    //    for(int i = 0; i < growthAmounts.Count; i++)
-    //    {
-    //        if(growthAmounts[i].unitType == unit)
-    //        {
-    //            amount = growthAmounts[i].amount;
-    //            break;
-    //        }
-    //    }
-
-    //    amount += (int)fortressBuildings.GetBonusAmount(CastleBuildingsBonuses.HiringAmount);
-    //    float bonusAmount = boostManager.GetBoost(BoostType.Hiring);
-    //    amount += Mathf.RoundToInt(amount * bonusAmount);
-
-    //    return amount;
-    //}
-
-    //public int GetHiringAmount(UnitsTypes unitType)
-    //{
-    //    return potentialAmounts[unitType];
-    //}
-
-    //public void ChangePotentialUnitsAmount(UnitsTypes unit, int amount)
-    //{
-    //    potentialAmounts[unit] += amount;
-
-    //    if(potentialAmounts[unit] < 0) potentialAmounts[unit] = 0;
-    //}
-
-    //public void HiringUnits(UnitsTypes unit, int amount)
-    //{
-    //    if(potentialAmounts[unit] >= amount)
-    //    {
-    //        potentialAmounts[unit] -= amount;
-    //        currentAmounts[unit] += amount;
-
-    //        UpdateArmies();
-    //    }
-    //}
-
-    #endregion
-
-    //private void HiringInGarrison()
-    //{
-    //    foreach(var unit in growthAmounts)
-    //    {
-    //        int amount = GetHiringGrowth(unit.unitType);
-    //        potentialAmounts[unit.unitType] += amount;
-    //    }
-    //}
-
-    //private void OnEnable()
-    //{
-    //    EventManager.WeekEnd += HiringInGarrison;
-    //}
-
-    //private void OnDisable()
-    //{
-    //    EventManager.WeekEnd -= HiringInGarrison;
-    //}
 }

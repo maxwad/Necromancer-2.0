@@ -17,6 +17,8 @@ public class HeroFortress : MonoBehaviour
     private Garrison garrison;
     private FortressBuildings buildings;
     private UnitCenter unitCenter;
+    private ResourceBuildingUI resourceBuildingUI;
+    private ResourceBuilding resourceBuilding;
 
     private GMPlayerMovement gmPlayerMovement;
     private ResourcesManager resourcesManager;
@@ -34,9 +36,11 @@ public class HeroFortress : MonoBehaviour
         canvas = uiPanel.GetComponent<CanvasGroup>();
         door = GlobalStorage.instance.fortressBuildingDoor;
         buildings = GetComponent<FortressBuildings>();
-        garrisonUI = GetComponent<GarrisonUI>();
         garrison = GetComponent<Garrison>();
+        garrisonUI = GetComponentInChildren<GarrisonUI>(true);
         unitCenter = GetComponentInChildren<UnitCenter>(true);
+        resourceBuildingUI = GetComponentInChildren<ResourceBuildingUI>(true);
+        resourceBuilding = GetComponent<ResourceBuilding>();
 
         gmPlayerMovement = GlobalStorage.instance.globalPlayer;
         resourcesManager = GlobalStorage.instance.resourcesManager;
@@ -75,7 +79,8 @@ public class HeroFortress : MonoBehaviour
         buildings.CloseAnotherConfirm();
 
         isHeroInside = !openByClick;
-        garrisonUI.Init(isHeroInside, garrison);
+        resourceBuildingUI.Open(openByClick, resourceBuilding);
+        //garrisonUI.Init(isHeroInside, garrison);
 
         if(isHeroInside == true && isHeroVisitedOnThisWeek == false)
         {

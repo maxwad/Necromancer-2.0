@@ -48,7 +48,7 @@ public class UnitCenter : MonoBehaviour
         {
             allBuildings = GlobalStorage.instance.fortressBuildings;
             garrison = allBuildings.GetComponent<Garrison>();
-            garrisonUI = allBuildings.GetComponent<GarrisonUI>();
+            garrisonUI = allBuildings.GetComponentInChildren<GarrisonUI>(true);
             unitManager = GlobalStorage.instance.unitManager;
             boostManager = GlobalStorage.instance.boostManager;
             resourcesManager = GlobalStorage.instance.resourcesManager;
@@ -316,7 +316,7 @@ public class UnitCenter : MonoBehaviour
             potentialAmounts[unit] -= amount;
             garrison.AddUnits(unit, amount);
 
-            garrisonUI.UpdateArmies();
+            //garrisonUI.UpdateArmies();
         }
     }
 

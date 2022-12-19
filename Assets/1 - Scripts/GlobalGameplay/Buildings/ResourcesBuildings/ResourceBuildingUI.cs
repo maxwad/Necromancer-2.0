@@ -20,22 +20,35 @@ public class ResourceBuildingUI : MonoBehaviour
     [SerializeField] private Image resourceIcon;
     [SerializeField] private TMP_Text resourceAmount;
     [SerializeField] private TMP_Text siegeAmount;
+    [SerializeField] private TMP_Text garrisonAmount;
+    [SerializeField] private Image siegeIcon;
+    [SerializeField] private Sprite siegeOn;
+    [SerializeField] private Sprite siegeOff;
+    [SerializeField] private GameObject siegeWarning;
     [SerializeField] private GameObject garrisonBlock;
     private Garrison garrison;
     private GarrisonUI garrisonUI;
 
     [SerializeField] private List<RBUpgradeItemUI> upgradesUIList;
 
-    private void Start()
-    {
-        gmInterface = GlobalStorage.instance.gmInterface;
-        canvas = uiPanel.GetComponent<CanvasGroup>();
-        resourcesSources = GlobalStorage.instance.resourcesManager.GetComponent<ResourcesSources>();
-        garrisonUI = GetComponent<GarrisonUI>();
-    }
+    //private void Start()
+    //{
+    //    gmInterface = GlobalStorage.instance.gmInterface;
+    //    canvas = uiPanel.GetComponent<CanvasGroup>();
+    //    resourcesSources = GlobalStorage.instance.resourcesManager.GetComponent<ResourcesSources>();
+    //    garrisonUI = GetComponent<GarrisonUI>();
+    //}
 
     public void Open(bool openByClick, ResourceBuilding rBuilding)
     {
+
+        if(gmInterface == null)
+        {
+            gmInterface = GlobalStorage.instance.gmInterface;
+            canvas = uiPanel.GetComponent<CanvasGroup>();
+            resourcesSources = GlobalStorage.instance.resourcesManager.GetComponent<ResourcesSources>();
+            garrisonUI = GetComponent<GarrisonUI>();
+        }
         currentBuilding = rBuilding;
 
         gmInterface.ShowInterfaceElements(false);
@@ -49,9 +62,6 @@ public class ResourceBuildingUI : MonoBehaviour
         if(isHeroInside == true) rBuilding.Register();
 
         garrison = rBuilding.garrison;
-
-        if(currentBuilding.isGarrisonThere == true)
-            garrisonUI.Init(isHeroInside, garrison);
 
         Init();
 
@@ -76,9 +86,6 @@ public class ResourceBuildingUI : MonoBehaviour
         currentBuilding.ResetResourceAmount();
         resourceAmount.text = "+" + currentBuilding.resourceAmount;
 
-        currentBuilding.ResetSiegeDays();
-        siegeAmount.text = currentBuilding.currentSiegeDays + "/" + currentBuilding.siegeDays.ToString();
-
         int currentUpgrades = currentBuilding.GetCountOfActiveUpgrades();
         upgradesLimit.text = currentUpgrades + "/" + currentBuilding.maxCountUpgrades;
 
@@ -93,6 +100,15 @@ public class ResourceBuildingUI : MonoBehaviour
         }
 
         garrisonBlock.SetActive(currentBuilding.isGarrisonThere);
+        if(currentBuilding.isGarrisonThere == true)
+            garrisonUI.Init(isHeroInside, garrison);
+
+        bool isSiege = currentBuilding.CheckSiegeStatus();
+        siegeIcon.sprite = (isSiege == true) ? siegeOn : siegeOff;
+        siegeWarning.SetActive(isSiege);
+        currentBuilding.ResetSiegeDays();
+        siegeAmount.text = currentBuilding.currentSiegeDays + "/" + currentBuilding.siegeDays.ToString();
+        UpdateGarrisonEffect(garrison);
     }
 
     public void Upgrade(RBUpgradeSO upgrade)
@@ -104,5 +120,31 @@ public class ResourceBuildingUI : MonoBehaviour
     public bool CheckSiegeStatus()
     {
         return currentBuilding.CheckSiegeStatus();
+    }
+
+    public void UpdateGarrisonEffect(Garrison garr)
+    {
+        //Debug.Log(garrison);
+        //Debug.Log(currentBuilding.garrison);
+        //if(garrison == null) return;
+
+        if(garr != garrison) return;
+
+        float garrisonCount = garrison.GetGarrisonAmount();
+        garrisonAmount.gameObject.SetActive(garrisonCount > 0);
+        garrisonAmount.text = "(+" + garrisonCount + ")";
+
+        if(currentBuilding.isGarrisonThere == true)
+            garrisonUI.UpdateArmies();
+    }
+
+    private void OnEnable()
+    {
+        EventManager.UpdateSiegeTerm += UpdateGarrisonEffect;
+    }
+
+    private void OnDisable()
+    {
+        EventManager.UpdateSiegeTerm -= UpdateGarrisonEffect;
     }
 }

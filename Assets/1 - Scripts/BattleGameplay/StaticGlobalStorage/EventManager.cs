@@ -21,37 +21,6 @@ public static class EventManager
     public static void OnAllUnitsIsReadyEvent() => AllUnitsIsReady?.Invoke();
 
 
-
-    ////calls when we switch unit from army to reserve or back
-    ////
-    ////SUBSCRIBERS:
-    //// - PlayersArmy
-    ////
-    ////ACTIVATION:
-    //// - ArmySlot
-    ////
-    //public delegate void SwitchUnitEvent(bool mode, Unit unit);
-    //public static event SwitchUnitEvent SwitchUnit;
-    //public static void OnSwitchUnitEvent(bool mode, Unit unit) => SwitchUnit?.Invoke(mode, unit);
-
-
-
-    ////calls when we lose 1 unit from squad
-    ////
-    ////SUBSCRIBERS:
-    //// - PlayersArmy
-    //// - BattleArmyController
-    //// - InfirmaryManager
-    //// 
-    ////ACTIVATION:
-    //// - UnitController
-    ////
-    //public delegate void WeLostOneUnitEvent(UnitsTypes unitType);
-    //public static event WeLostOneUnitEvent WeLostOneUnit;
-    //public static void OnWeLostOneUnitEvent(UnitsTypes unitType) => WeLostOneUnit?.Invoke(unitType);
-
-
-
     //calls when we need to update UI from Infirmary
     //
     //SUBSCRIBERS:
@@ -65,61 +34,6 @@ public static class EventManager
     public static void OnUpdateInfirmaryUIEvent(float quantity, float capacity) => UpdateInfirmaryUI?.Invoke(quantity, capacity);
 
 
-
-    ////calls when need to resurrect unit from Infirmary
-    ////
-    ////SUBSCRIBERS:
-    //// - InfirmaryManager
-    //// 
-    ////ACTIVATION:
-    //// - SpellLibrary
-    ////
-    //public delegate void RemoveUnitFromInfirmaryEvent(UnitsTypes type);
-    //public static event RemoveUnitFromInfirmaryEvent RemoveUnitFromInfirmary;
-    //public static void OnRemoveUnitFromInfirmaryEvent(UnitsTypes type) => RemoveUnitFromInfirmary?.Invoke(type);
-
-
-
-    ////calls when need to add resurrected unit to hero's army
-    ////
-    ////SUBSCRIBERS:
-    //// - ...
-    //// 
-    ////ACTIVATION:
-    //// - InfirmaryManager
-    ////
-    //public delegate void ResurrectUnitEvent(UnitsTypes unitType);
-    //public static event ResurrectUnitEvent ResurrectUnit;
-    //public static void OnResurrectUnitEvent(UnitsTypes unitType) => ResurrectUnit?.Invoke(unitType);
-
-
-
-    //// 1 unit boost system: calls when we boost some stat of unit from anywhere
-    ////
-    ////SUBSCRIBERS:
-    //// - UnitBoostManager
-    ////
-    ////ACTIVATION:
-    //// - SpellLibrary
-    ////
-    //public delegate void BoostUnitStatEvent(bool boostAll, bool addBoost, BoostSender sender, UnitStats stat, float value, UnitsTypes types = UnitsTypes.Militias);
-    //public static event BoostUnitStatEvent BoostUnitStat;
-    //public static void OnBoostUnitStatEvent(bool boostAll, bool addBoost, BoostSender sender, UnitStats stat, float value, UnitsTypes types = UnitsTypes.Militias) => BoostUnitStat?.Invoke(boostAll, addBoost, sender, stat, value, types);
-
-
-    ////calls when need to add resurrected unit to hero's army
-    ////
-    ////SUBSCRIBERS:
-    //// - ...
-    //// 
-    ////ACTIVATION:
-    //// - PlayersArmy
-    ////
-    //public delegate void UpdateSquadEvent(UnitsTypes type);
-    //public static event UpdateSquadEvent UpdateSquad;
-    //public static void OnUpdateSquadEvent(UnitsTypes type) => UpdateSquad?.Invoke(type);
-
-
     //calls when want to switch squads in Army
     //
     //SUBSCRIBERS:
@@ -131,6 +45,19 @@ public static class EventManager
     public delegate void SwitchSlotsEvent(int index, UnitStatus place, GameObject slot);
     public static event SwitchSlotsEvent SwitchSlots;
     public static void OnSwitchSlotsEvent(int index, UnitStatus place, GameObject slot) => SwitchSlots?.Invoke(index, place, slot);
+
+
+    //calls when we update garrisons
+    //
+    //SUBSCRIBERS:
+    // - ResourceBuildingUI
+    //
+    //ACTIVATION:
+    // - Garrison
+    //
+    public delegate void UpdateSiegeTermEvent(Garrison garrison);
+    public static event UpdateSiegeTermEvent UpdateSiegeTerm;
+    public static void OnUpdateSiegeTermEvent(Garrison garrison) => UpdateSiegeTerm?.Invoke(garrison);
     #endregion
 
 
@@ -155,34 +82,6 @@ public static class EventManager
     public delegate void SwitchPlayerEvent(bool mode);
     public static event SwitchPlayerEvent SwitchPlayer;
     public static void OnSwitchPlayerEvent(bool mode) => SwitchPlayer?.Invoke(mode);
-
-
-
-    //// 1 player boost system: calls when we boost some stat from anywhere
-    ////
-    ////SUBSCRIBERS:
-    //// - PlayerBoostManager
-    ////
-    ////ACTIVATION:
-    //// - SpellLibrary
-    ////
-    //public delegate void BoostStatEvent(bool mode, BoostSender sender, PlayersStats stat, float value);
-    //public static event BoostStatEvent BoostStat;
-    //public static void OnBoostStatEvent(bool mode, BoostSender sender, PlayersStats stat, float value) => BoostStat?.Invoke(mode, sender, stat, value);
-
-
-
-    //// 2 player boost system: give common boost to PlayerStats
-    ////
-    ////SUBSCRIBERS:
-    //// - PlayerStats
-    ////
-    ////ACTIVATION:
-    //// - PlayerBoostManager
-    ////
-    //public delegate void UpgrateStatEvent(PlayersStats stats, float value);
-    //public static event UpgrateStatEvent UpgrateStat;
-    //public static void OnUpgrateStatEvent(PlayersStats stats, float value) => UpgrateStat?.Invoke(stats, value);
 
 
     // universal battle boost system: give common boost to Hero and units
@@ -210,18 +109,6 @@ public static class EventManager
     public static event ShowBoostEffectEvent ShowBoostEffect;
     public static void OnShowBoostEffectEvent(BoostSender sender, BoostType boost, float value) => ShowBoostEffect?.Invoke(sender, boost, value);
 
-    //// 3 player boost system: give new boosted stats to listeners
-    ////
-    ////SUBSCRIBERS:
-    //// - BattleArmyController
-    //// - GMPlayerMovement
-    ////
-    ////ACTIVATION:
-    //// - PlayerStats
-    ////
-    //public delegate void NewBoostedStatEvent(PlayersStats stats, float value);
-    //public static event NewBoostedStatEvent NewBoostedStat;
-    //public static void OnNewBoostedStatEvent(PlayersStats stats, float value) => NewBoostedStat?.Invoke(stats, value);
 
     //calls when we need update some stat of player
     //
@@ -248,22 +135,6 @@ public static class EventManager
     public delegate void UpgradeLevelEvent(float value);
     public static event UpgradeLevelEvent UpgradeLevel;
     public static void OnUpgradeLevelEvent(float value) => UpgradeLevel?.Invoke(value);
-
-
-
-    ////calls when we change Mana
-    ////
-    ////SUBSCRIBERS:
-    //// - gmInterface
-    ////
-    ////ACTIVATION:
-    //// - HeroController
-    //// - GMPlayerMovement
-    ////
-    //public delegate void UpgradeStatCurrentValueEvent(PlayersStats stat, float maxValue, float currentValue);
-    //public static event UpgradeStatCurrentValueEvent UpgradeStatCurrentValue;
-    //public static void OnUpgradeStatCurrentValueEvent(PlayersStats stat, float maxValue, float currentValue) => UpgradeStatCurrentValue?.Invoke(stat, maxValue, currentValue);
-
 
 
     //calls when we change Gold
@@ -349,20 +220,6 @@ public static class EventManager
     public static void OnExpEnoughEvent(bool mode) => ExpEnough?.Invoke(mode);
 
 
-
-    ////calls when battle starts, we send common enemies quantity
-    ////
-    ////SUBSCRIBERS:
-    //// - BattleUIManager
-    ////
-    ////ACTIVATION:
-    //// - EnemySpawner
-    ////
-    //public delegate void EnemiesCountEvent(int count, BossData[] bosses);
-    //public static event EnemiesCountEvent EnemiesCount;
-    //public static void OnEnemiesCountEvent(int count, BossData[] bosses) => EnemiesCount?.Invoke(count, bosses);
-
-
     //calls when player win the battle
     //
     //SUBSCRIBERS:
@@ -427,19 +284,6 @@ public static class EventManager
 
 
     #region OTHER
-    ////calls when we switch between global mode and battle mode
-    ////IT USES ONCE! Don't subscribe any script more!
-    ////
-    ////SUBSCRIBERS:
-    //// - CameraManager
-    ////
-    ////ACTIVATION:
-    //// - GlobalStorage
-    ////
-    //public delegate void ChangePlayModeEvent(bool mode);
-    //public static event ChangePlayModeEvent ChangePlayMode;
-    //public static void OnChangePlayModeEvent(bool mode) => ChangePlayMode?.Invoke(mode);
-
 
     //calls when we create spell Immortal
     //

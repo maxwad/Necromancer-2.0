@@ -9,18 +9,18 @@ public class ResourceBuilding : MonoBehaviour
     private ResourcesManager resourcesManager;
     private ResourcesSources resourcesSources;
     private BoostManager boostManager;
-    public Garrison garrison;
+    [HideInInspector] public Garrison garrison;
+    private FortressBuildings heroCastle;
 
     [Header("Parameters")]
     [SerializeField] private bool isRandomResource = true;
-    [SerializeField] private ResourceBuildings buildingType;
+    [HideInInspector] public ResourceBuildings buildingType;
     [HideInInspector] public string buildingName;
     [HideInInspector] public ResourceType resourceType;
     private SpriteRenderer spriteRenderer;
     [HideInInspector] public Sprite resourceSprite;
     private float resourceBaseQuote = 0;
     private bool isSiege = false;
-
 
     [Header("Upgrades")]
     [SerializeField] private List<RBUpgradeSO> upgrades;
@@ -35,7 +35,7 @@ public class ResourceBuilding : MonoBehaviour
     [HideInInspector] public float resourceAmount;
     [HideInInspector] public bool dailyFee = false;
     [HideInInspector] public float daysInWeek = 10;
-    [HideInInspector] public bool isGarrisonThere = false;
+    public bool isGarrisonThere = false;
     private float resourceMultiplier = 1;
 
 
@@ -46,6 +46,7 @@ public class ResourceBuilding : MonoBehaviour
         resourcesSources = resourcesManager.GetComponent<ResourcesSources>();
         garrison         = GetComponent<Garrison>();
         boostManager     = GlobalStorage.instance.boostManager;
+        heroCastle       = GlobalStorage.instance.fortressBuildings;
 
         if(isRandomResource == true)
             buildingType = (ResourceBuildings)UnityEngine.Random.Range(0, Enum.GetValues(typeof(ResourceBuildings)).Length - 1);
@@ -73,6 +74,16 @@ public class ResourceBuilding : MonoBehaviour
 
         ResetBonuses();
 
+    }
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.PageUp))
+        {
+            isSiege = !isSiege;
+
+            //Debug.Log("is siege = " + isSiege);
+        }
     }
 
     #region UPGRADES
@@ -114,19 +125,27 @@ public class ResourceBuilding : MonoBehaviour
     {
         if(isSiege == true)
         {
-            currentSiegeDays--;
-            if(currentSiegeDays == 0)
+            if(garrison.DecreaseGarrisonUnits() == false)
             {
-                Unregister();
-                InfotipManager.ShowWarning("You lost " + buildingName + "...");
+                currentSiegeDays--;
+                if(currentSiegeDays <= 0)
+                {
+                    if(buildingType != ResourceBuildings.Castle)
+                    {
+                        Unregister();
+                        InfotipManager.ShowWarning("You lost " + buildingName + "...");
+                    }
+                    else
+                    {
+                        heroCastle.DestroyBuildings();
+                        InfotipManager.ShowWarning("A few buildings in your Castle was destroyed.");
+                    }
+                }
             }
         }
         else
         {
-            if(currentSiegeDays < siegeDays)
-            {
-                currentSiegeDays++;
-            }
+            currentSiegeDays = siegeDays;
         }
     }
     #endregion
