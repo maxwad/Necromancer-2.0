@@ -10,10 +10,10 @@ using System;
 public class UnitInCenterUI : MonoBehaviour, IPointerClickHandler
 {
     private ResourcesManager resourcesManager;
-    private BoostManager boostManager;
+    //private BoostManager boostManager;
     private Dictionary<ResourceType, Sprite> resourcesIcons;
     private FortressBuildings allBuildings;
-    private Garrison garrison;
+    //private GarrisonUI garrison;
     private UnitCenter uCenter;
 
     [SerializeField] private Button thisButton;
@@ -34,11 +34,11 @@ public class UnitInCenterUI : MonoBehaviour, IPointerClickHandler
     {
         if(resourcesManager == null)
         {
-            boostManager = GlobalStorage.instance.boostManager;
+            //boostManager = GlobalStorage.instance.boostManager;
             resourcesManager = GlobalStorage.instance.resourcesManager;
             resourcesIcons = resourcesManager.GetAllResourcesIcons();
             allBuildings = GlobalStorage.instance.fortressBuildings;
-            garrison = allBuildings.GetComponent<Garrison>();
+           // garrison = allBuildings.GetComponent<GarrisonUI>();
         }
 
         gameObject.SetActive(true);
@@ -59,10 +59,10 @@ public class UnitInCenterUI : MonoBehaviour, IPointerClickHandler
 
     private void FillGrowth(Unit unit)
     {
-        int amountPerWeek = garrison.GetHiringGrowth(unit.unitType);
+        int amountPerWeek = uCenter.GetHiringGrowth(unit.unitType);
         unitGrowth.text = "+" + amountPerWeek.ToString();
 
-        int amount = garrison.GetHiringAmount(unit.unitType);
+        int amount = uCenter.GetHiringAmount(unit.unitType);
         unitAmount.text = amount.ToString();
         currentAmount = amount;
         thisButton.interactable = (currentAmount != 0);

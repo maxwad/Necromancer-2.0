@@ -7,59 +7,58 @@ using UnityEngine.UI;
 using TMPro;
 using static NameManager;
 
-public class RBGarrisonUI : MonoBehaviour, IGarrison
+[Serializable]
+public class HiringAmount
+{
+    public UnitsTypes unitType;
+    public int amount;
+}
+
+public class GarrisonUI : MonoBehaviour, IGarrison
 {
     private UnitManager unitManager;
+    private BoostManager boostManager;
+    private FortressBuildings fortressBuildings;
     private PlayersArmy playersArmy;
     private PlayerStats playerStats;
-    private ResourceBuilding resourceBuilding;
     private Garrison garrison;
 
-    private Dictionary<UnitsTypes, int> currentAmounts = new Dictionary<UnitsTypes, int>();
+    public List<HiringAmount> growthAmounts;
+
+    //private Dictionary<UnitsTypes, int> potentialAmounts = new Dictionary<UnitsTypes, int>();
+    private Dictionary<UnitsTypes, int> currentAmounts;
     private int squadMaxAmount;
     Dictionary<UnitsTypes, FullSquad> fullPlayerArmy;
 
     private bool isHeroInside = false;
     [SerializeField] private GameObject heroIcon;
 
-    [SerializeField] private List<CastleSquadSlot> buildingArmy;
+    [SerializeField] private List<CastleSquadSlot> castleArmy;
     [SerializeField] private List<CastleSquadSlot> heroArmy;
     [SerializeField] private Toggle takeWholeSquad;
 
     [SerializeField] private GameObject exchangeBlock;
     [SerializeField] private Slider exchangeSlider;
     [SerializeField] private TMP_Text heroAmount;
-    [SerializeField] private TMP_Text buildingAmount;
+    [SerializeField] private TMP_Text castleAmount;
     [SerializeField] private Image unitIcon;
     private UnitsTypes currentUnitForExchange;
     private int heroAmountToSet = 0;
     private int castleAmountToSet = 0;
 
-
-    private void Awake()
-    {
-        foreach(UnitsTypes item in Enum.GetValues(typeof(UnitsTypes)))
-            currentAmounts.Add(item, 0);
-    }
-
     private void Start()
     {
+        boostManager = GlobalStorage.instance.boostManager;
         unitManager = GlobalStorage.instance.unitManager;
+        fortressBuildings = GlobalStorage.instance.fortressBuildings;
         playersArmy = GlobalStorage.instance.playersArmy;
         playerStats = GlobalStorage.instance.playerStats;
-        resourceBuilding = GetComponent<ResourceBuilding>();
 
-        takeWholeSquad.isOn = false;
-    }
-
-    private void OnEnable()
-    {
-
+        takeWholeSquad.isOn = false;           
     }
 
     public void Init(bool heroMode, Garrison gar)
     {
-        Debug.Log("Init RBG");
         isHeroInside = heroMode;
         squadMaxAmount = Mathf.RoundToInt(playerStats.GetCurrentParameter(PlayersStats.SquadMaxSize));
         fullPlayerArmy = playersArmy.fullArmy;
@@ -69,7 +68,7 @@ public class RBGarrisonUI : MonoBehaviour, IGarrison
     }
 
     #region FILLING 
-    private void UpdateArmies()
+    public void UpdateArmies()
     {
         FillCastleArmy();
 
@@ -78,8 +77,10 @@ public class RBGarrisonUI : MonoBehaviour, IGarrison
 
     private void FillCastleArmy()
     {
-        foreach(var squad in buildingArmy)
+        foreach(var squad in castleArmy)
             squad.Deactivate();
+
+        currentAmounts = garrison.GetUnitsInGarrison();
 
         int squadIndex = 0;
         foreach(var squad in currentAmounts)
@@ -87,10 +88,10 @@ public class RBGarrisonUI : MonoBehaviour, IGarrison
             if(squad.Value != 0)
             {
                 Unit unit = unitManager.GetUnitForTip(squad.Key);
-                buildingArmy[squadIndex].Init(this, unit, squad.Value);
+                castleArmy[squadIndex].Init(this, unit, squad.Value);
                 squadIndex++;
             }
-        }
+        }        
     }
 
     private void FillHerosArmy(bool heroMode)
@@ -142,16 +143,18 @@ public class RBGarrisonUI : MonoBehaviour, IGarrison
         {
             int allowQuantity = CheckOverflow(unitType);
 
-            if(allowQuantity != currentAmounts[unitType])
+            if(allowQuantity != garrison.GetUnitAmount(unitType))
             {
                 InfotipManager.ShowMessage("Attention! You've reached the maximum squad size.");
             }
             playersArmy.HiringUnits(unitType, allowQuantity);
-            currentAmounts[unitType] -= allowQuantity;
+            garrison.AddUnits(unitType, -allowQuantity);
+            //currentAmounts[unitType] -= allowQuantity;
         }
         else
         {
-            currentAmounts[unitType] += fullPlayerArmy[unitType].unitController.quantity;
+            garrison.AddUnits(unitType, fullPlayerArmy[unitType].unitController.quantity);
+            //currentAmounts[unitType] += fullPlayerArmy[unitType].unitController.quantity;
             playersArmy.HiringUnits(unitType, -fullPlayerArmy[unitType].unitController.quantity);
         }
 
@@ -164,8 +167,8 @@ public class RBGarrisonUI : MonoBehaviour, IGarrison
         currentUnitForExchange = unitType;
         unitIcon.sprite = fullPlayerArmy[unitType].unit.unitIcon;
 
-        buildingAmount.text = currentAmounts[unitType].ToString();
-        castleAmountToSet = currentAmounts[unitType];
+        castleAmount.text = garrison.GetUnitAmount(unitType).ToString();
+        castleAmountToSet = garrison.GetUnitAmount(unitType);
 
         heroAmount.text = fullPlayerArmy[unitType].unitController.quantity.ToString();
         heroAmountToSet = fullPlayerArmy[unitType].unitController.quantity;
@@ -176,7 +179,7 @@ public class RBGarrisonUI : MonoBehaviour, IGarrison
     //Slider
     public void ChangeAmounts()
     {
-        int comnonAmounts = currentAmounts[currentUnitForExchange] + fullPlayerArmy[currentUnitForExchange].unitController.quantity;
+        int comnonAmounts = garrison.GetUnitAmount(currentUnitForExchange) + fullPlayerArmy[currentUnitForExchange].unitController.quantity;
 
         castleAmountToSet = Mathf.RoundToInt((exchangeSlider.maxValue - exchangeSlider.value) * comnonAmounts);
         heroAmountToSet = comnonAmounts - castleAmountToSet;
@@ -189,7 +192,7 @@ public class RBGarrisonUI : MonoBehaviour, IGarrison
             exchangeSlider.value = exchangeSlider.maxValue - (float)castleAmountToSet / (float)(castleAmountToSet + heroAmountToSet);
         }
 
-        buildingAmount.text = castleAmountToSet.ToString();
+        castleAmount.text = castleAmountToSet.ToString();
         heroAmount.text = heroAmountToSet.ToString();
     }
 
@@ -202,7 +205,8 @@ public class RBGarrisonUI : MonoBehaviour, IGarrison
     //Button
     public void Deal()
     {
-        currentAmounts[currentUnitForExchange] = castleAmountToSet;
+        //currentAmounts[currentUnitForExchange] = castleAmountToSet;
+        garrison.AddUnits(currentUnitForExchange, castleAmountToSet, false);
         playersArmy.HiringUnits(currentUnitForExchange, heroAmountToSet, true);
 
         UpdateArmies();
@@ -218,9 +222,75 @@ public class RBGarrisonUI : MonoBehaviour, IGarrison
         else
         {
             int difference = squadMaxAmount - fullPlayerArmy[unitType].unitController.quantity;
-            return (currentAmounts[unitType] > difference) ? difference : currentAmounts[unitType];
+            int amount = garrison.GetUnitAmount(unitType);
+            return (amount > difference) ? difference : amount;
         }
     }
 
     #endregion
+
+    #region GETTINGS
+
+    //public int GetHiringGrowth(UnitsTypes unit)
+    //{
+    //    int amount = 0;
+    //    for(int i = 0; i < growthAmounts.Count; i++)
+    //    {
+    //        if(growthAmounts[i].unitType == unit)
+    //        {
+    //            amount = growthAmounts[i].amount;
+    //            break;
+    //        }
+    //    }
+
+    //    amount += (int)fortressBuildings.GetBonusAmount(CastleBuildingsBonuses.HiringAmount);
+    //    float bonusAmount = boostManager.GetBoost(BoostType.Hiring);
+    //    amount += Mathf.RoundToInt(amount * bonusAmount);
+
+    //    return amount;
+    //}
+
+    //public int GetHiringAmount(UnitsTypes unitType)
+    //{
+    //    return potentialAmounts[unitType];
+    //}
+
+    //public void ChangePotentialUnitsAmount(UnitsTypes unit, int amount)
+    //{
+    //    potentialAmounts[unit] += amount;
+
+    //    if(potentialAmounts[unit] < 0) potentialAmounts[unit] = 0;
+    //}
+
+    //public void HiringUnits(UnitsTypes unit, int amount)
+    //{
+    //    if(potentialAmounts[unit] >= amount)
+    //    {
+    //        potentialAmounts[unit] -= amount;
+    //        currentAmounts[unit] += amount;
+
+    //        UpdateArmies();
+    //    }
+    //}
+
+    #endregion
+
+    //private void HiringInGarrison()
+    //{
+    //    foreach(var unit in growthAmounts)
+    //    {
+    //        int amount = GetHiringGrowth(unit.unitType);
+    //        potentialAmounts[unit.unitType] += amount;
+    //    }
+    //}
+
+    //private void OnEnable()
+    //{
+    //    EventManager.WeekEnd += HiringInGarrison;
+    //}
+
+    //private void OnDisable()
+    //{
+    //    EventManager.WeekEnd -= HiringInGarrison;
+    //}
 }

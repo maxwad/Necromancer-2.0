@@ -21,8 +21,8 @@ public class ResourceBuildingUI : MonoBehaviour
     [SerializeField] private TMP_Text resourceAmount;
     [SerializeField] private TMP_Text siegeAmount;
     [SerializeField] private GameObject garrisonBlock;
-    private BuildingGarrison garrison;
-    private RBGarrisonUI garrisonUI;
+    private Garrison garrison;
+    private GarrisonUI garrisonUI;
 
     [SerializeField] private List<RBUpgradeItemUI> upgradesUIList;
 
@@ -31,7 +31,7 @@ public class ResourceBuildingUI : MonoBehaviour
         gmInterface = GlobalStorage.instance.gmInterface;
         canvas = uiPanel.GetComponent<CanvasGroup>();
         resourcesSources = GlobalStorage.instance.resourcesManager.GetComponent<ResourcesSources>();
-        garrisonUI = GetComponent<RBGarrisonUI>();
+        garrisonUI = GetComponent<GarrisonUI>();
     }
 
     public void Open(bool openByClick, ResourceBuilding rBuilding)
@@ -51,7 +51,7 @@ public class ResourceBuildingUI : MonoBehaviour
         garrison = rBuilding.garrison;
 
         if(currentBuilding.isGarrisonThere == true)
-            garrisonUI.Init(isHeroInside);
+            garrisonUI.Init(isHeroInside, garrison);
 
         Init();
 

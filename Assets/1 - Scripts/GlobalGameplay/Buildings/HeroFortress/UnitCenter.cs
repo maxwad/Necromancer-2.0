@@ -10,10 +10,14 @@ public class UnitCenter : MonoBehaviour
 {
     private FortressBuildings allBuildings;
     private Garrison garrison;
+    private GarrisonUI garrisonUI;
     private UnitManager unitManager;
     private ResourcesManager resourcesManager;
+    private BoostManager boostManager;
 
     private Dictionary<ResourceType, Sprite> resourcesIcons;
+    private Dictionary<UnitsTypes, int> potentialAmounts = new Dictionary<UnitsTypes, int>();
+    public List<HiringAmount> growthAmounts;
 
     [SerializeField] private GameObject warningMessage;
     [SerializeField] private GameObject dealBlock;
@@ -38,14 +42,15 @@ public class UnitCenter : MonoBehaviour
     private Unit currentUnit;
     private bool canIHire = true;
 
-
     public void Init()
     {
         if(allBuildings == null)
         {
             allBuildings = GlobalStorage.instance.fortressBuildings;
             garrison = allBuildings.GetComponent<Garrison>();
+            garrisonUI = allBuildings.GetComponent<GarrisonUI>();
             unitManager = GlobalStorage.instance.unitManager;
+            boostManager = GlobalStorage.instance.boostManager;
             resourcesManager = GlobalStorage.instance.resourcesManager;
             resourcesIcons = resourcesManager.GetAllResourcesIcons();
             emptyIcon = currentUnitIcon.sprite;
@@ -159,6 +164,7 @@ public class UnitCenter : MonoBehaviour
         }
     }
 
+
     //Button
     public void Deal()
     {
@@ -173,7 +179,7 @@ public class UnitCenter : MonoBehaviour
             foreach(var cost in currentCosts)
                 resourcesManager.ChangeResource(cost.type, -cost.amount * currentAmount);
 
-            garrison.HiringUnits(currentUnit.unitType, currentAmount);
+            HiringUnits(currentUnit.unitType, currentAmount);
 
             Init();
         }
@@ -249,4 +255,70 @@ public class UnitCenter : MonoBehaviour
         dealButton.interactable = false;
         canIHire = true;
     }
+
+    #region HIRING
+
+    public void HiringInGarrison()
+    {
+        foreach(var unit in growthAmounts)
+        {
+            int amount = GetHiringGrowth(unit.unitType);
+            potentialAmounts[unit.unitType] += amount;
+        }
+    }
+
+    public int GetHiringGrowth(UnitsTypes unit)
+    {
+        int amount = 0;
+        for(int i = 0; i < growthAmounts.Count; i++)
+        {
+            if(growthAmounts[i].unitType == unit)
+            {
+                amount = growthAmounts[i].amount;
+                break;
+            }
+        }
+
+        amount += (int)allBuildings.GetBonusAmount(CastleBuildingsBonuses.HiringAmount);
+        float bonusAmount = boostManager.GetBoost(BoostType.Hiring);
+        amount += Mathf.RoundToInt(amount * bonusAmount);
+
+        return amount;
+    }
+
+    public int GetHiringAmount(UnitsTypes unitType)
+    {
+        return potentialAmounts[unitType];
+    }
+
+    public void ChangePotentialUnitsAmount(UnitsTypes unit, int amount)
+    {
+        if(potentialAmounts.Count == 0)
+        {
+            foreach(UnitsTypes item in Enum.GetValues(typeof(UnitsTypes)))
+                potentialAmounts.Add(item, 0);
+        }
+
+        potentialAmounts[unit] += amount;
+
+        if(potentialAmounts[unit] < 0) potentialAmounts[unit] = 0;
+    }
+
+    public void SetStratGrowths(List<HiringAmount> startGrowthAmounts)
+    {
+        growthAmounts = startGrowthAmounts;
+    }
+
+    public void HiringUnits(UnitsTypes unit, int amount)
+    {
+        if(potentialAmounts[unit] >= amount)
+        {
+            potentialAmounts[unit] -= amount;
+            garrison.AddUnits(unit, amount);
+
+            garrisonUI.UpdateArmies();
+        }
+    }
+
+    #endregion
 }

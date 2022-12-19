@@ -7,21 +7,20 @@ public class GameStarter : MonoBehaviour
 {
     private HeroFortress heroFortress;
     private ResourcesManager resourcesManager;
-    private Garrison garrison;
-    private UnitManager unitManager;
+    //private UnitManager unitManager;
 
     [Header("Resources")]
     public List<Cost> startResources;
 
     [Header("Units")]
     public List<HiringAmount> startAmounts = new List<HiringAmount>();
+    public List<HiringAmount> startGrowthAmounts;
 
     public void Init()
     {
         heroFortress = GlobalStorage.instance.heroFortress;
-        garrison = heroFortress.GetComponent<Garrison>();
         resourcesManager = GlobalStorage.instance.resourcesManager;
-        unitManager = GlobalStorage.instance.unitManager;
+        //unitManager = GlobalStorage.instance.unitManager;
 
         StartCoroutine(Launch());
     }
@@ -49,7 +48,9 @@ public class GameStarter : MonoBehaviour
     {
         foreach(var amount in startAmounts)
         {
-            garrison.ChangePotentialUnitsAmount(amount.unitType, amount.amount);
+            heroFortress.ChangePotentialUnitsAmount(amount.unitType, amount.amount);
         }
+
+        heroFortress.SetStartGrowths(startGrowthAmounts);
     }
 }

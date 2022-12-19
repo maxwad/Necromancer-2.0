@@ -9,7 +9,7 @@ public class ResourceBuilding : MonoBehaviour
     private ResourcesManager resourcesManager;
     private ResourcesSources resourcesSources;
     private BoostManager boostManager;
-    public BuildingGarrison garrison;
+    public Garrison garrison;
 
     [Header("Parameters")]
     [SerializeField] private bool isRandomResource = true;
@@ -44,7 +44,7 @@ public class ResourceBuilding : MonoBehaviour
         spriteRenderer   = GetComponent<SpriteRenderer>();
         resourcesManager = GlobalStorage.instance.resourcesManager;
         resourcesSources = resourcesManager.GetComponent<ResourcesSources>();
-        garrison         = GetComponent<BuildingGarrison>();
+        garrison         = GetComponent<Garrison>();
         boostManager     = GlobalStorage.instance.boostManager;
 
         if(isRandomResource == true)
@@ -182,7 +182,7 @@ public class ResourceBuilding : MonoBehaviour
     public void ResetGarrisonStatus()
     {
         //for Castle
-        if(garrison == null) return;
+        if(buildingType == ResourceBuildings.Castle) return;
 
         isGarrisonThere = false;
 
@@ -192,8 +192,6 @@ public class ResourceBuilding : MonoBehaviour
                 isGarrisonThere = true;
 
         }
-
-        garrison.enabled = isGarrisonThere;
     }
 
     public void Register()

@@ -13,8 +13,10 @@ public class HeroFortress : MonoBehaviour
 
     [SerializeField] private GameObject uiPanel;
     private OpeningBuildingWindow door;
+    private GarrisonUI garrisonUI;
     private Garrison garrison;
     private FortressBuildings buildings;
+    private UnitCenter unitCenter;
 
     private GMPlayerMovement gmPlayerMovement;
     private ResourcesManager resourcesManager;
@@ -26,13 +28,15 @@ public class HeroFortress : MonoBehaviour
     private bool isHeroInside = false;
     private bool isHeroVisitedOnThisWeek = false;
 
-    private void Start()
+    private void Awake()
     {
         gmInterface = GlobalStorage.instance.gmInterface;
         canvas = uiPanel.GetComponent<CanvasGroup>();
         door = GlobalStorage.instance.fortressBuildingDoor;
         buildings = GetComponent<FortressBuildings>();
+        garrisonUI = GetComponent<GarrisonUI>();
         garrison = GetComponent<Garrison>();
+        unitCenter = GetComponentInChildren<UnitCenter>(true);
 
         gmPlayerMovement = GlobalStorage.instance.globalPlayer;
         resourcesManager = GlobalStorage.instance.resourcesManager;
@@ -71,7 +75,7 @@ public class HeroFortress : MonoBehaviour
         buildings.CloseAnotherConfirm();
 
         isHeroInside = !openByClick;
-        garrison.Init(isHeroInside);
+        garrisonUI.Init(isHeroInside, garrison);
 
         if(isHeroInside == true && isHeroVisitedOnThisWeek == false)
         {
@@ -147,15 +151,32 @@ public class HeroFortress : MonoBehaviour
         isHeroVisitedOnThisWeek = false;
     }
 
+    private void HiringInGarrison()
+    {
+        unitCenter.HiringInGarrison();
+    }
+
+    public void ChangePotentialUnitsAmount(UnitsTypes unitType, int amount)
+    {
+        unitCenter.ChangePotentialUnitsAmount(unitType, amount);
+    }
+
+    public void SetStartGrowths(List<HiringAmount> startGrowthAmounts)
+    {
+        unitCenter.SetStratGrowths(startGrowthAmounts);
+    }
+
     private void OnEnable()
     {
         EventManager.NewMove += NewDay;
         EventManager.NewWeek += UpdateVisit;
+        EventManager.WeekEnd += HiringInGarrison;
     }
 
     private void OnDisable()
     {
         EventManager.NewMove -= NewDay;
         EventManager.NewWeek -= UpdateVisit;
+        EventManager.WeekEnd -= HiringInGarrison;
     }
 }

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -2266726130664226576}
   - component: {fileID: -6694776610698350613}
   - component: {fileID: -754588168694583611}
-  - component: {fileID: 6385564124425461224}
+  - component: {fileID: 7035287316453868735}
   m_Layer: 0
   m_Name: ResourceBuilding
   m_TagString: Untagged
@@ -167,10 +167,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cd3a89c6579e024e89eb67e4184c164, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  garrison: {fileID: 6385564124425461224}
+  garrison: {fileID: 0}
   isRandomResource: 1
   buildingType: 0
   buildingName: 
+  resourceType: 0
   resourceSprite: {fileID: 0}
   upgrades:
   - {fileID: 11400000, guid: 05710b1c23daf5340b3c19657bf9c7c1, type: 2}
@@ -182,12 +183,13 @@ MonoBehaviour:
   maxCountUpgrades: 3
   siegeDaysBase: 3
   siegeDays: 0
+  currentSiegeDays: 0
   resourceBonus: 0
   resourceAmount: 0
   dailyFee: 0
   daysInWeek: 10
   isGarrisonThere: 0
---- !u!114 &6385564124425461224
+--- !u!114 &7035287316453868735
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -196,6 +198,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 5840141713861184889}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d44dc2fd513bc9d428a6a48d2f2d1d80, type: 3}
+  m_Script: {fileID: 11500000, guid: 458b7a928acee8b48877aeab24047d74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
