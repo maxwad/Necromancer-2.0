@@ -13,6 +13,7 @@ public class ResourceBuilding : MonoBehaviour
     private FortressBuildings heroCastle;
 
     [Header("Parameters")]
+    private ObjectOwner owner;
     [SerializeField] private bool isRandomResource = true;
     [HideInInspector] public ResourceBuildings buildingType;
     [HideInInspector] public string buildingName;
@@ -38,9 +39,9 @@ public class ResourceBuilding : MonoBehaviour
     public bool isGarrisonThere = false;
     private float resourceMultiplier = 1;
 
-
     private void Start()
     {
+        owner            = GetComponent<ObjectOwner>();
         spriteRenderer   = GetComponent<SpriteRenderer>();
         resourcesManager = GlobalStorage.instance.resourcesManager;
         resourcesSources = resourcesManager.GetComponent<ResourcesSources>();
@@ -52,20 +53,19 @@ public class ResourceBuilding : MonoBehaviour
             buildingType = (ResourceBuildings)UnityEngine.Random.Range(0, Enum.GetValues(typeof(ResourceBuildings)).Length - 1);
 
         ResourceBuildingData data = resourcesSources.GetResourceBuildingData(buildingType);
-        if(buildingType != ResourceBuildings.Castle)
+        buildingName = data.resourceBuilding.ToString();
+        resourceType = data.resourceType;
+        resourceSprite = data.resourceSprite;
+        resourceBaseQuote = data.resourceBaseIncome;
+
+        if(buildingType == ResourceBuildings.Castle)
         {
-            buildingName = data.resourceBuilding.ToString();
-            resourceType = data.resourceType;
-            spriteRenderer.sprite = data.buildingSprite;
-            resourceSprite = data.resourceSprite;
-            resourceBaseQuote = data.resourceBaseIncome;
+            Register();
+            owner = GlobalStorage.instance.fortressGO;
         }
         else
-        {
-            resourceType = data.resourceType;
-            resourceBaseQuote = data.resourceBaseIncome;
-            Register();
-        }
+            spriteRenderer.sprite = data.buildingSprite;
+
 
         foreach(var upgrade in upgrades)
         {
@@ -80,18 +80,14 @@ public class ResourceBuilding : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.PageUp))
         {
-            isSiege = !isSiege;
+            StartSiege();
 
+            //isSiege = !isSiege;
             //Debug.Log("is siege = " + isSiege);
         }
     }
 
     #region UPGRADES
-
-    public bool CheckSiegeStatus()
-    {
-        return isSiege;
-    }
 
     public int GetCountOfActiveUpgrades()
     {
@@ -121,33 +117,6 @@ public class ResourceBuilding : MonoBehaviour
         ResetBonuses();
     }
 
-    private void CheckSiege()
-    {
-        if(isSiege == true)
-        {
-            if(garrison.DecreaseGarrisonUnits() == false)
-            {
-                currentSiegeDays--;
-                if(currentSiegeDays <= 0)
-                {
-                    if(buildingType != ResourceBuildings.Castle)
-                    {
-                        Unregister();
-                        InfotipManager.ShowWarning("You lost " + buildingName + "...");
-                    }
-                    else
-                    {
-                        heroCastle.DestroyBuildings();
-                        InfotipManager.ShowWarning("A few buildings in your Castle was destroyed.");
-                    }
-                }
-            }
-        }
-        else
-        {
-            currentSiegeDays = siegeDays;
-        }
-    }
     #endregion
 
     #region Bonuses
@@ -162,14 +131,22 @@ public class ResourceBuilding : MonoBehaviour
 
     public void ResetSiegeDays()
     {
+        if(isSiege == true) return;
+
         siegeDays = siegeDaysBase;
-        foreach(var upgrade in upgradesStatus)
+
+        if(buildingType == ResourceBuildings.Castle)
+            siegeDays += (int)heroCastle.GetBonusAmount(CastleBuildingsBonuses.SiegeTime);
+        else
         {
-            if(upgrade.Value == true && upgrade.Key.upgradeBonus == ResourceBuildingsUpgrades.SiegeTime)
-                siegeDays += (int)upgrade.Key.value;
+            foreach(var upgrade in upgradesStatus)
+            {
+                if(upgrade.Value == true && upgrade.Key.upgradeBonus == ResourceBuildingsUpgrades.SiegeTime)
+                    siegeDays += (int)upgrade.Key.value;
+            }
         }
 
-        if(isSiege == false) currentSiegeDays = siegeDays;
+        currentSiegeDays = siegeDays + (int)garrison.GetGarrisonAmount();
     }
 
     public void ResetResourceAmount()
@@ -209,30 +186,79 @@ public class ResourceBuilding : MonoBehaviour
         {
             if(upgrade.Key.upgradeBonus == ResourceBuildingsUpgrades.Garrison && upgrade.Value == true)
                 isGarrisonThere = true;
-
         }
     }
 
     public void Register()
     {
         resourcesSources.Register(this);
+
+        if(owner != null)
+            owner.ChangeOwner(TypeOfObjectsOwner.Player);
     }
 
     public void Unregister()
     {
         resourcesSources.Unregister(this);
+
+        if(owner != null)
+            owner.ChangeOwner(TypeOfObjectsOwner.Enemy);
     }
 
+    #endregion
+
+    #region SIEGE
+
+    public void StartSiege(bool siegeMode = true, bool switchMode = true)
+    {
+        ResetSiegeDays();
+        isSiege = (switchMode == true) ? !isSiege : siegeMode;
+
+        owner.StartSiege(isSiege);
+        owner.UpdateSiegeTerm(currentSiegeDays + "/" + siegeDays);
+    }
+
+    public bool CheckSiegeStatus()
+    {
+        return isSiege;
+    }
+
+    private void UpdateSiege()
+    {
+        if(isSiege == true)
+        {
+            currentSiegeDays--;
+            garrison.DecreaseGarrisonUnits();
+            owner.UpdateSiegeTerm(currentSiegeDays + "/" + siegeDays);
+            if(currentSiegeDays <= 0)
+            {
+                if(buildingType != ResourceBuildings.Castle)
+                {
+                    Unregister();
+                    InfotipManager.ShowWarning("You lost " + buildingName + "...");
+                }
+                else
+                {
+                    heroCastle.DestroyBuildings();
+                    InfotipManager.ShowWarning("A few buildings in your Castle was destroyed.");
+                }
+            }
+        }
+        else
+        {
+            currentSiegeDays = siegeDays;
+        }
+    }
 
     #endregion
 
     private void OnEnable()
     {
-        EventManager.NewMove += CheckSiege;
+        EventManager.NewMove += UpdateSiege;
     }
 
     private void OnDisable()
     {
-        EventManager.NewMove -= CheckSiege;
+        EventManager.NewMove -= UpdateSiege;
     }
 }

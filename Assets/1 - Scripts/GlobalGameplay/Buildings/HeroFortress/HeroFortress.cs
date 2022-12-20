@@ -168,7 +168,7 @@ public class HeroFortress : MonoBehaviour
 
     public void SetStartGrowths(List<HiringAmount> startGrowthAmounts)
     {
-        unitCenter.SetStratGrowths(startGrowthAmounts);
+        unitCenter.SetStartGrowths(startGrowthAmounts);
     }
 
     private void OnEnable()

@@ -19,8 +19,9 @@ public class ResourceBuildingUI : MonoBehaviour
     [SerializeField] private TMP_Text upgradesLimit;
     [SerializeField] private Image resourceIcon;
     [SerializeField] private TMP_Text resourceAmount;
-    [SerializeField] private TMP_Text siegeAmount;
-    [SerializeField] private TMP_Text garrisonAmount;
+    [SerializeField] private TMP_Text siegeAmountCurrent;
+    [SerializeField] private TMP_Text siegeAmountMax;
+    //[SerializeField] private TMP_Text garrisonAmount;
     [SerializeField] private Image siegeIcon;
     [SerializeField] private Sprite siegeOn;
     [SerializeField] private Sprite siegeOff;
@@ -28,6 +29,7 @@ public class ResourceBuildingUI : MonoBehaviour
     [SerializeField] private GameObject garrisonBlock;
     private Garrison garrison;
     private GarrisonUI garrisonUI;
+    [SerializeField] private Color bonusColor;
 
     [SerializeField] private List<RBUpgradeItemUI> upgradesUIList;
 
@@ -84,7 +86,7 @@ public class ResourceBuildingUI : MonoBehaviour
         resourceIcon.sprite = currentBuilding.resourceSprite;
 
         currentBuilding.ResetResourceAmount();
-        resourceAmount.text = "+" + currentBuilding.resourceAmount;
+        resourceAmount.text = "+" + currentBuilding.GetAmount();
 
         int currentUpgrades = currentBuilding.GetCountOfActiveUpgrades();
         upgradesLimit.text = currentUpgrades + "/" + currentBuilding.maxCountUpgrades;
@@ -106,8 +108,6 @@ public class ResourceBuildingUI : MonoBehaviour
         bool isSiege = currentBuilding.CheckSiegeStatus();
         siegeIcon.sprite = (isSiege == true) ? siegeOn : siegeOff;
         siegeWarning.SetActive(isSiege);
-        currentBuilding.ResetSiegeDays();
-        siegeAmount.text = currentBuilding.currentSiegeDays + "/" + currentBuilding.siegeDays.ToString();
         UpdateGarrisonEffect(garrison);
     }
 
@@ -124,15 +124,13 @@ public class ResourceBuildingUI : MonoBehaviour
 
     public void UpdateGarrisonEffect(Garrison garr)
     {
-        //Debug.Log(garrison);
-        //Debug.Log(currentBuilding.garrison);
-        //if(garrison == null) return;
-
         if(garr != garrison) return;
 
-        float garrisonCount = garrison.GetGarrisonAmount();
-        garrisonAmount.gameObject.SetActive(garrisonCount > 0);
-        garrisonAmount.text = "(+" + garrisonCount + ")";
+        currentBuilding.ResetSiegeDays();
+
+        siegeAmountCurrent.text = currentBuilding.currentSiegeDays.ToString();
+        siegeAmountMax.text = currentBuilding.siegeDays.ToString();
+        siegeAmountCurrent.color = (currentBuilding.currentSiegeDays > currentBuilding.siegeDays) ? bonusColor : Color.white;
 
         if(currentBuilding.isGarrisonThere == true)
             garrisonUI.UpdateArmies();

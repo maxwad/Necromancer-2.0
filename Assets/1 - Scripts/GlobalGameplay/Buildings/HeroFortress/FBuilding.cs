@@ -30,6 +30,7 @@ public class FBuilding : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
     private bool canIBuild = true;
 
     [Header("UI Elements")]
+    [SerializeField] private GameObject borderBlock;
     [SerializeField] private Image buildingsBG;
     [SerializeField] private Image buildingsIcon;
     [SerializeField] private GameObject statusBuild;
@@ -51,6 +52,7 @@ public class FBuilding : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
     [SerializeField] private GameObject warningLevel;
     [SerializeField] private GameObject warningQueue;
     [SerializeField] private GameObject warningCost;
+    [SerializeField] private GameObject warningSiege;
     [SerializeField] private Color warningColor;
     [SerializeField] private Color normalColor;
 
@@ -114,6 +116,7 @@ public class FBuilding : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
                 buildingsBG.color = new Color(buildingsBG.color.r, buildingsBG.color.g, buildingsBG.color.b, 0.9f);
                 buildingsIcon.sprite = currentBonus.inActiveIcon;
                 levelText.color = warningColor;
+                borderBlock.SetActive(false);
                 statusBuild.SetActive(true);
                 statusUpgrade.SetActive(false);
             }
@@ -122,6 +125,7 @@ public class FBuilding : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
                 levelText.color = Color.white;
                 buildingsBG.color = new Color(buildingsBG.color.r, buildingsBG.color.g, buildingsBG.color.b, 1f);
                 buildingsIcon.sprite = currentBonus.activeIcon;
+                borderBlock.SetActive(true);
                 statusBuild.SetActive(false);
                 statusUpgrade.SetActive(true);
 
@@ -165,8 +169,11 @@ public class FBuilding : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
         bool queueFlag = allBuildings.CanIBuild();
         warningQueue.SetActive(!queueFlag);
 
+        bool siegeFlag = allBuildings.GetSiegeStatus();
+        warningSiege.SetActive(siegeFlag);
+
         bool permission = true;
-        if(costFlag == false || levelFlag == false || queueFlag == false)
+        if(costFlag == false || levelFlag == false || queueFlag == false || siegeFlag == true)
         {
             permission = false;
         }
@@ -179,6 +186,12 @@ public class FBuilding : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
 
     public void TryToBuild()
     {
+        if(allBuildings.GetSiegeStatus() == true)
+        {
+            InfotipManager.ShowWarning("You can't build anything while your Castle is under siege.");
+            return;
+        }
+
         if(allBuildings.CheckNeededLevel(building) == false)
         {
             InfotipManager.ShowWarning("First you need to increase the level of hero's fortress.");
@@ -300,6 +313,12 @@ public class FBuilding : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
     {
         if(level > 0)
         {
+            if(allBuildings.GetSiegeStatus() == true)
+            {
+                InfotipManager.ShowWarning("You can't use any buildings while your Castle is under siege.");
+                return;
+            }
+
             allBuildings.ShowAllBuildings(false);
             door.Open(this);
         }

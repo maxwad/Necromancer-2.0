@@ -260,6 +260,8 @@ public class UnitCenter : MonoBehaviour
 
     public void HiringInGarrison()
     {
+        if(allBuildings == null) return;
+
         foreach(var unit in growthAmounts)
         {
             int amount = GetHiringGrowth(unit.unitType);
@@ -304,7 +306,7 @@ public class UnitCenter : MonoBehaviour
         if(potentialAmounts[unit] < 0) potentialAmounts[unit] = 0;
     }
 
-    public void SetStratGrowths(List<HiringAmount> startGrowthAmounts)
+    public void SetStartGrowths(List<HiringAmount> startGrowthAmounts)
     {
         growthAmounts = startGrowthAmounts;
     }

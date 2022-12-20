@@ -36,28 +36,23 @@ public class Garrison : MonoBehaviour
         return (currentAmounts.ContainsKey(unit) == true) ? currentAmounts[unit] : 0;
     }
 
-    public float GetGarrisonAmount(bool intMode = false)
+    public float GetGarrisonAmount()
     {
         float amount = 0;
 
         foreach(var squad in currentAmounts)
             amount += squad.Value;
 
-        return (intMode == false) ? Mathf.FloorToInt(amount / defendersPerDay) : amount / defendersPerDay;
+        amount = Mathf.FloorToInt(amount / defendersPerDay);
+        return amount;
     }
 
-    public bool DecreaseGarrisonUnits()
+    public void DecreaseGarrisonUnits()
     {
-        if(GetGarrisonAmount(true) > 1)
-        {
+        if(GetGarrisonAmount() > 1)
             DeleteUnits();
-            return true;
-        }
         else
-        {
             currentAmounts.Clear();
-            return false;
-        }
     }
 
     public void DeleteUnits()

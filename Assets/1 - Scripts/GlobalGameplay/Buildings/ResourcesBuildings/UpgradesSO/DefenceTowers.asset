@@ -16,7 +16,7 @@ MonoBehaviour:
   upgradeBonus: 1
   activeIcon: {fileID: -7024677493080287692, guid: 108daa14e3115264995337bc498c548a, type: 3}
   inActiveIcon: {fileID: -8251309438438452782, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
-  value: 5
+  value: 3
   percentValueType: 0
   isInverted: 0
   cost:

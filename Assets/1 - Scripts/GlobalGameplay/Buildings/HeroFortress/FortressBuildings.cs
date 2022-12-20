@@ -313,6 +313,10 @@ public class FortressBuildings : MonoBehaviour
         return upgradesDict[building][buildingsLevels[building]].fortressLevel;
     }
 
+    public bool GetSiegeStatus()
+    {
+        return mint.CheckSiegeStatus();
+    }
 
     #endregion
 
