@@ -4,16 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using static NameManager;
 
-[Serializable]
-public class ResourceBuildingData
-{
-    public ResourceType resourceType;
-    public ResourceBuildings resourceBuilding;
-    public Sprite resourceSprite;
-    public Sprite buildingSprite;
-    public float resourceBaseIncome;
-}
-
 public class ResourcesSources : MonoBehaviour
 {
     private ResourcesManager resourcesManager;
@@ -24,25 +14,15 @@ public class ResourcesSources : MonoBehaviour
 
     private Dictionary<ResourceType, float> dailyIncome = new Dictionary<ResourceType, float>();
     private Dictionary<ResourceType, float> weeklyIncome = new Dictionary<ResourceType, float>();
+    private int dailyPortion = 10;
 
     private void Start()
     {
         resourcesManager = GetComponent<ResourcesManager>();
     }
 
-    #region GETTINGS
-    public ResourceBuildingData GetResourceBuildingData(ResourceBuildings buildingType)
-    {
-        foreach(var building in resourceBuildings)
-        {
-            if(building.resourceBuilding == buildingType)
-            {
-                return building;
-            }
-        }
 
-        return null;
-    }
+    #region REGISTERS
 
     public void Register(ResourceBuilding building)
     {
@@ -60,35 +40,47 @@ public class ResourcesSources : MonoBehaviour
         {
             sources.Add(building);
         }
+
+        UpdateIncomes(dailyIncome, true);
+        UpdateIncomes(weeklyIncome, false);
     }
 
     public void Unregister(ResourceBuilding building)
     {
-        sources.Remove(building);        
+        sources.Remove(building);
+
+        UpdateIncomes(dailyIncome, true);
+        UpdateIncomes(weeklyIncome, false);
     }
-
-
 
     #endregion
 
-    private void CheckDailyIncome()
+    #region INCOMES
+    private void UpdateIncomes(Dictionary<ResourceType, float> income, bool dailyMode )
     {
-        dailyIncome.Clear();
+        int divider = (dailyMode == true) ? dailyPortion : 1;
+
+        income.Clear();
 
         foreach(var building in sources)
         {
-            if(building.dailyFee == true)
+            if(building.dailyFee == dailyMode)
             {
-                if(dailyIncome.ContainsKey(building.resourceType))
+                if(income.ContainsKey(building.resourceType))
                 {
-                    dailyIncome[building.resourceType] += building.GetAmount() / 10;
+                    income[building.resourceType] += building.GetAmount() / divider;
                 }
                 else
                 {
-                    dailyIncome.Add(building.resourceType, building.GetAmount() / 10);
+                    income.Add(building.resourceType, building.GetAmount() / divider);
                 }
             }
         }
+    }
+
+    private void CheckDailyIncome()
+    {
+        UpdateIncomes(dailyIncome, true);
 
         foreach(var resource in dailyIncome)
         {
@@ -98,28 +90,37 @@ public class ResourcesSources : MonoBehaviour
 
     private void CheckWeeklyIncome(int counter)
     {
-        weeklyIncome.Clear();
-
-        foreach(var building in sources)
-        {
-            if(building.dailyFee == false)
-            {
-                if(weeklyIncome.ContainsKey(building.resourceType))
-                {
-                    weeklyIncome[building.resourceType] += building.GetAmount();
-                }
-                else
-                {
-                    weeklyIncome.Add(building.resourceType, building.GetAmount());
-                }
-            }
-        }
+        UpdateIncomes(weeklyIncome, false);
 
         foreach(var resource in weeklyIncome)
         {
             resourcesManager.ChangeResource(resource.Key, resource.Value);
         }
     }
+
+    #endregion
+
+    #region GETTINGS
+
+    public float GetResourceGrowth(ResourceType resourceType)
+    {
+        return (weeklyIncome.ContainsKey(resourceType) == true) ? weeklyIncome[resourceType] : 0;
+    }
+
+    public ResourceBuildingData GetResourceBuildingData(ResourceBuildings buildingType)
+    {
+        foreach(var building in resourceBuildings)
+        {
+            if(building.resourceBuilding == buildingType)
+            {
+                return building;
+            }
+        }
+
+        return null;
+    }
+
+    #endregion
 
     private void OnEnable()
     {

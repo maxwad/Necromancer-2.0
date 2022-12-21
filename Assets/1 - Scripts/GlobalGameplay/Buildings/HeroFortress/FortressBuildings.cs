@@ -5,27 +5,6 @@ using UnityEngine.UI;
 using TMPro;
 using static NameManager;
 
-public class ConstructionTime
-{
-    public int originalTerm;
-    public int term;
-    public int daysLeft;
-}
-
-public class ConstractionData
-{
-    public string constractionName;
-    public Sprite icon;
-    public int daysLeft;
-}
-
-public class castleDataForUI
-{
-    public int level;
-    public bool canIBuild;
-    public List<ConstractionData> constractions = new List<ConstractionData>();
-}
-
 public class FortressBuildings : MonoBehaviour
 {
     private GMInterface gmInterface;
@@ -400,6 +379,8 @@ public class FortressBuildings : MonoBehaviour
 
     private void NewDay()
     {
+        if(mint.CheckSiegeStatus() == true) return;
+
         List<CastleBuildings> tempList = new List<CastleBuildings>(buildingsInProgress.Keys);
         foreach(var item in tempList)
         {

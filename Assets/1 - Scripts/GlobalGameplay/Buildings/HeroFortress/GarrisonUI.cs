@@ -7,13 +7,6 @@ using UnityEngine.UI;
 using TMPro;
 using static NameManager;
 
-[Serializable]
-public class HiringAmount
-{
-    public UnitsTypes unitType;
-    public int amount;
-}
-
 public class GarrisonUI : MonoBehaviour, IGarrison
 {
     private UnitManager unitManager;
@@ -23,7 +16,6 @@ public class GarrisonUI : MonoBehaviour, IGarrison
 
     public List<HiringAmount> growthAmounts;
 
-    //private Dictionary<UnitsTypes, int> potentialAmounts = new Dictionary<UnitsTypes, int>();
     private Dictionary<UnitsTypes, int> currentAmounts;
     private int squadMaxAmount;
     Dictionary<UnitsTypes, FullSquad> fullPlayerArmy;
@@ -43,15 +35,6 @@ public class GarrisonUI : MonoBehaviour, IGarrison
     private UnitsTypes currentUnitForExchange;
     private int heroAmountToSet = 0;
     private int castleAmountToSet = 0;
-
-    private void Start()
-    {
-        //unitManager = GlobalStorage.instance.unitManager;
-        //playersArmy = GlobalStorage.instance.playersArmy;
-        //playerStats = GlobalStorage.instance.playerStats;
-
-        //takeWholeSquad.isOn = true;
-    }
 
     public void Init(bool heroMode, Garrison gar)
     {

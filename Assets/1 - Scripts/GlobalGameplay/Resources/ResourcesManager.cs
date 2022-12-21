@@ -152,6 +152,8 @@ public class ResourcesManager : MonoBehaviour
     {
         if(value == 0) return;
 
+        if(type == ResourceType.Units) return;
+
         if(type == ResourceType.Exp)
         {
             macroLevelUpManager.AddExp(value);

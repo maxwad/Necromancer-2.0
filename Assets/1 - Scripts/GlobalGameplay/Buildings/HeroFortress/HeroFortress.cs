@@ -1,9 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 using static NameManager;
-using System;
 
 public class HeroFortress : MonoBehaviour
 {
@@ -13,8 +11,6 @@ public class HeroFortress : MonoBehaviour
 
     [SerializeField] private GameObject uiPanel;
     private OpeningBuildingWindow door;
-    private GarrisonUI garrisonUI;
-    private Garrison garrison;
     private FortressBuildings buildings;
     private UnitCenter unitCenter;
     private ResourceBuildingUI resourceBuildingUI;
@@ -36,8 +32,6 @@ public class HeroFortress : MonoBehaviour
         canvas = uiPanel.GetComponent<CanvasGroup>();
         door = GlobalStorage.instance.fortressBuildingDoor;
         buildings = GetComponent<FortressBuildings>();
-        garrison = GetComponent<Garrison>();
-        garrisonUI = GetComponentInChildren<GarrisonUI>(true);
         unitCenter = GetComponentInChildren<UnitCenter>(true);
         resourceBuildingUI = GetComponentInChildren<ResourceBuildingUI>(true);
         resourceBuilding = GetComponent<ResourceBuilding>();
@@ -80,7 +74,6 @@ public class HeroFortress : MonoBehaviour
 
         isHeroInside = !openByClick;
         resourceBuildingUI.Open(openByClick, resourceBuilding);
-        //garrisonUI.Init(isHeroInside, garrison);
 
         if(isHeroInside == true && isHeroVisitedOnThisWeek == false)
         {
@@ -106,7 +99,7 @@ public class HeroFortress : MonoBehaviour
 
     #region BUILDINGS FUNCTION
 
-    private void NewDay()
+    private void MarketDay()
     {
         marketDays++;
     }
@@ -173,14 +166,14 @@ public class HeroFortress : MonoBehaviour
 
     private void OnEnable()
     {
-        EventManager.NewMove += NewDay;
+        EventManager.NewMove += MarketDay;
         EventManager.NewWeek += UpdateVisit;
         EventManager.WeekEnd += HiringInGarrison;
     }
 
     private void OnDisable()
     {
-        EventManager.NewMove -= NewDay;
+        EventManager.NewMove -= MarketDay;
         EventManager.NewWeek -= UpdateVisit;
         EventManager.WeekEnd -= HiringInGarrison;
     }

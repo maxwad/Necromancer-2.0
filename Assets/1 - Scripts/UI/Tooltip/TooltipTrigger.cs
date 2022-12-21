@@ -47,6 +47,11 @@ public class TooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         status = (mode == false) ? notVisitedStatus : visitedStatus;
     }
 
+    public void SetStatus(string text)
+    {
+        status = "Owner: " + text;
+    }
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         isWaiting = true;

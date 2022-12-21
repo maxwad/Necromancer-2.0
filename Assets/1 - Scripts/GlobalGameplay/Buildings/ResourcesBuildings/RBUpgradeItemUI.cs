@@ -23,8 +23,6 @@ public class RBUpgradeItemUI : MonoBehaviour, IPointerEnterHandler, IPointerExit
     [SerializeField] private GameObject status;
     [SerializeField] private Button upgradeButton;
     [SerializeField] private GameObject confirmBlock;
-
-    private bool canIUpgrade = true;
     [SerializeField] Color warningColor;
     [SerializeField] Color normalColor;
 

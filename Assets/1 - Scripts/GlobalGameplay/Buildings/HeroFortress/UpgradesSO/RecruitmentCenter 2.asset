@@ -18,7 +18,7 @@ MonoBehaviour:
   activeIcon: {fileID: 1424432803634526431, guid: 108daa14e3115264995337bc498c548a, type: 3}
   inActiveIcon: {fileID: -5546731805977382484, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
   level: 2
-  value: 3
+  value: 1
   percentValueType: 0
   isInverted: 0
   fortressLevel: 8

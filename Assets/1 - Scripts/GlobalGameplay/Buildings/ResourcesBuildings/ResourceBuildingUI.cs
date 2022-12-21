@@ -8,7 +8,6 @@ using static NameManager;
 public class ResourceBuildingUI : MonoBehaviour
 {
     private ResourceBuilding currentBuilding;
-    private ResourcesSources resourcesSources;
     private GMInterface gmInterface;
     private CanvasGroup canvas;
     private bool isHeroInside = false;
@@ -21,7 +20,6 @@ public class ResourceBuildingUI : MonoBehaviour
     [SerializeField] private TMP_Text resourceAmount;
     [SerializeField] private TMP_Text siegeAmountCurrent;
     [SerializeField] private TMP_Text siegeAmountMax;
-    //[SerializeField] private TMP_Text garrisonAmount;
     [SerializeField] private Image siegeIcon;
     [SerializeField] private Sprite siegeOn;
     [SerializeField] private Sprite siegeOff;
@@ -33,23 +31,20 @@ public class ResourceBuildingUI : MonoBehaviour
 
     [SerializeField] private List<RBUpgradeItemUI> upgradesUIList;
 
-    //private void Start()
-    //{
-    //    gmInterface = GlobalStorage.instance.gmInterface;
-    //    canvas = uiPanel.GetComponent<CanvasGroup>();
-    //    resourcesSources = GlobalStorage.instance.resourcesManager.GetComponent<ResourcesSources>();
-    //    garrisonUI = GetComponent<GarrisonUI>();
-    //}
 
     public void Open(bool openByClick, ResourceBuilding rBuilding)
     {
+        //if(openByClick == true && rBuilding.CheckOwner() == false)
+        //{
+        //    InfotipManager.ShowWarning("You can't look into buildings that aren't yours.");
+        //    return;
+        //}
 
         if(gmInterface == null)
         {
             gmInterface = GlobalStorage.instance.gmInterface;
-            canvas = uiPanel.GetComponent<CanvasGroup>();
-            resourcesSources = GlobalStorage.instance.resourcesManager.GetComponent<ResourcesSources>();
-            garrisonUI = GetComponent<GarrisonUI>();
+            canvas      = uiPanel.GetComponent<CanvasGroup>();
+            garrisonUI  = GetComponent<GarrisonUI>();
         }
         currentBuilding = rBuilding;
 
@@ -93,16 +88,29 @@ public class ResourceBuildingUI : MonoBehaviour
 
         bool isMax = currentUpgrades >= currentBuilding.maxCountUpgrades;
 
+        foreach(var item in upgradesUIList)
+            item.ItemOff(false);
+
         int index = 0;
-        foreach(var item in currentBuilding.upgradesStatus)
+        foreach(var item in currentBuilding.GetUpgradesStatuses())
         {
-            upgradesUIList[index].Init(this, item.Key, item.Value);
-            if(isMax == true) upgradesUIList[index].ItemOff(item.Value);
+            if(item.Value.isHidden != true)
+            {
+                upgradesUIList[index].Init(this, item.Key, item.Value.isEnable);
+
+                if(isMax == true)
+                    upgradesUIList[index].ItemOff(item.Value.isEnable);
+            }
+            else
+            {
+                upgradesUIList[index].ItemOff(false);
+            }
+
             index++;
         }
 
-        garrisonBlock.SetActive(currentBuilding.isGarrisonThere);
-        if(currentBuilding.isGarrisonThere == true)
+        garrisonBlock.SetActive(currentBuilding.GetGarrisonStatus());
+        if(currentBuilding.GetGarrisonStatus() == true)
             garrisonUI.Init(isHeroInside, garrison);
 
         bool isSiege = currentBuilding.CheckSiegeStatus();
@@ -132,7 +140,7 @@ public class ResourceBuildingUI : MonoBehaviour
         siegeAmountMax.text = currentBuilding.siegeDays.ToString();
         siegeAmountCurrent.color = (currentBuilding.currentSiegeDays > currentBuilding.siegeDays) ? bonusColor : Color.white;
 
-        if(currentBuilding.isGarrisonThere == true)
+        if(currentBuilding.GetGarrisonStatus() == true)
             garrisonUI.UpdateArmies();
     }
 

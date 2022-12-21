@@ -15,7 +15,7 @@ public class ResourceBuilding : MonoBehaviour
     [Header("Parameters")]
     private ObjectOwner owner;
     [SerializeField] private bool isRandomResource = true;
-    [HideInInspector] public ResourceBuildings buildingType;
+    public ResourceBuildings buildingType;
     [HideInInspector] public string buildingName;
     [HideInInspector] public ResourceType resourceType;
     private SpriteRenderer spriteRenderer;
@@ -24,9 +24,12 @@ public class ResourceBuilding : MonoBehaviour
     private bool isSiege = false;
 
     [Header("Upgrades")]
-    [SerializeField] private List<RBUpgradeSO> upgrades;
-    [HideInInspector] public Dictionary<RBUpgradeSO, bool> upgradesStatus = new Dictionary<RBUpgradeSO, bool>();
-    [HideInInspector] public int maxCountUpgrades = 3;
+    [SerializeField] private List<RBUpgradeSO> builtInUpgrades;
+    [SerializeField] private List<RBUpgradeSO> commonUpgrades;
+    [SerializeField] private List<RBUpgradeSO> rbUpgrades;
+    [SerializeField] private List<RBUpgradeSO> outpostUpgrades;
+    private Dictionary<RBUpgradeSO, UpgradeStatus> upgradesDict = new Dictionary<RBUpgradeSO, UpgradeStatus>();
+    public int maxCountUpgrades = 3;
 
     [Header("Bonuses")]
     [HideInInspector] public int siegeDaysBase = 3;
@@ -36,7 +39,7 @@ public class ResourceBuilding : MonoBehaviour
     [HideInInspector] public float resourceAmount;
     [HideInInspector] public bool dailyFee = false;
     [HideInInspector] public float daysInWeek = 10;
-    public bool isGarrisonThere = false;
+    private bool isGarrisonThere = false;
     private float resourceMultiplier = 1;
 
     private void Start()
@@ -49,14 +52,15 @@ public class ResourceBuilding : MonoBehaviour
         boostManager     = GlobalStorage.instance.boostManager;
         heroCastle       = GlobalStorage.instance.fortressBuildings;
 
+        // Length - 2 because we don't need in resource buildings Castle or outposts
         if(isRandomResource == true)
-            buildingType = (ResourceBuildings)UnityEngine.Random.Range(0, Enum.GetValues(typeof(ResourceBuildings)).Length - 1);
+            buildingType = (ResourceBuildings)UnityEngine.Random.Range(0, Enum.GetValues(typeof(ResourceBuildings)).Length - 2);
 
         ResourceBuildingData data = resourcesSources.GetResourceBuildingData(buildingType);
-        buildingName = data.resourceBuilding.ToString();
-        resourceType = data.resourceType;
-        resourceSprite = data.resourceSprite;
-        resourceBaseQuote = data.resourceBaseIncome;
+        buildingName              = data.resourceBuilding.ToString();
+        resourceType              = data.resourceType;
+        resourceSprite            = data.resourceSprite;
+        resourceBaseQuote         = data.resourceBaseIncome;
 
         if(buildingType == ResourceBuildings.Castle)
         {
@@ -64,14 +68,13 @@ public class ResourceBuilding : MonoBehaviour
             owner = GlobalStorage.instance.fortressGO;
         }
         else
-            spriteRenderer.sprite = data.buildingSprite;
-
-
-        foreach(var upgrade in upgrades)
         {
-            upgradesStatus.Add(upgrade, false);
+            spriteRenderer.sprite = data.buildingSprite;
+            spriteRenderer.color = data.buildingColor;
+            owner.Init(buildingType, resourceType);
         }
 
+        GetUpgrades();
         ResetBonuses();
 
     }
@@ -81,23 +84,67 @@ public class ResourceBuilding : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.PageUp))
         {
             StartSiege();
-
-            //isSiege = !isSiege;
-            //Debug.Log("is siege = " + isSiege);
         }
     }
 
     #region UPGRADES
 
+    private void GetUpgrades()
+    {
+        List<RBUpgradeSO> upgradesList = new List<RBUpgradeSO>();
+
+        foreach(var item in builtInUpgrades)
+        {
+            upgradesList.Add(item);
+        }
+
+        foreach(var item in commonUpgrades)
+        {
+            upgradesList.Add(item);
+        }
+
+        if(buildingType == ResourceBuildings.Outpost)
+        {
+            foreach(var item in outpostUpgrades)
+            {
+                upgradesList.Add(item);
+            }
+        }
+        else
+        {
+            foreach(var item in rbUpgrades)
+            {
+                upgradesList.Add(item);
+            }
+        }
+
+        foreach(var upgrade in upgradesList)
+        {
+            if(upgradesDict.ContainsKey(upgrade) == false)
+            {
+                upgradesDict.Add(upgrade, new UpgradeStatus());
+            }
+        }
+
+        foreach(var item in builtInUpgrades)
+        {
+            UpgradeStatus upgradeStatus = upgradesDict[item];
+            upgradeStatus.isHidden = true;
+            upgradesDict[item] = upgradeStatus;
+
+            ApplyUpgrade(item);
+        }
+    }
+
     public int GetCountOfActiveUpgrades()
     {
         int count = 0;
-        foreach(var upgrade in upgradesStatus)
+        foreach(var upgrade in upgradesDict)
         {
-            if(upgrade.Value == true) count++;
+            if(upgrade.Value.isEnable == true) count++;
         }
 
-        return count;
+        return count - builtInUpgrades.Count;
     }
 
     public float GetAmount()
@@ -113,8 +160,16 @@ public class ResourceBuilding : MonoBehaviour
 
     public void ApplyUpgrade(RBUpgradeSO upgrade, bool activeMode = true)
     {
-        upgradesStatus[upgrade] = activeMode;
+        UpgradeStatus upgradeStatus = upgradesDict[upgrade];
+        upgradeStatus.isEnable = true;
+        upgradesDict[upgrade] = upgradeStatus;
+
         ResetBonuses();
+    }
+
+    public Dictionary<RBUpgradeSO, UpgradeStatus> GetUpgradesStatuses()
+    {
+        return upgradesDict;
     }
 
     #endregion
@@ -139,9 +194,9 @@ public class ResourceBuilding : MonoBehaviour
             siegeDays += (int)heroCastle.GetBonusAmount(CastleBuildingsBonuses.SiegeTime);
         else
         {
-            foreach(var upgrade in upgradesStatus)
+            foreach(var upgrade in upgradesDict)
             {
-                if(upgrade.Value == true && upgrade.Key.upgradeBonus == ResourceBuildingsUpgrades.SiegeTime)
+                if(upgrade.Value.isEnable == true && upgrade.Key.upgradeBonus == ResourceBuildingsUpgrades.SiegeTime)
                     siegeDays += (int)upgrade.Key.value;
             }
         }
@@ -152,11 +207,15 @@ public class ResourceBuilding : MonoBehaviour
     public void ResetResourceAmount()
     {
         resourceAmount = resourceBaseQuote;
-        resourceBonus = boostManager.GetBoost(BoostType.ExtraResourcesProduce);
 
-        foreach(var upgrade in upgradesStatus)
+        if(buildingType != ResourceBuildings.Outpost)
+            resourceBonus = boostManager.GetBoost(BoostType.ExtraResourcesProduce);
+        else
+            resourceBonus = 0;
+
+        foreach(var upgrade in upgradesDict)
         {
-            if(upgrade.Value == true && upgrade.Key.upgradeBonus == ResourceBuildingsUpgrades.ResourceBonus)
+            if(upgrade.Value.isEnable == true && upgrade.Key.upgradeBonus == ResourceBuildingsUpgrades.ResourceBonus)
                 resourceBonus += (upgrade.Key.value * 0.01f);
         }
 
@@ -168,25 +227,27 @@ public class ResourceBuilding : MonoBehaviour
     {
         dailyFee = false;
 
-        foreach(var upgrade in upgradesStatus)
+        foreach(var upgrade in upgradesDict)
         {
-            if(upgrade.Key.upgradeBonus == ResourceBuildingsUpgrades.DailyResources && upgrade.Value == true)
+            if(upgrade.Key.upgradeBonus == ResourceBuildingsUpgrades.DailyResources && upgrade.Value.isEnable == true)
                 dailyFee = true;
         }
     }
 
     public void ResetGarrisonStatus()
     {
-        //for Castle
-        if(buildingType == ResourceBuildings.Castle) return;
-
         isGarrisonThere = false;
 
-        foreach(var upgrade in upgradesStatus)
+        foreach(var upgrade in upgradesDict)
         {
-            if(upgrade.Key.upgradeBonus == ResourceBuildingsUpgrades.Garrison && upgrade.Value == true)
+            if(upgrade.Key.upgradeBonus == ResourceBuildingsUpgrades.Garrison && upgrade.Value.isEnable == true)
                 isGarrisonThere = true;
         }
+    }
+
+    public bool GetGarrisonStatus()
+    {
+        return isGarrisonThere;
     }
 
     public void Register()
@@ -205,14 +266,18 @@ public class ResourceBuilding : MonoBehaviour
             owner.ChangeOwner(TypeOfObjectsOwner.Enemy);
     }
 
+    public bool CheckOwner()
+    {
+        return owner.CheckOwner();
+    }
     #endregion
 
     #region SIEGE
 
-    public void StartSiege(bool siegeMode = true, bool switchMode = true)
+    public void StartSiege(bool siegeMode = true)
     {
         ResetSiegeDays();
-        isSiege = (switchMode == true) ? !isSiege : siegeMode;
+        isSiege = !isSiege;
 
         owner.StartSiege(isSiege);
         owner.UpdateSiegeTerm(currentSiegeDays + "/" + siegeDays);
@@ -232,6 +297,8 @@ public class ResourceBuilding : MonoBehaviour
             owner.UpdateSiegeTerm(currentSiegeDays + "/" + siegeDays);
             if(currentSiegeDays <= 0)
             {
+                StartSiege();
+
                 if(buildingType != ResourceBuildings.Castle)
                 {
                     Unregister();

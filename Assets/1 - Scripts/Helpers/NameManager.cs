@@ -147,7 +147,8 @@ public static class NameManager
         Iron,
         Exp, 
         Mana,
-        Health
+        Health,
+        Units
     }
 
     public enum ResourceBuildings
@@ -156,7 +157,8 @@ public static class NameManager
         Quarry,
         Mine,
         Sawmill,
-        Castle
+        Castle,
+        Outpost
     }
 
     public enum ResourceBuildingsUpgrades

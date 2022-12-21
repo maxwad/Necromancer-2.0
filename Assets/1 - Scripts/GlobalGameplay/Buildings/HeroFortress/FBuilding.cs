@@ -7,14 +7,6 @@ using UnityEngine.UI;
 using TMPro;
 using static NameManager;
 
-public class BuildingsRequirements
-{
-    public bool isCostForCastle = true;
-    public List<Cost> costs;
-    public int fortressLevel;
-    public bool canIBuild;
-}
-
 public class FBuilding : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, IUpgradable
 {
     [Header("Parameters")]

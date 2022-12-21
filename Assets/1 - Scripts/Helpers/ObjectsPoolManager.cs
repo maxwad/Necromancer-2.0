@@ -8,27 +8,6 @@ public class ObjectsPoolManager : MonoBehaviour
 {
     public static ObjectsPoolManager instance;
 
-    [Serializable]
-    public class ObjectPoolObjects
-    {
-        public ObjectPool type;
-        public GameObject obj;
-    }
-
-    [Serializable]
-    public class ObjectPoolWeapon
-    {
-        public UnitsAbilities type;
-        public GameObject weapon;
-    }
-
-    [Serializable]
-    public class ObjectPoolBossWeapon
-    {
-        public BossWeapons type;
-        public GameObject weapon;
-    }
-
     public List<ObjectPoolObjects> objectsList;
     private Dictionary<ObjectPool, List<GameObject>> allObjectsDict = new Dictionary<ObjectPool, List<GameObject>>();
 

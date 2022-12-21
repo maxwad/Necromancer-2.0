@@ -10,9 +10,9 @@ public class UnitCenter : MonoBehaviour
 {
     private FortressBuildings allBuildings;
     private Garrison garrison;
-    private GarrisonUI garrisonUI;
     private UnitManager unitManager;
     private ResourcesManager resourcesManager;
+    private ResourcesSources growthManager;
     private BoostManager boostManager;
 
     private Dictionary<ResourceType, Sprite> resourcesIcons;
@@ -48,10 +48,10 @@ public class UnitCenter : MonoBehaviour
         {
             allBuildings = GlobalStorage.instance.fortressBuildings;
             garrison = allBuildings.GetComponent<Garrison>();
-            garrisonUI = allBuildings.GetComponentInChildren<GarrisonUI>(true);
             unitManager = GlobalStorage.instance.unitManager;
             boostManager = GlobalStorage.instance.boostManager;
             resourcesManager = GlobalStorage.instance.resourcesManager;
+            growthManager = resourcesManager.GetComponent<ResourcesSources>();
             resourcesIcons = resourcesManager.GetAllResourcesIcons();
             emptyIcon = currentUnitIcon.sprite;
         }
@@ -282,6 +282,7 @@ public class UnitCenter : MonoBehaviour
         }
 
         amount += (int)allBuildings.GetBonusAmount(CastleBuildingsBonuses.HiringAmount);
+        amount += (int)growthManager.GetResourceGrowth(ResourceType.Units);
         float bonusAmount = boostManager.GetBoost(BoostType.Hiring);
         amount += Mathf.RoundToInt(amount * bonusAmount);
 
