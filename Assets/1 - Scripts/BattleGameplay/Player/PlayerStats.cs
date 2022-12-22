@@ -36,7 +36,9 @@ public class PlayerStats : MonoBehaviour
 
     [SerializeField] private float squadMaxSizeBase = 30;
 
-    [SerializeField] private float ExtraResources = 1;
+    [SerializeField] private float extraResources = 1;
+
+    //[SerializeField] private float altarTryCost = 1;
 
     [Header("Number Parameters")]
     [Space]
@@ -188,8 +190,12 @@ public class PlayerStats : MonoBehaviour
                     break;
 
                 case PlayersStats.ExtraResourcesProduce:
-                    baseValue = ExtraResources;
-                    break;
+                    baseValue = extraResources;
+                    break; 
+                
+                //case PlayersStats.MedicAltar:
+                //    baseValue = altarTryCost;
+                //    break;
 
                 default:
                     break;

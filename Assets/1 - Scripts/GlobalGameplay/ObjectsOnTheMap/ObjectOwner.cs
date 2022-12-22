@@ -10,11 +10,15 @@ public class ObjectOwner : MonoBehaviour
     public TypeOfObjectsOwner owner;
     public bool isGuardNeeded = true;
     public float probabilityGuard = 100;
+    public bool isOwnerRequired = false;
 
     private Color currentColor;
     public Color neutralColor;
     public Color enemyColor;
     public Color playerColor;
+
+    public Color visitedColor;
+    public Color notVisitedColor;
 
     public SpriteRenderer flagSpite;
 
@@ -22,11 +26,18 @@ public class ObjectOwner : MonoBehaviour
     [SerializeField] private TMP_Text term;
 
     private TooltipTrigger tooltip;
+    //TypeOfObjectOnTheMap test;
 
     private void Awake()
     {
         tooltip = GetComponent<TooltipTrigger>();
-        ChangeFlag(owner);
+
+        //test = GetComponent<ClickableObject>().objectType;
+
+        if(isOwnerRequired == true)
+            ChangeFlag(owner);
+        else
+            SetVisitStatus(false);
     }
 
     public void ChangeOwner(TypeOfObjectsOwner newOwner)
@@ -102,5 +113,32 @@ public class ObjectOwner : MonoBehaviour
     public bool CheckOwner()
     {
         return owner == TypeOfObjectsOwner.Player;
+    }
+
+
+    public void SetVisitStatus(bool statusMode)
+    {
+        if(flagSpite == null) return;
+
+        ChangeFlag(statusMode);
+    }
+
+    private void ChangeFlag(bool statusMode)
+    {
+        string status;
+
+        if(statusMode == true)
+        {
+            currentColor = visitedColor;
+            status = "You have already brought gifts here this week.";
+        }
+        else
+        {
+            currentColor = notVisitedColor;
+            status = "You can heal your units here.";
+        }
+
+        flagSpite.color = currentColor;
+        tooltip.SetStatus(status);
     }
 }

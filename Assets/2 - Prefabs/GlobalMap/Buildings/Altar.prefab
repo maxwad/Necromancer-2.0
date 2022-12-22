@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: -1753705664072012426}
   - component: {fileID: 3876701718727417131}
   - component: {fileID: -2272536319136016892}
+  - component: {fileID: -2755224177458578754}
   m_Layer: 0
   m_Name: Altar
   m_TagString: Untagged
@@ -134,7 +135,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectType: 6
-  isItDoor: 0
+  isItDoor: 1
   isNormalUIWindow: 1
   canBeOpenedByClick: 1
   canBeOpenedByMove: 1
@@ -154,10 +155,27 @@ MonoBehaviour:
   owner: 2
   isGuardNeeded: 0
   probabilityGuard: 100
+  isOwnerRequired: 0
   neutralColor: {r: 0, g: 0, b: 0, a: 0}
   enemyColor: {r: 0, g: 0, b: 0, a: 0}
   playerColor: {r: 0, g: 0, b: 0, a: 0}
+  visitedColor: {r: 0.990566, g: 0.34109113, b: 0.34109113, a: 1}
+  notVisitedColor: {r: 0.1298113, g: 0.8113208, b: 0, a: 1}
   flagSpite: {fileID: 6129053573275287751}
+  siegeBlock: {fileID: 0}
+  term: {fileID: 0}
+--- !u!114 &-2755224177458578754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2298590583029160480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22017f20cbb23674483881bfe7ecfc05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &9085109083082289583
 GameObject:
   m_ObjectHideFlags: 0

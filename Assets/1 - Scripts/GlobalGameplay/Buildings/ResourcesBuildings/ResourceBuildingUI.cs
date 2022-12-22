@@ -34,6 +34,7 @@ public class ResourceBuildingUI : MonoBehaviour
 
     public void Open(bool openByClick, ResourceBuilding rBuilding)
     {
+        // RETURN in build!
         //if(openByClick == true && rBuilding.CheckOwner() == false)
         //{
         //    InfotipManager.ShowWarning("You can't look into buildings that aren't yours.");
@@ -42,6 +43,7 @@ public class ResourceBuildingUI : MonoBehaviour
 
         if(gmInterface == null)
         {
+            //we can't do it in Start becouse some "doors" are disable before open (Castle)
             gmInterface = GlobalStorage.instance.gmInterface;
             canvas      = uiPanel.GetComponent<CanvasGroup>();
             garrisonUI  = GetComponent<GarrisonUI>();

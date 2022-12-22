@@ -57,7 +57,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1979478341978221228}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.75, y: -0.4, z: 0}
+  m_LocalPosition: {x: 1.75, y: -0.35, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5026012963599182123}
@@ -524,9 +524,12 @@ MonoBehaviour:
   owner: 2
   isGuardNeeded: 1
   probabilityGuard: 100
+  isOwnerRequired: 0
   neutralColor: {r: 0.5294118, g: 0.5294118, b: 0.5294118, a: 1}
   enemyColor: {r: 0, g: 0, b: 0, a: 1}
   playerColor: {r: 0.5882353, g: 0, b: 0.91764706, a: 1}
+  visitedColor: {r: 0, g: 0, b: 0, a: 0}
+  notVisitedColor: {r: 0, g: 0, b: 0, a: 0}
   flagSpite: {fileID: 5241223298928895715}
   siegeBlock: {fileID: 126146522677272823}
   term: {fileID: 3250173730087270534}

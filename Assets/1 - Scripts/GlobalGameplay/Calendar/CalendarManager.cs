@@ -163,6 +163,7 @@ public class CalendarManager : MonoBehaviour
 
         boost = EnumConverter.instance.RuneToBoostType(currentDecadeEffect.effect.rune);
         value = (currentDecadeEffect.isNegative == true) ? -currentDecadeEffect.effect.value : currentDecadeEffect.effect.value;
+
         boostManager.SetBoost(boost, BoostSender.Calendar, currentDecadeEffect.purpose, value);
     }
 }

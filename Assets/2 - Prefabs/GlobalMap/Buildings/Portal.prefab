@@ -154,10 +154,15 @@ MonoBehaviour:
   owner: 2
   isGuardNeeded: 0
   probabilityGuard: 100
+  isOwnerRequired: 0
   neutralColor: {r: 0, g: 0, b: 0, a: 0}
   enemyColor: {r: 0, g: 0, b: 0, a: 0}
   playerColor: {r: 0, g: 0, b: 0, a: 0}
-  flagSpite: {fileID: 0}
+  visitedColor: {r: 0, g: 0, b: 0, a: 0}
+  notVisitedColor: {r: 0, g: 0, b: 0, a: 0}
+  flagSpite: {fileID: 3242428339178918841}
+  siegeBlock: {fileID: 0}
+  term: {fileID: 0}
 --- !u!1 &6343728700807263216
 GameObject:
   m_ObjectHideFlags: 0

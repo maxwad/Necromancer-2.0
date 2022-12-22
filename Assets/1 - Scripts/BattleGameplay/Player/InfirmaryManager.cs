@@ -120,7 +120,6 @@ public class InfirmaryManager : MonoBehaviour
             injuredTimersDict[unit] = injuredTimersDict[unit] - 1; 
         }
 
-        List<UnitsTypes> squadDeaths = new List<UnitsTypes>();
         int countOfUnitsDeath = 0;
 
         foreach(var unit in tempList)

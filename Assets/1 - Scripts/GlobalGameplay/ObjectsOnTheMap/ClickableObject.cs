@@ -109,13 +109,13 @@ public class ClickableObject : MonoBehaviour
                 isThereManager = true;
                 break;
 
-            case TypeOfObjectOnTheMap.Outpost:
+            case TypeOfObjectOnTheMap.Altar:
+                Altar altar = GetComponent<Altar>();
+                GlobalStorage.instance.altarDoor.Open(modeClick, altar);
+                isThereManager = true;
                 break;
 
             case TypeOfObjectOnTheMap.Camp:
-                break;
-
-            case TypeOfObjectOnTheMap.Altar:
                 break;
 
             case TypeOfObjectOnTheMap.Arena:

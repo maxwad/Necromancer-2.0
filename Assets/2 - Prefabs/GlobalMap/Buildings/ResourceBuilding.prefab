@@ -240,9 +240,12 @@ MonoBehaviour:
   owner: 2
   isGuardNeeded: 1
   probabilityGuard: 100
+  isOwnerRequired: 1
   neutralColor: {r: 0.5283019, g: 0.5283019, b: 0.5283019, a: 1}
   enemyColor: {r: 0, g: 0, b: 0, a: 1}
   playerColor: {r: 0.5882353, g: 0, b: 0.9176471, a: 1}
+  visitedColor: {r: 0, g: 0, b: 0, a: 0}
+  notVisitedColor: {r: 0, g: 0, b: 0, a: 0}
   flagSpite: {fileID: 8533436667650373405}
   siegeBlock: {fileID: 8946516835885243950}
   term: {fileID: 2532865892924562404}
