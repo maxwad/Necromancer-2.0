@@ -98,6 +98,37 @@ public class Cost
 
 #endregion
 
+#region Infirmary
+
+public class InjuredUnitData
+{
+    public int quantity;
+    public float term;
+
+    public InjuredUnitData(int amount, float days)
+    {
+        quantity = amount;
+        term = days;
+    }
+}
+
+#endregion
+
+#region ALTARS
+
+public class ResourceGiftData
+{
+    public ResourceType resourceType;
+    public float amount = 0;
+    public float amountInStore = 0;
+    public float amountTotalTry = 0;
+    public bool isPassiveBtn = false;
+    public Color bgColor = Color.white;
+}
+
+
+#endregion
+
 
 #region NEW
 

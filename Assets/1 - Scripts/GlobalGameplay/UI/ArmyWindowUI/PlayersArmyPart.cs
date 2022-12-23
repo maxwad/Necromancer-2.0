@@ -97,23 +97,19 @@ public class PlayersArmyPart : MonoBehaviour
     public void UpdateInfirmaryScheme()
     {
         float infarmaryCapacity = infirmaryManager.GetCurrentCapacity();
-        float currentInjuredCount = infirmaryManager.GetCurrentInjuredQuantity();
+        float currentInjuredCount = infirmaryManager.GetInjuredCount();
         infirmaryCount.text = "[" + currentInjuredCount + "/" + infarmaryCapacity + "]";
 
         for(int i = 0; i < infirmarySlots.Length; i++)
             infirmarySlots[i].ResetSlot();
 
-        Dictionary<UnitsTypes, float> injuredDict = infirmaryManager.GetCurrentInjuredDict();
+        Dictionary<UnitsTypes, InjuredUnitData> injuredDict = infirmaryManager.GetCurrentInjuredDict();
 
         int slotIndex = 0;
         foreach(var unit in injuredDict)
         {
-            //this need rework, because GetNewSquad set unit as active, but we don't need it
-            //Unit injuredUnit = unitManager.GetNewSquad(unit.Key, 1);
             Sprite icon = unitManager.GetUnitsIcon(unit.Key);
-            int count = infirmaryManager.GetCurrentInjuredQuantityByType(unit.Key);
-
-            infirmarySlots[slotIndex].FillTheInfarmarySlot(icon, count, unit.Value);
+            infirmarySlots[slotIndex].FillTheInfarmarySlot(icon, unit.Value.quantity, unit.Value.term);
             slotIndex++;
         }
     }

@@ -31,7 +31,7 @@ public class BattleUIInfirmaryPart : MonoBehaviour
         if(max == 0)
         {
             currentMaxInfirmaryCount = playerStats.GetCurrentParameter(PlayersStats.Infirmary);
-            currentInfirmaryCount = GlobalStorage.instance.infirmaryManager.injuredList.Count;
+            currentInfirmaryCount = GlobalStorage.instance.infirmaryManager.GetInjuredCount();
         }
         else
         {

@@ -14,7 +14,7 @@ public class Altar : MonoBehaviour
     private ObjectOwner objectOwner;
     private bool isVisited = false;
 
-    private Dictionary<UnitsTypes, float> injuredUnitsDict = new Dictionary<UnitsTypes, float>();
+    private Dictionary<UnitsTypes, int> injuredUnitsDict = new Dictionary<UnitsTypes, int>();
     private float percentCommonCost = 0.15f;
     private float minCost = 50f;
 
@@ -28,11 +28,31 @@ public class Altar : MonoBehaviour
         objectOwner = GetComponent<ObjectOwner>();
     }
 
-    public Dictionary<ResourceType, float> GetPrice()
+    public Dictionary<Unit, int> GetUnits()
     {
         injuredUnitsDict.Clear();
         injuredUnitsDict = GetUnitsFromInfirmary();
-        Dictionary<ResourceType, float> finalCommonSum = new Dictionary<ResourceType, float>();
+
+        Dictionary<Unit, int> units = new Dictionary<Unit, int>();
+        foreach(var unit in injuredUnitsDict)
+        {
+            units.Add(unitManager.GetUnitForTip(unit.Key), unit.Value);
+        }
+
+         return units;
+    }
+
+    public Dictionary<ResourceType, float> GetPrice()
+    {
+        Dictionary<ResourceType, float> finalCommonSum = new Dictionary<ResourceType, float>()
+        {
+            [ResourceType.Gold] = 0,
+            [ResourceType.Food] = 0,
+            [ResourceType.Wood] = 0,
+            [ResourceType.Stone] = 0,
+            [ResourceType.Iron] = 0
+        };
+
         float discount = boostManager.GetBoost( BoostType.Altar);
 
         float commonQuantity = 0;
@@ -46,11 +66,7 @@ public class Altar : MonoBehaviour
             {
                 float amount = unitCost[i].amount * injuredUnitsDict[unit.Key] * (1 + discount);
 
-                if(finalCommonSum.ContainsKey(unitCost[i].type) == true)
-                    finalCommonSum[unitCost[i].type] += amount;
-                else
-                    finalCommonSum.Add(unitCost[i].type, amount);
-
+                finalCommonSum[unitCost[i].type] += amount;
             }
         }
 
@@ -61,23 +77,28 @@ public class Altar : MonoBehaviour
                 (finalCommonSum[itemCost] == 0) 
                 ? minCost
                 : Mathf.Round(finalCommonSum[itemCost] * percentCommonCost);
-
-            Debug.Log(itemCost + " = " + finalCommonSum[itemCost]);
         }
 
         return finalCommonSum;
     }
 
-    private Dictionary<UnitsTypes, float> GetUnitsFromInfirmary()
+    public void ChangeUnitsAmount(UnitsTypes unit, float newAmount)
     {
-        injuredUnitsDict.Clear();
-        Dictionary<UnitsTypes, float> tempDict = new Dictionary<UnitsTypes, float>();
+        injuredUnitsDict[unit] = (int)newAmount;
+    }
 
-        Dictionary<UnitsTypes, float> units = infirmary.GetCurrentInjuredDict();
+    public bool CheckInjured()
+    {
+        return infirmary.GetInjuredCount() > 0;
+    }
+
+    public Dictionary<UnitsTypes, int> GetUnitsFromInfirmary()
+    {
+        Dictionary<UnitsTypes, int> tempDict = new Dictionary<UnitsTypes, int>();
+
+        Dictionary<UnitsTypes, InjuredUnitData> units = infirmary.GetCurrentInjuredDict();
         foreach(var item in units)
-        {
-            tempDict.Add(item.Key, infirmary.GetCurrentInjuredQuantityByType(item.Key));
-        }
+            tempDict.Add(item.Key, item.Value.quantity);
 
         return tempDict;
     }
