@@ -118,12 +118,17 @@ public class InjuredUnitData
 
 public class ResourceGiftData
 {
+    public int index;
     public ResourceType resourceType;
+    public Sprite resourceIcon;
     public float amount = 0;
     public float amountInStore = 0;
     public float amountTotalTry = 0;
-    public bool isPassiveBtn = false;
+    public Color tryColor = Color.white;
+    public Color amountColor = Color.white;
     public Color bgColor = Color.white;
+    public bool isActiveBtn = false;
+    public AltarMiniGame miniGame = null;
 }
 
 

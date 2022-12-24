@@ -6,25 +6,23 @@ using static NameManager;
 
 public class AltarResourceButton : MonoBehaviour
 {
-    private ResourcesManager resourcesManager;
-    private Dictionary<ResourceType, Sprite> resourcesIcons;
-
     [SerializeField] private Image icon;
     [SerializeField] private TMP_Text amountText;
     [SerializeField] private TMP_Text maxTryText;
 
-    private Color normalColor = Color.white;
-    [SerializeField] private Color warningColor;
+    ResourceGiftData currentData;
+
+    //private int index = 0;
+    //private ResourceType resourceType;
+    //private AltarMiniGame miniGame;
+    //private float price;
+    //private 
 
     public void Init(ResourceGiftData data)
     {
-        if(resourcesManager == null)
-        {
-            resourcesManager = GlobalStorage.instance.resourcesManager;
-            resourcesIcons = resourcesManager.GetAllResourcesIcons();
-        }
+        currentData = data;
 
-        icon.sprite = resourcesIcons[data.resourceType];
+        icon.sprite = data.resourceIcon;
 
         string amount = (data.amountInStore == 0) ? data.amount.ToString() : (data.amount + "/" + data.amountInStore);
         amountText.text = amount;
@@ -32,6 +30,13 @@ public class AltarResourceButton : MonoBehaviour
         amount = (data.amountTotalTry == 0) ? "" :  "(Max: " + data.amountTotalTry + ")";
         maxTryText.text = amount;
 
-        maxTryText.color = (resourcesManager.CheckMinResource(data.resourceType, data.amountTotalTry) == true) ? normalColor : warningColor;
+        maxTryText.color = data.tryColor;
+        amountText.color = data.amountColor;
+    }
+
+    //Button
+    public void SetResource()
+    {
+        currentData.miniGame.SetResource(currentData);
     }
 }

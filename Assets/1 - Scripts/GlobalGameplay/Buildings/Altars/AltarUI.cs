@@ -9,20 +9,26 @@ using static NameManager;
 public class AltarUI : MonoBehaviour
 {
     private PlayerStats playerStats;
+    private ResourcesManager resourcesManager;
     private GMInterface gmInterface;
     private CanvasGroup canvas;
-    private Altar currentAltar; 
+    [HideInInspector] public Altar currentAltar;
+    private AltarMiniGame gameScript;
 
     [SerializeField] private GameObject uiPanel;
     private float maxTry;
+    private bool isResourceDeficit = false;
+    private bool isMiniGameStarted = false;
 
     [Header("Settings")]
     [SerializeField] private GameObject settingsBlock;
     [SerializeField] private Toggle healingAll;
     [SerializeField] private TMP_Text tryCaption;
+    [SerializeField] private GameObject confirmBlock;
 
     private Dictionary<Unit, int> units;
     private Dictionary<ResourceType, float> currentCost;
+    private Dictionary<ResourceType, Sprite> resourcesIcons;
 
     [Header("Lists")]
     [SerializeField] private List<AltarResourceButton> resourcesPortions;
@@ -31,42 +37,34 @@ public class AltarUI : MonoBehaviour
 
 
     [SerializeField] private Color rigthColor;
+    [SerializeField] private Color warningColor;
 
     private void Start()
     {
-        playerStats = GlobalStorage.instance.playerStats;
-        gmInterface = GlobalStorage.instance.gmInterface;
-        canvas = uiPanel.GetComponent<CanvasGroup>();
+        playerStats      = GlobalStorage.instance.playerStats;
+        resourcesManager = GlobalStorage.instance.resourcesManager;
+        resourcesIcons   = resourcesManager.GetAllResourcesIcons();
+        gmInterface      = GlobalStorage.instance.gmInterface;
+        canvas           = uiPanel.GetComponent<CanvasGroup>();
+        gameScript       = GetComponent<AltarMiniGame>();
     }
     
     private void Init()
     {
         settingsBlock.SetActive(true);
         healingAll.isOn = true;
+        isResourceDeficit = false;
 
         maxTry = playerStats.GetCurrentParameter(PlayersStats.MedicTry);
         tryCaption.text = "Price per try (Total: " + maxTry + ")";
 
         FillUnits();
 
-        currentCost = currentAltar.GetPrice();
+        currentCost = currentAltar.CalculatePrice();
         FillResourceButton(resourcesPortions, currentCost);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
+
+    #region SETTINGS
 
     private void FillUnits()
     {
@@ -81,7 +79,7 @@ public class AltarUI : MonoBehaviour
         }
     }
 
-    private void FillResourceButton(List<AltarResourceButton> resourcesList, Dictionary<ResourceType, float> costs)
+    public void FillResourceButton(List<AltarResourceButton> resourcesList, Dictionary<ResourceType, float> costs, bool chooseMode = false)
     {
         if(resourcesList.Count != costs.Count)
         {
@@ -89,26 +87,58 @@ public class AltarUI : MonoBehaviour
             return;
         }
 
+        isResourceDeficit = false;
+
         List<ResourceType> resources = new List<ResourceType>(costs.Keys);
         for(int i = 0; i < resourcesList.Count; i++)
         {
             ResourceGiftData data = new ResourceGiftData();
+            data.index = i;
             data.resourceType = resources[i];
+            data.resourceIcon = resourcesIcons[resources[i]];
             data.amount = costs[resources[i]];
             data.amountTotalTry = costs[resources[i]] * maxTry;
+
+            if(resourcesManager.CheckMinResource(data.resourceType, data.amountTotalTry) == false)
+            {
+                isResourceDeficit = true;
+                data.tryColor = warningColor;
+            }
+
+            if(resourcesManager.CheckMinResource(data.resourceType, data.amount) == false)
+            {
+                data.amountColor = warningColor;
+            }  
+
+            if(chooseMode == true)
+            {
+                data.isActiveBtn = chooseMode;
+                data.amountInStore = resourcesManager.GetResource(resources[i]);
+                data.amountColor = (data.amountColor == warningColor) ? warningColor : Color.black;
+                data.miniGame = gameScript;
+            }
 
             resourcesList[i].Init(data);
         }
     }
 
-
     public void ChangeUnitsAmount(UnitsTypes unit, float newAmount)
     {
         currentAltar.ChangeUnitsAmount(unit, newAmount);
 
-        currentCost = currentAltar.GetPrice();
+        currentCost = currentAltar.CalculatePrice();
         FillResourceButton(resourcesPortions, currentCost);
     }
+
+    #endregion
+
+    #region GIFTGAME
+
+
+
+
+
+    #endregion
 
     #region BUTTONS
 
@@ -122,9 +152,40 @@ public class AltarUI : MonoBehaviour
         {
             FillUnits();
 
-            currentCost = currentAltar.GetPrice();
+            currentCost = currentAltar.CalculatePrice();
             FillResourceButton(resourcesPortions, currentCost);
         }
+    }
+
+    //Button
+    public void TryToGoToTheGame()
+    {
+        if(isResourceDeficit == true)
+        {
+            confirmBlock.SetActive(true);
+        }
+        else
+        {
+            GoToTheGame();
+        }
+    }
+
+    //Button
+    public void GoToTheGame()
+    {
+        CloseConfirm();
+        settingsBlock.SetActive(false);
+        isMiniGameStarted = true;
+
+        List<ResourceType> combination = currentAltar.GenerateCombitation();
+
+        gameScript.StartGame(this, combination);
+    }
+
+    //Button
+    public void CloseConfirm()
+    {
+        confirmBlock.SetActive(false);
     }
 
     #endregion
@@ -150,6 +211,8 @@ public class AltarUI : MonoBehaviour
 
     public void Close()
     {
+        //ASK CONFIRM
+        isMiniGameStarted = false;
         gmInterface.ShowInterfaceElements(true);
 
         MenuManager.instance?.MiniPause(false);
