@@ -102,6 +102,7 @@ public class AltarUI : MonoBehaviour
             if(resourcesManager.CheckMinResource(data.resourceType, data.amountTotalTry) == false)
             {
                 isResourceDeficit = true;
+                data.isDeficit = isResourceDeficit;
                 data.tryColor = warningColor;
             }
 
@@ -242,6 +243,11 @@ public class AltarUI : MonoBehaviour
     {
         foreach(var unit in unitsSlots)
             unit.gameObject.SetActive(false);
+    }
+
+    public int GetMaxTry()
+    {
+        return (int)maxTry;
     }
     #endregion
 }

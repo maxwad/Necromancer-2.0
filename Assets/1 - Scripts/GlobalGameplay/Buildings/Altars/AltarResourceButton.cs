@@ -3,20 +3,16 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using static NameManager;
+using System;
 
 public class AltarResourceButton : MonoBehaviour
 {
     [SerializeField] private Image icon;
+    [SerializeField] private Image bgIcon;
     [SerializeField] private TMP_Text amountText;
     [SerializeField] private TMP_Text maxTryText;
 
     ResourceGiftData currentData;
-
-    //private int index = 0;
-    //private ResourceType resourceType;
-    //private AltarMiniGame miniGame;
-    //private float price;
-    //private 
 
     public void Init(ResourceGiftData data)
     {
@@ -24,7 +20,7 @@ public class AltarResourceButton : MonoBehaviour
 
         icon.sprite = data.resourceIcon;
 
-        string amount = (data.amountInStore == 0) ? data.amount.ToString() : (data.amount + "/" + data.amountInStore);
+        string amount = data.amount.ToString();
         amountText.text = amount;
 
         amount = (data.amountTotalTry == 0) ? "" :  "(Max: " + data.amountTotalTry + ")";
@@ -37,6 +33,24 @@ public class AltarResourceButton : MonoBehaviour
     //Button
     public void SetResource()
     {
-        currentData.miniGame.SetResource(currentData);
+        if(currentData.isDeficit == true)
+        {
+            InfotipManager.ShowWarning("You do not have a selected resource. Choose a different one or take a prayer.");
+            return;
+        }
+        else
+        {
+            currentData.miniGame.SetResource(currentData);
+        }
+    }
+
+    public void SetResource(Sprite tryIcon)
+    {
+        icon.sprite = tryIcon;
+    }
+
+    internal void SetBGColor(Color tryColor)
+    {
+        bgIcon.color = tryColor;
     }
 }

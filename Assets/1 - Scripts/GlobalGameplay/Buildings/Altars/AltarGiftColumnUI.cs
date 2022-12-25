@@ -13,15 +13,25 @@ public class AltarGiftColumnUI : MonoBehaviour
     [SerializeField] private List<AltarResourceButton> gifts;
     [SerializeField] private TMP_Text tip;
     [SerializeField] private Image resourceIcon;
+    [SerializeField] private GameObject selectBtn;
 
     public void ResetColumn(AltarMiniGame altarMiniGame, int ind)
     {
         game = altarMiniGame;
         index = ind;
+        selectBtn.SetActive(true);
 
         foreach(var gift in gifts)
+        {
+            gift.SetBGColor(Color.white);
             gift.gameObject.SetActive(false);
+        }
 
+        ResetChoiceBtn();
+    }
+
+    public void ResetChoiceBtn()
+    {
         tip.gameObject.SetActive(true);
         resourceIcon.gameObject.SetActive(false);
     }
@@ -37,5 +47,21 @@ public class AltarGiftColumnUI : MonoBehaviour
         tip.gameObject.SetActive(false);
         resourceIcon.gameObject.SetActive(true);
         resourceIcon.sprite = icon;
+    }
+
+    internal void ShowTry(int currentTry, Sprite resourceIcon)
+    {
+        gifts[currentTry].gameObject.SetActive(true);
+        gifts[currentTry].SetResource(resourceIcon);
+    }
+
+    internal void SetChoiceBtnColor(int currentTry, Color tryColor)
+    {
+        gifts[currentTry].SetBGColor(tryColor);
+    }
+
+    internal void SelectButtonDisable()
+    {
+        selectBtn.SetActive(false);
     }
 }

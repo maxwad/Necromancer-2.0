@@ -128,9 +128,19 @@ public class ResourceGiftData
     public Color amountColor = Color.white;
     public Color bgColor = Color.white;
     public bool isActiveBtn = false;
+    public bool isDeficit = false;
     public AltarMiniGame miniGame = null;
 }
 
+public class TryData 
+{
+    public bool isComplete = false;
+    public bool tempStatus = false;
+    public ResourceType resourceType;
+    public Sprite resourceIcon;
+    public float amount = 0;
+    public Color tryColor = Color.white;
+}
 
 #endregion
 

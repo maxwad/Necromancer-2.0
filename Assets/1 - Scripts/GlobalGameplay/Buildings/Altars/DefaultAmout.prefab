@@ -271,9 +271,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   icon: {fileID: 8604619533740543501}
+  bgIcon: {fileID: 8604619532764776131}
   amountText: {fileID: 8604619533467534227}
   maxTryText: {fileID: 5546001909942811119}
-  warningColor: {r: 1, g: 0.3537736, b: 0.3537736, a: 1}
 --- !u!1 &8604619533467534225
 GameObject:
   m_ObjectHideFlags: 0

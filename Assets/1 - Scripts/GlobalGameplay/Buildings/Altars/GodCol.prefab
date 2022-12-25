@@ -765,6 +765,7 @@ MonoBehaviour:
   - {fileID: 3822476858628881362}
   tip: {fileID: 7670759215699337392}
   resourceIcon: {fileID: 4058858983182598400}
+  selectBtn: {fileID: 7670759216194133580}
 --- !u!1001 &4784394639579593967
 PrefabInstance:
   m_ObjectHideFlags: 0

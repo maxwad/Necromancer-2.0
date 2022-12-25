@@ -110,6 +110,11 @@ public class Altar : MonoBehaviour
         injuredUnitsDict[unit] = (int)newAmount;
     }
 
+    internal void Pay(ResourceType resourceType, float amount)
+    {
+        resourcesManager.ChangeResource(resourceType, -amount);
+    }
+
     public bool CheckInjured()
     {
         return infirmary.GetInjuredCount() > 0;
