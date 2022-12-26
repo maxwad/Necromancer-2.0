@@ -9,9 +9,6 @@ public class InfirmaryManager : MonoBehaviour
     private float currentCapacity;
     private float dayToDeath;
 
-    //we have 2 structure for convenience: dict for timeCount and list for simple information about capacity
-    //public List<UnitsTypes> injuredList = new List<UnitsTypes>();
-    //public Dictionary<UnitsTypes, float> injuredTimersDict = new Dictionary<UnitsTypes, float>();
     public Dictionary<UnitsTypes, InjuredUnitData> injuredDict = new Dictionary<UnitsTypes, InjuredUnitData>();
 
     private PlayerStats playerStats;
@@ -34,15 +31,6 @@ public class InfirmaryManager : MonoBehaviour
 
     public void AddUnitToInfirmary(UnitsTypes unitType)
     {
-        //if(injuredList.Count < currentCapacity) 
-        //{
-        //    injuredList.Add(unitType);
-        //    EventManager.OnUpdateInfirmaryUIEvent(injuredList.Count, currentCapacity);
-
-        //    if(injuredTimersDict.ContainsKey(unitType) == false)
-        //        injuredTimersDict.Add(unitType, dayToDeath);
-        //}
-
         if(GetInjuredCount() < currentCapacity)
         {
             if(injuredDict.ContainsKey(unitType) == false)
@@ -70,19 +58,6 @@ public class InfirmaryManager : MonoBehaviour
 
     public void RemoveUnitFromInfirmary(UnitsTypes unitType)
     {
-        //int index = injuredList.Count - 1;
-        //while(index >= 0)
-        //{
-        //    if(injuredList[index] == unitType)
-        //    {
-        //        injuredList.RemoveAt(index);
-        //        break;
-        //    }
-
-        //    index--;
-        //}
-
-        //List<UnitsTypes> typeList = new List<UnitsTypes>(injuredDict.Keys);
         if(injuredDict.ContainsKey(unitType) == true)
         {
             injuredDict[unitType].quantity--;
@@ -97,40 +72,15 @@ public class InfirmaryManager : MonoBehaviour
         }
 
         EventManager.OnUpdateInfirmaryUIEvent(GetInjuredCount(), currentCapacity);
-
-        //bool unitFinded = false;
-        //foreach(var unit in injuredList)
-        //{
-        //    if(unit == unitType)
-        //    {
-        //        unitFinded = true;
-        //        break;
-        //    }
-        //}
-
-        //if(unitFinded == false) injuredTimersDict.Remove(unitType);
-
     }
 
-    //public int GetCurrentInjuredQuantity()
-    //{
-    //    return injuredList.Count;
-    //}
+    public void HealUnits(Dictionary<UnitsTypes, int> injuredUnitsDict)
+    {
+        foreach(var unit in injuredUnitsDict)
+        {
 
-    //public int GetCurrentInjuredQuantityByType(UnitsTypes unitType)
-    //{
-    //    int count = 0;
-
-    //    if(injuredDict.ContainsKey(unitType) == true)
-    //        count = injuredDict[unitType].quantity;
-
-    //    return count;
-    //}
-
-    //public List<UnitsTypes> GetCurrentInjuredList()
-    //{
-    //    return injuredList;
-    //}
+        }
+    }
 
     public Dictionary<UnitsTypes, InjuredUnitData> GetCurrentInjuredDict()
     {
@@ -172,20 +122,7 @@ public class InfirmaryManager : MonoBehaviour
             if(injuredDict[unit].term <= 0) 
             {
                 countOfUnitsDeath++;
-                //injuredList.Remove(unit);
                 RemoveUnitFromInfirmary(unit);
-                //injuredDict[unit].quantity--;
-
-
-                //int unitsLeft = GetCurrentInjuredQuantityByType(unit);
-                //if(unitsLeft == 0)
-                //{
-                //    injuredTimersDict.Remove(unit);
-                //}
-                //else
-                //{
-                //    injuredTimersDict[unit] = dayToDeath;
-                //}
             }
         }
 

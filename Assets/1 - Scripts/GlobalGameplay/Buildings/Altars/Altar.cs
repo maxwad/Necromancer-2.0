@@ -10,6 +10,7 @@ public class Altar : MonoBehaviour
     private UnitManager unitManager;
     private ResourcesManager resourcesManager;
     private BoostManager boostManager;
+    private PlayersArmy playersArmy;
 
     private ObjectOwner objectOwner;
     private bool isVisited = false;
@@ -29,6 +30,7 @@ public class Altar : MonoBehaviour
         unitManager = GlobalStorage.instance.unitManager;
         resourcesManager = GlobalStorage.instance.resourcesManager;
         boostManager = GlobalStorage.instance.boostManager;
+        playersArmy = GlobalStorage.instance.playersArmy;
 
         objectOwner = GetComponent<ObjectOwner>();
 
@@ -100,6 +102,16 @@ public class Altar : MonoBehaviour
         return finalCommonSum;
     }
 
+    public bool IsMinPrice()
+    {
+        foreach(var price in currentPrice)
+        {
+            if(price.Value != minCost) return false;
+        }
+
+        return true;
+    }
+
     public Dictionary<ResourceType, float> GetPrice()
     {
         return currentPrice;
@@ -113,6 +125,12 @@ public class Altar : MonoBehaviour
     internal void Pay(ResourceType resourceType, float amount)
     {
         resourcesManager.ChangeResource(resourceType, -amount);
+    }
+
+    public void PayAllResources()
+    {
+        foreach(var price in currentPrice)
+            Pay(price.Key, price.Value);
     }
 
     public bool CheckInjured()
@@ -131,6 +149,15 @@ public class Altar : MonoBehaviour
         return tempDict;
     }
 
+    public void HealUnits()
+    {       
+        foreach(var unit in injuredUnitsDict)
+        {
+            for(int i = 0; i < unit.Value; i++)
+                playersArmy.ResurrectionUnit(unit.Key);
+        }
+    }
+
     #endregion
 
     public List<ResourceType> GenerateCombitation()
@@ -143,10 +170,21 @@ public class Altar : MonoBehaviour
         return resourcesList;
     }
 
+    public void VisitRegistration()
+    {
+        isVisited = true;
+        objectOwner.SetVisitStatus(isVisited);
+    }
+
     private void ResetVisit(int counter)
     {
         isVisited = false;
         objectOwner.SetVisitStatus(isVisited);
+    }
+
+    public bool GetVisitStatus()
+    {
+        return isVisited;
     }
 
     private void OnEnable()

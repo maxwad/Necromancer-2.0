@@ -19,6 +19,7 @@ public class AltarUI : MonoBehaviour
     private float maxTry;
     private bool isResourceDeficit = false;
     private bool isMiniGameStarted = false;
+    [SerializeField] private GameObject forceExit;
 
     [Header("Settings")]
     [SerializeField] private GameObject settingsBlock;
@@ -34,6 +35,17 @@ public class AltarUI : MonoBehaviour
     [SerializeField] private List<AltarResourceButton> resourcesPortions;
     [SerializeField] private List<AltarUnitSlotUI> unitsSlots;
 
+    [Header("Result")]
+    [SerializeField] private GameObject resultBlock;
+    [SerializeField] private Image resultBlockBG;
+    [SerializeField] private TMP_Text resultBlockText;
+    [SerializeField] private Color goodResultColor;
+    [SerializeField] private Color badResultColor;
+    [SerializeField] private Color neutralResultColor;
+    [SerializeField] private string goodResultText;
+    [SerializeField] private string badResultText;
+    [SerializeField] private string neutralResultText;
+    [SerializeField] private string stupidResultText;
 
 
     [SerializeField] private Color rigthColor;
@@ -51,6 +63,8 @@ public class AltarUI : MonoBehaviour
     
     private void Init()
     {
+        ShowExitWarning(false);
+        CloseResultBlock();
         settingsBlock.SetActive(true);
         healingAll.isOn = true;
         isResourceDeficit = false;
@@ -133,14 +147,6 @@ public class AltarUI : MonoBehaviour
 
     #endregion
 
-    #region GIFTGAME
-
-
-
-
-
-    #endregion
-
     #region BUTTONS
 
     //Toggle
@@ -176,6 +182,15 @@ public class AltarUI : MonoBehaviour
     {
         CloseConfirm();
         settingsBlock.SetActive(false);
+
+        if(currentAltar.IsMinPrice() == true)
+        {
+            ShowStupidResult();
+            currentAltar.VisitRegistration();
+            currentAltar.PayAllResources();
+            return;
+        }
+
         isMiniGameStarted = true;
 
         List<ResourceType> combination = currentAltar.GenerateCombitation();
@@ -189,15 +204,11 @@ public class AltarUI : MonoBehaviour
         confirmBlock.SetActive(false);
     }
 
-    #endregion
-
-    #region HELPERS
-
     internal void Open(bool modeClick, Altar altar)
     {
         currentAltar = altar;
 
-        CheckRequirements(modeClick);
+        if(CheckRequirements(modeClick) == false) return;
 
         gmInterface.ShowInterfaceElements(false);
 
@@ -210,10 +221,41 @@ public class AltarUI : MonoBehaviour
         Fading.instance.FadeWhilePause(true, canvas);
     }
 
+    public void GameIsOver(bool visitMode)
+    {
+        isMiniGameStarted = false;
+
+        if(visitMode == true)
+            currentAltar.VisitRegistration();
+    }
+
+    public void ShowExitWarning(bool showMode)
+    {
+        forceExit.SetActive(showMode);
+    }
+
+    //Button
+    public void ContinueExit()
+    {
+        isMiniGameStarted = false;
+        Close();
+    }
+
+    //Button
+    public void CancelExit()
+    {
+        ShowExitWarning(false);
+    }
+
+    //Button
     public void Close()
     {
-        //ASK CONFIRM
-        isMiniGameStarted = false;
+        if(isMiniGameStarted == true)
+        {
+            ShowExitWarning(true);
+            return;
+        }
+
         gmInterface.ShowInterfaceElements(true);
 
         MenuManager.instance?.MiniPause(false);
@@ -221,6 +263,8 @@ public class AltarUI : MonoBehaviour
 
         uiPanel.SetActive(false);
     }
+
+    #endregion
 
     private bool CheckRequirements(bool modeClick)
     {
@@ -230,13 +274,25 @@ public class AltarUI : MonoBehaviour
         //    return false;
         //}
 
+        if(currentAltar.CheckInjured() == false)
+        {
+            InfotipManager.ShowMessage("You have nothing to pray for. All your units are healthy.");
+            return false;
+        }
+
         //if(modeClick == true)
         //{
         //    InfotipManager.ShowWarning("Gifts for healing are accepted only in person.");
         //    return false;
         //}
 
-        return currentAltar.CheckInjured();
+        //if(currentAltar.GetVisitStatus() == true)
+        //{
+        //    InfotipManager.ShowWarning("The gods are still angry with you.Try to visit next week..");
+        //    return false;            
+        //}
+
+        return true;
     }
 
     private void ResetUnitSlots()
@@ -249,5 +305,36 @@ public class AltarUI : MonoBehaviour
     {
         return (int)maxTry;
     }
-    #endregion
+
+    internal void ShowGoodResult()
+    {
+        ShowResultBlock(goodResultColor, goodResultText);
+    }
+
+    internal void ShowBadResult()
+    {
+        ShowResultBlock(badResultColor, badResultText);
+    }
+
+    public void ShowNeutralResult()
+    {
+        ShowResultBlock(neutralResultColor, neutralResultText);
+    }
+
+    public void ShowStupidResult()
+    {
+        ShowResultBlock(neutralResultColor, stupidResultText);
+    }
+
+    public void ShowResultBlock(Color colorBlock, string message)
+    {
+        resultBlock.SetActive(true);
+        resultBlockBG.color = colorBlock;
+        resultBlockText.text = message;
+    }
+
+    public void CloseResultBlock()
+    {
+        resultBlock.SetActive(false);
+    }
 }

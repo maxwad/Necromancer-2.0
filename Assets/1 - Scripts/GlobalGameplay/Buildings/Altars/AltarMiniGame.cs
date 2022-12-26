@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,18 +10,17 @@ public class AltarMiniGame : MonoBehaviour
     private Altar currentAltar;
     private AltarUI currentAltarUI;
 
+    [Header("Game UI")]
     [SerializeField] private TMP_Text tryAmount;
     [SerializeField] private List<AltarGiftColumnUI> godsColumns;
     [SerializeField] private Button checkGifts;
     [SerializeField] private GameObject choiceBlock;
     [SerializeField] private CanvasGroup choiceBlockCanvas;
     [SerializeField] private List<AltarResourceButton> choiceButtons;
-    [SerializeField] private GameObject winBlock;
-    [SerializeField] private GameObject loseBlock;
-    [SerializeField] private GameObject cancelBlock;
+    [SerializeField] private GameObject choiceVeil;
 
     private List<ResourceType> questCombination;
-    Dictionary<ResourceType, float> price;
+    private Dictionary<ResourceType, float> price;
     private Dictionary<int, TryData> triesInfo = new Dictionary<int, TryData>();
     private int currentColumn = 0;
     private List<int> finishIndexes = new List<int>();
@@ -32,7 +30,9 @@ public class AltarMiniGame : MonoBehaviour
     private int currentTry;
 
     private Coroutine coroutine;
-    private WaitForSecondsRealtime delay = new WaitForSecondsRealtime(0.25f);
+    private float delayTime = 0.25f;
+    private WaitForSecondsRealtime smallDelay;
+    private WaitForSecondsRealtime bigDelay;
 
     // 0 - fail - RED   1 - success - green   2 - try again - yellow
     [SerializeField] private List<Color> resultColors;
@@ -53,9 +53,6 @@ public class AltarMiniGame : MonoBehaviour
         price = currentAltar.GetPrice();
 
         EnableGiftBtn(false);
-        winBlock.SetActive(false);
-        loseBlock.SetActive(false);
-        cancelBlock.SetActive(false);
 
         ResetTriesData();
         CloseChoiceBlock();
@@ -94,7 +91,9 @@ public class AltarMiniGame : MonoBehaviour
     public void ShowChoiceBlock(int godIndex)
     {
         choiceBlock.SetActive(true);
-        Fading.instance.FadeWhilePause(true, choiceBlockCanvas);
+        choiceVeil.SetActive(true);
+        ColumnFading(godIndex, true);
+
         ResetChoiceBlock();
 
         currentColumn = godIndex;
@@ -103,7 +102,7 @@ public class AltarMiniGame : MonoBehaviour
     public void SetResource(ResourceGiftData data)
     {
         godsColumns[currentColumn].SetChoiceIcon(data.resourceIcon);
-        choiceBlock.SetActive(false);
+        CloseChoiceBlock();
 
         triesInfo[currentColumn].resourceType = data.resourceType;
         triesInfo[currentColumn].resourceIcon = data.resourceIcon;
@@ -129,17 +128,19 @@ public class AltarMiniGame : MonoBehaviour
 
     private IEnumerator ApplyAttemptCoroutine()
     {
+        if(smallDelay == null)
+        {
+            smallDelay = new WaitForSecondsRealtime(delayTime);
+            bigDelay = new WaitForSecondsRealtime(delayTime * 2);
+        }
+
         int index = 0;
         foreach(var item in triesInfo)
         {
             if(item.Value.isComplete == false)
             {
-                yield return delay;
-                godsColumns[index].ResetChoiceBtn();
-                godsColumns[index].ShowTry(currentTry, item.Value.resourceIcon);
+                //yield return delay;
                 item.Value.tempStatus = CheckTryStatus(index, item.Value.resourceType);
-
-                currentAltar.Pay(item.Value.resourceType, item.Value.amount);
                 index++;
             }
             else
@@ -149,11 +150,15 @@ public class AltarMiniGame : MonoBehaviour
             }
         }
 
+        yield return bigDelay;
+
         index = 0;
         foreach(var item in triesInfo)
         {
             if(item.Value.isComplete == false)
             {
+                godsColumns[index].ResetChoiceBtn();
+                godsColumns[index].ShowTry(currentTry, item.Value.resourceIcon);
                 int colorIndex = GetTryColor(index, item.Value.resourceType);
                 Color tryColor = resultColors[colorIndex];
                 godsColumns[index].SetChoiceBtnColor(currentTry, tryColor);
@@ -165,8 +170,10 @@ public class AltarMiniGame : MonoBehaviour
                     checkIndexes.Remove(index);
                 }                
 
+                currentAltar.Pay(item.Value.resourceType, item.Value.amount);
+                
                 index++;
-                yield return delay;
+                yield return bigDelay;
             }
             else
             {
@@ -180,18 +187,21 @@ public class AltarMiniGame : MonoBehaviour
 
         currentTry++;
 
-        yield return delay;
+        yield return smallDelay;
 
         if(finishIndexes.Count == questCombination.Count)
         {
-            winBlock.SetActive(true);
+            currentAltarUI.ShowGoodResult();
+            currentAltarUI.GameIsOver(false);
+            currentAltar.HealUnits();
             yield return false;
         }
         else
         {
             if(currentTry >= maxTry)
             {
-                loseBlock.SetActive(true);
+                currentAltarUI.ShowBadResult();
+                currentAltarUI.GameIsOver(true);
                 yield return false;
             }
             else
@@ -214,33 +224,31 @@ public class AltarMiniGame : MonoBehaviour
 
         foreach(var item in triesInfo)
         {
-            if(item.Value.tempStatus == false)
+            if(item.Value.isComplete == false && item.Value.tempStatus == false)
             {
                 if(CheckTryStatus(item.Key, resourceType) == true) return 2;
-
-
-
-                //if(finishIndexes.Count == questCombination.Count - 1)
-                //{
-                //    if(CheckTryStatus(item.Key, resourceType) == true) return 0;
-                //}
-                //else
-                //{
-                //    if(item.Key != checkIndex)
-                //    {
-                //        if(CheckTryStatus(item.Key, resourceType) == true) return 2;
-                //    }
-                //}
             }
         }
 
         return 0;
     }
 
+    private void ColumnFading(int exeptionIndex, bool fadingMode)
+    {
+        foreach(var col in godsColumns)
+            col.Fade(fadingMode);
+
+        if(exeptionIndex != -1)
+            godsColumns[exeptionIndex].Fade(!fadingMode);
+    }
+
     //Button
     public void CloseChoiceBlock() 
     {
         choiceBlock.SetActive(false);
+        choiceVeil.SetActive(false);
+
+        ColumnFading(-1, false);
     }
 
     public void UpdateTries()

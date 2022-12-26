@@ -14,12 +14,14 @@ public class AltarGiftColumnUI : MonoBehaviour
     [SerializeField] private TMP_Text tip;
     [SerializeField] private Image resourceIcon;
     [SerializeField] private GameObject selectBtn;
+    [SerializeField] private GameObject veil;
 
     public void ResetColumn(AltarMiniGame altarMiniGame, int ind)
     {
         game = altarMiniGame;
         index = ind;
         selectBtn.SetActive(true);
+        Fade(false);
 
         foreach(var gift in gifts)
         {
@@ -63,5 +65,10 @@ public class AltarGiftColumnUI : MonoBehaviour
     internal void SelectButtonDisable()
     {
         selectBtn.SetActive(false);
+    }
+
+    internal void Fade(bool fadingMode)
+    {
+        veil.SetActive(fadingMode);
     }
 }

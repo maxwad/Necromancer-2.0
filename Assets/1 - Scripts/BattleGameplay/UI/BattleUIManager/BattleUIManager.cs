@@ -11,15 +11,21 @@ public class BattleUIManager : MonoBehaviour
     public Canvas uiCanvas;
     [HideInInspector] public bool isBattleOver = false;
 
-    [Header("Exp Effects")]
     private float blinkTime = 0.005f;
 
     [Header("End of Battle")]
+    [SerializeField] private int timer = 10;
+    [SerializeField] private int currentTime = 10;
+    private Coroutine redirectCoroutine;
+    
     [SerializeField] private GameObject leaveBlock;
     private bool isLeaveBlockOpened = false;
     [SerializeField] private GameObject victoryBlock;
+    [SerializeField] private TMP_Text victoryTimer;
     [SerializeField] private CanvasGroup victoryCanvasGroup;
+
     [SerializeField] private GameObject defeatBlock;
+    [SerializeField] private TMP_Text defeatTimer;
     [SerializeField] private CanvasGroup defeatCanvasGroup;
     
     [HideInInspector] public BattleUIExpPart expPart;
@@ -138,49 +144,80 @@ public class BattleUIManager : MonoBehaviour
     {
         isBattleOver = true;
         EventManager.OnVictoryEvent();
-        StartCoroutine(VictoryBlockAppearing());
+        Fading.instance.Fade(true, victoryCanvasGroup, 0.005f, activeMode: false);
+        redirectCoroutine = StartCoroutine(Timer(victoryTimer));
 
-        IEnumerator VictoryBlockAppearing()
-        {
-            victoryBlock.SetActive(true);
-            victoryCanvasGroup.alpha = 0;
+        //StartCoroutine(VictoryBlockAppearing());
 
-            while(victoryCanvasGroup.alpha < 1)
-            {
-                victoryCanvasGroup.alpha += 0.01f;
-                yield return null;
-            }
-        }
+        //IEnumerator VictoryBlockAppearing()
+        //{
+        //    victoryBlock.SetActive(true);
+        //    victoryCanvasGroup.alpha = 0;
+
+        //    while(victoryCanvasGroup.alpha < 1)
+        //    {
+        //        victoryCanvasGroup.alpha += 0.01f;
+        //        yield return null;
+        //    }
+
+        //    redirectCoroutine = StartCoroutine(Timer(victoryTimer));
+        //}
     }
 
     public void Victory()
     {
         victoryBlock.SetActive(false);
+        if(redirectCoroutine != null) StopCoroutine(redirectCoroutine);
         GlobalStorage.instance.battleManager.FinishTheBattle(false, 1);
     }
 
     public void ShowDefeatBlock()
     {
         isBattleOver = true;
-        StartCoroutine(DefeatBlockAppearing());
+        defeatBlock.SetActive(true);
+        Fading.instance.Fade(true, defeatCanvasGroup, 0.005f, activeMode: false);
+        redirectCoroutine = StartCoroutine(Timer(defeatTimer));
+        //StartCoroutine(DefeatBlockAppearing());
 
-        IEnumerator DefeatBlockAppearing()
-        {
-            defeatBlock.SetActive(true);
-            defeatCanvasGroup.alpha = 0;
+        //IEnumerator DefeatBlockAppearing()
+        //{
+        //    defeatBlock.SetActive(true);
+        //    defeatCanvasGroup.alpha = 0;
 
-            while(defeatCanvasGroup.alpha < 1)
-            {
-                defeatCanvasGroup.alpha += 0.01f;
-                yield return null;
-            }
-        }
+        //    Fading.instance.Fade(true, defeatCanvasGroup, 0.2f, activeMode: false);
+
+        //    while(defeatCanvasGroup.alpha < 1)
+        //    {
+        //        defeatCanvasGroup.alpha += 0.01f;
+        //        yield return null;
+        //    }
+
+        //    redirectCoroutine = StartCoroutine(Timer(defeatTimer));
+        //}
     }
 
     public void Defeat()
     {
         defeatBlock.SetActive(false);
+        if(redirectCoroutine != null) StopCoroutine(redirectCoroutine);
         GlobalStorage.instance.battleManager.FinishTheBattle(false, 0);
+    }
+
+
+    private IEnumerator Timer(TMP_Text label)
+    {
+        WaitForSeconds delay = new WaitForSeconds(1f);
+
+        for(int i = timer; i >= 0; i--)
+        {
+            label.text = "(" + i + ")";
+            yield return delay;
+        }
+
+        if(label == victoryTimer)
+            Victory();
+        else
+            Defeat();
     }
 
     #endregion
