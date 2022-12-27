@@ -389,7 +389,11 @@ public static class NameManager
 
     public enum TypeOfArmy
     {
-        OnTheMap, InCastle, InTomb, InOutpost
+        OnTheMap, 
+        InCastle, 
+        InTomb, 
+        InArena,
+        NearUsualObjects
     }
 
     #endregion

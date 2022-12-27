@@ -115,14 +115,27 @@ public class ClickableObject : MonoBehaviour
                 isThereManager = true;
                 break;
 
+            case TypeOfObjectOnTheMap.Tomb:
+
+                Debug.Log("It's tomb");
+                if(gameObject.GetComponent<EnemyArmyOnTheMap>() != null)
+                {
+                    Debug.Log("Army here!");
+                    GlobalStorage.instance.enemyArmyUI.OpenWindow(!modeClick, gameObject.GetComponent<EnemyArmyOnTheMap>());
+                    isThereManager = true;
+                }
+                else
+                {
+                    Debug.Log("No army");
+                }
+                break;
+
             case TypeOfObjectOnTheMap.Camp:
                 break;
 
             case TypeOfObjectOnTheMap.Arena:
                 break;
 
-            case TypeOfObjectOnTheMap.Tomb:
-                break;
 
             default:
                 break;

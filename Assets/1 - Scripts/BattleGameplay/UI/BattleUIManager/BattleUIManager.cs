@@ -143,25 +143,10 @@ public class BattleUIManager : MonoBehaviour
     public void ShowVictoryBlock()
     {
         isBattleOver = true;
+        victoryBlock.SetActive(true);
         EventManager.OnVictoryEvent();
         Fading.instance.Fade(true, victoryCanvasGroup, 0.005f, activeMode: false);
         redirectCoroutine = StartCoroutine(Timer(victoryTimer));
-
-        //StartCoroutine(VictoryBlockAppearing());
-
-        //IEnumerator VictoryBlockAppearing()
-        //{
-        //    victoryBlock.SetActive(true);
-        //    victoryCanvasGroup.alpha = 0;
-
-        //    while(victoryCanvasGroup.alpha < 1)
-        //    {
-        //        victoryCanvasGroup.alpha += 0.01f;
-        //        yield return null;
-        //    }
-
-        //    redirectCoroutine = StartCoroutine(Timer(victoryTimer));
-        //}
     }
 
     public void Victory()
@@ -177,23 +162,6 @@ public class BattleUIManager : MonoBehaviour
         defeatBlock.SetActive(true);
         Fading.instance.Fade(true, defeatCanvasGroup, 0.005f, activeMode: false);
         redirectCoroutine = StartCoroutine(Timer(defeatTimer));
-        //StartCoroutine(DefeatBlockAppearing());
-
-        //IEnumerator DefeatBlockAppearing()
-        //{
-        //    defeatBlock.SetActive(true);
-        //    defeatCanvasGroup.alpha = 0;
-
-        //    Fading.instance.Fade(true, defeatCanvasGroup, 0.2f, activeMode: false);
-
-        //    while(defeatCanvasGroup.alpha < 1)
-        //    {
-        //        defeatCanvasGroup.alpha += 0.01f;
-        //        yield return null;
-        //    }
-
-        //    redirectCoroutine = StartCoroutine(Timer(defeatTimer));
-        //}
     }
 
     public void Defeat()

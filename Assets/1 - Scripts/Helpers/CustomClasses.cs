@@ -145,6 +145,21 @@ public class TryData
 #endregion
 
 
+#region ENEMY
+
+public class Army
+{
+    public List<EnemiesTypes> squadList = new List<EnemiesTypes>();
+    public List<int> quantityList = new List<int>();
+    public bool isThisASiege = false;
+    public TypeOfArmy typeOfArmy = TypeOfArmy.OnTheMap;
+    public ArmyStrength strength = ArmyStrength.Low;
+    public bool isAutobattlePosible = true;
+    // more parameters
+}
+
+#endregion
+
 #region NEW
 
 

@@ -24,9 +24,13 @@ public class EnemyArragement : MonoBehaviour
 
     public void GenerateEnemiesOnTheMap(EnemyManager manager)
     {
-        if(enemyManager == null) enemyManager = manager;
-        if(gmManager == null) gmManager = GlobalStorage.instance.gmManager;
-        if(poolManager == null) poolManager = GlobalStorage.instance.objectsPoolManager;
+
+        if(enemyManager == null)
+        {
+            enemyManager = manager;
+            gmManager = GlobalStorage.instance.gmManager;
+            poolManager = GlobalStorage.instance.objectsPoolManager;
+        }
 
         enterPointsDict = gmManager.GetEnterPoints();
 

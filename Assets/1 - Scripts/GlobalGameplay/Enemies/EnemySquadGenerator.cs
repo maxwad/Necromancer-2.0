@@ -3,17 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using static NameManager;
 
-public class Army
-{
-    public List<EnemiesTypes> squadList = new List<EnemiesTypes>();
-    public List<int> quantityList = new List<int>();
-    public bool isThisASiege = false;
-    public TypeOfArmy typeOfArmy = TypeOfArmy.OnTheMap;
-    public ArmyStrength strength = ArmyStrength.Low;
-    public bool isAutobattlePosible = true;
-    // more parameters
-}
-
 public class EnemySquadGenerator : MonoBehaviour
 {
     [HideInInspector] public List<Army> allArmies = new List<Army>();
@@ -34,21 +23,45 @@ public class EnemySquadGenerator : MonoBehaviour
         allEnemiesList = enemies;
     }
 
-    public Army GenerateArmy(ArmyStrength armyStrength, TypeOfArmy typeOfArmy)
+    public Army GenerateArmy(TypeOfArmy typeOfArmy)
     {
-        //we need to separate different strenght od army
+        Army newArmy = new Army();
+
+        ArmyStrength currentStrength = ArmyStrength.Low;
+        bool isSiege = false;
+        bool canAutobattle = true;
+
+        if(typeOfArmy == TypeOfArmy.InTomb)
+        {
+            currentStrength = ArmyStrength.High;
+            canAutobattle = false;
+        }
+
+        if(typeOfArmy == TypeOfArmy.NearUsualObjects)
+        {
+            currentStrength = ArmyStrength.Middle;
+            canAutobattle = true;
+        }
+
+        if(typeOfArmy == TypeOfArmy.InCastle)
+        {
+            currentStrength = ArmyStrength.High;
+            canAutobattle = false;
+            isSiege = true;
+        }
+
+        newArmy.strength = currentStrength;
+        newArmy.typeOfArmy = typeOfArmy;
+        newArmy.isThisASiege = isSiege;
+        newArmy.isAutobattlePosible = canAutobattle;
 
         playerLevel = GlobalStorage.instance.macroLevelUpManager.GetCurrentLevel();
 
         countOfSquad = Mathf.Ceil(playerLevel / enemyQuantityDivider);
         if(countOfSquad > maxCountOfSquad) countOfSquad = maxCountOfSquad;
 
-        sizeOfSquadMultiplier = Mathf.Ceil(playerLevel / enemySizeDivider) * (1 + defaultMultiplier * ((int)armyStrength - 1));
+        sizeOfSquadMultiplier = Mathf.Ceil(playerLevel / enemySizeDivider) * (1 + defaultMultiplier * ((int)currentStrength - 1));
 
-        Army newArmy = new Army();
-        newArmy.strength = armyStrength;
-        newArmy.typeOfArmy = typeOfArmy;
-        newArmy.isThisASiege = true;
 
         for(int i = 0; i < countOfSquad; i++)
         {

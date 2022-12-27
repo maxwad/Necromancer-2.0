@@ -8,12 +8,9 @@ public class EnemyArmyOnTheMap : MonoBehaviour
     private BattleManager battleManager;
     private EnemyManager enemyManager;
 
-    //public List<GameObject> currentEnemiesList = new List<GameObject>();
-    //public List<int> currentEnemiesQuantityList = new List<int>();
     [HideInInspector] public Army army;
     [HideInInspector] public int commonCount = 0;
 
-    private ArmyStrength armyStrength = ArmyStrength.Middle;
     public TypeOfArmy typeOfArmy = TypeOfArmy.OnTheMap;
 
     private SpriteRenderer sprite;
@@ -39,11 +36,7 @@ public class EnemyArmyOnTheMap : MonoBehaviour
         if(battleManager == null) battleManager = GlobalStorage.instance.battleManager;
         if(enemyManager == null) enemyManager = GlobalStorage.instance.enemyManager;
 
-        army = enemyManager.enemySquadGenerator.GenerateArmy(armyStrength, typeOfArmy);
-
-        //currentEnemiesList = army.squadList;
-        //currentEnemiesQuantityList = army.quantityList;
-
+        army = enemyManager.enemySquadGenerator.GenerateArmy(typeOfArmy);
         commonCount = 0;
 
         for(int i = 0; i < army.squadList.Count; i++)
@@ -55,12 +48,20 @@ public class EnemyArmyOnTheMap : MonoBehaviour
     private void Birth() 
     {
         StartCoroutine(Initialize());
-        StartCoroutine(Blink(true));
+
+        if(typeOfArmy == TypeOfArmy.OnTheMap || typeOfArmy == TypeOfArmy.NearUsualObjects)
+            StartCoroutine(Blink(true));
     }
 
     public void Death()
     {
-        StartCoroutine(Blink(false));
+        if(typeOfArmy == TypeOfArmy.OnTheMap || typeOfArmy == TypeOfArmy.NearUsualObjects)
+            StartCoroutine(Blink(false));
+        else
+        {
+            Debug.Log("Enemy Destroyed!");
+            Destroy(this);
+        }
     }
 
     public void GrowUpSquads(float percent)
