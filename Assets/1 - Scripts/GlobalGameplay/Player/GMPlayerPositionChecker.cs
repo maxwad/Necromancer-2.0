@@ -39,12 +39,12 @@ public class GMPlayerPositionChecker : MonoBehaviour
     public bool CheckEnemy(Vector3 position, bool fightMode = true)
     {
         EnemyArmyOnTheMap enemyArmy = enemyManager.CheckPositionInEnemyPoints(position);
+
         if(enemyArmy != null)
         {
             if(fightMode == true)
             {
                 gmMovement.StopMoving();
-                //gmPathFinder.DestroyPath();
                 enemyArmy.PrepairToTheBattle();
             }            
             return true;

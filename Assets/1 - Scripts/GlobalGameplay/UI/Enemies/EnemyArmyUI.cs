@@ -43,6 +43,7 @@ public class EnemyArmyUI : MonoBehaviour
         //modeClick = false - by movement; true - by click
         if(enemyManager == null) enemyManager = GlobalStorage.instance.enemyManager;
 
+
         GlobalStorage.instance.ModalWindowOpen(true);
         isOpenedByClick = modeClick;
 
@@ -55,7 +56,6 @@ public class EnemyArmyUI : MonoBehaviour
         Fading.instance.Fade(true, canvas);
 
         playerCuriosity = GlobalStorage.instance.playerStats.GetCurrentParameter(PlayersStats.Curiosity);
-
         Initialize();
     }
 
@@ -84,7 +84,7 @@ public class EnemyArmyUI : MonoBehaviour
 
         count.text = ConvertQuantity(currentEnemyArmy.commonCount);
 
-        buttonsPassiveSmall.SetActive(isOpenedByClick);
+        //buttonsPassiveSmall.SetActive(isOpenedByClick);
     }
 
     private void ShowDetailedInfo()
@@ -94,7 +94,7 @@ public class EnemyArmyUI : MonoBehaviour
 
         captionDetail.text = "Enemies";
 
-        buttonsPassiveDetail.SetActive(isOpenedByClick);        
+        //buttonsPassiveDetail.SetActive(isOpenedByClick);        
 
         FillSlotsField();
     }
@@ -150,20 +150,4 @@ public class EnemyArmyUI : MonoBehaviour
 
         uiPanel.SetActive(false);
     }
-
-    //public void ToTheBattle()
-    //{
-    //    CloseWindow();
-    //    GlobalStorage.instance.battleManager.InitializeBattle();
-    //}
-
-    //public void AutoBattle()
-    //{
-    //    GlobalStorage.instance.battleManager.AutoBattle();
-    //}
-
-    //public void StepBack()
-    //{
-    //    CloseWindow();
-    //}
 }

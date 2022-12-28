@@ -306,14 +306,14 @@ public class GlobalMapTileManager : MonoBehaviour
                 break;
             case TypeOfObjectOnTheMap.Castle:
                 break;
-            case TypeOfObjectOnTheMap.ResourceBuilding:
-                break;
-            case TypeOfObjectOnTheMap.Outpost:
-                break;
+            //case TypeOfObjectOnTheMap.ResourceBuilding:
+            //    break;
+            //case TypeOfObjectOnTheMap.Outpost:
+            //    break;
             case TypeOfObjectOnTheMap.Camp:
                 break;
-            case TypeOfObjectOnTheMap.Altar:
-                break;
+            //case TypeOfObjectOnTheMap.Altar:
+            //    break;
 
             case TypeOfObjectOnTheMap.Portal:
                 GlobalStorage.instance.portalsManager.AddPortal(building, position);
@@ -323,8 +323,9 @@ public class GlobalMapTileManager : MonoBehaviour
                 break;
             case TypeOfObjectOnTheMap.Arena:
                 break;
-            case TypeOfObjectOnTheMap.Tomb:
-                break;
+            //case TypeOfObjectOnTheMap.Tomb:
+            //    GlobalStorage.instance.tombsManager.Register(building, position);
+            //    break;
             default:
                 break;
         }

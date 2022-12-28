@@ -218,7 +218,7 @@ public class PlayerStats : MonoBehaviour
     public void ForceUpdateStat(PlayersStats stat)
     {
         EventManager.OnSetNewPlayerStatEvent(stat, GetCurrentParameter(stat));
-        Debug.Log("ForceUpdate: Now " + stat + " = " + GetCurrentParameter(stat));
+        //Debug.Log("ForceUpdate: Now " + stat + " = " + GetCurrentParameter(stat));
     }
 
     public float GetCurrentParameter(PlayersStats stat)

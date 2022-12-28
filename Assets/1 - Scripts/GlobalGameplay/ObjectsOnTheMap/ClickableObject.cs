@@ -116,18 +116,46 @@ public class ClickableObject : MonoBehaviour
                 break;
 
             case TypeOfObjectOnTheMap.Tomb:
+                EnemyArmyOnTheMap enemy = gameObject.GetComponent<EnemyArmyOnTheMap>();
 
-                Debug.Log("It's tomb");
-                if(gameObject.GetComponent<EnemyArmyOnTheMap>() != null)
+                if(enemy != null)
                 {
-                    Debug.Log("Army here!");
-                    GlobalStorage.instance.enemyArmyUI.OpenWindow(!modeClick, gameObject.GetComponent<EnemyArmyOnTheMap>());
-                    isThereManager = true;
+                    if(modeClick == false)
+                        enemy.PrepairToTheBattle();
+                    else
+                        GlobalStorage.instance.enemyArmyUI.OpenWindow(modeClick, enemy);
                 }
                 else
                 {
-                    Debug.Log("No army");
+                    //Open Tomb
+
+                    Debug.Log("Open tomb");
                 }
+
+                //if(modeClick == false)
+                //{                    
+                //    if(enemy != null)
+                //    {
+                //        enemy.PrepairToTheBattle();
+                //    }
+                //    else
+                //    {
+                //        //Open Tomb
+                //    }
+                //}
+                //else
+                //{
+                //    if(enemy != null)
+                //    {
+                //        GlobalStorage.instance.enemyArmyUI.OpenWindow(modeClick, enemy);
+                //    }
+                //    else
+                //    {
+                //        //Open Tomb
+                //    }
+                //}
+
+                isThereManager = true;
                 break;
 
             case TypeOfObjectOnTheMap.Camp:

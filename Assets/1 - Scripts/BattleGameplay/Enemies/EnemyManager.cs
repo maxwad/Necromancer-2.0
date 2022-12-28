@@ -76,9 +76,9 @@ public class EnemyManager : MonoBehaviour
 
     public void DeleteArmy(EnemyArmyOnTheMap enemyGO, Army army)
     {
-        enemyGO.Death();
         enemiesPointsDict.Remove(enemyGO);
         enemySquadGenerator.RemoveArmy(army);
+        enemyGO.Death();
     }
 
     public EnemyArmyOnTheMap CheckPositionInEnemyPoints(Vector3 position)
@@ -107,7 +107,7 @@ public class EnemyManager : MonoBehaviour
         WaitForSeconds delay = new WaitForSeconds(0.1f);
 
         foreach(var enemy in enemiesPointsDict)
-            enemy.Key.Death();
+            enemy.Key.Death(true);
 
         yield return delay;
 
@@ -118,13 +118,14 @@ public class EnemyManager : MonoBehaviour
             canIContinue = true;
             foreach(var enemy in enemiesPointsDict)
             {
-                if(enemy.Key.gameObject.activeInHierarchy == true)
+                if(enemy.Key.isEnemyGarrison == false && enemy.Key.gameObject.activeInHierarchy == true)
                 {
                     canIContinue = false;
                     break;
                 }
             }
 
+            Debug.Log("WAIT");
             yield return delay;
         }
 

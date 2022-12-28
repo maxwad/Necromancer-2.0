@@ -11,6 +11,7 @@ public class ObjectOwner : MonoBehaviour
     public bool isGuardNeeded = true;
     public float probabilityGuard = 100;
     public bool isOwnerRequired = false;
+    private bool isVisited = false;
 
     private Color currentColor;
     public Color neutralColor;
@@ -75,6 +76,32 @@ public class ObjectOwner : MonoBehaviour
         flagSpite.color = currentColor;
     }
 
+    public void SetVisitStatus(bool statusMode)
+    {
+        if(flagSpite == null) return;
+
+        ChangeFlag(statusMode);
+    }
+
+    private void ChangeFlag(bool statusMode)
+    {
+        //string status;
+
+        if(statusMode == true)
+        {
+            currentColor = visitedColor;
+            //status = "You have already brought gifts here this week.";
+        }
+        else
+        {
+            currentColor = notVisitedColor;
+            //status = "You can heal your units here.";
+        }
+
+        flagSpite.color = currentColor;
+        //tooltip.SetStatus(status);
+    }
+
     public void StartSiege(bool siegeMode)
     {
         siegeBlock.SetActive(siegeMode);
@@ -115,30 +142,13 @@ public class ObjectOwner : MonoBehaviour
         return owner == TypeOfObjectsOwner.Player;
     }
 
-
-    public void SetVisitStatus(bool statusMode)
+    public bool GetVisitStatus()
     {
-        if(flagSpite == null) return;
-
-        ChangeFlag(statusMode);
+        return isVisited;
     }
 
-    private void ChangeFlag(bool statusMode)
+    public void SetVisitStatus()
     {
-        string status;
-
-        if(statusMode == true)
-        {
-            currentColor = visitedColor;
-            status = "You have already brought gifts here this week.";
-        }
-        else
-        {
-            currentColor = notVisitedColor;
-            status = "You can heal your units here.";
-        }
-
-        flagSpite.color = currentColor;
-        tooltip.SetStatus(status);
+        isVisited = true;
     }
 }

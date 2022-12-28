@@ -29,6 +29,7 @@ public class GlobalStorage : MonoBehaviour
     public MapBonusManager mapBonusManager;
     public MapBoxesManager mapBoxesManager;
     public CalendarManager calendarManager;
+    public TombsManager tombsManager;
 
 
     [Header("UI")]

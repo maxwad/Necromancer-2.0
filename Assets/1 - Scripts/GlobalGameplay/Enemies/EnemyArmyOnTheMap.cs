@@ -12,6 +12,7 @@ public class EnemyArmyOnTheMap : MonoBehaviour
     [HideInInspector] public int commonCount = 0;
 
     public TypeOfArmy typeOfArmy = TypeOfArmy.OnTheMap;
+    public bool isEnemyGarrison = false;
 
     private SpriteRenderer sprite;
 
@@ -21,6 +22,9 @@ public class EnemyArmyOnTheMap : MonoBehaviour
         {
             sprite = GetComponent<SpriteRenderer>();
             sprite.color = new Color(Random.value, Random.value, Random.value);
+
+            battleManager = GlobalStorage.instance.battleManager;
+            enemyManager = GlobalStorage.instance.enemyManager;
         } 
 
         Birth();
@@ -33,9 +37,6 @@ public class EnemyArmyOnTheMap : MonoBehaviour
             yield return null;
         }
 
-        if(battleManager == null) battleManager = GlobalStorage.instance.battleManager;
-        if(enemyManager == null) enemyManager = GlobalStorage.instance.enemyManager;
-
         army = enemyManager.enemySquadGenerator.GenerateArmy(typeOfArmy);
         commonCount = 0;
 
@@ -45,22 +46,30 @@ public class EnemyArmyOnTheMap : MonoBehaviour
         }
     }
 
-    private void Birth() 
+    public void Birth() 
     {
         StartCoroutine(Initialize());
 
-        if(typeOfArmy == TypeOfArmy.OnTheMap || typeOfArmy == TypeOfArmy.NearUsualObjects)
+        if(isEnemyGarrison == false)
             StartCoroutine(Blink(true));
     }
 
-    public void Death()
+    public void Death(bool resetMode = false)
     {
-        if(typeOfArmy == TypeOfArmy.OnTheMap || typeOfArmy == TypeOfArmy.NearUsualObjects)
+        if(isEnemyGarrison == false)
+        {
             StartCoroutine(Blink(false));
+        }
         else
         {
-            Debug.Log("Enemy Destroyed!");
-            Destroy(this);
+            if(resetMode == false)
+            {
+                ObjectOwner objectOwner = gameObject.GetComponent<ObjectOwner>();
+                if(objectOwner != null)
+                    objectOwner.SetVisitStatus();
+
+                Destroy(this);
+            }
         }
     }
 

@@ -12,10 +12,17 @@ public class TombBuilder : MonoBehaviour
     public GameObject tombPrefab;
 
     public int tombsCount = 12;
+    private EnemyArragement enemyArragement;
+    private TombsManager tombsManager;
 
     public void Build(GlobalMapTileManager manager)
     {
-        if(gmManager == null) gmManager = manager;
+        if(gmManager == null)
+        {
+            gmManager = manager;
+            enemyArragement = GlobalStorage.instance.enemyManager.GetComponent<EnemyArragement>();
+            tombsManager = GlobalStorage.instance.tombsManager;
+        }
 
         List<Vector3Int> tempPoints = new List<Vector3Int>();
 
@@ -51,8 +58,8 @@ public class TombBuilder : MonoBehaviour
             tomb.transform.SetParent(tombsMap.transform);
 
             manager.AddBuildingToAllOnTheMap(tomb);
+
+            tombsManager.Register(tomb, tombsPoints[i]);
         }
-
     }
-
 }

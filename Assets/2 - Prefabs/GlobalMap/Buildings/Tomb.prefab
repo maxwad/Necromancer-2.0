@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 7
   m_Sprite: {fileID: 21300000, guid: 3eebefb9cd2dc9c41baa6899a7978319, type: 3}
-  m_Color: {r: 0.12941177, g: 0.8117647, b: 0, a: 1}
+  m_Color: {r: 0.99215686, g: 0.34117648, b: 0.34117648, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -97,7 +97,6 @@ GameObject:
   - component: {fileID: 746853197673516948}
   - component: {fileID: -9139183998644911855}
   - component: {fileID: -7613203699498214213}
-  - component: {fileID: 6140157535084844499}
   m_Layer: 0
   m_Name: Tomb
   m_TagString: Untagged
@@ -247,17 +246,3 @@ MonoBehaviour:
   flagSpite: {fileID: 5423480176692048395}
   siegeBlock: {fileID: 0}
   term: {fileID: 0}
---- !u!114 &6140157535084844499
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8934158126753734808}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85669c7f044a9274abda6aa778e664ce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  commonCount: 0
-  typeOfArmy: 2

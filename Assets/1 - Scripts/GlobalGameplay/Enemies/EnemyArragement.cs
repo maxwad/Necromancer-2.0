@@ -8,7 +8,9 @@ public class EnemyArragement : MonoBehaviour
 {
     private GlobalMapTileManager gmManager;
     private EnemyManager enemyManager;
-    private ObjectsPoolManager poolManager; 
+    private ObjectsPoolManager poolManager;
+    private TombsManager tombsManager;
+
     public GameObject enemiesMap;
     public Tilemap roadMap;
 
@@ -25,22 +27,52 @@ public class EnemyArragement : MonoBehaviour
     public void GenerateEnemiesOnTheMap(EnemyManager manager)
     {
 
+        Debug.Log("Generation");
         if(enemyManager == null)
         {
             enemyManager = manager;
             gmManager = GlobalStorage.instance.gmManager;
             poolManager = GlobalStorage.instance.objectsPoolManager;
+            tombsManager = GlobalStorage.instance.tombsManager;
         }
 
         enterPointsDict = gmManager.GetEnterPoints();
 
         GenerateEnterEnemies();
         GenerateRandomEnemies();
+        GenerateTombsGarrisons();
 
         enemyManager.SetEnemiesPointsDict(enemiesPointsDict);
     }
 
-    #region USUAL ENEMIES
+    private void GenerateTombsGarrisons()
+    {
+        Dictionary<GameObject, Vector3> tombsDict = tombsManager.GetTombs();
+
+        foreach(var tomb in tombsDict)
+        {
+            ObjectOwner objectStatus = tomb.Key.GetComponent<ObjectOwner>();
+            EnemyArmyOnTheMap enemyGarrison = tomb.Key.GetComponent<EnemyArmyOnTheMap>();
+
+            if(enemyGarrison == null)
+            {
+                if(objectStatus.GetVisitStatus() == false)
+                {
+                    EnemyArmyOnTheMap newGarrison = tomb.Key.AddComponent(typeof(EnemyArmyOnTheMap)) as EnemyArmyOnTheMap;
+                    newGarrison.typeOfArmy = TypeOfArmy.InTomb;
+                    newGarrison.isEnemyGarrison = true;
+
+                    RegisterEnemy(newGarrison, tomb.Value);
+                }
+            }
+            else
+            {
+                enemyGarrison.Birth();
+            }
+        }
+    }
+
+    #region GUARD ENEMIES
 
     private void GenerateEnterEnemies()
     {
@@ -48,7 +80,7 @@ public class EnemyArragement : MonoBehaviour
         {
             if(CanICreateEnterEnemy(enterPoint.Key, enterPoint.Value) == true)
             {
-                CreateEnemy(enterPoint.Value);
+                CreateUsualEnemy(enterPoint.Value);
             }
         }
     }
@@ -112,7 +144,7 @@ public class EnemyArragement : MonoBehaviour
                 //roadMap.SetTile(tempCellPositions[i], testTile);                
                 if(CheckPosition(tempWorldPositions[i]) == true)
                 {
-                    CreateEnemy(tempWorldPositions[i]);
+                    CreateUsualEnemy(tempWorldPositions[i]);
                 }
             }
         }
@@ -149,7 +181,7 @@ public class EnemyArragement : MonoBehaviour
         return !(GlobalStorage.instance.globalPlayer.transform.position == position);
     }
 
-    private void CreateEnemy(Vector3 position)
+    private void CreateUsualEnemy(Vector3 position)
     {
         GameObject enemyOnTheMap = poolManager.GetObject(ObjectPool.EnemyOnTheMap);
         enemyOnTheMap.transform.SetParent(enemiesMap.transform);
@@ -157,6 +189,21 @@ public class EnemyArragement : MonoBehaviour
         enemyOnTheMap.SetActive(true);
 
         EnemyArmyOnTheMap army = enemyOnTheMap.GetComponent<EnemyArmyOnTheMap>();
-        enemiesPointsDict.Add(army, position);
+        //enemiesPointsDict.Add(army, position);
+        RegisterEnemy(army, position);
+    }
+
+    private void CreateEnemyGarrison(Vector3 position, GameObject building)
+    {
+        EnemyArmyOnTheMap army = building.GetComponent<EnemyArmyOnTheMap>();
+        if(army != null)
+        {
+            army.Birth();
+        }
+    }
+
+    public void RegisterEnemy(EnemyArmyOnTheMap enemyArmyOnTheMap, Vector3 position)
+    {
+        enemiesPointsDict.Add(enemyArmyOnTheMap, position);
     }
 }
