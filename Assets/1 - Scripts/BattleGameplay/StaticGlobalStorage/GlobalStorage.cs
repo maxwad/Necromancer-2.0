@@ -44,6 +44,7 @@ public class GlobalStorage : MonoBehaviour
     public OpeningBuildingWindow fortressBuildingDoor;
     public ResourceBuildingUI resourceBuildingDoor;
     public AltarUI altarDoor;
+    public TombUI tombDoor;
 
     [Header("Player")]
     public GameObject player;

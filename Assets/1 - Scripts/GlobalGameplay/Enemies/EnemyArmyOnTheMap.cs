@@ -64,9 +64,9 @@ public class EnemyArmyOnTheMap : MonoBehaviour
         {
             if(resetMode == false)
             {
-                ObjectOwner objectOwner = gameObject.GetComponent<ObjectOwner>();
-                if(objectOwner != null)
-                    objectOwner.SetVisitStatus();
+                //ObjectOwner objectOwner = gameObject.GetComponent<ObjectOwner>();
+                //if(objectOwner != null)
+                //    objectOwner.SetVisitStatus();
 
                 Destroy(this);
             }

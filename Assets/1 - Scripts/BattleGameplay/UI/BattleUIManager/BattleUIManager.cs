@@ -98,7 +98,7 @@ public class BattleUIManager : MonoBehaviour
         heroPart.FillMana();
         heroPart.FillGold();
 
-        spellPart.FillSpells(-1);
+        spellPart.FillSpells();
 
         enemyPart.FillDeadEnemiesBar(null);
 

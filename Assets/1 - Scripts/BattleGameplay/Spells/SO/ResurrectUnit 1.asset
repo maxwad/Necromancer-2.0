@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96b7c8dba5120094cb6e5f65063ef0e9, type: 3}
+  m_Name: ResurrectUnit 1
+  m_EditorClassIdentifier: 
+  isFinded: 0
+  isUnlocked: 0
+  spell: 14
+  type: 1
+  level: 1
+  hasPreSpell: 0
+  manaCost: 1
+  value: 2
+  radius: 0
+  actionTime: 0
+  reloading: 3
+  icon: {fileID: -1190754557913613987, guid: 54d98c65c3b37744baea457e9292557a, type: 3}
+  description: Resurrects $V units from the infirmary killed in current battle.

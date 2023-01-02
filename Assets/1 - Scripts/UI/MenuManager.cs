@@ -11,6 +11,8 @@ public class MenuManager : MonoBehaviour
 {
     public static MenuManager instance;
 
+    private GMInterface gmInterface;
+
     public bool canIOpenMenu = true;
     public bool isMainMenu;
     public bool isGamePaused;
@@ -77,6 +79,8 @@ public class MenuManager : MonoBehaviour
 
         LoadSoundOptions();
         LaodVideoOptions();
+
+        gmInterface = GlobalStorage.instance.gmInterface;
     }
 
     void Update()
@@ -138,6 +142,9 @@ public class MenuManager : MonoBehaviour
     {
         isMiniPause = mode;
         Time.timeScale = (mode == true) ? 0f : 1.0f;
+
+        GlobalStorage.instance.ModalWindowOpen(mode);
+        gmInterface.ShowInterfaceElements(!mode);
     }
 
     //public void ReloadGame()

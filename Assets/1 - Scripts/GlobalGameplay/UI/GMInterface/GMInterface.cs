@@ -254,6 +254,8 @@ public class GMInterface : MonoBehaviour
 
     public void ShowInterfaceElements(bool mode)
     {
+        if(GlobalStorage.instance.isGlobalMode == false) return;
+
         calendarPart.ShowBlock(mode);
         movesPart.ShowBlock(mode);
         heroPart.ShowBlock(mode);

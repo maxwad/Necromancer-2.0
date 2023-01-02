@@ -61,10 +61,10 @@ public class HeroFortress : MonoBehaviour
 
     public void Open(bool openByClick)
     {
-        gmInterface.ShowInterfaceElements(false);
+        //gmInterface.ShowInterfaceElements(false);
 
         MenuManager.instance.MiniPause(true);
-        GlobalStorage.instance.ModalWindowOpen(true);
+        //GlobalStorage.instance.ModalWindowOpen(true);
 
         uiPanel.SetActive(true);
         isWindowOpen = true;
@@ -86,10 +86,10 @@ public class HeroFortress : MonoBehaviour
 
     public void Close()
     {
-        gmInterface.ShowInterfaceElements(true);
+        //gmInterface.ShowInterfaceElements(true);
         
         MenuManager.instance?.MiniPause(false);
-        GlobalStorage.instance.ModalWindowOpen(false);
+        //GlobalStorage.instance.ModalWindowOpen(false);
         isWindowOpen = false;
 
         uiPanel.SetActive(false);

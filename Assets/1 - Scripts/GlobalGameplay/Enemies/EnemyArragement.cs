@@ -26,8 +26,6 @@ public class EnemyArragement : MonoBehaviour
 
     public void GenerateEnemiesOnTheMap(EnemyManager manager)
     {
-
-        Debug.Log("Generation");
         if(enemyManager == null)
         {
             enemyManager = manager;

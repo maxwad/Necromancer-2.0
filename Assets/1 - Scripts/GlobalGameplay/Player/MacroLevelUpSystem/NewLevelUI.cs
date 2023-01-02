@@ -34,7 +34,7 @@ public class NewLevelUI : MonoBehaviour
     public void Init(PlayersStats bonusStat, float amount, float level, float points)
     {
         MenuManager.instance.MiniPause(true);
-        GlobalStorage.instance.ModalWindowOpen(true);
+        //GlobalStorage.instance.ModalWindowOpen(true);
 
         Sprite sprite;
 
@@ -62,7 +62,7 @@ public class NewLevelUI : MonoBehaviour
     public void CloseWindow()
     {
         MenuManager.instance.MiniPause(false);
-        GlobalStorage.instance.ModalWindowOpen(false);
+        //GlobalStorage.instance.ModalWindowOpen(false);
         uiPanel.SetActive(false);
     }
 

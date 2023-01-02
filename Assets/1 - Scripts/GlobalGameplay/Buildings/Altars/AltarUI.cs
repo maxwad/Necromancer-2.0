@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -210,11 +208,7 @@ public class AltarUI : MonoBehaviour
 
         if(CheckRequirements(modeClick) == false) return;
 
-        gmInterface.ShowInterfaceElements(false);
-
         MenuManager.instance.MiniPause(true);
-        GlobalStorage.instance.ModalWindowOpen(true);
-
         uiPanel.SetActive(true);
         Init();
 
@@ -256,11 +250,7 @@ public class AltarUI : MonoBehaviour
             return;
         }
 
-        gmInterface.ShowInterfaceElements(true);
-
         MenuManager.instance?.MiniPause(false);
-        GlobalStorage.instance.ModalWindowOpen(false);
-
         uiPanel.SetActive(false);
     }
 

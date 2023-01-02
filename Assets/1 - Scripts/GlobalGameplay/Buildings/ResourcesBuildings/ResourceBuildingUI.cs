@@ -50,10 +50,10 @@ public class ResourceBuildingUI : MonoBehaviour
         }
         currentBuilding = rBuilding;
 
-        gmInterface.ShowInterfaceElements(false);
+        //gmInterface.ShowInterfaceElements(false);
 
         MenuManager.instance.MiniPause(true);
-        GlobalStorage.instance.ModalWindowOpen(true);
+        //GlobalStorage.instance.ModalWindowOpen(true);
 
         uiPanel.SetActive(true);
 
@@ -69,10 +69,10 @@ public class ResourceBuildingUI : MonoBehaviour
 
     public void Close()
     {
-        gmInterface.ShowInterfaceElements(true);
+        //gmInterface.ShowInterfaceElements(true);
 
         MenuManager.instance?.MiniPause(false);
-        GlobalStorage.instance.ModalWindowOpen(false);
+        //GlobalStorage.instance.ModalWindowOpen(false);
 
         uiPanel.SetActive(false);
     }

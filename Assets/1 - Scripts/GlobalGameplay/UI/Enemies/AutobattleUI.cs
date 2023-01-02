@@ -36,7 +36,7 @@ public class AutobattleUI : MonoBehaviour
         }
 
         MenuManager.instance.MiniPause(true);
-        GlobalStorage.instance.ModalWindowOpen(true);
+        //GlobalStorage.instance.ModalWindowOpen(true);
 
         playersArmyScript.StopControlUnitDeath(false);
         uiPanel.SetActive(true);
@@ -98,6 +98,6 @@ public class AutobattleUI : MonoBehaviour
         uiPanel.SetActive(false);
 
         MenuManager.instance.MiniPause(false);
-        GlobalStorage.instance.ModalWindowOpen(false);
+        //GlobalStorage.instance.ModalWindowOpen(false);
     }
 }

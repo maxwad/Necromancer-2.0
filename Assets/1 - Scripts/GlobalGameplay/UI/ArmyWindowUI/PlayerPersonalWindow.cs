@@ -153,8 +153,8 @@ public class PlayerPersonalWindow : MonoBehaviour
         currentEnemy = enemyArmy;
 
         MenuManager.instance.MiniPause(true);
-        GlobalStorage.instance.ModalWindowOpen(true);
-        gmInterface.ShowInterfaceElements(false);
+        //GlobalStorage.instance.ModalWindowOpen(true);
+        //gmInterface.ShowInterfaceElements(false);
 
         isWindowOpened = true;
         currentMode = mode;
@@ -180,8 +180,8 @@ public class PlayerPersonalWindow : MonoBehaviour
         currentEnemy = null;
 
         MenuManager.instance.MiniPause(false);
-        GlobalStorage.instance.ModalWindowOpen(false);
-        gmInterface.ShowInterfaceElements(true);
+        //GlobalStorage.instance.ModalWindowOpen(false);
+        //gmInterface.ShowInterfaceElements(true);
     }
 
     private void Refactoring()
