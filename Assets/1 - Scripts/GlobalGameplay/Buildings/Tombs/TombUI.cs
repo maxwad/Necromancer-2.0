@@ -10,6 +10,9 @@ public class TombUI : MonoBehaviour
 {
     private CanvasGroup canvas;
     private TombsManager tombsManager;
+    private ResourcesManager resourcesManager;
+
+    private Dictionary<ResourceType, Sprite> resourcesIcons;
 
     [SerializeField] private GameObject uiPanel;
     private GameObject tomb;
@@ -22,12 +25,33 @@ public class TombUI : MonoBehaviour
     [SerializeField] private GameObject infoBlock;
 
     [Header("Info Details")]
-    [SerializeField] private TMP_Text title;
+    [SerializeField] private TMP_Text spellTitle;
+    [SerializeField] private Image spellIcon;
+    [SerializeField] private TMP_Text cost;
+    [SerializeField] private TMP_Text duration;
+    [SerializeField] private TMP_Text reloading;
+    [SerializeField] private TMP_Text description;
+
+    [Header("Extra Reward")]
+    [SerializeField] private  List <GameObject> rewardItems;
+    private List<Image> rewardIcons = new List<Image>();
+    private List<TMP_Text> rewardCounts = new List<TMP_Text>();
+
+
 
     private void Start()
     {       
         tombsManager = GlobalStorage.instance.tombsManager;
+        resourcesManager = GlobalStorage.instance.resourcesManager;
+        resourcesIcons = resourcesManager.GetAllResourcesIcons();
+
         canvas = uiPanel.GetComponent<CanvasGroup>();
+
+        foreach(var item in rewardItems)
+        {
+            rewardIcons.Add(item.GetComponentInChildren<Image>());
+            rewardCounts.Add(item.GetComponentInChildren<TMP_Text>());
+        }
     }
 
     public void Open(bool clickMode, GameObject tomb)
@@ -95,5 +119,32 @@ public class TombUI : MonoBehaviour
     private void ShowDetails()
     {
         infoBlock.SetActive(true);
+
+        spellTitle.text = spell.spell.ToString();
+        spellIcon.sprite = spell.icon;
+
+        cost.text = spell.manaCost.ToString();
+        duration.text = (spell.actionTime != 0) ? spell.actionTime.ToString() : "-";
+        reloading.text = spell.reloading.ToString();
+
+        description.text = spell.description
+            .Replace("$V", spell.value.ToString())
+            .Replace("$R", spell.radius.ToString())
+            .Replace("$T", spell.actionTime.ToString());
+
+        Reward reward = tombsManager.GetReward(tomb);
+
+        if(reward == null) return;
+
+        foreach(var item in rewardItems)
+            item.SetActive(false);
+
+        for(int i = 0; i < reward.resourcesList.Count; i++)
+        {
+            rewardItems[i].SetActive(true);
+            rewardIcons[i].sprite = resourcesIcons[reward.resourcesList[i]];
+            rewardCounts[i].text = reward.resourcesQuantity[i].ToString();
+        }
+
     }
 }

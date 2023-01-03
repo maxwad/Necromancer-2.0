@@ -259,9 +259,9 @@ public class FortressBuildings : MonoBehaviour
         return buildingsInProgress.ContainsKey(building);
     }
 
-    public castleDataForUI GetDataForUI()
+    public CastleDataForUI GetDataForUI()
     {
-        castleDataForUI newData = new castleDataForUI();
+        CastleDataForUI newData = new CastleDataForUI();
         newData.level = fortressLevel;
 
         newData.canIBuild = false;

@@ -62,7 +62,7 @@ public class GMInterfaceCastle : MonoBehaviour
     {
         if(fortressBuildings == null) return;
 
-        castleDataForUI newData = fortressBuildings.GetDataForUI();
+        CastleDataForUI newData = fortressBuildings.GetDataForUI();
 
         levelText.text = newData.level.ToString();
         animator.SetBool("bLevelBlink", newData.canIBuild);

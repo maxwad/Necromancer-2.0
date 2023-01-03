@@ -19,8 +19,8 @@ public class BonusOnTheMapUI : MonoBehaviour
     public float resourceBlockWidth = 300f;
     public float resourceBlockHeight = 300f;
 
-    public float boxBlockWidth = 300f;
-    public float boxBlockHeight = 450f;
+    public float boxBlockWidth = 550f;
+    public float boxBlockHeight = 300f;
 
     public TMP_Text caption;
 

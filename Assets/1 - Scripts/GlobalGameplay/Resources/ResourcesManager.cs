@@ -97,6 +97,8 @@ public class ResourcesManager : MonoBehaviour
             ChangeResource(ResourceType.Health, -5);
     }
 
+    #region GETTING
+
     public float GetResource(ResourceType type)
     {
         return resourcesDict[type];
@@ -111,7 +113,19 @@ public class ResourcesManager : MonoBehaviour
     {
         return maxHealth;
     }
-    
+
+    public Dictionary<ResourceType, float> GetAllResources()
+    {
+        return resourcesDict;
+    }
+
+    public Dictionary<ResourceType, Sprite> GetAllResourcesIcons()
+    {
+        return resourcesIcons;
+    }
+
+    #endregion
+
     private void UpgrateMaxManaHealth(PlayersStats stat, float maxValue)
     {
         ResourceType resource = ResourceType.Mana;
@@ -136,16 +150,6 @@ public class ResourcesManager : MonoBehaviour
             resourcesDict[resource] = maxValue;
             EventManager.OnUpgradeResourceEvent(resource, resourcesDict[resource]);
         }
-    }
-
-    public Dictionary<ResourceType, float> GetAllResources()
-    {
-        return resourcesDict;
-    }
-
-    public Dictionary<ResourceType, Sprite> GetAllResourcesIcons()
-    {
-        return resourcesIcons;
     }
 
     public void ChangeResource(ResourceType type, float value)

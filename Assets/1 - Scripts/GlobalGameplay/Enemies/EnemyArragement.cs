@@ -45,7 +45,7 @@ public class EnemyArragement : MonoBehaviour
 
     private void GenerateTombsGarrisons()
     {
-        Dictionary<GameObject, Vector3> tombsDict = tombsManager.GetTombs();
+        Dictionary<GameObject, TombInfo> tombsDict = tombsManager.GetTombs();
 
         foreach(var tomb in tombsDict)
         {
@@ -60,7 +60,7 @@ public class EnemyArragement : MonoBehaviour
                     newGarrison.typeOfArmy = TypeOfArmy.InTomb;
                     newGarrison.isEnemyGarrison = true;
 
-                    RegisterEnemy(newGarrison, tomb.Value);
+                    RegisterEnemy(newGarrison, tomb.Value.position);
                 }
             }
             else

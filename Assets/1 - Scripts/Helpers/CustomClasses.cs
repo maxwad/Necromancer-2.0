@@ -27,7 +27,7 @@ public class ConstractionData
     public int daysLeft;
 }
 
-public class castleDataForUI
+public class CastleDataForUI
 {
     public int level;
     public bool canIBuild;
@@ -87,6 +87,7 @@ public class ObjectPoolBossWeapon
 
 #endregion
 
+
 #region RUNES
 
 [Serializable]
@@ -97,6 +98,7 @@ public class Cost
 }
 
 #endregion
+
 
 #region Infirmary
 
@@ -114,7 +116,8 @@ public class InjuredUnitData
 
 #endregion
 
-#region ALTARS
+
+#region ALTARS, TOMBS
 
 public class ResourceGiftData
 {
@@ -142,6 +145,13 @@ public class TryData
     public Color tryColor = Color.white;
 }
 
+public class TombInfo
+{
+    public Vector3 position;
+    public bool isVisited = false;
+    public SpellSO spell = null;
+    public Reward reward = null;
+}
 #endregion
 
 
@@ -156,6 +166,23 @@ public class Army
     public ArmyStrength strength = ArmyStrength.Low;
     public bool isAutobattlePosible = true;
     // more parameters
+}
+
+#endregion
+
+
+#region REWARD
+
+public class Reward
+{
+    public List<ResourceType> resourcesList = new List<ResourceType>();
+    public List<float> resourcesQuantity = new List<float>();
+
+    public Reward(List<ResourceType> resources, List<float> quantity)
+    {
+        resourcesList = resources;
+        resourcesQuantity = quantity;
+    }
 }
 
 #endregion

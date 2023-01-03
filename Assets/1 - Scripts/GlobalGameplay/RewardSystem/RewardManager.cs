@@ -7,7 +7,6 @@ using static NameManager;
 
 public class RewardManager : MonoBehaviour
 {
-    private float expCalendarBonusValue = 0f;
     private float extraBoxReward = 0f;
 
     private float extraExpAfterBattle = 0f;
@@ -15,7 +14,6 @@ public class RewardManager : MonoBehaviour
 
     private bool isExtraResourcesBonus = false;
     private bool isExtraManaBonus = false;
-    //private bool isExtraMagicBonus = false;
 
     private float difficultBattleMultiplier = 0;
     public float difficultConstant = 20f;
@@ -24,31 +22,43 @@ public class RewardManager : MonoBehaviour
     public float expBoxPortion = 50;
     public float expAfterBattlePortion = 50;
     public float manaPortion = 10;
-    //public float magicPortion = 5;
+
     public float randomGap = 25f;
     public int portionOfBoxResources = 100;
     public int portionOfAfterBattleResources = 10;
-    public int countOfResources = 4;
+    public int portionOfTombResources = 500;
+    public float tombExpMultiplier = 0.5f;
+    public int usualCountOfResources = 3;
+    public int tombCountOfResources = 3;
 
     private PlayerStats playerStats;
-    private float luck;
+    private MacroLevelUpManager levelUpManager;
 
-    private void Start()
-    {
-        playerStats = GlobalStorage.instance.playerStats;
-        GetPlayersParameters();
-    }
+    private float luck;
+    private float playerLevel;
+
+    //private void Start()
+    //{
+    //    //playerStats = GlobalStorage.instance.playerStats;
+    //    //GetPlayersParameters();
+    //}
 
 
     #region GET/SET Parameters
     private void GetPlayersParameters()
     {
-        if(playerStats == null) playerStats = GlobalStorage.instance.playerStats;
+        if(playerStats == null)
+        {
+            levelUpManager = GlobalStorage.instance.macroLevelUpManager;
+            playerStats = GlobalStorage.instance.playerStats;
+        }
 
         extraBoxReward = playerStats.GetCurrentParameter(PlayersStats.ExtraBoxReward);
         extraBonusAfterBattle = playerStats.GetCurrentParameter(PlayersStats.ExtraAfterBattleReward);
         extraExpAfterBattle = playerStats.GetCurrentParameter(PlayersStats.ExtraExpReward);
+
         luck = playerStats.GetCurrentParameter(PlayersStats.Luck);
+        playerLevel = levelUpManager.GetCurrentLevel();
 
         SetExtrasResources(extraBonusAfterBattle);
     }
@@ -61,12 +71,6 @@ public class RewardManager : MonoBehaviour
         if(mode > 0) isExtraResourcesBonus = true;
 
         if(mode > 1) isExtraManaBonus = (UnityEngine.Random.Range(0, 101) <= luck) ? true : false;        
-    }
-
-
-    public void SetCalendarExpBonus(float value)
-    {
-        expCalendarBonusValue = value;
     }
 
 
@@ -102,7 +106,7 @@ public class RewardManager : MonoBehaviour
     }
 
 
-    private List<float> BoostResourceQuantity(List<ResourceType> list, int count, float portion, float boost)
+    private List<float> BoostResourceQuantity(int count, float portion, float boost)
     {
         List<float> bonusResourcesQuantityList = new List<float>();
 
@@ -130,7 +134,7 @@ public class RewardManager : MonoBehaviour
         float resourceBoost = 0;
         resourceBoost += extraBoxReward;
         
-        List<float> bonusResourcesQuantityList = BoostResourceQuantity(bonusResources, bonusResources.Count, portionOfBoxResources, resourceBoost);
+        List<float> bonusResourcesQuantityList = BoostResourceQuantity(bonusResources.Count, portionOfBoxResources, resourceBoost);
 
         Reward reward = new Reward(bonusResources, bonusResourcesQuantityList);
 
@@ -144,19 +148,16 @@ public class RewardManager : MonoBehaviour
 
         float exp = GetValueWithGap(expBoxPortion, randomGap);
         float expBoost = 0;
-
-        expBoost += expCalendarBonusValue;
         expBoost += extraBoxReward;
-
      
         float resourceBoost = 0;
         resourceBoost += extraBoxReward;
-        List<ResourceType> bonusResources = CreateBonusResources(countOfResources);
-
-        List<float> bonusResourcesQuantityList = BoostResourceQuantity(bonusResources, bonusResources.Count, portionOfBoxResources, resourceBoost);
 
         exp = GetBoostValue(exp, expBoost);
+
+        List<ResourceType> bonusResources = CreateBonusResources(usualCountOfResources);
         bonusResources.Add(ResourceType.Exp);
+        List<float> bonusResourcesQuantityList = BoostResourceQuantity(usualCountOfResources, portionOfBoxResources, resourceBoost);
         bonusResourcesQuantityList.Add(exp);
 
         bonusResources.Reverse();
@@ -179,7 +180,6 @@ public class RewardManager : MonoBehaviour
         float exp = GetValueWithGap(expAfterBattlePortion, randomGap);
         float expBoost = 0;
 
-        expBoost += expCalendarBonusValue;
         expBoost += extraExpAfterBattle;
         expBoost += strenghtBoost;
 
@@ -190,14 +190,14 @@ public class RewardManager : MonoBehaviour
 
         if(isExtraResourcesBonus == true)
         {
-            bonusResources.AddRange(CreateBonusResources(countOfResources));
+            bonusResources.AddRange(CreateBonusResources(usualCountOfResources));
         }
 
         float portion = portionOfAfterBattleResources;
         portion *= countOfEnemySquad;
         portion = GetBoostValue(portion, strenghtBoost);
 
-        List<float> bonusResourcesQuantityList = BoostResourceQuantity(bonusResources, bonusResources.Count, portion, 0);
+        List<float> bonusResourcesQuantityList = BoostResourceQuantity(bonusResources.Count, portion, 0);
 
         if(isExtraManaBonus == true) 
         {
@@ -205,6 +205,29 @@ public class RewardManager : MonoBehaviour
             bonusResources.Add(ResourceType.Mana);
             bonusResourcesQuantityList.Add(mana);
         }
+
+        bonusResources.Add(ResourceType.Exp);
+        bonusResourcesQuantityList.Add(exp);
+
+        bonusResources.Reverse();
+        bonusResourcesQuantityList.Reverse();
+
+        Reward reward = new Reward(bonusResources, bonusResourcesQuantityList);
+
+        return reward;
+    }
+
+    public Reward GetTombReward()
+    {
+        GetPlayersParameters();
+
+        List<ResourceType> bonusResources = CreateBonusResources(tombCountOfResources);
+        List<float> bonusResourcesQuantityList = BoostResourceQuantity(bonusResources.Count, playerLevel * portionOfTombResources, 0);
+
+        float expBoost = extraExpAfterBattle;
+        float exp = playerLevel * portionOfTombResources * tombExpMultiplier;
+        exp = GetValueWithGap(exp, randomGap);
+        exp = GetBoostValue(exp, expBoost);
 
         bonusResources.Add(ResourceType.Exp);
         bonusResourcesQuantityList.Add(exp);
