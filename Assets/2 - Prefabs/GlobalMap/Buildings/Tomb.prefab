@@ -201,7 +201,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   header: Tomb
   content: You can visit it for Reward here.
-  visitedStatus: Visited
+  visitedStatus: You've already taken everything of value from here.
   notVisitedStatus: Not visited
   status: 
 --- !u!114 &-9139183998644911855

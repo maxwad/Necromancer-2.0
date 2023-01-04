@@ -12,9 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96b7c8dba5120094cb6e5f65063ef0e9, type: 3}
   m_Name: AttackUp 3
   m_EditorClassIdentifier: 
-  isFinded: 0
-  isUnlocked: 0
   spell: 1
+  spellName: Furious Rush
   type: 0
   level: 3
   hasPreSpell: 0

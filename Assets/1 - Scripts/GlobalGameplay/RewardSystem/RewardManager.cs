@@ -27,7 +27,7 @@ public class RewardManager : MonoBehaviour
     public int portionOfBoxResources = 100;
     public int portionOfAfterBattleResources = 10;
     public int portionOfTombResources = 500;
-    public float tombExpMultiplier = 0.5f;
+    public float portionMultiplier = 0.5f;
     public int usualCountOfResources = 3;
     public int tombCountOfResources = 3;
 
@@ -133,8 +133,9 @@ public class RewardManager : MonoBehaviour
 
         float resourceBoost = 0;
         resourceBoost += extraBoxReward;
-        
-        List<float> bonusResourcesQuantityList = BoostResourceQuantity(bonusResources.Count, portionOfBoxResources, resourceBoost);
+        float portion = portionOfBoxResources * playerLevel * portionMultiplier;
+
+        List<float> bonusResourcesQuantityList = BoostResourceQuantity(bonusResources.Count, portion, resourceBoost);
 
         Reward reward = new Reward(bonusResources, bonusResourcesQuantityList);
 
@@ -157,7 +158,10 @@ public class RewardManager : MonoBehaviour
 
         List<ResourceType> bonusResources = CreateBonusResources(usualCountOfResources);
         bonusResources.Add(ResourceType.Exp);
-        List<float> bonusResourcesQuantityList = BoostResourceQuantity(usualCountOfResources, portionOfBoxResources, resourceBoost);
+
+        float portion = portionOfBoxResources * playerLevel * portionMultiplier;
+
+        List<float> bonusResourcesQuantityList = BoostResourceQuantity(usualCountOfResources, portion, resourceBoost);
         bonusResourcesQuantityList.Add(exp);
 
         bonusResources.Reverse();
@@ -193,7 +197,7 @@ public class RewardManager : MonoBehaviour
             bonusResources.AddRange(CreateBonusResources(usualCountOfResources));
         }
 
-        float portion = portionOfAfterBattleResources;
+        float portion = portionOfAfterBattleResources * playerLevel * portionMultiplier;
         portion *= countOfEnemySquad;
         portion = GetBoostValue(portion, strenghtBoost);
 
@@ -225,7 +229,7 @@ public class RewardManager : MonoBehaviour
         List<float> bonusResourcesQuantityList = BoostResourceQuantity(bonusResources.Count, playerLevel * portionOfTombResources, 0);
 
         float expBoost = extraExpAfterBattle;
-        float exp = playerLevel * portionOfTombResources * tombExpMultiplier;
+        float exp = playerLevel * portionOfTombResources * portionMultiplier;
         exp = GetValueWithGap(exp, randomGap);
         exp = GetBoostValue(exp, expBoost);
 

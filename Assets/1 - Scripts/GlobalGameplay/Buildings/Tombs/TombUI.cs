@@ -90,7 +90,7 @@ public class TombUI : MonoBehaviour
             else
             {
                 tombsManager.UnlockSpell(spell);
-                owner.SetVisitStatus();
+                owner.SetVisitStatus(true);
             }
         }       
 
@@ -120,7 +120,7 @@ public class TombUI : MonoBehaviour
     {
         infoBlock.SetActive(true);
 
-        spellTitle.text = spell.spell.ToString();
+        spellTitle.text = spell.spellName;
         spellIcon.sprite = spell.icon;
 
         cost.text = spell.manaCost.ToString();

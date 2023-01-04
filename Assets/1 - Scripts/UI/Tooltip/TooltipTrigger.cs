@@ -47,7 +47,7 @@ public class TooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         status = (mode == false) ? notVisitedStatus : visitedStatus;
     }
 
-    public void SetStatus(string text)
+    public void SetOwner(string text)
     {
         status = "Owner: " + text;
     }

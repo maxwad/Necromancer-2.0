@@ -119,8 +119,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   header: Altar
   content: You can heal your Units here.
-  visitedStatus: 
-  notVisitedStatus: 
+  visitedStatus: Don't come until next week.
+  notVisitedStatus: You can visit this place.
   status: 
 --- !u!114 &3876701718727417131
 MonoBehaviour:

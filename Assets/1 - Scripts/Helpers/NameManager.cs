@@ -12,34 +12,6 @@ public static class NameManager
         Paladins
     }
 
-    //public enum UnitsHouses
-    //{
-    //    Kasarma,
-    //    Avanpost,
-    //    Tower,
-    //    Sklep,
-    //    Church
-    //}
-
-    public enum UnitStats
-    {
-        Health,
-        MagicAttack,
-        PhysicAttack,
-        MagicDefence,
-        PhysicDefence,
-        SpeedAttack,
-        Size,
-
-        CoinsPrice,
-        FoodPrice,
-        WoodPrice,
-        IronPrice,
-        StonePrice,
-        MagicPrice,
-
-    }
-
     public enum UnitStatus
     {
         Army, Store, Nowhere, Infirmary
@@ -313,14 +285,6 @@ public static class NameManager
         Attack, Defence, Bonus
     }
 
-    //public enum BossSpells
-    //{
-    //    InvertMovement = 0,
-    //    Lightning = 1,
-    //    ManningLess = 2,
-    //    Fireball = 3
-    //}
-
     public enum BoostSender
     {
         Spell, 
@@ -394,6 +358,17 @@ public static class NameManager
         InTomb, 
         InArena,
         NearUsualObjects
+    }
+
+    public enum CampReward
+    {
+        Resource,
+        AbilityPoint,
+        RuneDrawing,
+        Mana,
+        Health,
+        Help,
+        Nothing
     }
 
     #endregion

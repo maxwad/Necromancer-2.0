@@ -116,8 +116,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   header: Camp
-  content: There's definitely something going on here.
-  visitedStatus: Visited
+  content: Definitely worth digging through the abandoned junk.
+  visitedStatus: You've already taken everything of value from here.
   notVisitedStatus: Not visited
   status: 
 --- !u!114 &-8822262582893159684
@@ -133,7 +133,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectType: 5
-  isItDoor: 0
+  isItDoor: 1
   isNormalUIWindow: 1
   canBeOpenedByClick: 1
   canBeOpenedByMove: 1
@@ -153,3 +153,12 @@ MonoBehaviour:
   owner: 2
   isGuardNeeded: 1
   probabilityGuard: 95
+  isOwnerRequired: 0
+  neutralColor: {r: 0, g: 0, b: 0, a: 0}
+  enemyColor: {r: 0, g: 0, b: 0, a: 0}
+  playerColor: {r: 0, g: 0, b: 0, a: 0}
+  visitedColor: {r: 0, g: 0, b: 0, a: 0}
+  notVisitedColor: {r: 0, g: 0, b: 0, a: 0}
+  flagSpite: {fileID: 0}
+  siegeBlock: {fileID: 0}
+  term: {fileID: 0}

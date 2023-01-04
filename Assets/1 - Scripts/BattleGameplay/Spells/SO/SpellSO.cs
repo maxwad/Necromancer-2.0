@@ -6,11 +6,9 @@ using static NameManager;
 [CreateAssetMenu(fileName = "SpellData", menuName = "SpellItem")]
 public class SpellSO : ScriptableObject
 {
-    public bool isFinded = true;
-    public bool isUnlocked = false;
-
     [Space]
     public Spells spell;
+    public string spellName;
     public TypeOfSpell type;
     public int level;
     public bool hasPreSpell;

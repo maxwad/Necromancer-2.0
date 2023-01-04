@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using static NameManager;
-using System;
 
 public class ObjectOwner : MonoBehaviour
 {
@@ -36,7 +33,7 @@ public class ObjectOwner : MonoBehaviour
         //test = GetComponent<ClickableObject>().objectType;
 
         if(isOwnerRequired == true)
-            ChangeFlag(owner);
+            ChangeOwnerFlag(owner);
         else
             SetVisitStatus(false);
     }
@@ -46,11 +43,11 @@ public class ObjectOwner : MonoBehaviour
         if(newOwner != owner)
         {
             owner = newOwner;
-            ChangeFlag(owner);
+            ChangeOwnerFlag(owner);
         }
     }
 
-    private void ChangeFlag(TypeOfObjectsOwner newOwner)
+    private void ChangeOwnerFlag(TypeOfObjectsOwner newOwner)
     {
         if(flagSpite == null) return;
 
@@ -72,34 +69,24 @@ public class ObjectOwner : MonoBehaviour
                 break;
         }
 
-        if(tooltip != null) tooltip.SetStatus(newOwner.ToString());
+        if(tooltip != null) tooltip.SetOwner(newOwner.ToString());
         flagSpite.color = currentColor;
     }
 
     public void SetVisitStatus(bool statusMode)
     {
+        isVisited = statusMode;
+
         if(flagSpite == null) return;
 
-        ChangeFlag(statusMode);
+        ChangeVisitFlag(statusMode);
     }
 
-    private void ChangeFlag(bool statusMode)
+    private void ChangeVisitFlag(bool statusMode)
     {
-        //string status;
-
-        if(statusMode == true)
-        {
-            currentColor = visitedColor;
-            //status = "You have already brought gifts here this week.";
-        }
-        else
-        {
-            currentColor = notVisitedColor;
-            //status = "You can heal your units here.";
-        }
-
+        currentColor = (statusMode == true) ? visitedColor : notVisitedColor;
         flagSpite.color = currentColor;
-        //tooltip.SetStatus(status);
+        tooltip.SetStatus(statusMode);
     }
 
     public void StartSiege(bool siegeMode)
@@ -134,7 +121,7 @@ public class ObjectOwner : MonoBehaviour
         }
 
         tooltip.content = content;
-        tooltip.SetStatus(owner.ToString());
+        tooltip.SetOwner(owner.ToString());
     }
 
     public bool CheckOwner()
@@ -145,10 +132,5 @@ public class ObjectOwner : MonoBehaviour
     public bool GetVisitStatus()
     {
         return isVisited;
-    }
-
-    public void SetVisitStatus()
-    {
-        isVisited = true;
     }
 }
