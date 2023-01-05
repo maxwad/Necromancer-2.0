@@ -12,10 +12,10 @@ public class TombsManager : MonoBehaviour
     private ResourcesManager resourcesManager;
     private RewardManager rewardManager;
 
-    public void Register(GameObject building, Vector3 position)
+    public void Register(GameObject building)
     {
         TombInfo tombInfo = new TombInfo();
-        tombInfo.position = position;
+        tombInfo.position = building.transform.position;
         tombsDict.Add(building, tombInfo);
     }
 

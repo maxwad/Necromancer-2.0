@@ -6,6 +6,7 @@ using UnityEngine.Tilemaps;
 public class CampBuilder : MonoBehaviour
 {
     private GlobalMapTileManager gmManager;
+    private CampManager campManager;
 
     public Tilemap bonfiresMap;
     public GameObject bonfirePrefab;
@@ -14,15 +15,19 @@ public class CampBuilder : MonoBehaviour
 
     public void Build(GlobalMapTileManager manager) 
     {
-        if(gmManager == null) gmManager = manager;
+        if(gmManager == null)
+        {
+            gmManager = manager;
+            campManager = GlobalStorage.instance.campManager;
+        }
 
-        emptyPoints = manager.GetEmptyPoints();
-
+        emptyPoints = gmManager.GetEmptyPoints();
         foreach(Transform child in bonfiresMap.transform)
         {
             if(child.GetComponent<ClickableObject>() != null)
             {
-                manager.AddBuildingToAllOnTheMap(child.gameObject);
+                gmManager.AddBuildingToAllOnTheMap(child.gameObject);
+                campManager.Register(child.gameObject);
             }
         }
 
@@ -40,12 +45,13 @@ public class CampBuilder : MonoBehaviour
 
         for(int i = 0; i < emptyPoints.Count; i++)
         {
-            Vector3Int point = manager.SearchRealEmptyCellNearRoad(true, emptyPoints[i]);
+            Vector3Int point = gmManager.SearchRealEmptyCellNearRoad(true, emptyPoints[i]);
 
             GameObject bonfire = Instantiate(bonfirePrefab, bonfiresMap.CellToWorld(point), Quaternion.identity);
             bonfire.transform.SetParent(bonfiresMap.transform);
 
-            manager.AddBuildingToAllOnTheMap(bonfire);
+            gmManager.AddBuildingToAllOnTheMap(bonfire);
+            campManager.Register(bonfire);
         }
     }    
 }

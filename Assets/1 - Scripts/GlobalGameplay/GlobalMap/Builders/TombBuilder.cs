@@ -59,7 +59,7 @@ public class TombBuilder : MonoBehaviour
 
             manager.AddBuildingToAllOnTheMap(tomb);
 
-            tombsManager.Register(tomb, tombsPoints[i]);
+            tombsManager.Register(tomb);
         }
     }
 }

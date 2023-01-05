@@ -8,7 +8,6 @@ public class BoxObject : MonoBehaviour
     private RewardManager rewardManager;
     public Reward reward;
     private MapBoxesManager mbManager;
-    private ObjectsPoolManager poolManager;
     private ResourcesManager resourcesManager;
 
     private Coroutine deathCoroutine;
@@ -35,8 +34,6 @@ public class BoxObject : MonoBehaviour
             tooltip = gameObject.GetComponent<TooltipTrigger>();
             defaultContent = tooltip.content;
             rewardManager = GlobalStorage.instance.rewardManager;
-
-            poolManager = GlobalStorage.instance.objectsPoolManager;
 
             resourcesManager = GlobalStorage.instance.resourcesManager;
             resourcesIcons = resourcesManager.GetAllResourcesIcons();

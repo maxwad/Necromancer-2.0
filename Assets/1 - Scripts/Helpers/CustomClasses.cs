@@ -117,7 +117,7 @@ public class InjuredUnitData
 #endregion
 
 
-#region ALTARS, TOMBS
+#region ALTARS, TOMBS, CAMPS
 
 public class ResourceGiftData
 {
@@ -152,6 +152,26 @@ public class TombInfo
     public SpellSO spell = null;
     public Reward reward = null;
 }
+
+public class CampGameParameters
+{
+    public int cellsAmount;
+    public int rewardsAmount;
+    public int attempts;
+    public int helps;
+    public int runeDrawnings;
+    public List<CampReward> combination = new List<CampReward>();
+}
+
+
+[Serializable]
+public class CampBonus
+{
+    public CampReward reward;
+    public Sprite icon;
+    public string name;
+    public int amount;
+}
 #endregion
 
 
@@ -182,6 +202,24 @@ public class Reward
     {
         resourcesList = resources;
         resourcesQuantity = quantity;
+    }
+}
+
+#endregion
+
+
+#region Units
+public class Boost
+{
+    public BoostSender sender;
+    public BoostEffect effect;
+    public float value;
+
+    public Boost(BoostSender boostSender, BoostEffect boostEffect, float boostValue)
+    {
+        sender = boostSender;
+        effect = boostEffect;
+        value = boostValue;
     }
 }
 

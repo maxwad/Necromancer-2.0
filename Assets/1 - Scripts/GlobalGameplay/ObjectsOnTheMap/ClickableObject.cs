@@ -127,6 +127,9 @@ public class ClickableObject : MonoBehaviour
                 break;
 
             case TypeOfObjectOnTheMap.Camp:
+
+                GlobalStorage.instance.campDoor.Open(modeClick, gameObject);
+                isThereManager = true;
                 break;
 
             case TypeOfObjectOnTheMap.Arena:
