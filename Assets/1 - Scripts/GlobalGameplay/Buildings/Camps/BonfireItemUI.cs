@@ -8,7 +8,6 @@ using static NameManager;
 
 public class BonfireItemUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    private CampUI campUI;
     private CampGame campGame;
 
     [SerializeField] private Button button;
@@ -16,14 +15,17 @@ public class BonfireItemUI : MonoBehaviour, IPointerClickHandler, IPointerEnterH
     [SerializeField] private GameObject lightning;
     [SerializeField] private GameObject realIcon;
     [SerializeField] private Image rewardIcon;
+    [SerializeField] private Image coverIconImage;
     [SerializeField] private TooltipTrigger tooltip;
+
+    [SerializeField] private Color normalColor;
+    [SerializeField] private Color transparentColor;
 
     private int index = 0;
     private bool isActivated = false;
 
-    public void Init(CampUI ui, CampGame game, int ind)
+    public void Init(CampGame game, int ind)
     {
-        campUI = ui;
         campGame = game;
         index = ind;
     }
@@ -34,27 +36,33 @@ public class BonfireItemUI : MonoBehaviour, IPointerClickHandler, IPointerEnterH
         coverIcon.SetActive(true);
         realIcon.SetActive(false);
         lightning.SetActive(false);
+
+        coverIconImage.color = normalColor;
+        isActivated = false;
     }
 
-    public void ActivateCell()
+    public void ActivateCell(bool tipMode)
     {
-        Debug.Log("Activate Button");
+        isActivated = true;
+
         button.interactable = false;
         coverIcon.SetActive(false);
         realIcon.SetActive(true);
-        campGame.GetResult(index);
-        isActivated = true;
+        campGame.ShowResult(index, tipMode);
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        if(isActivated == true) return;
+
         if(campGame.CanIOpenCell() == true)
         {
-            ActivateCell();
+            ActivateCell(false);
         }
         else
         {
             InfotipManager.ShowWarning("You have no more attempts to get a reward.");
+            return;
         }
     }
 
@@ -72,5 +80,18 @@ public class BonfireItemUI : MonoBehaviour, IPointerClickHandler, IPointerEnterH
     {
         rewardIcon.sprite = currentBonus.icon;
         tooltip.content = currentBonus.name;
+    }
+
+    public bool GetCellStatus()
+    {
+        return isActivated;
+    }
+
+    public void ShowCell(CampBonus bonus)
+    {
+        coverIconImage.color = transparentColor;
+        realIcon.SetActive(true);
+
+        SetReward(bonus);
     }
 }

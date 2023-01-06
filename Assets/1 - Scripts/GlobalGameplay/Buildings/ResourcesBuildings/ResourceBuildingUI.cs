@@ -35,11 +35,11 @@ public class ResourceBuildingUI : MonoBehaviour
     public void Open(bool openByClick, ResourceBuilding rBuilding)
     {
         // RETURN in build!
-        //if(openByClick == true && rBuilding.CheckOwner() == false)
-        //{
-        //    InfotipManager.ShowWarning("You can't look into buildings that aren't yours.");
-        //    return;
-        //}
+        if(openByClick == true && rBuilding.CheckOwner() == false)
+        {
+            InfotipManager.ShowWarning("You can't look into buildings that aren't yours.");
+            return;
+        }
 
         if(gmInterface == null)
         {
@@ -50,11 +50,7 @@ public class ResourceBuildingUI : MonoBehaviour
         }
         currentBuilding = rBuilding;
 
-        //gmInterface.ShowInterfaceElements(false);
-
         MenuManager.instance.MiniPause(true);
-        //GlobalStorage.instance.ModalWindowOpen(true);
-
         uiPanel.SetActive(true);
 
         isHeroInside = !openByClick;
@@ -69,11 +65,7 @@ public class ResourceBuildingUI : MonoBehaviour
 
     public void Close()
     {
-        //gmInterface.ShowInterfaceElements(true);
-
         MenuManager.instance?.MiniPause(false);
-        //GlobalStorage.instance.ModalWindowOpen(false);
-
         uiPanel.SetActive(false);
     }
 

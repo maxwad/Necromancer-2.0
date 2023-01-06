@@ -6,26 +6,6 @@ using static NameManager;
 
 public class RunesManager : MonoBehaviour
 {
-    public class RuneBoost
-    {
-        public int level;
-        public float boost;
-        public int row;
-        public int cell;
-
-        public RuneBoost(int rowIndex, int cellIndex, RuneSO rune)
-        {
-            float value = rune.value;
-            if(rowIndex == 1 && rune.isInvertedRune == false) value = -value;
-            if(rowIndex != 1 && rune.isInvertedRune == true) value = -value;
-
-            row = rowIndex;
-            cell = cellIndex;
-            boost = value;
-            level = rune.level;
-        }
-    }
-
     private MacroLevelUpManager levelUpManager;
     private BoostManager boostManager;
     [HideInInspector] public RunesStorage runesStorage;
@@ -41,6 +21,8 @@ public class RunesManager : MonoBehaviour
     private Dictionary<RunesType, float> commonBoostDict = new Dictionary<RunesType, float>();
 
     private float limitValue = -99;
+
+    private int shardOfRunes = 0;
 
     public void Init()
     {
@@ -83,20 +65,6 @@ public class RunesManager : MonoBehaviour
         runesRows[row][cell] = rune;
 
         ApplyEffect(row, cell, rune);
-
-        //for(int i = 0; i < runesRows.Count; i++)
-        //{
-        //    string runes = i + " row = ";
-        //    for(int j = 0; j < runesRows[i].Length; j++)
-        //    {
-        //        if(runesRows[i][j] != null)
-        //        {
-        //            runes += (j + 1) + ":" + runesRows[i][j].name + " || ";
-        //        }
-        //    }
-
-        //    Debug.Log(runes);
-        //}
 
         CheckOverflow();
     }
@@ -243,27 +211,6 @@ public class RunesManager : MonoBehaviour
                 result = true;
         }
 
-        //if(result == false) return result;
-
-        //foreach(var boostList in runeBoostesDict)
-        //{
-        //    float limit = 0;
-        //    if(boostList.Key == oldRune.rune) 
-        //        continue;
-        //    else
-        //    {
-        //        foreach(var boost in boostList.Value)
-        //        {
-        //            if(boost.cell != cell && )
-        //            {
-
-        //            }
-        //        }
-
-        //    }
-
-        //}
-
         return result;
     }
 
@@ -279,5 +226,10 @@ public class RunesManager : MonoBehaviour
                 }
             }            
         }
+    }
+
+    public void ChangeShardAmount(int delta)
+    {
+        shardOfRunes += delta;
     }
 }

@@ -97,10 +97,30 @@ public class Cost
     public float amount;
 }
 
+public class RuneBoost
+{
+    public int level;
+    public float boost;
+    public int row;
+    public int cell;
+
+    public RuneBoost(int rowIndex, int cellIndex, RuneSO rune)
+    {
+        float value = rune.value;
+        if(rowIndex == 1 && rune.isInvertedRune == false) value = -value;
+        if(rowIndex != 1 && rune.isInvertedRune == true) value = -value;
+
+        row = rowIndex;
+        cell = cellIndex;
+        boost = value;
+        level = rune.level;
+    }
+}
+
 #endregion
 
 
-#region Infirmary
+#region INFIRMARY
 
 public class InjuredUnitData
 {
@@ -160,7 +180,7 @@ public class CampGameParameters
     public int attempts;
     public int helps;
     public int runeDrawnings;
-    public List<CampReward> combination = new List<CampReward>();
+    public List<CampBonus> combination = new List<CampBonus>();
 }
 
 
@@ -168,6 +188,7 @@ public class CampGameParameters
 public class CampBonus
 {
     public CampReward reward;
+    public ResourceType resource;
     public Sprite icon;
     public string name;
     public int amount;

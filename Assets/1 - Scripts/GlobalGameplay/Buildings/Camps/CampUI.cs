@@ -10,9 +10,6 @@ public class CampUI : MonoBehaviour
     private CanvasGroup canvas;
     private CampManager campManager;
     private CampGame campGame;
-    //private ResourcesManager resourcesManager;
-
-    //private Dictionary<ResourceType, Sprite> resourcesIcons;
 
     [Header("Windows")]
     [SerializeField] private GameObject uiPanel;
@@ -20,12 +17,17 @@ public class CampUI : MonoBehaviour
     [SerializeField] private GameObject miniWindow;
     [SerializeField] private GameObject emptyWindow;
     [SerializeField] private GameObject remoteWindow;
+    [SerializeField] private GameObject confirmWindow;
+    [SerializeField] private GameObject instructionLabel;
+    [SerializeField] private GameObject resultLabel;
 
     [Header("Start Parameters")]
     [SerializeField] private TMP_Text totalCells;
     [SerializeField] private TMP_Text rewards;
     [SerializeField] private TMP_Text attempts;
     [SerializeField] private TMP_Text helpPoints;
+
+    [SerializeField] private Sprite closedBonfire;
 
     private GameObject currentCamp;
     private CampGameParameters currentParameters;
@@ -34,9 +36,6 @@ public class CampUI : MonoBehaviour
     {
         campManager = GlobalStorage.instance.campManager;
         campGame = GetComponent<CampGame>();
-
-        //resourcesManager = GlobalStorage.instance.resourcesManager;
-        //resourcesIcons = resourcesManager.GetAllResourcesIcons();
 
         canvas = uiPanel.GetComponent<CanvasGroup>();
     }
@@ -55,11 +54,35 @@ public class CampUI : MonoBehaviour
     //Button
     public void Close()
     {
+        if(campGame.CheckGameStatus() == true)
+            CloseCamp();
+
+        campGame.CancelCorounite();
+
         mainWindow.SetActive(false);
         miniWindow.SetActive(false);
 
         MenuManager.instance.MiniPause(false);
         uiPanel.SetActive(false);
+    }
+
+    //Button
+    public void TryToCloseGame()
+    {
+        if(campGame.CheckGameStatus() == true)
+        {
+            confirmWindow.SetActive(true);
+        }
+        else
+        {
+            Close();
+        }
+    }
+
+    //Button
+    public void CancelExit()
+    {
+        confirmWindow.SetActive(false);
     }
 
     public void Init(bool modeClick)
@@ -82,6 +105,9 @@ public class CampUI : MonoBehaviour
         miniWindow.SetActive(false);
         emptyWindow.SetActive(false);
         remoteWindow.SetActive(false);
+        confirmWindow.SetActive(false);
+        resultLabel.SetActive(false);
+        instructionLabel.SetActive(true);
 
         if(modeClick == true)
         {
@@ -112,5 +138,14 @@ public class CampUI : MonoBehaviour
         rewards.text = currentParameters.rewardsAmount.ToString();
         attempts.text = currentParameters.attempts.ToString();
         helpPoints.text = currentParameters.helps.ToString();
+    }
+
+    public void CloseCamp()
+    {
+        resultLabel.SetActive(true);
+        instructionLabel.SetActive(false);
+        SpriteRenderer campSprite = currentCamp.GetComponent<SpriteRenderer>();
+        campSprite.sprite = closedBonfire;
+        //campManager.CloseCamp(currentCamp);
     }
 }
