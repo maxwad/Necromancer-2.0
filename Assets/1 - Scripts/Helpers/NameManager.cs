@@ -141,6 +141,7 @@ public static class NameManager
         DailyResources
     }
 
+    //1000+ - it's constant ability only, they can't be boost
     public enum PlayersStats
     {
         Level = 0, 
@@ -155,13 +156,13 @@ public static class NameManager
         MovementDistance = 30,
         HealthRegeneration = 27,
         RadiusView = 1005,
-        ExtraResourcesProduce = 25,//later
+        ExtraResourcesProduce = 25,
         ExtraBoxReward = 1006,
         ExtraExpReward = 31,
 
-        Spell = 1007,//later
+        Spell = 1007,
         NegativeCell = 1008,
-        MedicAltar = 26,//later
+        MedicAltar = 26,
         DoubleBonusFromBox = 1009,
         ExtraMovementPoints = 1010,
         Fog = 1011,
@@ -169,14 +170,15 @@ public static class NameManager
         ManaBigRegeneration = 1013,
         Learning = 1014,
 
-        MedicTry = 1015,//later
+        MedicTry = 1015,
         Curiosity = 1016,
         Portal = 1017,
         ExtraAfterBattleReward = 1018,
         ManaRegeneration = 29,
         HeroArmyToEnemy = 1019,//later
         InfirmaryTime = 1020,
-        SquadMaxSize = 32
+        SquadMaxSize = 1021,
+        AshSpecialist = 1022
     }
 
     public enum RunesType
@@ -211,7 +213,7 @@ public static class NameManager
         ManaRegeneration = 29,
         MovementPoints = 30,
         ExpAfterBattle = 31,
-        SquadMaxSize = 32
+        AltarTryCost = 33
     }
 
     public enum BoostType
@@ -250,7 +252,7 @@ public static class NameManager
         ManaRegeneration = 29,
         MovementPoints = 30,
         ExpAfterBattle = 31,
-        SquadMaxSize = 32
+        AltarTryCost = 33
     }
 
     public enum Spells

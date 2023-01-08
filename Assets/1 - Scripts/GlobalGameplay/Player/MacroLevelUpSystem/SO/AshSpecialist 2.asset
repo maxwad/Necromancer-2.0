@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 944e529ba73aca64eb63ed063e9b940b, type: 3}
+  m_Name: AshSpecialist 2
+  m_EditorClassIdentifier: 
+  abilityName: Ash Specialist II
+  serieName: Ash Specialist
+  abilitySeries: 1022
+  ability: 1022
+  activeIcon: {fileID: -5165286651846006743, guid: 108daa14e3115264995337bc498c548a, type: 3}
+  inActiveIcon: {fileID: 4695681477916757925, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
+  level: 2
+  value: 1
+  valueType: 1
+  cost: 2
+  description: You get 5 extra attempts to find something in the extinct campfires.
+  fakeDescription: It's early to leave, we can still find something!
+  luckDepending: 0

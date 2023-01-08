@@ -19,6 +19,7 @@ public class ObjectOwner : MonoBehaviour
     public Color notVisitedColor;
 
     public SpriteRenderer flagSpite;
+    [SerializeField] private TMP_Text level;
 
     [SerializeField] private GameObject siegeBlock;
     [SerializeField] private TMP_Text term;
@@ -132,5 +133,20 @@ public class ObjectOwner : MonoBehaviour
     public bool GetVisitStatus()
     {
         return isVisited;
+    }
+
+    public void ChangeLevel(int newLevel)
+    {
+        if(level == null) return;
+
+        if(newLevel == 0) 
+        {
+            level.gameObject.SetActive(false);
+        }
+        else
+        {
+            level.gameObject.SetActive(true);
+            level.text = newLevel.ToString();
+        }
     }
 }

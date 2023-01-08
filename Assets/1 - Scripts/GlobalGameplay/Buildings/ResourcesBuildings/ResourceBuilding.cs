@@ -72,6 +72,7 @@ public class ResourceBuilding : MonoBehaviour
             spriteRenderer.sprite = data.buildingSprite;
             spriteRenderer.color = data.buildingColor;
             owner.Init(buildingType, resourceType);
+            owner.ChangeLevel(0);
         }
 
         GetUpgrades();
@@ -165,6 +166,9 @@ public class ResourceBuilding : MonoBehaviour
         upgradesDict[upgrade] = upgradeStatus;
 
         ResetBonuses();
+
+        int level = GetCountOfActiveUpgrades();
+        owner.ChangeLevel(level);
     }
 
     public Dictionary<RBUpgradeSO, UpgradeStatus> GetUpgradesStatuses()

@@ -69,8 +69,7 @@ public class Altar : MonoBehaviour
             [ResourceType.Iron] = 0
         };
 
-        float discount = boostManager.GetBoost( BoostType.Altar);
-
+        float discount = boostManager.GetBoost(BoostType.AltarTryCost);
         float commonQuantity = 0;
         foreach(var unit in injuredUnitsDict)
         {

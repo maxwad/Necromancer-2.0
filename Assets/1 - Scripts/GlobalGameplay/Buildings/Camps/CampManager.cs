@@ -8,6 +8,7 @@ public class CampManager : MonoBehaviour
 {
     private ResourcesManager resourcesManager;
     private RewardManager rewardManager;
+    private PlayerStats playerStats;
 
     private Dictionary<ResourceType, Sprite> resourcesIcons;
     private Dictionary<GameObject, bool> campsRewardsDict = new Dictionary<GameObject, bool>();
@@ -18,6 +19,9 @@ public class CampManager : MonoBehaviour
     [SerializeField] private int attempts = 10;
     [SerializeField] private int helps = 4;
     [SerializeField] private int runeDrawnings = 3;
+    [SerializeField] private int extraAmount = 5;
+
+    private float playerSearchLevel = 0;
 
     [SerializeField] private List<CampBonus> bonusesData;
     [SerializeField] private List<ResourceType> resources;
@@ -28,6 +32,7 @@ public class CampManager : MonoBehaviour
         resourcesIcons = resourcesManager.GetAllResourcesIcons();
 
         rewardManager = GlobalStorage.instance.rewardManager;
+        playerStats = GlobalStorage.instance.playerStats;
     }
 
     public void Register(GameObject building)
@@ -44,22 +49,22 @@ public class CampManager : MonoBehaviour
 
     public CampGameParameters GetStartParameters()
     {
+        playerSearchLevel = playerStats.GetCurrentParameter(PlayersStats.AshSpecialist); 
         CampGameParameters gameParameters = new CampGameParameters();
 
         gameParameters.cellsAmount = cellsAmount;
-        gameParameters.rewardsAmount = rewardsAmount;
-        gameParameters.attempts = attempts;
+        gameParameters.rewardsAmount = rewardsAmount + ((playerSearchLevel > 0) ? extraAmount : 0);
+        gameParameters.attempts = attempts + ((playerSearchLevel > 1) ? extraAmount : 0); ;
         gameParameters.helps = helps;
-        gameParameters.combination = GetBonfireCombination();
+        gameParameters.combination = GetBonfireCombination(gameParameters.rewardsAmount);
 
         return gameParameters;
     }
 
-    public List<CampBonus> GetBonfireCombination()
+    public List<CampBonus> GetBonfireCombination(int bonusAmount)
     {
         List<CampReward> rewardNamesList = new List<CampReward>();
         List<int> variants = new List<int>();
-        int bonusAmount = rewardsAmount;
 
         for(int i = 0; i < cellsAmount; i++)
         {

@@ -13,10 +13,8 @@ public class BattleUISpellPart : MonoBehaviour
     private PlayerStats playerStats;
 
     [Header("Spells")]
-    [SerializeField] private Button buttonSpell;
+    [SerializeField] private List<SpellButtonController> allSpellButtons;
     private List<SpellSO> currentSpells = new List<SpellSO>();
-    [SerializeField] private GameObject spellButtonContainer;
-    private List<Button> currentSpellsButtons = new List<Button>();
 
     [SerializeField] private GameObject spellEffectsContainer;
     private Dictionary<SpellSO, SpellBattleUI> currentActiveSpells = new Dictionary<SpellSO, SpellBattleUI>();
@@ -24,6 +22,14 @@ public class BattleUISpellPart : MonoBehaviour
     private int countOfActiveSpells = 6;
     private int currentSpellIndex = -1;
     private int realNumberOfSpells = -1;
+
+    private void Awake()
+    {
+        for(int i = 0; i < allSpellButtons.Count; i++)
+        {
+            allSpellButtons[i].PreInit(this, i + 1);
+        }
+    }
 
     public void Init(BattleUIManager manager)
     {
@@ -75,7 +81,9 @@ public class BattleUISpellPart : MonoBehaviour
         }
 
         if(currentSpellIndex != -1 && currentSpellIndex < realNumberOfSpells)
-            currentSpellsButtons[currentSpellIndex].GetComponent<SpellButtonController>().ActivateSpell();
+            allSpellButtons[currentSpellIndex].ActivateSpell();
+
+            //currentSpellsButtons[currentSpellIndex].GetComponent<SpellButtonController>().ActivateSpell();
     }
 
     public void FillSpells()
@@ -99,67 +107,12 @@ public class BattleUISpellPart : MonoBehaviour
         int counter = (currentSpells.Count < countOfActiveSpells) ? currentSpells.Count : countOfActiveSpells;
         realNumberOfSpells = counter;
 
-        foreach(Transform child in spellButtonContainer.transform)
-            Destroy(child.gameObject);
-
-        currentSpellsButtons.Clear();
-
         for(int i = 0; i < counter; i++)
         {
-            int slotNumber = -1;
-            if(i < counter)
-            {
-                slotNumber = i + 1;
-                if(i + 1 == 10) slotNumber = 0;
-            }
+            if(i >= allSpellButtons.Count) break;
 
-            Button button = Instantiate(buttonSpell);
-            button.GetComponent<SpellButtonController>().InitializeButton(this, currentSpells[i], slotNumber);
-            currentSpellsButtons.Add(button);
-            button.transform.SetParent(spellButtonContainer.transform, false);
-
+            allSpellButtons[i].InitializeButton(currentSpells[i]);
         }
-
-
-
-        //if(numberOfSpell == -1)
-        //{
-        //    foreach(Transform child in spellButtonContainer.transform)
-        //        Destroy(child.gameObject);
-
-        //    currentSpellsButtons.Clear();
-
-        //    for(int i = 0; i < countOfActiveSpells; i++)
-        //    {
-        //        int slotNumber = -1;
-        //        if(i < countOfActiveSpells)
-        //        {
-        //            slotNumber = i + 1;
-        //            if(i + 1 == 10) slotNumber = 0;
-        //        }
-
-        //        Button button = Instantiate(buttonSpell);
-        //        button.GetComponent<SpellButtonController>().InitializeButton(this, currentSpells[i], slotNumber);
-        //        currentSpellsButtons.Add(button);
-        //        button.transform.SetParent(spellButtonContainer.transform, false);
-
-        //    }
-        //}
-        //else
-        //{
-        //    for(int i = 0; i < countOfActiveSpells; i++)
-        //    {
-        //        if(i == numberOfSpell)
-        //        {
-        //            Button button = Instantiate(buttonSpell);
-        //            button.GetComponent<SpellButtonController>().InitializeButton(this, currentSpells[i]);
-        //            currentSpellsButtons.Add(button);
-        //            button.transform.SetParent(spellButtonContainer.transform, false);
-
-        //            break;
-        //        }
-        //    }
-        //}
     }
 
 

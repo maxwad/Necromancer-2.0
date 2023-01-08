@@ -140,7 +140,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: 1
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2409b418a306d27448ea5fae101880d0, type: 2}
   m_sharedMaterial: {fileID: -8628556238563695093, guid: 2409b418a306d27448ea5fae101880d0, type: 2}
@@ -361,9 +361,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spell: {fileID: 0}
   veil: {fileID: 8715510039612313071}
-  icon: {fileID: 0}
-  button: {fileID: 0}
+  icon: {fileID: 2923189783901747122}
+  button: {fileID: 789927226672346254}
   numberOfSlotText: {fileID: 329518653703353737}
+  emptyColor: {r: 1, g: 1, b: 1, a: 0.39215687}
+  activeColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &6602754029358777615
 MonoBehaviour:
   m_ObjectHideFlags: 0

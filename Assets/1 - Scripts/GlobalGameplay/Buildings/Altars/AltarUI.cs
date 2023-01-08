@@ -270,11 +270,11 @@ public class AltarUI : MonoBehaviour
             return false;
         }
 
-        if(modeClick == true)
-        {
-            InfotipManager.ShowWarning("Gifts for healing are accepted only in person.");
-            return false;
-        }
+        //if(modeClick == true)
+        //{
+        //    InfotipManager.ShowWarning("Gifts for healing are accepted only in person.");
+        //    return false;
+        //}
 
         //if(currentAltar.GetVisitStatus() == true)
         //{

@@ -90,8 +90,6 @@ public class CampGame : MonoBehaviour
 
     public void UpdateGameStatus()
     {
-
-        Debug.Log("CALL");
         if(currentParameters.attempts > 0)
         {
             isGameStarted = true;

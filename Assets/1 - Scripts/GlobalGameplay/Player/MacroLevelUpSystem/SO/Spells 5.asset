@@ -22,6 +22,6 @@ MonoBehaviour:
   value: 1
   valueType: 3
   cost: 1
-  description: You can use 1 spell more in combat.
-  fakeDescription: Look at my serious magic!
+  description: You can use 1 more spell in combat.
+  fakeDescription: Look at my perfect magic!
   luckDepending: 0

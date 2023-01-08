@@ -12,13 +12,17 @@ public class SpellButtonController : MonoBehaviour, IPointerEnterHandler, IPoint
     private BattleUISpellPart battleUISpellPart;
     private PreSpellLibrary preSpellLibrary;
 
-    [SerializeField] private SpellSO spell;
+    private SpellSO spell;
     [SerializeField] private Image veil;
     [SerializeField] private Image icon;
     [SerializeField] private Button button;
 
     [SerializeField] private TMP_Text numberOfSlotText;
 
+    [SerializeField] private Color emptyColor;
+    [SerializeField] private Color activeColor;
+
+    private bool isEmptyButton = true;
     private bool disabledBecauseMana = false;
     private bool disabledBecauseDelay = false;
     private bool disabledBecauseBattleIsOver = false;
@@ -35,23 +39,32 @@ public class SpellButtonController : MonoBehaviour, IPointerEnterHandler, IPoint
 
     private TooltipTrigger tooltipTrigger;
 
-    public void InitializeButton(BattleUISpellPart uiPart, SpellSO newSpell, int slot = -1)
+    public void PreInit(BattleUISpellPart uiPart, int numberOfSlot)
     {
         hero = GlobalStorage.instance.hero;
         spellLibrary = GlobalStorage.instance.spellManager.GetComponent<SpellLibrary>();
         preSpellLibrary = spellLibrary.GetComponent<PreSpellLibrary>();
         resourcesManager = GlobalStorage.instance.resourcesManager;
         boostManager = GlobalStorage.instance.boostManager;
+        tooltipTrigger = GetComponent<TooltipTrigger>();
+        tooltipTrigger.content = "This slot is empty";
+
         battleUISpellPart = uiPart;
 
+        numberOfSlotText.text = numberOfSlot.ToString();
+
+        isEmptyButton = true;
+        icon.sprite = null;
+        icon.color = emptyColor;
+    }
+
+    public void InitializeButton(SpellSO newSpell)
+    {
+        isEmptyButton = false;
         spell = newSpell;
 
-        icon = GetComponent<Image>();
         icon.sprite = spell.icon;
-
-        button = GetComponent<Button>();
-
-        if(slot != -1) numberOfSlotText.text = slot.ToString();
+        icon.color = activeColor;
 
         button.onClick.AddListener(ActivateSpell);
 
@@ -60,8 +73,8 @@ public class SpellButtonController : MonoBehaviour, IPointerEnterHandler, IPoint
         description = description.Replace("$R", spell.radius.ToString());
         description += " (Cost: " + spell.manaCost;
         description += " Reload: " + spell.reloading + " sec.)";
-        tooltipTrigger = GetComponent<TooltipTrigger>();
-        if(tooltipTrigger != null) tooltipTrigger.content = description;
+
+        tooltipTrigger.content = description;
 
         if(coroutine != null) StopCoroutine(coroutine);
         coroutine = StartCoroutine(CheckDisabling());
@@ -70,6 +83,8 @@ public class SpellButtonController : MonoBehaviour, IPointerEnterHandler, IPoint
 
     public void ActivateSpell()
     {
+        if(isEmptyButton == true) return;
+
         if(isDisabled == true) return;
 
         if(MenuManager.instance.IsTherePauseOrMiniPause() == true) return;
@@ -157,7 +172,7 @@ public class SpellButtonController : MonoBehaviour, IPointerEnterHandler, IPoint
         disabledBecauseDelay = false;
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         button.onClick.RemoveListener(ActivateSpell);
     }

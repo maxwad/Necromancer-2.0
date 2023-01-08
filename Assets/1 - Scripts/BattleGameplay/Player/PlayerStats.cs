@@ -26,6 +26,8 @@ public class PlayerStats : MonoBehaviour
 
     [SerializeField] private float infirmaryTimeBase = 5f;
 
+    [SerializeField] private float spellBase = 1;
+
     [Header("Global Parameters")]
     [Space]
     [SerializeField] private float movementDistanceBase = 10f;
@@ -38,11 +40,6 @@ public class PlayerStats : MonoBehaviour
 
     [SerializeField] private float extraResources = 1;
 
-    //[SerializeField] private float altarTryCost = 1;
-
-    [Header("Number Parameters")]
-    [Space]
-    //3, 4
     [SerializeField] private float medicTryBase = 3;
 
     // DESCRIPTIONS:
@@ -191,11 +188,11 @@ public class PlayerStats : MonoBehaviour
 
                 case PlayersStats.ExtraResourcesProduce:
                     baseValue = extraResources;
-                    break; 
-                
-                //case PlayersStats.MedicAltar:
-                //    baseValue = altarTryCost;
-                //    break;
+                    break;
+
+                case PlayersStats.Spell:
+                    baseValue = spellBase;
+                    break;
 
                 default:
                     break;
