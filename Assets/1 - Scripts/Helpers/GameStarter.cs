@@ -16,6 +16,10 @@ public class GameStarter : MonoBehaviour
     public List<HiringAmount> startAmounts = new List<HiringAmount>();
     public List<HiringAmount> startGrowthAmounts;
 
+    [Header("Castle Buildings")]
+    public List<CastleBuildings> castleBuildings;
+    public int buildingsLevel = 3;
+
     public void Init()
     {
         heroFortress = GlobalStorage.instance.heroFortress;
@@ -31,7 +35,10 @@ public class GameStarter : MonoBehaviour
         SetResources();
 
         yield return null;
-        SetUnits();
+        SetUnits();     
+        
+        yield return null;
+        SetFortressBuildings();
 
         GlobalStorage.instance.LoadNextPart();
     }
@@ -52,5 +59,13 @@ public class GameStarter : MonoBehaviour
         }
 
         heroFortress.SetStartGrowths(startGrowthAmounts);
+    }
+
+    private void SetFortressBuildings()
+    {
+        foreach(var building in castleBuildings)
+        {
+            heroFortress.BuildStartBuildings(building, buildingsLevel);
+        }
     }
 }

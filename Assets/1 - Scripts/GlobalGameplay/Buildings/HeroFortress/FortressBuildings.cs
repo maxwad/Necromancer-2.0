@@ -113,23 +113,31 @@ public class FortressBuildings : MonoBehaviour
         }
     }
 
-    public void RegisterBuilding(CastleBuildings building, FBuilding buildingComponent)
+    public void RegisterBuilding(CastleBuildings building)
     {
         if(allReadyBuildings.ContainsKey(building) == false)
-            allReadyBuildings.Add(building, buildingComponent);
+            allReadyBuildings.Add(building, buildingsComponentDict[building]);
     }
 
-    public void UpgradeBuilding(CastleBuildings building, int newLevel, CastleBuildingsBonuses buildingBonus)
+    public void UpgradeBuilding(CastleBuildings building, bool levelUpMode)
     {
-        if(newLevel <= maxLevel && newLevel >= 0)
-            buildingsLevels[building] = newLevel;
+        if(buildingsLevels[building] == 0)
+        {
+            RegisterBuilding(building);
+        }
+
+        int deltaLevel = (levelUpMode == true) ? 1 : -1;
+        buildingsLevels[building] += deltaLevel;
+
+        //if(newLevel <= maxLevel && newLevel >= 0)
+        //    buildingsLevels[building] = newLevel;
 
         UpgradeFortressLevel();
-        if(newLevel == 0) allReadyBuildings.Remove(building);
+        if(buildingsLevels[building] == 0) allReadyBuildings.Remove(building);
 
         buildingsInProgress.Remove(building);
         UpdateBuildProgressUI();
-        SetBonus(building, buildingBonus);
+        SetBonus(building, buildingsComponentDict[building].buildingBonus);
 
         gmInterface.castlePart.UpdateCastleStatus();
     }
@@ -209,13 +217,17 @@ public class FortressBuildings : MonoBehaviour
 
     public List<Cost> GetBuildingCost(CastleBuildings building)
     {
+        if(GetBuildingsLevel(building) >= GetMaxLevel()) return null;
+
         float discount = GetBonusAmount(CastleBuildingsBonuses.BuildingDiscount);
 
         List<Cost> defaultCosts;
+
         int level = buildingsLevels[building];
         defaultCosts = upgradesDict[building][level].cost;
 
         List<Cost> costs = new List<Cost>();
+
         for(int i = 0; i < defaultCosts.Count; i++)
         {
             Cost costItem = new Cost();
@@ -230,6 +242,11 @@ public class FortressBuildings : MonoBehaviour
     public int GetMaxLevel()
     {
         return maxLevel;
+    }
+
+    public int GetBuildingsLevel(CastleBuildings building)
+    {
+        return buildingsLevels[building];
     }
 
     public int GetFortressLevel()
@@ -438,6 +455,10 @@ public class FortressBuildings : MonoBehaviour
         }
     }
 
+    public void BuildStartBuilding(CastleBuildings building)
+    {
+        UpgradeBuilding(building, true);
+    }
     #endregion
 
     private void OnEnable()

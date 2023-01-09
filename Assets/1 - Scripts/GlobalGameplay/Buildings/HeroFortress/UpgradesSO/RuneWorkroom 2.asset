@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6dedaff420d744f438ede11349a66a06, type: 3}
+  m_Name: RuneWorkroom 2
+  m_EditorClassIdentifier: 
+  building: 11
+  buildingName: Rune Workroom
+  buildingBonus: 12
+  activeIcon: {fileID: -8811631546484903431, guid: 108daa14e3115264995337bc498c548a, type: 3}
+  inActiveIcon: {fileID: -2774841285692986794, guid: 68b1d9d2aa86ea94e97d6f84ce3d70ab, type: 3}
+  level: 2
+  value: 2
+  percentValueType: 0
+  isInverted: 0
+  fortressLevel: 5
+  constructuionTime: 7
+  cost:
+  - type: 0
+    amount: 1000
+  - type: 1
+    amount: 1000
+  - type: 3
+    amount: 1000
+  - type: 2
+    amount: 1000
+  - type: 4
+    amount: 1000
+  description: Allows you to create Runes level 2.
+  buildingDescription: Allows you to craft Runes from found Shards.

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static NameManager;
 
-public class Military : MonoBehaviour
+public class Military : SpecialBuilding
 {
     private UnitManager unitManager;
     [HideInInspector] public HeroFortress fortress;
@@ -16,7 +16,7 @@ public class Military : MonoBehaviour
     [HideInInspector] public CastleBuildings currentBuilding;
 
 
-    public void Init(CastleBuildings building)
+    public override void Init(CastleBuildings building)
     {
         currentBuilding = building;
         if(fortress == null)

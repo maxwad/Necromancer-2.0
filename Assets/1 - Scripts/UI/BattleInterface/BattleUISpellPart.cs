@@ -23,7 +23,7 @@ public class BattleUISpellPart : MonoBehaviour
     private int currentSpellIndex = -1;
     private int realNumberOfSpells = -1;
 
-    private void Awake()
+    private void Start()
     {
         for(int i = 0; i < allSpellButtons.Count; i++)
         {

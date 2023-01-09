@@ -14,7 +14,10 @@ public class FBuilding : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
     public CastleBuildingsBonuses buildingBonus;
     public bool isSpecialBuilding = true;
     public bool isMilitarySource = false;
-    [HideInInspector] public int level = 0;
+
+    public SpecialBuilding specialFunctional;
+    private int level = 0;
+    private int maxLevel;
     [HideInInspector] public string buildingName;
     [HideInInspector] public string buildingDescr;
     private FortressUpgradeSO currentBonus;
@@ -86,6 +89,8 @@ public class FBuilding : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
         caption.text = buildingName;
 
         buildingDescr = currentBonus.buildingDescription;
+        level = allBuildings.GetBuildingsLevel(building);
+        maxLevel = allBuildings.GetMaxLevel();
 
         if(allBuildings.GetConstructionStatus(building) == true)
         {
@@ -99,7 +104,7 @@ public class FBuilding : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
             processBlock.SetActive(false);
 
             levelBlock.SetActive(true);
-            levelText.text = (level == 0) ? zeroStatus : ("Level " + level);
+            levelText.text = (level == 0) ? zeroStatus : (level + "/" + maxLevel);
             warningBlock.SetActive(true);
             CheckRequirements();
 
@@ -121,7 +126,7 @@ public class FBuilding : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
                 statusBuild.SetActive(false);
                 statusUpgrade.SetActive(true);
 
-                if(level >= allBuildings.GetMaxLevel())
+                if(level >= maxLevel)
                 {
                     upgradeButton.gameObject.SetActive(false);
                 }
@@ -141,7 +146,11 @@ public class FBuilding : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
     
     public void CheckRequirements()
     {
+        if(allBuildings.GetBuildingsLevel(building) >= maxLevel)
+            return;
+
         BuildingsRequirements requirements = GetRequirements();
+
 
         bool costFlag = true;
         for(int i = 0; i < requirements.costs.Count; i++)
@@ -245,20 +254,20 @@ public class FBuilding : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
 
     public void Upgrade()
     {
-        if(level < allBuildings.GetMaxLevel()) level++;
+        //if(level < allBuildings.GetMaxLevel()) level++;
 
-        allBuildings.UpgradeBuilding(building, level, buildingBonus);
-        if(level == 1) allBuildings.RegisterBuilding(building, this);
+        allBuildings.UpgradeBuilding(building, true);
+        //if(level == 1) allBuildings.RegisterBuilding(building, this);
 
         Init();
     }
 
     public void Downgrade()
     {
-        if(level > 0) 
-            level--;
+        //if(level > 0) 
+        //    level--;
 
-        allBuildings.UpgradeBuilding(building, level, buildingBonus);
+        allBuildings.UpgradeBuilding(building, false);
         Init();
     }
 

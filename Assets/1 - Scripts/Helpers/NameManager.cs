@@ -389,7 +389,9 @@ public static class NameManager
         TaxService,
         Manufactory,
         RecruitmentCenter,
-        MagicalSanctuary
+        MagicalSanctuary,
+        RuneWorkroom,
+        SpellWorkroom
     }
 
     public enum CastleBuildingsBonuses
@@ -405,7 +407,9 @@ public static class NameManager
         BuildingTime,
         HiringAmount,
         SealStep,
-        BuildingLimit
+        BuildingLimit,
+        RuneLevel,
+        SpellLevel
     }
     #endregion
 

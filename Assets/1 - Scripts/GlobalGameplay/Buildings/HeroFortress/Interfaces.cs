@@ -15,3 +15,8 @@ public interface IGarrison
     public void StartExchange(bool isCastlesSquad, UnitsTypes unitType);
 
 }
+
+public interface ISpecialBuilding 
+{
+    public void Init(CastleBuildings building);
+}

@@ -5,7 +5,7 @@ using static NameManager;
 
 public class HeroFortress : MonoBehaviour
 {
-    private GMInterface gmInterface;
+    //private GMInterface gmInterface;
     private CanvasGroup canvas;
     private bool isWindowOpen = false;
 
@@ -28,7 +28,7 @@ public class HeroFortress : MonoBehaviour
 
     private void Awake()
     {
-        gmInterface = GlobalStorage.instance.gmInterface;
+        //gmInterface = GlobalStorage.instance.gmInterface;
         canvas = uiPanel.GetComponent<CanvasGroup>();
         door = GlobalStorage.instance.fortressBuildingDoor;
         buildings = GetComponent<FortressBuildings>();
@@ -61,10 +61,7 @@ public class HeroFortress : MonoBehaviour
 
     public void Open(bool openByClick)
     {
-        //gmInterface.ShowInterfaceElements(false);
-
         MenuManager.instance.MiniPause(true);
-        //GlobalStorage.instance.ModalWindowOpen(true);
 
         uiPanel.SetActive(true);
         isWindowOpen = true;
@@ -85,11 +82,8 @@ public class HeroFortress : MonoBehaviour
     }
 
     public void Close()
-    {
-        //gmInterface.ShowInterfaceElements(true);
-        
+    {      
         MenuManager.instance?.MiniPause(false);
-        //GlobalStorage.instance.ModalWindowOpen(false);
         isWindowOpen = false;
 
         uiPanel.SetActive(false);
@@ -162,6 +156,14 @@ public class HeroFortress : MonoBehaviour
     public void SetStartGrowths(List<HiringAmount> startGrowthAmounts)
     {
         unitCenter.SetStartGrowths(startGrowthAmounts);
+    }
+
+    public void BuildStartBuildings(CastleBuildings building, int level)
+    {
+        for(int i = 0; i < level; i++)
+        {
+            buildings.BuildStartBuilding(building);
+        }
     }
 
     private void OnEnable()

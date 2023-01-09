@@ -37,21 +37,22 @@ public class OpeningBuildingWindow : MonoBehaviour
         if(building.isSpecialBuilding == true)
         {
             statusText.gameObject.SetActive(false);
+            building.specialFunctional.Init(building.building);
             //Enabling active component
-            if(building.building == CastleBuildings.Market)
-                market.Init();
+            //if(building.building == CastleBuildings.Market)
+            //    market.Init(building.building);
 
-            if(building.building == CastleBuildings.Barracks
-               || building.building == CastleBuildings.TrainingCamp
-               || building.building == CastleBuildings.MagicAcademy)
-            {
-                military.Init(building.building);
-            }
+            //if(building.building == CastleBuildings.Barracks
+            //   || building.building == CastleBuildings.TrainingCamp
+            //   || building.building == CastleBuildings.MagicAcademy)
+            //{
+            //    military.Init(building.building);
+            //}
 
-            if(building.building == CastleBuildings.RecruitmentCenter)
-            {
-                unitCenter.Init();
-            }
+            //if(building.building == CastleBuildings.RecruitmentCenter)
+            //{
+            //    unitCenter.Init();
+            //}
         }
         else
         {
@@ -59,7 +60,7 @@ public class OpeningBuildingWindow : MonoBehaviour
             statusText.text = building.buildingDescr;
         }
 
-        int currentLevel = building.level;
+        int currentLevel = allBuildings.GetBuildingsLevel(building.building);
         for(int i = 0; i < levelsList.Count; i++)
         {
             FortressUpgradeSO bonus = allBuildings.GetBuildingBonus(building.building, i);

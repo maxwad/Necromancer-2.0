@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using TMPro;
 using static NameManager;
 
-public class UnitCenter : MonoBehaviour
+public class UnitCenter : SpecialBuilding
 {
     private FortressBuildings allBuildings;
     private Garrison garrison;
@@ -42,7 +42,7 @@ public class UnitCenter : MonoBehaviour
     private Unit currentUnit;
     private bool canIHire = true;
 
-    public void Init()
+    public override void Init(CastleBuildings building)
     {
         if(allBuildings == null)
         {
@@ -181,7 +181,8 @@ public class UnitCenter : MonoBehaviour
 
             HiringUnits(currentUnit.unitType, currentAmount);
 
-            Init();
+            ResetForm();
+            FillSlots();
         }
         else
         {

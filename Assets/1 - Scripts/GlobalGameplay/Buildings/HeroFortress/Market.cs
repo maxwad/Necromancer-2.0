@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using static NameManager;
 
-public class Market : MonoBehaviour
+public class Market : SpecialBuilding
 {
     private HeroFortress fortress;
     private FortressBuildings allBuildings;
@@ -44,7 +44,7 @@ public class Market : MonoBehaviour
 
     private float marketDiscount = 0f;
 
-    public void Init()
+    public override void Init(CastleBuildings building)
     {
         if(fortress == null)
         {
