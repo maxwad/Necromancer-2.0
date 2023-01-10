@@ -16,7 +16,7 @@ public class Military : SpecialBuilding
     [HideInInspector] public CastleBuildings currentBuilding;
 
 
-    public override void Init(CastleBuildings building)
+    public override GameObject Init(CastleBuildings building)
     {
         currentBuilding = building;
         if(fortress == null)
@@ -48,6 +48,8 @@ public class Military : SpecialBuilding
                 }
             }
         }
+
+        return gameObject;
     }
 
     private void ResetForm()

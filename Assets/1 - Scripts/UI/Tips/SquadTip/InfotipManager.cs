@@ -4,7 +4,6 @@ using System;
 using UnityEngine;
 using static NameManager;
 
-
 public class InfotipManager : MonoBehaviour
 {
     public static InfotipManager instance;

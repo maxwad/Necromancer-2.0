@@ -44,7 +44,7 @@ public class Market : SpecialBuilding
 
     private float marketDiscount = 0f;
 
-    public override void Init(CastleBuildings building)
+    public override GameObject Init(CastleBuildings building)
     {
         if(fortress == null)
         {
@@ -63,6 +63,8 @@ public class Market : SpecialBuilding
         gameObject.SetActive(true);
 
         ResetForm();
+
+        return gameObject;
     }
 
     private void ResetForm()

@@ -42,7 +42,7 @@ public class UnitCenter : SpecialBuilding
     private Unit currentUnit;
     private bool canIHire = true;
 
-    public override void Init(CastleBuildings building)
+    public override GameObject Init(CastleBuildings building)
     {
         if(allBuildings == null)
         {
@@ -61,6 +61,8 @@ public class UnitCenter : SpecialBuilding
         ResetForm();
 
         FillSlots();
+
+        return gameObject;
     }
 
     private void FillSlots()

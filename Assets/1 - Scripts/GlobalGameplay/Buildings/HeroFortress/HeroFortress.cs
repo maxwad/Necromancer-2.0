@@ -65,7 +65,7 @@ public class HeroFortress : MonoBehaviour
 
         uiPanel.SetActive(true);
         isWindowOpen = true;
-        door.Close();
+        //door.Close();
         buildings.CloseDescription();
         buildings.CloseAnotherConfirm();
 
@@ -85,7 +85,7 @@ public class HeroFortress : MonoBehaviour
     {      
         MenuManager.instance?.MiniPause(false);
         isWindowOpen = false;
-
+        door.Close();
         uiPanel.SetActive(false);
     }
 
