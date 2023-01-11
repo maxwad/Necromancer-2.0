@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: WeaponSize 3
   m_EditorClassIdentifier: 
   spell: 8
-  spellName: Magnifier
+  spellName: Super Weapon
   type: 0
   level: 3
   hasPreSpell: 0

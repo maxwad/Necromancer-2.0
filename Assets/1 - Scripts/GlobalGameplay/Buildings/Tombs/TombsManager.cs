@@ -11,6 +11,41 @@ public class TombsManager : MonoBehaviour
     private SpellManager spellManager;
     private ResourcesManager resourcesManager;
     private RewardManager rewardManager;
+    /// <summary>
+    /// 
+    /// </summary>
+    private int countForTest = 0;
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Insert) == true)
+        {
+            TestOpenSpell();
+        }
+    }
+
+    private void TestOpenSpell()
+    {
+        List<GameObject> tombs = new List<GameObject>(tombsDict.Keys);
+        if(countForTest > tombs.Count - 1) return;
+
+        SpellSO spell = tombsDict[tombs[countForTest]].spell;
+
+        countForTest++;
+        if(spell == null)
+        {
+            TestOpenSpell();
+        }
+        else
+        {
+            UnlockSpell(spell);
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+
 
     public void Register(GameObject building)
     {
@@ -44,6 +79,7 @@ public class TombsManager : MonoBehaviour
             hiddenSpells.RemoveAt(index);
         }
     }
+
     public void UnlockSpell(SpellSO spell)
     {
         if(spell != null)

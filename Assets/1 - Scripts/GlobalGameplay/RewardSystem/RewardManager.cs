@@ -37,13 +37,6 @@ public class RewardManager : MonoBehaviour
     private float luck;
     private float playerLevel;
 
-    //private void Start()
-    //{
-    //    //playerStats = GlobalStorage.instance.playerStats;
-    //    //GetPlayersParameters();
-    //}
-
-
     #region GET/SET Parameters
     private void GetPlayersParameters()
     {

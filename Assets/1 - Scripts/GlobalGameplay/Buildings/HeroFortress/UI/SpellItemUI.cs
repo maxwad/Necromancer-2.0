@@ -1,19 +1,70 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+using UnityEngine.EventSystems;
 using static NameManager;
 
-public class SpellItemUI : MonoBehaviour
+public class SpellItemUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private GameObject lightning;
+    [SerializeField] private TooltipTrigger tooltip;
+    [SerializeField] private Image spellIcon;
+    [SerializeField] private TMP_Text spellLevel;
+
+    [SerializeField] private Color normalColor;
+    [SerializeField] private Color inactiveColor;
+
+
+    private SpellWorkroom workroom;
+    private SpellSO spell;
+
+    private bool isSelectedSpell = false;
+
+    public void Init(SpellWorkroom room, SpellSO newSpell)
+    {
+        if(workroom == null) workroom = room;
+
+        gameObject.SetActive(true);
+
+        spell = newSpell;
+        spellIcon.sprite = spell.icon;
+        int level = workroom.GetSpellLevel(spell.spell);
+        int maxLevel = workroom.GetSpellMaxLevel(spell.spell);
+        spellIcon.color = (level > 0) ? normalColor : inactiveColor;
+        spellLevel.text = level + "/" + maxLevel;
+        tooltip.content = spell.spellName;
+    }
+
+    public void ResetItem()
+    {
+        spell = null;
+        EnableLightning(false);
+        gameObject.SetActive(false);
+    }
+
+    public void EnableLightning(bool enableMode)
+    {
+        lightning.SetActive(enableMode);
+        isSelectedSpell = enableMode;
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        workroom.SetCurrentSpell(spell);
+        EnableLightning(true);
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
     {
         
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OnPointerExit(PointerEventData eventData)
     {
         
     }
+
 }
