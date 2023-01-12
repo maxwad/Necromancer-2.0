@@ -11,6 +11,7 @@ public class InfotipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     private MacroAbilitySO skill;
     private RuneSO rune;
     private BuildingsRequirements requirments;
+    private SpellSO spell;
 
     [SerializeField] private TipsType tipsType;
 
@@ -46,6 +47,7 @@ public class InfotipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
                         break;
 
                     case TipsType.Spell:
+                        InfotipManager.Show(spell);
                         break;
 
                     case TipsType.Rune:
@@ -111,6 +113,12 @@ public class InfotipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         this.rune = rune;
         tipsType = TipsType.Rune;
+    }
+
+    public void SetSpell(SpellSO spell)
+    {
+        this.spell = spell;
+        tipsType = TipsType.Spell;
     }
 
     public void SetCost(BuildingsRequirements requirments)

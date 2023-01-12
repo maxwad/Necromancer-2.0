@@ -17,10 +17,17 @@ MonoBehaviour:
   type: 0
   level: 2
   hasPreSpell: 0
-  manaCost: 1
+  manaCost: 50
   value: 25
   radius: 0
-  actionTime: 10
-  reloading: 3
+  actionTime: 15
+  reloading: 60
   icon: {fileID: 6734197509625700620, guid: 54d98c65c3b37744baea457e9292557a, type: 3}
+  cost:
+  - type: 6
+    amount: 50
+  - type: 0
+    amount: 1000
+  - type: 1
+    amount: 400
   description: Increases attack power by $V% for $T seconds.

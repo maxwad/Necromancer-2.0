@@ -17,10 +17,17 @@ MonoBehaviour:
   type: 2
   level: 3
   hasPreSpell: 0
-  manaCost: 1
+  manaCost: 10
   value: 100
   radius: 0
-  actionTime: 20
-  reloading: 3
+  actionTime: 30
+  reloading: 80
   icon: {fileID: -6924916163348001851, guid: 54d98c65c3b37744baea457e9292557a, type: 3}
+  cost:
+  - type: 6
+    amount: 50
+  - type: 0
+    amount: 1000
+  - type: 1
+    amount: 400
   description: Double all bonuses for $T seconds.

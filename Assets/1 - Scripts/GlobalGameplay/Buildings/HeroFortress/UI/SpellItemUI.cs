@@ -10,9 +10,9 @@ using static NameManager;
 public class SpellItemUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] private GameObject lightning;
-    [SerializeField] private TooltipTrigger tooltip;
     [SerializeField] private Image spellIcon;
     [SerializeField] private TMP_Text spellLevel;
+    [SerializeField] private InfotipTrigger tip;
 
     [SerializeField] private Color normalColor;
     [SerializeField] private Color inactiveColor;
@@ -20,8 +20,6 @@ public class SpellItemUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHan
 
     private SpellWorkroom workroom;
     private SpellSO spell;
-
-    private bool isSelectedSpell = false;
 
     public void Init(SpellWorkroom room, SpellSO newSpell)
     {
@@ -35,7 +33,8 @@ public class SpellItemUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHan
         int maxLevel = workroom.GetSpellMaxLevel(spell.spell);
         spellIcon.color = (level > 0) ? normalColor : inactiveColor;
         spellLevel.text = level + "/" + maxLevel;
-        tooltip.content = spell.spellName;
+
+        tip.SetSpell(spell);
     }
 
     public void ResetItem()
@@ -48,13 +47,22 @@ public class SpellItemUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHan
     public void EnableLightning(bool enableMode)
     {
         lightning.SetActive(enableMode);
-        isSelectedSpell = enableMode;
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        Select();
+    }
+
+    public void Select()
+    {
         workroom.SetCurrentSpell(spell);
         EnableLightning(true);
+    }
+
+    public bool CheckSpell(Spells checkSpell)
+    {
+        return spell.spell == checkSpell;
     }
 
     public void OnPointerEnter(PointerEventData eventData)

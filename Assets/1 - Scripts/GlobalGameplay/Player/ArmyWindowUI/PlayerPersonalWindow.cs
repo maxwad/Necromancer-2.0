@@ -207,7 +207,7 @@ public class PlayerPersonalWindow : MonoBehaviour
             heroBlock.SetActive(false);
             enemyBlock.SetActive(true);
 
-            closeButton.SetActive(false);
+            //closeButton.SetActive(false);
             battleButton.SetActive(true);
             stepbackButton.SetActive(true);
 

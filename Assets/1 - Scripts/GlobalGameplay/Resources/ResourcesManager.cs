@@ -79,13 +79,13 @@ public class ResourcesManager : MonoBehaviour
     {
         //just for testing
         if(Input.GetKeyDown(KeyCode.KeypadEnter) == true)
-            ChangeResource(ResourceType.Exp, 100);
-
-        if(Input.GetKeyDown(KeyCode.KeypadPlus) == true)
             ChangeResource(ResourceType.Exp, 500);
 
+        if(Input.GetKeyDown(KeyCode.KeypadPlus) == true)
+            ChangeResource(ResourceType.Exp, 1000);
+
         if(Input.GetKeyDown(KeyCode.PageUp) == true)
-            ChangeResource(ResourceType.Mana, 5);
+            ChangeResource(ResourceType.Mana, 100);
 
         if(Input.GetKeyDown(KeyCode.PageDown) == true)
             ChangeResource(ResourceType.Mana, -5);

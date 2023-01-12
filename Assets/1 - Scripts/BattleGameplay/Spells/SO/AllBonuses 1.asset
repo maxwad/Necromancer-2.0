@@ -23,4 +23,7 @@ MonoBehaviour:
   actionTime: 0
   reloading: 120
   icon: {fileID: -3264063907635750661, guid: 54d98c65c3b37744baea457e9292557a, type: 3}
+  cost:
+  - type: 6
+    amount: 50
   description: Pulls all the bonuses in the field.

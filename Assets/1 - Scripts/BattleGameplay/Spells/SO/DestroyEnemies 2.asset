@@ -17,10 +17,17 @@ MonoBehaviour:
   type: 0
   level: 2
   hasPreSpell: 1
-  manaCost: 1
-  value: 200
-  radius: 10
+  manaCost: 50
+  value: 150
+  radius: 12
   actionTime: 0
-  reloading: 3
+  reloading: 90
   icon: {fileID: 1526934011099985568, guid: 54d98c65c3b37744baea457e9292557a, type: 3}
+  cost:
+  - type: 6
+    amount: 50
+  - type: 0
+    amount: 1000
+  - type: 1
+    amount: 400
   description: Deals $V damage all enemies within a radius of $R meters.

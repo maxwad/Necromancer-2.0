@@ -372,7 +372,7 @@ GameObject:
   - component: {fileID: 5604045164725549791}
   - component: {fileID: 6314792349496453126}
   - component: {fileID: 2862300517511289293}
-  - component: {fileID: 3948958467782538742}
+  - component: {fileID: 1821986504794069560}
   m_Layer: 0
   m_Name: SpellItemUI
   m_TagString: Untagged
@@ -453,12 +453,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lightning: {fileID: 1187840247729509240}
-  tooltip: {fileID: 3948958467782538742}
   spellIcon: {fileID: 116366361778649614}
   spellLevel: {fileID: 3636129584753097410}
+  tip: {fileID: 1821986504794069560}
   normalColor: {r: 1, g: 1, b: 1, a: 1}
   inactiveColor: {r: 0.4339623, g: 0.4339623, b: 0.4339623, a: 1}
---- !u!114 &3948958467782538742
+--- !u!114 &1821986504794069560
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -467,11 +467,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5819289397052088525}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a24be4621a224594d936a1f2093eadd6, type: 3}
+  m_Script: {fileID: 11500000, guid: e32d5b6946faabe4bbe754b768cbc843, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  header: 
-  content: 
-  visitedStatus: 
-  notVisitedStatus: 
-  status: 
+  tipsType: 4

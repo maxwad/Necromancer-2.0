@@ -16,6 +16,7 @@ public class InfotipManager : MonoBehaviour
     public HeroUITip heroTip;
     public RuneTip runeTip;
     public CostTip costTip;
+    public SpellTip spellTip;
 
     private void Awake()
     {
@@ -65,6 +66,14 @@ public class InfotipManager : MonoBehaviour
         instance.runeTip.Show(rune);
     }
 
+    public static void Show(SpellSO spell)
+    {
+        if(spell == null) return;
+
+        instance.spellTip.gameObject.SetActive(true);
+        instance.spellTip.Show(spell);
+    }
+
     public static void Show(string content, string header = "", string status = "")
     {
         instance.tooltip.gameObject.SetActive(true);
@@ -109,6 +118,7 @@ public class InfotipManager : MonoBehaviour
                 break;
 
             case TipsType.Spell:
+                instance.spellTip?.gameObject?.SetActive(false);
                 break;
 
             case TipsType.Rune:

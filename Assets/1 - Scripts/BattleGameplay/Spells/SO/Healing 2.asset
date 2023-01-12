@@ -23,4 +23,11 @@ MonoBehaviour:
   actionTime: 0
   reloading: 3
   icon: {fileID: -8072868309065578990, guid: 54d98c65c3b37744baea457e9292557a, type: 3}
+  cost:
+  - type: 6
+    amount: 50
+  - type: 0
+    amount: 1000
+  - type: 1
+    amount: 400
   description: Heals the hero by $V.

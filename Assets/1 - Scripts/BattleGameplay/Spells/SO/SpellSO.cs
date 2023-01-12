@@ -19,6 +19,7 @@ public class SpellSO : ScriptableObject
     public float actionTime;
     public float reloading;
     public Sprite icon;
+    public List<Cost> cost;
     [TextArea(3, 10)]
     public string description;
 }

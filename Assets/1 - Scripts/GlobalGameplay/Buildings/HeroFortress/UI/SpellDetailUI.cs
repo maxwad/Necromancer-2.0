@@ -7,6 +7,9 @@ using static NameManager;
 
 public class SpellDetailUI : MonoBehaviour
 {
+    private ResourcesManager resourcesManager;
+    private Dictionary<ResourceType, Sprite> resourcesIcons;
+
     [Header("Details")]
     [SerializeField] private Image icon;
     [SerializeField] private TMP_Text spellName;
@@ -15,6 +18,12 @@ public class SpellDetailUI : MonoBehaviour
     [SerializeField] private TMP_Text duration;
     [SerializeField] private TMP_Text reloading;
     [SerializeField] private TMP_Text description;
+    [SerializeField] private List<Image> costIconsList;
+    [SerializeField] private List<TMP_Text> costAmountList;
+    
+    private Color normalColor = Color.white;
+    [SerializeField] private Color warningColor;
+    [SerializeField] private Color upgradeColor;
 
     [Header("Extra Elements")]
     [SerializeField] private GameObject upgradeLabel;
@@ -25,33 +34,83 @@ public class SpellDetailUI : MonoBehaviour
     private SpellWorkroom workroom;
     private SpellSO currentSpell;
     private bool isCreating = false;
+    private bool isResourceDeficit = false;
 
-    public void FillData(SpellWorkroom room, SpellSO spell, bool isFirstSpell, bool createMode)
+    public void FillData(SpellWorkroom room, SpellSO spell, SpellSO previousSpell, bool isFirstSpell, bool createMode)
     {
-        if(workroom == null) workroom = room;
+        if(workroom == null)
+        {
+            workroom = room;
+            resourcesManager = GlobalStorage.instance.resourcesManager;
+            resourcesIcons = resourcesManager.GetAllResourcesIcons();
+        }
 
+        isResourceDeficit = false;
         isCreating = createMode;
 
         currentSpell = spell;
 
         spellName.text = spell.spellName;
         icon.sprite = spell.icon;
-        level.text = spell.level.ToString();
+        level.text = "Level " + spell.level;
+        level.color = (isFirstSpell == false) ? upgradeColor : normalColor;
 
         manaCost.text = spell.manaCost.ToString();
         duration.text = (spell.actionTime != 0) ? spell.actionTime.ToString() : "-";
         reloading.text = spell.reloading.ToString();
 
+        string value = spell.value.ToString();
+        string radius = spell.radius.ToString();
+        string actionTime = spell.actionTime.ToString();
+
+        if(isFirstSpell == false)
+        {
+            manaCost.color = (previousSpell.manaCost != spell.manaCost) ? upgradeColor : normalColor;
+            duration.color = (previousSpell.actionTime != spell.actionTime) ? upgradeColor : normalColor;
+            reloading.color = (previousSpell.reloading != spell.reloading) ? upgradeColor : normalColor;
+
+            if(spell.value != previousSpell.value)
+                value = "<color=#FF7E00><b>" + spell.value + "</b></color>";
+            if(spell.radius != previousSpell.radius)
+                radius = "<color=#FF7E00><b>" + spell.radius + "</b></color>";
+            if(spell.actionTime != previousSpell.actionTime)
+                actionTime = "<color=#FF7E00><b>" + spell.actionTime + "</b></color>";
+        }
+
+        //value = (spell.value != previousSpell.value) ? ("< color =#FF8822>" + spell.value + "</color>") : spell.value.ToString();
+        //radius = (spell.radius != previousSpell.radius) ? ("< color =#FF8822>" + spell.radius + "</color>") : spell.radius.ToString();
+        //actionTime = (spell.actionTime != previousSpell.actionTime) ? ("< color =#FF8822>" + spell.actionTime + "</color>") : spell.actionTime.ToString();
+
         description.text = spell.description
-            .Replace("$V", spell.value.ToString())
-            .Replace("$R", spell.radius.ToString())
-            .Replace("$T", spell.actionTime.ToString());
+            .Replace("$V", value)
+            .Replace("$R", radius)
+            .Replace("$T", actionTime);
 
-        //foreach(var item in spell.cost)
-        //{
+        FillCost();
 
-        //}
         Refactoring(isFirstSpell, createMode);
+    }
+
+    private void FillCost()
+    {
+        for(int i = 0; i < currentSpell.cost.Count; i++)
+        {
+            costIconsList[i].transform.parent.gameObject.SetActive(false);
+        }
+
+        for(int i = 0; i < currentSpell.cost.Count; i++)
+        {
+            costIconsList[i].transform.parent.gameObject.SetActive(true);
+            costIconsList[i].sprite = resourcesIcons[currentSpell.cost[i].type];
+            costAmountList[i].text = currentSpell.cost[i].amount.ToString();
+            bool isEnough = resourcesManager.CheckMinResource(currentSpell.cost[i].type, currentSpell.cost[i].amount);
+            costAmountList[i].color = (isEnough == true) ? normalColor : warningColor;
+
+            if(isEnough == false)
+            {
+                isResourceDeficit = true;
+            }
+        }
     }
 
     private void Refactoring(bool isFirstSpell, bool createMode)
@@ -76,29 +135,37 @@ public class SpellDetailUI : MonoBehaviour
         }
     }
 
+    //Button
     public void TryToAction()
     {
+        if(isResourceDeficit == true)
+        {
+            InfotipManager.ShowWarning("You do not have enough Resources for this action.");
+            return;
+        }
+
         confirmBlock.SetActive(true);
     }
 
+    //Button
     public void Action()
     {
-        if(isCreating == true)
-            Create();
-        else
-            Upgrade();
-
-
-        confirmBlock.SetActive(true);
+        Pay();
+        workroom.UpgradeSpell(currentSpell);
+        Close();
     }
 
-    private void Create()
+    //Button
+    public void Close()
     {
-
+        confirmBlock.SetActive(false);
     }
 
-    private void Upgrade()
+    private void Pay()
     {
-
+        for(int i = 0; i < currentSpell.cost.Count; i++)
+        {
+            resourcesManager.ChangeResource(currentSpell.cost[i].type, -currentSpell.cost[i].amount);
+        }
     }
 }

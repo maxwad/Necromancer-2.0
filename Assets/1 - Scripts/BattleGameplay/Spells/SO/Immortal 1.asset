@@ -23,4 +23,7 @@ MonoBehaviour:
   actionTime: 20
   reloading: 3
   icon: {fileID: 2704745366019506510, guid: 54d98c65c3b37744baea457e9292557a, type: 3}
+  cost:
+  - type: 6
+    amount: 50
   description: Makes units immortal for $T seconds.

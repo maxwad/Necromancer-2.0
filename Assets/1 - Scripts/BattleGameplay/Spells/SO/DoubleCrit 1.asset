@@ -17,10 +17,13 @@ MonoBehaviour:
   type: 0
   level: 1
   hasPreSpell: 0
-  manaCost: 1
+  manaCost: 40
   value: 100
   radius: 0
   actionTime: 10
-  reloading: 3
+  reloading: 200
   icon: {fileID: 3687465974505754858, guid: 54d98c65c3b37744baea457e9292557a, type: 3}
+  cost:
+  - type: 6
+    amount: 50
   description: All damage becomes critical for $T seconds.

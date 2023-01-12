@@ -37,7 +37,8 @@ public class SpellButtonController : MonoBehaviour, IPointerEnterHandler, IPoint
     private HeroController hero;
     private SpellLibrary spellLibrary;
 
-    private TooltipTrigger tooltipTrigger;
+    [SerializeField] private TooltipTrigger tooltipTrigger;
+    [SerializeField] private InfotipTrigger infotip;
 
     public void PreInit(BattleUISpellPart uiPart, int numberOfSlot)
     {
@@ -46,8 +47,10 @@ public class SpellButtonController : MonoBehaviour, IPointerEnterHandler, IPoint
         preSpellLibrary = spellLibrary.GetComponent<PreSpellLibrary>();
         resourcesManager = GlobalStorage.instance.resourcesManager;
         boostManager = GlobalStorage.instance.boostManager;
-        tooltipTrigger = GetComponent<TooltipTrigger>();
+
+        tooltipTrigger.enabled = true;
         tooltipTrigger.content = "This slot is empty";
+        infotip.enabled = false;
 
         battleUISpellPart = uiPart;
 
@@ -74,7 +77,9 @@ public class SpellButtonController : MonoBehaviour, IPointerEnterHandler, IPoint
         description += " (Cost: " + spell.manaCost;
         description += " Reload: " + spell.reloading + " sec.)";
 
-        tooltipTrigger.content = description;
+        tooltipTrigger.enabled = false;
+        infotip.enabled = true;
+        infotip.SetSpell(newSpell);
 
         if(coroutine != null) StopCoroutine(coroutine);
         coroutine = StartCoroutine(CheckDisabling());

@@ -23,4 +23,7 @@ MonoBehaviour:
   actionTime: 10
   reloading: 3
   icon: {fileID: -5365382889195923796, guid: 54d98c65c3b37744baea457e9292557a, type: 3}
+  cost:
+  - type: 6
+    amount: 50
   description: Increases weapon size by $V% for $T seconds.

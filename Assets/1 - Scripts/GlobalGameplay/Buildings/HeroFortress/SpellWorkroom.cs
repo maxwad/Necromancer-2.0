@@ -27,6 +27,17 @@ public class SpellWorkroom : SpecialBuilding
             spellManager = GlobalStorage.instance.spellManager;
         }
 
+        ResetForm();
+
+        gameObject.SetActive(true);
+        return gameObject;
+    }
+
+
+    #region SETTINGS
+
+    private void ResetForm()
+    {
         ResetSpellStorage();
 
         findedSpells = spellManager.GetFindedSpells();
@@ -35,14 +46,7 @@ public class SpellWorkroom : SpecialBuilding
         InitSpellStorage();
 
         EnableDetails(false, false);
-
-
-        gameObject.SetActive(true);
-        return gameObject;
     }
-
-
-    #region SETTINGS
 
     private void ResetSpellStorage()
     {
@@ -97,11 +101,6 @@ public class SpellWorkroom : SpecialBuilding
         return spellManager.GetSpelLevel(spell);
     }
 
-    public SpellSO GetCurrentSpell()
-    {
-        return currentSpell;
-    }
-
     #endregion
 
     public void ShowSpellsDetails()
@@ -121,14 +120,33 @@ public class SpellWorkroom : SpecialBuilding
         }
 
         EnableDetails(true, nextLevelMode);
-        currentSpellDetails.FillData(this, currentSpell, true, createMode);
+        currentSpellDetails.FillData(this, currentSpell, null, true, createMode);
 
         if(nextLevelMode == true)
         {
             SpellSO nextLevelSpell = spellManager.GetNextLevelSpell(currentSpell);
-            nextLevelSpellDetails.FillData(this, nextLevelSpell, false, false);
+            nextLevelSpellDetails.gameObject.SetActive(true);
+            nextLevelSpellDetails.FillData(this, nextLevelSpell, currentSpell, false, false);
         }
+        else
+        {
+            nextLevelSpellDetails.gameObject.SetActive(false);
+        }
+    }
 
-        Debug.Log("fill details");
+    public void UpgradeSpell(SpellSO spell)
+    {
+        spellManager.UpgradeSpell(spell.spell);
+
+        ResetForm();
+
+        foreach(var item in spellItemUIList)
+        {
+            if(item.CheckSpell(currentSpell.spell))
+            {
+                item.Select();
+                break;
+            }
+        }
     }
 }
