@@ -29,6 +29,8 @@ public class SpellDetailUI : MonoBehaviour
     [SerializeField] private GameObject upgradeLabel;
     [SerializeField] private GameObject confirmBlock;
     [SerializeField] private GameObject createBlock;
+    [SerializeField] private GameObject levelUpWarning;
+    [SerializeField] private GameObject levelUpButton;
 
 
     private SpellWorkroom workroom;
@@ -76,22 +78,18 @@ public class SpellDetailUI : MonoBehaviour
             if(spell.actionTime != previousSpell.actionTime)
                 actionTime = "<color=#FF7E00><b>" + spell.actionTime + "</b></color>";
         }
-
-        //value = (spell.value != previousSpell.value) ? ("< color =#FF8822>" + spell.value + "</color>") : spell.value.ToString();
-        //radius = (spell.radius != previousSpell.radius) ? ("< color =#FF8822>" + spell.radius + "</color>") : spell.radius.ToString();
-        //actionTime = (spell.actionTime != previousSpell.actionTime) ? ("< color =#FF8822>" + spell.actionTime + "</color>") : spell.actionTime.ToString();
-
+        
         description.text = spell.description
             .Replace("$V", value)
             .Replace("$R", radius)
             .Replace("$T", actionTime);
 
-        FillCost();
+        FillCost(isFirstSpell);
 
         Refactoring(isFirstSpell, createMode);
     }
 
-    private void FillCost()
+    private void FillCost(bool isFirstSpell)
     {
         for(int i = 0; i < currentSpell.cost.Count; i++)
         {
@@ -110,6 +108,14 @@ public class SpellDetailUI : MonoBehaviour
             {
                 isResourceDeficit = true;
             }
+        }
+
+        if(isFirstSpell == false)
+        {
+            int level = workroom.GetWorkroomLevel();
+
+            levelUpWarning.SetActive(currentSpell.level > level);
+            levelUpButton.SetActive(currentSpell.level <= level);
         }
     }
 

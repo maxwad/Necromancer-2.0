@@ -97,12 +97,10 @@ public class BattleUISpellPart : MonoBehaviour
 
         currentActiveSpells.Clear();
 
-        currentSpells = GlobalStorage.instance.spellManager.GetCurrentSpells();
+        currentSpells = GlobalStorage.instance.spellManager.GetSpellsForBattle();
         if(currentSpells.Count == 0) return;
 
         countOfActiveSpells = (int)playerStats.GetCurrentParameter(PlayersStats.Spell);
-
-        Debug.Log("I can use " + countOfActiveSpells + " spells");
 
         int counter = (currentSpells.Count < countOfActiveSpells) ? currentSpells.Count : countOfActiveSpells;
         realNumberOfSpells = counter;
@@ -114,9 +112,7 @@ public class BattleUISpellPart : MonoBehaviour
             allSpellButtons[i].InitializeButton(currentSpells[i]);
         }
     }
-
-
-    
+        
     public bool CheckBattleOver()
     {
         return battleUIManager.isBattleOver;

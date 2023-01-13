@@ -6,10 +6,20 @@ using static NameManager;
 
 public class SpellManager : MonoBehaviour
 {
+    private PlayerStats playerStats;
+
     [SerializeField] private List<SpellSO> allSpells;
     private List<SpellSO> readySpells = new List<SpellSO>();
     private Dictionary<Spells, int> spellsLevels = new Dictionary<Spells, int>();
     private Dictionary<Spells, SpellSO> findedSpells = new Dictionary<Spells, SpellSO>();
+
+    private List<Spells> spellsInStorage = new List<Spells>();
+    private List<Spells> spellsForBattle = new List<Spells>();
+
+    private void Start()
+    {
+        playerStats = GlobalStorage.instance.playerStats;
+    }
 
     public void UnlockSpell(SpellSO spell)
     {
@@ -45,12 +55,14 @@ public class SpellManager : MonoBehaviour
             if(itemSpell.spell == spell)
             {
                 readySpells.Remove(itemSpell);
-                readySpells.Add(findedSpells[spell]);
                 break;
             }
         }
 
-        Debug.Log("Spell " + spell + " is " + spellsLevels[spell] + " level now!");
+        readySpells.Add(findedSpells[spell]);
+
+        if(level == 1) 
+            spellsInStorage.Add(findedSpells[spell].spell);
     }
 
     #region GETTINGS
@@ -106,5 +118,58 @@ public class SpellManager : MonoBehaviour
         return null;
     }
 
+    public List<SpellSO> GetSpellsForBattle()
+    {
+        List<SpellSO> tempList = new List<SpellSO>();
+
+        foreach(var spell in spellsForBattle)
+            tempList.Add(findedSpells[spell]);
+
+        return tempList;
+    }
+
+    public List<SpellSO> GetSpellsForStorage()
+    {
+        List<SpellSO> tempList = new List<SpellSO>();
+
+        foreach(var spell in spellsInStorage)
+            tempList.Add(findedSpells[spell]);
+
+        return tempList;
+    }
+
     #endregion
+
+    #region WORKROOM
+
+    public bool SwitchSpells(Spells spell, bool isFromStorage)
+    {
+        if(isFromStorage == true)
+        {
+            if(playerStats.GetCurrentParameter(PlayersStats.Spell) < spellsForBattle.Count + 1)
+            {
+                InfotipManager.ShowWarning("You no longer have free spell slots.");
+                return false;
+            }
+        }
+
+        List<Spells> source = (isFromStorage == true) ? spellsInStorage : spellsForBattle;
+        List<Spells> target = (isFromStorage == true) ? spellsForBattle : spellsInStorage;
+
+        foreach(var spellItem in source)
+        {
+            if(spellItem == spell)
+            {
+                target.Add(spell);
+                break;
+            }
+        }
+
+        source.Remove(spell);
+
+        return true;
+    }
+
+    #endregion
+
 }

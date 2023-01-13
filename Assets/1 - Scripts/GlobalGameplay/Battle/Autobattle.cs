@@ -79,7 +79,7 @@ public class Autobattle : MonoBehaviour
     public void StartCalculating()
     {
         playersArmy = playersArmyScript.GetPlayersArmyForAutobattle();
-        currentSpells = spellManager.GetCurrentSpells();
+        currentSpells = spellManager.GetSpellsForBattle();
 
         isAttackMode = autobattleUI.GetAttackMode();
         isManaMode = autobattleUI.GetManaMode();

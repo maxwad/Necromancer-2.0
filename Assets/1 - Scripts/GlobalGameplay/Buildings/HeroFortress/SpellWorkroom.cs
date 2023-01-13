@@ -7,6 +7,7 @@ using static NameManager;
 public class SpellWorkroom : SpecialBuilding
 {
     private SpellManager spellManager;
+    private FortressBuildings allBuildings;
 
     private Dictionary<Spells, SpellSO> findedSpells = new Dictionary<Spells, SpellSO>();
 
@@ -25,6 +26,7 @@ public class SpellWorkroom : SpecialBuilding
         if(spellManager == null)
         {
             spellManager = GlobalStorage.instance.spellManager;
+            allBuildings = GlobalStorage.instance.fortressBuildings;
         }
 
         ResetForm();
@@ -99,6 +101,11 @@ public class SpellWorkroom : SpecialBuilding
     public int GetSpellLevel(Spells spell)
     {
         return spellManager.GetSpelLevel(spell);
+    }
+
+    public int GetWorkroomLevel()
+    {
+        return allBuildings.GetBuildingsLevel(CastleBuildings.SpellWorkroom);
     }
 
     #endregion

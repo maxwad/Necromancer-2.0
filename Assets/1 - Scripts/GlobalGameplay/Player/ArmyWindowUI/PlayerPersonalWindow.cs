@@ -26,7 +26,9 @@ public class PlayerPersonalWindow : MonoBehaviour
 
     [Header("Hero Part")]
     [SerializeField] private GameObject heroBlock;
-    //[SerializeField] private GameObject tombBlock;
+
+    [Header("Spell Part")]
+    [SerializeField] private SpellWindow spellUI;
 
     [Header("Buttons")]
     [SerializeField] private GameObject commonButtonsBlock;
@@ -168,6 +170,7 @@ public class PlayerPersonalWindow : MonoBehaviour
 
         enemyArmyUIPart.Init(enemyArmy);
         macroLevelUI.Init();
+        spellUI.Init();
     }
 
     public void CloseWindow()
@@ -180,8 +183,6 @@ public class PlayerPersonalWindow : MonoBehaviour
         currentEnemy = null;
 
         MenuManager.instance.MiniPause(false);
-        //GlobalStorage.instance.ModalWindowOpen(false);
-        //gmInterface.ShowInterfaceElements(true);
     }
 
     private void Refactoring()
@@ -189,7 +190,6 @@ public class PlayerPersonalWindow : MonoBehaviour
         playerCuriosity = GlobalStorage.instance.playerStats.GetCurrentParameter(PlayersStats.Curiosity);
 
         enemyBlock.SetActive(false);
-        //tombBlock.SetActive(false);
 
         closeButton.SetActive(true);
         battleButton.SetActive(false);
@@ -275,12 +275,14 @@ public class PlayerPersonalWindow : MonoBehaviour
         }
     }
 
+    //Button
     public void ToTheBattle()
     {
         CloseWindow();
         GlobalStorage.instance.battleManager.InitializeBattle();
     }
 
+    //Button
     public void AutoBattle()
     {
         GlobalStorage.instance.battleManager.AutoBattle();
