@@ -73,7 +73,8 @@ public static class NameManager
         Cannonball,
         SquadSlot,
         SpellEffect,
-        PushCircle
+        PushCircle,
+        RuneUI
 
     }
 
@@ -120,7 +121,8 @@ public static class NameManager
         Exp, 
         Mana,
         Health,
-        Units
+        Units,
+        Shards
     }
 
     public enum ResourceBuildings

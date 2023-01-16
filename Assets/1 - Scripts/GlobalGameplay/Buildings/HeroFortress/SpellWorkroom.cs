@@ -103,9 +103,10 @@ public class SpellWorkroom : SpecialBuilding
         return spellManager.GetSpelLevel(spell);
     }
 
-    public int GetWorkroomLevel()
+    public float GetWorkroomEffect()
     {
-        return allBuildings.GetBuildingsLevel(CastleBuildings.SpellWorkroom);
+        //return allBuildings.GetBuildingsLevel(CastleBuildings.SpellWorkroom);
+        return allBuildings.GetBonusAmount(CastleBuildingsBonuses.SpellLevel);
     }
 
     #endregion

@@ -87,6 +87,8 @@ GameObject:
   - component: {fileID: 6022524530438166137}
   - component: {fileID: 8232763356137295986}
   - component: {fileID: 3710406887581380463}
+  - component: {fileID: 8012110295945267182}
+  - component: {fileID: 8619643289269173103}
   m_Layer: 0
   m_Name: RuneWRItem
   m_TagString: Untagged
@@ -114,7 +116,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 70, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8232763356137295986
 CanvasRenderer:
@@ -154,6 +156,41 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &8012110295945267182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 897686359719529007}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e32d5b6946faabe4bbe754b768cbc843, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tipsType: 5
+--- !u!114 &8619643289269173103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 897686359719529007}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18391a545fa539447a305a50606ef15e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  icon: {fileID: 9204323085645296548}
+  bg: {fileID: 1020524617976305838}
+  countBG: {fileID: 7349946035539577982}
+  countText: {fileID: 2142781125887763770}
+  levelColors:
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.58431375, g: 0.20392157, b: 0.019607844, a: 1}
+  - {r: 0.48235294, g: 0.48235294, b: 0.48235294, a: 1}
+  - {r: 1, g: 0.57254905, b: 0, a: 1}
+  infotip: {fileID: 8012110295945267182}
 --- !u!1 &1361479633939144190
 GameObject:
   m_ObjectHideFlags: 0
@@ -339,7 +376,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: -5}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 40, y: 20}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &6331787315225998077

@@ -9,13 +9,13 @@ public class ResourcesManager : MonoBehaviour
     private PlayerStats playerStats;
     private MacroLevelUpManager macroLevelUpManager;
 
-    public float startGold   = 100;
-    public float startFood   = 100;
-    public float startStone  = 10;
-    public float startWood   = 10;
-    public float startIron   = 10;
-    public float startMana   = 10;
-    public float startHealth = 100;
+    //public float startGold   = 100;
+    //public float startFood   = 100;
+    //public float startStone  = 10;
+    //public float startWood   = 10;
+    //public float startIron   = 10;
+    //public float startMana   = 10;
+    //public float startHealth = 100;
 
     public float maxMana;
     public float maxHealth;
@@ -29,6 +29,8 @@ public class ResourcesManager : MonoBehaviour
     public Sprite expIcon;
     public Sprite manaIcon;
     public Sprite healthIcon;
+    public Sprite unitIcon;
+    public Sprite shardsIcon;
 
     public Dictionary<ResourceType, float> resourcesDict;
 
@@ -49,18 +51,23 @@ public class ResourcesManager : MonoBehaviour
             [ResourceType.Iron]   = ironIcon,
             [ResourceType.Exp]    = expIcon,
             [ResourceType.Mana]   = manaIcon,
-            [ResourceType.Health] = healthIcon
+            [ResourceType.Health] = healthIcon,
+            [ResourceType.Shards] = shardsIcon,
+            [ResourceType.Units]  = unitIcon
         };
 
         resourcesDict = new Dictionary<ResourceType, float>()
         {
-            [ResourceType.Gold]   = startGold,
-            [ResourceType.Food]   = startFood,
-            [ResourceType.Stone]  = startStone,
-            [ResourceType.Wood]   = startWood,
-            [ResourceType.Iron]   = startIron,
-            [ResourceType.Mana]   = startMana,
-            [ResourceType.Health] = startHealth
+            [ResourceType.Gold]   = 0,
+            [ResourceType.Food]   = 0,
+            [ResourceType.Stone]  = 0,
+            [ResourceType.Wood]   = 0,
+            [ResourceType.Iron]   = 0,
+            [ResourceType.Mana]   = 0,
+            [ResourceType.Health] = 0,
+            [ResourceType.Shards] = 0,
+            [ResourceType.Units]  = 0
+
         };
     }
 

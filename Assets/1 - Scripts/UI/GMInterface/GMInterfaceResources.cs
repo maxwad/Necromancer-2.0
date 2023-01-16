@@ -17,6 +17,8 @@ public class GMInterfaceResources : MonoBehaviour
     [SerializeField] private TMP_Text woodCount;
     [SerializeField] private TMP_Text stoneCount;
     [SerializeField] private TMP_Text ironCount;
+    [SerializeField] private TMP_Text shardsCount;
+    [SerializeField] private TMP_Text unitsCount;
     private Dictionary<ResourceType, TMP_Text> resourceCounters = new Dictionary<ResourceType, TMP_Text>();
 
     [Header("Deltas")]
@@ -25,26 +27,32 @@ public class GMInterfaceResources : MonoBehaviour
     [SerializeField] private GameObject woodContainer;
     [SerializeField] private GameObject stoneContainer;
     [SerializeField] private GameObject ironContainer;
+    [SerializeField] private GameObject shardsContainer;
+    [SerializeField] private GameObject unitsContainer;
     private Dictionary<ResourceType, GameObject> deltaContainers = new Dictionary<ResourceType, GameObject>();
 
     private void Awake()
     {
         resourceCounters = new Dictionary<ResourceType, TMP_Text>()
         {
-            [ResourceType.Gold] = goldCount,
-            [ResourceType.Food] = foodCount,
-            [ResourceType.Stone] = stoneCount,
-            [ResourceType.Wood] = woodCount,
-            [ResourceType.Iron] = ironCount
+            [ResourceType.Gold]   = goldCount,
+            [ResourceType.Food]   = foodCount,
+            [ResourceType.Stone]  = stoneCount,
+            [ResourceType.Wood]   = woodCount,
+            [ResourceType.Iron]   = ironCount,
+            [ResourceType.Shards] = shardsCount,
+            [ResourceType.Units]  = unitsCount,
         };
 
         deltaContainers = new Dictionary<ResourceType, GameObject>()
         {
-            [ResourceType.Gold] = goldContainer,
-            [ResourceType.Food] = foodContainer,
-            [ResourceType.Stone] = stoneContainer,
-            [ResourceType.Wood] = woodContainer,
-            [ResourceType.Iron] = ironContainer
+            [ResourceType.Gold]   = goldContainer,
+            [ResourceType.Food]   = foodContainer,
+            [ResourceType.Stone]  = stoneContainer,
+            [ResourceType.Wood]   = woodContainer,
+            [ResourceType.Iron]   = ironContainer,
+            [ResourceType.Shards] = shardsContainer,
+            [ResourceType.Units]  = unitsContainer
         };
     }
 

@@ -11,7 +11,7 @@ public class CampGame : MonoBehaviour
     private CampUI campUI;
     private ResourcesManager resourcesManager;
     private MacroLevelUpManager levelUpManager;
-    private RunesManager runesManager;
+    //private RunesManager runesManager;
 
     [Header("Parameters")]
     [SerializeField] private List<BonfireItemUI> cells;
@@ -44,7 +44,7 @@ public class CampGame : MonoBehaviour
 
         resourcesManager = GlobalStorage.instance.resourcesManager;
         levelUpManager = GlobalStorage.instance.macroLevelUpManager;
-        runesManager = GlobalStorage.instance.runesManager;
+        //runesManager = GlobalStorage.instance.runesManager;
 
         ResetCells();
         SetIndexes();
@@ -180,7 +180,7 @@ public class CampGame : MonoBehaviour
                 break;
 
             case CampReward.RuneDrawing:
-                runesManager.ChangeShardAmount(1);
+                resourcesManager.ChangeResource(ResourceType.Shards, 1);
                 break;
 
             case CampReward.Mana:

@@ -35,7 +35,7 @@ public class SpellDetailUI : MonoBehaviour
 
     private SpellWorkroom workroom;
     private SpellSO currentSpell;
-    private bool isCreating = false;
+    //private bool isCreating = false;
     private bool isResourceDeficit = false;
 
     public void FillData(SpellWorkroom room, SpellSO spell, SpellSO previousSpell, bool isFirstSpell, bool createMode)
@@ -48,7 +48,7 @@ public class SpellDetailUI : MonoBehaviour
         }
 
         isResourceDeficit = false;
-        isCreating = createMode;
+        //isCreating = createMode;
 
         currentSpell = spell;
 
@@ -112,10 +112,10 @@ public class SpellDetailUI : MonoBehaviour
 
         if(isFirstSpell == false)
         {
-            int level = workroom.GetWorkroomLevel();
+            float bonusAmount = workroom.GetWorkroomEffect();
 
-            levelUpWarning.SetActive(currentSpell.level > level);
-            levelUpButton.SetActive(currentSpell.level <= level);
+            levelUpWarning.SetActive(currentSpell.level > bonusAmount);
+            levelUpButton.SetActive(currentSpell.level <= bonusAmount);
         }
     }
 

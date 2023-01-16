@@ -11,8 +11,8 @@ public class RunesManager : MonoBehaviour
     [HideInInspector] public RunesStorage runesStorage;
     private RunesWindow runesWindow;
 
-    [HideInInspector] public List<RuneSO> availableRunes = new List<RuneSO>();
-    [HideInInspector] public List<RuneSO> hiddenRunes = new List<RuneSO>();
+    //[HideInInspector] public List<RuneSO> availableRunes = new List<RuneSO>();
+    //[HideInInspector] public List<RuneSO> hiddenRunes = new List<RuneSO>();
 
     private List<RuneSO[]> runesRows = new List<RuneSO[]>();
 
@@ -22,7 +22,7 @@ public class RunesManager : MonoBehaviour
 
     private float limitValue = -99;
 
-    private int shardOfRunes = 0;
+    //private int shardOfRunes = 0;
 
     public void Init()
     {
@@ -32,7 +32,7 @@ public class RunesManager : MonoBehaviour
         boostManager = GlobalStorage.instance.boostManager;
 
         runesStorage.Init();
-        availableRunes = runesStorage.GetAvailableRunes();
+        //availableRunes = runesStorage.GetAvailableRunes();
 
         for(int i = 0; i < 3; i++)
         {
@@ -228,8 +228,28 @@ public class RunesManager : MonoBehaviour
         }
     }
 
-    public void ChangeShardAmount(int delta)
+
+    #region RUNE WORKROOM
+
+    public List<RuneSO> GetRunesForStorage()
     {
-        shardOfRunes += delta;
+        List<RuneSO> runes = new List<RuneSO>();
+        List<RuneSO> allRunes = runesStorage.GetAvailableRunes();
+
+        foreach(var rune in allRunes)
+        {
+            if(rune.level == 1 && rune.source == BoostSender.Rune)
+                runes.Add(rune);
+        }
+
+        return runes;
     }
+
+    public Dictionary<RuneSO, int> GetCreatedRunes()
+    {
+        return runesStorage.GetCreatedRunes();
+    }
+
+    #endregion
+
 }

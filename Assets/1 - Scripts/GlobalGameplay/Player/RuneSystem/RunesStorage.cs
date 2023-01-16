@@ -11,6 +11,9 @@ public class RunesStorage : MonoBehaviour
     [HideInInspector] public List<RuneSO> calendarRunes = new List<RuneSO>();
     [HideInInspector] public List<RuneSO> enemySystemRunes = new List<RuneSO>();
 
+    private List<RuneSO> createdRunes = new List<RuneSO>();
+    private Dictionary<RuneSO, int> createdRunesDict = new Dictionary<RuneSO, int>();
+
     private RunesType[] runesTypes;
     private int maxRuneLevel = 4;
     private int bossRuneLevel = 2;
@@ -95,6 +98,9 @@ public class RunesStorage : MonoBehaviour
         availableRunes = SortingRunes(availableRunes);
     }
 
+
+    #region GETTINGS
+
     public RunesType[] GetRunesTypes()
     {
         return runesTypes;
@@ -169,4 +175,28 @@ public class RunesStorage : MonoBehaviour
     {
         return enemySystemRunes;
     }
+
+    #endregion
+
+
+    #region RUNE WORKROOM
+
+    public void AddCreatedRune(RuneSO rune)
+    {
+        if(createdRunesDict.ContainsKey(rune) == true)
+        {
+            createdRunesDict[rune]++;
+        }
+        else
+        {
+            createdRunesDict.Add(rune, 1);
+        }
+    }
+
+    public Dictionary<RuneSO, int> GetCreatedRunes()
+    {
+        return createdRunesDict;
+    }
+
+    #endregion
 }
