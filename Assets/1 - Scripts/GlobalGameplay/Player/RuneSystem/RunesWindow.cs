@@ -7,7 +7,7 @@ using static NameManager;
 
 public class RunesWindow : MonoBehaviour
 {
-    private RunesManager runesManager;
+    private RunesSystem runesManager;
     private ObjectsPoolManager poolManager;
     private MacroLevelUpManager levelUpManager;
 
@@ -54,7 +54,7 @@ public class RunesWindow : MonoBehaviour
 
     private void Start()
     {
-        runesManager = GlobalStorage.instance.runesManager;
+        runesManager = GlobalStorage.instance.runesSystem;
         poolManager = GlobalStorage.instance.objectsPoolManager;
         grid = runesContainer.GetComponent<GridLayoutGroup>();
         levelUpManager = GlobalStorage.instance.macroLevelUpManager;

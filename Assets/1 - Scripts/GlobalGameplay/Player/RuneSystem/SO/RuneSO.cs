@@ -15,7 +15,7 @@ public class RuneSO : ScriptableObject
     public int level;
     public float value;
     public bool isInvertedRune = false;
-    public Cost[] cost;
+    public List<Cost> cost;
     public List<Cost> realCost;
     public string positiveDescription;
     public string negativeDescription;

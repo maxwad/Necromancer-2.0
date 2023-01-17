@@ -8,7 +8,7 @@ public class HeroController : MonoBehaviour
     private PlayerStats playerStats;
     private MacroLevelUpManager levelManager;
     private ResourcesManager resourcesManager;
-    private RunesManager runesManager;
+    private RunesSystem runesManager;
 
     [Header("Level up system")]
     [SerializeField] private float currentTempLevel;
@@ -265,7 +265,7 @@ public class HeroController : MonoBehaviour
             playerStats = GlobalStorage.instance.playerStats;
             resourcesManager = GlobalStorage.instance.resourcesManager;
             levelManager = GlobalStorage.instance.macroLevelUpManager;
-            runesManager = GlobalStorage.instance.runesManager;
+            runesManager = GlobalStorage.instance.runesSystem;
         }        
 
         ResetTempLevel(false);

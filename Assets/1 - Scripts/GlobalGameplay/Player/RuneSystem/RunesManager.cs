@@ -1,242 +1,226 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using static NameManager;
 
 public class RunesManager : MonoBehaviour
 {
-    private MacroLevelUpManager levelUpManager;
-    private BoostManager boostManager;
-    [HideInInspector] public RunesStorage runesStorage;
-    private RunesWindow runesWindow;
+    public List<RuneSO> runes;
+    [HideInInspector] public List<RuneSO> allSystemRunes = new List<RuneSO>();
+    [HideInInspector] public List<RuneSO> calendarRunes = new List<RuneSO>();
+    [HideInInspector] public List<RuneSO> enemySystemRunes = new List<RuneSO>();
 
-    //[HideInInspector] public List<RuneSO> availableRunes = new List<RuneSO>();
-    //[HideInInspector] public List<RuneSO> hiddenRunes = new List<RuneSO>();
-
-    private List<RuneSO[]> runesRows = new List<RuneSO[]>();
+    private List<RuneSO> createdRunes = new List<RuneSO>();
+    private List<RuneSO> createdRunesInBild = new List<RuneSO>();
+    private List<RuneSO> createdRunesFree = new List<RuneSO>();
+    private Dictionary<RuneSO, int> createdRunesDict = new Dictionary<RuneSO, int>();
 
     private RunesType[] runesTypes;
-    private Dictionary<RunesType, List<RuneBoost>> runeBoostesDict = new Dictionary<RunesType, List<RuneBoost>>();
-    private Dictionary<RunesType, float> commonBoostDict = new Dictionary<RunesType, float>();
-
-    private float limitValue = -99;
-
-    //private int shardOfRunes = 0;
+    private int maxRuneLevel = 4;
+    private int bossRuneLevel = 2;
 
     public void Init()
     {
-        runesStorage = gameObject.GetComponentInChildren<RunesStorage>();
-        runesWindow = GlobalStorage.instance.playerMilitaryWindow.GetComponentInChildren<RunesWindow>();
-        levelUpManager = GlobalStorage.instance.macroLevelUpManager;
-        boostManager = GlobalStorage.instance.boostManager;
+        runesTypes = new RunesType[Enum.GetValues(typeof(RunesType)).Length];
 
-        runesStorage.Init();
-        //availableRunes = runesStorage.GetAvailableRunes();
-
-        for(int i = 0; i < 3; i++)
+        int counter = 0;
+        foreach(RunesType itemType in Enum.GetValues(typeof(RunesType)))
         {
-            runesRows.Add(new RuneSO[(int)levelUpManager.GetMaxLevel()]);
+            runesTypes[counter] = itemType;
+            counter++;
+        }            
+
+        for(int i = 0; i < runes.Count; i++)
+        {
+            if(runes[i].source == BoostSender.Rune)
+            {
+                allSystemRunes.Add(runes[i]);
+                List<Cost> runeCost = allSystemRunes[i].cost;
+                for(int j = 0; j < runeCost.Count; j++)
+                {
+                    Cost realCost = new Cost();
+                    realCost.type = runeCost[j].type;
+                    realCost.amount = runeCost[j].amount * allSystemRunes[i].level;
+
+                    allSystemRunes[i].realCost[j] = realCost;
+                } 
+            }
+
+            if(runes[i].source == BoostSender.Calendar)
+            {
+                calendarRunes.Add(runes[i]);
+            }
+
+            if(runes[i].source == BoostSender.EnemySystem)
+            {
+                enemySystemRunes.Add(runes[i]);
+            }
+        }
+    }
+
+    public List<RuneSO> GetAvailableRunes()
+    {
+        return SortingRunes(createdRunesFree);
+    }
+
+    private List<RuneSO> SortingRunes(List<RuneSO> list)
+    {
+        List<RuneSO> sortedRunes = new List<RuneSO>();
+
+        for(int i = 0; i < runesTypes.Length; i++)
+        {
+            RunesType cyrrentType = runesTypes[i];
+
+            for(int level = maxRuneLevel; level > 0; level--)
+            {
+                foreach(var rune in list)
+                {
+                    if(rune.rune == cyrrentType && rune.level == level)
+                    {
+                        sortedRunes.Add(rune);
+                        //Debug.Log(cyrrentType);
+                    }
+                }
+            }
         }
 
-        runesTypes = runesStorage.GetRunesTypes();
-
-        foreach(var runeType in runesTypes)
-        {
-            runeBoostesDict[runeType] = new List<RuneBoost>();
-            commonBoostDict[runeType] = 0;
-        }
-
-        GlobalStorage.instance.LoadNextPart();
+        return sortedRunes;
     }
 
     public void FillCell(RuneSO rune)
     {
-        runesStorage.FillCell(rune);
+        //allSystemRunes.Remove(rune);
+        //allSystemRunes = SortingRunes(allSystemRunes);
+        //createdRunesInBild.Remove(rune);
+        //allSystemRunes = SortingRunes(allSystemRunes);
+
+        createdRunesFree.Remove(rune);
+        createdRunesFree = SortingRunes(createdRunesFree);
+
+        createdRunesInBild.Add(rune);
     }
 
     public void ClearCell(RuneSO rune)
     {
-        runesStorage.ClearCell(rune);
+        //allSystemRunes.Add(rune);
+        //allSystemRunes = SortingRunes(allSystemRunes);
+
+
+        createdRunesFree.Add(rune);
+        createdRunesFree = SortingRunes(createdRunesFree);
+
+        createdRunesInBild.Remove(rune);
     }
 
-    public void ApplyRune(int row, int cell, RuneSO rune)
+
+    #region GETTINGS
+
+    public RunesType[] GetRunesTypes()
     {
-        runesRows[row][cell] = rune;
-
-        ApplyEffect(row, cell, rune);
-
-        CheckOverflow();
+        return runesTypes;
     }
 
-    private void CheckOverflow()
+    public Sprite GetRuneIcon(RunesType type)
     {
-        RunesType overflowType;
-        bool finded = false;
-        int cell = 0;
-        int row = 1;
-
-        foreach(var boost in commonBoostDict)
+        Sprite icon;
+        
+        foreach(var rune in runes)
         {
-            if(boost.Value < limitValue)
+            if(rune.rune == type)
             {
-                Debug.Log("We find problem with " + boost.Key);
-                bool isRuneInverted = runesStorage.GetRuneInvertion(boost.Key);
-                overflowType = boost.Key;
-                List<RuneBoost> tempList = runeBoostesDict[overflowType];
-                for(int i = 0; i < tempList.Count; i++)
-                {
-                    if(isRuneInverted == true)
-                    {
-                        Debug.Log("Rune INVERTED");
-                        if(tempList[i].row == 1)
-                        {
-                            continue;
-                        }
-                        else
-                        {
-                            Debug.Log("Try to find overflow in positive cells");
-                            finded = true;
-                            cell = tempList[tempList.Count - 1].cell;
-                            row = tempList[tempList.Count - 1].row;
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        Debug.Log("Rune NOT inverted");
-                        if(tempList[i].row != 1)
-                        {
-                            continue;
-                        }
-                        else
-                        {
-                            Debug.Log("Try to find overflow in negative cells");
-                            finded = true;
-                            cell = tempList[tempList.Count - 1].cell;
-                            row = tempList[tempList.Count - 1].row;
-                            break;
-                        }
-                    }
-                    
-                }                
+                icon = rune.activeIcon;
+                return icon;
             }
         }
 
-        if(finded == true) runesWindow.FindAndClearRune(row, cell);
+        return null;
     }
 
-    private void ApplyEffect(int row, int cell, RuneSO rune)
+    public string GetRuneDescription(RunesType type, bool descriptionMode)
     {
-        RunesType currentType = RunesType.WeaponSpeed;
+        string text;
 
-        if(rune != null)
+        foreach(var rune in runes)
         {
-            runeBoostesDict[rune.rune].Add(new RuneBoost(row, cell, rune));
-            currentType = rune.rune;
-        }
-        else
-        {
-            bool isfinded = false;
-
-            for(int i = 0; i < runesTypes.Length; i++)
+            if(rune.rune == type)
             {
-                if(isfinded == true) break;
-
-                List<RuneBoost> checkList = runeBoostesDict[runesTypes[i]];
-                for(int j = 0; j < checkList.Count; j++)
-                {
-                    if(checkList[j].row == row && checkList[j].cell == cell)
-                    {
-                        checkList.Remove(checkList[j]);
-                        currentType = runesTypes[i];
-                        isfinded = true;
-                        break;
-                    }
-                }
+                text = (descriptionMode == true) ? rune.positiveDescription : rune.negativeDescription;
+                return text;
             }
         }
 
-        float result = 0;
-        List<RuneBoost> runeList = runeBoostesDict[currentType];
-
-        for(int i = 0; i < runeList.Count; i++)
-        {
-            result += runeList[i].boost;
-        }
-
-        commonBoostDict[currentType] = result;
-
-        runesWindow.UpdateParameters(currentType, result);
+        return "";
     }
 
-    public bool CanIUseThisRune(bool negativeMode, RuneSO rune)
+    public bool GetRuneInvertion(RunesType type)
     {
         bool result;
 
-        if(negativeMode == true)
+        foreach(var rune in runes)
         {
-            if(rune.isInvertedRune == false)
-                result = (commonBoostDict[rune.rune] - rune.value >= limitValue);
-            else
-                result = true;
-        }
-        else
-        {
-            if(rune.isInvertedRune == true)
-                result = (commonBoostDict[rune.rune] - rune.value >= limitValue);
-            else
-                result = true;
-        }
-
-        return result;  
-    }
-
-    public bool CanIReplaceThisRune(bool negativeMode, RuneSO oldRune, RuneSO newRune, int row, int cell)
-    {
-        bool result;
-
-        if(negativeMode == true)
-        {
-            if(newRune.isInvertedRune == false)
-                result = (commonBoostDict[oldRune.rune] - newRune.value + oldRune.value >= limitValue);
-            else
-                result = true;
-        }
-        else
-        {
-            if(newRune.isInvertedRune == true)
-                result = (commonBoostDict[oldRune.rune] - newRune.value + oldRune.value >= limitValue);
-            else
-                result = true;
-        }
-
-        return result;
-    }
-
-    public void TurnOnRune(float level)
-    {
-        foreach(var boostList in runeBoostesDict)
-        {
-            foreach(var boost in boostList.Value)
+            if(rune.rune == type)
             {
-                if(boost.cell == level)
-                {
-                    boostManager.SetBoost(EnumConverter.instance.RuneToBoostType(boostList.Key), BoostSender.Rune, BoostEffect.PlayerBattle, boost.boost);
-                }
-            }            
+                result = rune.isInvertedRune;
+                return result;
+            }
         }
+
+        return false;
     }
+
+    public RuneSO GetRuneForBoss()
+    {
+        RuneSO bossRune = null;
+        int count = 0;
+        while(bossRune == null)
+        {
+            int randomIndex = UnityEngine.Random.Range(0, enemySystemRunes.Count);
+            count++;
+
+            if(enemySystemRunes[randomIndex].level == bossRuneLevel && enemySystemRunes[randomIndex].rune == RunesType.EnemyHealth)
+            //if(enemySystemRunes[randomIndex].level == bossRuneLevel)
+                bossRune = enemySystemRunes[randomIndex];
+        }
+
+        return bossRune;
+    }
+
+    public List<RuneSO> GetEnemySystemRunes()
+    {
+        return enemySystemRunes;
+    }
+
+    #endregion
 
 
     #region RUNE WORKROOM
 
+    public void AddCreatedRune(RuneSO rune)
+    {
+        if(createdRunesDict.ContainsKey(rune) == true)
+        {
+            createdRunesDict[rune]++;
+        }
+        else
+        {
+            createdRunesDict.Add(rune, 1);
+        }
+
+        //createdRunes.Add(rune);
+        createdRunesFree.Add(rune);
+    }
+
+    public Dictionary<RuneSO, int> GetCreatedRunes()
+    {
+        return createdRunesDict;
+    }
+
     public List<RuneSO> GetRunesForStorage()
     {
         List<RuneSO> runes = new List<RuneSO>();
-        List<RuneSO> allRunes = runesStorage.GetAvailableRunes();
 
-        foreach(var rune in allRunes)
+        foreach(var rune in allSystemRunes)
         {
             if(rune.level == 1 && rune.source == BoostSender.Rune)
                 runes.Add(rune);
@@ -245,11 +229,43 @@ public class RunesManager : MonoBehaviour
         return runes;
     }
 
-    public Dictionary<RuneSO, int> GetCreatedRunes()
+    public RuneSO GetRune(RunesType type, int level)
     {
-        return runesStorage.GetCreatedRunes();
+        RuneSO newRune = null;
+
+        foreach(var rune in allSystemRunes)
+        {
+            if(rune.rune == type && rune.level == level)
+            {
+                newRune = rune;
+                break;
+            }
+        }
+
+        return newRune;
     }
 
-    #endregion
+    public List<RuneSO> GetRuneFamily(RunesType runeType)
+    {
+        List<RuneSO> runeList = new List<RuneSO>();
 
+        foreach(var rune in allSystemRunes)
+        {
+            if(rune.rune == runeType)
+                runeList.Add(rune);
+        }
+
+        return runeList;
+    }
+
+    public void DestroyRune()
+    {
+
+    }
+
+    public int GetRunesAmount(RuneSO rune)
+    {
+        return (createdRunesDict.ContainsKey(rune) == true) ? createdRunesDict[rune] : 0;
+    }
+    #endregion
 }

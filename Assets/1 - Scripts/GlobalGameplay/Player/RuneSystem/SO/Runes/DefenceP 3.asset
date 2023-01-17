@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86389294920170a4aaa2b768d66bee16, type: 3}
   m_Name: DefenceP 3
   m_EditorClassIdentifier: 
-  runeName: Physical Defence III
+  runeName: Physical Defence
   rune: 3
   source: 2
   activeIcon: {fileID: -5330882791057053021, guid: 108daa14e3115264995337bc498c548a, type: 3}
@@ -21,15 +21,15 @@ MonoBehaviour:
   value: 15
   isInvertedRune: 0
   cost:
-  - type: 7
-    amount: 50
+  - type: 9
+    amount: 3
   - type: 2
     amount: 100
   - type: 3
     amount: 300
   realCost:
-  - type: 7
-    amount: 150
+  - type: 9
+    amount: 9
   - type: 2
     amount: 300
   - type: 3

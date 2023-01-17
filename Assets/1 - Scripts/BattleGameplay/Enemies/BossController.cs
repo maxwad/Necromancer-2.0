@@ -28,7 +28,7 @@ public class BossController : MonoBehaviour
 
     [Header("Runes")]
     [HideInInspector] public RuneSO rune;
-    private RunesManager runesManager;
+    private RunesSystem runesManager;
     private BoostManager boostManager;
     private ObjectsPoolManager poolManager;
 
@@ -40,7 +40,7 @@ public class BossController : MonoBehaviour
         movementScript = GetComponent<EnemyMovement>();
         animatorScript = GetComponent<SimpleAnimator>();
         player = GlobalStorage.instance.battlePlayer;
-        runesManager = GlobalStorage.instance.runesManager;
+        runesManager = GlobalStorage.instance.runesSystem;
         boostManager = GlobalStorage.instance.boostManager;
         poolManager = GlobalStorage.instance.objectsPoolManager;
 

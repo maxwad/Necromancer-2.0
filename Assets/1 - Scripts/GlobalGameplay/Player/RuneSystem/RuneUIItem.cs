@@ -21,7 +21,7 @@ public class RuneUIItem : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDr
     [SerializeField] private InfotipTrigger infotip;
     private CanvasGroup canvasGroup;
 
-    private RunesManager runesManager;
+    private RunesSystem runesManager;
     private RunesWindow runesWindow;
     private Canvas dragdrop;
     private Transform currentParent;
@@ -34,7 +34,7 @@ public class RuneUIItem : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDr
         {
             infotip = GetComponent<InfotipTrigger>();
             canvasGroup = GetComponent<CanvasGroup>();
-            runesManager = GlobalStorage.instance.runesManager;
+            runesManager = GlobalStorage.instance.runesSystem;
             runesWindow = GlobalStorage.instance.playerMilitaryWindow.GetComponentInChildren<RunesWindow>();
             Canvas[] group = GlobalStorage.instance.playerMilitaryWindow.GetComponentsInChildren<Canvas>();
             dragdrop = group[group.Length - 1];

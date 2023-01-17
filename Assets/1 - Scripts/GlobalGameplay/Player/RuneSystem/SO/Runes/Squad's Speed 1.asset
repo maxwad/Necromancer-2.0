@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86389294920170a4aaa2b768d66bee16, type: 3}
   m_Name: Squad's Speed 1
   m_EditorClassIdentifier: 
-  runeName: Squad's Speed I
+  runeName: Squad's Speed
   rune: 7
   source: 2
   activeIcon: {fileID: -1308846124233723885, guid: 108daa14e3115264995337bc498c548a, type: 3}
@@ -21,15 +21,15 @@ MonoBehaviour:
   value: 10
   isInvertedRune: 0
   cost:
-  - type: 7
-    amount: 50
+  - type: 9
+    amount: 1
   - type: 2
     amount: 100
   - type: 3
     amount: 300
   realCost:
-  - type: 7
-    amount: 50
+  - type: 9
+    amount: 1
   - type: 2
     amount: 100
   - type: 3

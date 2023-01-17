@@ -8,7 +8,7 @@ using static NameManager;
 
 public class RunePlaceItem : MonoBehaviour, IDropHandler, IPointerClickHandler
 {
-    private RunesManager runesManager;
+    private RunesSystem runesManager;
     private RunesWindow runesWindow;
 
     public Image lockImage;
@@ -38,7 +38,7 @@ public class RunePlaceItem : MonoBehaviour, IDropHandler, IPointerClickHandler
 
     private void Start()
     {
-        runesManager = GlobalStorage.instance.runesManager;
+        runesManager = GlobalStorage.instance.runesSystem;
         runesWindow = GlobalStorage.instance.playerMilitaryWindow.GetComponentInChildren<RunesWindow>();
     }
 

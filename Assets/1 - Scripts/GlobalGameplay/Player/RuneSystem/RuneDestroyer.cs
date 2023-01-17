@@ -4,13 +4,13 @@ using UnityEngine.EventSystems;
 
 public class RuneDestroyer : MonoBehaviour, IDropHandler
 {
-    private RunesManager runesManager;
+    private RunesSystem runesManager;
     private RunesWindow runesWindow;
     private ResourcesManager resourcesManager;
 
     private void Start()
     {
-        runesManager = GlobalStorage.instance.runesManager;
+        runesManager = GlobalStorage.instance.runesSystem;
         runesWindow = GlobalStorage.instance.playerMilitaryWindow.GetComponentInChildren<RunesWindow>();
         resourcesManager = GlobalStorage.instance.resourcesManager;
     }

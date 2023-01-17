@@ -182,15 +182,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   icon: {fileID: 9204323085645296548}
+  selectBG: {fileID: 7590602117984947788}
   bg: {fileID: 1020524617976305838}
   countBG: {fileID: 7349946035539577982}
   countText: {fileID: 2142781125887763770}
+  infotip: {fileID: 8012110295945267182}
   levelColors:
   - {r: 1, g: 1, b: 1, a: 1}
   - {r: 0.58431375, g: 0.20392157, b: 0.019607844, a: 1}
   - {r: 0.48235294, g: 0.48235294, b: 0.48235294, a: 1}
   - {r: 1, g: 0.57254905, b: 0, a: 1}
-  infotip: {fileID: 8012110295945267182}
+  selectColor: {r: 0.5686275, g: 0, b: 1, a: 1}
+  disableColor: {r: 1, g: 1, b: 1, a: 0.39215687}
 --- !u!1 &1361479633939144190
 GameObject:
   m_ObjectHideFlags: 0

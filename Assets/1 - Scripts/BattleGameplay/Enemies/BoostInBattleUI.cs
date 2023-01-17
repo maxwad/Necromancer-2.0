@@ -9,7 +9,7 @@ public class BoostInBattleUI : MonoBehaviour
 {
     [SerializeField] private CanvasGroup canvas;
 
-    private RunesManager runesManager;
+    private RunesSystem runesManager;
 
     [SerializeField] private Image bg;
     [SerializeField] private Image icon;
@@ -37,7 +37,7 @@ public class BoostInBattleUI : MonoBehaviour
 
     public void Init(RunesType runeType, float value, bool constEffect = true, EffectType effectType = EffectType.Rune)
     {
-        if(runesManager == null) runesManager = GlobalStorage.instance.runesManager;
+        if(runesManager == null) runesManager = GlobalStorage.instance.runesSystem;
 
         bool isInvertedRune = runesManager.runesStorage.GetRuneInvertion(runeType);
         Sprite pict = runesManager.runesStorage.GetRuneIcon(runeType);

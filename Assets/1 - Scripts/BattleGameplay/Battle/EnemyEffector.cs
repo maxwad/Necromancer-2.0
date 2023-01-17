@@ -5,7 +5,7 @@ using static NameManager;
 
 public class EnemyEffector : MonoBehaviour
 {
-    private RunesManager runesManager;
+    private RunesSystem runesManager;
     private BoostManager boostManager;
     private BattleUIManager battleUI;
 
@@ -30,7 +30,7 @@ public class EnemyEffector : MonoBehaviour
     private void Start()
     {
         boostManager = GlobalStorage.instance.boostManager;
-        runesManager = GlobalStorage.instance.runesManager;
+        runesManager = GlobalStorage.instance.runesSystem;
         battleUI = GlobalStorage.instance.battleIUManager;
     }
 
