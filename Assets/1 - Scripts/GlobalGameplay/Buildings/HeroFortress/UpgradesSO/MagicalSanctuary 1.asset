@@ -34,6 +34,6 @@ MonoBehaviour:
     amount: 1000
   - type: 4
     amount: 1000
-  description: Finding information to create the Legendary Seal.
-  buildingDescription: Allows you to conduct an experiment to create a Legendary
-    Seal.
+  description: Stabilizes finded Soul Seal.
+  buildingDescription: Allows you create 1 Soul Seal and use it with another to fight
+    the Necromancer.

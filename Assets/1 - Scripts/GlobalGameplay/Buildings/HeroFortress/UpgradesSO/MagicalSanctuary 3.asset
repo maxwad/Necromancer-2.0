@@ -34,6 +34,7 @@ MonoBehaviour:
     amount: 1000
   - type: 4
     amount: 1000
-  description: Creating a Legendary Seal.
-  buildingDescription: Allows you to conduct an experiment to create a Legendary
-    Seal.
+  description: Neutralizes killed Necromancer's Vassals whose Souls are placed in
+    Soul Seal.
+  buildingDescription: Allows you create 1 Soul Seal and use it with another to fight
+    the Necromancer.

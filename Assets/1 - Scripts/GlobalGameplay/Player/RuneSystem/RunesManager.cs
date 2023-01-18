@@ -35,16 +35,7 @@ public class RunesManager : MonoBehaviour
         {
             if(runes[i].source == BoostSender.Rune)
             {
-                allSystemRunes.Add(runes[i]);
-                List<Cost> runeCost = allSystemRunes[i].cost;
-                for(int j = 0; j < runeCost.Count; j++)
-                {
-                    Cost realCost = new Cost();
-                    realCost.type = runeCost[j].type;
-                    realCost.amount = runeCost[j].amount * allSystemRunes[i].level;
-
-                    allSystemRunes[i].realCost[j] = realCost;
-                } 
+                allSystemRunes.Add(runes[i]);                
             }
 
             if(runes[i].source == BoostSender.Calendar)
@@ -229,22 +220,6 @@ public class RunesManager : MonoBehaviour
         return runes;
     }
 
-    public RuneSO GetRune(RunesType type, int level)
-    {
-        RuneSO newRune = null;
-
-        foreach(var rune in allSystemRunes)
-        {
-            if(rune.rune == type && rune.level == level)
-            {
-                newRune = rune;
-                break;
-            }
-        }
-
-        return newRune;
-    }
-
     public List<RuneSO> GetRuneFamily(RunesType runeType)
     {
         List<RuneSO> runeList = new List<RuneSO>();
@@ -258,9 +233,19 @@ public class RunesManager : MonoBehaviour
         return runeList;
     }
 
-    public void DestroyRune()
+    public bool CanIDestroyRune(RuneSO rune)
     {
+        return createdRunesFree.Contains(rune);
+    }
 
+    public void DestroyRune(RuneSO rune)
+    {
+        createdRunesDict[rune]--;
+
+        if(createdRunesDict[rune] == 0)
+            createdRunesDict.Remove(rune);
+
+        createdRunesFree.Remove(rune);
     }
 
     public int GetRunesAmount(RuneSO rune)

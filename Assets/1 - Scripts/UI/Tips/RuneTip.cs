@@ -10,6 +10,7 @@ public class RuneTip : MonoBehaviour
     private CanvasGroup canvas;
 
     public TMP_Text caption;
+    public TMP_Text level;
     public TMP_Text description;
     public Image bg;
 
@@ -25,6 +26,7 @@ public class RuneTip : MonoBehaviour
         if(canvas == null) canvas = GetComponent<CanvasGroup>();
 
         caption.text = rune.runeName;
+        level.text = "Level " + rune.level;
         string tempDescr = (isPositive == true) ? rune.positiveDescription : rune.negativeDescription;
 
         description.text = tempDescr.Replace("$", rune.value.ToString());

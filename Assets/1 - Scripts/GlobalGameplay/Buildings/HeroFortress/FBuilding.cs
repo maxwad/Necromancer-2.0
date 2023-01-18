@@ -321,6 +321,7 @@ public class FBuilding : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
             }
 
             allBuildings.ShowAllBuildings(false);
+            allBuildings.CloseDescription();
             door.Open(this);
         }
         else

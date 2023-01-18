@@ -26,16 +26,22 @@ public class RuneDetailsItem : MonoBehaviour
     private Color normalColor = Color.white;
     [SerializeField] private Color warningColor;
 
-    public void Init(RuneSO runeSO, int count, int maxCount, bool canICreate)
+    private bool isToExpensive = false;
+    private RuneWorkroom workroom;
+    private RuneSO rune;
+
+    public void Init(RuneWorkroom room, RuneSO runeSO, int count, int maxCount, bool canICreate)
     {        
         if(resourcesManager == null)
         {
             resourcesManager = GlobalStorage.instance.resourcesManager;
             resourcesIcons = resourcesManager.GetAllResourcesIcons();
+            workroom = room;
         }
 
         ResetForm();
 
+        rune = runeSO;
         level.text = "Level " + runeSO.level;
         description.text = runeSO.positiveDescription.Replace("$", runeSO.value.ToString());
 
@@ -62,6 +68,9 @@ public class RuneDetailsItem : MonoBehaviour
 
                 bool isResourceEnough = resourcesManager.CheckMinResource(runeSO.cost[i].type, runeSO.cost[i].amount);
                 costAmountList[i].color = (isResourceEnough == true) ? normalColor : warningColor;
+
+                if(isResourceEnough == false)
+                    isToExpensive = true;
             }
 
             createButton.SetActive(canICreate);
@@ -71,8 +80,40 @@ public class RuneDetailsItem : MonoBehaviour
 
     private void ResetForm()
     {
+        isToExpensive = false;
+
         createButton.SetActive(true);
         createWarning.SetActive(false);
         maxAmountWarning.SetActive(false);
+        CloseConfirm();
     }
+
+    //Button
+    public void TryToCreate()
+    {
+        //bool isToExpensive = detailsItems[index].GetPriceState();
+
+        if(isToExpensive == true)
+        {
+            InfotipManager.ShowWarning("You do not have enough Resources for this action.");
+            return;
+        }
+
+        workroom.CloseConfirms();
+        confirmBlock.SetActive(true);
+    }
+
+    //Button
+    public void CreateRune()
+    {
+        workroom.CreateRune(rune);
+        CloseConfirm();
+    }
+
+    //Button
+    public void CloseConfirm()
+    {
+        confirmBlock.SetActive(false);
+    }
+
 }

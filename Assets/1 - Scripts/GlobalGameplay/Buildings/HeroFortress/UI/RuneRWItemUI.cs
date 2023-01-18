@@ -62,7 +62,7 @@ public class RuneRWItemUI : MonoBehaviour, IPointerClickHandler
         }
         else
         {
-            workroom.SetRuneToDestroy(rune.rune, this);
+            workroom.SetRuneToDestroy(rune, this);
         }
     }
 

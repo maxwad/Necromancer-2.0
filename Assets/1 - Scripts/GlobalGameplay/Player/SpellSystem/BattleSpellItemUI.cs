@@ -55,18 +55,9 @@ public class BattleSpellItemUI : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log("LOCK " + isLocked);
-        if(isLocked == true)
-        {
-            Debug.Log("LOCK");
-            return;
-        }
+        if(isLocked == true) return;
 
-        if(currentSpell == null)
-        {
-            Debug.Log("NULL");
-            return;
-        }
+        if(currentSpell == null) return;
 
         spellWindow.SwitchSpells(currentSpell.spell, isSpellInStorage);
     }

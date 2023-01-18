@@ -34,6 +34,6 @@ MonoBehaviour:
     amount: 1000
   - type: 4
     amount: 1000
-  description: Preparation for the experiment.
-  buildingDescription: Allows you to conduct an experiment to create a Legendary
-    Seal.
+  description: Places the Souls of  killed Necromancer's Vassals in Soul Seal.
+  buildingDescription: Allows you create 1 Soul Seal and use it with another to fight
+    the Necromancer.

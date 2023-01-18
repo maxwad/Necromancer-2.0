@@ -22,9 +22,9 @@ MonoBehaviour:
   isInvertedRune: 0
   cost:
   - type: 9
-    amount: 1
+    amount: 3
   - type: 0
-    amount: 1000
+    amount: 500
   - type: 4
     amount: 500
   realCost:
