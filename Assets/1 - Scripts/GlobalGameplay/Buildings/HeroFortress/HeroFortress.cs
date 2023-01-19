@@ -22,6 +22,7 @@ public class HeroFortress : MonoBehaviour
     private int marketDays = 0;
     private int maxUnitLevel = 3;
     private int levelUpMultiplier = 10;
+    private int seals = 0;
 
     private bool isHeroInside = false;
     private bool isHeroVisitedOnThisWeek = false;
@@ -114,6 +115,16 @@ public class HeroFortress : MonoBehaviour
     public int GetLevelUpMultiplier()
     {
         return levelUpMultiplier;
+    }
+
+    public int GetSealsAmount()
+    {
+        return seals;
+    }
+
+    public void AddSeals()
+    {
+        seals++;
     }
 
     private void ActivateBonusesForHero()

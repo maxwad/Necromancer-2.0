@@ -59,6 +59,13 @@ public class ResourceBuildingData
     public float resourceBaseIncome;
 }
 
+[Serializable]
+public class ResourceColors
+{
+    public ResourceType resourceType;
+    public Color color;
+}
+
 #endregion
 
 

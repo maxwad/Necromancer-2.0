@@ -53,13 +53,13 @@ public class GMPlayerMovement : MonoBehaviour
         ChangeMovementPoints(movementPointsMax);
     }
 
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.PageUp))
-        {
-            ChangeMovementPoints(3);
-        }
-    }
+    //private void Update()
+    //{
+    //    if(Input.GetKeyDown(KeyCode.PageUp))
+    //    {
+    //        ChangeMovementPoints(3);
+    //    }
+    //}
 
     public Vector3 GetCurrentPosition()
     {

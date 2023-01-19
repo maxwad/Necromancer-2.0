@@ -82,7 +82,7 @@ public class ResourceBuilding : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.PageUp))
+        if(Input.GetKeyDown(KeyCode.R))
         {
             StartSiege();
         }

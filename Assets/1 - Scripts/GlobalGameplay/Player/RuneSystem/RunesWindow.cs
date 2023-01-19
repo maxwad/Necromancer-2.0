@@ -44,13 +44,13 @@ public class RunesWindow : MonoBehaviour
     public Color positiveEffect;
     public Color negativeEffect;
 
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            UpdateWindow();
-        }
-    }
+    //private void Update()
+    //{
+    //    if(Input.GetKeyDown(KeyCode.Space))
+    //    {
+    //        UpdateWindow();
+    //    }
+    //}
 
     private void Start()
     {

@@ -201,7 +201,11 @@ public class RuneWorkroom : SpecialBuilding
         runesManager.DestroyRune(currentRune);
 
         ResetForm();
-        currentRuneUI.Select();
+
+        if(runesManager.GetRunesAmount(currentRune) != 0)
+            currentRuneUI.Select();
+        else
+            destroyBlock.SetActive(false);
     }
 
     //Button

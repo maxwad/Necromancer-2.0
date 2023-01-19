@@ -60,7 +60,7 @@ public class BattleUIManager : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Backspace))
+        if(Input.GetKeyDown(KeyCode.Tab))
         {
             if(GlobalStorage.instance.isGlobalMode == false) OpenLeaveBlock(!isLeaveBlockOpened);
         }
@@ -69,7 +69,7 @@ public class BattleUIManager : MonoBehaviour
         {
             if(GlobalStorage.instance.isGlobalMode == false && isBattleOver == false) Victory();
         }
-        if(Input.GetKeyDown(KeyCode.Delete))
+        if(Input.GetKeyDown(KeyCode.Backspace))
         {
             if(GlobalStorage.instance.isGlobalMode == false && isBattleOver == false) Defeat();
         }

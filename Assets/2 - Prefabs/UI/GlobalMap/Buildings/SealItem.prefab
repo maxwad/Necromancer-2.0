@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3023060454759500073}
   - component: {fileID: 6902605954552900514}
   - component: {fileID: 4641509513149553834}
+  - component: {fileID: 5499082606453455672}
   m_Layer: 0
   m_Name: SealItem
   m_TagString: Untagged
@@ -94,6 +95,20 @@ MonoBehaviour:
   visitedStatus: 
   notVisitedStatus: 
   status: 
+--- !u!114 &5499082606453455672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4427467937262625828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c67e3dc5c767cbf4b8db579f756864c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sealIcon: {fileID: 8142128377097900312}
+  tooltip: {fileID: 4641509513149553834}
 --- !u!1 &8142128377097900312
 GameObject:
   m_ObjectHideFlags: 0

@@ -160,7 +160,19 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7846614329974342919}
+        m_TargetAssemblyTypeName: SealResourceProgressItem, Assembly-CSharp
+        m_MethodName: ChangeResource
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 1
 --- !u!1 &5537460060559214550
 GameObject:
@@ -323,6 +335,7 @@ GameObject:
   - component: {fileID: 3203367578271839345}
   - component: {fileID: 3563340890886100923}
   - component: {fileID: 2859950334041009110}
+  - component: {fileID: 7846614329974342919}
   m_Layer: 0
   m_Name: SanctuaryResourceItem
   m_TagString: Untagged
@@ -389,6 +402,22 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7846614329974342919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6223847591441129845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e06729efc0805a44934f0e589e26dfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resToggle: {fileID: 1746015238468174986}
+  resIcon: {fileID: 7808378735841438238}
+  progressScale: {fileID: 9078655995891721365}
+  progressText: {fileID: 6783655541750897783}
 --- !u!1 &6303902639321674118
 GameObject:
   m_ObjectHideFlags: 0
