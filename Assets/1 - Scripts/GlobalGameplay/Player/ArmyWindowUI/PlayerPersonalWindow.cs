@@ -155,8 +155,6 @@ public class PlayerPersonalWindow : MonoBehaviour
         currentEnemy = enemyArmy;
 
         MenuManager.instance.MiniPause(true);
-        //GlobalStorage.instance.ModalWindowOpen(true);
-        //gmInterface.ShowInterfaceElements(false);
 
         isWindowOpened = true;
         currentMode = mode;
@@ -258,6 +256,7 @@ public class PlayerPersonalWindow : MonoBehaviour
             case PlayersWindow.Spells:
                 activeSpellsTab.SetActive(true);
                 spellsPanel.SetActive(true);
+                spellUI.Init();
                 break;
 
             case PlayersWindow.MicroLevelUp:
