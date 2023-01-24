@@ -375,6 +375,23 @@ public static class NameManager
         Nothing
     }
 
+    public enum AIState
+    {
+        Rest,
+        ToTheTarget
+    }
+
+    public enum AITaskType
+    {
+        Walking,
+        CastleAttack,
+        ResBuildingAttack,
+        PlayerAttack,
+        ArmyDescent,
+        ToTheTeleport,
+        ToTheResource
+    }
+
     #endregion
 
     #region BUILDINGS

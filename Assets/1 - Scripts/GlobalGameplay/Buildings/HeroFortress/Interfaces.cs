@@ -16,7 +16,7 @@ public interface IGarrison
 
 }
 
-public interface ISpecialBuilding 
-{
-    public void Init(CastleBuildings building);
-}
+//public interface ISpecialBuilding 
+//{
+//    public void Init(CastleBuildings building);
+//}

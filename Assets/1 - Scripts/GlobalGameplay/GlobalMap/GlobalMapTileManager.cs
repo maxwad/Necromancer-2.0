@@ -194,6 +194,10 @@ public class GlobalMapTileManager : MonoBehaviour
             {
                 enterPointsDict.Add(allBuildingsOnTheMap[i], pos);
                 SortingBuildings(allBuildingsOnTheMap[i], pos);
+
+                ClickableObject building = allBuildingsOnTheMap[i].GetComponent<ClickableObject>();
+                if(building != null)
+                    building.SetEnterPoint(pos);
             }
         }
     }

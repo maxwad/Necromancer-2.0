@@ -125,7 +125,6 @@ public class EnemyManager : MonoBehaviour
                 }
             }
 
-            Debug.Log("WAIT");
             yield return delay;
         }
 

@@ -32,6 +32,7 @@ public class GlobalStorage : MonoBehaviour
     public CalendarManager calendarManager;
     public TombsManager tombsManager;
     public CampManager campManager;
+    public AISystem aiSystem;
 
 
     [Header("UI")]

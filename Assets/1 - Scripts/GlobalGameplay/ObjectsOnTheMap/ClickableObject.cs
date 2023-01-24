@@ -17,6 +17,8 @@ public class ClickableObject : MonoBehaviour
     private CursorManager cursorManager;
     public CursorView cursor = CursorView.Default;
 
+    private Vector3 enterPoint;
+
     private void Start()
     {        
         cursorManager = GlobalStorage.instance.cursorManager;
@@ -141,6 +143,16 @@ public class ClickableObject : MonoBehaviour
         }
 
         if(isThereManager == false) GlobalStorage.instance.commonUIManager.OpenWindow(modeClick, true, this);
+    }
+
+    public Vector3 GetEnterPoint()
+    {
+        return enterPoint;
+    }
+
+    public void SetEnterPoint(Vector3 point)
+    {
+        enterPoint = point;
     }
 
     private void OnMouseEnter()

@@ -6,6 +6,7 @@ using UnityEngine.Tilemaps;
 public class CastleBuilder : MonoBehaviour
 {
     private GlobalMapTileManager gmManager;
+    private AISystem aiSystem;
 
     public Tilemap castlesMap;
     private List<Vector3> castlesPoints = new List<Vector3>();
@@ -15,7 +16,11 @@ public class CastleBuilder : MonoBehaviour
 
     public void Build(GlobalMapTileManager manager)
     {
-        if(gmManager == null) gmManager = manager;
+        if(gmManager == null)
+        {
+            gmManager = manager;
+            aiSystem = GlobalStorage.instance.aiSystem;
+        }
 
         List<Vector3Int> tempPoints = new List<Vector3Int>();
 
@@ -51,6 +56,8 @@ public class CastleBuilder : MonoBehaviour
             castle.transform.SetParent(castlesMap.transform);
 
             manager.AddBuildingToAllOnTheMap(castle);
+
+            aiSystem.RegisterCastle(castle);
         }
     }
 }
