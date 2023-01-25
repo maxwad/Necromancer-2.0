@@ -45,9 +45,16 @@ public class EnemySquadGenerator : MonoBehaviour
 
         if(typeOfArmy == TypeOfArmy.InCastle)
         {
-            currentStrength = ArmyStrength.High;
+            currentStrength = ArmyStrength.Extremely;
             canAutobattle = false;
             isSiege = true;
+        }
+
+        if(typeOfArmy == TypeOfArmy.Vassals)
+        {
+            currentStrength = ArmyStrength.High;
+            canAutobattle = false;
+            isSiege = false;
         }
 
         newArmy.strength = currentStrength;

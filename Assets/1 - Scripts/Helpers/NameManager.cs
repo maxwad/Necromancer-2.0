@@ -361,7 +361,8 @@ public static class NameManager
         InCastle, 
         InTomb, 
         InArena,
-        NearUsualObjects
+        NearUsualObjects,
+        Vassals
     }
 
     public enum CampReward
@@ -378,7 +379,8 @@ public static class NameManager
     public enum AIState
     {
         Rest,
-        ToTheTarget
+        ToTheTarget,
+        Siege
     }
 
     public enum AITaskType

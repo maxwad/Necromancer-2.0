@@ -6,10 +6,11 @@ using static NameManager;
 public class AISystem : MonoBehaviour
 {
     [SerializeField] private List<Color> castleColors;
-    [SerializeField] private int countOfActiveVassals = 3; 
+    [SerializeField] private List<string> castleOwners;
+    [SerializeField] private int countOfActiveVassals = 8; 
 
     private Dictionary<EnemyCastle, bool> castles = new Dictionary<EnemyCastle, bool>();
-    private List<EnemyCastle> inactiveCastles = new List<EnemyCastle>();
+    private List<GameObject> allCastles = new List<GameObject>();
     private int countOfCastles = 0;
 
     public void RegisterCastle(GameObject castle)
@@ -18,16 +19,19 @@ public class AISystem : MonoBehaviour
         if(newCastle != null)
         {
             castles.Add(newCastle, false);
-            inactiveCastles.Add(newCastle);
+            allCastles.Add(castle);
 
-            Color castleColor = new Color(Random.value, Random.value, Random.value);
+            Color castleColor = Color.black;
+            string name = "";
 
             if(castleColors.Count > countOfCastles)
                 castleColor = castleColors[countOfCastles];
 
-            newCastle.Init(countOfCastles, castleColor);
+            if(castleOwners.Count > countOfCastles)
+                name = castleOwners[countOfCastles];
 
-            Debug.Log("Init castle #" + countOfCastles);
+            newCastle.Init(castleColor, name);
+
             countOfCastles++;
         }
     }
@@ -65,6 +69,11 @@ public class AISystem : MonoBehaviour
 
         if(castles.Count == 0)
             Debug.Log("All Vassals are DEAD!");
+    }
+
+    public List<GameObject> GetCastles()
+    {
+        return allCastles;
     }
 
     private void OnEnable()

@@ -12,7 +12,7 @@ public class CastleBuilder : MonoBehaviour
     private List<Vector3> castlesPoints = new List<Vector3>();
     public GameObject castlePrefab;
 
-    public int castlesCount = 5;
+    public int castlesCount = 9;
 
     public void Build(GlobalMapTileManager manager)
     {

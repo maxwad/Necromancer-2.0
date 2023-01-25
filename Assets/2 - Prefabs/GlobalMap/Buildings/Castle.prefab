@@ -352,6 +352,7 @@ GameObject:
   - component: {fileID: 5700911332995632723}
   - component: {fileID: -5199070615615692616}
   - component: {fileID: 8117189599181198646}
+  - component: {fileID: -2808097499954195803}
   m_Layer: 0
   m_Name: Castle
   m_TagString: Untagged
@@ -441,8 +442,8 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.017440414, y: -0.27324525}
-  m_Size: {x: 1.1572777, y: 2.4630432}
+  m_Offset: {x: 0, y: -0.13}
+  m_Size: {x: 2.25, y: 2.7}
   m_Direction: 0
 --- !u!114 &8207068938826276944
 MonoBehaviour:
@@ -474,10 +475,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectType: 2
-  isItDoor: 0
+  isItDoor: 1
   isNormalUIWindow: 1
   canBeOpenedByClick: 1
-  canBeOpenedByMove: 0
+  canBeOpenedByMove: 1
   cursor: 4
 --- !u!114 &-5199070615615692616
 MonoBehaviour:
@@ -519,6 +520,21 @@ MonoBehaviour:
   defeatRestDays: 30
   completeRestDays: 15
   vassal: {fileID: 5639626389905118046}
+--- !u!114 &-2808097499954195803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6127745997532211408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85669c7f044a9274abda6aa778e664ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  commonCount: 0
+  typeOfArmy: 1
+  isEnemyGarrison: 1
 --- !u!1 &6228719348748490003
 GameObject:
   m_ObjectHideFlags: 0

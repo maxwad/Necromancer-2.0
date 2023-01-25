@@ -37,7 +37,7 @@ public class ClickableObject : MonoBehaviour
 
             if(isItDoor == false)
             {
-                CallManagerYouNeed(modeClick, isNormalUIWindow);
+                OpenObjectWindow(modeClick, isNormalUIWindow);
             }
             else
             {
@@ -46,7 +46,7 @@ public class ClickableObject : MonoBehaviour
         }
     }
 
-    private void CallManagerYouNeed(bool modeClick, bool modeUISize)
+    private void OpenObjectWindow(bool modeClick, bool modeUISize)
     {
         bool isThereManager = false;
 
@@ -91,6 +91,7 @@ public class ClickableObject : MonoBehaviour
     private void OpenDoorTo(bool modeClick)
     {
         bool isThereManager = false;
+        EnemyArmyOnTheMap enemy;
 
         switch(objectType)
         {
@@ -103,6 +104,13 @@ public class ClickableObject : MonoBehaviour
                 break;
 
             case TypeOfObjectOnTheMap.Castle:
+                enemy = gameObject.GetComponent<EnemyArmyOnTheMap>();
+
+                if(enemy != null && modeClick == false)
+                {
+                    enemy.PrepairToTheBattle();
+                    isThereManager = true;
+                }
                 break;
 
             case TypeOfObjectOnTheMap.ResourceBuilding:
@@ -118,7 +126,7 @@ public class ClickableObject : MonoBehaviour
                 break;
 
             case TypeOfObjectOnTheMap.Tomb:
-                EnemyArmyOnTheMap enemy = gameObject.GetComponent<EnemyArmyOnTheMap>();
+                enemy = gameObject.GetComponent<EnemyArmyOnTheMap>();
 
                 if(enemy != null && modeClick == false)
                     enemy.PrepairToTheBattle();

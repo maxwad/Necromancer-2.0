@@ -6,15 +6,45 @@ using static NameManager;
 
 public class Vassal : MonoBehaviour
 {
-    private int castleIndex;
+    private EnemyCastle myCastle;
+    private VassalAnimation animScript;
 
-    internal void Init(int index, Color castleColor)
+    private Vector3 startPosition;
+
+    private void Start()
     {
-        castleIndex = index;
-        GetComponent<SpriteRenderer>().color = castleColor;
+        StartCoroutine(WaitForEnterPoint());
     }
+
+    private IEnumerator WaitForEnterPoint()
+    {
+        while(startPosition == Vector3.zero)
+        {
+            yield return null;
+            startPosition = myCastle.GetStartPosition();
+        }
+
+        transform.position = startPosition;
+    }
+
+    public void Init(EnemyCastle castle, Color castleColor, string name)
+    {
+        myCastle = castle;
+
+        GetComponent<TooltipTrigger>().content = name;
+
+        animScript = GetComponent<VassalAnimation>();
+        animScript.Init(castleColor);
+
+    }
+    
     public void StartAction()
     {
-        
+        animScript.Activate(true);
+    }
+
+    private void GetArmy()
+    {
+
     }
 }

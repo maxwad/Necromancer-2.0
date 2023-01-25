@@ -17,8 +17,6 @@ public class EnemyCastle : MonoBehaviour
     private Vector3 enterPoint;
     private GameObject player;
 
-    private int castleIndex;
-
     private void Start()
     {       
         aiSystem = GlobalStorage.instance.aiSystem;
@@ -26,12 +24,13 @@ public class EnemyCastle : MonoBehaviour
         enterPoint = GetComponent<ClickableObject>().GetEnterPoint();
     }
 
-    internal void Init(int index, Color castleColor)
+    public void Init(Color castleColor, string name)
     {
         GetComponent<SpriteRenderer>().color = castleColor;
-        castleIndex = index;
+        GetComponent<TooltipTrigger>().header = name + "'s Castle";
+        gameObject.name = name + "'s Castle";
 
-        vassal.Init(index, castleColor);
+        vassal.Init(this, castleColor, name);
     }
 
     public bool Activate()
@@ -44,7 +43,6 @@ public class EnemyCastle : MonoBehaviour
             }
             else
             {
-                Debug.Log(gameObject.name + " is activated.");
                 vassal.StartAction();
                 isReady = false;
                 return true;
@@ -68,6 +66,11 @@ public class EnemyCastle : MonoBehaviour
     private bool IsPlayerHere()
     {
         return player.transform.position == enterPoint;
+    }
+
+    public Vector3 GetStartPosition()
+    {
+        return enterPoint;
     }
 
     private void OnEnable()

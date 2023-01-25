@@ -20,14 +20,18 @@ public class EnemyArmyOnTheMap : MonoBehaviour
     {
         if(sprite == null)
         {
-            sprite = GetComponent<SpriteRenderer>();
-            sprite.color = new Color(Random.value, Random.value, Random.value);
-
             battleManager = GlobalStorage.instance.battleManager;
             enemyManager = GlobalStorage.instance.enemyManager;
+
+            sprite = GetComponent<SpriteRenderer>();
         } 
 
         Birth();
+    }
+
+    public void Birth() 
+    {
+        StartCoroutine(Initialize());
     }
 
     private IEnumerator Initialize()
@@ -44,14 +48,12 @@ public class EnemyArmyOnTheMap : MonoBehaviour
         {
             commonCount += army.quantityList[i];
         }
-    }
 
-    public void Birth() 
-    {
-        StartCoroutine(Initialize());
-
-        if(isEnemyGarrison == false)
+        if(typeOfArmy == TypeOfArmy.NearUsualObjects || typeOfArmy == TypeOfArmy.OnTheMap)
+        {
+            sprite.color = new Color(Random.value, Random.value, Random.value);
             StartCoroutine(Blink(true));
+        }
     }
 
     public void Death(bool resetMode = false)
@@ -75,6 +77,17 @@ public class EnemyArmyOnTheMap : MonoBehaviour
 
     public void GrowUpSquads(float percent)
     {
+        if(typeOfArmy == TypeOfArmy.InCastle)
+        {
+
+            Debug.Log("Castle Grow");
+        }
+
+        if(typeOfArmy == TypeOfArmy.Vassals)
+        {
+
+            Debug.Log("Vassal Grow");
+        }
         float growUpConst = percent / 100;
         commonCount = 0;
 
