@@ -18,6 +18,8 @@ public class EnemyArmyOnTheMap : MonoBehaviour
 
     private void OnEnable()
     {
+        EventManager.ResetGarrisons += ResetGarrison;
+
         if(sprite == null)
         {
             battleManager = GlobalStorage.instance.battleManager;
@@ -27,6 +29,22 @@ public class EnemyArmyOnTheMap : MonoBehaviour
         } 
 
         Birth();
+    }
+
+    private void OnDisable()
+    {
+        EventManager.ResetGarrisons -= ResetGarrison;
+    }
+
+    private void ResetGarrison()
+    {
+        if(typeOfArmy != TypeOfArmy.NearUsualObjects 
+            && typeOfArmy != TypeOfArmy.OnTheMap 
+            && typeOfArmy != TypeOfArmy.Vassals)
+        {
+            gameObject.SetActive(false);
+            gameObject.SetActive(true);
+        }
     }
 
     public void Birth() 
@@ -40,6 +58,9 @@ public class EnemyArmyOnTheMap : MonoBehaviour
         {
             yield return null;
         }
+
+        if(typeOfArmy != TypeOfArmy.Vassals)
+            enemyManager.enemyArragement.RegisterEnemy(this);
 
         army = enemyManager.enemySquadGenerator.GenerateArmy(typeOfArmy);
         commonCount = 0;
@@ -60,16 +81,13 @@ public class EnemyArmyOnTheMap : MonoBehaviour
     {
         if(isEnemyGarrison == false)
         {
-            StartCoroutine(Blink(false));
+            if(typeOfArmy != TypeOfArmy.Vassals)
+                StartCoroutine(Blink(false));
         }
         else
         {
             if(resetMode == false)
             {
-                //ObjectOwner objectOwner = gameObject.GetComponent<ObjectOwner>();
-                //if(objectOwner != null)
-                //    objectOwner.SetVisitStatus();
-
                 Destroy(this);
             }
         }

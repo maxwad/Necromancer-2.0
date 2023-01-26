@@ -349,5 +349,17 @@ public static class EventManager
     public static event NewWeekEvent NewWeek;
     public static void OnNewWeekEvent(int counter) => NewWeek?.Invoke(counter);
 
+
+    //calls when start we need Reset Garrisons
+    //
+    //SUBSCRIBERS:
+    // - EnemyArmyOnTheMap
+    //
+    //ACTIVATION:
+    // - EnemyArragement
+    //
+    public delegate void ResetGarrisonsEvent();
+    public static event ResetGarrisonsEvent ResetGarrisons;
+    public static void OnResetGarrisonsEvent() => ResetGarrisons?.Invoke();
     #endregion
 }

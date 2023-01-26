@@ -182,6 +182,12 @@ public class GlobalMapTileManager : MonoBehaviour
         return enterPointsDict;
     }
 
+    public GMHexCell[,] GetRoads()
+    {
+        return roads;
+    }
+
+
     private void CreateEnterPointsForAllBuildings()
     {
         Vector3 pos;

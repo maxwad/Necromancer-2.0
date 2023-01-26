@@ -73,6 +73,11 @@ public class EnemyCastle : MonoBehaviour
         return enterPoint;
     }
 
+    public Vassal GetVassal()
+    {
+        return vassal;
+    }
+
     private void OnEnable()
     {
         EventManager.NewMove += CheckStatus;

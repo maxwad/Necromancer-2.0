@@ -9,12 +9,14 @@ public class GMPlayerPositionChecker : MonoBehaviour
     private GlobalMapPathfinder gmPathFinder;
     private GMPlayerMovement gmMovement;
     private EnemyManager enemyManager;
+    private AISystem aiSystem;
 
     private void Start()
     {
         gmPathFinder = GlobalStorage.instance.globalMap.GetComponent<GlobalMapPathfinder>();
-        gmMovement = GlobalStorage.instance.globalPlayer.GetComponent<GMPlayerMovement>();
+        gmMovement   = GlobalStorage.instance.globalPlayer.GetComponent<GMPlayerMovement>();
         enemyManager = GlobalStorage.instance.enemyManager;
+        aiSystem     = GlobalStorage.instance.aiSystem;
     }
 
     public void CheckPosition(Vector3 position)
@@ -51,6 +53,21 @@ public class GMPlayerPositionChecker : MonoBehaviour
         }
         else
         {
+            aiSystem.GetVassalsInfo();
+            foreach(var vassal in aiSystem.GetVassalsInfo())
+            {
+                if(position == vassal.transform.position)
+                {
+                    if(fightMode == true)
+                    {
+                        EnemyArmyOnTheMap vassalArmy = vassal.GetComponent<EnemyArmyOnTheMap>();
+                        gmMovement.StopMoving();
+                        vassalArmy.PrepairToTheBattle();
+                    }
+                    return true;
+                }
+            }
+
             return false;
         }
     }

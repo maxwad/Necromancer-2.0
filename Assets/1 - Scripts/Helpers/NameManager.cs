@@ -383,8 +383,9 @@ public static class NameManager
         Siege
     }
 
-    public enum AITaskType
+    public enum AITargetType
     {
+        Rest,
         Walking,
         CastleAttack,
         ResBuildingAttack,

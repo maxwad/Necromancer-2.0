@@ -12,10 +12,12 @@ GameObject:
   - component: {fileID: 493126992579842650}
   - component: {fileID: 4090940835287707599}
   - component: {fileID: 6642009642663684794}
-  - component: {fileID: 2513991103848835418}
-  - component: {fileID: 5258697124522501709}
   - component: {fileID: 1693301419365885824}
   - component: {fileID: 7534154321171624382}
+  - component: {fileID: 2513991103848835418}
+  - component: {fileID: 5258697124522501709}
+  - component: {fileID: 8923222324541537114}
+  - component: {fileID: 7630864296037192890}
   m_Layer: 0
   m_Name: Vassal
   m_TagString: GMEnemy
@@ -123,30 +125,6 @@ MonoBehaviour:
   canBeOpenedByClick: 1
   canBeOpenedByMove: 1
   cursor: 1
---- !u!114 &2513991103848835418
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 470147439979795499}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d3020ff7d0d340a45956604d96bf51e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &5258697124522501709
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 470147439979795499}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf0014884ab833c45b4366ace8514679, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1693301419365885824
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179,3 +157,58 @@ MonoBehaviour:
   commonCount: 0
   typeOfArmy: 5
   isEnemyGarrison: 0
+--- !u!114 &2513991103848835418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 470147439979795499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3020ff7d0d340a45956604d96bf51e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5258697124522501709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 470147439979795499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf0014884ab833c45b4366ace8514679, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8923222324541537114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 470147439979795499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03b2b04cac22f8b4a8091f95178eba5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actionRadius: 50
+  searchPlayerRadius: 15
+  movementPoints: 0
+--- !u!114 &7630864296037192890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 470147439979795499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba01e60f619ba3740b6ed1018c1933a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  testTile: {fileID: 11400000, guid: e24286bbf3d8d1d4492d2a005dddc4ed, type: 2}
+  movementPoints: 20
+  actionRadius: 50
+  searchPlayerRadius: 15

@@ -41,6 +41,8 @@ public class EnemyArragement : MonoBehaviour
         GenerateEnterEnemies();
         GenerateRandomEnemies();
 
+        EventManager.OnResetGarrisonsEvent();
+
         //GenerateGarrison(new List<GameObject>(tombsManager.GetTombs().Keys), TypeOfArmy.InTomb);
         //GenerateGarrison(new List<GameObject>(aiSystem.GetCastles()), TypeOfArmy.InCastle);
         //GenerateTombsGarrisons();
@@ -75,35 +77,35 @@ public class EnemyArragement : MonoBehaviour
     //    }
     //}
 
-    private void GenerateGarrison(List<GameObject> garrissonObjects, TypeOfArmy typeOfArmy)
-    {
-        foreach(var building in garrissonObjects)
-        {
-            ObjectOwner objectStatus = building.GetComponent<ObjectOwner>();
-            EnemyArmyOnTheMap enemyGarrison = building.GetComponent<EnemyArmyOnTheMap>();
+    //private void GenerateGarrison(List<GameObject> garrissonObjects, TypeOfArmy typeOfArmy)
+    //{
+    //    foreach(var building in garrissonObjects)
+    //    {
+    //        ObjectOwner objectStatus = building.GetComponent<ObjectOwner>();
+    //        EnemyArmyOnTheMap enemyGarrison = building.GetComponent<EnemyArmyOnTheMap>();
 
-            if(enemyGarrison == null)
-            {
-                if(objectStatus.GetVisitStatus() == false)
-                {
-                    //EnemyArmyOnTheMap newGarrison = building.AddComponent(typeof(EnemyArmyOnTheMap)) as EnemyArmyOnTheMap;
+    //        if(enemyGarrison == null)
+    //        {
+    //            if(objectStatus.GetVisitStatus() == false)
+    //            {
+    //                //EnemyArmyOnTheMap newGarrison = building.AddComponent(typeof(EnemyArmyOnTheMap)) as EnemyArmyOnTheMap;
 
-                    Debug.Log("Create");
-                    EnemyArmyOnTheMap newGarrison = new EnemyArmyOnTheMap();
-                    Debug.Log("After");
-                    newGarrison.typeOfArmy = typeOfArmy;
-                    newGarrison.isEnemyGarrison = true;
-                    newGarrison = building.AddComponent(typeof(EnemyArmyOnTheMap)) as EnemyArmyOnTheMap;
+    //                Debug.Log("Create");
+    //                EnemyArmyOnTheMap newGarrison = new EnemyArmyOnTheMap();
+    //                Debug.Log("After");
+    //                newGarrison.typeOfArmy = typeOfArmy;
+    //                newGarrison.isEnemyGarrison = true;
+    //                newGarrison = building.AddComponent(typeof(EnemyArmyOnTheMap)) as EnemyArmyOnTheMap;
 
-                    RegisterEnemy(newGarrison, building.transform.position);
-                }
-            }
-            else
-            {
-                enemyGarrison.Birth();
-            }
-        }
-    }
+    //                RegisterEnemy(newGarrison, building.transform.position);
+    //            }
+    //        }
+    //        else
+    //        {
+    //            enemyGarrison.Birth();
+    //        }
+    //    }
+    //}
     #region GUARD ENEMIES
 
     private void GenerateEnterEnemies()
@@ -220,9 +222,9 @@ public class EnemyArragement : MonoBehaviour
         enemyOnTheMap.transform.position = position;
         enemyOnTheMap.SetActive(true);
 
-        EnemyArmyOnTheMap army = enemyOnTheMap.GetComponent<EnemyArmyOnTheMap>();
+        //EnemyArmyOnTheMap army = enemyOnTheMap.GetComponent<EnemyArmyOnTheMap>();
         //enemiesPointsDict.Add(army, position);
-        RegisterEnemy(army, position);
+        //RegisterEnemy(army);
     }
 
     //private void CreateEnemyGarrison(Vector3 position, GameObject building)
@@ -234,8 +236,11 @@ public class EnemyArragement : MonoBehaviour
     //    }
     //}
 
-    public void RegisterEnemy(EnemyArmyOnTheMap enemyArmyOnTheMap, Vector3 position)
+    public void RegisterEnemy(EnemyArmyOnTheMap enemyArmyOnTheMap)
     {
-        enemiesPointsDict.Add(enemyArmyOnTheMap, position);
+        if(enemiesPointsDict.ContainsKey(enemyArmyOnTheMap) == false)
+        {
+            enemiesPointsDict.Add(enemyArmyOnTheMap, enemyArmyOnTheMap.gameObject.transform.position);
+        }
     }
 }

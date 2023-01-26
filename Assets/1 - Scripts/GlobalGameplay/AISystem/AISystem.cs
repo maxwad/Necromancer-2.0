@@ -76,6 +76,18 @@ public class AISystem : MonoBehaviour
         return allCastles;
     }
 
+    public List<Vassal> GetVassalsInfo()
+    {
+        List<Vassal> vassals = new List<Vassal>();
+        foreach(var item in castles)
+        {
+            if(item.Value == true)
+                vassals.Add(item.Key.GetVassal());
+        }
+
+        return vassals;
+    }
+
     private void OnEnable()
     {
         EventManager.NewMove += CheckStatus;

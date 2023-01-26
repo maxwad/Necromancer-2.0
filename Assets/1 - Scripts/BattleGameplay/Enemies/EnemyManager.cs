@@ -10,7 +10,7 @@ public class EnemyManager : MonoBehaviour
     public List<EnemiesTypes> allEnemiesTypes;
     public Dictionary<EnemiesTypes, EnemySO> allEnemiesSODict = new Dictionary<EnemiesTypes, EnemySO>();
 
-    private EnemyArragement enemyArragement;
+    [HideInInspector] public EnemyArragement enemyArragement;
     private Dictionary<EnemyArmyOnTheMap, Vector3> enemiesPointsDict = new Dictionary<EnemyArmyOnTheMap, Vector3>();
 
     [HideInInspector] public EnemySquadGenerator enemySquadGenerator;

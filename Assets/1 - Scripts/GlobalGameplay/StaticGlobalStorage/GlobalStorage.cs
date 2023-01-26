@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class GlobalStorage : MonoBehaviour
 {
@@ -66,6 +67,8 @@ public class GlobalStorage : MonoBehaviour
     [Header("Maps")]
     public GameObject globalMap;
     public GameObject battleMap;
+    public Tilemap roadMap;
+    public Tilemap overlayMap;
 
     [Header("Containers")]
     public GameObject effectsContainer;
