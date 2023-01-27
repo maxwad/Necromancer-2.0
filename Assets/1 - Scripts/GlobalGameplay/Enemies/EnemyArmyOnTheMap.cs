@@ -95,17 +95,6 @@ public class EnemyArmyOnTheMap : MonoBehaviour
 
     public void GrowUpSquads(float percent)
     {
-        if(typeOfArmy == TypeOfArmy.InCastle)
-        {
-
-            Debug.Log("Castle Grow");
-        }
-
-        if(typeOfArmy == TypeOfArmy.Vassals)
-        {
-
-            Debug.Log("Vassal Grow");
-        }
         float growUpConst = percent / 100;
         commonCount = 0;
 

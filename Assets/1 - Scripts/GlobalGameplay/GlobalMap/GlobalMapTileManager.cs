@@ -349,4 +349,14 @@ public class GlobalMapTileManager : MonoBehaviour
         gmPathfinder.CheckFog(true, startRadiusWithoutFog);
         gmPathfinder.SetEnterPoints(enterPointsDict);
     }
+
+    public bool CheckCellAsEnterPoint(Vector3 cell)
+    {
+        foreach(var enterPoint in enterPointsDict)
+        {
+            if(enterPoint.Value == cell) return true;
+        }
+
+        return false;
+    }
 }

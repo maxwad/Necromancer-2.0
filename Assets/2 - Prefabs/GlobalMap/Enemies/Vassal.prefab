@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 5258697124522501709}
   - component: {fileID: 8923222324541537114}
   - component: {fileID: 7630864296037192890}
+  - component: {fileID: 3729544244971170935}
   m_Layer: 0
   m_Name: Vassal
   m_TagString: GMEnemy
@@ -212,3 +213,16 @@ MonoBehaviour:
   movementPoints: 20
   actionRadius: 50
   searchPlayerRadius: 15
+  maxMovesCount: 10
+--- !u!114 &3729544244971170935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 470147439979795499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6898214a3138dba458f080ea3fa8b5c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
