@@ -7,39 +7,48 @@ using static NameManager;
 
 public class VassalTargetSelector : MonoBehaviour
 {
+    private Vassal mainAI;
     private VassalPathfinder pathfinder;
+    private VassalMovement movement;
 
     [SerializeField] private int actionRadius = 50;
     [SerializeField] private int searchPlayerRadius = 15;
-    [SerializeField] private float movementPoints;
 
     //private Tilemap roadMap;
     //[SerializeField] private Tile testTile;
 
-    private Vector3Int startPoint;
+    //private Vector3Int finishPoint;
 
-
-    public void HandleTarget(AITargetType target)
+    public void Init(Vassal vassal, VassalPathfinder pf, VassalMovement mv)
     {
-        if(pathfinder == null)
-        {
-            //roadMap = GlobalStorage.instance.roadMap;
-            pathfinder = GetComponent<VassalPathfinder>();
-            movementPoints = pathfinder.GetMovementPoints();
-            pathfinder.Init();
-        }
+        mainAI = vassal;
+        pathfinder = pf;
+        movement = mv;
+    }
+
+    public void HandleTarget(Vassal vassal, AITargetType target)
+    {
+        //if(pathfinder == null)
+        //{
+        //    mainAI = vassal;
+        //    //roadMap = GlobalStorage.instance.roadMap;
+        //    pathfinder = GetComponent<VassalPathfinder>();
+        //    movementPoints = pathfinder.GetMovementPoints();
+        //    //pathfinder.Init();
+        //}
 
         //startPoint = roadMap.WorldToCell(gameObject.transform.position);
 
 
-        pathfinder.FindRandomCell();
+        FindPathToRandomCell();
         switch(target)
         {
             case AITargetType.Rest:
                 return;
 
             case AITargetType.Walking:
-                //pathfinder.FindRandomCell(startPoint);
+                //FindPathToRandomCell();
+
                 break;
             case AITargetType.CastleAttack:
 
@@ -64,9 +73,22 @@ public class VassalTargetSelector : MonoBehaviour
         }
     }
 
-    private void FindRandomCell()
+    private void FindPathToRandomCell()
     {
-        List<Vector3Int> cells = new List<Vector3Int>();
+        List<Vector3> path;
 
+        Vector3Int finishPoint = pathfinder.FindRandomCell();
+        path = pathfinder.GetPath();
+
+        if(finishPoint != Vector3Int.zero && path.Count != 0)
+        {
+            Debug.Log("Target approved.");
+            movement.Movement(path);
+        }
+        else
+        {
+            Debug.Log("Target is wrong. Go for another.");
+            mainAI.SelectTarget();        
+        }
     }
 }

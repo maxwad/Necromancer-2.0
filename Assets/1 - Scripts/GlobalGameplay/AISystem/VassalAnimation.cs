@@ -18,4 +18,9 @@ public class VassalAnimation : MonoBehaviour
     {
         gameObject.SetActive(activeMode);
     }
+
+    public void FlipSprite(bool flipMode)
+    {
+        spriteRenderer.flipX = flipMode;
+    }
 }

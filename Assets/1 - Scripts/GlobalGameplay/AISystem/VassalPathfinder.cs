@@ -7,6 +7,7 @@ using static NameManager;
 
 public class VassalPathfinder : MonoBehaviour
 {
+    private VassalMovement movement;
     private GlobalMapTileManager tileManager;
 
     private Tilemap roadMap;
@@ -17,15 +18,20 @@ public class VassalPathfinder : MonoBehaviour
 
     private Vector3Int startPoint;
     private Vector3Int finishPoint;
+    private int movementPoints;
+
+
     [SerializeField] private Tile testTile;
-    [SerializeField] private int movementPoints = 20;
     [SerializeField] private int actionRadius = 50;
     [SerializeField] private int searchPlayerRadius = 15;
     [SerializeField] private int maxMovesCount = 10;
 
 
-    public void Init()
+    public void Init(VassalMovement mv)
     {
+        movement = mv;
+        movementPoints = movement.GetMovementPointsAmoumt();
+
         tileManager = GlobalStorage.instance.gmManager;
         roadMap = GlobalStorage.instance.roadMap;
         overlayMap = GlobalStorage.instance.overlayMap;
@@ -33,15 +39,14 @@ public class VassalPathfinder : MonoBehaviour
         roads = tileManager.GetRoads();
     }
 
-    public float GetMovementPoints()
+    public List<Vector3> GetPath()
     {
-        return movementPoints;
+        return currentPath;
     }
 
-    public void FindRandomCell()
+    public Vector3Int FindRandomCell()
     {
         startPoint = overlayMap.WorldToCell(gameObject.transform.position);
-        //Debug.Log(startPoint);
 
         int minX = ((startPoint.x - actionRadius) < 0) ? 0 : startPoint.x - actionRadius;
         int maxX = ((startPoint.x + actionRadius) >= roadMap.size.x) ? roadMap.size.x - 1 : startPoint.x + actionRadius;
@@ -49,9 +54,6 @@ public class VassalPathfinder : MonoBehaviour
         int minY = ((startPoint.y - actionRadius) < 0) ? 0 : startPoint.y - actionRadius;
         int maxY = ((startPoint.y + actionRadius) >= roadMap.size.y) ? roadMap.size.y - 1 : startPoint.y + actionRadius;
 
-
-        //Debug.Log("minX = " + minX + " maxX = " + maxX + " minY = " + minY + " maxY = " + maxY);
-        //Debug.Log("roadMap.size.x = " + roadMap.size.x + " roadMap.size.y = " + roadMap.size.y);
         List<Vector3Int> cells = new List<Vector3Int>();
 
         for(int i = minY; i < maxY; i++)
@@ -72,22 +74,17 @@ public class VassalPathfinder : MonoBehaviour
                 cells.Add(new Vector3Int(i, maxY, 0));
         }
 
-
-        //Debug.Log(cells.Count);
         for(int i = 0; i < cells.Count; i++)
         {
             overlayMap.SetTile(cells[i], testTile);
         }
 
-        finishPoint = GetFinishCell(cells);
-
-        if(finishPoint != Vector3Int.zero)
-            Move();
+        return GetFinishCell(cells);        
     }
 
     private Vector3Int GetFinishCell(List<Vector3Int> cells)
     {
-        Vector3Int result = Vector3Int.zero;
+        Vector3Int resultCell = Vector3Int.zero;
 
         int count = cells.Count;
         while(count > 0)
@@ -98,26 +95,24 @@ public class VassalPathfinder : MonoBehaviour
             if(tileManager.CheckCellAsEnterPoint(randomCellV3) == true)
             {
                 cells.Remove(randomCellInt);
-
-                Debug.Log("It's enterPoint");
                 continue;
             }
             else
             {
                 if(CheckMovesCount(randomCellInt) == true)
                 {
-                    result = randomCellInt;
+                    resultCell = randomCellInt;
                     break;
                 }
             }
         }
 
-        return result;
+        return resultCell;
     }
 
     private bool CheckMovesCount(Vector3Int finishCell)
     {
-        List<Vector3> path = CreatePath(startPoint, finishCell);
+        List<Vector3> path = CreatePath(finishCell);
 
         if(path == null) return false;
 
@@ -126,7 +121,7 @@ public class VassalPathfinder : MonoBehaviour
         return true;
     }
 
-    private List<Vector3> CreatePath(Vector3Int startCell, Vector3Int finishCell)
+    private List<Vector3> CreatePath(Vector3Int finishCell)
     {
         currentPath.Clear();
 
@@ -134,8 +129,9 @@ public class VassalPathfinder : MonoBehaviour
         List<GMHexCell> neighborsQueue = new List<GMHexCell>();
         List<GMHexCell> roadBack = new List<GMHexCell>();
 
-        GMHexCell firstPathCell = roads[startCell.x, startCell.y];
+        GMHexCell firstPathCell = roads[startPoint.x, startPoint.y];
 
+        Debug.Log("StartPoint = " + startPoint);
         bool isSearching = true;
         bool isDeadEnd = false;
 
@@ -198,12 +194,4 @@ public class VassalPathfinder : MonoBehaviour
         
         return null;
     }
-
-    private void Move()
-    {
-
-    }
-        
-
-
 }
