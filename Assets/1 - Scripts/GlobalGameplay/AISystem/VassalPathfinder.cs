@@ -131,7 +131,6 @@ public class VassalPathfinder : MonoBehaviour
 
         GMHexCell firstPathCell = roads[startPoint.x, startPoint.y];
 
-        Debug.Log("StartPoint = " + startPoint);
         bool isSearching = true;
         bool isDeadEnd = false;
 

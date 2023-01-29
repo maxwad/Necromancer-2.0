@@ -37,22 +37,14 @@ public class VassalMovement : MonoBehaviour
 
     private IEnumerator Moving(List<Vector3> pathPoints)
     {
-        //iAmMoving = true;
         Vector3 previousPosition = pathPoints[0];
         Vector3 currentPosition = pathPoints[0];
 
         for(int i = 1; i < pathPoints.Count; i++)
         {
             animationScript.FlipSprite(previousPosition.x - pathPoints[i].x < 0);
-            //sprite.flipX = previousPosition.x - pathPoints[i].x < 0 ? true : false;
 
-            if(currentMovementPoints == 0)
-            {                
-                break;
-            }
-
-            //gmPathFinder.ClearRoadTile(pathPoints[i - 1]);
-            //gmPathFinder.CheckFog(isFogNeeded, viewRadius);
+            if(currentMovementPoints == 0) break;
 
             Vector3 distance = pathPoints[i] - transform.position;
             Vector3 step = distance / (defaultCountSteps / speed);
@@ -68,29 +60,6 @@ public class VassalMovement : MonoBehaviour
             transform.position = pathPoints[i];
             previousPosition = pathPoints[i - 1];
             currentPosition = pathPoints[i];
-            //gmPathFinder.RefreshSteps(pathPoints[i]);
-
-            //if(cancelMovement == true) break;
-
-            //if(i + 1 < pathPoints.Count)
-            //{
-            //    if(CheckEnemy(pathPoints[i + 1]) == true) break;
-            //}
         }
-
-        //if(cancelMovement == false && currentMovementPoints != 0)
-        //{
-        //    if((Vector2)transform.position == pathPoints[pathPoints.Length - 1])
-        //    {
-        //        gmPathFinder.ClearRoadTile(pathPoints[pathPoints.Length - 1]);
-        //    }
-        //}
-
-        //if(currentMovementPoints == 0) CheckExtraMovement();
-
-        //iAmMoving = false;
-        //cancelMovement = false;
-
-        //CheckPosition();
     }
 }

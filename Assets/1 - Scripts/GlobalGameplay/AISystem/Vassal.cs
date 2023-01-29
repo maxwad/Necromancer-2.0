@@ -31,7 +31,7 @@ public class Vassal : MonoBehaviour
         movement = GetComponent<VassalMovement>();
         animScript = GetComponent<VassalAnimation>();
 
-        targetSelector.Init(this, pathfinder, movement);
+        targetSelector.Init(this, pathfinder, movement, animScript);
         pathfinder.Init(movement);
         movement.Init(animScript);
         animScript.Init(castleColor);
@@ -41,13 +41,6 @@ public class Vassal : MonoBehaviour
     {
         if(startPosition == Vector3.zero)
         {
-            Debug.Log("StartAction");
-            //targetSelector = GetComponent<VassalTargetSelector>();
-            ////targetSelector.Init(animScript);
-
-            //pathfinder = GetComponent<VassalPathfinder>();
-            //pathfinder.Init();
-
             startPosition = myCastle.GetStartPosition();
         }
 
@@ -73,6 +66,6 @@ public class Vassal : MonoBehaviour
     public void SelectTarget()
     {
         currentTarget = (AITargetType)UnityEngine.Random.Range(1, Enum.GetValues(typeof(AITargetType)).Length);
-        targetSelector.HandleTarget(this, currentTarget);
+        targetSelector.HandleTarget(currentTarget);
     }
 }

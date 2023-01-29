@@ -10,6 +10,7 @@ public class VassalTargetSelector : MonoBehaviour
     private Vassal mainAI;
     private VassalPathfinder pathfinder;
     private VassalMovement movement;
+    private VassalAnimation animScript;
 
     [SerializeField] private int actionRadius = 50;
     [SerializeField] private int searchPlayerRadius = 15;
@@ -19,14 +20,15 @@ public class VassalTargetSelector : MonoBehaviour
 
     //private Vector3Int finishPoint;
 
-    public void Init(Vassal vassal, VassalPathfinder pf, VassalMovement mv)
+    public void Init(Vassal vassal, VassalPathfinder pf, VassalMovement mv, VassalAnimation anim)
     {
         mainAI = vassal;
         pathfinder = pf;
         movement = mv;
+        animScript = anim;
     }
 
-    public void HandleTarget(Vassal vassal, AITargetType target)
+    public void HandleTarget(AITargetType target)
     {
         //if(pathfinder == null)
         //{
@@ -41,6 +43,8 @@ public class VassalTargetSelector : MonoBehaviour
 
 
         FindPathToRandomCell();
+        animScript.ShowAction(target.ToString());
+
         switch(target)
         {
             case AITargetType.Rest:
@@ -82,12 +86,10 @@ public class VassalTargetSelector : MonoBehaviour
 
         if(finishPoint != Vector3Int.zero && path.Count != 0)
         {
-            Debug.Log("Target approved.");
             movement.Movement(path);
         }
         else
         {
-            Debug.Log("Target is wrong. Go for another.");
             mainAI.SelectTarget();        
         }
     }
