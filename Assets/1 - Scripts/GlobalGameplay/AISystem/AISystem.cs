@@ -5,21 +5,25 @@ using static NameManager;
 
 public class AISystem : MonoBehaviour
 {
+    private GameMaster gameMaster;
+
     [SerializeField] private List<Color> castleColors;
     [SerializeField] private List<string> castleOwners;
     [SerializeField] private int countOfActiveVassals = 8; 
 
-    private Dictionary<EnemyCastle, bool> castles = new Dictionary<EnemyCastle, bool>();
-    private List<GameObject> allCastles = new List<GameObject>();
+    private Dictionary<EnemyCastle, bool> allCastles = new Dictionary<EnemyCastle, bool>();
+    //private List<GameObject> allCastlesGO = new List<GameObject>();
+    private List<EnemyCastle> activeCastles = new List<EnemyCastle>();
     private int countOfCastles = 0;
+    private int currentMover = 0;
 
     public void RegisterCastle(GameObject castle)
     {
         EnemyCastle newCastle = castle.GetComponent<EnemyCastle>();
         if(newCastle != null)
         {
-            castles.Add(newCastle, false);
-            allCastles.Add(castle);
+            allCastles.Add(newCastle, false);
+            //allCastlesGO.Add(castle);
 
             Color castleColor = Color.black;
             string name = "";
@@ -36,50 +40,88 @@ public class AISystem : MonoBehaviour
         }
     }
 
-    private void CheckStatus()
+    public void StartMoves()
     {
-        if(castles.Count == 0) return;
+        if(allCastles.Count == 0) EndMoves();
 
-        List<EnemyCastle> allCastles = new List<EnemyCastle>();
+        currentMover = 0;
+
+        List<EnemyCastle> passiveCastles = new List<EnemyCastle>();
         int activeVassals = 0;
 
-        foreach(var castle in castles)
+        foreach(var castle in allCastles)
         {
             if(castle.Value == false)
-                allCastles.Add(castle.Key);
+                passiveCastles.Add(castle.Key);
             else
                 activeVassals++;
         }
 
-        if(activeVassals < countOfActiveVassals && activeVassals < castles.Count)
+        if(activeVassals < countOfActiveVassals && activeVassals < allCastles.Count)
         {
-            int index = Random.Range(0, allCastles.Count);            
-            castles[allCastles[index]] = allCastles[index].Activate();
+            int index = Random.Range(0, passiveCastles.Count);
+            if(activeCastles.Contains(passiveCastles[index]) == false)
+            {
+                activeCastles.Add(passiveCastles[index]);
+                allCastles[passiveCastles[index]] = true;
+            }
         }
+
+        ActivateNextCastle();
+    }
+
+    private void ActivateNextCastle()
+    {
+        Debug.Log("currentMover = " + currentMover + "/" + activeCastles.Count);
+
+        if(currentMover >= activeCastles.Count)
+        {
+            EndMoves();
+        }
+        else
+        {
+            activeCastles[currentMover].Activate();
+            currentMover++;
+        }
+    }
+
+    public void CastleDoneMove()
+    {
+        ActivateNextCastle();
+    }
+
+    public void EndMoves()
+    {
+        if(gameMaster == null)
+            gameMaster = GlobalStorage.instance.gameMaster;
+
+        gameMaster.EndEnemyMoves();
     }
 
     public void CrusadeComplete(EnemyCastle castle)
     {
-        castles[castle] = false;
+        allCastles[castle] = false;
+        activeCastles.Remove(castle);
     }
 
     public void CastleIsDestroyed(EnemyCastle castle)
     {
-        castles.Remove(castle);
+        allCastles.Remove(castle);
+        countOfCastles--;
 
-        if(castles.Count == 0)
+        if(allCastles.Count == 0)
             Debug.Log("All Vassals are DEAD!");
     }
 
-    public List<GameObject> GetCastles()
-    {
-        return allCastles;
-    }
+    //public List<GameObject> GetCastles()
+    //{
+    //    return allCastlesGO;
+    //}
 
     public List<Vassal> GetVassalsInfo()
     {
         List<Vassal> vassals = new List<Vassal>();
-        foreach(var item in castles)
+        foreach(var item in allCastles)
         {
             if(item.Value == true)
                 vassals.Add(item.Key.GetVassal());
@@ -88,13 +130,13 @@ public class AISystem : MonoBehaviour
         return vassals;
     }
 
-    private void OnEnable()
-    {
-        EventManager.NewMove += CheckStatus;
-    }
+    //private void OnEnable()
+    //{
+    //    EventManager.NewMove += CheckStatus;
+    //}
 
-    private void OnDisable()
-    {
-        EventManager.NewMove -= CheckStatus;
-    }
+    //private void OnDisable()
+    //{
+    //    EventManager.NewMove -= CheckStatus;
+    //}
 }

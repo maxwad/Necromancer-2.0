@@ -9,7 +9,9 @@ public class GlobalStorage : MonoBehaviour
     [HideInInspector] public static GlobalStorage instance;
 
     [Header("Managers")]
+    public InputSystem inputSystem;
     public GameStarter gameStarter;
+    public GameMaster gameMaster;
     public ObjectsPoolManager objectsPoolManager;
     public MenuManager menuManager;
     public UnitManager unitManager;

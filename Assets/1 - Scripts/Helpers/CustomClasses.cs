@@ -253,6 +253,29 @@ public class Boost
 
 #endregion
 
+#region InputSystem
+public class InputAction
+{
+    public KeyActions keyAction;
+    public IInputable objectToActivate;
+
+    public InputAction(KeyActions k, IInputable o)
+    {
+        keyAction = k;
+        objectToActivate = o;
+    }
+}
+
+
+[Serializable]
+public class KeyAction
+{
+    public KeyCode key;
+    public KeyActions action;
+}
+
+#endregion
+
 #region NEW
 
 

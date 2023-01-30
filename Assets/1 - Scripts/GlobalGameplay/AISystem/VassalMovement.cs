@@ -6,15 +6,17 @@ using static NameManager;
 public class VassalMovement : MonoBehaviour
 {
     private VassalAnimation animationScript;
+    private VassalTargetSelector targetSelector;
 
     [SerializeField] private int movementPoints = 20;
     private int currentMovementPoints;
 
-    private float speed = 50f; //50 for build
-    private float defaultCountSteps = 1000;
+    private float speed = 25f; //50 for build
+    private float defaultCountSteps = 500;
 
-    public void Init(VassalAnimation animation)
+    public void Init(VassalTargetSelector ts, VassalAnimation animation)
     {
+        targetSelector = ts;
         animationScript = animation;
     }
 
@@ -60,6 +62,11 @@ public class VassalMovement : MonoBehaviour
             transform.position = pathPoints[i];
             previousPosition = pathPoints[i - 1];
             currentPosition = pathPoints[i];
+        }
+
+        if(currentMovementPoints == 0)
+        {
+            targetSelector.EndOfMove();
         }
     }
 }

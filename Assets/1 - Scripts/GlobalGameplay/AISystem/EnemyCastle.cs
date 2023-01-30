@@ -33,23 +33,22 @@ public class EnemyCastle : MonoBehaviour
         vassal.Init(this, castleColor, name);
     }
 
-    public bool Activate()
+    public void Activate()
     {
-        if(isReady == true)
+        if(IsPlayerHere() == true)
         {
-            if(IsPlayerHere() == true)
-            {
-                return false;
-            }
-            else
-            {
-                vassal.StartAction();
-                isReady = false;
-                return true;
-            }
+            EndOfMove();
         }
+        else
+        {
+            vassal.StartAction();
+            isReady = false;
+        }
+    }
 
-        return false;
+    public void EndOfMove()
+    {
+        aiSystem.CastleDoneMove();
     }
 
     private void CheckStatus()

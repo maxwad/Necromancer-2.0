@@ -6,12 +6,14 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 using TMPro;
+using static NameManager;
 
-public class MenuManager : MonoBehaviour
+public class MenuManager : MonoBehaviour, IInputable
 {
     public static MenuManager instance;
 
     private GMInterface gmInterface;
+    private InputSystem inputSystem;
 
     public bool canIOpenMenu = true;
     public bool isMainMenu;
@@ -81,17 +83,34 @@ public class MenuManager : MonoBehaviour
         LaodVideoOptions();
 
         gmInterface = GlobalStorage.instance.gmInterface;
+        RegisterInput();
     }
 
-    void Update()
+    public void RegisterInput()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && canIOpenMenu == true)
+        inputSystem = GlobalStorage.instance.inputSystem;
+        inputSystem.RegisterInput(KeyActions.Menu, this);
+    }
+
+    public void InputHandling(KeyActions keyAction)
+    {
+        if(canIOpenMenu == true)
         {
-            if (isMainMenu == false) CheckPause();
+            if(isMainMenu == false) CheckPause();
 
             CheckSubMenu();
         }
     }
+
+    //void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.Escape) && canIOpenMenu == true)
+    //    {
+    //        if (isMainMenu == false) CheckPause();
+
+    //        CheckSubMenu();
+    //    }
+    //}
 
     public bool IsTherePauseOrMiniPause()
     {

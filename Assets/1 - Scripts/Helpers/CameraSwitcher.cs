@@ -102,13 +102,4 @@ public class CameraSwitcher : MonoBehaviour
     }
 
 
-    //private void OnEnable()
-    //{
-    //    EventManager.ChangePlayMode += FadeIn;
-    //}
-
-    //private void OnDisable()
-    //{
-    //    EventManager.ChangePlayMode -= FadeIn;
-    //}
 }

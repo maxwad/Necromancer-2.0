@@ -475,5 +475,21 @@ public static class NameManager
         Requirements
     }
 
+    public enum KeyActions
+    {
+        Menu,
+        Army,
+        Skills,
+        Runes,
+        Spells,
+        Castle,
+        NewDay,
+        Teleport,
+        MoveUp,
+        MoveDown,
+        MoveRight,
+        MoveLeft
+
+    }
     #endregion
 }

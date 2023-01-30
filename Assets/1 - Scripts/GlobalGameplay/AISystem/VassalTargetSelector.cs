@@ -93,4 +93,9 @@ public class VassalTargetSelector : MonoBehaviour
             mainAI.SelectTarget();        
         }
     }
+
+    public void EndOfMove()
+    {
+        mainAI.EndOfMove();
+    }
 }

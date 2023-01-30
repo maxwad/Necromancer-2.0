@@ -1,11 +1,7 @@
-using System;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class GlobalCamera : MonoBehaviour
 {
-    private GameObject globalPlayer;
-
     public float minZOffset = 10;
     public float maxZOffset = 50;
     private float zoom = 0.25f;
@@ -27,10 +23,13 @@ public class GlobalCamera : MonoBehaviour
     private Vector3 difference;
 
     private Camera mainCamera;
+    private GameObject globalPlayer;
+    private GameObject observeObject;
 
     private void Awake()
     {
         Camera mainCamera = Camera.main;
+        globalPlayer = GlobalStorage.instance.player;
     }
 
     private void LateUpdate()
@@ -65,6 +64,8 @@ public class GlobalCamera : MonoBehaviour
             if(isDrag == true) mainCamera.transform.position = ClampPosition(origin - difference);
 
             //CheckMouseNearEdge();
+
+            //if(observeObject != null) Observation();
         }
     }
 
@@ -148,5 +149,14 @@ public class GlobalCamera : MonoBehaviour
         mainCamera.orthographicSize = size;
     }
 
+    public void SetObserveObject(GameObject obsObj = null)
+    {
+        observeObject = (obsObj == null) ? globalPlayer : obsObj;
+        transform.position = new Vector3(observeObject.transform.position.x, observeObject.transform.position.y, transform.position.z);
+    }
 
+    private void Observation()
+    {
+        transform.position = new Vector3(observeObject.transform.position.x, observeObject.transform.position.y, transform.position.z);
+    }
 }

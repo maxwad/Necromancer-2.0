@@ -14,6 +14,9 @@ public class Vassal : MonoBehaviour
     private VassalPathfinder pathfinder;
     private VassalMovement movement;
 
+    private GlobalCamera gmCamera;
+    private WaitForSeconds delay =  new WaitForSeconds(0.5f);
+
     private Vector3 startPosition;
     private AIState currentState = AIState.Rest;
     private AITargetType currentTarget = AITargetType.Rest;
@@ -33,8 +36,10 @@ public class Vassal : MonoBehaviour
 
         targetSelector.Init(this, pathfinder, movement, animScript);
         pathfinder.Init(movement);
-        movement.Init(animScript);
+        movement.Init(targetSelector, animScript);
         animScript.Init(castleColor);
+
+        gmCamera = Camera.main.GetComponent<GlobalCamera>();
     }
     
     public void StartAction()
@@ -45,8 +50,16 @@ public class Vassal : MonoBehaviour
         }
 
         transform.position = startPosition;
-
         animScript.Activate(true);
+        gmCamera.SetObserveObject(gameObject);
+
+        StartCoroutine(Action());
+    }
+
+    public IEnumerator Action()
+    {
+        yield return delay;
+
         GetArmy();
         SelectTarget();
     }
@@ -67,5 +80,17 @@ public class Vassal : MonoBehaviour
     {
         currentTarget = (AITargetType)UnityEngine.Random.Range(1, Enum.GetValues(typeof(AITargetType)).Length);
         targetSelector.HandleTarget(currentTarget);
+    }
+
+    public void EndOfMove()
+    {
+        StartCoroutine(Deactivation());
+    }
+
+    public IEnumerator Deactivation()
+    {
+        yield return delay;
+
+        myCastle.EndOfMove();
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using static NameManager;
 
-public class PlayerPersonalWindow : MonoBehaviour
+public class PlayerPersonalWindow : MonoBehaviour, IInputable
 {
     [SerializeField] private GameObject rootCanvas;
     [SerializeField] private CanvasGroup canvasGroup;
@@ -46,7 +46,8 @@ public class PlayerPersonalWindow : MonoBehaviour
     [SerializeField] private GameObject activeSpellsTab;
 
 
-    private GMInterface gmInterface;
+    //private GMInterface gmInterface;
+    private InputSystem inputSystem;
     private EnemyArmyOnTheMap currentEnemy;
     private MacroLevelWindow macroLevelUI;
     private RunesWindow runesWindow;
@@ -55,9 +56,9 @@ public class PlayerPersonalWindow : MonoBehaviour
 
 
     private PlayersWindow currentMode = PlayersWindow.Nothing;
-    private KeyCode lastPressedKey;
+    private KeyActions lastKeyAction;
 
-    private KeyCode currentKeyCode;
+    private KeyActions currentKeyAction;
     private PlayersWindow currentWindow;
 
     private void Start()
@@ -67,84 +68,81 @@ public class PlayerPersonalWindow : MonoBehaviour
         enemyArmyUIPart = GetComponent<EnemyArmyPart>();
         macroLevelUI = GetComponentInChildren<MacroLevelWindow>();
         runesWindow = GetComponentInChildren<RunesWindow>();
-        gmInterface = GlobalStorage.instance.gmInterface;
+        //gmInterface = GlobalStorage.instance.gmInterface;
+        RegisterInput();
     }
 
-    private void Update()
+    public void RegisterInput()
     {
-        if(Input.GetKeyDown(KeyCode.I))
-        {
-            currentKeyCode = KeyCode.I;
+        inputSystem = GlobalStorage.instance.inputSystem;
+        inputSystem.RegisterInput(KeyActions.Army, this);
+        inputSystem.RegisterInput(KeyActions.Skills, this);
+        inputSystem.RegisterInput(KeyActions.Runes, this);
+        inputSystem.RegisterInput(KeyActions.Spells, this);
+    }
+
+    public void InputHandling(KeyActions keyAction)
+    {
+        currentKeyAction = keyAction;
+
+        if(currentKeyAction == KeyActions.Army)
             currentWindow = PlayersWindow.PlayersArmy;
-        }
-        else if(Input.GetKeyDown(KeyCode.H))
-        {
-            currentKeyCode = KeyCode.H;
+
+        else if(currentKeyAction == KeyActions.Skills)
             currentWindow = PlayersWindow.MacroLevelUp;
-        }
-        else if(Input.GetKeyDown(KeyCode.U))
-        {
-            currentKeyCode = KeyCode.U;
+
+        else if(currentKeyAction == KeyActions.Runes)
             currentWindow = PlayersWindow.MicroLevelUp;
-        }
-        else if(Input.GetKeyDown(KeyCode.O))
-        {
-            currentKeyCode = KeyCode.O;
+
+        else if(currentKeyAction == KeyActions.Spells)
             currentWindow = PlayersWindow.Spells;
-        }
+
         else
-        {
             return;
-        }
 
         if(isWindowOpened == false)
         {
             if(MenuManager.instance.isGamePaused == false && GlobalStorage.instance.isModalWindowOpen == false)
             {
-                lastPressedKey = currentKeyCode;
+                lastKeyAction = currentKeyAction;
                 OpenWindow(currentWindow);
             }
         }
         else
         {
-            if(lastPressedKey == currentKeyCode)
+            if(lastKeyAction == currentKeyAction)
                 CloseWindow();
             else
             {
-                HandlingTabs(currentWindow, currentKeyCode);
+                HandlingTabs(currentWindow, currentKeyAction);
             }
         }
     }
 
-    public void PressButton(KeyCode key) 
+    public void PressButton(KeyActions keyAction) 
     {
-        currentKeyCode = key;
-        if(key == KeyCode.I)
-        {
+        currentKeyAction = keyAction;
+
+        if(currentKeyAction == KeyActions.Army)
             currentWindow = PlayersWindow.PlayersArmy;
-        }
-        else if(key == KeyCode.H)
-        {
+
+        else if(currentKeyAction == KeyActions.Skills)
             currentWindow = PlayersWindow.MacroLevelUp;
-        }
-        else if(key == KeyCode.U)
-        {
+
+        else if(currentKeyAction == KeyActions.Runes)
             currentWindow = PlayersWindow.MicroLevelUp;
-        }
-        else if(key == KeyCode.O)
-        {
+
+        else if(currentKeyAction == KeyActions.Spells)
             currentWindow = PlayersWindow.Spells;
-        }
+
         else
-        {
             return;
-        }
 
         if(isWindowOpened == false)
         {
             if(MenuManager.instance.isGamePaused == false && GlobalStorage.instance.isModalWindowOpen == false)
             {
-                lastPressedKey = currentKeyCode;
+                lastKeyAction = currentKeyAction;
                 OpenWindow(currentWindow);
             }
         }
@@ -162,7 +160,7 @@ public class PlayerPersonalWindow : MonoBehaviour
         Fading.instance.FadeWhilePause(true, canvasGroup);
                 
         Refactoring();
-        HandlingTabs(currentMode, lastPressedKey);
+        HandlingTabs(currentMode, lastKeyAction);
 
         playersArmyUIPart.UpdateArmyWindow();
 
@@ -229,7 +227,7 @@ public class PlayerPersonalWindow : MonoBehaviour
         }
     }
 
-    public void HandlingTabs(PlayersWindow window, KeyCode key)
+    public void HandlingTabs(PlayersWindow window, KeyActions keyAction)
     {
         foreach(var tab in allActiveTabs)
         {
@@ -241,7 +239,7 @@ public class PlayerPersonalWindow : MonoBehaviour
             panel.SetActive(false);
         }
 
-        lastPressedKey = key;
+        lastKeyAction = keyAction;
 
         switch(window)
         {

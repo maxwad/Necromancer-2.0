@@ -26,10 +26,10 @@ public class GMInterfaceHero : MonoBehaviour
     [SerializeField] private Animator skillsButton;
 
     [Header("ShortCuts")]
-    public KeyCode armyKey;
-    public KeyCode skillsKey;
-    public KeyCode microKey;
-    public KeyCode spellsKey;
+    public KeyActions armyAction;
+    public KeyActions skillsAction;
+    public KeyActions runesAction;
+    public KeyActions spellsAction;
 
     private void Start()
     {
@@ -117,22 +117,22 @@ public class GMInterfaceHero : MonoBehaviour
 
     public void OpenArmyWindow()
     {
-        personalWindow.PressButton(armyKey);
+        personalWindow.PressButton(armyAction);
     }
 
     public void OpenSkillsWindow()
     {
-        personalWindow.PressButton(skillsKey);
+        personalWindow.PressButton(skillsAction);
     }
 
     public void OpenMicroWindow()
     {
-        personalWindow.PressButton(microKey);
+        personalWindow.PressButton(runesAction);
     }
 
     public void OpenSpellsWindow()
     {
-        personalWindow.PressButton(spellsKey);
+        personalWindow.PressButton(spellsAction);
     }
 
     private void OnEnable()
