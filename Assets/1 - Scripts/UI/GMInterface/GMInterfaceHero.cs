@@ -115,21 +115,25 @@ public class GMInterfaceHero : MonoBehaviour
         heroContainer.SetActive(mode);
     }
 
+    //Button
     public void OpenArmyWindow()
     {
         personalWindow.PressButton(armyAction);
     }
 
+    //Button
     public void OpenSkillsWindow()
     {
         personalWindow.PressButton(skillsAction);
     }
 
+    //Button
     public void OpenMicroWindow()
     {
         personalWindow.PressButton(runesAction);
     }
 
+    //Button
     public void OpenSpellsWindow()
     {
         personalWindow.PressButton(spellsAction);

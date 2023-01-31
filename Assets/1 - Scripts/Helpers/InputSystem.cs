@@ -9,33 +9,73 @@ public class InputSystem : MonoBehaviour
     [SerializeField] private List<KeyAction> keyActions;
 
     private List<InputAction> inputKeyActions = new List<InputAction>();
-    private List<InputAction> inputAxiesActions = new List<InputAction>();
-    private List<InputAction> inputMouseActions = new List<InputAction>();
+    private List<IInputableAxies> inputAxiesActions = new List<IInputableAxies>();
 
-    public void RegisterInput(KeyActions keyAction, IInputable objectToActivate)
+    private bool isInputEnable = true;
+
+    public void RegisterInputKeys(KeyActions keyAction, IInputableKeys objectToActivate)
     {
         inputKeyActions.Add(new InputAction(keyAction, objectToActivate));
     }
 
-    private void Update()
+    public void RegisterInputAxies(IInputableAxies objectToActivate)
     {
-        InputHandling();
+        inputAxiesActions.Add(objectToActivate);
     }
 
-    private void InputHandling()
+    private void Update()
     {
-        foreach(var key in keyActions)
+        InputKeysHandling();
+        InputAxiesHandling();
+    }
+
+    private void InputKeysHandling()
+    {
+        if(isInputEnable == true)
         {
-            if(Input.GetKeyDown(key.key) == true)
+            foreach(var key in keyActions)
             {
-                foreach(var action in inputKeyActions)
+                if(Input.GetKeyDown(key.key) == true)
                 {
-                    if(action.keyAction == key.action)
+                    foreach(var action in inputKeyActions)
                     {
-                        action.objectToActivate.InputHandling(key.action);
+                        if(action.keyAction == key.action)
+                        {
+                            action.objectToActivate.InputHandling(key.action);
+                        }
                     }
                 }
-            }
+            }  
         }
+    }
+
+    private void InputAxiesHandling()
+    {        
+        foreach(var action in inputAxiesActions)
+        {
+            action.InputHandling(
+                new AxiesData(
+                    Input.GetAxisRaw("Horizontal"),
+                    Input.GetAxisRaw("Vertical"),
+                    Input.GetAxisRaw("Rotation"),
+                    Input.GetAxis("Mouse ScrollWheel")
+                    ),
+                new MouseData(
+                    Input.mousePosition,
+                    (isInputEnable == true) ? Input.GetMouseButton(0) : false,
+                    Input.GetMouseButton(2),
+                    (isInputEnable == true) ? Input.GetMouseButton(1) : false,
+                    (isInputEnable == true) ? Input.GetMouseButtonDown(0) : false,
+                    Input.GetMouseButtonDown(2),
+                    (isInputEnable == true) ? Input.GetMouseButtonDown(1) : false
+                    )
+                );
+        }
+        
+    }
+
+    public void ActivateInput(bool activeMode)
+    {
+        isInputEnable = activeMode;
     }
 }

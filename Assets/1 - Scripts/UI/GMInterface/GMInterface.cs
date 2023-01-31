@@ -15,6 +15,7 @@ public class GMInterface : MonoBehaviour
     [HideInInspector] public GMInterfaceHero heroPart;
     [HideInInspector] public GMInterfaceMoves movesPart;    
     [HideInInspector] public GMInterfaceCalendar calendarPart;    
+    [HideInInspector] public GMInterfaceTurn turnPart;
 
     private void Awake()
     {
@@ -23,6 +24,8 @@ public class GMInterface : MonoBehaviour
         heroPart = GetComponent<GMInterfaceHero>();
         movesPart = GetComponent<GMInterfaceMoves>();
         calendarPart = GetComponent<GMInterfaceCalendar>();
+
+        turnPart = GetComponent<GMInterfaceTurn>();
     }
 
     private void Start()

@@ -53,7 +53,6 @@ public class GMPlayerPositionChecker : MonoBehaviour
         }
         else
         {
-            aiSystem.GetVassalsInfo();
             foreach(var vassal in aiSystem.GetVassalsInfo())
             {
                 if(position == vassal.transform.position)

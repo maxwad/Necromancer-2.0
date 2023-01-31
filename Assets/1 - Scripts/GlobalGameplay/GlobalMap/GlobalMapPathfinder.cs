@@ -6,7 +6,7 @@ using UnityEngine.Tilemaps;
 using TMPro;
 using UnityEngine.EventSystems;
 
-public class GlobalMapPathfinder : MonoBehaviour
+public class GlobalMapPathfinder : MonoBehaviour, IInputableAxies
 {
     public Tilemap fogMap;
     public Tilemap roadMap;
@@ -17,8 +17,12 @@ public class GlobalMapPathfinder : MonoBehaviour
     public Tile roadTile;
     public Tile finishTile;
 
+    private InputSystem inputSystem;
     private GMPlayerMovement player;
     private GMPlayerPositionChecker positionChecker;
+    private bool inputRightMB = false;
+    private bool inputLeftMB = false;
+    private Vector2 mousePosition;
 
     List<Vector2> pathPoints = new List<Vector2>();
     private bool isGoalCellFinded = false;
@@ -43,16 +47,24 @@ public class GlobalMapPathfinder : MonoBehaviour
     {
         player = GlobalStorage.instance.globalPlayer;
         positionChecker = player.GetComponent<GMPlayerPositionChecker>();
+
+        RegisterInputAxies();
     }
 
-    public void SetEnterPoints(Dictionary<GameObject, Vector3> points)
+    public void RegisterInputAxies()
     {
-        enterPointsDict = points;
+        inputSystem = GlobalStorage.instance.inputSystem;
+        inputSystem.RegisterInputAxies(this);
     }
 
-    private void Update()
+    public void InputHandling(AxiesData axiesData, MouseData mouseData)
     {
-        if(Input.GetMouseButtonDown(0)) 
+        inputLeftMB = mouseData.mouseBtnLeftDown;
+        inputRightMB = mouseData.mouseBtnRightDown;
+
+        mousePosition = Camera.main.ScreenToWorldPoint(mouseData.position);
+
+        if(inputLeftMB == true)
         {
             if(MenuManager.instance.IsTherePauseOrMiniPause() == false && GlobalStorage.instance.isGlobalMode == true)
             {
@@ -64,7 +76,7 @@ public class GlobalMapPathfinder : MonoBehaviour
             }
         }
 
-        if(Input.GetMouseButtonDown(1))
+        if(inputRightMB == true)
         {
             if(MenuManager.instance.IsTherePauseOrMiniPause() == false && GlobalStorage.instance.isGlobalMode == true)
             {
@@ -73,10 +85,36 @@ public class GlobalMapPathfinder : MonoBehaviour
         }
     }
 
+    public void SetEnterPoints(Dictionary<GameObject, Vector3> points)
+    {
+        enterPointsDict = points;
+    }
+
+    //private void Update()
+    //{
+    //    if(Input.GetMouseButtonDown(0))
+    //    {
+    //        if(MenuManager.instance.IsTherePauseOrMiniPause() == false && GlobalStorage.instance.isGlobalMode == true)
+    //        {
+    //            if(EventSystem.current.IsPointerOverGameObject()) return;
+
+    //            if(GlobalStorage.instance.isModalWindowOpen == true) return;
+
+    //            LClick();
+    //        }
+    //    }
+
+    //    if(Input.GetMouseButtonDown(1))
+    //    {
+    //        if(MenuManager.instance.IsTherePauseOrMiniPause() == false && GlobalStorage.instance.isGlobalMode == true)
+    //        {
+    //            RClick();
+    //        }
+    //    }
+    //}
+
     public void LClick() 
     {
-        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
         RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
         ClickableObject checkingObject;
         if(hit.collider != null && (checkingObject = hit.collider.GetComponent<ClickableObject>()) != null)
@@ -110,8 +148,6 @@ public class GlobalMapPathfinder : MonoBehaviour
 
     public void RClick()
     {
-        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
         RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
         if(hit.collider != null && hit.collider.GetComponent<ClickableObject>() != null)
         {

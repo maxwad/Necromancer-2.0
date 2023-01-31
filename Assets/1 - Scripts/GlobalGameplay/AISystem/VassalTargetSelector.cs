@@ -15,6 +15,9 @@ public class VassalTargetSelector : MonoBehaviour
     [SerializeField] private int actionRadius = 50;
     [SerializeField] private int searchPlayerRadius = 15;
 
+    AITargetType currentTarget = AITargetType.Rest;
+    List<Vector3> currentPath = new List<Vector3>();
+
     //private Tilemap roadMap;
     //[SerializeField] private Tile testTile;
 
@@ -30,63 +33,60 @@ public class VassalTargetSelector : MonoBehaviour
 
     public void HandleTarget(AITargetType target)
     {
-        //if(pathfinder == null)
-        //{
-        //    mainAI = vassal;
-        //    //roadMap = GlobalStorage.instance.roadMap;
-        //    pathfinder = GetComponent<VassalPathfinder>();
-        //    movementPoints = pathfinder.GetMovementPoints();
-        //    //pathfinder.Init();
-        //}
-
-        //startPoint = roadMap.WorldToCell(gameObject.transform.position);
-
-
-        FindPathToRandomCell();
-        animScript.ShowAction(target.ToString());
-
-        switch(target)
+        if(currentTarget == AITargetType.Rest)
         {
-            case AITargetType.Rest:
-                return;
+            currentTarget = target;
+            Debug.Log("New target");
 
-            case AITargetType.Walking:
-                //FindPathToRandomCell();
+            FindPathToRandomCell();
+            animScript.ShowAction(target.ToString());
 
-                break;
-            case AITargetType.CastleAttack:
+            switch(target)
+            {
+                case AITargetType.Rest:
+                    return;
 
-                break;
-            case AITargetType.ResBuildingAttack:
+                case AITargetType.Walking:
+                    //FindPathToRandomCell();
 
-                break;
-            case AITargetType.PlayerAttack:
+                    break;
+                case AITargetType.CastleAttack:
 
-                break;
-            case AITargetType.ArmyDescent:
+                    break;
+                case AITargetType.ResBuildingAttack:
 
-                break;
-            case AITargetType.ToTheTeleport:
+                    break;
+                case AITargetType.PlayerAttack:
 
-                break;
-            case AITargetType.ToTheResource:
+                    break;
+                case AITargetType.ArmyDescent:
 
-                break;
-            default:
-                break;
+                    break;
+                case AITargetType.ToTheTeleport:
+
+                    break;
+                case AITargetType.ToTheResource:
+
+                    break;
+                default:
+                    break;
+            }
+        }
+        else
+        {
+            Debug.Log("Continue target");
+            movement.Movement(currentPath);
         }
     }
 
     private void FindPathToRandomCell()
     {
-        List<Vector3> path;
-
         Vector3Int finishPoint = pathfinder.FindRandomCell();
-        path = pathfinder.GetPath();
+        currentPath = pathfinder.GetPath();
 
-        if(finishPoint != Vector3Int.zero && path.Count != 0)
+        if(finishPoint != Vector3Int.zero && currentPath.Count != 0)
         {
-            movement.Movement(path);
+            movement.Movement(currentPath);
         }
         else
         {

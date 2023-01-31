@@ -6,6 +6,7 @@ using static NameManager;
 
 public class Vassal : MonoBehaviour
 {
+    private GMInterface gmInterface;
     private EnemyCastle myCastle;
     private EnemyArmyOnTheMap enemyArmy;
 
@@ -22,11 +23,18 @@ public class Vassal : MonoBehaviour
     private AITargetType currentTarget = AITargetType.Rest;
     private List<AITargetType> stateList;
 
-    public void Init(EnemyCastle castle, Color castleColor, string name)
+    private Color vassalColor;
+    private string vassalName;
+
+    public void Init(EnemyCastle castle, Color color, string name)
     {
         myCastle = castle;
+        vassalColor = color;
+        vassalName = name;
 
-        GetComponent<TooltipTrigger>().content = name;
+        gmInterface = GlobalStorage.instance.gmInterface;
+
+        GetComponent<TooltipTrigger>().content = vassalName;
         enemyArmy = GetComponent<EnemyArmyOnTheMap>();
 
         targetSelector = GetComponent<VassalTargetSelector>();
@@ -37,22 +45,24 @@ public class Vassal : MonoBehaviour
         targetSelector.Init(this, pathfinder, movement, animScript);
         pathfinder.Init(movement);
         movement.Init(targetSelector, animScript);
-        animScript.Init(castleColor);
+        animScript.Init(vassalColor);
 
         gmCamera = Camera.main.GetComponent<GlobalCamera>();
     }
     
     public void StartAction()
     {
-        if(startPosition == Vector3.zero)
+        if(currentState == AIState.Rest)
         {
             startPosition = myCastle.GetStartPosition();
+            transform.position = startPosition;
         }
 
-        transform.position = startPosition;
+        //transform.position = startPosition;
         animScript.Activate(true);
         gmCamera.SetObserveObject(gameObject);
 
+        gmInterface.turnPart.FillMessage(vassalName, vassalColor);
         StartCoroutine(Action());
     }
 

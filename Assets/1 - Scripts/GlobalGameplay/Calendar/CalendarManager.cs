@@ -3,26 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using static NameManager;
 
-public class CalendarData
+public class CalendarManager : MonoBehaviour, IInputableKeys
 {
-    public int daysLeft;
+    private BoostManager boostManager;
+    private InputSystem inputSystem;
 
-    public int currentDay;
-    public int currentDecade;
-    public int currentMonth;
-
-    public CalendarData(int left, int day, int decade, int month)
-    {
-        daysLeft = left;
-        currentDay = day;
-        currentDecade = decade;
-        currentMonth = month;
-    }
-}
-
-
-public class CalendarManager : MonoBehaviour
-{
     public int daysLeft = 1000;
 
     private int day = 1;
@@ -48,7 +33,6 @@ public class CalendarManager : MonoBehaviour
 
     private DecadeSO currentDecadeEffect;
     private int currentDecadeIndex = 0;
-    private BoostManager boostManager;
 
     public void Init()
     {
@@ -59,6 +43,7 @@ public class CalendarManager : MonoBehaviour
 
         //decadeList = ShuffleList(decadeList);
         StartCoroutine(SetStartDecade());
+        RegisterInputKeys();
 
         GlobalStorage.instance.LoadNextPart();
     }
@@ -73,9 +58,15 @@ public class CalendarManager : MonoBehaviour
         NewDecade();
     }
 
-    void Update()
+    public void RegisterInputKeys()
     {
-        if(Input.GetKeyDown(KeyCode.Return) && GlobalStorage.instance.isGlobalMode == true)
+        inputSystem = GlobalStorage.instance.inputSystem;
+        inputSystem.RegisterInputKeys(KeyActions.NewDay, this);
+    }
+
+    public void InputHandling(KeyActions keyAction)
+    {
+        if(GlobalStorage.instance.isGlobalMode == true)
         {
             if(MenuManager.instance.IsTherePauseOrMiniPause() == false && GlobalStorage.instance.isModalWindowOpen == false)
             {
@@ -83,6 +74,17 @@ public class CalendarManager : MonoBehaviour
             }
         }
     }
+
+    //void Update()
+    //{
+    //    if(Input.GetKeyDown(KeyCode.Return) && GlobalStorage.instance.isGlobalMode == true)
+    //    {
+    //        if(MenuManager.instance.IsTherePauseOrMiniPause() == false && GlobalStorage.instance.isModalWindowOpen == false)
+    //        {
+    //            NextDay();
+    //        }
+    //    }
+    //}
 
     public void NextDay()
     {

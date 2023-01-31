@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using static NameManager;
 
-public class PortalsManager : MonoBehaviour
+public class PortalsManager : MonoBehaviour, IInputableKeys
 {
     private PlayerStats playerStats;
+    private InputSystem inputSystem;
 
     public GameObject uiPanel;
     private CanvasGroup canvas;
@@ -27,16 +28,18 @@ public class PortalsManager : MonoBehaviour
     private void Awake()
     {
         playerStats = GlobalStorage.instance.playerStats;
+        RegisterInputKeys();
     }
 
-    private bool CanIUsePortals()
+    public void RegisterInputKeys()
     {
-        return playerStats.GetCurrentParameter(PlayersStats.Portal) > 0;
+        inputSystem = GlobalStorage.instance.inputSystem;
+        inputSystem.RegisterInputKeys(KeyActions.Teleport, this);
     }
 
-    private void Update()
+    public void InputHandling(KeyActions keyAction)
     {
-        if(Input.GetKeyDown(KeyCode.T) && CanIUsePortals() == true)
+        if(CanIUsePortals() == true)
         {
             if(MenuManager.instance.IsTherePauseOrMiniPause() == false && GlobalStorage.instance.isGlobalMode == true)
             {
@@ -46,6 +49,11 @@ public class PortalsManager : MonoBehaviour
                     CloseWindow();
             }
         }
+    }
+
+    private bool CanIUsePortals()
+    {
+        return playerStats.GetCurrentParameter(PlayersStats.Portal) > 0;
     }
 
     public void OpenWindow(bool mode, ClickableObject obj)   

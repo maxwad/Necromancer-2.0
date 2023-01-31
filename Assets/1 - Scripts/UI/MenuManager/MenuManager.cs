@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 using TMPro;
 using static NameManager;
 
-public class MenuManager : MonoBehaviour, IInputable
+public class MenuManager : MonoBehaviour, IInputableKeys
 {
     public static MenuManager instance;
 
@@ -83,13 +83,13 @@ public class MenuManager : MonoBehaviour, IInputable
         LaodVideoOptions();
 
         gmInterface = GlobalStorage.instance.gmInterface;
-        RegisterInput();
+        RegisterInputKeys();
     }
 
-    public void RegisterInput()
+    public void RegisterInputKeys()
     {
         inputSystem = GlobalStorage.instance.inputSystem;
-        inputSystem.RegisterInput(KeyActions.Menu, this);
+        inputSystem.RegisterInputKeys(KeyActions.Menu, this);
     }
 
     public void InputHandling(KeyActions keyAction)

@@ -6,6 +6,7 @@ using static NameManager;
 public class AISystem : MonoBehaviour
 {
     private GameMaster gameMaster;
+    private GMInterface gmInterface;
 
     [SerializeField] private List<Color> castleColors;
     [SerializeField] private List<string> castleOwners;
@@ -16,6 +17,11 @@ public class AISystem : MonoBehaviour
     private List<EnemyCastle> activeCastles = new List<EnemyCastle>();
     private int countOfCastles = 0;
     private int currentMover = 0;
+
+    private void Start()
+    {
+        gmInterface = GlobalStorage.instance.gmInterface;
+    }
 
     public void RegisterCastle(GameObject castle)
     {
@@ -43,6 +49,8 @@ public class AISystem : MonoBehaviour
     public void StartMoves()
     {
         if(allCastles.Count == 0) EndMoves();
+
+        gmInterface.turnPart.ActivateTurnBlock(true);
 
         currentMover = 0;
 
@@ -95,6 +103,7 @@ public class AISystem : MonoBehaviour
         if(gameMaster == null)
             gameMaster = GlobalStorage.instance.gameMaster;
 
+        gmInterface.turnPart.ActivateTurnBlock(false);
         gameMaster.EndEnemyMoves();
     }
 
@@ -113,11 +122,6 @@ public class AISystem : MonoBehaviour
             Debug.Log("All Vassals are DEAD!");
     }
 
-    //public List<GameObject> GetCastles()
-    //{
-    //    return allCastlesGO;
-    //}
-
     public List<Vassal> GetVassalsInfo()
     {
         List<Vassal> vassals = new List<Vassal>();
@@ -129,14 +133,4 @@ public class AISystem : MonoBehaviour
 
         return vassals;
     }
-
-    //private void OnEnable()
-    //{
-    //    EventManager.NewMove += CheckStatus;
-    //}
-
-    //private void OnDisable()
-    //{
-    //    EventManager.NewMove -= CheckStatus;
-    //}
 }

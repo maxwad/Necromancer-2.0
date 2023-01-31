@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using static NameManager;
 
-public class PlayerPersonalWindow : MonoBehaviour, IInputable
+public class PlayerPersonalWindow : MonoBehaviour, IInputableKeys
 {
     [SerializeField] private GameObject rootCanvas;
     [SerializeField] private CanvasGroup canvasGroup;
@@ -69,16 +69,16 @@ public class PlayerPersonalWindow : MonoBehaviour, IInputable
         macroLevelUI = GetComponentInChildren<MacroLevelWindow>();
         runesWindow = GetComponentInChildren<RunesWindow>();
         //gmInterface = GlobalStorage.instance.gmInterface;
-        RegisterInput();
+        RegisterInputKeys();
     }
 
-    public void RegisterInput()
+    public void RegisterInputKeys()
     {
         inputSystem = GlobalStorage.instance.inputSystem;
-        inputSystem.RegisterInput(KeyActions.Army, this);
-        inputSystem.RegisterInput(KeyActions.Skills, this);
-        inputSystem.RegisterInput(KeyActions.Runes, this);
-        inputSystem.RegisterInput(KeyActions.Spells, this);
+        inputSystem.RegisterInputKeys(KeyActions.Army, this);
+        inputSystem.RegisterInputKeys(KeyActions.Skills, this);
+        inputSystem.RegisterInputKeys(KeyActions.Runes, this);
+        inputSystem.RegisterInputKeys(KeyActions.Spells, this);
     }
 
     public void InputHandling(KeyActions keyAction)

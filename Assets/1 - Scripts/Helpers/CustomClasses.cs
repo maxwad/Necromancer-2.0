@@ -236,7 +236,7 @@ public class Reward
 #endregion
 
 
-#region Units
+#region UNITS
 public class Boost
 {
     public BoostSender sender;
@@ -253,19 +253,19 @@ public class Boost
 
 #endregion
 
-#region InputSystem
+
+#region INPUT SYSTEM
 public class InputAction
 {
     public KeyActions keyAction;
-    public IInputable objectToActivate;
+    public IInputableKeys objectToActivate;
 
-    public InputAction(KeyActions k, IInputable o)
+    public InputAction(KeyActions k, IInputableKeys o)
     {
         keyAction = k;
         objectToActivate = o;
     }
 }
-
 
 [Serializable]
 public class KeyAction
@@ -273,6 +273,75 @@ public class KeyAction
     public KeyCode key;
     public KeyActions action;
 }
+
+public class AxiesData
+{
+    public float horValue;
+    public float vertData;
+    public float rotData;
+    public float zoomData;
+
+    public AxiesData(float hd, float vd, float rd, float zd)
+    {
+        horValue = hd;
+        vertData = vd;
+        rotData = rd;
+        zoomData = zd;
+    }
+}
+
+public class MouseData
+{
+    public Vector3 position;
+
+    public bool mouseBtnLeft;
+    public bool mouseBtnMiddle;
+    public bool mouseBtnRight;
+
+    public bool mouseBtnLeftDown;
+    public bool mouseBtnMiddleDown;
+    public bool mouseBtnRightDown;
+
+    public MouseData(Vector3 p, bool bl, bool bm, bool br, bool bld, bool bmd, bool brd)
+    {
+        position = p;
+
+        mouseBtnLeft   = bl;
+        mouseBtnMiddle = bm;
+        mouseBtnRight  = br;
+
+        mouseBtnLeftDown   = bld;
+        mouseBtnMiddleDown = bmd;
+        mouseBtnRightDown  = brd;
+    }
+}
+
+#endregion
+
+
+#region CALENDAR
+
+public class CalendarData
+{
+    public int daysLeft;
+
+    public int currentDay;
+    public int currentDecade;
+    public int currentMonth;
+
+    public CalendarData(int left, int day, int decade, int month)
+    {
+        daysLeft = left;
+        currentDay = day;
+        currentDecade = decade;
+        currentMonth = month;
+    }
+}
+
+#endregion
+
+#region NEW
+
 
 #endregion
 

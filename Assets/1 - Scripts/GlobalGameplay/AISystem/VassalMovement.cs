@@ -64,6 +64,15 @@ public class VassalMovement : MonoBehaviour
             currentPosition = pathPoints[i];
         }
 
+        Debug.Log("Path was " + pathPoints.Count + " cells long");
+        int index = 0;
+        while(transform.position != pathPoints[index])
+        {
+            pathPoints.Remove(pathPoints[index]);
+        }
+
+        Debug.Log("Path became " + pathPoints.Count + " cells long");
+
         if(currentMovementPoints == 0)
         {
             targetSelector.EndOfMove();

@@ -484,12 +484,7 @@ public static class NameManager
         Spells,
         Castle,
         NewDay,
-        Teleport,
-        MoveUp,
-        MoveDown,
-        MoveRight,
-        MoveLeft
-
+        Teleport
     }
     #endregion
 }

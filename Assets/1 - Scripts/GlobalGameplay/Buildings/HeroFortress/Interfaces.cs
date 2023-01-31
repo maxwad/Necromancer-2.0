@@ -16,9 +16,23 @@ public interface IGarrison
 
 }
 
-public interface IInputable
+public interface IInputableKeys
 {
-    public void RegisterInput();
+    public void RegisterInputKeys();
+
+    public void InputHandling(KeyActions keyAction);
+}
+
+public interface IInputableAxies
+{
+    public void RegisterInputAxies();
+
+    public void InputHandling(AxiesData axiesData, MouseData mouseData);
+}
+
+public interface IInputableMouse
+{
+    public void RegisterInputMouse();
 
     public void InputHandling(KeyActions keyAction);
 }

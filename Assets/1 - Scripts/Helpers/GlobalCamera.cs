@@ -1,7 +1,10 @@
 using UnityEngine;
+using static NameManager;
 
-public class GlobalCamera : MonoBehaviour
+public class GlobalCamera : MonoBehaviour, IInputableAxies
 {
+    private InputSystem inputSystem;
+
     public float minZOffset = 10;
     public float maxZOffset = 50;
     private float zoom = 0.25f;
@@ -18,6 +21,13 @@ public class GlobalCamera : MonoBehaviour
     public float maxPositionX = 970;
     public float maxPositionY = 585;
 
+    private float inputDeltaX;
+    private float inputDeltaY;
+    private float inputDeltaRatate;
+    private float inputDeltaZoom;
+    private bool inputMiddleMB = false;
+    private Vector3 inputMousePosition;
+
     private bool isDrag = false;
     private Vector3 origin;
     private Vector3 difference;
@@ -30,30 +40,46 @@ public class GlobalCamera : MonoBehaviour
     {
         Camera mainCamera = Camera.main;
         globalPlayer = GlobalStorage.instance.player;
+
+        RegisterInputAxies();
     }
 
-    private void LateUpdate()
+    public void RegisterInputAxies()
     {
+        inputSystem = GlobalStorage.instance.inputSystem;
+        inputSystem.RegisterInputAxies(this);
+    }
+
+    public void InputHandling(AxiesData axiesData, MouseData mouseData)
+    {
+        inputDeltaX      = axiesData.horValue;
+        inputDeltaY      = axiesData.vertData;
+        inputDeltaRatate = axiesData.rotData;
+        inputDeltaZoom   = axiesData.zoomData;
+
+        inputMousePosition = mouseData.position;
+        inputMiddleMB = mouseData.mouseBtnMiddle;
+
         if(MenuManager.instance.IsTherePauseOrMiniPause() == false)
         {
-            float zoomDelta = Input.GetAxis("Mouse ScrollWheel");
-            if(zoomDelta != 0f) ChangeZoom(zoomDelta);
+            //float zoomDelta = Input.GetAxis("Mouse ScrollWheel");
+            if(inputDeltaZoom != 0f) ChangeZoom(inputDeltaZoom);
 
-            float deltaRotation = Input.GetAxisRaw("Rotation");
-            if(deltaRotation != 0f) ChangeRotation(deltaRotation);
+            //float deltaRotation = Input.GetAxisRaw("Rotation");
+            if(inputDeltaRatate != 0f) ChangeRotation(inputDeltaRatate);
 
-            float deltaX = Input.GetAxisRaw("Horizontal");
-            float deltaY = Input.GetAxisRaw("Vertical");
-            if(deltaX != 0 || deltaY != 0) ChangePosition(deltaX, deltaY, moveSpeedMax);
+            //float deltaX = Input.GetAxisRaw("Horizontal");
+            //float deltaY = Input.GetAxisRaw("Vertical");
+            if(inputDeltaX != 0 || inputDeltaY != 0) ChangePosition(inputDeltaX, inputDeltaY, moveSpeedMax);
 
-            if(Input.GetMouseButton(2))
+            if(inputMiddleMB == true)
             {
-                difference = mainCamera.ScreenToWorldPoint(Input.mousePosition) - mainCamera.transform.position;
+                difference = mainCamera.ScreenToWorldPoint(inputMousePosition) - mainCamera.transform.position;
 
                 if(isDrag == false)
                 {
                     isDrag = true;
-                    origin = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+                    origin = mainCamera.ScreenToWorldPoint(inputMousePosition);
                 }
             }
             else
@@ -64,35 +90,71 @@ public class GlobalCamera : MonoBehaviour
             if(isDrag == true) mainCamera.transform.position = ClampPosition(origin - difference);
 
             //CheckMouseNearEdge();
-
-            //if(observeObject != null) Observation();
         }
+
     }
+
+    //private void LateUpdate()
+    //{
+    //    if(MenuManager.instance.IsTherePauseOrMiniPause() == false)
+    //    {
+    //        float zoomDelta = Input.GetAxis("Mouse ScrollWheel");
+    //        if(zoomDelta != 0f) ChangeZoom(zoomDelta);
+
+    //        float deltaRotation = Input.GetAxisRaw("Rotation");
+    //        if(deltaRotation != 0f) ChangeRotation(deltaRotation);
+
+    //        //float deltaX = Input.GetAxisRaw("Horizontal");
+    //        //float deltaY = Input.GetAxisRaw("Vertical");
+    //        if(inputDeltaX != 0 || inputDeltaY != 0) ChangePosition(inputDeltaX, inputDeltaY, moveSpeedMax);
+
+    //        if(Input.GetMouseButton(2))
+    //        {
+    //            difference = mainCamera.ScreenToWorldPoint(Input.mousePosition) - mainCamera.transform.position;
+
+    //            if(isDrag == false)
+    //            {
+    //                isDrag = true;
+    //                origin = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+    //            }
+    //        }
+    //        else
+    //        {
+    //            isDrag = false;
+    //        }
+
+    //        if(isDrag == true) mainCamera.transform.position = ClampPosition(origin - difference);
+
+    //        //CheckMouseNearEdge();
+
+    //        //if(observeObject != null) Observation();
+    //    }
+    //}
 
     private void CheckMouseNearEdge()
     {
         float deltaX = 0;
         float deltaY = 0;
 
-        if(Input.mousePosition.x < edgeGap) 
+        if(inputMousePosition.x < edgeGap) 
         {
             deltaX = -1f;
             deltaY = 0f;
         }
 
-        if(Input.mousePosition.x > Screen.width - edgeGap)
+        if(inputMousePosition.x > Screen.width - edgeGap)
         {
             deltaX = 1f;
             deltaY = 0f;
         }
 
-        if(Input.mousePosition.y < edgeGap)
+        if(inputMousePosition.y < edgeGap)
         {
             deltaX = 0f;
             deltaY = -1f;
         }
 
-        if(Input.mousePosition.y > Screen.height - edgeGap)
+        if(inputMousePosition.y > Screen.height - edgeGap)
         {
             deltaX = 0f;
             deltaY = 1f;
@@ -152,11 +214,6 @@ public class GlobalCamera : MonoBehaviour
     public void SetObserveObject(GameObject obsObj = null)
     {
         observeObject = (obsObj == null) ? globalPlayer : obsObj;
-        transform.position = new Vector3(observeObject.transform.position.x, observeObject.transform.position.y, transform.position.z);
-    }
-
-    private void Observation()
-    {
         transform.position = new Vector3(observeObject.transform.position.x, observeObject.transform.position.y, transform.position.z);
     }
 }

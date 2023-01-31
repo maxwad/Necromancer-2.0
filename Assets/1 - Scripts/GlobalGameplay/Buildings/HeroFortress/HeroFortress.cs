@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using static NameManager;
 
-public class HeroFortress : MonoBehaviour
+public class HeroFortress : MonoBehaviour, IInputableKeys
 {
+    private InputSystem inputSystem;
     //private GMInterface gmInterface;
     private CanvasGroup canvas;
     private bool isWindowOpen = false;
@@ -39,25 +40,31 @@ public class HeroFortress : MonoBehaviour
 
         gmPlayerMovement = GlobalStorage.instance.globalPlayer;
         resourcesManager = GlobalStorage.instance.resourcesManager;
+
+        RegisterInputKeys();
     }
 
-    private void Update()
+    public void RegisterInputKeys()
     {
-        if(Input.GetKeyDown(KeyCode.F))
+        inputSystem = GlobalStorage.instance.inputSystem;
+        inputSystem.RegisterInputKeys(KeyActions.Castle, this);
+    }
+
+    public void InputHandling(KeyActions keyAction)
+    {
+        if(isWindowOpen == false)
         {
-            if(isWindowOpen == false)
+            if(MenuManager.instance.isGamePaused == false && GlobalStorage.instance.isModalWindowOpen == false)
             {
-                if(MenuManager.instance.isGamePaused == false && GlobalStorage.instance.isModalWindowOpen == false)
-                {
-                    Open(true);
-                }
-            }
-            else
-            {
-                Close();
+                Open(true);
             }
         }
+        else
+        {
+            Close();
+        }
     }
+
     #region HELPERS
 
     public void Open(bool openByClick)
