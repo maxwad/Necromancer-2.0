@@ -233,6 +233,20 @@ public class Reward
     }
 }
 
+[Serializable]
+public class GMSpriteAssosiating
+{
+    public PlayersStats stat;
+    public Sprite sprite;
+}
+
+[Serializable]
+public class BattleSpriteAssosiating
+{
+    public VisualEffects effect;
+    public Sprite sprite;
+}
+
 #endregion
 
 

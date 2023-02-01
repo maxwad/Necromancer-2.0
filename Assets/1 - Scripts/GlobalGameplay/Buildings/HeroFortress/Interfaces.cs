@@ -29,11 +29,3 @@ public interface IInputableAxies
 
     public void InputHandling(AxiesData axiesData, MouseData mouseData);
 }
-
-public interface IInputableMouse
-{
-    public void RegisterInputMouse();
-
-    public void InputHandling(KeyActions keyAction);
-}
-

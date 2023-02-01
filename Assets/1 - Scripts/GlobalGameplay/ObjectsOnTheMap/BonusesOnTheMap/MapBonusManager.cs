@@ -24,15 +24,21 @@ public class MapBonusManager : MonoBehaviour
 
     public void InitializeHeaps()
     {
-        GenerateHeapsOnTheMap();
+        if(enemyManager == null)
+        {
+            enemyManager = GlobalStorage.instance.enemyManager;
+            gmManager    = GlobalStorage.instance.gmManager;
+            poolManager  = GlobalStorage.instance.objectsPoolManager;
+        }
+            GenerateHeapsOnTheMap();
         GlobalStorage.instance.LoadNextPart();
     }
 
     public void GenerateHeapsOnTheMap()
     {
-        if(enemyManager == null) enemyManager = GlobalStorage.instance.enemyManager;
-        if(gmManager == null) gmManager = GlobalStorage.instance.gmManager;
-        if(poolManager == null) poolManager = GlobalStorage.instance.objectsPoolManager;
+        //if(enemyManager == null) enemyManager = GlobalStorage.instance.enemyManager;
+        //if(gmManager == null) gmManager = GlobalStorage.instance.gmManager;
+        //if(poolManager == null) poolManager = GlobalStorage.instance.objectsPoolManager;
 
         buildingsPointsDict = gmManager.GetEnterPoints();
         enemiesPointsDict = enemyManager.GetEnemiesPointsDict();
@@ -173,6 +179,16 @@ public class MapBonusManager : MonoBehaviour
         GenerateHeapsOnTheMap();
     }
 
+    public bool IsHeapOnPosition(Vector3 pos)
+    {
+        foreach(var heap in heapsPointsDict)
+        {
+            if(heap.Value == pos)
+                return true;
+        }
+
+        return false;
+    }
 
     private void OnEnable()
     {

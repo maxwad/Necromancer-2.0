@@ -80,8 +80,6 @@ public class AISystem : MonoBehaviour
 
     private void ActivateNextCastle()
     {
-        Debug.Log("currentMover = " + currentMover + "/" + activeCastles.Count);
-
         if(currentMover >= activeCastles.Count)
         {
             EndMoves();

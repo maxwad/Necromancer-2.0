@@ -74,11 +74,6 @@ public class VassalPathfinder : MonoBehaviour
                 cells.Add(new Vector3Int(i, maxY, 0));
         }
 
-        for(int i = 0; i < cells.Count; i++)
-        {
-            overlayMap.SetTile(cells[i], testTile);
-        }
-
         return GetFinishCell(cells);        
     }
 
@@ -192,5 +187,13 @@ public class VassalPathfinder : MonoBehaviour
         }
         
         return null;
+    }
+
+    public void DrawThePath(List<Vector3> path)
+    {
+        for(int i = 0; i < path.Count; i++)
+        {
+            overlayMap.SetTile(overlayMap.WorldToCell(path[i]), testTile);
+        }
     }
 }

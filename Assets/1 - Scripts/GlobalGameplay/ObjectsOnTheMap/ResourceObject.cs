@@ -108,25 +108,33 @@ public class ResourceObject : MonoBehaviour
         mapBonusManager = mbManager;
     }
 
-    public void GetReward()
+    public void GetReward(bool isPlayerPickuping = true)
     {
         if(reward == null)
         {
             return;
         }
 
-        EventManager.OnResourcePickedUpEvent(reward.resourcesList[0], reward.resourcesQuantity[0]);
+        if(isPlayerPickuping == true)
+            EventManager.OnResourcePickedUpEvent(reward.resourcesList[0], reward.resourcesQuantity[0]);
 
-        ShowReward(reward);
+        ShowReward(reward, isPlayerPickuping);
         reward = null;
         Death();
     }
 
-    private void ShowReward(Reward reward)
+    private void ShowReward(Reward reward, bool isPlayerPickuping = true)
     {
         Sprite sprite = resourcesIcons[reward.resourcesList[0]];
         float quantity = reward.resourcesQuantity[0];
 
-        BonusTipUIManager.ShowVisualEffect(sprite, quantity);
+        if(isPlayerPickuping == true)
+        {
+            BonusTipUIManager.ShowVisualEffect(sprite, quantity);
+        }
+        else
+        {
+            BonusTipUIManager.ShowVisualEffectForEnemy(sprite, quantity, transform.position);
+        }
     }
 }

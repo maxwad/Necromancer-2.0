@@ -18,10 +18,10 @@ public class Vassal : MonoBehaviour
     private GlobalCamera gmCamera;
     private WaitForSeconds delay =  new WaitForSeconds(0.5f);
 
-    private Vector3 startPosition;
-    private AIState currentState = AIState.Rest;
-    private AITargetType currentTarget = AITargetType.Rest;
-    private List<AITargetType> stateList;
+    //private Vector3 startPosition;
+    //private AIState currentState = AIState.Rest;
+    //private AITargetType currentTarget = AITargetType.Rest;
+    //private List<AITargetType> stateList;
 
     private Color vassalColor;
     private string vassalName;
@@ -44,7 +44,7 @@ public class Vassal : MonoBehaviour
 
         targetSelector.Init(this, pathfinder, movement, animScript);
         pathfinder.Init(movement);
-        movement.Init(targetSelector, animScript);
+        movement.Init(targetSelector, animScript, pathfinder);
         animScript.Init(vassalColor);
 
         gmCamera = Camera.main.GetComponent<GlobalCamera>();
@@ -52,17 +52,17 @@ public class Vassal : MonoBehaviour
     
     public void StartAction()
     {
-        if(currentState == AIState.Rest)
+        if(targetSelector.GetCurrentTarget() == AITargetType.Rest)
         {
-            startPosition = myCastle.GetStartPosition();
-            transform.position = startPosition;
+            transform.position = myCastle.GetStartPosition();
+            animScript.Activate(true);
+            GetArmy();
+            targetSelector.SelectTarget();
         }
 
-        //transform.position = startPosition;
-        animScript.Activate(true);
         gmCamera.SetObserveObject(gameObject);
-
         gmInterface.turnPart.FillMessage(vassalName, vassalColor);
+
         StartCoroutine(Action());
     }
 
@@ -70,8 +70,7 @@ public class Vassal : MonoBehaviour
     {
         yield return delay;
 
-        GetArmy();
-        SelectTarget();
+        targetSelector.HandleTarget();
     }
 
     private void GetArmy()
@@ -81,16 +80,10 @@ public class Vassal : MonoBehaviour
         enemyArmy.Birth();
     }
 
-    public AIState GetVassalState()
-    {
-        return currentState;
-    }
-
-    public void SelectTarget()
-    {
-        currentTarget = (AITargetType)UnityEngine.Random.Range(1, Enum.GetValues(typeof(AITargetType)).Length);
-        targetSelector.HandleTarget(currentTarget);
-    }
+    //public AIState GetVassalState()
+    //{
+    //    return currentState;
+    //}
 
     public void EndOfMove()
     {

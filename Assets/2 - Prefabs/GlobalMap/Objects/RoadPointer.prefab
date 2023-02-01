@@ -85,7 +85,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 1
+  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!70 &85004263045622682
 CapsuleCollider2D:
@@ -153,3 +153,13 @@ MonoBehaviour:
   owner: 2
   isGuardNeeded: 1
   probabilityGuard: 20
+  isOwnerRequired: 0
+  neutralColor: {r: 0, g: 0, b: 0, a: 0}
+  enemyColor: {r: 0, g: 0, b: 0, a: 0}
+  playerColor: {r: 0, g: 0, b: 0, a: 0}
+  visitedColor: {r: 0, g: 0, b: 0, a: 0}
+  notVisitedColor: {r: 0, g: 0, b: 0, a: 0}
+  flagSpite: {fileID: 0}
+  level: {fileID: 0}
+  siegeBlock: {fileID: 0}
+  term: {fileID: 0}

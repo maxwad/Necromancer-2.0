@@ -9,20 +9,6 @@ public class BonusTipUIManager : MonoBehaviour
     public static BonusTipUIManager instance;
     private ObjectsPoolManager poolManager;
 
-    [Serializable]
-    public class GMSpriteAssosiating
-    {
-        public PlayersStats stat;
-        public Sprite sprite;
-    }
-
-    [Serializable]
-    public class BattleSpriteAssosiating
-    {
-        public VisualEffects effect;
-        public Sprite sprite;
-    }
-
     public List<GMSpriteAssosiating> objectsGMList;
     public List<BattleSpriteAssosiating> objectsBattleList;
 
@@ -38,7 +24,7 @@ public class BonusTipUIManager : MonoBehaviour
         instance.poolManager = GlobalStorage.instance.objectsPoolManager;
     }
 
-    public static void ShowVisualEffect( PlayersStats stat, float quantity, string text = "")     
+    public static void ShowVisualEffect(PlayersStats stat, float quantity, string text = "")     
     {
         Sprite findedSprite = null;
 
@@ -83,6 +69,16 @@ public class BonusTipUIManager : MonoBehaviour
         rewardText.transform.position = position;
         rewardText.SetActive(true);
         rewardText.GetComponent<BonusTip>().Show(instance.currentHeigth, findedSprite, quantity, text, mark);
+        instance.currentHeigth++;
+    }
+
+    public static void ShowVisualEffectForEnemy(Sprite sprite, float quantity, Vector3 position, string text = "")
+    {
+        GameObject rewardText = instance.poolManager.GetObject(ObjectPool.BonusText);
+
+        rewardText.transform.position = position;
+        rewardText.SetActive(true);
+        rewardText.GetComponent<BonusTip>().Show(instance.currentHeigth, sprite, quantity, text);
         instance.currentHeigth++;
     }
 

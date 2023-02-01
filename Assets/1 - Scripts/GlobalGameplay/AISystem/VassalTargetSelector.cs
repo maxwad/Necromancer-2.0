@@ -18,6 +18,7 @@ public class VassalTargetSelector : MonoBehaviour
     AITargetType currentTarget = AITargetType.Rest;
     List<Vector3> currentPath = new List<Vector3>();
 
+    private bool shouldIContinueAction = false;
     //private Tilemap roadMap;
     //[SerializeField] private Tile testTile;
 
@@ -31,22 +32,26 @@ public class VassalTargetSelector : MonoBehaviour
         animScript = anim;
     }
 
-    public void HandleTarget(AITargetType target)
+    public void SelectTarget()
     {
-        if(currentTarget == AITargetType.Rest)
+        //currentTarget = (AITargetType)UnityEngine.Random.Range(1, Enum.GetValues(typeof(AITargetType)).Length);
+        currentTarget = AITargetType.Walking;
+        animScript.ShowAction(currentTarget.ToString());
+    }
+
+    public void HandleTarget()
+    {
+        if(shouldIContinueAction == false)
         {
-            currentTarget = target;
-            Debug.Log("New target");
-
             FindPathToRandomCell();
-            animScript.ShowAction(target.ToString());
 
-            switch(target)
+            switch(currentTarget)
             {
                 case AITargetType.Rest:
                     return;
 
                 case AITargetType.Walking:
+                    shouldIContinueAction = true;
                     //FindPathToRandomCell();
 
                     break;
@@ -60,9 +65,6 @@ public class VassalTargetSelector : MonoBehaviour
 
                     break;
                 case AITargetType.ArmyDescent:
-
-                    break;
-                case AITargetType.ToTheTeleport:
 
                     break;
                 case AITargetType.ToTheResource:
@@ -79,6 +81,11 @@ public class VassalTargetSelector : MonoBehaviour
         }
     }
 
+    public void GetNextTarget()
+    {
+
+    }
+
     private void FindPathToRandomCell()
     {
         Vector3Int finishPoint = pathfinder.FindRandomCell();
@@ -90,9 +97,20 @@ public class VassalTargetSelector : MonoBehaviour
         }
         else
         {
-            mainAI.SelectTarget();        
+            SelectTarget();        
         }
     }
+
+    public AITargetType GetCurrentTarget()
+    {
+        return currentTarget;
+    }
+
+    public bool ShouldIAttack()
+    {
+        return currentTarget == AITargetType.PlayerAttack || currentTarget == AITargetType.ArmyDescent;
+    }
+    
 
     public void EndOfMove()
     {

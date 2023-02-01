@@ -39,7 +39,7 @@ public class GlobalCamera : MonoBehaviour, IInputableAxies
     private void Awake()
     {
         Camera mainCamera = Camera.main;
-        globalPlayer = GlobalStorage.instance.player;
+        globalPlayer = GlobalStorage.instance.globalPlayer.gameObject;
 
         RegisterInputAxies();
     }

@@ -391,7 +391,6 @@ public static class NameManager
         ResBuildingAttack,
         PlayerAttack,
         ArmyDescent,
-        ToTheTeleport,
         ToTheResource
     }
 
