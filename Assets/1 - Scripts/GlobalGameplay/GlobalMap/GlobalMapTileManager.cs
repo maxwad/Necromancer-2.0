@@ -4,18 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using static NameManager;
 
-public struct NeighborData
-{
-    public GMHexCell source;
-    public int cost;
-
-    public NeighborData(int currentCost = 0, GMHexCell currentSource = null)
-    {
-        source = currentSource;
-        cost = currentCost;
-    }
-}
-
 public class GlobalMapTileManager : MonoBehaviour
 {
     public Tile fogTile;
@@ -358,5 +346,22 @@ public class GlobalMapTileManager : MonoBehaviour
         }
 
         return false;
+    }
+
+    public GMHexCell GetCell(Vector3 point)
+    {
+        Vector3Int cell = roadMap.WorldToCell(point);
+
+        return roads[cell.x, cell.y];
+    }
+
+    public Vector3Int CellConverterToV3Int(Vector3 point)
+    {
+        return roadMap.WorldToCell(point);
+    }
+
+    public Vector3 CellConverterToV3(Vector3Int point)
+    {
+        return roadMap.CellToWorld(point);
     }
 }

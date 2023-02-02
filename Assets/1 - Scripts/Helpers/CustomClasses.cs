@@ -354,6 +354,22 @@ public class CalendarData
 
 #endregion
 
+#region GLOBAL MAP
+
+public struct NeighborData
+{
+    public GMHexCell source;
+    public int cost;
+
+    public NeighborData(int currentCost = 0, GMHexCell currentSource = null)
+    {
+        source = currentSource;
+        cost = currentCost;
+    }
+}
+#endregion
+
+
 #region NEW
 
 

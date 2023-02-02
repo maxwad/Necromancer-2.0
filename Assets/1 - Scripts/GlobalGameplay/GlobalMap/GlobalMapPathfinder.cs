@@ -90,29 +90,6 @@ public class GlobalMapPathfinder : MonoBehaviour, IInputableAxies
         enterPointsDict = points;
     }
 
-    //private void Update()
-    //{
-    //    if(Input.GetMouseButtonDown(0))
-    //    {
-    //        if(MenuManager.instance.IsTherePauseOrMiniPause() == false && GlobalStorage.instance.isGlobalMode == true)
-    //        {
-    //            if(EventSystem.current.IsPointerOverGameObject()) return;
-
-    //            if(GlobalStorage.instance.isModalWindowOpen == true) return;
-
-    //            LClick();
-    //        }
-    //    }
-
-    //    if(Input.GetMouseButtonDown(1))
-    //    {
-    //        if(MenuManager.instance.IsTherePauseOrMiniPause() == false && GlobalStorage.instance.isGlobalMode == true)
-    //        {
-    //            RClick();
-    //        }
-    //    }
-    //}
-
     public void LClick() 
     {
         RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,7 @@ using static NameManager;
 
 public class VassalMovement : MonoBehaviour
 {
+    private GlobalMapTileManager tileManager;
     private MapBonusManager heapManager;
     private EnemyManager enemyManager;
     private AISystem aiSystem;
@@ -21,6 +23,12 @@ public class VassalMovement : MonoBehaviour
     private float defaultCountSteps = 500;
 
     private bool shouldIStop = false;
+    private Vector3Int heapCell = Vector3Int.zero;
+    private Vector3 finishCell = Vector3.zero;
+
+    private List<Vector3> currentPath = new List<Vector3>();
+
+    private Coroutine movenentCoroutine;
 
     public void Init(VassalTargetSelector ts, VassalAnimation animation, VassalPathfinder pf)
     {
@@ -28,6 +36,7 @@ public class VassalMovement : MonoBehaviour
         animationScript = animation;
         pathfinder = pf;
 
+        tileManager = GlobalStorage.instance.gmManager;
         heapManager = GlobalStorage.instance.mapBonusManager;
         enemyManager = GlobalStorage.instance.enemyManager;
         aiSystem = GlobalStorage.instance.aiSystem;
@@ -44,18 +53,23 @@ public class VassalMovement : MonoBehaviour
         currentMovementPoints = movementPoints;
     }
 
-    public void Movement(List<Vector3> path)
+    public void Movement(List<Vector3> path, bool resetMovePointsMode = true)
     {
-        ResetMovementPoints();
+        currentPath = path;
 
-        StartCoroutine(Moving(path));
+        if(resetMovePointsMode == true)
+            ResetMovementPoints();
+
+        if(movenentCoroutine != null)
+            StopCoroutine(movenentCoroutine);
+
+        movenentCoroutine = StartCoroutine(Moving(path));
     }
 
     private IEnumerator Moving(List<Vector3> pathPoints)
-    {
+    {        
         Vector3 previousPosition = pathPoints[0];
-        Vector3 currentPosition = pathPoints[0];
-        bool shouldICancelPath = false;
+        bool shouldIChangePath = false;
 
         pathfinder.DrawThePath(pathPoints);
 
@@ -64,6 +78,17 @@ public class VassalMovement : MonoBehaviour
             animationScript.FlipSprite(previousPosition.x - pathPoints[i].x < 0);
 
             if(currentMovementPoints == 0) break;
+
+            if(shouldIChangePath == false)
+            {
+                shouldIChangePath = CheckHeapNearBy(pathPoints[i]);
+
+                if(shouldIChangePath == true)
+                    break;
+            }
+
+            shouldIChangePath = false;
+
 
             if(CheckEnemy(pathPoints[i]) == true)
             {
@@ -108,10 +133,8 @@ public class VassalMovement : MonoBehaviour
 
             transform.position = pathPoints[i];
             previousPosition = pathPoints[i - 1];
-            currentPosition = pathPoints[i];
 
-            shouldICancelPath = CheckHeapNearBy(pathPoints[i]);
-            if(shouldICancelPath == true)
+            if(shouldIChangePath == true)
                 break;
         }
 
@@ -124,17 +147,40 @@ public class VassalMovement : MonoBehaviour
         if(currentMovementPoints == 0)
         {
             targetSelector.EndOfMove();
+            yield return false;
         }
 
-        if(pathPoints.Count == 0)
+        if(pathPoints.Count == 1)
         {
-            targetSelector.GetNextTarget();
+            if(transform.position == tileManager.CellConverterToV3(targetSelector.GetFinishCell()))
+            {
+                Debug.Log("I need new Target.");
+                targetSelector.GetNextTarget();
+                yield return false;
+            }
+            else
+            {
+                BackToMainTarget(pathPoints);
+                yield return false;
+            }
         }
 
-        if(shouldICancelPath == true)
-        {
+        if(shouldIChangePath == true)
+            CreatePathAndMoveToHeap(pathPoints);
+    }
 
-        }
+    private void CreatePathAndMoveToHeap(List<Vector3> pathPoints)
+    {
+        pathPoints.Clear();
+        pathPoints = pathfinder.CreatePath(heapCell);
+        Movement(pathPoints, false);
+    }
+
+    private void BackToMainTarget(List<Vector3> pathPoints)
+    {
+        pathPoints.Clear();
+        pathPoints = pathfinder.CreatePath(targetSelector.GetFinishCell());
+        Movement(pathPoints, false);
     }
 
     #region CHECKERS
@@ -155,8 +201,26 @@ public class VassalMovement : MonoBehaviour
         return position == player.transform.position;
     }
 
-    public bool CheckHeapNearBy(Vector3 position)
+    public bool CheckHeapNearBy(Vector3 nextPoint)
     {
+        GMHexCell checkCell = tileManager.GetCell(transform.position);
+        GMHexCell[] neighbors = checkCell.neighbors;
+
+        foreach(var pos in neighbors)
+        {
+            if(pos == null) continue;
+
+            if(pos.coordinates == tileManager.CellConverterToV3Int(nextPoint))
+                continue;
+
+            Vector3 checkPos = tileManager.CellConverterToV3(pos.coordinates);
+            if(heapManager.IsHeapOnPosition(checkPos) == true)
+            {
+                heapCell = pos.coordinates;
+                return true;
+            }
+        }
+
         return false;
     }
 

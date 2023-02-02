@@ -16,7 +16,7 @@ public class VassalPathfinder : MonoBehaviour
 
     private List<Vector3> currentPath = new List<Vector3>();
 
-    private Vector3Int startPoint;
+    //private Vector3Int startPoint;
     private Vector3Int finishPoint;
     private int movementPoints;
 
@@ -46,7 +46,7 @@ public class VassalPathfinder : MonoBehaviour
 
     public Vector3Int FindRandomCell()
     {
-        startPoint = overlayMap.WorldToCell(gameObject.transform.position);
+        Vector3Int startPoint = overlayMap.WorldToCell(gameObject.transform.position);
 
         int minX = ((startPoint.x - actionRadius) < 0) ? 0 : startPoint.x - actionRadius;
         int maxX = ((startPoint.x + actionRadius) >= roadMap.size.x) ? roadMap.size.x - 1 : startPoint.x + actionRadius;
@@ -116,7 +116,7 @@ public class VassalPathfinder : MonoBehaviour
         return true;
     }
 
-    private List<Vector3> CreatePath(Vector3Int finishCell)
+    public List<Vector3> CreatePath(Vector3Int finishCell)
     {
         currentPath.Clear();
 
@@ -124,6 +124,7 @@ public class VassalPathfinder : MonoBehaviour
         List<GMHexCell> neighborsQueue = new List<GMHexCell>();
         List<GMHexCell> roadBack = new List<GMHexCell>();
 
+        Vector3Int startPoint = overlayMap.WorldToCell(gameObject.transform.position);
         GMHexCell firstPathCell = roads[startPoint.x, startPoint.y];
 
         bool isSearching = true;
@@ -185,7 +186,8 @@ public class VassalPathfinder : MonoBehaviour
 
             return currentPath;
         }
-        
+
+        Debug.Log(isDeadEnd);
         return null;
     }
 

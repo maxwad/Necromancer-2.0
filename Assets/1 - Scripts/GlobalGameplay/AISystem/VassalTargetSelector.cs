@@ -17,6 +17,7 @@ public class VassalTargetSelector : MonoBehaviour
 
     AITargetType currentTarget = AITargetType.Rest;
     List<Vector3> currentPath = new List<Vector3>();
+    Vector3Int finishCell = Vector3Int.zero;
 
     private bool shouldIContinueAction = false;
     //private Tilemap roadMap;
@@ -83,15 +84,18 @@ public class VassalTargetSelector : MonoBehaviour
 
     public void GetNextTarget()
     {
+        finishCell = Vector3Int.zero;
+
 
     }
 
     private void FindPathToRandomCell()
     {
-        Vector3Int finishPoint = pathfinder.FindRandomCell();
+        finishCell = pathfinder.FindRandomCell();
+        //finishCell = new Vector3(cell.x, cell.y, cell.z);
         currentPath = pathfinder.GetPath();
 
-        if(finishPoint != Vector3Int.zero && currentPath.Count != 0)
+        if(finishCell != Vector3Int.zero && currentPath.Count != 0)
         {
             movement.Movement(currentPath);
         }
@@ -104,6 +108,11 @@ public class VassalTargetSelector : MonoBehaviour
     public AITargetType GetCurrentTarget()
     {
         return currentTarget;
+    }
+
+    public Vector3Int GetFinishCell()
+    {
+        return finishCell;
     }
 
     public bool ShouldIAttack()

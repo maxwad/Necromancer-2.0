@@ -71,6 +71,8 @@ public class ResourceObject : MonoBehaviour
             alfaFrom = 1;
             alfaTo = 0;
             step = -step;
+
+            mapBonusManager.DeleteHeap(this);
         }
 
         Color currentColor = sprite.color;
@@ -97,8 +99,7 @@ public class ResourceObject : MonoBehaviour
             yield return appearDelay;
         }
 
-        if(isBorning == false) {
-            mapBonusManager.DeleteHeap(this);
+        if(isBorning == false) {            
             gameObject.SetActive(false);
         } 
     }
