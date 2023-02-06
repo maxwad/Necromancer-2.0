@@ -22,11 +22,11 @@ public class VassalPathfinder : MonoBehaviour
 
 
     [SerializeField] private Tile testTile;
-    [SerializeField] private int actionRadius = 50;
+    [SerializeField] private int actionRadius = 10;
     [SerializeField] private int searchPlayerRadius = 15;
     [SerializeField] private int maxMovesCount = 10;
 
-
+    #region GETTINGS
     public void Init(VassalMovement mv)
     {
         movement = mv;
@@ -43,6 +43,23 @@ public class VassalPathfinder : MonoBehaviour
     {
         return currentPath;
     }
+
+    public GMHexCell GetCell(Vector3 position)
+    {
+        return tileManager.GetCell(position);
+    }
+
+    public Vector3 ConvertToV3(Vector3Int pos)
+    {
+        return tileManager.CellConverterToV3(pos);
+    }
+
+    public Vector3Int ConvertToV3Int(Vector3 pos)
+    {
+        return tileManager.CellConverterToV3Int(pos);
+    }
+
+    #endregion
 
     public Vector3Int FindRandomCell()
     {
@@ -109,7 +126,7 @@ public class VassalPathfinder : MonoBehaviour
     {
         List<Vector3> path = CreatePath(finishCell);
 
-        if(path == null) return false;
+        if(path.Count == 0) return false;
 
         if((path.Count / movementPoints) > maxMovesCount) return false;
 
@@ -126,6 +143,12 @@ public class VassalPathfinder : MonoBehaviour
 
         Vector3Int startPoint = overlayMap.WorldToCell(gameObject.transform.position);
         GMHexCell firstPathCell = roads[startPoint.x, startPoint.y];
+
+        if(finishCell == startPoint)
+        {
+            Debug.Log("Start point is finish point");
+            return currentPath;
+        }
 
         bool isSearching = true;
         bool isDeadEnd = false;
@@ -184,11 +207,10 @@ public class VassalPathfinder : MonoBehaviour
                 overlayMap.SetTile(roadBack[i].coordinates, testTile);                
             }
 
-            return currentPath;
+            //return currentPath;
         }
 
-        Debug.Log(isDeadEnd);
-        return null;
+        return currentPath;
     }
 
     public void DrawThePath(List<Vector3> path)

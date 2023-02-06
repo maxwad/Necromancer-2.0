@@ -16,10 +16,12 @@ public class VassalTargetSelector : MonoBehaviour
     [SerializeField] private int searchPlayerRadius = 15;
 
     AITargetType currentTarget = AITargetType.Rest;
+    AIState currentState = AIState.Nothing;
     List<Vector3> currentPath = new List<Vector3>();
     Vector3Int finishCell = Vector3Int.zero;
 
     private bool shouldIContinueAction = false;
+    private bool aggressiveMode = false;
     //private Tilemap roadMap;
     //[SerializeField] private Tile testTile;
 
@@ -33,18 +35,29 @@ public class VassalTargetSelector : MonoBehaviour
         animScript = anim;
     }
 
-    public void SelectTarget()
+    public void SelectRandomTarget()
     {
-        //currentTarget = (AITargetType)UnityEngine.Random.Range(1, Enum.GetValues(typeof(AITargetType)).Length);
+        //currentTarget = (AITargetType)UnityEngine.Random.Range(1, Enum.GetValues(typeof(AITargetType)).Length - 1);
         currentTarget = AITargetType.Walking;
         animScript.ShowAction(currentTarget.ToString());
+    }
+
+    public void SelectSpecialTarget(AITargetType target)
+    {
+        currentTarget = target;
+        animScript.ShowAction(target.ToString());
+    }
+
+    public void SetState(AIState state)
+    {
+        currentState = state;
     }
 
     public void HandleTarget()
     {
         if(shouldIContinueAction == false)
         {
-            FindPathToRandomCell();
+            shouldIContinueAction = true;
 
             switch(currentTarget)
             {
@@ -52,7 +65,10 @@ public class VassalTargetSelector : MonoBehaviour
                     return;
 
                 case AITargetType.Walking:
-                    shouldIContinueAction = true;
+                    aggressiveMode = true;
+                    SetState(AIState.Moving);
+                    FindPathToRandomCell();
+                    //shouldIContinueAction = true;
                     //FindPathToRandomCell();
 
                     break;
@@ -63,12 +79,17 @@ public class VassalTargetSelector : MonoBehaviour
 
                     break;
                 case AITargetType.PlayerAttack:
+                    aggressiveMode = true;
 
                     break;
                 case AITargetType.ArmyDescent:
+                    aggressiveMode = true;
 
                     break;
                 case AITargetType.ToTheResource:
+
+                    break;
+                case AITargetType.ToTheOwnCastle:
 
                     break;
                 default:
@@ -84,26 +105,37 @@ public class VassalTargetSelector : MonoBehaviour
 
     public void GetNextTarget()
     {
-        finishCell = Vector3Int.zero;
+        //shouldIContinueAction = false;
+        //HandleTarget();
 
+        switch(currentState)
+        {
+            case AIState.Nothing:
+                break;
+
+            case AIState.Moving:
+                if(currentTarget == AITargetType.Walking)
+                {
+                    SetState(AIState.ToTheOwnCastle);
+                    animScript.ShowAction("Back to The Castle");
+                    FindPathToTheCastle();
+                }
+
+                break;
+
+            case AIState.Siege:
+                break;
+
+            case AIState.ToTheOwnCastle:
+                PrepareToRest();
+                break;
+
+            default:
+                break;
+        }
 
     }
 
-    private void FindPathToRandomCell()
-    {
-        finishCell = pathfinder.FindRandomCell();
-        //finishCell = new Vector3(cell.x, cell.y, cell.z);
-        currentPath = pathfinder.GetPath();
-
-        if(finishCell != Vector3Int.zero && currentPath.Count != 0)
-        {
-            movement.Movement(currentPath);
-        }
-        else
-        {
-            SelectTarget();        
-        }
-    }
 
     public AITargetType GetCurrentTarget()
     {
@@ -117,12 +149,41 @@ public class VassalTargetSelector : MonoBehaviour
 
     public bool ShouldIAttack()
     {
-        return currentTarget == AITargetType.PlayerAttack || currentTarget == AITargetType.ArmyDescent;
-    }
-    
+        return aggressiveMode;
+    }    
 
-    public void EndOfMove()
+    #region TASKS
+
+    private void FindPathToRandomCell()
     {
-        mainAI.EndOfMove();
+        finishCell = pathfinder.FindRandomCell();
+        //finishCell = new Vector3(cell.x, cell.y, cell.z);
+        currentPath = pathfinder.GetPath();
+
+        if(finishCell != Vector3Int.zero && currentPath.Count != 0)
+            movement.Movement(currentPath);
+        else
+            SelectRandomTarget();
     }
+
+    private void FindPathToTheCastle()
+    {
+        finishCell = pathfinder.ConvertToV3Int(mainAI.GetCastlePoint());
+        currentPath = pathfinder.CreatePath(finishCell);
+        aggressiveMode = false;
+
+        movement.Movement(currentPath);
+    }
+
+    private void PrepareToRest()
+    {
+        currentTarget = AITargetType.Rest;
+        shouldIContinueAction = false;
+        aggressiveMode = false;
+        currentPath.Clear();
+        mainAI.CrusadeIsOver();
+    }
+
+
+    #endregion
 }

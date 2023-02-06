@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,6 +18,8 @@ public class AISystem : MonoBehaviour
     private List<EnemyCastle> activeCastles = new List<EnemyCastle>();
     private int countOfCastles = 0;
     private int currentMover = 0;
+
+    private int currentCastle = 0;
 
     private void Start()
     {
@@ -59,7 +62,7 @@ public class AISystem : MonoBehaviour
 
         foreach(var castle in allCastles)
         {
-            if(castle.Value == false)
+            if(castle.Value == false && castle.Key.GetCastleStatus() == true)
                 passiveCastles.Add(castle.Key);
             else
                 activeVassals++;
@@ -67,7 +70,8 @@ public class AISystem : MonoBehaviour
 
         if(activeVassals < countOfActiveVassals && activeVassals < allCastles.Count)
         {
-            int index = Random.Range(0, passiveCastles.Count);
+            //int index = Random.Range(0, passiveCastles.Count);
+            int index = 0;
             if(activeCastles.Contains(passiveCastles[index]) == false)
             {
                 activeCastles.Add(passiveCastles[index]);
@@ -111,14 +115,14 @@ public class AISystem : MonoBehaviour
         activeCastles.Remove(castle);
     }
 
-    public void CastleIsDestroyed(EnemyCastle castle)
-    {
-        allCastles.Remove(castle);
-        countOfCastles--;
+    //public void CastleIsDestroyed(EnemyCastle castle)
+    //{
+    //    allCastles.Remove(castle);
+    //    countOfCastles--;
 
-        if(allCastles.Count == 0)
-            Debug.Log("All Vassals are DEAD!");
-    }
+    //    if(allCastles.Count == 0)
+    //        Debug.Log("All Vassals are DEAD!");
+    //}
 
     public List<Vassal> GetVassalsInfo()
     {
@@ -131,4 +135,20 @@ public class AISystem : MonoBehaviour
 
         return vassals;
     }
+
+    public void HandleBattleResult(bool isVassalWin)
+    {
+        foreach(var castle in allCastles)
+        {
+            if(castle.Value == true)
+            {
+                if(castle.Key.vassal.GetFightPauseStatus() == true)
+                {
+                    castle.Key.vassal.ContinueTurn(isVassalWin);
+                    break;
+                }
+            }
+        }
+    }
+
 }

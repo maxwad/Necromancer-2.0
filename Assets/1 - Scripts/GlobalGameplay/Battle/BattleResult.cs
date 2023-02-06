@@ -8,8 +8,21 @@ using System;
 
 public class BattleResult : MonoBehaviour
 {
-    [SerializeField] private GameObject uiPanel;
+    [Header("Managers")]
+    private BattleManager battleManager;
+    private Reward currentReward;
+    private RewardManager rewardManager;
+    private ResourcesManager resourcesManager;
+    private EnemyManager enemyManager;
+    private MacroLevelUpManager macroManager;
 
+    private PlayersArmy playersArmy;
+    private GMPlayerMovement playerMovement;
+
+    private Army currentEnemyArmy;
+    private EnemyArmyOnTheMap currentEnemyGO;
+
+    [SerializeField] private GameObject uiPanel;
     [SerializeField] private GameObject slotPrefab;
 
     [Header("Level Info")]
@@ -40,6 +53,7 @@ public class BattleResult : MonoBehaviour
     [SerializeField] private GameObject defeatIcon;
 
     private Dictionary<UnitsTypes, int> lostUnitsDict = new Dictionary<UnitsTypes, int>();
+    private Dictionary<ResourceType, Sprite> resourcesIcons;
 
     private List<Unit> actualUnits = new List<Unit>();
 
@@ -62,19 +76,6 @@ public class BattleResult : MonoBehaviour
     //0 - defeat, 1 - victory, -1 - stepback
     private int currentStatus;
     private float currentPercentReward;
-    private Army currentEnemyArmy;
-    private EnemyArmyOnTheMap currentEnemyGO;
-
-    [Header("Managers")]
-    private Reward currentReward;
-    private RewardManager rewardManager;
-    private ResourcesManager resourcesManager;
-    private Dictionary<ResourceType, Sprite> resourcesIcons;
-    private EnemyManager enemyManager;
-    private MacroLevelUpManager macroManager;
-
-    private PlayersArmy playersArmy;
-    private GMPlayerMovement playerMovement;
 
     public void Init(int mode, float percentOfReward, EnemyArmyOnTheMap currentArmyGO, Army currentArmy)
     {
@@ -90,6 +91,7 @@ public class BattleResult : MonoBehaviour
             macroManager     = GlobalStorage.instance.macroLevelUpManager; 
             playersArmy      = GlobalStorage.instance.playersArmy;
             playerMovement   = GlobalStorage.instance.globalPlayer;
+            battleManager    = GlobalStorage.instance.battleManager;
 
             CreateLists();
         }
@@ -277,29 +279,6 @@ public class BattleResult : MonoBehaviour
     }
 
     #region HELPERS
-    //private void RegisterDeadUnit(UnitsTypes unitType)
-    //{
-    //    if(isDeadRegistrating == true)
-    //    {
-    //        if(lostUnitsDict.ContainsKey(unitType) == true)
-    //            lostUnitsDict[unitType]++;
-    //        else
-    //            lostUnitsDict.Add(unitType, 1);
-    //    }
-    //}
-
-    //private void DeleteDeadUnit(UnitsTypes unitType)
-    //{
-    //    if(isDeadRegistrating == true)
-    //    {
-    //        if(lostUnitsDict.ContainsKey(unitType) == true)
-    //        {
-    //            lostUnitsDict[unitType]--;
-
-    //            if(lostUnitsDict[unitType] == 0) lostUnitsDict.Remove(unitType);
-    //        }
-    //    }
-    //}
 
     private void RefactoringContainer()
     {
@@ -376,17 +355,6 @@ public class BattleResult : MonoBehaviour
         }
     }
 
-    //public void StartCheckingUnitDeath(bool mode = false)
-    //{
-    //    if(mode == false) isDeadRegistrating = true;
-    //}
-
-    //public void CloseCheckingUnitDeath()
-    //{
-    //    // we need second function because we start reg automaticaly, but close - by command
-    //    isDeadRegistrating = false;
-    //}
-
     #endregion
 
     //Button
@@ -396,7 +364,8 @@ public class BattleResult : MonoBehaviour
         playersArmy.ClearDeadUnits();
 
         currentEnemyArmy = null;
-        if(levelGrowningCoroutine != null) StopCoroutine(levelGrowningCoroutine);
+        if(levelGrowningCoroutine != null) 
+            StopCoroutine(levelGrowningCoroutine);
 
         if(currentStatus == 0) EventManager.OnDefeatEvent();
         if(currentStatus == 1) GetReward();
@@ -409,19 +378,21 @@ public class BattleResult : MonoBehaviour
 
         GlobalStorage.instance.ModalWindowOpen(false);
         uiPanel.SetActive(false);
+
+        if(currentStatus != 0) battleManager.TryToContinueEnemysTurn();
     }
 
-    private void OnEnable()
-    { 
-        //EventManager.SwitchPlayer += StartCheckingUnitDeath;
-        //EventManager.WeLostOneUnit += RegisterDeadUnit;
-        //EventManager.ResurrectUnit += DeleteDeadUnit;
-    }
+    //private void OnEnable()
+    //{ 
+    //    //EventManager.SwitchPlayer += StartCheckingUnitDeath;
+    //    //EventManager.WeLostOneUnit += RegisterDeadUnit;
+    //    //EventManager.ResurrectUnit += DeleteDeadUnit;
+    //}
 
-    private void OnDisable()
-    {
-        //EventManager.SwitchPlayer -= StartCheckingUnitDeath;
-        //EventManager.WeLostOneUnit -= RegisterDeadUnit;
-        //EventManager.ResurrectUnit -= DeleteDeadUnit;
-    }
+    //private void OnDisable()
+    //{
+    //    //EventManager.SwitchPlayer -= StartCheckingUnitDeath;
+    //    //EventManager.WeLostOneUnit -= RegisterDeadUnit;
+    //    //EventManager.ResurrectUnit -= DeleteDeadUnit;
+    //}
 }

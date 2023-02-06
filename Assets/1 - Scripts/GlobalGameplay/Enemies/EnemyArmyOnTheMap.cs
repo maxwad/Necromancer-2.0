@@ -146,9 +146,9 @@ public class EnemyArmyOnTheMap : MonoBehaviour
         if(isBorning == false) gameObject.SetActive(false);
     }
 
-    public void PrepairToTheBattle()
+    public void PrepairToTheBattle(bool enemyInitiative = false)
     {
-        battleManager.PrepairToTheBattle(army, this);
+        battleManager.PrepairToTheBattle(army, this, enemyInitiative);
     }
 
 }

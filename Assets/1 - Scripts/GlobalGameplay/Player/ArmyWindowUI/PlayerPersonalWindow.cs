@@ -52,6 +52,7 @@ public class PlayerPersonalWindow : MonoBehaviour, IInputableKeys
     private MacroLevelWindow macroLevelUI;
     private RunesWindow runesWindow;
     [HideInInspector] public bool isWindowOpened = false;
+    private bool canICloseWindow = true;
     private float playerCuriosity;
 
 
@@ -83,6 +84,8 @@ public class PlayerPersonalWindow : MonoBehaviour, IInputableKeys
 
     public void InputHandling(KeyActions keyAction)
     {
+        if(canICloseWindow == false) return;
+
         currentKeyAction = keyAction;
 
         if(currentKeyAction == KeyActions.Army)
@@ -121,6 +124,8 @@ public class PlayerPersonalWindow : MonoBehaviour, IInputableKeys
 
     public void PressButton(KeyActions keyAction) 
     {
+        if(canICloseWindow == false) return;
+
         currentKeyAction = keyAction;
 
         if(currentKeyAction == KeyActions.Army)
@@ -148,9 +153,10 @@ public class PlayerPersonalWindow : MonoBehaviour, IInputableKeys
         }
     }
 
-    public void OpenWindow(PlayersWindow mode, EnemyArmyOnTheMap enemyArmy = null)
+    public void OpenWindow(PlayersWindow mode, EnemyArmyOnTheMap enemyArmy = null, bool enemyInitiative = false)
     {
         currentEnemy = enemyArmy;
+        canICloseWindow = !enemyInitiative;
 
         MenuManager.instance.MiniPause(true);
 
@@ -224,6 +230,12 @@ public class PlayerPersonalWindow : MonoBehaviour, IInputableKeys
         if(currentMode == PlayersWindow.Tomb)
         {
             //tombBlock.SetActive(true);
+        }
+
+        if(canICloseWindow == false)
+        {
+            closeButton.SetActive(false);
+            stepbackButton.SetActive(false);
         }
     }
 

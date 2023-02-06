@@ -266,6 +266,7 @@ public class FBuilding : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
     {
         //if(level > 0) 
         //    level--;
+        if(allBuildings == null) return;
 
         allBuildings.UpgradeBuilding(building, false);
         Init();

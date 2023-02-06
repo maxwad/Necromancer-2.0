@@ -26,6 +26,8 @@ public class Vassal : MonoBehaviour
     private Color vassalColor;
     private string vassalName;
 
+    private bool isTurnPaused = false;
+
     public void Init(EnemyCastle castle, Color color, string name)
     {
         myCastle = castle;
@@ -38,13 +40,13 @@ public class Vassal : MonoBehaviour
         enemyArmy = GetComponent<EnemyArmyOnTheMap>();
 
         targetSelector = GetComponent<VassalTargetSelector>();
-        pathfinder = GetComponent<VassalPathfinder>();
-        movement = GetComponent<VassalMovement>();
-        animScript = GetComponent<VassalAnimation>();
+        pathfinder     = GetComponent<VassalPathfinder>();
+        movement       = GetComponent<VassalMovement>();
+        animScript     = GetComponent<VassalAnimation>();
 
         targetSelector.Init(this, pathfinder, movement, animScript);
         pathfinder.Init(movement);
-        movement.Init(targetSelector, animScript, pathfinder);
+        movement.Init(this, targetSelector, animScript, pathfinder);
         animScript.Init(vassalColor);
 
         gmCamera = Camera.main.GetComponent<GlobalCamera>();
@@ -54,10 +56,10 @@ public class Vassal : MonoBehaviour
     {
         if(targetSelector.GetCurrentTarget() == AITargetType.Rest)
         {
-            transform.position = myCastle.GetStartPosition();
+            transform.position = GetCastlePoint();
             animScript.Activate(true);
             GetArmy();
-            targetSelector.SelectTarget();
+            targetSelector.SelectRandomTarget();
         }
 
         gmCamera.SetObserveObject(gameObject);
@@ -66,12 +68,56 @@ public class Vassal : MonoBehaviour
         StartCoroutine(Action());
     }
 
-    public IEnumerator Action()
+    public void ContinueTurn(bool isVassalWin)
+    {
+        //Add some conditions
+        AIState state = (isVassalWin == true) ? AIState.Moving : AIState.Dead;
+        targetSelector.SetState(state);
+
+        StartCoroutine(Action(true));
+    }
+
+    public IEnumerator Action(bool continueMode = false)
     {
         yield return delay;
 
-        targetSelector.HandleTarget();
+        if(continueMode == true)
+            targetSelector.GetNextTarget();
+        else
+            targetSelector.HandleTarget();
     }
+
+    public void EndOfMove(bool crusadeIsEnd = false)
+    {
+        StartCoroutine(Deactivation(crusadeIsEnd));
+    }
+
+    public IEnumerator Deactivation(bool crusadeIsEnd)
+    {
+        yield return delay;
+
+        myCastle.EndOfMove();
+
+        if(crusadeIsEnd == true)
+        {
+            transform.position = GetCastlePoint();
+            animScript.Activate(false);
+        }
+    }
+
+    public void CrusadeIsOver()
+    {
+        EndOfMove(true);
+
+        myCastle.GiveMyABreak();
+    }
+
+    public void StartFigth()
+    {
+        enemyArmy.PrepairToTheBattle(true);
+    }
+
+    #region GETTINGS & SETTINGS
 
     private void GetArmy()
     {
@@ -80,20 +126,20 @@ public class Vassal : MonoBehaviour
         enemyArmy.Birth();
     }
 
-    //public AIState GetVassalState()
-    //{
-    //    return currentState;
-    //}
-
-    public void EndOfMove()
+    public Vector3 GetCastlePoint()
     {
-        StartCoroutine(Deactivation());
+        return myCastle.GetStartPosition();
     }
 
-    public IEnumerator Deactivation()
+    public bool GetFightPauseStatus()
     {
-        yield return delay;
-
-        myCastle.EndOfMove();
+        return isTurnPaused;
     }
+
+    public void SetTurnStatus(bool mode)
+    {
+        isTurnPaused = mode;
+    }
+
+    #endregion
 }

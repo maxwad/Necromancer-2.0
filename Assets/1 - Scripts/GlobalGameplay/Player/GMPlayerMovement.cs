@@ -8,6 +8,11 @@ public class GMPlayerMovement : MonoBehaviour
 {
     private PlayerStats playerStats;
     private GMInterface gmInterface;
+    private BattleManager battleManager;
+    private GlobalMapPathfinder gmPathFinder;
+    private GMPlayerPositionChecker positionChecker;
+    private ResourcesManager resourcesManager;
+
     private float movementPointsMax = 0;
     private float currentMovementPoints = 0;
     private float extraMovementPoints = 0;
@@ -23,10 +28,6 @@ public class GMPlayerMovement : MonoBehaviour
     private bool cancelMovement = false;
     private bool iAmMoving = false;
 
-    private GlobalMapPathfinder gmPathFinder;
-    private GMPlayerPositionChecker positionChecker;
-    private ResourcesManager resourcesManager;
-
     private SpriteRenderer sprite;
     [SerializeField] private Color activeColor;
     [SerializeField] private Color inActiveColor;
@@ -36,13 +37,15 @@ public class GMPlayerMovement : MonoBehaviour
 
     private void Awake()
     {
-        sprite = GetComponent<SpriteRenderer>();
+        sprite       = GetComponent<SpriteRenderer>();
         sprite.color = activeColor;
-        playerStats = GlobalStorage.instance.playerStats;
-        gmInterface = GlobalStorage.instance.gmInterface;
-        gmPathFinder = GlobalStorage.instance.globalMap.GetComponent<GlobalMapPathfinder>();
+
+        playerStats      = GlobalStorage.instance.playerStats;
+        gmInterface      = GlobalStorage.instance.gmInterface;
+        gmPathFinder     = GlobalStorage.instance.globalMap.GetComponent<GlobalMapPathfinder>();
         resourcesManager = GlobalStorage.instance.resourcesManager;
-        positionChecker = GetComponent<GMPlayerPositionChecker>();
+        positionChecker  = GetComponent<GMPlayerPositionChecker>();
+        battleManager    = GlobalStorage.instance.battleManager;
     }
 
     private void Start()
@@ -279,6 +282,8 @@ public class GMPlayerMovement : MonoBehaviour
 
         MenuManager.instance.isGamePaused = false;
         MenuManager.instance.canIOpenMenu = true;
+
+        battleManager.TryToContinueEnemysTurn();
     }
 
     public void PathAfterBattle(int result)

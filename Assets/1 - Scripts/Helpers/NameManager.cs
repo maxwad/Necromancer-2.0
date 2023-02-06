@@ -378,11 +378,13 @@ public static class NameManager
 
     public enum AIState
     {
-        Rest,
-        ToTheTarget,
-        Siege
+        Nothing,
+        Moving,
+        Siege,
+        ToTheOwnCastle,
+        Dead
     }
-
+        
     public enum AITargetType
     {
         Rest,
@@ -391,7 +393,9 @@ public static class NameManager
         ResBuildingAttack,
         PlayerAttack,
         ArmyDescent,
-        ToTheResource
+        ToTheResource,
+        ToTheOwnCastle,
+        TeleportToCastle
     }
 
     #endregion

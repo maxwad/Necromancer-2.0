@@ -6,37 +6,41 @@ using static NameManager;
 
 public class VassalMovement : MonoBehaviour
 {
-    private GlobalMapTileManager tileManager;
     private MapBonusManager heapManager;
     private EnemyManager enemyManager;
     private AISystem aiSystem;
     private GameObject player;
 
+    private Vassal mainAI;
     private VassalAnimation animationScript;
     private VassalTargetSelector targetSelector;
     private VassalPathfinder pathfinder;
 
-    [SerializeField] private int movementPoints = 20;
+    [SerializeField] private int movementPoints = 4;
     private int currentMovementPoints;
 
-    private float speed = 25f; //50 for build
+    private float speed = 50f; //50 for build
     private float defaultCountSteps = 500;
 
     private bool shouldIStop = false;
+    private bool shouldIChangePath = false;
+    private bool shouldIFigth = false;
     private Vector3Int heapCell = Vector3Int.zero;
     private Vector3 finishCell = Vector3.zero;
 
     private List<Vector3> currentPath = new List<Vector3>();
 
-    private Coroutine movenentCoroutine;
+    private Coroutine movementCoroutine;
+    private WaitForSeconds decidingDelay = new WaitForSeconds(0.3f);
+    private WaitForSeconds movingDelay = new WaitForSeconds(0.01f);
 
-    public void Init(VassalTargetSelector ts, VassalAnimation animation, VassalPathfinder pf)
+    public void Init(Vassal v, VassalTargetSelector ts, VassalAnimation animation, VassalPathfinder pf)
     {
+        mainAI = v;
         targetSelector = ts;
         animationScript = animation;
         pathfinder = pf;
 
-        tileManager = GlobalStorage.instance.gmManager;
         heapManager = GlobalStorage.instance.mapBonusManager;
         enemyManager = GlobalStorage.instance.enemyManager;
         aiSystem = GlobalStorage.instance.aiSystem;
@@ -60,18 +64,19 @@ public class VassalMovement : MonoBehaviour
         if(resetMovePointsMode == true)
             ResetMovementPoints();
 
-        if(movenentCoroutine != null)
-            StopCoroutine(movenentCoroutine);
+        if(movementCoroutine != null)
+            StopCoroutine(movementCoroutine);
 
-        movenentCoroutine = StartCoroutine(Moving(path));
+        movementCoroutine = StartCoroutine(Moving(path));
     }
 
     private IEnumerator Moving(List<Vector3> pathPoints)
     {        
         Vector3 previousPosition = pathPoints[0];
-        bool shouldIChangePath = false;
 
         pathfinder.DrawThePath(pathPoints);
+
+        yield return decidingDelay;
 
         for(int i = 1; i < pathPoints.Count; i++)
         {
@@ -111,7 +116,9 @@ public class VassalMovement : MonoBehaviour
             {
                 if(targetSelector.ShouldIAttack() == true)
                 {
-                    // if target = attack - attack
+                    mainAI.SetTurnStatus(true);
+                    shouldIFigth = true;
+                    break;
                 }
                 else
                 {
@@ -126,7 +133,7 @@ public class VassalMovement : MonoBehaviour
             for(float t = 0; t < defaultCountSteps / speed; t++)
             {
                 transform.position += step;
-                yield return new WaitForSeconds(0.01f);
+                yield return movingDelay;
             }
 
             currentMovementPoints--;
@@ -144,44 +151,58 @@ public class VassalMovement : MonoBehaviour
             pathPoints.Remove(pathPoints[index]);
         }
 
-        if(currentMovementPoints == 0)
+        if(shouldIFigth == true)
         {
-            targetSelector.EndOfMove();
-            yield return false;
+            yield return decidingDelay;
+            Figth();
         }
-
-        if(pathPoints.Count == 1)
+        else
         {
-            if(transform.position == tileManager.CellConverterToV3(targetSelector.GetFinishCell()))
+            if(currentMovementPoints == 0)
             {
-                Debug.Log("I need new Target.");
-                targetSelector.GetNextTarget();
+                mainAI.EndOfMove();
                 yield return false;
             }
-            else
-            {
-                BackToMainTarget(pathPoints);
-                yield return false;
-            }
-        }
 
-        if(shouldIChangePath == true)
-            CreatePathAndMoveToHeap(pathPoints);
+            if(pathPoints.Count == 1 && shouldIChangePath == false)
+            {            
+                if(transform.position == pathfinder.ConvertToV3(targetSelector.GetFinishCell()))
+                {
+                    Debug.Log("I need new Target.");
+                    targetSelector.GetNextTarget();
+                    yield return false;
+                }
+                else
+                {
+                    BackToMainTarget(pathPoints);
+                    yield return false;
+                }
+            }
+
+            if(shouldIChangePath == true)
+                CreatePathAndMoveToHeap(pathPoints);
+        }
     }
 
     private void CreatePathAndMoveToHeap(List<Vector3> pathPoints)
     {
-        pathPoints.Clear();
+        //pathPoints.Clear();
         pathPoints = pathfinder.CreatePath(heapCell);
         Movement(pathPoints, false);
     }
 
     private void BackToMainTarget(List<Vector3> pathPoints)
     {
-        pathPoints.Clear();
+        //pathPoints.Clear();
         pathPoints = pathfinder.CreatePath(targetSelector.GetFinishCell());
         Movement(pathPoints, false);
     }
+
+    private void Figth()
+    {
+        mainAI.StartFigth();
+    }
+
 
     #region CHECKERS
 
@@ -203,17 +224,17 @@ public class VassalMovement : MonoBehaviour
 
     public bool CheckHeapNearBy(Vector3 nextPoint)
     {
-        GMHexCell checkCell = tileManager.GetCell(transform.position);
+        GMHexCell checkCell = pathfinder.GetCell(transform.position);
         GMHexCell[] neighbors = checkCell.neighbors;
 
         foreach(var pos in neighbors)
         {
             if(pos == null) continue;
 
-            if(pos.coordinates == tileManager.CellConverterToV3Int(nextPoint))
+            if(pos.coordinates == pathfinder.ConvertToV3Int(nextPoint))
                 continue;
 
-            Vector3 checkPos = tileManager.CellConverterToV3(pos.coordinates);
+            Vector3 checkPos = pathfinder.ConvertToV3(pos.coordinates);
             if(heapManager.IsHeapOnPosition(checkPos) == true)
             {
                 heapCell = pos.coordinates;

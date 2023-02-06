@@ -9,11 +9,11 @@ public class EnemyCastle : MonoBehaviour
     private AISystem aiSystem;
 
     [SerializeField] private int defeatRestDays = 30;
-    [SerializeField] private int completeRestDays = 15;
+    [SerializeField] private int completeRestDays = 5;
     private int currentRest = 0;
     private bool isReady = true;
 
-    [SerializeField] private Vassal vassal;
+    public Vassal vassal;
     private Vector3 enterPoint;
     private GameObject player;
 
@@ -56,6 +56,7 @@ public class EnemyCastle : MonoBehaviour
         if(currentRest > 0)
         {
             currentRest--;
+            Debug.Log("Days to new goal " + currentRest);
 
             if(currentRest == 0)
                 isReady = true;
@@ -67,6 +68,13 @@ public class EnemyCastle : MonoBehaviour
         return player.transform.position == enterPoint;
     }
 
+    public void GiveMyABreak()
+    {
+        isReady = false;
+        currentRest = completeRestDays;
+        aiSystem.CrusadeComplete(this);
+    }
+
     public Vector3 GetStartPosition()
     {
         return enterPoint;
@@ -75,6 +83,11 @@ public class EnemyCastle : MonoBehaviour
     public Vassal GetVassal()
     {
         return vassal;
+    }
+
+    public bool GetCastleStatus()
+    {
+        return isReady;
     }
 
     private void OnEnable()

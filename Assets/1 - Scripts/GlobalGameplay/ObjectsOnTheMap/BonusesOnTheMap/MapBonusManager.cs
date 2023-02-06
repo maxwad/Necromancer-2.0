@@ -83,7 +83,7 @@ public class MapBonusManager : MonoBehaviour
     private bool CheckPosition(Vector3 position)
     {
         bool isPositionFree = false;
-        int currentSearchIndex = 0;
+        //int currentSearchIndex = 0;
 
         foreach(var point in enemiesPointsDict)
         {
@@ -96,7 +96,7 @@ public class MapBonusManager : MonoBehaviour
             else
             {
                 isPositionFree = true;
-                currentSearchIndex++;
+                //currentSearchIndex++;
             }
         }
 
@@ -111,12 +111,28 @@ public class MapBonusManager : MonoBehaviour
             else
             {
                 isPositionFree = true;
-                currentSearchIndex++;
+                //currentSearchIndex++;
+            }
+        }
+
+        foreach(var point in heapsPointsDict)
+        {
+            if(Vector3.Distance(point.Value, position) < heapsGap / 2f)
+            {
+                //roadMap.SetTile(roadMap.WorldToCell(position), fogTile);
+                isPositionFree = false;
+                return false;
+            }
+            else
+            {
+                isPositionFree = true;
+                //currentSearchIndex++;
             }
         }
 
         if(isPositionFree == true) isPositionFree = CheckPlayerPosition(position);
 
+        //Debug.Log("Tries " + currentSearchIndex);
         return isPositionFree;
     }
 
@@ -152,8 +168,8 @@ public class MapBonusManager : MonoBehaviour
     {
         WaitForSeconds delay = new WaitForSeconds(0.1f);
 
-        foreach(var enemy in heapsPointsDict)
-            enemy.Key.Death();
+        foreach(var enemy in new List<ResourceObject>(heapsPointsDict.Keys))
+            enemy.Death();
 
         yield return delay;
 
@@ -199,4 +215,19 @@ public class MapBonusManager : MonoBehaviour
     {
         EventManager.NewMonth -= ReGenerateHeapsOnTheMap;
     }
+
+    ////FOR TESTING
+
+    //private void Update()
+    //{
+    //    if(Input.GetMouseButtonDown(1) == true)
+    //    {
+    //        Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+    //        pos = new Vector3(pos.x, pos.y, 0);
+    //        Vector3Int pos3 = gmManager.CellConverterToV3Int(pos);
+    //        pos = gmManager.CellConverterToV3(pos3);
+    //        //Debug.Log("Click on " + pos + " player on " + GlobalStorage.instance.globalPlayer.gameObject.transform.position );
+    //        CreateHeap(pos);
+    //    }
+    //}
 }
