@@ -82,7 +82,7 @@ public class BattleManager : MonoBehaviour
             yield return null;
         }
 
-        isVassalWin = (result == 1 && isFightWithVassal == true);
+        isVassalWin = (result == 0 && isFightWithVassal == true);
 
         battleResultUI.Init(result, percentOfReward, currentEnemyArmyOnTheMap, currentArmy);
     }

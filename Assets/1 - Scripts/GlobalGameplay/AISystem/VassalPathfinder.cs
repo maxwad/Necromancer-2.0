@@ -91,22 +91,16 @@ public class VassalPathfinder : MonoBehaviour
                 cells.Add(new Vector3Int(i, maxY, 0));
         }
 
-        return GetFinishCell(cells);        
-    }
-
-    private Vector3Int GetFinishCell(List<Vector3Int> cells)
-    {
         Vector3Int resultCell = Vector3Int.zero;
-
         int count = cells.Count;
         while(count > 0)
         {
             Vector3Int randomCellInt = cells[UnityEngine.Random.Range(0, cells.Count)];
-            Vector3 randomCellV3 = roadMap.CellToWorld(randomCellInt);
 
-            if(tileManager.CheckCellAsEnterPoint(randomCellV3) == true)
+            if(tileManager.CheckCellAsEnterPoint(randomCellInt) == true)
             {
                 cells.Remove(randomCellInt);
+                count--;
                 continue;
             }
             else
@@ -121,6 +115,7 @@ public class VassalPathfinder : MonoBehaviour
 
         return resultCell;
     }
+
 
     private bool CheckMovesCount(Vector3Int finishCell)
     {

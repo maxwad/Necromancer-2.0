@@ -338,11 +338,11 @@ public class GlobalMapTileManager : MonoBehaviour
         gmPathfinder.SetEnterPoints(enterPointsDict);
     }
 
-    public bool CheckCellAsEnterPoint(Vector3 cell)
+    public bool CheckCellAsEnterPoint(Vector3Int cell)
     {
         foreach(var enterPoint in enterPointsDict)
         {
-            if(enterPoint.Value == cell) return true;
+            if(enterPoint.Value == roadMap.CellToWorld(cell)) return true;
         }
 
         return false;

@@ -16,7 +16,7 @@ public class Vassal : MonoBehaviour
     private VassalMovement movement;
 
     private GlobalCamera gmCamera;
-    private WaitForSeconds delay =  new WaitForSeconds(0.5f);
+    private WaitForSeconds delay =  new WaitForSeconds(1f);
 
     //private Vector3 startPosition;
     //private AIState currentState = AIState.Rest;
@@ -59,11 +59,13 @@ public class Vassal : MonoBehaviour
             transform.position = GetCastlePoint();
             animScript.Activate(true);
             GetArmy();
-            targetSelector.SelectRandomTarget();
+            //targetSelector.SelectRandomTarget();
         }
 
         gmCamera.SetObserveObject(gameObject);
         gmInterface.turnPart.FillMessage(vassalName, vassalColor);
+
+        movement.ResetMovementPoints();
 
         StartCoroutine(Action());
     }
@@ -71,8 +73,9 @@ public class Vassal : MonoBehaviour
     public void ContinueTurn(bool isVassalWin)
     {
         //Add some conditions
-        AIState state = (isVassalWin == true) ? AIState.Moving : AIState.Dead;
-        targetSelector.SetState(state);
+        AITargetType action = (isVassalWin == true) ? AITargetType.ToTheOwnCastle : AITargetType.Death;
+        targetSelector.SelectSpecialTarget(action);
+        gmCamera.SetObserveObject(gameObject);
 
         StartCoroutine(Action(true));
     }
@@ -82,9 +85,9 @@ public class Vassal : MonoBehaviour
         yield return delay;
 
         if(continueMode == true)
-            targetSelector.GetNextTarget();
+            targetSelector.HandleAction();
         else
-            targetSelector.HandleTarget();
+            targetSelector.SelectRandomTarget();
     }
 
     public void EndOfMove(bool crusadeIsEnd = false)
@@ -108,7 +111,6 @@ public class Vassal : MonoBehaviour
     public void CrusadeIsOver()
     {
         EndOfMove(true);
-
         myCastle.GiveMyABreak();
     }
 

@@ -51,7 +51,12 @@ public class AISystem : MonoBehaviour
 
     public void StartMoves()
     {
-        if(allCastles.Count == 0) EndMoves();
+        if(allCastles.Count == 0) 
+            EndMoves();
+        else
+        {
+            //SortCastles();
+        }
 
         gmInterface.turnPart.ActivateTurnBlock(true);
 
@@ -81,6 +86,7 @@ public class AISystem : MonoBehaviour
 
         ActivateNextCastle();
     }
+
 
     private void ActivateNextCastle()
     {

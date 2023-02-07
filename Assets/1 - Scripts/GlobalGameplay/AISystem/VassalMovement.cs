@@ -61,8 +61,8 @@ public class VassalMovement : MonoBehaviour
     {
         currentPath = path;
 
-        if(resetMovePointsMode == true)
-            ResetMovementPoints();
+        //if(resetMovePointsMode == true)
+        //    ResetMovementPoints();
 
         if(movementCoroutine != null)
             StopCoroutine(movementCoroutine);
@@ -161,22 +161,22 @@ public class VassalMovement : MonoBehaviour
             if(currentMovementPoints == 0)
             {
                 mainAI.EndOfMove();
-                yield return false;
+                yield break;
             }
 
             if(pathPoints.Count == 1 && shouldIChangePath == false)
             {            
                 if(transform.position == pathfinder.ConvertToV3(targetSelector.GetFinishCell()))
                 {
-                    Debug.Log("I need new Target.");
-                    targetSelector.GetNextTarget();
-                    yield return false;
+                    Debug.Log("I need new action.");
+                    targetSelector.GetNextAction();
                 }
                 else
                 {
-                    BackToMainTarget(pathPoints);
-                    yield return false;
+                    BackToMainTarget(pathPoints);                    
                 }
+
+                yield break;
             }
 
             if(shouldIChangePath == true)
@@ -201,6 +201,7 @@ public class VassalMovement : MonoBehaviour
     private void Figth()
     {
         mainAI.StartFigth();
+        shouldIFigth = false;
     }
 
 

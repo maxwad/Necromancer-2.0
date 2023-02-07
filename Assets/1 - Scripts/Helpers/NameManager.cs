@@ -387,15 +387,33 @@ public static class NameManager
         
     public enum AITargetType
     {
-        Rest,
         Walking,
         CastleAttack,
         ResBuildingAttack,
         PlayerAttack,
         ArmyDescent,
-        ToTheResource,
+        Rest,
         ToTheOwnCastle,
-        TeleportToCastle
+        TeleportToCastle,
+        Death
+    }
+
+    public enum AIActions
+    {
+        Rest,
+        Moving,
+        SearchPlayerCastle,
+        SearchResBuilding,
+        SearchPlayer,
+        SearchOwnCastle,
+        ArmyDescent,
+        ToTheResource,
+        ToTheSomewhere,
+        TeleportToCastle,
+        Death,
+        Siege,
+        SearchSomePoint,
+        End
     }
 
     #endregion
