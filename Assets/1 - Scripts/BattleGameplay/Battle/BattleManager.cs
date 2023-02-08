@@ -115,7 +115,6 @@ public class BattleManager : MonoBehaviour
 
     public void TryToContinueEnemysTurn()
     {
-        Debug.Log("TryToContinueEnemysTurn");
         aiSystem.HandleBattleResult(isVassalWin);
 
         isVassalWin = false;

@@ -16,12 +16,7 @@ public class Vassal : MonoBehaviour
     private VassalMovement movement;
 
     private GlobalCamera gmCamera;
-    private WaitForSeconds delay =  new WaitForSeconds(1f);
-
-    //private Vector3 startPosition;
-    //private AIState currentState = AIState.Rest;
-    //private AITargetType currentTarget = AITargetType.Rest;
-    //private List<AITargetType> stateList;
+    private WaitForSeconds delay =  new WaitForSeconds(0.75f);
 
     private Color vassalColor;
     private string vassalName;
@@ -33,6 +28,7 @@ public class Vassal : MonoBehaviour
         myCastle = castle;
         vassalColor = color;
         vassalName = name;
+        gameObject.name = vassalName;
 
         gmInterface = GlobalStorage.instance.gmInterface;
 
@@ -59,33 +55,33 @@ public class Vassal : MonoBehaviour
             transform.position = GetCastlePoint();
             animScript.Activate(true);
             GetArmy();
-            //targetSelector.SelectRandomTarget();
         }
 
-        gmCamera.SetObserveObject(gameObject);
-        gmInterface.turnPart.FillMessage(vassalName, vassalColor);
+        SetCameraOnVassal();
+        gmInterface.turnPart.FillMessage(true, vassalName, vassalColor);
 
         movement.ResetMovementPoints();
 
-        StartCoroutine(Action());
+        Action();
+        //StartCoroutine(Action());
     }
 
     public void ContinueTurn(bool isVassalWin)
     {
-        //Add some conditions
         AITargetType action = (isVassalWin == true) ? AITargetType.ToTheOwnCastle : AITargetType.Death;
         targetSelector.SelectSpecialTarget(action);
-        gmCamera.SetObserveObject(gameObject);
+        SetCameraOnVassal();
 
-        StartCoroutine(Action(true));
+        Action(true);
+        //StartCoroutine(Action(true));
     }
 
-    public IEnumerator Action(bool continueMode = false)
+    public void Action(bool continueMode = false)
     {
-        yield return delay;
+        //yield return delay;
 
         if(continueMode == true)
-            targetSelector.HandleAction();
+            targetSelector.GetNextAction();
         else
             targetSelector.SelectRandomTarget();
     }
@@ -108,10 +104,10 @@ public class Vassal : MonoBehaviour
         }
     }
 
-    public void CrusadeIsOver()
+    public void CrusadeIsOver(bool deathMode = false)
     {
         EndOfMove(true);
-        myCastle.GiveMyABreak();
+        myCastle.GiveMyABreak(deathMode);
     }
 
     public void StartFigth()
@@ -143,5 +139,9 @@ public class Vassal : MonoBehaviour
         isTurnPaused = mode;
     }
 
+    public void SetCameraOnVassal()
+    {
+        gmCamera.SetObserveObject(gameObject);
+    }
     #endregion
 }

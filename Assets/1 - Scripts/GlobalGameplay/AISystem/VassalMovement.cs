@@ -76,7 +76,7 @@ public class VassalMovement : MonoBehaviour
 
         pathfinder.DrawThePath(pathPoints);
 
-        yield return decidingDelay;
+        yield return movingDelay;
 
         for(int i = 1; i < pathPoints.Count; i++)
         {
@@ -114,17 +114,9 @@ public class VassalMovement : MonoBehaviour
 
             if(CheckPlayer(pathPoints[i]) == true)
             {
-                if(targetSelector.ShouldIAttack() == true)
-                {
-                    mainAI.SetTurnStatus(true);
-                    shouldIFigth = true;
-                    break;
-                }
-                else
-                {
-                    // otherwise - to the Castle
-                }
-
+                mainAI.SetTurnStatus(true);
+                shouldIFigth = true;
+                break;
             }
 
             Vector3 distance = pathPoints[i] - transform.position;
@@ -186,14 +178,12 @@ public class VassalMovement : MonoBehaviour
 
     private void CreatePathAndMoveToHeap(List<Vector3> pathPoints)
     {
-        //pathPoints.Clear();
         pathPoints = pathfinder.CreatePath(heapCell);
         Movement(pathPoints, false);
     }
 
     private void BackToMainTarget(List<Vector3> pathPoints)
     {
-        //pathPoints.Clear();
         pathPoints = pathfinder.CreatePath(targetSelector.GetFinishCell());
         Movement(pathPoints, false);
     }
@@ -204,6 +194,28 @@ public class VassalMovement : MonoBehaviour
         shouldIFigth = false;
     }
 
+    public void Teleportation(Vector3Int newPosition)
+    {
+        Vector3 destination = pathfinder.ConvertToV3(newPosition);
+
+        StartCoroutine(Teleport(destination));
+    }
+
+    private IEnumerator Teleport(Vector3 newPosition)
+    {
+        WaitForSecondsRealtime delay = new WaitForSecondsRealtime(2.5f);
+        animationScript.Fading(true);
+
+        yield return delay;
+
+        gameObject.transform.position = newPosition;
+        mainAI.SetCameraOnVassal();
+        animationScript.Fading(false);
+
+        yield return delay;        
+
+        targetSelector.PrepareToRest(true); 
+    }
 
     #region CHECKERS
 

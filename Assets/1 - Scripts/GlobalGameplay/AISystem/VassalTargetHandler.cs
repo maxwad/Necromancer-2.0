@@ -23,13 +23,20 @@ public partial class VassalTargetSelector
             Debug.Log("THERE IS PROBLEM with the back path");
     }
 
-    private void PrepareToRest(bool deathMode = false)
+    public void PrepareToRest(bool deathMode = false)
     {
         currentTarget = AITargetType.Rest;
         shouldIContinueAction = false;
         currentPath.Clear();
-        mainAI.CrusadeIsOver();
+        mainAI.CrusadeIsOver(deathMode);
     }
+
+    public void TeleportingToTheCastle()
+    {
+        finishCell = pathfinder.ConvertToV3Int(mainAI.GetCastlePoint());
+        movement.Teleportation(finishCell);
+    }
+
 
 
     #endregion

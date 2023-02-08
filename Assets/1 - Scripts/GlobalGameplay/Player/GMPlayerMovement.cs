@@ -246,10 +246,10 @@ public class GMPlayerMovement : MonoBehaviour
     {
         gmPathFinder.DestroyPath(true);
         resourcesManager.ChangeResource(ResourceType.Mana, -cost);
-        StartCoroutine(Telepartation(newPosition));        
+        StartCoroutine(Teleportation(newPosition));        
     }
 
-    private IEnumerator Telepartation(Vector2 newPosition)
+    private IEnumerator Teleportation(Vector2 newPosition)
     {
         WaitForSecondsRealtime delay = new WaitForSecondsRealtime(0.01f);
         MenuManager.instance.isGamePaused = true;
@@ -282,6 +282,8 @@ public class GMPlayerMovement : MonoBehaviour
 
         MenuManager.instance.isGamePaused = false;
         MenuManager.instance.canIOpenMenu = true;
+
+        yield return delay;
 
         battleManager.TryToContinueEnemysTurn();
     }

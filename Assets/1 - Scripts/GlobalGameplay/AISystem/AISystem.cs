@@ -8,22 +8,24 @@ public class AISystem : MonoBehaviour
 {
     private GameMaster gameMaster;
     private GMInterface gmInterface;
+    private GlobalCamera gmCamera;
 
     [SerializeField] private List<Color> castleColors;
     [SerializeField] private List<string> castleOwners;
     [SerializeField] private int countOfActiveVassals = 8; 
 
     private Dictionary<EnemyCastle, bool> allCastles = new Dictionary<EnemyCastle, bool>();
-    //private List<GameObject> allCastlesGO = new List<GameObject>();
     private List<EnemyCastle> activeCastles = new List<EnemyCastle>();
     private int countOfCastles = 0;
     private int currentMover = 0;
 
     private int currentCastle = 0;
+    private bool isCastlesSorted = false;
 
     private void Start()
     {
         gmInterface = GlobalStorage.instance.gmInterface;
+        gmCamera = Camera.main.GetComponent<GlobalCamera>();
     }
 
     public void RegisterCastle(GameObject castle)
@@ -53,12 +55,12 @@ public class AISystem : MonoBehaviour
     {
         if(allCastles.Count == 0) 
             EndMoves();
-        else
-        {
-            //SortCastles();
-        }
+
+        if(isCastlesSorted == false)
+            SortCastles();
 
         gmInterface.turnPart.ActivateTurnBlock(true);
+        gmInterface.ShowInterfaceElements(false);
 
         currentMover = 0;
 
@@ -87,6 +89,37 @@ public class AISystem : MonoBehaviour
         ActivateNextCastle();
     }
 
+    //for testing
+    private void SortCastles()
+    {
+        Dictionary<EnemyCastle, bool> sortedCastles = new Dictionary<EnemyCastle, bool>();
+        List<float> distList = new List<float>();
+        Dictionary<EnemyCastle, float> distCastles = new Dictionary<EnemyCastle, float>();
+
+        foreach(var castle in allCastles)
+        {
+            float distance = Vector3.Distance(castle.Key.gameObject.transform.position, GlobalStorage.instance.globalPlayer.gameObject.transform.position);
+            distCastles.Add(castle.Key, distance);
+            distList.Add(distance);
+        }
+
+        distList.Sort();
+
+        for(int i = 0; i < distList.Count; i++)
+        {
+            foreach(var castle in distCastles)
+            {
+                if(castle.Value == distList[i])
+                {
+                    sortedCastles.Add(castle.Key, false);
+                    break;
+                }
+            }
+        }
+
+        isCastlesSorted = true;
+        allCastles = sortedCastles;
+    }
 
     private void ActivateNextCastle()
     {
@@ -106,20 +139,39 @@ public class AISystem : MonoBehaviour
         ActivateNextCastle();
     }
 
-    public void EndMoves()
-    {
-        if(gameMaster == null)
-            gameMaster = GlobalStorage.instance.gameMaster;
-
-        gmInterface.turnPart.ActivateTurnBlock(false);
-        gameMaster.EndEnemyMoves();
-    }
-
     public void CrusadeComplete(EnemyCastle castle)
     {
         allCastles[castle] = false;
         activeCastles.Remove(castle);
     }
+
+    public void EndMoves()
+    {
+        if(gameMaster == null)
+            gameMaster = GlobalStorage.instance.gameMaster;
+
+        StartCoroutine(FinishTurnes());
+    }
+
+    private IEnumerator FinishTurnes()
+    {
+        WaitForSecondsRealtime delay = new WaitForSecondsRealtime(0.5f);
+
+        gmInterface.turnPart.ActivateTurnBlock(false);
+        yield return delay;
+
+        gmCamera.SetObserveObject();
+        gmInterface.ShowInterfaceElements(true);
+        gmInterface.turnPart.ActivateTurnBlock(true);
+        gmInterface.turnPart.FillMessage(false, "", Color.white);
+
+        yield return delay;
+        yield return delay;
+
+        gmInterface.turnPart.ActivateTurnBlock(false);
+        gameMaster.EndEnemyMoves();
+    }
+
 
     //public void CastleIsDestroyed(EnemyCastle castle)
     //{

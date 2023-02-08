@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Fading : MonoBehaviour
@@ -35,6 +34,8 @@ public class Fading : MonoBehaviour
             currentAlfa = 1;
 
         canvasGroup.alpha = currentAlfa;
+        if(fadeMode == true)
+            canvasGroup.gameObject.SetActive(true);
 
 
         if(delay != 0)

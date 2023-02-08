@@ -7,18 +7,40 @@ using static NameManager;
 
 public class GMInterfaceTurn : MonoBehaviour
 {
-    [SerializeField] private GameObject container;
+    [SerializeField] private CanvasGroup container;
     [SerializeField] private Image messageImage;
     [SerializeField] private TMP_Text message;
+    [SerializeField] private TMP_Text title;
+
+    private string enemyTitle = "Enemy's turn:";
+    private string heroTitle = "Hero's turn";
 
     public void ActivateTurnBlock(bool activateMode)
     {
-        container.SetActive(activateMode);
+        if(activateMode == true)
+        {
+            //container.gameObject.SetActive(activateMode);
+            Fading.instance.Fade(true, container);
+        }
+        else
+        {
+            Fading.instance.Fade(false, container, activeMode: false);
+        }
     }
 
-    public void FillMessage(string enemyName, Color enemyColor)
+    public void FillMessage(bool enemyMode, string enemyName, Color enemyColor)
     {
-        message.text = enemyName + " is moving";
+        if(enemyMode == true)
+        {
+            title.text = enemyTitle;
+            message.text = enemyName + " is moving";
+        }
+        else
+        {
+            title.text = heroTitle;
+            message.text = "";
+        }
+
         messageImage.color = enemyColor;
     }
 }

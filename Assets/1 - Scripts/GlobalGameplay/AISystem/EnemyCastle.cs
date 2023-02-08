@@ -56,7 +56,7 @@ public class EnemyCastle : MonoBehaviour
         if(currentRest > 0)
         {
             currentRest--;
-            Debug.Log("Days to new goal " + currentRest);
+            Debug.Log("Days to new crusade " + currentRest);
 
             if(currentRest == 0)
                 isReady = true;
@@ -68,10 +68,10 @@ public class EnemyCastle : MonoBehaviour
         return player.transform.position == enterPoint;
     }
 
-    public void GiveMyABreak()
+    public void GiveMyABreak(bool deathMode = false)
     {
         isReady = false;
-        currentRest = completeRestDays;
+        currentRest = (deathMode == false) ? completeRestDays : defeatRestDays;
         aiSystem.CrusadeComplete(this);
     }
 

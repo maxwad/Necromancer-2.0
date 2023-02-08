@@ -26,10 +26,9 @@ public partial class VassalTargetSelector : MonoBehaviour
 
     private bool shouldIContinueAction = false;
     private bool aggressiveMode = false;
-    //private Tilemap roadMap;
-    //[SerializeField] private Tile testTile;
 
-    //private Vector3Int finishPoint;
+    private WaitForSeconds delay = new WaitForSeconds(0.75f);
+
 
     public void Init(Vassal vassal, VassalPathfinder pf, VassalMovement mv, VassalAnimation anim)
     {
@@ -46,8 +45,8 @@ public partial class VassalTargetSelector : MonoBehaviour
             shouldIContinueAction = true;
             //currentTarget = (AITargetType)UnityEngine.Random.Range(1, Enum.GetValues(typeof(AITargetType)).Length - 3);
             currentTarget = AITargetType.Walking;
-            //animScript.ShowAction(currentTarget + "\n " + currentAction);
             CreateActionsQueue();
+            GetNextAction();
         }
         else
         {
@@ -58,7 +57,7 @@ public partial class VassalTargetSelector : MonoBehaviour
     public void SelectSpecialTarget(AITargetType target)
     {
         currentTarget = target;
-        //animScript.ShowAction(currentTarget + "\n " + currentAction);
+        CreateActionsQueue();
     }
 
     private void CreateActionsQueue()
@@ -105,7 +104,6 @@ public partial class VassalTargetSelector : MonoBehaviour
             case AITargetType.Death:
                 currentActionsQ.Enqueue(AIActions.SearchOwnCastle);
                 currentActionsQ.Enqueue(AIActions.TeleportToCastle);
-                currentActionsQ.Enqueue(AIActions.End);
                 isCamebackNeeded = false;
                 aggressiveMode = false;
                 break;
@@ -124,10 +122,6 @@ public partial class VassalTargetSelector : MonoBehaviour
             currentActionsQ.Enqueue(AIActions.Moving);
             currentActionsQ.Enqueue(AIActions.End);
         }
-
-        Debug.Log(currentTarget + " selected.");
-
-        GetNextAction();
     }
 
     public void SetState(AIState state)
@@ -135,16 +129,22 @@ public partial class VassalTargetSelector : MonoBehaviour
         currentState = state;
     }
 
-
     public void GetNextAction()
     {
         currentAction = currentActionsQ.Dequeue();
-        Debug.Log("Vassal got action: " + currentAction);
+        Debug.Log(gameObject.name + " got action: " + currentAction);
         HandleAction();
     }
 
     public void HandleAction()
     {
+        StartCoroutine(HandleActionCoroutine());
+    }
+
+    private IEnumerator HandleActionCoroutine()
+    {
+        yield return delay;
+
         switch(currentAction)
         {
             case AIActions.SearchSomePoint:
@@ -162,6 +162,10 @@ public partial class VassalTargetSelector : MonoBehaviour
                 GetNextAction();
                 break;
 
+            case AIActions.TeleportToCastle:
+                TeleportingToTheCastle();
+                break;
+
             case AIActions.End:
                 PrepareToRest();
                 break;
@@ -173,15 +177,6 @@ public partial class VassalTargetSelector : MonoBehaviour
         animScript.ShowAction(currentTarget + ":\n " + currentAction);
     }
 
-
-
-
-
-
-
-
-
-
     public AITargetType GetCurrentTarget()
     {
         return currentTarget;
@@ -190,10 +185,5 @@ public partial class VassalTargetSelector : MonoBehaviour
     public Vector3Int GetFinishCell()
     {
         return finishCell;
-    }
-
-    public bool ShouldIAttack()
-    {
-        return aggressiveMode;
-    }        
+    }      
 }

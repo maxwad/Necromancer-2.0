@@ -10,6 +10,9 @@ public class GameMaster : MonoBehaviour
     private AISystem aiSystem;
     private InputSystem inputSystem;
 
+    //for Testing
+    private bool isAIEnable = true;
+
     private void Start()
     {
         gmCamera = Camera.main.GetComponent<GlobalCamera>();
@@ -17,17 +20,28 @@ public class GameMaster : MonoBehaviour
         inputSystem = GlobalStorage.instance.inputSystem;
     }
 
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.F12) == true)
+        {
+            isAIEnable = !isAIEnable;
+        }    
+    }
+
     private void EnemyTurn()
     {
-        inputSystem.ActivateInput(false);
-        aiSystem.StartMoves();
+        if(isAIEnable == true)
+        {
+            inputSystem.ActivateInput(false);
+            aiSystem.StartMoves();
+        }
     }
 
     public void EndEnemyMoves()
     {
-        Debug.Log("All enemies finished their moves.");
+        //Debug.Log("All enemies finished their moves.");
         inputSystem.ActivateInput(true);
-        gmCamera.SetObserveObject();
+        //gmCamera.SetObserveObject();
     }
 
     private void OnEnable()

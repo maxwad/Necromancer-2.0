@@ -30,4 +30,46 @@ public class VassalAnimation : MonoBehaviour
     {
         actionLabel.text = action;
     }
+
+    public void Fading(bool isFading)
+    {
+        StartCoroutine(Fade(isFading));
+    }
+
+    private IEnumerator Fade(bool isFading)
+    {
+        WaitForSecondsRealtime delay = new WaitForSecondsRealtime(0.02f);
+        Color currentColor = spriteRenderer.color;
+        
+        float alfaFrom = 0;
+        float alfaTo = 1;
+        float step = 0.05f;
+
+        if(isFading == true)
+        {
+            alfaFrom = 1;
+            alfaTo = 0;
+            step = -step;
+        }
+
+        bool stop = false;
+
+        while(stop == false)
+        {
+            alfaFrom += step;
+            currentColor.a = alfaFrom;
+            spriteRenderer.color = currentColor;
+
+            if(step > 0)
+            {
+                if(alfaFrom >= alfaTo) stop = true;
+            }
+            else
+            {
+                if(alfaFrom <= alfaTo) stop = true;
+            }
+
+            yield return delay;
+        }
+    }
 }
