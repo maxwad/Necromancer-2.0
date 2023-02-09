@@ -95,8 +95,6 @@ public class EnemyManager : MonoBehaviour
         return enemyArmy;
     }
 
-
-
     public void ReGenerateEnemiesOnTheMap()
     {
         StartCoroutine(ResetEnemies());
@@ -142,6 +140,12 @@ public class EnemyManager : MonoBehaviour
             foreach(var enemy in enemiesPointsDict)
                 enemy.Key.GrowUpSquads(growUpConst);
         }        
+    }
+
+
+    public EnemyArmyOnTheMap CreateEnemyOnTheMap(Vector3 position)
+    {
+        return enemyArragement.CreateEnemyOnTheMap(position);
     }
 
     private void OnEnable()

@@ -10,6 +10,7 @@ public class EnemyArmyOnTheMap : MonoBehaviour
 
     [HideInInspector] public Army army;
     [HideInInspector] public int commonCount = 0;
+    private float splitPercent = 0.7f;
 
     public TypeOfArmy typeOfArmy = TypeOfArmy.OnTheMap;
     public bool isEnemyGarrison = false;
@@ -38,21 +39,19 @@ public class EnemyArmyOnTheMap : MonoBehaviour
 
     private void ResetGarrison()
     {
-        if(typeOfArmy != TypeOfArmy.NearUsualObjects 
-            && typeOfArmy != TypeOfArmy.OnTheMap 
-            && typeOfArmy != TypeOfArmy.Vassals)
+        if(isEnemyGarrison == true)
         {
             gameObject.SetActive(false);
             gameObject.SetActive(true);
         }
     }
 
-    public void Birth() 
+    public void Birth(Army sourceArmy = null) 
     {
-        StartCoroutine(Initialize());
+        StartCoroutine(Initialize(sourceArmy));
     }
 
-    private IEnumerator Initialize()
+    private IEnumerator Initialize(Army sourceArmy)
     {
         while(GlobalStorage.instance == null || GlobalStorage.instance.isGameLoaded == false)
         {
@@ -62,13 +61,15 @@ public class EnemyArmyOnTheMap : MonoBehaviour
         if(typeOfArmy != TypeOfArmy.Vassals)
             enemyManager.enemyArragement.RegisterEnemy(this);
 
-        army = enemyManager.enemySquadGenerator.GenerateArmy(typeOfArmy);
+        if(sourceArmy == null)
+            army = enemyManager.enemySquadGenerator.GenerateArmy(typeOfArmy);
+        else
+            army = sourceArmy;
+
         commonCount = 0;
 
         for(int i = 0; i < army.squadList.Count; i++)
-        {
             commonCount += army.quantityList[i];
-        }
 
         if(typeOfArmy == TypeOfArmy.NearUsualObjects || typeOfArmy == TypeOfArmy.OnTheMap)
         {
@@ -79,6 +80,10 @@ public class EnemyArmyOnTheMap : MonoBehaviour
 
     public void Death(bool resetMode = false)
     {
+        if(typeOfArmy == TypeOfArmy.Vassals)
+        {
+            Debug.Log("Vassal Regenerate");
+        }
         if(isEnemyGarrison == false)
         {
             if(typeOfArmy != TypeOfArmy.Vassals)
@@ -107,10 +112,10 @@ public class EnemyArmyOnTheMap : MonoBehaviour
 
     private IEnumerator Blink(bool isBorning)
     {
-        WaitForSeconds appearDelay = new WaitForSeconds(0.05f);
+        WaitForSeconds appearDelay = new WaitForSeconds(0.02f);
         float alfaFrom = 0;
         float alfaTo = 1;
-        float step = 0.05f;
+        float step = 0.075f;
 
         if(isBorning == false)
         {
@@ -151,4 +156,18 @@ public class EnemyArmyOnTheMap : MonoBehaviour
         battleManager.PrepairToTheBattle(army, this, enemyInitiative);
     }
 
+    public void Splitting()
+    {
+        CreateFromVassalsArmy();
+
+        Army newArmy = Army.Splitting(army, 1 - splitPercent, true);
+        army = newArmy;
+    }
+
+    private void CreateFromVassalsArmy()
+    {
+        EnemyArmyOnTheMap newSquad = enemyManager.CreateEnemyOnTheMap(transform.position);
+        Army newArmy = Army.Splitting(army, splitPercent, false);
+        newSquad.Birth(newArmy);
+    }
 }

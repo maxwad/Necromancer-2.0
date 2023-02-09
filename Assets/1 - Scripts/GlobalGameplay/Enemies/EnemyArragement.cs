@@ -43,69 +43,10 @@ public class EnemyArragement : MonoBehaviour
 
         EventManager.OnResetGarrisonsEvent();
 
-        //GenerateGarrison(new List<GameObject>(tombsManager.GetTombs().Keys), TypeOfArmy.InTomb);
-        //GenerateGarrison(new List<GameObject>(aiSystem.GetCastles()), TypeOfArmy.InCastle);
-        //GenerateTombsGarrisons();
-
         enemyManager.SetEnemiesPointsDict(enemiesPointsDict);
+        Debug.Log("Regeneration end");
     }
 
-    //private void GenerateTombsGarrisons()
-    //{
-    //    Dictionary<GameObject, TombInfo> tombsDict = tombsManager.GetTombs();
-
-    //    foreach(var tomb in tombsDict)
-    //    {
-    //        ObjectOwner objectStatus = tomb.Key.GetComponent<ObjectOwner>();
-    //        EnemyArmyOnTheMap enemyGarrison = tomb.Key.GetComponent<EnemyArmyOnTheMap>();
-
-    //        if(enemyGarrison == null)
-    //        {
-    //            if(objectStatus.GetVisitStatus() == false)
-    //            {
-    //                EnemyArmyOnTheMap newGarrison = tomb.Key.AddComponent(typeof(EnemyArmyOnTheMap)) as EnemyArmyOnTheMap;
-    //                newGarrison.typeOfArmy = TypeOfArmy.InTomb;
-    //                newGarrison.isEnemyGarrison = true;
-
-    //                RegisterEnemy(newGarrison, tomb.Value.position);
-    //            }
-    //        }
-    //        else
-    //        {
-    //            enemyGarrison.Birth();
-    //        }
-    //    }
-    //}
-
-    //private void GenerateGarrison(List<GameObject> garrissonObjects, TypeOfArmy typeOfArmy)
-    //{
-    //    foreach(var building in garrissonObjects)
-    //    {
-    //        ObjectOwner objectStatus = building.GetComponent<ObjectOwner>();
-    //        EnemyArmyOnTheMap enemyGarrison = building.GetComponent<EnemyArmyOnTheMap>();
-
-    //        if(enemyGarrison == null)
-    //        {
-    //            if(objectStatus.GetVisitStatus() == false)
-    //            {
-    //                //EnemyArmyOnTheMap newGarrison = building.AddComponent(typeof(EnemyArmyOnTheMap)) as EnemyArmyOnTheMap;
-
-    //                Debug.Log("Create");
-    //                EnemyArmyOnTheMap newGarrison = new EnemyArmyOnTheMap();
-    //                Debug.Log("After");
-    //                newGarrison.typeOfArmy = typeOfArmy;
-    //                newGarrison.isEnemyGarrison = true;
-    //                newGarrison = building.AddComponent(typeof(EnemyArmyOnTheMap)) as EnemyArmyOnTheMap;
-
-    //                RegisterEnemy(newGarrison, building.transform.position);
-    //            }
-    //        }
-    //        else
-    //        {
-    //            enemyGarrison.Birth();
-    //        }
-    //    }
-    //}
     #region GUARD ENEMIES
 
     private void GenerateEnterEnemies()
@@ -215,26 +156,15 @@ public class EnemyArragement : MonoBehaviour
         return !(GlobalStorage.instance.globalPlayer.transform.position == position);
     }
 
-    private void CreateUsualEnemy(Vector3 position)
+    private GameObject CreateUsualEnemy(Vector3 position)
     {
         GameObject enemyOnTheMap = poolManager.GetObject(ObjectPool.EnemyOnTheMap);
         enemyOnTheMap.transform.SetParent(enemiesMap.transform);
         enemyOnTheMap.transform.position = position;
         enemyOnTheMap.SetActive(true);
 
-        //EnemyArmyOnTheMap army = enemyOnTheMap.GetComponent<EnemyArmyOnTheMap>();
-        //enemiesPointsDict.Add(army, position);
-        //RegisterEnemy(army);
+        return enemyOnTheMap;
     }
-
-    //private void CreateEnemyGarrison(Vector3 position, GameObject building)
-    //{
-    //    EnemyArmyOnTheMap army = building.GetComponent<EnemyArmyOnTheMap>();
-    //    if(army != null)
-    //    {
-    //        army.Birth();
-    //    }
-    //}
 
     public void RegisterEnemy(EnemyArmyOnTheMap enemyArmyOnTheMap)
     {
@@ -242,5 +172,10 @@ public class EnemyArragement : MonoBehaviour
         {
             enemiesPointsDict.Add(enemyArmyOnTheMap, enemyArmyOnTheMap.gameObject.transform.position);
         }
+    }
+
+    public EnemyArmyOnTheMap CreateEnemyOnTheMap(Vector3 position)
+    {
+        return CreateUsualEnemy(position).GetComponent<EnemyArmyOnTheMap>();
     }
 }

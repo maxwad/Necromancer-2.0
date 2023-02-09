@@ -7,11 +7,12 @@ public class CalendarManager : MonoBehaviour, IInputableKeys
 {
     private BoostManager boostManager;
     private InputSystem inputSystem;
+    private GameMaster gameMaster;
 
     public int daysLeft = 1000;
 
     private int day = 1;
-    private int dayMax = 10;
+    private int dayMax = 1;
     private int daysPassed = 0;
 
     private int decade = 1;
@@ -38,6 +39,7 @@ public class CalendarManager : MonoBehaviour, IInputableKeys
     {
         boostManager = GlobalStorage.instance.boostManager;
         gmInterface = GlobalStorage.instance.gmInterface;
+        gameMaster = GlobalStorage.instance.gameMaster;
         calendarData = new CalendarData(daysLeft, day, decade, month);
         gmInterface.calendarPart.UpdateCalendar(calendarData);
 
@@ -75,16 +77,6 @@ public class CalendarManager : MonoBehaviour, IInputableKeys
         }
     }
 
-    //void Update()
-    //{
-    //    if(Input.GetKeyDown(KeyCode.Return) && GlobalStorage.instance.isGlobalMode == true)
-    //    {
-    //        if(MenuManager.instance.IsTherePauseOrMiniPause() == false && GlobalStorage.instance.isModalWindowOpen == false)
-    //        {
-    //            NextDay();
-    //        }
-    //    }
-    //}
 
     public void NextDay()
     {
@@ -108,6 +100,7 @@ public class CalendarManager : MonoBehaviour, IInputableKeys
             NewDecade();
             EventManager.OnNewWeekEvent(decadesPassed);
 
+            EventManager.OnNewMonthEvent();
         }
 
         if(decade > decadeMax)
@@ -118,7 +111,6 @@ public class CalendarManager : MonoBehaviour, IInputableKeys
             decade = 1;
 
             Debug.Log("New month");
-            EventManager.OnNewMonthEvent();
         }
 
         if(month > monthMax)
@@ -131,6 +123,8 @@ public class CalendarManager : MonoBehaviour, IInputableKeys
 
         calendarData = new CalendarData(daysLeft, day, decade, month);
         gmInterface.calendarPart.UpdateCalendar(calendarData);
+
+        gameMaster.EnemyTurn();
     }
 
     private List<DecadeSO> ShuffleList(List<DecadeSO> oldList)

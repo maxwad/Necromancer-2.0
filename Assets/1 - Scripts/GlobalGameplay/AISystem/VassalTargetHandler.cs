@@ -37,6 +37,17 @@ public partial class VassalTargetSelector
         movement.Teleportation(finishCell);
     }
 
+    public void SplitArmy()
+    {
+        if(enemyManager.CheckPositionInEnemyPoints(transform.position) == true)
+            return;
+
+        if(pathfinder.CheckCellAsEnterPoint(transform.position) == true)
+            return;
+
+        vassalsArmy.Splitting();
+    }
+
 
 
     #endregion

@@ -11,6 +11,8 @@ public partial class VassalTargetSelector : MonoBehaviour
     private VassalPathfinder pathfinder;
     private VassalMovement movement;
     private VassalAnimation animScript;
+    private EnemyArmyOnTheMap vassalsArmy;
+    private EnemyManager enemyManager;
 
     [SerializeField] private int actionRadius = 50;
     [SerializeField] private int searchPlayerRadius = 15;
@@ -27,7 +29,7 @@ public partial class VassalTargetSelector : MonoBehaviour
     private bool shouldIContinueAction = false;
     private bool aggressiveMode = false;
 
-    private WaitForSeconds delay = new WaitForSeconds(0.75f);
+    private WaitForSeconds delay = new WaitForSeconds(0.15f);
 
 
     public void Init(Vassal vassal, VassalPathfinder pf, VassalMovement mv, VassalAnimation anim)
@@ -36,6 +38,9 @@ public partial class VassalTargetSelector : MonoBehaviour
         pathfinder = pf;
         movement = mv;
         animScript = anim;
+
+        vassalsArmy = GetComponent<EnemyArmyOnTheMap>();
+        enemyManager = GlobalStorage.instance.enemyManager;
     }
 
     public void SelectRandomTarget()
@@ -44,7 +49,7 @@ public partial class VassalTargetSelector : MonoBehaviour
         {
             shouldIContinueAction = true;
             //currentTarget = (AITargetType)UnityEngine.Random.Range(1, Enum.GetValues(typeof(AITargetType)).Length - 3);
-            currentTarget = AITargetType.Walking;
+            currentTarget = AITargetType.ArmyDescent;
             CreateActionsQueue();
             GetNextAction();
         }
@@ -159,6 +164,11 @@ public partial class VassalTargetSelector : MonoBehaviour
 
             case AIActions.SearchOwnCastle:
                 FindPathToTheCastle();
+                GetNextAction();
+                break;
+
+            case AIActions.ArmyDescent:
+                SplitArmy();
                 GetNextAction();
                 break;
 

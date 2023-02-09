@@ -528,7 +528,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defeatRestDays: 30
-  completeRestDays: 3
+  completeRestDays: 2
   vassal: {fileID: 5639626389905118046}
 --- !u!114 &-2808097499954195803
 MonoBehaviour:

@@ -213,7 +213,23 @@ public class Army
     public TypeOfArmy typeOfArmy = TypeOfArmy.OnTheMap;
     public ArmyStrength strength = ArmyStrength.Low;
     public bool isAutobattlePosible = true;
-    // more parameters
+
+    public static Army Splitting(Army parent, float percent, bool isItVassal)
+    {
+        Army newArmy = new Army();
+        newArmy.squadList = new List<EnemiesTypes>(parent.squadList);
+
+        for(int i = 0; i < newArmy.squadList.Count; i++)
+        {
+            newArmy.quantityList.Add(Convert.ToInt32(parent.quantityList[i] * percent));
+        }
+
+        newArmy.isAutobattlePosible = !isItVassal;
+
+        newArmy.typeOfArmy = (isItVassal == true) ? TypeOfArmy.Vassals : TypeOfArmy.OnTheMap;
+
+        return newArmy;
+    }
 }
 
 #endregion

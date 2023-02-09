@@ -9,7 +9,7 @@ public class EnemyCastle : MonoBehaviour
     private AISystem aiSystem;
 
     [SerializeField] private int defeatRestDays = 30;
-    [SerializeField] private int completeRestDays = 5;
+    [SerializeField] private int completeRestDays = 2;
     private int currentRest = 0;
     private bool isReady = true;
 

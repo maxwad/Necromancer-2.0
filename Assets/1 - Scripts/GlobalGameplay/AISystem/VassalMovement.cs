@@ -31,8 +31,8 @@ public class VassalMovement : MonoBehaviour
     private List<Vector3> currentPath = new List<Vector3>();
 
     private Coroutine movementCoroutine;
-    private WaitForSeconds decidingDelay = new WaitForSeconds(0.3f);
-    private WaitForSeconds movingDelay = new WaitForSeconds(0.01f);
+    private WaitForSecondsRealtime decidingDelay = new WaitForSecondsRealtime(0.3f);
+    private WaitForSecondsRealtime movingDelay = new WaitForSecondsRealtime(0.01f);
 
     public void Init(Vassal v, VassalTargetSelector ts, VassalAnimation animation, VassalPathfinder pf)
     {
@@ -67,23 +67,33 @@ public class VassalMovement : MonoBehaviour
         if(movementCoroutine != null)
             StopCoroutine(movementCoroutine);
 
+        Debug.Log("StarT MOVING " + path.Count);
+
         movementCoroutine = StartCoroutine(Moving(path));
     }
 
     private IEnumerator Moving(List<Vector3> pathPoints)
-    {        
+    {
+        if(pathPoints.Count == 0)
+        {
+            targetSelector.GetNextAction();
+            yield break;
+        }
+
+        Debug.Log("1 Check");
         Vector3 previousPosition = pathPoints[0];
 
         pathfinder.DrawThePath(pathPoints);
 
+        Debug.Log("2 Check");
         yield return movingDelay;
 
         for(int i = 1; i < pathPoints.Count; i++)
         {
             animationScript.FlipSprite(previousPosition.x - pathPoints[i].x < 0);
-
+            Debug.Log("3 Check");
             if(currentMovementPoints == 0) break;
-
+            Debug.Log("4 Check");
             if(shouldIChangePath == false)
             {
                 shouldIChangePath = CheckHeapNearBy(pathPoints[i]);
@@ -91,7 +101,7 @@ public class VassalMovement : MonoBehaviour
                 if(shouldIChangePath == true)
                     break;
             }
-
+            Debug.Log("5 Check");
             shouldIChangePath = false;
 
 
@@ -111,25 +121,26 @@ public class VassalMovement : MonoBehaviour
                     break;
                 }
             }
-
+            Debug.Log("6 Check");
             if(CheckPlayer(pathPoints[i]) == true)
             {
                 mainAI.SetTurnStatus(true);
                 shouldIFigth = true;
                 break;
             }
-
+            Debug.Log("7 Check");
             Vector3 distance = pathPoints[i] - transform.position;
             Vector3 step = distance / (defaultCountSteps / speed);
 
             for(float t = 0; t < defaultCountSteps / speed; t++)
             {
+                Debug.Log("8 Check");
                 transform.position += step;
                 yield return movingDelay;
             }
 
             currentMovementPoints--;
-
+            Debug.Log("9 Check");
             transform.position = pathPoints[i];
             previousPosition = pathPoints[i - 1];
 
@@ -137,12 +148,14 @@ public class VassalMovement : MonoBehaviour
                 break;
         }
 
+        Debug.Log("10 Check");
         int index = 0;
         while(transform.position != pathPoints[index])
         {
             pathPoints.Remove(pathPoints[index]);
         }
 
+        Debug.Log("11 Check");
         if(shouldIFigth == true)
         {
             yield return decidingDelay;
@@ -170,10 +183,13 @@ public class VassalMovement : MonoBehaviour
 
                 yield break;
             }
-
+            Debug.Log("13 Check");
             if(shouldIChangePath == true)
                 CreatePathAndMoveToHeap(pathPoints);
+            Debug.Log("14 Check");
         }
+
+        Debug.Log("12 Check");
     }
 
     private void CreatePathAndMoveToHeap(List<Vector3> pathPoints)

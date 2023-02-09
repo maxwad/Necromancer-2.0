@@ -10,6 +10,8 @@ public class GameMaster : MonoBehaviour
     private AISystem aiSystem;
     private InputSystem inputSystem;
 
+    private bool isAIActive = true;
+
     //for Testing
     private bool isAIEnable = true;
 
@@ -28,7 +30,7 @@ public class GameMaster : MonoBehaviour
         }    
     }
 
-    private void EnemyTurn()
+    public void EnemyTurn()
     {
         if(isAIEnable == true)
         {
@@ -44,13 +46,13 @@ public class GameMaster : MonoBehaviour
         //gmCamera.SetObserveObject();
     }
 
-    private void OnEnable()
-    {
-        EventManager.NewMove += EnemyTurn;
-    }
+    //private void OnEnable()
+    //{
+    //    EventManager.NewMove += EnemyTurn;
+    //}
 
-    private void OnDisable()
-    {
-        EventManager.NewMove -= EnemyTurn;
-    }
+    //private void OnDisable()
+    //{
+    //    EventManager.NewMove -= EnemyTurn;
+    //}
 }

@@ -9,6 +9,7 @@ public class VassalPathfinder : MonoBehaviour
 {
     private VassalMovement movement;
     private GlobalMapTileManager tileManager;
+    private EnemyManager enemyManager;
 
     private Tilemap roadMap;
     private Tilemap overlayMap;
@@ -35,6 +36,7 @@ public class VassalPathfinder : MonoBehaviour
         tileManager = GlobalStorage.instance.gmManager;
         roadMap = GlobalStorage.instance.roadMap;
         overlayMap = GlobalStorage.instance.overlayMap;
+        enemyManager = GlobalStorage.instance.enemyManager;
 
         roads = tileManager.GetRoads();
     }
@@ -97,19 +99,26 @@ public class VassalPathfinder : MonoBehaviour
         {
             Vector3Int randomCellInt = cells[UnityEngine.Random.Range(0, cells.Count)];
 
-            if(tileManager.CheckCellAsEnterPoint(randomCellInt) == true)
+            Vector3 randomCell = roadMap.CellToWorld(randomCellInt);
+
+            if(CheckCellAsEnterPoint(randomCell) == true)
             {
                 cells.Remove(randomCellInt);
                 count--;
                 continue;
             }
-            else
+
+            if(enemyManager.CheckPositionInEnemyPoints(randomCell) == true)
             {
-                if(CheckMovesCount(randomCellInt) == true)
-                {
-                    resultCell = randomCellInt;
-                    break;
-                }
+                cells.Remove(randomCellInt);
+                count--;
+                continue;
+            }
+
+            if(CheckMovesCount(randomCellInt) == true)
+            {
+                resultCell = randomCellInt;
+                break;
             }
         }
 
@@ -128,6 +137,10 @@ public class VassalPathfinder : MonoBehaviour
         return true;
     }
 
+    public bool CheckCellAsEnterPoint(Vector3 cell)
+    {
+        return tileManager.CheckCellAsEnterPoint(cell);
+    }
     public List<Vector3> CreatePath(Vector3Int finishCell)
     {
         currentPath.Clear();
