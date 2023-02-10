@@ -70,10 +70,10 @@ public class BoxObject : MonoBehaviour
             yield return null;
         }
 
-        WaitForSeconds appearDelay = new WaitForSeconds(0.05f);
+        WaitForSeconds appearDelay = new WaitForSeconds(0.02f);
         float alfaFrom = 0;
         float alfaTo = 1;
-        float step = 0.05f;
+        float step = 0.075f;
 
         if(isBorning == false)
         {

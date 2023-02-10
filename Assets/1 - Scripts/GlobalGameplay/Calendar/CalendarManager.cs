@@ -12,7 +12,7 @@ public class CalendarManager : MonoBehaviour, IInputableKeys
     public int daysLeft = 1000;
 
     private int day = 1;
-    private int dayMax = 1;
+    private int dayMax = 10;
     private int daysPassed = 0;
 
     private int decade = 1;
@@ -100,7 +100,6 @@ public class CalendarManager : MonoBehaviour, IInputableKeys
             NewDecade();
             EventManager.OnNewWeekEvent(decadesPassed);
 
-            EventManager.OnNewMonthEvent();
         }
 
         if(decade > decadeMax)
@@ -110,6 +109,7 @@ public class CalendarManager : MonoBehaviour, IInputableKeys
             monthsPassed++;
             decade = 1;
 
+            EventManager.OnNewMonthEvent();
             Debug.Log("New month");
         }
 

@@ -41,8 +41,7 @@ public class EnemyArmyOnTheMap : MonoBehaviour
     {
         if(isEnemyGarrison == true)
         {
-            gameObject.SetActive(false);
-            gameObject.SetActive(true);
+            Birth();
         }
     }
 

@@ -388,10 +388,10 @@ public static class NameManager
     public enum AITargetType
     {
         Walking,
-        CastleAttack,
         ResBuildingAttack,
-        PlayerAttack,
         ArmyDescent,
+        CastleAttack,
+        PlayerAttack,
         Rest,
         ToTheOwnCastle,
         TeleportToCastle,

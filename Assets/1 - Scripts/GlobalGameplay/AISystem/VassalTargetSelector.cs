@@ -13,6 +13,7 @@ public partial class VassalTargetSelector : MonoBehaviour
     private VassalAnimation animScript;
     private EnemyArmyOnTheMap vassalsArmy;
     private EnemyManager enemyManager;
+    private GameObject player;
 
     [SerializeField] private int actionRadius = 50;
     [SerializeField] private int searchPlayerRadius = 15;
@@ -41,6 +42,7 @@ public partial class VassalTargetSelector : MonoBehaviour
 
         vassalsArmy = GetComponent<EnemyArmyOnTheMap>();
         enemyManager = GlobalStorage.instance.enemyManager;
+        player = GlobalStorage.instance.globalPlayer.gameObject;
     }
 
     public void SelectRandomTarget()
@@ -48,8 +50,9 @@ public partial class VassalTargetSelector : MonoBehaviour
         if(shouldIContinueAction == false)
         {
             shouldIContinueAction = true;
-            //currentTarget = (AITargetType)UnityEngine.Random.Range(1, Enum.GetValues(typeof(AITargetType)).Length - 3);
-            currentTarget = AITargetType.ArmyDescent;
+            // change delta for skipping some target
+            //currentTarget = (AITargetType)UnityEngine.Random.Range(1, Enum.GetValues(typeof(AITargetType)).Length - (delta = 3));
+            currentTarget = AITargetType.PlayerAttack;
             CreateActionsQueue();
             GetNextAction();
         }
@@ -63,6 +66,17 @@ public partial class VassalTargetSelector : MonoBehaviour
     {
         currentTarget = target;
         CreateActionsQueue();
+    }
+
+    public void CheckNextTarget()
+    {
+        if(currentTarget == AITargetType.PlayerAttack && currentAction == AIActions.Moving)
+        {
+            SelectSpecialTarget(AITargetType.PlayerAttack);
+            currentAction = currentActionsQ.Dequeue();
+        }
+
+        mainAI.EndOfMove();
     }
 
     private void CreateActionsQueue()
@@ -98,6 +112,7 @@ public partial class VassalTargetSelector : MonoBehaviour
             case AITargetType.PlayerAttack:
                 currentActionsQ.Enqueue(AIActions.SearchPlayer);
                 currentActionsQ.Enqueue(AIActions.Moving);
+                isCamebackNeeded = false;
                 break;
 
             case AITargetType.ArmyDescent:
@@ -136,6 +151,14 @@ public partial class VassalTargetSelector : MonoBehaviour
 
     public void GetNextAction()
     {
+        //if(currentTarget == AITargetType.PlayerAttack && currentAction == AIActions.Moving)
+        //{
+        //    if(movement.GetMovementPointsAmoumt(false) == 0)
+        //    {
+        //        SelectSpecialTarget(AITargetType.PlayerAttack);
+        //    }
+        //}
+
         currentAction = currentActionsQ.Dequeue();
         Debug.Log(gameObject.name + " got action: " + currentAction);
         HandleAction();
@@ -157,14 +180,24 @@ public partial class VassalTargetSelector : MonoBehaviour
                 GetNextAction();
                 break;
 
-            case AIActions.Moving:
-                SetState(AIState.Moving);
-                movement.Movement(currentPath, false);
-                break;
-
             case AIActions.SearchOwnCastle:
                 FindPathToTheCastle();
                 GetNextAction();
+                break;
+
+            case AIActions.SearchPlayer:
+                FindPathToThePlayer();
+                GetNextAction();
+                break;
+            
+            case AIActions.SearchResBuilding:
+                FindPathToTheResBuilding();
+                GetNextAction();
+                break;
+
+            case AIActions.Moving:
+                SetState(AIState.Moving);
+                movement.Movement(currentPath);
                 break;
 
             case AIActions.ArmyDescent:

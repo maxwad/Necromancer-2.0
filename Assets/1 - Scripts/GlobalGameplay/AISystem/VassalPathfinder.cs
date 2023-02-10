@@ -125,7 +125,6 @@ public class VassalPathfinder : MonoBehaviour
         return resultCell;
     }
 
-
     private bool CheckMovesCount(Vector3Int finishCell)
     {
         List<Vector3> path = CreatePath(finishCell);
@@ -137,10 +136,18 @@ public class VassalPathfinder : MonoBehaviour
         return true;
     }
 
+    public Vector3Int FindResBuildingCell()
+    {
+        Vector3Int startPoint = overlayMap.WorldToCell(gameObject.transform.position);
+
+        return startPoint;
+    }
+
     public bool CheckCellAsEnterPoint(Vector3 cell)
     {
         return tileManager.CheckCellAsEnterPoint(cell);
     }
+
     public List<Vector3> CreatePath(Vector3Int finishCell)
     {
         currentPath.Clear();

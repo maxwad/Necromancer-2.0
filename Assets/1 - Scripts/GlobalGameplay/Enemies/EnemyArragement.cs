@@ -44,7 +44,6 @@ public class EnemyArragement : MonoBehaviour
         EventManager.OnResetGarrisonsEvent();
 
         enemyManager.SetEnemiesPointsDict(enemiesPointsDict);
-        Debug.Log("Regeneration end");
     }
 
     #region GUARD ENEMIES

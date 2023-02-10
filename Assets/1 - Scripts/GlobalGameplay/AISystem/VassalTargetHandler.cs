@@ -22,6 +22,15 @@ public partial class VassalTargetSelector
         if(finishCell == Vector3Int.zero)
             Debug.Log("THERE IS PROBLEM with the back path");
     }
+        
+    private void FindPathToTheResBuilding()
+    {
+        finishCell = pathfinder.FindResBuildingCell();
+        currentPath = pathfinder.CreatePath(finishCell);
+
+        if(finishCell == Vector3Int.zero)
+            Debug.Log("THERE IS PROBLEM with the back path");
+    }
 
     public void PrepareToRest(bool deathMode = false)
     {
@@ -48,7 +57,11 @@ public partial class VassalTargetSelector
         vassalsArmy.Splitting();
     }
 
-
+    private void FindPathToThePlayer()
+    {
+        finishCell = pathfinder.ConvertToV3Int(player.transform.position);
+        currentPath = pathfinder.CreatePath(finishCell);
+    }
 
     #endregion
 }
