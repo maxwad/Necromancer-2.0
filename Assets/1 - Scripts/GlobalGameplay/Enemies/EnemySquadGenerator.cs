@@ -96,4 +96,9 @@ public class EnemySquadGenerator : MonoBehaviour
     {
         allArmies.Clear();
     }
+
+    public float GetPortionAmount()
+    {
+        return enemyPortion;
+    }
 }

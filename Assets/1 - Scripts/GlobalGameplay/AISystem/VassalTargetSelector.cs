@@ -26,6 +26,9 @@ public partial class VassalTargetSelector : MonoBehaviour
 
     private List<Vector3> currentPath = new List<Vector3>();
     private Vector3Int finishCell = Vector3Int.zero;
+    private ResourceBuilding currentSiegeTarget = null;
+    private int startSiegeAmountArmy;
+    private float criticalArmySize = 5;
 
     private bool shouldIContinueAction = false;
     private bool aggressiveMode = false;
@@ -52,7 +55,7 @@ public partial class VassalTargetSelector : MonoBehaviour
             shouldIContinueAction = true;
             // change delta for skipping some target
             //currentTarget = (AITargetType)UnityEngine.Random.Range(1, Enum.GetValues(typeof(AITargetType)).Length - (delta = 3));
-            currentTarget = AITargetType.PlayerAttack;
+            currentTarget = AITargetType.ResBuildingAttack;
             CreateActionsQueue();
             GetNextAction();
         }
@@ -160,7 +163,7 @@ public partial class VassalTargetSelector : MonoBehaviour
         //}
 
         currentAction = currentActionsQ.Dequeue();
-        Debug.Log(gameObject.name + " got action: " + currentAction);
+        //Debug.Log(gameObject.name + " got action: " + currentAction);
         HandleAction();
     }
 
@@ -209,6 +212,10 @@ public partial class VassalTargetSelector : MonoBehaviour
                 TeleportingToTheCastle();
                 break;
 
+            case AIActions.Siege:
+                Siege();
+                break;
+
             case AIActions.End:
                 PrepareToRest();
                 break;
@@ -229,4 +236,9 @@ public partial class VassalTargetSelector : MonoBehaviour
     {
         return finishCell;
     }      
+
+    public void SetCurrentSiegeTarget(ResourceBuilding building)
+    {
+        currentSiegeTarget = building;
+    }
 }

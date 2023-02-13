@@ -161,7 +161,7 @@ public class VassalMovement : MonoBehaviour
             {            
                 if(transform.position == pathfinder.ConvertToV3(targetSelector.GetFinishCell()))
                 {
-                    Debug.Log("I need new action.");
+                    //Debug.Log("I need new action.");
                     targetSelector.GetNextAction();
                 }
                 else

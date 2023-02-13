@@ -56,10 +56,12 @@ public class ObjectOwner : MonoBehaviour
         {
             case TypeOfObjectsOwner.Player:
                 currentColor = playerColor;
+                isGuardNeeded = false;
                 break;
 
             case TypeOfObjectsOwner.Enemy:
                 currentColor = enemyColor;
+                isGuardNeeded = true;
                 break;
 
             case TypeOfObjectsOwner.Nobody:
@@ -125,9 +127,9 @@ public class ObjectOwner : MonoBehaviour
         tooltip.SetOwner(owner.ToString());
     }
 
-    public bool CheckOwner()
+    public bool CheckOwner(TypeOfObjectsOwner checkingOwner = TypeOfObjectsOwner.Player)
     {
-        return owner == TypeOfObjectsOwner.Player;
+        return owner == checkingOwner;
     }
 
     public bool GetVisitStatus()

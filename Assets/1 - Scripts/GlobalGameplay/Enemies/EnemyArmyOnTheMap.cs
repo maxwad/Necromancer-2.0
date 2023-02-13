@@ -7,10 +7,13 @@ public class EnemyArmyOnTheMap : MonoBehaviour
 {
     private BattleManager battleManager;
     private EnemyManager enemyManager;
+    public EnemySquadGenerator enemySquadGenerator;
 
     [HideInInspector] public Army army;
     [HideInInspector] public int commonCount = 0;
     private float splitPercent = 0.7f;
+    private float decreaseSiegePercent = 0.1f;
+    private float decreasePortion;
 
     public TypeOfArmy typeOfArmy = TypeOfArmy.OnTheMap;
     public bool isEnemyGarrison = false;
@@ -79,10 +82,6 @@ public class EnemyArmyOnTheMap : MonoBehaviour
 
     public void Death(bool resetMode = false)
     {
-        if(typeOfArmy == TypeOfArmy.Vassals)
-        {
-            Debug.Log("Vassal Regenerate");
-        }
         if(isEnemyGarrison == false)
         {
             if(typeOfArmy != TypeOfArmy.Vassals)
@@ -107,6 +106,34 @@ public class EnemyArmyOnTheMap : MonoBehaviour
             army.quantityList[i] += Mathf.RoundToInt(army.quantityList[i] * growUpConst);
             commonCount += army.quantityList[i];
         }
+    }
+
+    public void DecreaseSquads(int siegeLevel)
+    {
+        if(enemySquadGenerator == null)
+        {
+            enemySquadGenerator = enemyManager.enemySquadGenerator;
+            decreasePortion = enemySquadGenerator.GetPortionAmount();
+        }
+        siegeLevel = (siegeLevel == 0) ? 1 : siegeLevel;
+        float decreaseAmount = decreasePortion * siegeLevel * decreaseSiegePercent;
+        Debug.Log("Decrease amount = " + decreaseAmount);
+        commonCount = 0;
+
+        for(int i = 0; i < army.squadList.Count; i++)
+        {
+            army.quantityList[i] = Mathf.RoundToInt(army.quantityList[i] - decreaseAmount);
+            commonCount += army.quantityList[i];
+
+            if(army.quantityList[i] <= 0)
+                army.quantityList[i] = 1;
+        }
+    }
+
+    public int GetCommonAmountArmy()
+    {
+        Debug.Log("There is left enemies: " + commonCount);
+        return commonCount;
     }
 
     private IEnumerator Blink(bool isBorning)

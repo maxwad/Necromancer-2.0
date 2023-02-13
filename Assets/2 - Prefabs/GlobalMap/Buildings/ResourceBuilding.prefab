@@ -409,7 +409,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: 2
-  isGuardNeeded: 1
+  isGuardNeeded: 0
   probabilityGuard: 100
   isOwnerRequired: 1
   neutralColor: {r: 0.5283019, g: 0.5283019, b: 0.5283019, a: 1}

@@ -1,4 +1,4 @@
-using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,8 +8,10 @@ using static NameManager;
 public class VassalPathfinder : MonoBehaviour
 {
     private VassalMovement movement;
+    private VassalTargetSelector targetSelector;
     private GlobalMapTileManager tileManager;
     private EnemyManager enemyManager;
+    private ResourcesSources resources;
 
     private Tilemap roadMap;
     private Tilemap overlayMap;
@@ -28,8 +30,10 @@ public class VassalPathfinder : MonoBehaviour
     [SerializeField] private int maxMovesCount = 10;
 
     #region GETTINGS
-    public void Init(VassalMovement mv)
+    public void Init(VassalTargetSelector ts, VassalMovement mv)
     {
+        targetSelector = ts;
+
         movement = mv;
         movementPoints = movement.GetMovementPointsAmoumt();
 
@@ -37,6 +41,7 @@ public class VassalPathfinder : MonoBehaviour
         roadMap = GlobalStorage.instance.roadMap;
         overlayMap = GlobalStorage.instance.overlayMap;
         enemyManager = GlobalStorage.instance.enemyManager;
+        resources = GlobalStorage.instance.resourcesManager.GetComponent<ResourcesSources>();
 
         roads = tileManager.GetRoads();
     }
@@ -62,6 +67,8 @@ public class VassalPathfinder : MonoBehaviour
     }
 
     #endregion
+
+
 
     public Vector3Int FindRandomCell()
     {
@@ -139,7 +146,41 @@ public class VassalPathfinder : MonoBehaviour
     public Vector3Int FindResBuildingCell()
     {
         Vector3Int startPoint = overlayMap.WorldToCell(gameObject.transform.position);
+        List<ResourceBuilding> resList = resources.GetAllResBuildings();
+        Debug.Log(resList.Count);
+        List<ResourceBuilding> filteredList = new List<ResourceBuilding>();
 
+        //ResourceBuilding findedResBuilding = null;
+
+        for(int i = 0; i < resList.Count; i++)
+        {
+            if(resList[i].GetOwner().owner != TypeOfObjectsOwner.Enemy && resList[i].CheckSiegeStatus() == false)
+            {
+                filteredList.Add(resList[i]);
+            }
+        }
+
+        Debug.Log(filteredList.Count);
+
+        Dictionary<ResourceBuilding, float> distDict = new Dictionary<ResourceBuilding, float>();
+
+        foreach(var item in filteredList)
+        {
+            if(distDict.ContainsKey(item) == false)
+            {
+                float distance = Vector3.Distance(transform.position, item.gameObject.transform.position);
+                distDict.Add(item, distance);
+            }
+        }
+
+        Debug.Log(distDict.Count);
+
+        var findedResBuilding = distDict.OrderBy(building => building.Value).First();
+        Debug.Log("Target is " + findedResBuilding.Key);
+        targetSelector.SetCurrentSiegeTarget(findedResBuilding.Key);
+        Vector3 position = tileManager.GetEnterPoint(findedResBuilding.Key.gameObject);
+        startPoint = tileManager.CellConverterToV3Int(position);
+        
         return startPoint;
     }
 

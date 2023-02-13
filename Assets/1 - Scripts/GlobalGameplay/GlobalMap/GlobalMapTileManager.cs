@@ -170,6 +170,11 @@ public class GlobalMapTileManager : MonoBehaviour
         return enterPointsDict;
     }
 
+    public Vector3 GetEnterPoint(GameObject building)
+    {
+        return enterPointsDict[building];
+    }
+
     public GMHexCell[,] GetRoads()
     {
         return roads;

@@ -63,5 +63,51 @@ public partial class VassalTargetSelector
         currentPath = pathfinder.CreatePath(finishCell);
     }
 
+    private void Siege()
+    {
+        if(currentSiegeTarget == null)
+            CheckNextTarget();
+
+        if(currentSiegeTarget.CheckOwner(TypeOfObjectsOwner.Enemy) == true)
+        {
+            Debug.Log("Check new owner");
+            currentSiegeTarget = null;
+            SelectSpecialTarget(AITargetType.ToTheOwnCastle);
+            GetNextAction();
+        }
+        else
+        {
+            if(currentSiegeTarget.CheckSiegeStatus() == false)
+            {
+                Debug.Log("Siege is started");
+                currentSiegeTarget.StartSiege();
+                startSiegeAmountArmy = vassalsArmy.GetCommonAmountArmy();
+                mainAI.EndOfMove();
+            }
+            else
+            {
+                vassalsArmy.DecreaseSquads(GetBuildingsLevel());
+
+                if(startSiegeAmountArmy / (float)vassalsArmy.GetCommonAmountArmy() > criticalArmySize)
+                {
+                    Debug.Log("To much of deads");
+                    currentSiegeTarget.StartSiege(false);
+                    GetNextAction();
+                }
+                else
+                {
+                    Debug.Log("Usual siege day");
+                    mainAI.EndOfMove();
+                }
+            }
+        }       
+    }
+
+    private int GetBuildingsLevel()
+    {
+        return (currentSiegeTarget.GetBuildingsType() == ResourceBuildings.Castle) ?
+                    currentSiegeTarget.GetComponent<FortressBuildings>().GetFortressLevel() :
+                    currentSiegeTarget.GetCountOfActiveUpgrades();        
+    }
     #endregion
 }

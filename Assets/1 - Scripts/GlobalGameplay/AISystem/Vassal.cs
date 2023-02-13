@@ -41,7 +41,7 @@ public class Vassal : MonoBehaviour
         animScript     = GetComponent<VassalAnimation>();
 
         targetSelector.Init(this, pathfinder, movement, animScript);
-        pathfinder.Init(movement);
+        pathfinder.Init(targetSelector, movement);
         movement.Init(this, targetSelector, animScript, pathfinder);
         animScript.Init(vassalColor);
 

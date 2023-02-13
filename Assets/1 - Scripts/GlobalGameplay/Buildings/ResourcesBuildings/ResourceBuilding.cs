@@ -75,18 +75,20 @@ public class ResourceBuilding : MonoBehaviour
             owner.ChangeLevel(0);
         }
 
+        resourcesSources.RegisterInCommonList(this);
+
         GetUpgrades();
         ResetBonuses();
 
     }
 
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.R))
-        {
-            StartSiege();
-        }
-    }
+    //private void Update()
+    //{
+    //    if(Input.GetKeyDown(KeyCode.R))
+    //    {
+    //        StartSiege();
+    //    }
+    //}
 
     #region UPGRADES
 
@@ -154,6 +156,11 @@ public class ResourceBuilding : MonoBehaviour
         return resourceAmount * resourceMultiplier;
     }
 
+    public ObjectOwner GetOwner()
+    {
+        return owner;
+    }
+
     public void SetResourceMultiplier(float number)
     {
         resourceMultiplier = number;
@@ -174,6 +181,11 @@ public class ResourceBuilding : MonoBehaviour
     public Dictionary<RBUpgradeSO, UpgradeStatus> GetUpgradesStatuses()
     {
         return upgradesDict;
+    }
+
+    public ResourceBuildings GetBuildingsType()
+    {
+        return buildingType;
     }
 
     #endregion
@@ -256,23 +268,23 @@ public class ResourceBuilding : MonoBehaviour
 
     public void Register()
     {
-        resourcesSources.Register(this);
+        resourcesSources.RegisterAsIncome(this);
 
         if(owner != null)
+        {
             owner.ChangeOwner(TypeOfObjectsOwner.Player);
+            isSiege = false;
+        }
     }
 
     public void Unregister()
     {
-        resourcesSources.Unregister(this);
-
-        if(owner != null)
-            owner.ChangeOwner(TypeOfObjectsOwner.Enemy);
+        resourcesSources.UnregisterAsIncome(this);        
     }
 
-    public bool CheckOwner()
+    public bool CheckOwner(TypeOfObjectsOwner checkingOwner = TypeOfObjectsOwner.Player)
     {
-        return owner.CheckOwner();
+        return owner.CheckOwner(checkingOwner);
     }
     #endregion
 
@@ -280,8 +292,13 @@ public class ResourceBuilding : MonoBehaviour
 
     public void StartSiege(bool siegeMode = true)
     {
+        if(siegeMode == false)
+        {
+            Debug.Log("Siege is over");
+        }
+
         ResetSiegeDays();
-        isSiege = !isSiege;
+        isSiege = siegeMode;
 
         owner.StartSiege(isSiege);
         owner.UpdateSiegeTerm(currentSiegeDays + "/" + siegeDays);
@@ -301,12 +318,16 @@ public class ResourceBuilding : MonoBehaviour
             owner.UpdateSiegeTerm(currentSiegeDays + "/" + siegeDays);
             if(currentSiegeDays <= 0)
             {
-                StartSiege();
+                StartSiege(false);
 
                 if(buildingType != ResourceBuildings.Castle)
                 {
                     Unregister();
-                    InfotipManager.ShowWarning("You lost " + buildingName + "...");
+
+                    if(owner.CheckOwner(TypeOfObjectsOwner.Player) == true)
+                        InfotipManager.ShowWarning("You lost " + buildingName + "...");
+                    
+                    owner.ChangeOwner(TypeOfObjectsOwner.Enemy);
                 }
                 else
                 {

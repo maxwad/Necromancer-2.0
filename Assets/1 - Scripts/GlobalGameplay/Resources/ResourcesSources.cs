@@ -11,6 +11,7 @@ public class ResourcesSources : MonoBehaviour
     [SerializeField] private List<RBUpgradeSO> upgrades;
 
     private List<ResourceBuilding> sources = new List<ResourceBuilding>();
+    private List<ResourceBuilding> listForAI = new List<ResourceBuilding>();
 
     private Dictionary<ResourceType, float> dailyIncome = new Dictionary<ResourceType, float>();
     private Dictionary<ResourceType, float> weeklyIncome = new Dictionary<ResourceType, float>();
@@ -24,7 +25,13 @@ public class ResourcesSources : MonoBehaviour
 
     #region REGISTERS
 
-    public void Register(ResourceBuilding building)
+    public void RegisterInCommonList(ResourceBuilding building)
+    {
+        if(listForAI.Contains(building) == false)
+            listForAI.Add(building);
+    }
+
+    public void RegisterAsIncome(ResourceBuilding building)
     {
         bool isBuildingInList = false;
         for(int i = 0; i < sources.Count; i++)
@@ -45,7 +52,7 @@ public class ResourcesSources : MonoBehaviour
         UpdateIncomes(weeklyIncome, false);
     }
 
-    public void Unregister(ResourceBuilding building)
+    public void UnregisterAsIncome(ResourceBuilding building)
     {
         sources.Remove(building);
 
@@ -118,6 +125,11 @@ public class ResourcesSources : MonoBehaviour
         }
 
         return null;
+    }
+
+    public List<ResourceBuilding> GetAllResBuildings()
+    {
+        return listForAI;
     }
 
     #endregion
