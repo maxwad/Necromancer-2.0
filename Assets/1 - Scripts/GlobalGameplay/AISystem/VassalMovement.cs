@@ -7,9 +7,9 @@ using static NameManager;
 public class VassalMovement : MonoBehaviour
 {
     private MapBonusManager heapManager;
-    private EnemyManager enemyManager;
-    private AISystem aiSystem;
-    private GameObject player;
+    //private EnemyManager enemyManager;
+    //private AISystem aiSystem;
+    //private GameObject player;
 
     private Vassal mainAI;
     private VassalAnimation animationScript;
@@ -42,9 +42,9 @@ public class VassalMovement : MonoBehaviour
         pathfinder = pf;
 
         heapManager = GlobalStorage.instance.mapBonusManager;
-        enemyManager = GlobalStorage.instance.enemyManager;
-        aiSystem = GlobalStorage.instance.aiSystem;
-        player = GlobalStorage.instance.globalPlayer.gameObject;
+        //enemyManager = GlobalStorage.instance.enemyManager;
+        //aiSystem = GlobalStorage.instance.aiSystem;
+        //player = GlobalStorage.instance.globalPlayer.gameObject;
     }
 
     public int GetMovementPointsAmoumt(bool currentMP = true)
@@ -71,10 +71,12 @@ public class VassalMovement : MonoBehaviour
     {
         if(pathPoints.Count == 0)
         {
-            targetSelector.GetNextAction();
+            //targetSelector.GetNextAction();
+            mainAI.EndOfMove();
             yield break;
         }
 
+        bool shouldIRun = false;
         Vector3 previousPosition = pathPoints[0];
         pathfinder.DrawThePath(pathPoints);
 
@@ -95,7 +97,7 @@ public class VassalMovement : MonoBehaviour
 
             shouldIChangePath = false;
 
-            if(CheckEnemy(pathPoints[i]) == true)
+            if(pathfinder.CheckEnemy(pathPoints[i]) == true)
             {
                 if(pathPoints.Count - i == 0)
                 {
@@ -112,12 +114,13 @@ public class VassalMovement : MonoBehaviour
                 }
             }
 
-            if(CheckPlayer(pathPoints[i]) == true)
+            if(pathfinder.CheckPlayerInCell(pathPoints[i]) == true)
             {
                 mainAI.SetTurnStatus(true);
                 shouldIFigth = true;
                 break;
             }
+
 
             Vector3 distance = pathPoints[i] - transform.position;
             Vector3 step = distance / (defaultCountSteps / speed);
@@ -150,6 +153,16 @@ public class VassalMovement : MonoBehaviour
         }
         else
         {
+            if(pathfinder.CheckPlayerNearBy() == true && targetSelector.GetAgressiveMode() == false)
+            {
+                if(targetSelector.GetCurrentTarget() != AITargetType.ToTheOwnCastle)
+                {
+                    targetSelector.SelectSpecialTarget(AITargetType.ToTheOwnCastle);
+                    targetSelector.GetNextAction();
+                    yield break;
+                }
+            }
+
             if(currentMovementPoints == 0)
             {
                 targetSelector.CheckNextTarget();
@@ -157,7 +170,20 @@ public class VassalMovement : MonoBehaviour
                 yield break;
             }
 
-            if(pathPoints.Count == 1 && shouldIChangePath == false)
+            if(shouldIChangePath == true)
+            {
+                CreatePathAndMoveToHeap(pathPoints);
+                yield break;
+            }
+
+            //if(shouldIRun == true)
+            //{
+            //    targetSelector.SelectSpecialTarget(AITargetType.ToTheOwnCastle);
+            //    targetSelector.GetNextAction();
+            //    yield break;
+            //}
+
+            if(pathPoints.Count == 1)
             {            
                 if(transform.position == pathfinder.ConvertToV3(targetSelector.GetFinishCell()))
                 {
@@ -172,8 +198,6 @@ public class VassalMovement : MonoBehaviour
                 yield break;
             }
 
-            if(shouldIChangePath == true)
-                CreatePathAndMoveToHeap(pathPoints);
         }
     }
 
@@ -220,21 +244,21 @@ public class VassalMovement : MonoBehaviour
 
     #region CHECKERS
 
-    public bool CheckEnemy(Vector3 position)
-    {
-        foreach(var vassal in aiSystem.GetVassalsInfo())
-        {
-            if(position == vassal.transform.position)
-                return true;
-        }
+    //public bool CheckEnemy(Vector3 position)
+    //{
+    //    foreach(var vassal in aiSystem.GetVassalsInfo())
+    //    {
+    //        if(position == vassal.transform.position)
+    //            return true;
+    //    }
 
-        return enemyManager.CheckPositionInEnemyPoints(position) != null;
-    }
+    //    return enemyManager.CheckPositionInEnemyPoints(position) != null;
+    //}
 
-    public bool CheckPlayer(Vector3 position)
-    {
-        return position == player.transform.position;
-    }
+    //public bool CheckPlayer(Vector3 position)
+    //{
+    //    return position == player.transform.position;
+    //}
 
     public bool CheckHeapNearBy(Vector3 nextPoint)
     {

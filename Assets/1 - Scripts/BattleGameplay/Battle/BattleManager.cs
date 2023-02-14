@@ -93,7 +93,7 @@ public class BattleManager : MonoBehaviour
     {
         currentArmy = army;
         currentEnemyArmyOnTheMap = currentEnemyArmy;
-        isFightWithVassal = enemyInitiative;
+        isFightWithVassal = currentEnemyArmyOnTheMap.typeOfArmy == TypeOfArmy.Vassals;
 
         playerArmyWindow.OpenWindow(PlayersWindow.Battle, currentEnemyArmy, enemyInitiative);
     }
@@ -108,14 +108,9 @@ public class BattleManager : MonoBehaviour
         autobattle.Preview(currentArmy);
     }
 
-    public void SetVassalVictory(bool victoryMode)
-    {
-        isVassalWin = victoryMode;
-    }
-
     public void TryToContinueEnemysTurn()
     {
-        aiSystem.HandleBattleResult(isVassalWin);
+        aiSystem.HandleBattleResult(isVassalWin, currentEnemyArmyOnTheMap);
 
         isVassalWin = false;
     }

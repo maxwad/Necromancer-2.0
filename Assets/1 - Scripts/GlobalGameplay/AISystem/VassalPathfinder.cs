@@ -12,21 +12,22 @@ public class VassalPathfinder : MonoBehaviour
     private GlobalMapTileManager tileManager;
     private EnemyManager enemyManager;
     private ResourcesSources resources;
+    private GameObject player;
+    private AISystem aiSystem;
 
     private Tilemap roadMap;
     private Tilemap overlayMap;
     private GMHexCell[,] roads;
 
     private List<Vector3> currentPath = new List<Vector3>();
-
     //private Vector3Int startPoint;
-    private Vector3Int finishPoint;
+    //private Vector3Int finishPoint;
     private int movementPoints;
 
 
     [SerializeField] private Tile testTile;
     [SerializeField] private int actionRadius = 10;
-    [SerializeField] private int searchPlayerRadius = 15;
+    [SerializeField] private int searchPlayerRadius = 25;
     [SerializeField] private int maxMovesCount = 10;
 
     #region GETTINGS
@@ -42,14 +43,16 @@ public class VassalPathfinder : MonoBehaviour
         overlayMap = GlobalStorage.instance.overlayMap;
         enemyManager = GlobalStorage.instance.enemyManager;
         resources = GlobalStorage.instance.resourcesManager.GetComponent<ResourcesSources>();
+        aiSystem = GlobalStorage.instance.aiSystem;
+        player = GlobalStorage.instance.globalPlayer.gameObject;
 
         roads = tileManager.GetRoads();
     }
 
-    public List<Vector3> GetPath()
-    {
-        return currentPath;
-    }
+    //public List<Vector3> GetPath()
+    //{
+    //    return currentPath;
+    //}
 
     public GMHexCell GetCell(Vector3 position)
     {
@@ -145,22 +148,14 @@ public class VassalPathfinder : MonoBehaviour
 
     public Vector3Int FindResBuildingCell()
     {
-        Vector3Int startPoint = overlayMap.WorldToCell(gameObject.transform.position);
         List<ResourceBuilding> resList = resources.GetAllResBuildings();
-        Debug.Log(resList.Count);
         List<ResourceBuilding> filteredList = new List<ResourceBuilding>();
-
-        //ResourceBuilding findedResBuilding = null;
 
         for(int i = 0; i < resList.Count; i++)
         {
             if(resList[i].GetOwner().owner != TypeOfObjectsOwner.Enemy && resList[i].CheckSiegeStatus() == false)
-            {
                 filteredList.Add(resList[i]);
-            }
         }
-
-        Debug.Log(filteredList.Count);
 
         Dictionary<ResourceBuilding, float> distDict = new Dictionary<ResourceBuilding, float>();
 
@@ -173,15 +168,12 @@ public class VassalPathfinder : MonoBehaviour
             }
         }
 
-        Debug.Log(distDict.Count);
-
         var findedResBuilding = distDict.OrderBy(building => building.Value).First();
-        Debug.Log("Target is " + findedResBuilding.Key);
+
         targetSelector.SetCurrentSiegeTarget(findedResBuilding.Key);
         Vector3 position = tileManager.GetEnterPoint(findedResBuilding.Key.gameObject);
-        startPoint = tileManager.CellConverterToV3Int(position);
         
-        return startPoint;
+        return tileManager.CellConverterToV3Int(position);
     }
 
     public bool CheckCellAsEnterPoint(Vector3 cell)
@@ -194,8 +186,10 @@ public class VassalPathfinder : MonoBehaviour
         currentPath.Clear();
 
         Dictionary<GMHexCell, NeighborData> queueDict = new Dictionary<GMHexCell, NeighborData>();
-        List<GMHexCell> neighborsQueue = new List<GMHexCell>();
+        //List<GMHexCell> neighborsQueue = new List<GMHexCell>();
+        Queue<GMHexCell> neighborsQueue = new Queue<GMHexCell>();
         List<GMHexCell> roadBack = new List<GMHexCell>();
+        bool agressiveMode = targetSelector.GetAgressiveMode();
 
         Vector3Int startPoint = overlayMap.WorldToCell(gameObject.transform.position);
         GMHexCell firstPathCell = roads[startPoint.x, startPoint.y];
@@ -207,44 +201,82 @@ public class VassalPathfinder : MonoBehaviour
         }
 
         bool isSearching = true;
-        bool isDeadEnd = false;
+        bool isDeadEnd = true;
 
         queueDict.Add(firstPathCell, new NeighborData());
-        neighborsQueue.Add(firstPathCell);
-        int countCells = 0;
+        neighborsQueue.Enqueue(firstPathCell);
+        //int countCells = 0;
 
-        while(isSearching == true)
+        //isDeadEnd = true;
+
+        while(neighborsQueue.Count > 0)
         {
-            if(countCells >= neighborsQueue.Count)
-            {
-                isDeadEnd = true;
-                break;
-            }
+            //if(countCells >= neighborsQueue.Count)
+            //{
+            //    isDeadEnd = true;
+            //    break;
+            //}
 
-            for(int i = countCells; i < neighborsQueue.Count; i++)
-            {
-                GMHexCell[] currentNeighbors = neighborsQueue[i].neighbors;
+            GMHexCell cell = neighborsQueue.Dequeue();
+            Vector3 checkPosition = roadMap.CellToWorld(cell.coordinates);
+            if(CheckPlayerInCell(checkPosition) == true && targetSelector.GetAgressiveMode() == false)
+                continue;
 
-                for(int j = 0; j < currentNeighbors.Length; j++)
+            GMHexCell[] currentNeighbors = cell.neighbors;
+
+            for(int j = 0; j < currentNeighbors.Length; j++)
+            {
+                if(currentNeighbors[j] != null && queueDict.ContainsKey(currentNeighbors[j]) == false)
                 {
-                    if(currentNeighbors[j] != null && queueDict.ContainsKey(currentNeighbors[j]) == false)
-                    {
-                        queueDict.Add(currentNeighbors[j], new NeighborData(queueDict[neighborsQueue[i]].cost + 1, neighborsQueue[i]));
-                        neighborsQueue.Add(currentNeighbors[j]);
+                    queueDict.Add(currentNeighbors[j], new NeighborData(queueDict[cell].cost + 1, cell));
+                    neighborsQueue.Enqueue(currentNeighbors[j]);
 
-                        if(currentNeighbors[j].coordinates == new Vector3Int(finishCell.x, finishCell.y, 0))
-                        {
-                            roadBack.Add(currentNeighbors[j]);
-                            isSearching = false;
-                            break;
-                        }
+                    if(currentNeighbors[j].coordinates == new Vector3Int(finishCell.x, finishCell.y, 0))
+                    {
+                        roadBack.Add(currentNeighbors[j]);
+                        isSearching = false;
+                        isDeadEnd = false;
+                        break;
                     }
                 }
-
-                if(isSearching == false) break;
-
-                countCells++;
             }
+
+            if(isSearching == false) break;
+
+
+            //for(int i = countCells; i < neighborsQueue.Count; i++)
+            //{
+            //    //GMHexCell[] currentNeighbors = neighborsQueue[i].neighbors;
+            //    Vector3 checkPosition = roadMap.CellToWorld(neighborsQueue[i].coordinates);
+
+            //    if(CheckPlayer(checkPosition) == true && targetSelector.GetAgressiveMode() == false)
+            //    {
+            //        Debug.Log("GOT");
+            //        continue;
+            //    }
+
+            //    GMHexCell[] currentNeighbors = neighborsQueue[i].neighbors;
+
+            //    for(int j = 0; j < currentNeighbors.Length; j++)
+            //    {
+            //        if(currentNeighbors[j] != null && queueDict.ContainsKey(currentNeighbors[j]) == false)
+            //        {
+            //            queueDict.Add(currentNeighbors[j], new NeighborData(queueDict[neighborsQueue[i]].cost + 1, neighborsQueue[i]));
+            //            neighborsQueue.Add(currentNeighbors[j]);
+
+            //            if(currentNeighbors[j].coordinates == new Vector3Int(finishCell.x, finishCell.y, 0))
+            //            {
+            //                roadBack.Add(currentNeighbors[j]);
+            //                isSearching = false;
+            //                break;
+            //            }
+            //        }
+            //    }
+
+            //    if(isSearching == false) break;
+
+            //    countCells++;
+            //}
         }
 
         if(isDeadEnd == false)
@@ -275,5 +307,26 @@ public class VassalPathfinder : MonoBehaviour
         {
             overlayMap.SetTile(overlayMap.WorldToCell(path[i]), testTile);
         }
+    }
+
+    public bool CheckPlayerInCell(Vector3 position)
+    {
+        return position == player.transform.position;
+    }
+
+    public bool CheckPlayerNearBy()
+    {
+        return Vector3.Distance(transform.position, player.transform.position) < searchPlayerRadius;
+    }
+
+    public bool CheckEnemy(Vector3 position)
+    {
+        foreach(var vassal in aiSystem.GetVassalsInfo())
+        {
+            if(position == vassal.transform.position)
+                return true;
+        }
+
+        return enemyManager.CheckPositionInEnemyPoints(position) != null;
     }
 }

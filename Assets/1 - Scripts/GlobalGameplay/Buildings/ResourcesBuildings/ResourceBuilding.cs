@@ -292,11 +292,6 @@ public class ResourceBuilding : MonoBehaviour
 
     public void StartSiege(bool siegeMode = true)
     {
-        if(siegeMode == false)
-        {
-            Debug.Log("Siege is over");
-        }
-
         ResetSiegeDays();
         isSiege = siegeMode;
 

@@ -117,7 +117,6 @@ public class EnemyArmyOnTheMap : MonoBehaviour
         }
         siegeLevel = (siegeLevel == 0) ? 1 : siegeLevel;
         float decreaseAmount = decreasePortion * siegeLevel * decreaseSiegePercent;
-        Debug.Log("Decrease amount = " + decreaseAmount);
         commonCount = 0;
 
         for(int i = 0; i < army.squadList.Count; i++)
@@ -132,7 +131,6 @@ public class EnemyArmyOnTheMap : MonoBehaviour
 
     public int GetCommonAmountArmy()
     {
-        Debug.Log("There is left enemies: " + commonCount);
         return commonCount;
     }
 

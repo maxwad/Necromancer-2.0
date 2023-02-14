@@ -194,13 +194,28 @@ public class AISystem : MonoBehaviour
         return vassals;
     }
 
-    public void HandleBattleResult(bool isVassalWin)
+    public void HandleBattleResult(bool isVassalWin, EnemyArmyOnTheMap enemyArmy)
     {
+        bool isVassalFinded = false;
+
         foreach(var castle in allCastles)
         {
             if(castle.Value == true)
             {
                 if(castle.Key.vassal.GetFightPauseStatus() == true)
+                {
+                    castle.Key.vassal.ContinueTurn(isVassalWin);
+                    isVassalFinded = true;
+                    break;
+                }
+            }
+        }
+
+        if(isVassalFinded == false)
+        {
+            foreach(var castle in allCastles)
+            {
+                if(castle.Key.vassal.GetArmy() == enemyArmy)
                 {
                     castle.Key.vassal.ContinueTurn(isVassalWin);
                     break;

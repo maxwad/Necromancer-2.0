@@ -178,6 +178,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85669c7f044a9274abda6aa778e664ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemySquadGenerator: {fileID: 0}
   commonCount: 0
   typeOfArmy: 5
   isEnemyGarrison: 0
@@ -218,8 +219,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03b2b04cac22f8b4a8091f95178eba5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actionRadius: 10
-  searchPlayerRadius: 15
 --- !u!114 &7630864296037192890
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -234,7 +233,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   testTile: {fileID: 11400000, guid: 87b931bf56834914bb49849a98be51d4, type: 2}
   actionRadius: 7
-  searchPlayerRadius: 15
+  searchPlayerRadius: 25
   maxMovesCount: 10
 --- !u!114 &3729544244971170935
 MonoBehaviour:
@@ -248,7 +247,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6898214a3138dba458f080ea3fa8b5c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementPoints: 30
+  movementPoints: 45
 --- !u!1 &926652516816649572
 GameObject:
   m_ObjectHideFlags: 0

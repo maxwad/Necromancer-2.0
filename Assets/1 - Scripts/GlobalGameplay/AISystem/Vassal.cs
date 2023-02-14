@@ -54,7 +54,7 @@ public class Vassal : MonoBehaviour
         {
             transform.position = GetCastlePoint();
             animScript.Activate(true);
-            GetArmy();
+            CreateArmy();
         }
 
         SetCameraOnVassal();
@@ -69,6 +69,7 @@ public class Vassal : MonoBehaviour
     public void ContinueTurn(bool isVassalWin)
     {
         AITargetType action = (isVassalWin == true) ? AITargetType.ToTheOwnCastle : AITargetType.Death;
+        targetSelector.ForcedEndOfSiege();
         targetSelector.SelectSpecialTarget(action);
         SetCameraOnVassal();
 
@@ -117,9 +118,10 @@ public class Vassal : MonoBehaviour
 
     #region GETTINGS & SETTINGS
 
-    private void GetArmy()
+    private void CreateArmy()
     {
-        if(enemyArmy == null) enemyArmy = GetComponent<EnemyArmyOnTheMap>();
+        if(enemyArmy == null) 
+            enemyArmy = GetComponent<EnemyArmyOnTheMap>();
 
         enemyArmy.Birth();
     }
@@ -142,6 +144,11 @@ public class Vassal : MonoBehaviour
     public void SetCameraOnVassal()
     {
         gmCamera.SetObserveObject(gameObject);
+    }
+
+    public EnemyArmyOnTheMap GetArmy()
+    {
+        return enemyArmy;
     }
     #endregion
 }

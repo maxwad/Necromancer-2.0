@@ -15,11 +15,8 @@ public partial class VassalTargetSelector : MonoBehaviour
     private EnemyManager enemyManager;
     private GameObject player;
 
-    [SerializeField] private int actionRadius = 50;
-    [SerializeField] private int searchPlayerRadius = 15;
-
     private AITargetType currentTarget = AITargetType.Rest;
-    private AIState currentState = AIState.Nothing;
+    //private AIState currentState = AIState.Nothing;
     //private List<AIActions> currentActions = new List<AIActions>();
     private Queue<AIActions> currentActionsQ = new Queue<AIActions>();
     private AIActions currentAction = AIActions.End;
@@ -98,6 +95,7 @@ public partial class VassalTargetSelector : MonoBehaviour
             case AITargetType.Walking:
                 currentActionsQ.Enqueue(AIActions.SearchSomePoint);
                 currentActionsQ.Enqueue(AIActions.Moving);
+                aggressiveMode = false;
                 break;
 
             case AITargetType.CastleAttack:
@@ -147,10 +145,10 @@ public partial class VassalTargetSelector : MonoBehaviour
         }
     }
 
-    public void SetState(AIState state)
-    {
-        currentState = state;
-    }
+    //public void SetState(AIState state)
+    //{
+    //    currentState = state;
+    //}
 
     public void GetNextAction()
     {
@@ -199,7 +197,8 @@ public partial class VassalTargetSelector : MonoBehaviour
                 break;
 
             case AIActions.Moving:
-                SetState(AIState.Moving);
+                //SetState(AIState.Moving);
+                UpdatePath();
                 movement.Movement(currentPath);
                 break;
 
@@ -236,6 +235,11 @@ public partial class VassalTargetSelector : MonoBehaviour
     {
         return finishCell;
     }      
+
+    public bool GetAgressiveMode()
+    {
+        return aggressiveMode;
+    }
 
     public void SetCurrentSiegeTarget(ResourceBuilding building)
     {

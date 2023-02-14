@@ -5,10 +5,15 @@ public partial class VassalTargetSelector
 {
     #region TASKS
 
+    private void UpdatePath()
+    {
+        currentPath = pathfinder.CreatePath(finishCell);
+    }
+
     private void FindPathToRandomCell()
     {
         finishCell = pathfinder.FindRandomCell();
-        currentPath = pathfinder.GetPath();
+        UpdatePath();
 
         if(finishCell == Vector3Int.zero)
             Debug.Log("THERE IS PROBLEM with the random finish cell");        
@@ -17,7 +22,7 @@ public partial class VassalTargetSelector
     private void FindPathToTheCastle()
     {
         finishCell = pathfinder.ConvertToV3Int(mainAI.GetCastlePoint());
-        currentPath = pathfinder.CreatePath(finishCell);
+        UpdatePath();
 
         if(finishCell == Vector3Int.zero)
             Debug.Log("THERE IS PROBLEM with the back path");
@@ -26,7 +31,7 @@ public partial class VassalTargetSelector
     private void FindPathToTheResBuilding()
     {
         finishCell = pathfinder.FindResBuildingCell();
-        currentPath = pathfinder.CreatePath(finishCell);
+        UpdatePath();
 
         if(finishCell == Vector3Int.zero)
             Debug.Log("THERE IS PROBLEM with the back path");
@@ -60,7 +65,7 @@ public partial class VassalTargetSelector
     private void FindPathToThePlayer()
     {
         finishCell = pathfinder.ConvertToV3Int(player.transform.position);
-        currentPath = pathfinder.CreatePath(finishCell);
+        UpdatePath();
     }
 
     private void Siege()
@@ -70,7 +75,6 @@ public partial class VassalTargetSelector
 
         if(currentSiegeTarget.CheckOwner(TypeOfObjectsOwner.Enemy) == true)
         {
-            Debug.Log("Check new owner");
             currentSiegeTarget = null;
             SelectSpecialTarget(AITargetType.ToTheOwnCastle);
             GetNextAction();
@@ -79,7 +83,6 @@ public partial class VassalTargetSelector
         {
             if(currentSiegeTarget.CheckSiegeStatus() == false)
             {
-                Debug.Log("Siege is started");
                 currentSiegeTarget.StartSiege();
                 startSiegeAmountArmy = vassalsArmy.GetCommonAmountArmy();
                 mainAI.EndOfMove();
@@ -96,11 +99,27 @@ public partial class VassalTargetSelector
                 }
                 else
                 {
-                    Debug.Log("Usual siege day");
-                    mainAI.EndOfMove();
+                    if(pathfinder.CheckPlayerNearBy() == true)
+                    {
+                        currentSiegeTarget.StartSiege(false);
+                        GetNextAction();
+                    }
+                    else
+                    {
+                        mainAI.EndOfMove();
+                    }
                 }
             }
         }       
+    }
+
+    public void ForcedEndOfSiege()
+    {
+        if(currentSiegeTarget != null)
+        {
+            currentSiegeTarget.StartSiege(false);
+            currentSiegeTarget = null;
+        }
     }
 
     private int GetBuildingsLevel()
