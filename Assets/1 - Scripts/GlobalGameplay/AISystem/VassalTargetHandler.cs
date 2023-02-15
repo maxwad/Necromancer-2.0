@@ -7,34 +7,39 @@ public partial class VassalTargetSelector
 
     private void UpdatePath()
     {
-        currentPath = pathfinder.CreatePath(finishCell);
+        if(finishCell == Vector3Int.zero)
+        {
+            Debug.Log("THERE IS PROBLEM with the random finish cell");
+            CheckNextTarget();
+        }
+        else
+            currentPath = pathfinder.CreatePath(finishCell);
     }
 
     private void FindPathToRandomCell()
     {
         finishCell = pathfinder.FindRandomCell();
-        UpdatePath();
-
-        if(finishCell == Vector3Int.zero)
-            Debug.Log("THERE IS PROBLEM with the random finish cell");        
+        UpdatePath();        
     }
 
-    private void FindPathToTheCastle()
+    private void FindPathToTheOwnCastle()
     {
         finishCell = pathfinder.ConvertToV3Int(mainAI.GetCastlePoint());
         UpdatePath();
-
-        if(finishCell == Vector3Int.zero)
-            Debug.Log("THERE IS PROBLEM with the back path");
     }
         
     private void FindPathToTheResBuilding()
     {
         finishCell = pathfinder.FindResBuildingCell();
         UpdatePath();
+    }
 
-        if(finishCell == Vector3Int.zero)
-            Debug.Log("THERE IS PROBLEM with the back path");
+    private void FindPathToThePlayerCastle()
+    {
+        finishCell = pathfinder.FindPlayerCastleCell();
+        Debug.Log("Castle is on v3Int" + finishCell);
+        Debug.Log("Castle is on v3" + pathfinder.ConvertToV3(finishCell));
+        UpdatePath();
     }
 
     public void PrepareToRest(bool deathMode = false)
@@ -70,11 +75,13 @@ public partial class VassalTargetSelector
 
     private void Siege()
     {
+        Debug.Log("1 " + currentSiegeTarget);
         if(currentSiegeTarget == null)
             CheckNextTarget();
 
         if(currentSiegeTarget.CheckOwner(TypeOfObjectsOwner.Enemy) == true)
         {
+            Debug.Log("2 ");
             currentSiegeTarget = null;
             SelectSpecialTarget(AITargetType.ToTheOwnCastle);
             GetNextAction();
@@ -83,29 +90,35 @@ public partial class VassalTargetSelector
         {
             if(currentSiegeTarget.CheckSiegeStatus() == false)
             {
+                Debug.Log("3 ");
                 currentSiegeTarget.StartSiege();
                 startSiegeAmountArmy = vassalsArmy.GetCommonAmountArmy();
                 mainAI.EndOfMove();
             }
             else
             {
+                Debug.Log("4 ");
                 vassalsArmy.DecreaseSquads(GetBuildingsLevel());
 
                 if(startSiegeAmountArmy / (float)vassalsArmy.GetCommonAmountArmy() > criticalArmySize)
                 {
+                    Debug.Log("5 ");
                     Debug.Log("To much of deads");
                     currentSiegeTarget.StartSiege(false);
                     GetNextAction();
                 }
                 else
                 {
+                    Debug.Log("6 ");
                     if(pathfinder.CheckPlayerNearBy() == true)
                     {
+                        Debug.Log("7 ");
                         currentSiegeTarget.StartSiege(false);
                         GetNextAction();
                     }
                     else
                     {
+                        Debug.Log("8");
                         mainAI.EndOfMove();
                     }
                 }

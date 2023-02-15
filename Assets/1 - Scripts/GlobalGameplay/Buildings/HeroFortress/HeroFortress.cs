@@ -13,6 +13,7 @@ public class HeroFortress : MonoBehaviour, IInputableKeys
     [SerializeField] private GameObject uiPanel;
     private OpeningBuildingWindow door;
     private FortressBuildings buildings;
+    private GameObject fortressGO;
     private UnitCenter unitCenter;
     private ResourceBuildingUI resourceBuildingUI;
     private ResourceBuilding resourceBuilding;
@@ -31,12 +32,13 @@ public class HeroFortress : MonoBehaviour, IInputableKeys
     private void Awake()
     {
         //gmInterface = GlobalStorage.instance.gmInterface;
-        canvas = uiPanel.GetComponent<CanvasGroup>();
-        door = GlobalStorage.instance.fortressBuildingDoor;
-        buildings = GetComponent<FortressBuildings>();
-        unitCenter = GetComponentInChildren<UnitCenter>(true);
+        canvas             = uiPanel.GetComponent<CanvasGroup>();
+        door               = GlobalStorage.instance.fortressBuildingDoor;
+        buildings          = GetComponent<FortressBuildings>();
+        fortressGO         = GlobalStorage.instance.fortressGO;
+        unitCenter         = GetComponentInChildren<UnitCenter>(true);
         resourceBuildingUI = GetComponentInChildren<ResourceBuildingUI>(true);
-        resourceBuilding = GetComponent<ResourceBuilding>();
+        resourceBuilding   = fortressGO.GetComponent<ResourceBuilding>();
 
         gmPlayerMovement = GlobalStorage.instance.globalPlayer;
         resourcesManager = GlobalStorage.instance.resourcesManager;

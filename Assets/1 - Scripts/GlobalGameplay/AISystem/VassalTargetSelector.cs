@@ -21,7 +21,7 @@ public partial class VassalTargetSelector : MonoBehaviour
     private Queue<AIActions> currentActionsQ = new Queue<AIActions>();
     private AIActions currentAction = AIActions.End;
 
-    private List<Vector3> currentPath = new List<Vector3>();
+    private Queue<Vector3> currentPath = new Queue<Vector3>();
     private Vector3Int finishCell = Vector3Int.zero;
     private ResourceBuilding currentSiegeTarget = null;
     private int startSiegeAmountArmy;
@@ -29,6 +29,8 @@ public partial class VassalTargetSelector : MonoBehaviour
 
     private bool shouldIContinueAction = false;
     private bool aggressiveMode = false;
+    private int tryToActMax = 3;
+    private int currentTryToAct = 0;
 
     private WaitForSeconds delay = new WaitForSeconds(0.15f);
 
@@ -52,7 +54,7 @@ public partial class VassalTargetSelector : MonoBehaviour
             shouldIContinueAction = true;
             // change delta for skipping some target
             //currentTarget = (AITargetType)UnityEngine.Random.Range(1, Enum.GetValues(typeof(AITargetType)).Length - (delta = 3));
-            currentTarget = AITargetType.ResBuildingAttack;
+            currentTarget = AITargetType.CastleAttack;
             CreateActionsQueue();
             GetNextAction();
         }
@@ -81,7 +83,7 @@ public partial class VassalTargetSelector : MonoBehaviour
 
     private void CreateActionsQueue()
     {
-        aggressiveMode = true;
+        EnableAgressiveMode(true);
         bool isCamebackNeeded = true;
         currentActionsQ.Clear();
 
@@ -89,13 +91,13 @@ public partial class VassalTargetSelector : MonoBehaviour
         {
             case AITargetType.Rest:
                 isCamebackNeeded = false;
-                aggressiveMode = false;
+                EnableAgressiveMode(false);
                 break;
 
             case AITargetType.Walking:
                 currentActionsQ.Enqueue(AIActions.SearchSomePoint);
                 currentActionsQ.Enqueue(AIActions.Moving);
-                aggressiveMode = false;
+                EnableAgressiveMode(false);
                 break;
 
             case AITargetType.CastleAttack:
@@ -126,11 +128,11 @@ public partial class VassalTargetSelector : MonoBehaviour
                 currentActionsQ.Enqueue(AIActions.SearchOwnCastle);
                 currentActionsQ.Enqueue(AIActions.TeleportToCastle);
                 isCamebackNeeded = false;
-                aggressiveMode = false;
+                EnableAgressiveMode(false);
                 break;
 
             case AITargetType.ToTheOwnCastle:
-                aggressiveMode = false;
+                EnableAgressiveMode(false);
                 break;
 
             default:
@@ -145,23 +147,9 @@ public partial class VassalTargetSelector : MonoBehaviour
         }
     }
 
-    //public void SetState(AIState state)
-    //{
-    //    currentState = state;
-    //}
-
     public void GetNextAction()
     {
-        //if(currentTarget == AITargetType.PlayerAttack && currentAction == AIActions.Moving)
-        //{
-        //    if(movement.GetMovementPointsAmoumt(false) == 0)
-        //    {
-        //        SelectSpecialTarget(AITargetType.PlayerAttack);
-        //    }
-        //}
-
         currentAction = currentActionsQ.Dequeue();
-        //Debug.Log(gameObject.name + " got action: " + currentAction);
         HandleAction();
     }
 
@@ -182,7 +170,7 @@ public partial class VassalTargetSelector : MonoBehaviour
                 break;
 
             case AIActions.SearchOwnCastle:
-                FindPathToTheCastle();
+                FindPathToTheOwnCastle();
                 GetNextAction();
                 break;
 
@@ -194,10 +182,14 @@ public partial class VassalTargetSelector : MonoBehaviour
             case AIActions.SearchResBuilding:
                 FindPathToTheResBuilding();
                 GetNextAction();
+                break;    
+                
+            case AIActions.SearchPlayerCastle:
+                FindPathToThePlayerCastle();
+                GetNextAction();
                 break;
 
             case AIActions.Moving:
-                //SetState(AIState.Moving);
                 UpdatePath();
                 movement.Movement(currentPath);
                 break;
@@ -239,6 +231,11 @@ public partial class VassalTargetSelector : MonoBehaviour
     public bool GetAgressiveMode()
     {
         return aggressiveMode;
+    }
+
+    public void EnableAgressiveMode(bool enableMode)
+    {
+        aggressiveMode = enableMode;
     }
 
     public void SetCurrentSiegeTarget(ResourceBuilding building)

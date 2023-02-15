@@ -14,12 +14,13 @@ public class VassalPathfinder : MonoBehaviour
     private ResourcesSources resources;
     private GameObject player;
     private AISystem aiSystem;
+    private ResourceBuilding playerCastle;
 
     private Tilemap roadMap;
     private Tilemap overlayMap;
     private GMHexCell[,] roads;
 
-    private List<Vector3> currentPath = new List<Vector3>();
+    private Queue<Vector3> currentPath = new Queue<Vector3>();
     //private Vector3Int startPoint;
     //private Vector3Int finishPoint;
     private int movementPoints;
@@ -38,13 +39,14 @@ public class VassalPathfinder : MonoBehaviour
         movement = mv;
         movementPoints = movement.GetMovementPointsAmoumt();
 
-        tileManager = GlobalStorage.instance.gmManager;
-        roadMap = GlobalStorage.instance.roadMap;
-        overlayMap = GlobalStorage.instance.overlayMap;
+        tileManager  = GlobalStorage.instance.gmManager;
+        roadMap      = GlobalStorage.instance.roadMap;
+        overlayMap   = GlobalStorage.instance.overlayMap;
         enemyManager = GlobalStorage.instance.enemyManager;
-        resources = GlobalStorage.instance.resourcesManager.GetComponent<ResourcesSources>();
-        aiSystem = GlobalStorage.instance.aiSystem;
-        player = GlobalStorage.instance.globalPlayer.gameObject;
+        resources    = GlobalStorage.instance.resourcesManager.GetComponent<ResourcesSources>();
+        aiSystem     = GlobalStorage.instance.aiSystem;
+        playerCastle = GlobalStorage.instance.fortressGO.GetComponent<ResourceBuilding>();
+        player       = GlobalStorage.instance.globalPlayer.gameObject;
 
         roads = tileManager.GetRoads();
     }
@@ -137,7 +139,7 @@ public class VassalPathfinder : MonoBehaviour
 
     private bool CheckMovesCount(Vector3Int finishCell)
     {
-        List<Vector3> path = CreatePath(finishCell);
+        Queue<Vector3> path = CreatePath(finishCell);
 
         if(path.Count == 0) return false;
 
@@ -158,22 +160,45 @@ public class VassalPathfinder : MonoBehaviour
         }
 
         Dictionary<ResourceBuilding, float> distDict = new Dictionary<ResourceBuilding, float>();
+        Vector3Int findedPoint = Vector3Int.zero;
 
-        foreach(var item in filteredList)
+        if(filteredList.Count > 0)
         {
-            if(distDict.ContainsKey(item) == false)
+            foreach(var item in filteredList)
             {
-                float distance = Vector3.Distance(transform.position, item.gameObject.transform.position);
-                distDict.Add(item, distance);
+                if(distDict.ContainsKey(item) == false)
+                {
+                    float distance = Vector3.Distance(transform.position, item.gameObject.transform.position);
+                    distDict.Add(item, distance);
+                }
             }
+
+            var findedResBuilding = distDict.OrderBy(building => building.Value).First();
+
+            targetSelector.SetCurrentSiegeTarget(findedResBuilding.Key);
+            Vector3 position = tileManager.GetEnterPoint(findedResBuilding.Key.gameObject);
+
+            if(position != Vector3.zero)
+                findedPoint = tileManager.CellConverterToV3Int(position);
+        }
+        
+        return findedPoint;
+    }
+
+    public Vector3Int FindPlayerCastleCell()
+    {
+        Vector3Int findedPoint = Vector3Int.zero;
+
+        if(playerCastle.CheckSiegeStatus() == false)
+        {
+            targetSelector.SetCurrentSiegeTarget(playerCastle);
+            Vector3 position = tileManager.GetEnterPoint(playerCastle.gameObject);
+            Debug.Log("I got castle position like " + tileManager.GetEnterPoint(playerCastle.gameObject));
+            if(position != Vector3.zero)
+                findedPoint = tileManager.CellConverterToV3Int(position);
         }
 
-        var findedResBuilding = distDict.OrderBy(building => building.Value).First();
-
-        targetSelector.SetCurrentSiegeTarget(findedResBuilding.Key);
-        Vector3 position = tileManager.GetEnterPoint(findedResBuilding.Key.gameObject);
-        
-        return tileManager.CellConverterToV3Int(position);
+        return findedPoint;
     }
 
     public bool CheckCellAsEnterPoint(Vector3 cell)
@@ -181,7 +206,7 @@ public class VassalPathfinder : MonoBehaviour
         return tileManager.CheckCellAsEnterPoint(cell);
     }
 
-    public List<Vector3> CreatePath(Vector3Int finishCell)
+    public Queue<Vector3> CreatePath(Vector3Int finishCell)
     {
         currentPath.Clear();
 
@@ -189,12 +214,11 @@ public class VassalPathfinder : MonoBehaviour
         //List<GMHexCell> neighborsQueue = new List<GMHexCell>();
         Queue<GMHexCell> neighborsQueue = new Queue<GMHexCell>();
         List<GMHexCell> roadBack = new List<GMHexCell>();
-        bool agressiveMode = targetSelector.GetAgressiveMode();
 
         Vector3Int startPoint = overlayMap.WorldToCell(gameObject.transform.position);
         GMHexCell firstPathCell = roads[startPoint.x, startPoint.y];
 
-        if(finishCell == startPoint)
+        if(finishCell == startPoint || finishCell == Vector3Int.zero)
         {
             Debug.Log("Start point is finish point");
             return currentPath;
@@ -208,7 +232,6 @@ public class VassalPathfinder : MonoBehaviour
         //int countCells = 0;
 
         //isDeadEnd = true;
-
         while(neighborsQueue.Count > 0)
         {
             //if(countCells >= neighborsQueue.Count)
@@ -220,7 +243,10 @@ public class VassalPathfinder : MonoBehaviour
             GMHexCell cell = neighborsQueue.Dequeue();
             Vector3 checkPosition = roadMap.CellToWorld(cell.coordinates);
             if(CheckPlayerInCell(checkPosition) == true && targetSelector.GetAgressiveMode() == false)
+            {
+                //Debug.Log("Continue with " + neighborsQueue.Count);
                 continue;
+            }
 
             GMHexCell[] currentNeighbors = cell.neighbors;
 
@@ -291,7 +317,7 @@ public class VassalPathfinder : MonoBehaviour
 
             for(int i = 0; i < roadBack.Count; i++)
             {               
-                currentPath.Add(roadMap.CellToWorld(roadBack[i].coordinates));
+                currentPath.Enqueue(roadMap.CellToWorld(roadBack[i].coordinates));
                 overlayMap.SetTile(roadBack[i].coordinates, testTile);                
             }
 
@@ -301,11 +327,12 @@ public class VassalPathfinder : MonoBehaviour
         return currentPath;
     }
 
-    public void DrawThePath(List<Vector3> path)
+    public void DrawThePath(Queue<Vector3> path)
     {
+        List<Vector3> pathList = new List<Vector3>(path);
         for(int i = 0; i < path.Count; i++)
         {
-            overlayMap.SetTile(overlayMap.WorldToCell(path[i]), testTile);
+            overlayMap.SetTile(overlayMap.WorldToCell(pathList[i]), testTile);
         }
     }
 

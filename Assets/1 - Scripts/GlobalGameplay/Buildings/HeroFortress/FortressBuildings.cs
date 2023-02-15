@@ -9,6 +9,7 @@ public class FortressBuildings : MonoBehaviour
 {
     private GMInterface gmInterface;
     private ResourceBuilding mint;
+    private GameObject fortressGO;
 
     [SerializeField] private TMP_Text fortressLevelText;
     private int fortressLevel = 0;
@@ -75,7 +76,8 @@ public class FortressBuildings : MonoBehaviour
             upgradesDict.Add(item, upgrades);
         }
 
-        mint = GetComponent<ResourceBuilding>();
+        fortressGO = GlobalStorage.instance.fortressGO;
+        mint = fortressGO.GetComponent<ResourceBuilding>();
         buildingCanvas = buildingDescription.GetComponent<CanvasGroup>();
 
         UpgradeFortressLevel();

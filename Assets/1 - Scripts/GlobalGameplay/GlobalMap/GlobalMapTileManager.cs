@@ -37,12 +37,12 @@ public class GlobalMapTileManager : MonoBehaviour
         roads = new GMHexCell[roadMap.size.x, roadMap.size.y];
         gmPathfinder = GetComponent<GlobalMapPathfinder>();
 
-        arenaBuilder = GetComponent<ArenaBuilder>();
-        castleBuilder = GetComponent<CastleBuilder>();
-        tombBuilder = GetComponent<TombBuilder>();
-        resourceBuilder = GetComponent<ResourceBuilder>();
-        campBuilder = GetComponent<CampBuilder>();
-        boxesBuilder = GlobalStorage.instance.mapBoxesManager;
+        arenaBuilder        = GetComponent<ArenaBuilder>();
+        castleBuilder       = GetComponent<CastleBuilder>();
+        tombBuilder         = GetComponent<TombBuilder>();
+        resourceBuilder     = GetComponent<ResourceBuilder>();
+        campBuilder         = GetComponent<CampBuilder>();
+        boxesBuilder        = GlobalStorage.instance.mapBoxesManager;
         environmentRegister = GetComponent<EnvironmentRegister>();
 
         CreateRoadCells();
@@ -172,7 +172,7 @@ public class GlobalMapTileManager : MonoBehaviour
 
     public Vector3 GetEnterPoint(GameObject building)
     {
-        return enterPointsDict[building];
+        return (enterPointsDict.ContainsKey(building) == true) ? enterPointsDict[building] : Vector3.zero;
     }
 
     public GMHexCell[,] GetRoads()
@@ -195,6 +195,10 @@ public class GlobalMapTileManager : MonoBehaviour
                 SortingBuildings(allBuildingsOnTheMap[i], pos);
 
                 ClickableObject building = allBuildingsOnTheMap[i].GetComponent<ClickableObject>();
+                if(building.gameObject.name == "HeroFortress")
+                {
+                    Debug.Log("Real Castle Position = " + pos);
+                }
                 if(building != null)
                     building.SetEnterPoint(pos);
             }

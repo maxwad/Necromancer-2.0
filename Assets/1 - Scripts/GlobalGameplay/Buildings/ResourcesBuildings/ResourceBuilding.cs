@@ -65,7 +65,7 @@ public class ResourceBuilding : MonoBehaviour
         if(buildingType == ResourceBuildings.Castle)
         {
             Register();
-            owner = GlobalStorage.instance.fortressGO;
+            //owner = GlobalStorage.instance.fortressGO;
         }
         else
         {

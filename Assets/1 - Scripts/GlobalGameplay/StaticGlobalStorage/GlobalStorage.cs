@@ -64,7 +64,7 @@ public class GlobalStorage : MonoBehaviour
     [Header("Buildings")]
     public HeroFortress heroFortress;
     public FortressBuildings fortressBuildings;
-    public ObjectOwner fortressGO;
+    public GameObject fortressGO;
 
     [Header("Maps")]
     public GameObject globalMap;

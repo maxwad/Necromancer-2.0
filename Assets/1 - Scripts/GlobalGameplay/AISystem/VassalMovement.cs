@@ -19,7 +19,7 @@ public class VassalMovement : MonoBehaviour
     [SerializeField] private int movementPoints = 4;
     private int currentMovementPoints;
 
-    private float speed = 50f; //50 for build
+    private float speed = 100f; //50 for build
     private float defaultCountSteps = 500;
 
     private bool shouldIStop = false;
@@ -28,7 +28,7 @@ public class VassalMovement : MonoBehaviour
     private Vector3Int heapCell = Vector3Int.zero;
     private Vector3 finishCell = Vector3.zero;
 
-    private List<Vector3> currentPath = new List<Vector3>();
+    private Queue<Vector3> currentPath = new Queue<Vector3>();
 
     private Coroutine movementCoroutine;
     private WaitForSecondsRealtime decidingDelay = new WaitForSecondsRealtime(0.3f);
@@ -57,7 +57,7 @@ public class VassalMovement : MonoBehaviour
         currentMovementPoints = movementPoints;
     }
 
-    public void Movement(List<Vector3> path)
+    public void Movement(Queue<Vector3> path)
     {
         currentPath = path;
 
@@ -67,44 +67,67 @@ public class VassalMovement : MonoBehaviour
         movementCoroutine = StartCoroutine(Moving(path));
     }
 
-    private IEnumerator Moving(List<Vector3> pathPoints)
+    private IEnumerator Moving(Queue<Vector3> pathPoints)
     {
         if(pathPoints.Count == 0)
         {
-            //targetSelector.GetNextAction();
+            Debug.Log("Break moving");
             mainAI.EndOfMove();
             yield break;
         }
+        //if(pathPoints.Count == 0)
+        //{
+        //    Debug.Log(transform.position + " === " + pathfinder.ConvertToV3(targetSelector.GetFinishCell()));
+        //    if(transform.position == pathfinder.ConvertToV3(targetSelector.GetFinishCell()))
+        //    {
+        //        Debug.Log("I need new action.");
+        //        targetSelector.GetNextAction();
+        //    }
+        //    else
+        //    {
+        //        Debug.Log("End Of Move.");
+        //        mainAI.EndOfMove();
+        //    }
+        //    //targetSelector.GetNextAction();
+        //    //mainAI.EndOfMove();
+        //    yield break;
+        //}
 
-        bool shouldIRun = false;
-        Vector3 previousPosition = pathPoints[0];
+
         pathfinder.DrawThePath(pathPoints);
+        Vector3 previousPosition;
+        Vector3 nextPoint = pathPoints.Dequeue();        
 
         yield return movingDelay;
 
-        for(int i = 1; i < pathPoints.Count; i++)
+        //for(int i = 1; i < pathPoints.Count; i++)
+        while(pathPoints.Count > 0)
         {
-            animationScript.FlipSprite(previousPosition.x - pathPoints[i].x < 0);
-
+            //Debug.Log(i + "/" + pathPoints.Count);
             if(currentMovementPoints == 0) break;
+
+            previousPosition = nextPoint;
+            nextPoint = pathPoints.Dequeue();
+
+            animationScript.FlipSprite(previousPosition.x - nextPoint.x < 0);
 
             if(shouldIChangePath == false)
             {
-                shouldIChangePath = CheckHeapNearBy(pathPoints[i]);
+                shouldIChangePath = CheckHeapNearBy(nextPoint);
                 if(shouldIChangePath == true)
                     break;
             }
 
             shouldIChangePath = false;
 
-            if(pathfinder.CheckEnemy(pathPoints[i]) == true)
+            if(pathfinder.CheckEnemy(nextPoint) == true)
             {
-                if(pathPoints.Count - i == 0)
-                {
-                    pathPoints.Clear();
-                    Debug.Log("Path aborted.");
-                    break;
-                }
+                //if(pathPoints.Count <= 1)
+                //{
+                //    pathPoints.Clear();
+                //    Debug.Log("Path aborted.");
+                //    break;
+                //}
 
                 if(currentMovementPoints == 1)
                 {
@@ -114,15 +137,14 @@ public class VassalMovement : MonoBehaviour
                 }
             }
 
-            if(pathfinder.CheckPlayerInCell(pathPoints[i]) == true)
+            if(pathfinder.CheckPlayerInCell(nextPoint) == true)
             {
                 mainAI.SetTurnStatus(true);
                 shouldIFigth = true;
                 break;
             }
 
-
-            Vector3 distance = pathPoints[i] - transform.position;
+            Vector3 distance = nextPoint - transform.position;
             Vector3 step = distance / (defaultCountSteps / speed);
 
             for(float t = 0; t < defaultCountSteps / speed; t++)
@@ -133,18 +155,19 @@ public class VassalMovement : MonoBehaviour
 
             currentMovementPoints--;
 
-            transform.position = pathPoints[i];
-            previousPosition = pathPoints[i - 1];
+            transform.position = nextPoint;
+            //Debug.Log(transform.position + " === " + pathPoints[pathPoints.Count - 1]  + "(" + pathPoints.Count + ")");
+            //previousPosition = pathPoints[i - 1];
 
             if(shouldIChangePath == true)
                 break;
         }
-
-        int index = 0;
-        while(transform.position != pathPoints[index])
-        {
-            pathPoints.Remove(pathPoints[index]);
-        }
+        
+        //int index = 0;
+        //while(transform.position != pathPoints[index])
+        //{
+        //    pathPoints.Remove(pathPoints[index]);
+        //}
 
         if(shouldIFigth == true)
         {
@@ -172,7 +195,7 @@ public class VassalMovement : MonoBehaviour
 
             if(shouldIChangePath == true)
             {
-                CreatePathAndMoveToHeap(pathPoints);
+                CreatePathAndMoveToHeap();
                 yield break;
             }
 
@@ -183,16 +206,21 @@ public class VassalMovement : MonoBehaviour
             //    yield break;
             //}
 
-            if(pathPoints.Count == 1)
-            {            
-                if(transform.position == pathfinder.ConvertToV3(targetSelector.GetFinishCell()))
+            if(pathPoints.Count <= 1)
+            {
+                Debug.Log("End of path");
+                if(pathfinder.ConvertToV3Int(transform.position) == targetSelector.GetFinishCell())
                 {
+                    Debug.Log("positions are equals");
                     //Debug.Log("I need new action.");
                     targetSelector.GetNextAction();
                 }
                 else
                 {
-                    BackToMainTarget(pathPoints);                    
+                    Debug.Log(pathfinder.ConvertToV3Int(transform.position));
+                    Debug.Log(targetSelector.GetFinishCell());
+                    Debug.Log("positions are not equals");
+                    BackToMainTarget();                    
                 }
 
                 yield break;
@@ -201,15 +229,17 @@ public class VassalMovement : MonoBehaviour
         }
     }
 
-    private void CreatePathAndMoveToHeap(List<Vector3> pathPoints)
+    private void CreatePathAndMoveToHeap()
     {
-        pathPoints = pathfinder.CreatePath(heapCell);
+        //Debug.Log("To the heap");
+        Queue<Vector3> pathPoints = pathfinder.CreatePath(heapCell);
         Movement(pathPoints);
     }
 
-    private void BackToMainTarget(List<Vector3> pathPoints)
+    private void BackToMainTarget()
     {
-        pathPoints = pathfinder.CreatePath(targetSelector.GetFinishCell());
+        //Debug.Log("Back to the target");
+        Queue<Vector3> pathPoints = pathfinder.CreatePath(targetSelector.GetFinishCell());
         Movement(pathPoints);
     }
 
@@ -243,22 +273,6 @@ public class VassalMovement : MonoBehaviour
     }
 
     #region CHECKERS
-
-    //public bool CheckEnemy(Vector3 position)
-    //{
-    //    foreach(var vassal in aiSystem.GetVassalsInfo())
-    //    {
-    //        if(position == vassal.transform.position)
-    //            return true;
-    //    }
-
-    //    return enemyManager.CheckPositionInEnemyPoints(position) != null;
-    //}
-
-    //public bool CheckPlayer(Vector3 position)
-    //{
-    //    return position == player.transform.position;
-    //}
 
     public bool CheckHeapNearBy(Vector3 nextPoint)
     {
