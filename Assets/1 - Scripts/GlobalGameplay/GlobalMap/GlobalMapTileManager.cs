@@ -195,10 +195,6 @@ public class GlobalMapTileManager : MonoBehaviour
                 SortingBuildings(allBuildingsOnTheMap[i], pos);
 
                 ClickableObject building = allBuildingsOnTheMap[i].GetComponent<ClickableObject>();
-                if(building.gameObject.name == "HeroFortress")
-                {
-                    Debug.Log("Real Castle Position = " + pos);
-                }
                 if(building != null)
                     building.SetEnterPoint(pos);
             }

@@ -42,6 +42,9 @@ public class GlobalCamera : MonoBehaviour, IInputableAxies
         globalPlayer = GlobalStorage.instance.globalPlayer.gameObject;
 
         RegisterInputAxies();
+
+        //for testing
+        SetObserveObject();
     }
 
     public void RegisterInputAxies()

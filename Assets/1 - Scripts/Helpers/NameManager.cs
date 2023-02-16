@@ -394,7 +394,6 @@ public static class NameManager
         PlayerAttack,
         Rest,
         ToTheOwnCastle,
-        TeleportToCastle,
         Death
     }
 

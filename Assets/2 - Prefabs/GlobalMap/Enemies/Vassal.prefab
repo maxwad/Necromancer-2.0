@@ -232,7 +232,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   testTile: {fileID: 11400000, guid: 87b931bf56834914bb49849a98be51d4, type: 2}
-  actionRadius: 7
+  actionRadius: 30
   searchPlayerRadius: 25
   maxMovesCount: 10
 --- !u!114 &3729544244971170935
@@ -247,7 +247,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6898214a3138dba458f080ea3fa8b5c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementPoints: 100
+  movementPoints: 200
 --- !u!1 &926652516816649572
 GameObject:
   m_ObjectHideFlags: 0
@@ -374,13 +374,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 9
-  m_fontSizeBase: 9
+  m_fontSize: 10
+  m_fontSizeBase: 10
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 16
+  m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535

@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,6 +14,7 @@ public partial class VassalTargetSelector : MonoBehaviour
     private VassalAnimation animScript;
     private EnemyArmyOnTheMap vassalsArmy;
     private EnemyManager enemyManager;
+    private FortressBuildings fortress;
     private GameObject player;
 
     private AITargetType currentTarget = AITargetType.Rest;
@@ -24,27 +26,39 @@ public partial class VassalTargetSelector : MonoBehaviour
     private Queue<Vector3> currentPath = new Queue<Vector3>();
     private Vector3Int finishCell = Vector3Int.zero;
     private ResourceBuilding currentSiegeTarget = null;
+    private int siegeDaysLeft = -1;
     private int startSiegeAmountArmy;
     private float criticalArmySize = 5;
 
     private bool shouldIContinueAction = false;
     private bool aggressiveMode = false;
-    private int tryToActMax = 3;
-    private int currentTryToAct = 0;
+    //private int tryToActMax = 3;
+    //private int currentTryToAct = 0;
 
     private WaitForSeconds delay = new WaitForSeconds(0.15f);
 
-
     public void Init(Vassal vassal, VassalPathfinder pf, VassalMovement mv, VassalAnimation anim)
     {
-        mainAI = vassal;
+        mainAI     = vassal;
         pathfinder = pf;
-        movement = mv;
+        movement   = mv;
         animScript = anim;
 
-        vassalsArmy = GetComponent<EnemyArmyOnTheMap>();
+        vassalsArmy  = GetComponent<EnemyArmyOnTheMap>();
         enemyManager = GlobalStorage.instance.enemyManager;
-        player = GlobalStorage.instance.globalPlayer.gameObject;
+        fortress     = GlobalStorage.instance.fortressBuildings;
+        player       = GlobalStorage.instance.globalPlayer.gameObject;
+    }
+
+    public void SelectTESTTarget()
+    {
+        Debug.Log("THERE IS PROBLEM with the random finish cell");
+        shouldIContinueAction = true;
+        // change delta for skipping some target
+        currentTarget = (AITargetType)UnityEngine.Random.Range(0, Enum.GetValues(typeof(AITargetType)).Length - 3);
+        Debug.Log("Global Target: " + currentTarget);
+        CreateActionsQueue();
+        GetNextAction();
     }
 
     public void SelectRandomTarget()
@@ -53,13 +67,19 @@ public partial class VassalTargetSelector : MonoBehaviour
         {
             shouldIContinueAction = true;
             // change delta for skipping some target
-            //currentTarget = (AITargetType)UnityEngine.Random.Range(1, Enum.GetValues(typeof(AITargetType)).Length - (delta = 3));
+            //currentTarget = (AITargetType)UnityEngine.Random.Range(0, Enum.GetValues(typeof(AITargetType)).Length - (delta = 3));
             currentTarget = AITargetType.CastleAttack;
             CreateActionsQueue();
             GetNextAction();
         }
         else
         {
+            if(currentTarget == AITargetType.PlayerAttack && currentAction == AIActions.Moving)
+            {
+                SelectSpecialTarget(AITargetType.PlayerAttack);
+                currentAction = currentActionsQ.Dequeue();
+            }
+
             HandleAction();
         }
     }
@@ -70,16 +90,16 @@ public partial class VassalTargetSelector : MonoBehaviour
         CreateActionsQueue();
     }
 
-    public void CheckNextTarget()
-    {
-        if(currentTarget == AITargetType.PlayerAttack && currentAction == AIActions.Moving)
-        {
-            SelectSpecialTarget(AITargetType.PlayerAttack);
-            currentAction = currentActionsQ.Dequeue();
-        }
+    //public void CheckNextTarget()
+    //{
+    //    //if(currentTarget == AITargetType.PlayerAttack && currentAction == AIActions.Moving)
+    //    //{
+    //    //    SelectSpecialTarget(AITargetType.PlayerAttack);
+    //    //    currentAction = currentActionsQ.Dequeue();
+    //    //}
 
-        mainAI.EndOfMove();
-    }
+    //    mainAI.EndOfMove();
+    //}
 
     private void CreateActionsQueue()
     {
@@ -90,6 +110,7 @@ public partial class VassalTargetSelector : MonoBehaviour
         switch(currentTarget)
         {
             case AITargetType.Rest:
+                currentActionsQ.Enqueue(AIActions.End);
                 isCamebackNeeded = false;
                 EnableAgressiveMode(false);
                 break;
@@ -147,10 +168,22 @@ public partial class VassalTargetSelector : MonoBehaviour
         }
     }
 
+
+
+
+
     public void GetNextAction()
     {
-        currentAction = currentActionsQ.Dequeue();
-        HandleAction();
+        if(currentActionsQ.Count == 0)
+        {
+            Debug.Log("Warning! Abort of Vassal's Turn");
+            mainAI.EndOfMove();
+        }
+        else
+        {
+            currentAction = currentActionsQ.Dequeue();
+            HandleAction();
+        }
     }
 
     public void HandleAction()
@@ -160,6 +193,9 @@ public partial class VassalTargetSelector : MonoBehaviour
 
     private IEnumerator HandleActionCoroutine()
     {
+        animScript.ShowAction(currentTarget + ":\n " + currentAction);
+        //Debug.Log(currentTarget + ": " + currentAction);
+
         yield return delay;
 
         switch(currentAction)
@@ -170,6 +206,7 @@ public partial class VassalTargetSelector : MonoBehaviour
                 break;
 
             case AIActions.SearchOwnCastle:
+                EnableAgressiveMode(false);
                 FindPathToTheOwnCastle();
                 GetNextAction();
                 break;
@@ -190,8 +227,14 @@ public partial class VassalTargetSelector : MonoBehaviour
                 break;
 
             case AIActions.Moving:
-                UpdatePath();
-                movement.Movement(currentPath);
+                if(finishCell != Vector3Int.zero)
+                {
+                    UpdatePath();
+                    movement.Movement(currentPath);
+                }
+                else
+                    SelectTESTTarget();
+
                 break;
 
             case AIActions.ArmyDescent:
@@ -214,8 +257,6 @@ public partial class VassalTargetSelector : MonoBehaviour
             default:
                 break;
         }
-
-        animScript.ShowAction(currentTarget + ":\n " + currentAction);
     }
 
     public AITargetType GetCurrentTarget()

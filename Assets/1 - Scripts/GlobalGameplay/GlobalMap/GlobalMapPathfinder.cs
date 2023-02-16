@@ -244,7 +244,7 @@ public class GlobalMapPathfinder : MonoBehaviour, IInputableAxies
             roadBack.Reverse();
 
             float colorBound = currentMovementPoints;
-            //bool enemyOnTheRoad = false;
+            bool enemyOnTheRoad = false;
 
             for(int i = 0; i < roadBack.Count; i++){
                 
@@ -264,10 +264,10 @@ public class GlobalMapPathfinder : MonoBehaviour, IInputableAxies
 
                 Vector3 position = overlayMap.CellToWorld(roadBack[i].coordinates);
 
-                if(positionChecker.CheckEnemy(position, false) == true) 
-                    currentTile.color = Color.red;
+                if(positionChecker.CheckEnemy(position, false) == true)
+                    enemyOnTheRoad = true;
 
-                //if(enemyOnTheRoad == true) currentTile.color = Color.red;
+                if(enemyOnTheRoad == true) currentTile.color = Color.red;
 
                 overlayMap.SetTile(roadBack[i].coordinates, currentTile);
                 pathPoints.Add(roadMap.CellToWorld(roadBack[i].coordinates));
@@ -326,10 +326,14 @@ public class GlobalMapPathfinder : MonoBehaviour, IInputableAxies
 
             currentTile.color = Color.white;
 
-            if(renderedTiles > colorBound) currentTile.color = Color.red;
+            if(renderedTiles > colorBound) 
+                currentTile.color = Color.red;
 
-            if(positionChecker.CheckEnemy(pathPoints[i], false) == true) enemyOnTheRoad = true;
-            if(enemyOnTheRoad == true) currentTile.color = Color.red;                
+            if(positionChecker.CheckEnemy(pathPoints[i], false) == true)
+                enemyOnTheRoad = true;
+
+            if(enemyOnTheRoad == true)
+                currentTile.color = Color.red;
 
             if(currentTile == finishTile)
             {

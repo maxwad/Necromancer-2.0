@@ -7,39 +7,46 @@ public partial class VassalTargetSelector
 
     private void UpdatePath()
     {
-        if(finishCell == Vector3Int.zero)
-        {
-            Debug.Log("THERE IS PROBLEM with the random finish cell");
-            CheckNextTarget();
-        }
-        else
-            currentPath = pathfinder.CreatePath(finishCell);
+        //if(finishCell == Vector3Int.zero)
+        //{
+        //    Debug.Log("THERE IS PROBLEM with the random finish cell");
+        //    SelectTESTTarget();
+        //    //CheckNextTarget();
+        //}
+        //else
+        //    currentPath = pathfinder.CreatePath(finishCell);
+
+        currentPath = pathfinder.CreatePath(finishCell);
+
     }
 
     private void FindPathToRandomCell()
     {
         finishCell = pathfinder.FindRandomCell();
-        UpdatePath();        
+        //UpdatePath();        
     }
 
     private void FindPathToTheOwnCastle()
     {
         finishCell = pathfinder.ConvertToV3Int(mainAI.GetCastlePoint());
-        UpdatePath();
+        //UpdatePath();
     }
         
     private void FindPathToTheResBuilding()
     {
         finishCell = pathfinder.FindResBuildingCell();
-        UpdatePath();
+        //UpdatePath();
     }
 
     private void FindPathToThePlayerCastle()
     {
         finishCell = pathfinder.FindPlayerCastleCell();
-        Debug.Log("Castle is on v3Int" + finishCell);
-        Debug.Log("Castle is on v3" + pathfinder.ConvertToV3(finishCell));
-        UpdatePath();
+        //UpdatePath();
+    }
+    private void FindPathToThePlayer()
+    {
+        finishCell = pathfinder.ConvertToV3Int(player.transform.position);
+        //UpdatePath();
     }
 
     public void PrepareToRest(bool deathMode = false)
@@ -67,58 +74,60 @@ public partial class VassalTargetSelector
         vassalsArmy.Splitting();
     }
 
-    private void FindPathToThePlayer()
-    {
-        finishCell = pathfinder.ConvertToV3Int(player.transform.position);
-        UpdatePath();
-    }
 
     private void Siege()
     {
-        Debug.Log("1 " + currentSiegeTarget);
         if(currentSiegeTarget == null)
-            CheckNextTarget();
+            mainAI.EndOfMove();
 
         if(currentSiegeTarget.CheckOwner(TypeOfObjectsOwner.Enemy) == true)
         {
-            Debug.Log("2 ");
-            currentSiegeTarget = null;
-            SelectSpecialTarget(AITargetType.ToTheOwnCastle);
-            GetNextAction();
+            if(siegeDaysLeft == 0)
+            {
+                Debug.Log("!!! Castle is down");
+                GetNextAction();
+            }
+            else
+            {
+                Debug.Log("0 Siege is over");
+                currentSiegeTarget = null;
+                SelectSpecialTarget(AITargetType.ToTheOwnCastle);
+                GetNextAction();
+            }
         }
         else
         {
             if(currentSiegeTarget.CheckSiegeStatus() == false)
             {
-                Debug.Log("3 ");
-                currentSiegeTarget.StartSiege();
+                siegeDaysLeft = currentSiegeTarget.StartSiege();
                 startSiegeAmountArmy = vassalsArmy.GetCommonAmountArmy();
+                Debug.Log("1 Siege is started. There are enemies = " + startSiegeAmountArmy);
                 mainAI.EndOfMove();
             }
             else
             {
-                Debug.Log("4 ");
                 vassalsArmy.DecreaseSquads(GetBuildingsLevel());
-
+                Debug.Log("2 Siege is continue. There are enemies = " + vassalsArmy.GetCommonAmountArmy());
                 if(startSiegeAmountArmy / (float)vassalsArmy.GetCommonAmountArmy() > criticalArmySize)
                 {
-                    Debug.Log("5 ");
-                    Debug.Log("To much of deads");
+                    Debug.Log("!!! To much of deads");
                     currentSiegeTarget.StartSiege(false);
+                    siegeDaysLeft = -1;
                     GetNextAction();
                 }
                 else
                 {
-                    Debug.Log("6 ");
                     if(pathfinder.CheckPlayerNearBy() == true)
                     {
-                        Debug.Log("7 ");
+                        Debug.Log("3 Siege aborted. There is player");
                         currentSiegeTarget.StartSiege(false);
+                        siegeDaysLeft = -1;
                         GetNextAction();
                     }
                     else
                     {
-                        Debug.Log("8");
+                        Debug.Log("3 Siege is continue. There is no player");
+                        siegeDaysLeft--;
                         mainAI.EndOfMove();
                     }
                 }
@@ -132,13 +141,14 @@ public partial class VassalTargetSelector
         {
             currentSiegeTarget.StartSiege(false);
             currentSiegeTarget = null;
+            siegeDaysLeft = -1;
         }
     }
 
     private int GetBuildingsLevel()
     {
         return (currentSiegeTarget.GetBuildingsType() == ResourceBuildings.Castle) ?
-                    currentSiegeTarget.GetComponent<FortressBuildings>().GetFortressLevel() :
+                    fortress.GetFortressLevel() :
                     currentSiegeTarget.GetCountOfActiveUpgrades();        
     }
     #endregion

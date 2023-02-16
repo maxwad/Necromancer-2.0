@@ -19,8 +19,8 @@ public class EnemyCastle : MonoBehaviour
 
     private void Start()
     {       
-        aiSystem = GlobalStorage.instance.aiSystem;
-        player = GlobalStorage.instance.globalPlayer.gameObject;
+        aiSystem   = GlobalStorage.instance.aiSystem;
+        player     = GlobalStorage.instance.globalPlayer.gameObject;
         enterPoint = GetComponent<ClickableObject>().GetEnterPoint();
     }
 

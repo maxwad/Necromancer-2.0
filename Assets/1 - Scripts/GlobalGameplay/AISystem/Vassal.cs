@@ -63,7 +63,6 @@ public class Vassal : MonoBehaviour
         movement.ResetMovementPoints();
 
         Action();
-        //StartCoroutine(Action());
     }
 
     public void ContinueTurn(bool isVassalWin)
@@ -74,13 +73,10 @@ public class Vassal : MonoBehaviour
         SetCameraOnVassal();
 
         Action(true);
-        //StartCoroutine(Action(true));
     }
 
     public void Action(bool continueMode = false)
     {
-        //yield return delay;
-
         if(continueMode == true)
             targetSelector.GetNextAction();
         else

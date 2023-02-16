@@ -290,13 +290,15 @@ public class ResourceBuilding : MonoBehaviour
 
     #region SIEGE
 
-    public void StartSiege(bool siegeMode = true)
+    public int StartSiege(bool siegeMode = true)
     {
         ResetSiegeDays();
         isSiege = siegeMode;
 
         owner.StartSiege(isSiege);
         owner.UpdateSiegeTerm(currentSiegeDays + "/" + siegeDays);
+
+        return currentSiegeDays;
     }
 
     public bool CheckSiegeStatus()
