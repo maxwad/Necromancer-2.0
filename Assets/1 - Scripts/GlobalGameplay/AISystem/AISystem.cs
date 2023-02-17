@@ -21,6 +21,7 @@ public class AISystem : MonoBehaviour
 
     private int currentCastle = 0;
     private bool isCastlesSorted = false;
+    private bool isPlayerDead = false;
 
     private void Start()
     {
@@ -168,6 +169,11 @@ public class AISystem : MonoBehaviour
         yield return delay;
         yield return delay;
 
+        if(isPlayerDead == true)
+        {
+            EventManager.OnDefeatEvent();
+            isPlayerDead = false;
+        }
         gmInterface.turnPart.ActivateTurnBlock(false);
         gameMaster.EndEnemyMoves();
     }
@@ -224,4 +230,13 @@ public class AISystem : MonoBehaviour
         }
     }
 
+    public void SetPlayerDeath(bool deathMode)
+    {
+        isPlayerDead = deathMode;
+    }
+
+    public bool IsPlayerDead()
+    {
+        return isPlayerDead;
+    }
 }

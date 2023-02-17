@@ -285,7 +285,7 @@ public class GMPlayerMovement : MonoBehaviour
 
         yield return delay;
 
-        battleManager.TryToContinueEnemysTurn();
+        //battleManager.TryToContinueEnemysTurn();
     }
 
     public void PathAfterBattle(int result)

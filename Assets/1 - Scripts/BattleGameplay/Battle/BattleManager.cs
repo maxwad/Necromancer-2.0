@@ -60,6 +60,11 @@ public class BattleManager : MonoBehaviour
         return new Vector3Int(sizeMapX, sizeMapY, positionZ);
     }
 
+    public bool WasBattleWithVassal()
+    {
+        return isFightWithVassal;
+    }
+
     //this info should give object of battle
     public void SetBattleMapSize(int width = 10, int heigth = 10)
     {
@@ -82,7 +87,11 @@ public class BattleManager : MonoBehaviour
             yield return null;
         }
 
-        isVassalWin = ((result == 0 || result == -1) && isFightWithVassal == true);
+        if(isFightWithVassal == true)
+        {
+            isVassalWin = (result == 0 || result == -1);
+        }
+        //isVassalWin = ((result == 0 || result == -1) && isFightWithVassal == true);
 
         battleResultUI.Init(result, percentOfReward, currentEnemyArmyOnTheMap, currentArmy);
     }
@@ -110,6 +119,7 @@ public class BattleManager : MonoBehaviour
 
     public void TryToContinueEnemysTurn()
     {
+        Debug.Log("TRY TO");
         aiSystem.HandleBattleResult(isVassalWin, currentEnemyArmyOnTheMap);
 
         isVassalWin = false;

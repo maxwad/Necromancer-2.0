@@ -51,6 +51,14 @@ public class VassalMovement : MonoBehaviour
 
     private IEnumerator Moving(Queue<Vector3> pathPoints)
     {
+        if(ShouldIContinuingTarget() == false)
+        {
+            Debug.Log("Break the target");
+            targetSelector.SelectSpecialTarget(AITargetType.ToTheOwnCastle);
+            targetSelector.GetNextAction();
+            yield break;
+        }
+
         if(pathPoints.Count == 0)
         {
             Debug.Log("Break moving");
@@ -119,17 +127,6 @@ public class VassalMovement : MonoBehaviour
         }
         else
         {
-            if(pathfinder.CheckPlayerNearBy() == true && targetSelector.GetAgressiveMode() == false)
-            {
-                if(targetSelector.GetCurrentTarget() != AITargetType.ToTheOwnCastle)
-                {
-                    Debug.Log("Break in movement");
-                    targetSelector.SelectSpecialTarget(AITargetType.ToTheOwnCastle);
-                    targetSelector.GetNextAction();
-                    yield break;
-                }
-            }
-
             if(currentMovementPoints == 0)
             {               
                 mainAI.EndOfMove();
@@ -148,6 +145,27 @@ public class VassalMovement : MonoBehaviour
     {
         mainAI.StartFigth();
         shouldIFigth = false;
+    }
+
+    private bool ShouldIContinuingTarget()
+    {
+        //checking for walking
+        if(targetSelector.GetCurrentTarget() == AITargetType.Walking && 
+            pathfinder.CheckPlayerNearBy() == true)
+            return false;
+
+        //checking player chase tries
+        if(targetSelector.GetCurrentTarget() == AITargetType.PlayerAttack &&
+            targetSelector.ChangePlayerChaseTrieis() == false)
+            return false;
+
+        //cheking building on siege while moving to
+        if((targetSelector.GetCurrentTarget() == AITargetType.ResBuildingAttack ||
+            targetSelector.GetCurrentTarget() == AITargetType.CastleAttack) &&
+            targetSelector.CheckSiegeStatus() == true)
+            return false;
+
+        return true;
     }
 
     public void Teleportation(Vector3Int newPosition)

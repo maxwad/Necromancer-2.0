@@ -265,7 +265,8 @@ public class VassalPathfinder : MonoBehaviour
 
     public bool CheckPlayerInCell(Vector3 position)
     {
-        return position == player.transform.position;
+        return (aiSystem.IsPlayerDead() == false && Vector3.Distance(position, player.transform.position) < 0.02f);
+        //return position == player.transform.position;
     }
 
     public bool CheckPlayerNearBy()

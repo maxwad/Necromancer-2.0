@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using static NameManager;
 
@@ -55,7 +52,7 @@ public class GMPlayerPositionChecker : MonoBehaviour
         {
             foreach(var vassal in aiSystem.GetVassalsInfo())
             {
-                if(position == vassal.transform.position)
+                if(Vector3.Distance(position, vassal.transform.position) < 0.01f)
                 {
                     if(fightMode == true)
                     {

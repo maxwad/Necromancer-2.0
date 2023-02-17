@@ -290,15 +290,13 @@ public class ResourceBuilding : MonoBehaviour
 
     #region SIEGE
 
-    public int StartSiege(bool siegeMode = true)
+    public void StartSiege(bool siegeMode = true)
     {
         ResetSiegeDays();
         isSiege = siegeMode;
 
         owner.StartSiege(isSiege);
         owner.UpdateSiegeTerm(currentSiegeDays + "/" + siegeDays);
-
-        return currentSiegeDays;
     }
 
     public bool CheckSiegeStatus()
@@ -306,13 +304,14 @@ public class ResourceBuilding : MonoBehaviour
         return isSiege;
     }
 
-    private void UpdateSiege()
+    public bool UpdateSiege()
     {
         if(isSiege == true)
         {
             currentSiegeDays--;
             garrison.DecreaseGarrisonUnits();
             owner.UpdateSiegeTerm(currentSiegeDays + "/" + siegeDays);
+
             if(currentSiegeDays <= 0)
             {
                 StartSiege(false);
@@ -331,23 +330,17 @@ public class ResourceBuilding : MonoBehaviour
                     heroCastle.DestroyBuildings();
                     InfotipManager.ShowWarning("A few buildings in your Castle was destroyed.");
                 }
+
+                return true;
             }
         }
         else
         {
             currentSiegeDays = siegeDays;
         }
+
+        return false;
     }
 
     #endregion
-
-    private void OnEnable()
-    {
-        EventManager.NewMove += UpdateSiege;
-    }
-
-    private void OnDisable()
-    {
-        EventManager.NewMove -= UpdateSiege;
-    }
 }

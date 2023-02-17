@@ -9,6 +9,7 @@ using System;
 public class BattleResult : MonoBehaviour
 {
     [Header("Managers")]
+    private AISystem aiSystem;
     private BattleManager battleManager;
     private Reward currentReward;
     private RewardManager rewardManager;
@@ -92,6 +93,7 @@ public class BattleResult : MonoBehaviour
             playersArmy      = GlobalStorage.instance.playersArmy;
             playerMovement   = GlobalStorage.instance.globalPlayer;
             battleManager    = GlobalStorage.instance.battleManager;
+            aiSystem         = GlobalStorage.instance.aiSystem;
 
             CreateLists();
         }
@@ -367,7 +369,14 @@ public class BattleResult : MonoBehaviour
         if(levelGrowningCoroutine != null) 
             StopCoroutine(levelGrowningCoroutine);
 
-        if(currentStatus == 0) EventManager.OnDefeatEvent();
+        if(currentStatus == 0)
+        {
+            if(battleManager.WasBattleWithVassal() == false)
+                EventManager.OnDefeatEvent();
+            else
+                aiSystem.SetPlayerDeath(true);
+        }
+
         if(currentStatus == 1) GetReward();
 
         playerMovement.PathAfterBattle(currentStatus);
@@ -379,7 +388,9 @@ public class BattleResult : MonoBehaviour
         GlobalStorage.instance.ModalWindowOpen(false);
         uiPanel.SetActive(false);
 
-        if(currentStatus != 0) battleManager.TryToContinueEnemysTurn();
+        //if(currentStatus != 0) battleManager.TryToContinueEnemysTurn();
+        if(battleManager.WasBattleWithVassal() == true)
+            battleManager.TryToContinueEnemysTurn();
     }
 
     //private void OnEnable()

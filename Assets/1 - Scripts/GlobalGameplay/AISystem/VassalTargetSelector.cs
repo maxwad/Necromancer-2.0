@@ -18,22 +18,20 @@ public partial class VassalTargetSelector : MonoBehaviour
     private GameObject player;
 
     private AITargetType currentTarget = AITargetType.Rest;
-    //private AIState currentState = AIState.Nothing;
-    //private List<AIActions> currentActions = new List<AIActions>();
-    private Queue<AIActions> currentActionsQ = new Queue<AIActions>();
     private AIActions currentAction = AIActions.End;
+    private Queue<AIActions> currentActionsQ = new Queue<AIActions>();
 
     private Queue<Vector3> currentPath = new Queue<Vector3>();
     private Vector3Int finishCell = Vector3Int.zero;
+
     private ResourceBuilding currentSiegeTarget = null;
-    private int siegeDaysLeft = -1;
     private int startSiegeAmountArmy;
-    private float criticalArmySize = 5;
+    private float criticalArmyMultiplier = 5;
 
     private bool shouldIContinueAction = false;
     private bool aggressiveMode = false;
-    //private int tryToActMax = 3;
-    //private int currentTryToAct = 0;
+    private int tryToGetPlayer = 10;
+    private int currentTriesToGetPlayer = 0;
 
     private WaitForSeconds delay = new WaitForSeconds(0.15f);
 
@@ -48,27 +46,29 @@ public partial class VassalTargetSelector : MonoBehaviour
         enemyManager = GlobalStorage.instance.enemyManager;
         fortress     = GlobalStorage.instance.fortressBuildings;
         player       = GlobalStorage.instance.globalPlayer.gameObject;
+
+        currentTriesToGetPlayer = tryToGetPlayer;
     }
 
     public void SelectTESTTarget()
     {
-        Debug.Log("THERE IS PROBLEM with the random finish cell");
+        Debug.Log(currentTarget + " is impossible now.");
         shouldIContinueAction = true;
         // change delta for skipping some target
         currentTarget = (AITargetType)UnityEngine.Random.Range(0, Enum.GetValues(typeof(AITargetType)).Length - 3);
-        Debug.Log("Global Target: " + currentTarget);
+        Debug.Log("New Target: " + currentTarget);
         CreateActionsQueue();
         GetNextAction();
     }
 
-    public void SelectRandomTarget()
+    public void SelectTarget()
     {
         if(shouldIContinueAction == false)
         {
             shouldIContinueAction = true;
             // change delta for skipping some target
             //currentTarget = (AITargetType)UnityEngine.Random.Range(0, Enum.GetValues(typeof(AITargetType)).Length - (delta = 3));
-            currentTarget = AITargetType.CastleAttack;
+            currentTarget = AITargetType.ResBuildingAttack;
             CreateActionsQueue();
             GetNextAction();
         }
@@ -89,17 +89,6 @@ public partial class VassalTargetSelector : MonoBehaviour
         currentTarget = target;
         CreateActionsQueue();
     }
-
-    //public void CheckNextTarget()
-    //{
-    //    //if(currentTarget == AITargetType.PlayerAttack && currentAction == AIActions.Moving)
-    //    //{
-    //    //    SelectSpecialTarget(AITargetType.PlayerAttack);
-    //    //    currentAction = currentActionsQ.Dequeue();
-    //    //}
-
-    //    mainAI.EndOfMove();
-    //}
 
     private void CreateActionsQueue()
     {
@@ -194,7 +183,6 @@ public partial class VassalTargetSelector : MonoBehaviour
     private IEnumerator HandleActionCoroutine()
     {
         animScript.ShowAction(currentTarget + ":\n " + currentAction);
-        //Debug.Log(currentTarget + ": " + currentAction);
 
         yield return delay;
 
@@ -282,5 +270,19 @@ public partial class VassalTargetSelector : MonoBehaviour
     public void SetCurrentSiegeTarget(ResourceBuilding building)
     {
         currentSiegeTarget = building;
+    }
+
+    public bool ChangePlayerChaseTrieis()
+    {
+        currentTriesToGetPlayer--;
+        Debug.Log(currentTriesToGetPlayer + " moves left");
+
+        if(currentTriesToGetPlayer == 0)
+        {
+            currentTriesToGetPlayer = tryToGetPlayer;
+            return false;
+        }
+
+        return true;
     }
 }

@@ -67,10 +67,8 @@ public class Vassal : MonoBehaviour
 
     public void ContinueTurn(bool isVassalWin)
     {
-        AITargetType action = (isVassalWin == true) ? AITargetType.ToTheOwnCastle : AITargetType.Death;
-        targetSelector.ForcedEndOfSiege();
-        targetSelector.SelectSpecialTarget(action);
         SetCameraOnVassal();
+        targetSelector.EndOfSiege(isVassalWin, false);        
 
         Action(true);
     }
@@ -80,7 +78,7 @@ public class Vassal : MonoBehaviour
         if(continueMode == true)
             targetSelector.GetNextAction();
         else
-            targetSelector.SelectRandomTarget();
+            targetSelector.SelectTarget();
     }
 
     public void EndOfMove(bool crusadeIsEnd = false)
