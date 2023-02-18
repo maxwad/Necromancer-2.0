@@ -68,6 +68,7 @@ public class Vassal : MonoBehaviour
     public void ContinueTurn(bool isVassalWin)
     {
         SetCameraOnVassal();
+        targetSelector.AddExtraMovementPoints();
         targetSelector.EndOfSiege(isVassalWin, false);        
 
         Action(true);

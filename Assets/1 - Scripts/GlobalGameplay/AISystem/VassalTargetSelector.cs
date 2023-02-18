@@ -1,9 +1,7 @@
 using System;
-using System.Threading;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 using static NameManager;
 
 public partial class VassalTargetSelector : MonoBehaviour
@@ -17,6 +15,7 @@ public partial class VassalTargetSelector : MonoBehaviour
     private FortressBuildings fortress;
     private GameObject player;
 
+    private List<AITargetType> targetList = new List<AITargetType>();
     private AITargetType currentTarget = AITargetType.Rest;
     private AIActions currentAction = AIActions.End;
     private Queue<AIActions> currentActionsQ = new Queue<AIActions>();
@@ -48,14 +47,39 @@ public partial class VassalTargetSelector : MonoBehaviour
         player       = GlobalStorage.instance.globalPlayer.gameObject;
 
         currentTriesToGetPlayer = tryToGetPlayer;
+
+        CreateTargetList();
     }
+
+    public void CreateTargetList()
+    {
+        targetList.Add(AITargetType.Walking);
+        targetList.Add(AITargetType.ResBuildingAttack);
+        targetList.Add(AITargetType.ArmyDescent);
+        targetList.Add(AITargetType.PlayerAttack);
+        targetList.Add(AITargetType.CastleAttack);
+    }
+
+    //public void InsertAction(AITargetType action, bool insertMode)
+    //{
+    //    if(insertMode == true)
+    //    {
+    //        if(targetList.Contains(action) == false)
+    //            targetList.Add(action);
+    //    }
+    //    else
+    //    {
+    //        if(targetList.Contains(action) == true)
+    //            targetList.Remove(action);
+    //    }
+    //}
 
     public void SelectTESTTarget()
     {
         Debug.Log(currentTarget + " is impossible now.");
         shouldIContinueAction = true;
         // change delta for skipping some target
-        currentTarget = (AITargetType)UnityEngine.Random.Range(0, Enum.GetValues(typeof(AITargetType)).Length - 3);
+        currentTarget = targetList[UnityEngine.Random.Range(0, targetList.Count)];
         Debug.Log("New Target: " + currentTarget);
         CreateActionsQueue();
         GetNextAction();
@@ -67,8 +91,8 @@ public partial class VassalTargetSelector : MonoBehaviour
         {
             shouldIContinueAction = true;
             // change delta for skipping some target
-            //currentTarget = (AITargetType)UnityEngine.Random.Range(0, Enum.GetValues(typeof(AITargetType)).Length - (delta = 3));
-            currentTarget = AITargetType.ResBuildingAttack;
+            //currentTarget = targetList[UnityEngine.Random.Range(0, targetList.Count)];
+            currentTarget = AITargetType.CastleAttack;
             CreateActionsQueue();
             GetNextAction();
         }
@@ -90,6 +114,14 @@ public partial class VassalTargetSelector : MonoBehaviour
         CreateActionsQueue();
     }
 
+    public void BreakMove()
+    {
+        if(transform.position == mainAI.GetCastlePoint())
+            GetNextAction();
+        else
+            mainAI.EndOfMove();
+    }
+
     private void CreateActionsQueue()
     {
         EnableAgressiveMode(true);
@@ -99,15 +131,15 @@ public partial class VassalTargetSelector : MonoBehaviour
         switch(currentTarget)
         {
             case AITargetType.Rest:
-                currentActionsQ.Enqueue(AIActions.End);
                 isCamebackNeeded = false;
                 EnableAgressiveMode(false);
+                currentActionsQ.Enqueue(AIActions.End);
                 break;
 
             case AITargetType.Walking:
+                EnableAgressiveMode(false);
                 currentActionsQ.Enqueue(AIActions.SearchSomePoint);
                 currentActionsQ.Enqueue(AIActions.Moving);
-                EnableAgressiveMode(false);
                 break;
 
             case AITargetType.CastleAttack:
@@ -123,9 +155,9 @@ public partial class VassalTargetSelector : MonoBehaviour
                 break;
 
             case AITargetType.PlayerAttack:
+                isCamebackNeeded = false;
                 currentActionsQ.Enqueue(AIActions.SearchPlayer);
                 currentActionsQ.Enqueue(AIActions.Moving);
-                isCamebackNeeded = false;
                 break;
 
             case AITargetType.ArmyDescent:
@@ -135,10 +167,10 @@ public partial class VassalTargetSelector : MonoBehaviour
                 break;
 
             case AITargetType.Death:
-                currentActionsQ.Enqueue(AIActions.SearchOwnCastle);
-                currentActionsQ.Enqueue(AIActions.TeleportToCastle);
                 isCamebackNeeded = false;
                 EnableAgressiveMode(false);
+                currentActionsQ.Enqueue(AIActions.SearchOwnCastle);
+                currentActionsQ.Enqueue(AIActions.TeleportToCastle);
                 break;
 
             case AITargetType.ToTheOwnCastle:
@@ -284,5 +316,10 @@ public partial class VassalTargetSelector : MonoBehaviour
         }
 
         return true;
+    }
+
+    public void AddExtraMovementPoints()
+    {
+        movement.AddExtraMovementPoints();
     }
 }

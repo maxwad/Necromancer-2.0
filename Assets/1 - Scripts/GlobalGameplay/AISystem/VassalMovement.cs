@@ -12,6 +12,7 @@ public class VassalMovement : MonoBehaviour
     private VassalPathfinder pathfinder;
 
     [SerializeField] private int movementPoints = 4;
+    private int extraPoints = 5;
     private int currentMovementPoints;
 
     private float speed = 100f; //50 for build
@@ -41,6 +42,11 @@ public class VassalMovement : MonoBehaviour
         currentMovementPoints = movementPoints;
     }
 
+    public void AddExtraMovementPoints()
+    {
+        currentMovementPoints += extraPoints;
+    }
+
     public void Movement(Queue<Vector3> path)
     {
         if(movementCoroutine != null)
@@ -62,7 +68,8 @@ public class VassalMovement : MonoBehaviour
         if(pathPoints.Count == 0)
         {
             Debug.Log("Break moving");
-            targetSelector.GetNextAction();
+            targetSelector.BreakMove();
+            //targetSelector.GetNextAction();
             //mainAI.EndOfMove();
             yield break;
         }

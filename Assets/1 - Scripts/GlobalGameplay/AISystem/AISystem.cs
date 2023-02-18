@@ -12,14 +12,13 @@ public class AISystem : MonoBehaviour
 
     [SerializeField] private List<Color> castleColors;
     [SerializeField] private List<string> castleOwners;
-    [SerializeField] private int countOfActiveVassals = 8; 
+    [SerializeField] private int countOfActiveVassals = 3; 
 
     private Dictionary<EnemyCastle, bool> allCastles = new Dictionary<EnemyCastle, bool>();
     private List<EnemyCastle> activeCastles = new List<EnemyCastle>();
     private int countOfCastles = 0;
     private int currentMover = 0;
 
-    private int currentCastle = 0;
     private bool isCastlesSorted = false;
     private bool isPlayerDead = false;
 
@@ -60,11 +59,6 @@ public class AISystem : MonoBehaviour
         if(isCastlesSorted == false)
             SortCastles();
 
-        gmInterface.turnPart.ActivateTurnBlock(true);
-        gmInterface.ShowInterfaceElements(false);
-
-        currentMover = 0;
-
         List<EnemyCastle> passiveCastles = new List<EnemyCastle>();
         int activeVassals = 0;
 
@@ -78,14 +72,21 @@ public class AISystem : MonoBehaviour
 
         if(activeVassals < countOfActiveVassals && activeVassals < allCastles.Count)
         {
-            //int index = Random.Range(0, passiveCastles.Count);
-            int index = 0;
-            if(activeCastles.Contains(passiveCastles[index]) == false)
+            if(passiveCastles.Count > 0)
             {
-                activeCastles.Add(passiveCastles[index]);
-                allCastles[passiveCastles[index]] = true;
+                //int index = Random.Range(0, passiveCastles.Count);
+                int index = 0;
+                if(activeCastles.Contains(passiveCastles[index]) == false)
+                {
+                    activeCastles.Add(passiveCastles[index]);
+                    allCastles[passiveCastles[index]] = true;
+                }
             }
         }
+
+        gmInterface.turnPart.ActivateTurnBlock(true);
+        gmInterface.ShowInterfaceElements(false);
+        currentMover = 0;
 
         ActivateNextCastle();
     }

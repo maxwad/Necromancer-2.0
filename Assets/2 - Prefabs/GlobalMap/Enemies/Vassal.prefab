@@ -178,7 +178,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85669c7f044a9274abda6aa778e664ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemySquadGenerator: {fileID: 0}
   commonCount: 0
   typeOfArmy: 5
   isEnemyGarrison: 0
@@ -247,7 +246,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6898214a3138dba458f080ea3fa8b5c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementPoints: 40
+  movementPoints: 200
 --- !u!1 &926652516816649572
 GameObject:
   m_ObjectHideFlags: 0

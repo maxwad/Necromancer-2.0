@@ -7,7 +7,7 @@ public class EnemyArmyOnTheMap : MonoBehaviour
 {
     private BattleManager battleManager;
     private EnemyManager enemyManager;
-    public EnemySquadGenerator enemySquadGenerator;
+    private EnemySquadGenerator enemySquadGenerator;
 
     [HideInInspector] public Army army;
     [HideInInspector] public int commonCount = 0;
@@ -116,8 +116,7 @@ public class EnemyArmyOnTheMap : MonoBehaviour
             decreasePortion = enemySquadGenerator.GetPortionAmount();
         }
         siegeLevel = (siegeLevel == 0) ? 1 : siegeLevel;
-        float decreaseAmount = decreasePortion * siegeLevel * decreaseSiegePercent * 0.1f;
-        Debug.Log("decreaseAmount = " + decreaseAmount);
+        float decreaseAmount = decreasePortion * siegeLevel * decreaseSiegePercent;
         commonCount = 0;
 
         for(int i = 0; i < army.squadList.Count; i++)
