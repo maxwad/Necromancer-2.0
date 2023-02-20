@@ -26,9 +26,8 @@ public class VassalPathfinder : MonoBehaviour
 
 
     [SerializeField] private Tile testTile;
-    [SerializeField] private int actionRadius = 10;
-    [SerializeField] private int searchPlayerRadius = 25;
-    [SerializeField] private int maxMovesCount = 10;
+    [SerializeField] private int playerDistanceToRun = 20;
+    [SerializeField] private int playerDistanceToAttack = 10;
 
     #region GETTINGS
     public void Init(VassalTargetSelector ts, VassalMovement mv)
@@ -71,7 +70,7 @@ public class VassalPathfinder : MonoBehaviour
 
     #region FINDERS
 
-    public Vector3Int FindRandomCell()
+    public Vector3Int FindRandomCell(int actionRadius)
     {
         Vector3Int startPoint = overlayMap.WorldToCell(gameObject.transform.position);
 
@@ -123,11 +122,8 @@ public class VassalPathfinder : MonoBehaviour
                 continue;
             }
 
-            if(CheckMovesCount(randomCellInt) == true)
-            {
-                resultCell = randomCellInt;
-                break;
-            }
+            resultCell = randomCellInt;
+            break;
         }
 
         return resultCell;
@@ -269,9 +265,10 @@ public class VassalPathfinder : MonoBehaviour
         //return position == player.transform.position;
     }
 
-    public bool CheckPlayerNearBy()
+    public bool CheckPlayerNearBy(bool actionMode)
     {
-        return Vector3.Distance(transform.position, player.transform.position) < searchPlayerRadius;
+        int distance = (actionMode == true) ? playerDistanceToAttack : playerDistanceToRun;
+        return Vector3.Distance(transform.position, player.transform.position) < distance;
     }
 
     public bool CheckEnemy(Vector3 position)
@@ -308,17 +305,6 @@ public class VassalPathfinder : MonoBehaviour
     public bool CheckCellAsEnterPoint(Vector3 cell)
     {
         return tileManager.CheckCellAsEnterPoint(cell);
-    }
-
-    private bool CheckMovesCount(Vector3Int finishCell)
-    {
-        Queue<Vector3> path = CreatePath(finishCell);
-
-        if(path.Count == 0) return false;
-
-        if((path.Count / movementPoints) > maxMovesCount) return false;
-
-        return true;
     }
 
     #endregion

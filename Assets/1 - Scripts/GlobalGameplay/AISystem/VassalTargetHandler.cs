@@ -12,7 +12,7 @@ public partial class VassalTargetSelector
 
     private void FindPathToRandomCell()
     {
-        finishCell = pathfinder.FindRandomCell();     
+        finishCell = pathfinder.FindRandomCell(actionRadius);     
     }
 
     private void FindPathToTheOwnCastle()
@@ -76,7 +76,7 @@ public partial class VassalTargetSelector
             vassalsArmy.DecreaseSquads(GetBuildingsLevel());
 
             if(startSiegeAmountArmy / (float)vassalsArmy.GetCommonAmountArmy() > criticalArmyMultiplier ||
-                pathfinder.CheckPlayerNearBy() == true ||
+                pathfinder.CheckPlayerNearBy(false) == true ||
                 currentSiegeTarget.UpdateSiege() == true
                 )
             {

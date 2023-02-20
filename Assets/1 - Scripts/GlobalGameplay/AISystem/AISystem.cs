@@ -88,6 +88,7 @@ public class AISystem : MonoBehaviour
         gmInterface.ShowInterfaceElements(false);
         currentMover = 0;
 
+        //Debug.Log("We have castlse to move: " + activeCastles.Count);
         ActivateNextCastle();
     }
 
@@ -125,6 +126,7 @@ public class AISystem : MonoBehaviour
 
     private void ActivateNextCastle()
     {
+        Debug.Log("current castle: " + currentMover + "/" + activeCastles.Count);
         if(currentMover >= activeCastles.Count)
         {
             EndMoves();
@@ -144,7 +146,7 @@ public class AISystem : MonoBehaviour
     public void CrusadeComplete(EnemyCastle castle)
     {
         allCastles[castle] = false;
-        activeCastles.Remove(castle);
+        //activeCastles.Remove(castle);
     }
 
     public void EndMoves()
@@ -179,6 +181,13 @@ public class AISystem : MonoBehaviour
         gameMaster.EndEnemyMoves();
     }
 
+    //private void Update()
+    //{
+    //    if(Input.GetKeyDown(KeyCode.Backspace) == true)
+    //    {
+    //        CastleIsDestroyed();
+    //    }
+    //}
 
     //public void CastleIsDestroyed(EnemyCastle castle)
     //{
@@ -187,6 +196,11 @@ public class AISystem : MonoBehaviour
 
     //    if(allCastles.Count == 0)
     //        Debug.Log("All Vassals are DEAD!");
+    //    else
+    //    {
+    //        foreach(var castleItem in allCastles)
+    //            castleItem.Key.SetNewActionParameters();
+    //    }
     //}
 
     public List<Vassal> GetVassalsInfo()

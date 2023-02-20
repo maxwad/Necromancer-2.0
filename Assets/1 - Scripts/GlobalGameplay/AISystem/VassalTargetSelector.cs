@@ -29,8 +29,11 @@ public partial class VassalTargetSelector : MonoBehaviour
 
     private bool shouldIContinueAction = false;
     private bool aggressiveMode = false;
-    private int tryToGetPlayer = 10;
-    private int currentTriesToGetPlayer = 0;
+
+    [SerializeField] private int actionRadius = 15;
+    [SerializeField] private int tryToGetTarget = 15;
+    private float increasePercent = 0.3f;
+    private int currentTriesToGetTarget = 0;
 
     private WaitForSeconds delay = new WaitForSeconds(0.15f);
 
@@ -46,7 +49,7 @@ public partial class VassalTargetSelector : MonoBehaviour
         fortress     = GlobalStorage.instance.fortressBuildings;
         player       = GlobalStorage.instance.globalPlayer.gameObject;
 
-        currentTriesToGetPlayer = tryToGetPlayer;
+        currentTriesToGetTarget = tryToGetTarget;
 
         CreateTargetList();
     }
@@ -58,6 +61,12 @@ public partial class VassalTargetSelector : MonoBehaviour
         targetList.Add(AITargetType.ArmyDescent);
         targetList.Add(AITargetType.PlayerAttack);
         targetList.Add(AITargetType.CastleAttack);
+    }
+
+    public void IncreaseActionRadius()
+    {
+        actionRadius = (int)(actionRadius * (1 + increasePercent));
+        tryToGetTarget = (int)(tryToGetTarget * (1 + increasePercent));
     }
 
     //public void InsertAction(AITargetType action, bool insertMode)
@@ -92,7 +101,7 @@ public partial class VassalTargetSelector : MonoBehaviour
             shouldIContinueAction = true;
             // change delta for skipping some target
             //currentTarget = targetList[UnityEngine.Random.Range(0, targetList.Count)];
-            currentTarget = AITargetType.CastleAttack;
+            currentTarget = AITargetType.ResBuildingAttack;
             CreateActionsQueue();
             GetNextAction();
         }
@@ -215,7 +224,6 @@ public partial class VassalTargetSelector : MonoBehaviour
     private IEnumerator HandleActionCoroutine()
     {
         animScript.ShowAction(currentTarget + ":\n " + currentAction);
-
         yield return delay;
 
         switch(currentAction)
@@ -253,7 +261,10 @@ public partial class VassalTargetSelector : MonoBehaviour
                     movement.Movement(currentPath);
                 }
                 else
-                    SelectTESTTarget();
+                {
+                    Debug.Log("Finish is null");
+                    SelectTarget();
+                }
 
                 break;
 
@@ -304,14 +315,14 @@ public partial class VassalTargetSelector : MonoBehaviour
         currentSiegeTarget = building;
     }
 
-    public bool ChangePlayerChaseTrieis()
+    public bool SpendTry()
     {
-        currentTriesToGetPlayer--;
-        Debug.Log(currentTriesToGetPlayer + " moves left");
+        currentTriesToGetTarget--;
+        Debug.Log(currentTriesToGetTarget + " moves left");
 
-        if(currentTriesToGetPlayer == 0)
+        if(currentTriesToGetTarget == 0)
         {
-            currentTriesToGetPlayer = tryToGetPlayer;
+            currentTriesToGetTarget = tryToGetTarget;
             return false;
         }
 

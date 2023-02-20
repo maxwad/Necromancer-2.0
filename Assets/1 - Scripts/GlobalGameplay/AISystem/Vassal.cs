@@ -68,6 +68,7 @@ public class Vassal : MonoBehaviour
     public void ContinueTurn(bool isVassalWin)
     {
         SetCameraOnVassal();
+        SetTurnStatus(false);
         targetSelector.AddExtraMovementPoints();
         targetSelector.EndOfSiege(isVassalWin, false);        
 
@@ -112,6 +113,11 @@ public class Vassal : MonoBehaviour
     }
 
     #region GETTINGS & SETTINGS
+
+    //public void SetNewActionParameters()
+    //{
+    //    targetSelector.IncreaseActionRadius();
+    //}
 
     private void CreateArmy()
     {

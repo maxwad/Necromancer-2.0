@@ -8,8 +8,8 @@ public class EnemyCastle : MonoBehaviour
 {
     private AISystem aiSystem;
 
-    [SerializeField] private int defeatRestDays = 30;
-    [SerializeField] private int completeRestDays = 2;
+    [SerializeField] private int defeatRestDays = 10;
+    [SerializeField] private int completeRestDays = 5;
     private int currentRest = 0;
     private bool isReady = true;
 
@@ -89,6 +89,14 @@ public class EnemyCastle : MonoBehaviour
     {
         return isReady;
     }
+
+    //public void SetNewActionParameters()
+    //{
+    //    defeatRestDays--;
+    //    completeRestDays--;
+
+    //    vassal.SetNewActionParameters();
+    //}
 
     private void OnEnable()
     {

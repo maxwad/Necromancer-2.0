@@ -57,20 +57,29 @@ public class VassalMovement : MonoBehaviour
 
     private IEnumerator Moving(Queue<Vector3> pathPoints)
     {
-        if(ShouldIContinuingTarget() == false)
+        if(targetSelector.GetAgressiveMode() == true)
         {
-            Debug.Log("Break the target");
-            targetSelector.SelectSpecialTarget(AITargetType.ToTheOwnCastle);
-            targetSelector.GetNextAction();
-            yield break;
+            if(ShouldIAttackPlayer() == true)
+            {
+                targetSelector.SelectSpecialTarget(AITargetType.PlayerAttack);
+                targetSelector.GetNextAction();
+                yield break;
+            }
+        }
+        else
+        {
+            if(ShouldIContinuingTarget() == false)
+            {
+                targetSelector.SelectSpecialTarget(AITargetType.ToTheOwnCastle);
+                targetSelector.GetNextAction();
+                yield break;
+            }
         }
 
         if(pathPoints.Count == 0)
         {
             Debug.Log("Break moving");
             targetSelector.BreakMove();
-            //targetSelector.GetNextAction();
-            //mainAI.EndOfMove();
             yield break;
         }
 
@@ -154,16 +163,26 @@ public class VassalMovement : MonoBehaviour
         shouldIFigth = false;
     }
 
+    private bool ShouldIAttackPlayer()
+    {
+        if(targetSelector.GetCurrentTarget() != AITargetType.PlayerAttack &&
+            pathfinder.CheckPlayerNearBy(true) == true)
+            return true;
+
+        return false;
+    }
+
     private bool ShouldIContinuingTarget()
     {
         //checking for walking
         if(targetSelector.GetCurrentTarget() == AITargetType.Walking && 
-            pathfinder.CheckPlayerNearBy() == true)
+            pathfinder.CheckPlayerNearBy(false) == true)
             return false;
 
         //checking player chase tries
-        if(targetSelector.GetCurrentTarget() == AITargetType.PlayerAttack &&
-            targetSelector.ChangePlayerChaseTrieis() == false)
+        if((targetSelector.GetCurrentTarget() == AITargetType.ResBuildingAttack ||
+            targetSelector.GetCurrentTarget() == AITargetType.CastleAttack) &&
+            targetSelector.SpendTry() == false)
             return false;
 
         //cheking building on siege while moving to
