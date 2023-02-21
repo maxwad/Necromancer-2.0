@@ -14,7 +14,8 @@ public class AISystem : MonoBehaviour
     [SerializeField] private List<string> castleOwners;
     [SerializeField] private int countOfActiveVassals = 3; 
 
-    private Dictionary<EnemyCastle, bool> allCastles = new Dictionary<EnemyCastle, bool>();
+    //private Dictionary<EnemyCastle, bool> allCastles = new Dictionary<EnemyCastle, bool>();
+    private List<EnemyCastle> allCastles = new List<EnemyCastle>();
     private List<EnemyCastle> activeCastles = new List<EnemyCastle>();
     private int countOfCastles = 0;
     private int currentMover = 0;
@@ -33,7 +34,7 @@ public class AISystem : MonoBehaviour
         EnemyCastle newCastle = castle.GetComponent<EnemyCastle>();
         if(newCastle != null)
         {
-            allCastles.Add(newCastle, false);
+            allCastles.Add(newCastle);
             //allCastlesGO.Add(castle);
 
             Color castleColor = Color.black;
@@ -64,8 +65,10 @@ public class AISystem : MonoBehaviour
 
         foreach(var castle in allCastles)
         {
-            if(castle.Value == false && castle.Key.GetCastleStatus() == true)
-                passiveCastles.Add(castle.Key);
+            if(castle.GetCastleStatus() == true)
+            {
+                passiveCastles.Add(castle);
+            }
             else
                 activeVassals++;
         }
@@ -79,7 +82,6 @@ public class AISystem : MonoBehaviour
                 if(activeCastles.Contains(passiveCastles[index]) == false)
                 {
                     activeCastles.Add(passiveCastles[index]);
-                    allCastles[passiveCastles[index]] = true;
                 }
             }
         }
@@ -95,14 +97,15 @@ public class AISystem : MonoBehaviour
     //for testing
     private void SortCastles()
     {
-        Dictionary<EnemyCastle, bool> sortedCastles = new Dictionary<EnemyCastle, bool>();
+        //Dictionary<EnemyCastle, bool> sortedCastles = new Dictionary<EnemyCastle, bool>();
+        List<EnemyCastle> sortedCastles = new List<EnemyCastle>();
         List<float> distList = new List<float>();
         Dictionary<EnemyCastle, float> distCastles = new Dictionary<EnemyCastle, float>();
 
         foreach(var castle in allCastles)
         {
-            float distance = Vector3.Distance(castle.Key.gameObject.transform.position, GlobalStorage.instance.globalPlayer.gameObject.transform.position);
-            distCastles.Add(castle.Key, distance);
+            float distance = Vector3.Distance(castle.gameObject.transform.position, GlobalStorage.instance.globalPlayer.gameObject.transform.position);
+            distCastles.Add(castle, distance);
             distList.Add(distance);
         }
 
@@ -114,7 +117,7 @@ public class AISystem : MonoBehaviour
             {
                 if(castle.Value == distList[i])
                 {
-                    sortedCastles.Add(castle.Key, false);
+                    sortedCastles.Add(castle.Key);
                     break;
                 }
             }
@@ -126,7 +129,6 @@ public class AISystem : MonoBehaviour
 
     private void ActivateNextCastle()
     {
-        Debug.Log("current castle: " + currentMover + "/" + activeCastles.Count);
         if(currentMover >= activeCastles.Count)
         {
             EndMoves();
@@ -145,7 +147,7 @@ public class AISystem : MonoBehaviour
 
     public void CrusadeComplete(EnemyCastle castle)
     {
-        allCastles[castle] = false;
+        //allCastles[castle] = false;
         //activeCastles.Remove(castle);
     }
 
@@ -153,6 +155,12 @@ public class AISystem : MonoBehaviour
     {
         if(gameMaster == null)
             gameMaster = GlobalStorage.instance.gameMaster;
+
+        foreach(var checkCastle in new List<EnemyCastle>(activeCastles))
+        {
+            if(checkCastle.GetCastleStatus() == false && checkCastle.GetRestStatus() == true)
+                activeCastles.Remove(checkCastle);
+        }
 
         StartCoroutine(FinishTurnes());
     }
@@ -208,8 +216,8 @@ public class AISystem : MonoBehaviour
         List<Vassal> vassals = new List<Vassal>();
         foreach(var item in allCastles)
         {
-            if(item.Value == true)
-                vassals.Add(item.Key.GetVassal());
+            if(item.GetCastleStatus() == false)
+                vassals.Add(item.GetVassal());
         }
 
         return vassals;
@@ -221,11 +229,11 @@ public class AISystem : MonoBehaviour
 
         foreach(var castle in allCastles)
         {
-            if(castle.Value == true)
+            if(castle.GetCastleStatus() == false)
             {
-                if(castle.Key.vassal.GetFightPauseStatus() == true)
+                if(castle.GetVassal().GetFightPauseStatus() == true)
                 {
-                    castle.Key.vassal.ContinueTurn(isVassalWin);
+                    castle.GetVassal().ContinueTurn(isVassalWin);
                     isVassalFinded = true;
                     break;
                 }
@@ -236,9 +244,9 @@ public class AISystem : MonoBehaviour
         {
             foreach(var castle in allCastles)
             {
-                if(castle.Key.vassal.GetArmy() == enemyArmy)
+                if(castle.GetVassal().GetArmy() == enemyArmy)
                 {
-                    castle.Key.vassal.ContinueTurn(isVassalWin);
+                    castle.GetVassal().ContinueTurn(isVassalWin);
                     break;
                 }
             }

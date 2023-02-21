@@ -218,7 +218,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03b2b04cac22f8b4a8091f95178eba5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actionRadius: 15
+  actionRadius: 25
   tryToGetTarget: 15
 --- !u!114 &7630864296037192890
 MonoBehaviour:
@@ -247,7 +247,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6898214a3138dba458f080ea3fa8b5c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementPoints: 100
+  movementPoints: 50
 --- !u!1 &926652516816649572
 GameObject:
   m_ObjectHideFlags: 0

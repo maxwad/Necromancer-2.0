@@ -103,8 +103,8 @@ public class Vassal : MonoBehaviour
 
     public void CrusadeIsOver(bool deathMode = false)
     {
-        EndOfMove(true);
         myCastle.GiveMyABreak(deathMode);
+        EndOfMove(true);
     }
 
     public void StartFigth()

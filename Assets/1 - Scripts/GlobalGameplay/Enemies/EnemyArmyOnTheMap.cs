@@ -116,7 +116,7 @@ public class EnemyArmyOnTheMap : MonoBehaviour
             decreasePortion = enemySquadGenerator.GetPortionAmount();
         }
         siegeLevel = (siegeLevel == 0) ? 1 : siegeLevel;
-        float decreaseAmount = decreasePortion * siegeLevel * decreaseSiegePercent;
+        float decreaseAmount = decreasePortion * siegeLevel * decreaseSiegePercent * 0.1f;
         commonCount = 0;
 
         for(int i = 0; i < army.squadList.Count; i++)

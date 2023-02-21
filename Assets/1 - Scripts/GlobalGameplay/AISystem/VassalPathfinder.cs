@@ -28,6 +28,7 @@ public class VassalPathfinder : MonoBehaviour
     [SerializeField] private Tile testTile;
     [SerializeField] private int playerDistanceToRun = 20;
     [SerializeField] private int playerDistanceToAttack = 10;
+    private float distanceGap = 0.25f;
 
     #region GETTINGS
     public void Init(VassalTargetSelector ts, VassalMovement mv)
@@ -72,6 +73,7 @@ public class VassalPathfinder : MonoBehaviour
 
     public Vector3Int FindRandomCell(int actionRadius)
     {
+        actionRadius = Random.Range((int)(actionRadius * (1 - distanceGap)), (int)(actionRadius * (1 + distanceGap)));
         Vector3Int startPoint = overlayMap.WorldToCell(gameObject.transform.position);
 
         int minX = ((startPoint.x - actionRadius) < 0) ? 0 : startPoint.x - actionRadius;

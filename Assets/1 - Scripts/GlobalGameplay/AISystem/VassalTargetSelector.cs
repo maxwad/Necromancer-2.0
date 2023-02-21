@@ -57,9 +57,9 @@ public partial class VassalTargetSelector : MonoBehaviour
     public void CreateTargetList()
     {
         targetList.Add(AITargetType.Walking);
-        targetList.Add(AITargetType.ResBuildingAttack);
-        targetList.Add(AITargetType.ArmyDescent);
-        targetList.Add(AITargetType.PlayerAttack);
+        //targetList.Add(AITargetType.ResBuildingAttack);
+        //targetList.Add(AITargetType.ArmyDescent);
+        //targetList.Add(AITargetType.PlayerAttack);
         targetList.Add(AITargetType.CastleAttack);
     }
 
@@ -100,8 +100,8 @@ public partial class VassalTargetSelector : MonoBehaviour
         {
             shouldIContinueAction = true;
             // change delta for skipping some target
-            //currentTarget = targetList[UnityEngine.Random.Range(0, targetList.Count)];
-            currentTarget = AITargetType.ResBuildingAttack;
+            currentTarget = targetList[UnityEngine.Random.Range(0, targetList.Count)];
+            //currentTarget = AITargetType.CastleAttack;
             CreateActionsQueue();
             GetNextAction();
         }
@@ -263,6 +263,7 @@ public partial class VassalTargetSelector : MonoBehaviour
                 else
                 {
                     Debug.Log("Finish is null");
+                    shouldIContinueAction = false;
                     SelectTarget();
                 }
 

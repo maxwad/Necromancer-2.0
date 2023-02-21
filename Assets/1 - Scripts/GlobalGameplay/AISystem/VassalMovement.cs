@@ -11,11 +11,11 @@ public class VassalMovement : MonoBehaviour
     private VassalTargetSelector targetSelector;
     private VassalPathfinder pathfinder;
 
-    [SerializeField] private int movementPoints = 4;
+    [SerializeField] private int movementPoints = 20;
     private int extraPoints = 5;
     private int currentMovementPoints;
 
-    private float speed = 100f; //50 for build
+    private float speed = 50f; //50 for build
     private float defaultCountSteps = 500; //between cells
 
     private bool shouldIFigth = false;
@@ -57,23 +57,18 @@ public class VassalMovement : MonoBehaviour
 
     private IEnumerator Moving(Queue<Vector3> pathPoints)
     {
-        if(targetSelector.GetAgressiveMode() == true)
+        if(ShouldIAttackPlayer() == true)
         {
-            if(ShouldIAttackPlayer() == true)
-            {
-                targetSelector.SelectSpecialTarget(AITargetType.PlayerAttack);
-                targetSelector.GetNextAction();
-                yield break;
-            }
+            targetSelector.SelectSpecialTarget(AITargetType.PlayerAttack);
+            targetSelector.GetNextAction();
+            yield break;
         }
-        else
+
+        if(ShouldIContinuingTarget() == false)
         {
-            if(ShouldIContinuingTarget() == false)
-            {
-                targetSelector.SelectSpecialTarget(AITargetType.ToTheOwnCastle);
-                targetSelector.GetNextAction();
-                yield break;
-            }
+            targetSelector.SelectSpecialTarget(AITargetType.ToTheOwnCastle);
+            targetSelector.GetNextAction();
+            yield break;
         }
 
         if(pathPoints.Count == 0)
@@ -165,6 +160,9 @@ public class VassalMovement : MonoBehaviour
 
     private bool ShouldIAttackPlayer()
     {
+        if(targetSelector.GetAgressiveMode() == false)
+            return false;
+
         if(targetSelector.GetCurrentTarget() != AITargetType.PlayerAttack &&
             pathfinder.CheckPlayerNearBy(true) == true)
             return true;

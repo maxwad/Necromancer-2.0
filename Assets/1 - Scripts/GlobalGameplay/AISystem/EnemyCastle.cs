@@ -56,7 +56,6 @@ public class EnemyCastle : MonoBehaviour
         if(currentRest > 0)
         {
             currentRest--;
-            Debug.Log("Days to new crusade " + currentRest);
 
             if(currentRest == 0)
                 isReady = true;
@@ -86,8 +85,13 @@ public class EnemyCastle : MonoBehaviour
     }
 
     public bool GetCastleStatus()
-    {
+    {       
         return isReady;
+    }
+
+    public bool GetRestStatus()
+    {        
+        return currentRest > 0;
     }
 
     //public void SetNewActionParameters()

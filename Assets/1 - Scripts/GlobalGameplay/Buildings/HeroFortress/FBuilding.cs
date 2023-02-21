@@ -74,10 +74,10 @@ public class FBuilding : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
 
     private void Init()
     {
-        if(allBuildings == null)
+        if(resourcesManager == null)
         {
-            allBuildings = GlobalStorage.instance.fortressBuildings;
             resourcesManager = GlobalStorage.instance.resourcesManager;
+            allBuildings = GlobalStorage.instance.fortressBuildings;
             door = GlobalStorage.instance.fortressBuildingDoor;
         }
         //we don't care about level, we need common info
@@ -254,19 +254,15 @@ public class FBuilding : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
 
     public void Upgrade()
     {
-        //if(level < allBuildings.GetMaxLevel()) level++;
-
         allBuildings.UpgradeBuilding(building, true);
-        //if(level == 1) allBuildings.RegisterBuilding(building, this);
 
         Init();
     }
 
     public void Downgrade()
     {
-        //if(level > 0) 
-        //    level--;
-        if(allBuildings == null) return;
+        if(allBuildings == null)
+            allBuildings = GlobalStorage.instance.fortressBuildings;
 
         allBuildings.UpgradeBuilding(building, false);
         Init();
