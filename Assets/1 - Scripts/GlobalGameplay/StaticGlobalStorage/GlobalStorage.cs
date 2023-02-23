@@ -96,7 +96,7 @@ public class GlobalStorage : MonoBehaviour
             Destroy(gameObject);
     }
 
-    private void Start()
+    public void StartNewGame()
     {
         cameraSwitcher = Camera.main.GetComponent<CameraSwitcher>();
         StartCoroutine(LoadTheGame());

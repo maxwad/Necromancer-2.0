@@ -504,7 +504,9 @@ public static class NameManager
         Spells,
         Castle,
         NewDay,
-        Teleport
+        Teleport,
+        SaveGame,
+        LoadGame
     }
     #endregion
 }
