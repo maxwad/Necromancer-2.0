@@ -85,7 +85,11 @@ public class ClickableObject : MonoBehaviour
                 break;
         }
 
-        if(isThereManager == false) GlobalStorage.instance.commonUIManager.OpenWindow(modeClick, modeUISize, this);
+        if(isThereManager == false) 
+        {
+            Debug.Log("There was a common manager, but sorry");
+            //GlobalStorage.instance.commonUIManager.OpenWindow(modeClick, modeUISize, this);
+        }
     }
 
     private void OpenDoorTo(bool modeClick)

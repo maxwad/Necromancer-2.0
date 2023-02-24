@@ -32,23 +32,33 @@ public class GlobalMapTileManager : MonoBehaviour
     GlobalMapPathfinder gmPathfinder;
     private float startRadiusWithoutFog = 15;
 
-    public void Load()
-    {
-        roads = new GMHexCell[roadMap.size.x, roadMap.size.y];
-        gmPathfinder = GetComponent<GlobalMapPathfinder>();
 
-        arenaBuilder        = GetComponent<ArenaBuilder>();
-        castleBuilder       = GetComponent<CastleBuilder>();
-        tombBuilder         = GetComponent<TombBuilder>();
-        resourceBuilder     = GetComponent<ResourceBuilder>();
-        campBuilder         = GetComponent<CampBuilder>();
-        boxesBuilder        = GlobalStorage.instance.mapBoxesManager;
+    public void Init(bool createMode)
+    {
+        gmPathfinder = GetComponent<GlobalMapPathfinder>();
+        arenaBuilder = GetComponent<ArenaBuilder>();
+        castleBuilder = GetComponent<CastleBuilder>();
+        tombBuilder = GetComponent<TombBuilder>();
+        resourceBuilder = GetComponent<ResourceBuilder>();
+        campBuilder = GetComponent<CampBuilder>();
+        boxesBuilder = GlobalStorage.instance.mapBoxesManager;
         environmentRegister = GetComponent<EnvironmentRegister>();
+
+        roads = new GMHexCell[roadMap.size.x, roadMap.size.y];
 
         CreateRoadCells();
         CreateFogCells();
         SetHeighbors();
 
+        if(createMode == true)
+            CreateWorld();
+
+        // end of loading initializing
+        GlobalStorage.instance.LoadNextPart();
+    }
+
+    public void CreateWorld()
+    {
         arenaBuilder.Build(this);
         castleBuilder.Build(this);
         tombBuilder.Build(this);
@@ -57,11 +67,13 @@ public class GlobalMapTileManager : MonoBehaviour
         boxesBuilder.Build(this);
         environmentRegister.Registration(this);
 
+        Finalizing();
+    }
+
+    public void Finalizing()
+    {
         CreateEnterPointsForAllBuildings();
         SendDataToPathfinder();
-
-        // end of loading map
-        GlobalStorage.instance.LoadNextPart();
     }
 
     public void CreateRoadCells()

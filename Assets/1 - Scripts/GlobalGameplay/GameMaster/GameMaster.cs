@@ -4,22 +4,37 @@ using System.Collections.Generic;
 using UnityEngine;
 using static NameManager;
 
-public class GameMaster : MonoBehaviour
+public class GameMaster : MonoBehaviour, IInputableKeys
 {
-    private GlobalCamera gmCamera;
+    private SaveLoadManager saveLoadManager;
     private AISystem aiSystem;
     private InputSystem inputSystem;
-
-    private bool isAIActive = true;
 
     //for Testing
     private bool isAIEnable = true;
 
     private void Start()
     {
-        gmCamera = Camera.main.GetComponent<GlobalCamera>();
+        saveLoadManager = FindObjectOfType<SaveLoadManager>();
         aiSystem = GlobalStorage.instance.aiSystem;
         inputSystem = GlobalStorage.instance.inputSystem;
+        RegisterInputKeys();
+    }
+
+    public void RegisterInputKeys()
+    {
+        inputSystem = GlobalStorage.instance.inputSystem;
+        inputSystem.RegisterInputKeys(KeyActions.SaveGame, this);
+        inputSystem.RegisterInputKeys(KeyActions.LoadGame, this);
+    }
+
+    public void InputHandling(KeyActions keyAction)
+    {
+        if(keyAction == KeyActions.SaveGame)
+            saveLoadManager.SaveGame();
+
+        else if(keyAction == KeyActions.LoadGame)
+            saveLoadManager.LoadGame();
     }
 
     private void Update()
@@ -41,18 +56,7 @@ public class GameMaster : MonoBehaviour
 
     public void EndEnemyMoves()
     {
-        //Debug.Log("All enemies finished their moves.");
         inputSystem.ActivateInput(true);
-        //gmCamera.SetObserveObject();
     }
 
-    //private void OnEnable()
-    //{
-    //    EventManager.NewMove += EnemyTurn;
-    //}
-
-    //private void OnDisable()
-    //{
-    //    EventManager.NewMove -= EnemyTurn;
-    //}
 }

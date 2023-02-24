@@ -78,7 +78,7 @@ public class GlobalStorage : MonoBehaviour
 
     [HideInInspector] public bool isGlobalMode = true;
 
-    [HideInInspector] public bool isEnoughTempExp = false;
+    //[HideInInspector] public bool isEnoughTempExp = false;
 
     [HideInInspector] public bool isModalWindowOpen = false;
 
@@ -99,11 +99,18 @@ public class GlobalStorage : MonoBehaviour
     public void StartNewGame()
     {
         cameraSwitcher = Camera.main.GetComponent<CameraSwitcher>();
+        StartCoroutine(CreateNewWorld());
+    }
+
+    public void LoadSavedGame()
+    {
+        cameraSwitcher = Camera.main.GetComponent<CameraSwitcher>();
         StartCoroutine(LoadTheGame());
     }
 
-    private IEnumerator LoadTheGame()
+    private IEnumerator CreateNewWorld()
     {
+        //1
         canILoadNextPart = false;
         objectsPoolManager.Initialize();
         while(canILoadNextPart == false)
@@ -111,13 +118,15 @@ public class GlobalStorage : MonoBehaviour
             yield return null;
         }
 
+        //2
         canILoadNextPart = false;
-        gmManager.Load();
+        gmManager.Init(true);
         while(canILoadNextPart == false)
         {
             yield return null;
         }
 
+        //3
         canILoadNextPart = false;
         unitManager.LoadUnits();
         while(canILoadNextPart == false)
@@ -125,6 +134,7 @@ public class GlobalStorage : MonoBehaviour
             yield return null;
         }
 
+        //4
         canILoadNextPart = false;
         enemyManager.InitializeEnemies();
         while(canILoadNextPart == false)
@@ -132,6 +142,7 @@ public class GlobalStorage : MonoBehaviour
             yield return null;
         }
 
+        //5
         canILoadNextPart = false;
         mapBonusManager.InitializeHeaps();
         while(canILoadNextPart == false)
@@ -139,13 +150,15 @@ public class GlobalStorage : MonoBehaviour
             yield return null;
         }
 
+        //6
         canILoadNextPart = false;
         macroLevelUpManager.Init();
         while(canILoadNextPart == false)
         {
             yield return null;
         }
-        
+
+        //7
         canILoadNextPart = false;
         runesSystem.Init();
         while(canILoadNextPart == false)
@@ -153,6 +166,7 @@ public class GlobalStorage : MonoBehaviour
             yield return null;
         }
 
+        //8
         canILoadNextPart = false;
         calendarManager.Init();
         while(canILoadNextPart == false)
@@ -160,6 +174,7 @@ public class GlobalStorage : MonoBehaviour
             yield return null;
         }
 
+        //9
         canILoadNextPart = false;
         gameStarter.Init();
         while(canILoadNextPart == false)
@@ -170,6 +185,20 @@ public class GlobalStorage : MonoBehaviour
         isGameLoaded = true;
         Debug.Log("GAME IS LOADED!");        
     }
+
+    private IEnumerator LoadTheGame()
+    {
+        //1
+        canILoadNextPart = false;
+        objectsPoolManager.Initialize();
+        while(canILoadNextPart == false)
+        {
+            yield return null;
+        }
+
+
+    }
+
 
     public void LoadNextPart()
     {

@@ -62,16 +62,14 @@ public class UnitManager : MonoBehaviour
         }
 
         CreateIconDict();
+
+        EventManager.OnAllUnitsIsReadyEvent();
     }
 
     private void CreateIconDict()
     {
         foreach (var item in allUnitsByTypes)
-        {
             allUnitsIconsDict.Add(item.unitType, item.unitIcon);
-        }
-
-        EventManager.OnAllUnitsIsReadyEvent();
     }
 
     public Sprite GetUnitsIcon(UnitsTypes type)

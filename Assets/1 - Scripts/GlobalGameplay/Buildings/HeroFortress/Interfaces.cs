@@ -46,7 +46,7 @@ public interface ISaveable
 {
     int Id { get; set; }
 
-    public object Save();
+    public void Save(SaveLoadManager manager);
 
     public void Load(object state);
 }

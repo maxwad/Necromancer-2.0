@@ -35,6 +35,11 @@ public class CalendarManager : MonoBehaviour, IInputableKeys
     private DecadeSO currentDecadeEffect;
     private int currentDecadeIndex = 0;
 
+    private void Awake()
+    {
+        RegisterInputKeys();
+    }
+
     public void Init()
     {
         boostManager = GlobalStorage.instance.boostManager;
@@ -45,7 +50,6 @@ public class CalendarManager : MonoBehaviour, IInputableKeys
 
         //decadeList = ShuffleList(decadeList);
         StartCoroutine(SetStartDecade());
-        RegisterInputKeys();
 
         GlobalStorage.instance.LoadNextPart();
     }
