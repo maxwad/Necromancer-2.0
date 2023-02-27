@@ -12,15 +12,18 @@ public class SaveLoadManager : MonoBehaviour
     private static SaveLoadManager instance;
 
     private List<ISaveable> objectsToSave = new List<ISaveable>();
-    private Dictionary<int, object> _states;
+    private Dictionary<int, object> _states = new Dictionary<int, object>();
     private List<int> _idList = new List<int>();
 
     private Coroutine _coroutine;
-    private int _itemCounter = 0;
+    private int _saveCounter = 0;
+    private int _loadCounter = 0;
 
     private string rootPath = "G:/Unity_projects/Necromancer/Necromancer/Builds";
     private string _directory = "/SaveData/";
     private string _fileName = "Save.txt";
+
+    public int test = 1;
 
 
     private void Start()
@@ -80,41 +83,32 @@ public class SaveLoadManager : MonoBehaviour
         if(Directory.Exists(savePath) == false)
             Directory.CreateDirectory(savePath);
 
-        if(File.Exists(pathToFile) == false)
-        {
-            File.Create(pathToFile);
-            _states = new Dictionary<int, object>();
-        }
-        else
-        {
-            FileStream stream = File.Open(pathToFile, FileMode.Open);
-            _states = JsonConvert.DeserializeObject<Dictionary<int, object>>(File.ReadAllText(pathToFile));
-            //_states = (Dictionary<int, object>)JsonConvert.SerializeObject();
-            stream.Close();
+        //Debug.Log("Before saving we have data:");
+        //foreach(var item in _states)
+        //{
+        //    Debug.Log($"{item.Key} have data {item.Value}");
+        //}
 
-        }
-
-        Debug.Log("Before saving we have count: " + _states.Count);
-
-        _itemCounter = objectsToSave.Count;
+        _saveCounter = objectsToSave.Count;
 
         foreach(var saveItem in objectsToSave)
         {
             saveItem.Save(this);
         }
 
-        while(_itemCounter > 0)
+        while(_saveCounter > 0)
         {
-            Debug.Log(_itemCounter + " objects to save left.");
+            Debug.Log(_saveCounter + " objects to save left.");
             yield return null;
         }
 
-        string serializedStates = JsonConvert.SerializeObject(_states);
-        //File.WriteAllText(pathToFile, serializedStates);
-
-        using(TextWriter writer = new StreamWriter(pathToFile, false))
+        FileStream fileStream = new FileStream(pathToFile, FileMode.Create);
+        using(StreamWriter writer = new StreamWriter(fileStream))
         {
-            writer.WriteLine(serializedStates);
+            Debug.Log("SERIALIZE: " + _states.Count);
+            string serializedStates = JsonConvert.SerializeObject(_states);
+            Debug.Log("STRING: " + serializedStates);
+            writer.Write(serializedStates);
             writer.Close();
         }
 
@@ -144,20 +138,53 @@ public class SaveLoadManager : MonoBehaviour
             yield return null;
         }
 
+        yield return new WaitForSecondsRealtime(0.1f);
+        test = Random.Range(0, 111);
+
         string pathToFile = rootPath + _directory + _fileName;
         //string pathToFile = Application.persistentDataPath + _directory + _fileName;
 
-        if(File.Exists(pathToFile) == false)
+        if(File.Exists(pathToFile) == true)
         {
-            GlobalStorage.instance.StartNewGame();
-        }
-        else
-        {
-            //LoadGame();
+            using(StreamReader reader = new StreamReader(pathToFile))
+            {
+                string json = reader.ReadToEnd();
+                Debug.Log("STRING: " + json.Length);
+                _states = (json.Length == 0) ? new Dictionary<int, object>() : JsonConvert.DeserializeObject<Dictionary<int, object>>(json);
+            }
+
+            _loadCounter = _states.Count;
+
+            objectsToSave = new List<ISaveable>(FindObjectsOfType<MonoBehaviour>(true).OfType<ISaveable>());
+            Debug.Log("Type of object: " + _states.GetType());
+            foreach(var item in _states)
+            {
+                //Reward test = (Reward)item.Value;
+                Debug.Log("Check types: ");
+                Debug.Log("id: " + item.Key.GetType());
+                Debug.Log("value: " + item.Value.GetType());
+            }
+
+            foreach(var saveItem in objectsToSave)
+            {
+                //Newtonsoft.Json.Linq.JObject test = ()json;
+                    //var values = test.ToObject<Dictionary<string, object>>();
+                saveItem.Load(this, _states);
+            }
+
+            while(_loadCounter > 0)
+            {
+                Debug.Log(_loadCounter + " objects to load left.");
+                yield return null;
+            }
+
             Debug.Log("Game loaded");
             InfotipManager.ShowMessage("Game loaded.");
         }
-        yield return null;
+        else
+        {
+            GlobalStorage.instance.StartNewGame();
+        }
     }
 
 #endregion
@@ -176,10 +203,17 @@ public class SaveLoadManager : MonoBehaviour
 
     public void FillSaveData(int dataId, object dataObject)
     {
-        if(_states.ContainsKey(dataId) == false)
-        {
+        if(_states == null || _states.ContainsKey(dataId) == false)
             _states.Add(dataId, dataObject);
-            _itemCounter--;
-        }
+        else
+            _states[dataId] = dataObject;
+
+        _saveCounter--;
+        Debug.Log("Saved");
+    }
+
+    public void LoadDataComplete(string loadMessage)
+    {
+        _loadCounter--;
     }
 }

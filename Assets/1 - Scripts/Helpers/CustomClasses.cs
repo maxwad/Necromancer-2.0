@@ -237,6 +237,7 @@ public class Army
 
 #region REWARD
 
+[Serializable]
 public class Reward
 {
     public List<ResourceType> resourcesList = new List<ResourceType>();

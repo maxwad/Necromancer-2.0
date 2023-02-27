@@ -48,7 +48,7 @@ public interface ISaveable
 
     public void Save(SaveLoadManager manager);
 
-    public void Load(object state);
+    public void Load(SaveLoadManager manager, Dictionary<int, object> state);
 }
 
 #endregion
