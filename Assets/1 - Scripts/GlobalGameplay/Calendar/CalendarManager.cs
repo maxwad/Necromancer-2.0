@@ -40,7 +40,7 @@ public class CalendarManager : MonoBehaviour, IInputableKeys
         RegisterInputKeys();
     }
 
-    public void Init()
+    public void Init(bool createMode)
     {
         boostManager = GlobalStorage.instance.boostManager;
         gmInterface = GlobalStorage.instance.gmInterface;
@@ -48,8 +48,11 @@ public class CalendarManager : MonoBehaviour, IInputableKeys
         calendarData = new CalendarData(daysLeft, day, decade, month);
         gmInterface.calendarPart.UpdateCalendar(calendarData);
 
-        //decadeList = ShuffleList(decadeList);
-        StartCoroutine(SetStartDecade());
+        if(createMode == true)
+        {
+            //decadeList = ShuffleList(decadeList);
+            StartCoroutine(SetStartDecade());
+        }
 
         GlobalStorage.instance.LoadNextPart();
     }

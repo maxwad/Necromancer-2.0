@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using static NameManager;
 
 public class SaveLoadManager : MonoBehaviour
@@ -23,8 +24,6 @@ public class SaveLoadManager : MonoBehaviour
     private string _directory = "/SaveData/";
     private string _fileName = "Save.txt";
 
-    public int test = 1;
-
 
     private void Start()
     {
@@ -32,6 +31,7 @@ public class SaveLoadManager : MonoBehaviour
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
+            GlobalStorage.instance.StartGame(true);
         }
         else
             Destroy(gameObject);
@@ -92,9 +92,7 @@ public class SaveLoadManager : MonoBehaviour
         _saveCounter = objectsToSave.Count;
 
         foreach(var saveItem in objectsToSave)
-        {
             saveItem.Save(this);
-        }
 
         while(_saveCounter > 0)
         {
@@ -105,15 +103,14 @@ public class SaveLoadManager : MonoBehaviour
         FileStream fileStream = new FileStream(pathToFile, FileMode.Create);
         using(StreamWriter writer = new StreamWriter(fileStream))
         {
-            Debug.Log("SERIALIZE: " + _states.Count);
+            //Debug.Log("SERIALIZE: " + _states.Count);
             string serializedStates = JsonConvert.SerializeObject(_states);
-            Debug.Log("STRING: " + serializedStates);
+            //Debug.Log("STRING: " + serializedStates);
             writer.Write(serializedStates);
             writer.Close();
         }
 
         InfotipManager.ShowMessage("Game saved.");
-        //Debug.Log("Game saved");
     }
 
     #endregion
@@ -138,8 +135,14 @@ public class SaveLoadManager : MonoBehaviour
             yield return null;
         }
 
-        yield return new WaitForSecondsRealtime(0.1f);
-        test = Random.Range(0, 111);
+        yield return new WaitForSecondsRealtime(0.2f);
+
+        GlobalStorage.instance.StartGame(false);
+        while(GlobalStorage.instance.isGameLoaded == false)
+        {
+            Debug.Log("Initializing map");
+            yield return null;
+        }
 
         string pathToFile = rootPath + _directory + _fileName;
         //string pathToFile = Application.persistentDataPath + _directory + _fileName;
@@ -149,28 +152,15 @@ public class SaveLoadManager : MonoBehaviour
             using(StreamReader reader = new StreamReader(pathToFile))
             {
                 string json = reader.ReadToEnd();
-                Debug.Log("STRING: " + json.Length);
                 _states = (json.Length == 0) ? new Dictionary<int, object>() : JsonConvert.DeserializeObject<Dictionary<int, object>>(json);
             }
 
             _loadCounter = _states.Count;
 
             objectsToSave = new List<ISaveable>(FindObjectsOfType<MonoBehaviour>(true).OfType<ISaveable>());
-            Debug.Log("Type of object: " + _states.GetType());
-            foreach(var item in _states)
-            {
-                //Reward test = (Reward)item.Value;
-                Debug.Log("Check types: ");
-                Debug.Log("id: " + item.Key.GetType());
-                Debug.Log("value: " + item.Value.GetType());
-            }
 
             foreach(var saveItem in objectsToSave)
-            {
-                //Newtonsoft.Json.Linq.JObject test = ()json;
-                    //var values = test.ToObject<Dictionary<string, object>>();
                 saveItem.Load(this, _states);
-            }
 
             while(_loadCounter > 0)
             {
@@ -178,12 +168,11 @@ public class SaveLoadManager : MonoBehaviour
                 yield return null;
             }
 
-            Debug.Log("Game loaded");
             InfotipManager.ShowMessage("Game loaded.");
         }
         else
         {
-            GlobalStorage.instance.StartNewGame();
+            GlobalStorage.instance.StartGame(true);
         }
     }
 
@@ -209,11 +198,17 @@ public class SaveLoadManager : MonoBehaviour
             _states[dataId] = dataObject;
 
         _saveCounter--;
-        Debug.Log("Saved");
     }
 
     public void LoadDataComplete(string loadMessage)
     {
         _loadCounter--;
+    }
+
+    public T ConvertToRequiredType<T>(object data)
+    {
+        JObject tempObject = (JObject)data;
+        T convertedData = tempObject.ToObject<T>();
+        return convertedData;
     }
 }

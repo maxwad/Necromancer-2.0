@@ -20,13 +20,16 @@ public class GameStarter : MonoBehaviour
     public List<CastleBuildings> castleBuildings;
     public int buildingsLevel = 3;
 
-    public void Init()
+    public void Init(bool createMode)
     {
         heroFortress = GlobalStorage.instance.heroFortress;
         resourcesManager = GlobalStorage.instance.resourcesManager;
         //unitManager = GlobalStorage.instance.unitManager;
 
-        StartCoroutine(Launch());
+        if(createMode == true)
+            StartCoroutine(Launch());
+        else
+            GlobalStorage.instance.LoadNextPart();
     }
 
     private IEnumerator Launch()

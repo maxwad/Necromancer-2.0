@@ -32,14 +32,12 @@ public class UnitManager : MonoBehaviour
         foreach(UnitsTypes item in Enum.GetValues(typeof(UnitsTypes)))
             unitsTypesList.Add(item);
 
-        //формируем список начальных уровней всех юнитов
         foreach (UnitsTypes type in unitsTypesList)
             currentLevelOfUnitsDict.Add(type, 1);
     }
 
     private void CreateAllUnitsBase()
     {
-        //переводим все скриптеблќбджекты в дикт и получаем ¬—≈ юниты базовых параметров
         foreach (UnitSO item in allUnitsSO)
             allUnitsBase.Add(new Unit(item));
 
@@ -48,7 +46,6 @@ public class UnitManager : MonoBehaviour
 
     private void CreateAllCurrentBaseUnitsByTypes()
     {
-        //формируем список из юнитов (по одному каждого типа)
         foreach (UnitsTypes type in unitsTypesList)
         {
             foreach (var itemUnit in allUnitsBase)

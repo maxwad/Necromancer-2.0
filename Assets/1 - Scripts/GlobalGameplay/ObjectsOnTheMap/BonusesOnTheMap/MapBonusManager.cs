@@ -22,24 +22,20 @@ public class MapBonusManager : MonoBehaviour
     private Dictionary<EnemyArmyOnTheMap, Vector3> enemiesPointsDict = new Dictionary<EnemyArmyOnTheMap, Vector3>();
     private Dictionary<ResourceObject, Vector3> heapsPointsDict = new Dictionary<ResourceObject, Vector3>();
 
-    public void InitializeHeaps()
+    public void InitializeHeaps(bool createMode)
     {
-        if(enemyManager == null)
-        {
-            enemyManager = GlobalStorage.instance.enemyManager;
-            gmManager    = GlobalStorage.instance.gmManager;
-            poolManager  = GlobalStorage.instance.objectsPoolManager;
-        }
+        enemyManager = GlobalStorage.instance.enemyManager;
+        gmManager    = GlobalStorage.instance.gmManager;
+        poolManager  = GlobalStorage.instance.objectsPoolManager;
+
+        if(createMode == true)
             GenerateHeapsOnTheMap();
+
         GlobalStorage.instance.LoadNextPart();
     }
 
     public void GenerateHeapsOnTheMap()
     {
-        //if(enemyManager == null) enemyManager = GlobalStorage.instance.enemyManager;
-        //if(gmManager == null) gmManager = GlobalStorage.instance.gmManager;
-        //if(poolManager == null) poolManager = GlobalStorage.instance.objectsPoolManager;
-
         buildingsPointsDict = gmManager.GetEnterPoints();
         enemiesPointsDict = enemyManager.GetEnemiesPointsDict();
 

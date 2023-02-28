@@ -18,7 +18,7 @@ public class EnemyManager : MonoBehaviour
     public float growUpConst = 10;
     public int weeksInMonth = 3;
 
-    public void InitializeEnemies()
+    public void InitializeEnemies(bool generateMode)
     {
         enemyArragement = GetComponent<EnemyArragement>();
         enemySquadGenerator = GetComponent<EnemySquadGenerator>();
@@ -26,7 +26,9 @@ public class EnemyManager : MonoBehaviour
         CreateEnemiesDict();
 
         enemySquadGenerator.SetAllEnemiesList(allEnemiesTypes);
-        enemyArragement.GenerateEnemiesOnTheMap(this);
+
+        if(generateMode == true)
+            enemyArragement.GenerateEnemiesOnTheMap(this);
 
         GlobalStorage.instance.LoadNextPart();
     }

@@ -35,13 +35,13 @@ public class GlobalMapTileManager : MonoBehaviour
 
     public void Init(bool createMode)
     {
-        gmPathfinder = GetComponent<GlobalMapPathfinder>();
-        arenaBuilder = GetComponent<ArenaBuilder>();
-        castleBuilder = GetComponent<CastleBuilder>();
-        tombBuilder = GetComponent<TombBuilder>();
-        resourceBuilder = GetComponent<ResourceBuilder>();
-        campBuilder = GetComponent<CampBuilder>();
-        boxesBuilder = GlobalStorage.instance.mapBoxesManager;
+        gmPathfinder        = GetComponent<GlobalMapPathfinder>();
+        arenaBuilder        = GetComponent<ArenaBuilder>();
+        castleBuilder       = GetComponent<CastleBuilder>();
+        tombBuilder         = GetComponent<TombBuilder>();
+        resourceBuilder     = GetComponent<ResourceBuilder>();
+        campBuilder         = GetComponent<CampBuilder>();
+        boxesBuilder        = GlobalStorage.instance.mapBoxesManager;
         environmentRegister = GetComponent<EnvironmentRegister>();
 
         roads = new GMHexCell[roadMap.size.x, roadMap.size.y];
@@ -67,14 +67,14 @@ public class GlobalMapTileManager : MonoBehaviour
         boxesBuilder.Build(this);
         environmentRegister.Registration(this);
 
-        Finalizing();
+        CreateEnterPointsForAllBuildings();
     }
 
-    public void Finalizing()
-    {
-        CreateEnterPointsForAllBuildings();
-        SendDataToPathfinder();
-    }
+    //public void Finalizing()
+    //{
+    //    CreateEnterPointsForAllBuildings();
+    //    SendDataToPathfinder();
+    //}
 
     public void CreateRoadCells()
     {
@@ -94,6 +94,8 @@ public class GlobalMapTileManager : MonoBehaviour
                 }
             }
         }
+
+        gmPathfinder.roads = roads;
     }
 
     public void CreateFogCells()
@@ -105,6 +107,8 @@ public class GlobalMapTileManager : MonoBehaviour
                 fogMap.SetTile(new Vector3Int(x, y, 0), fogTile);
             }
         }
+
+        gmPathfinder.CheckFog(true, startRadiusWithoutFog);
     }
 
     private void SetHeighbors()
@@ -211,6 +215,8 @@ public class GlobalMapTileManager : MonoBehaviour
                     building.SetEnterPoint(pos);
             }
         }
+
+        gmPathfinder.SetEnterPoints(enterPointsDict);
     }
 
     public void CreateEnterPoint(GameObject building)
@@ -350,9 +356,9 @@ public class GlobalMapTileManager : MonoBehaviour
 
     private void SendDataToPathfinder()
     {
-        gmPathfinder.roads = roads;
-        gmPathfinder.CheckFog(true, startRadiusWithoutFog);
-        gmPathfinder.SetEnterPoints(enterPointsDict);
+        //gmPathfinder.roads = roads;
+        //gmPathfinder.CheckFog(true, startRadiusWithoutFog);
+        //gmPathfinder.SetEnterPoints(enterPointsDict);
     }
 
     public bool CheckCellAsEnterPoint(Vector3 cell)

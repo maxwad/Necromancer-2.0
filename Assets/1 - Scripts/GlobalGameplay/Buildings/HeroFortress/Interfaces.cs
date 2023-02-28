@@ -44,7 +44,9 @@ public interface IInputableAxies
 
 public interface ISaveable
 {
-    int Id { get; set; }
+    public int Id { get; set; }
+
+    public void SetId(int id);
 
     public void Save(SaveLoadManager manager);
 

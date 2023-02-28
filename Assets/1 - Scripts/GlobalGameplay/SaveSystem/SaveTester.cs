@@ -6,57 +6,57 @@ using static NameManager;
 public class SaveTester : MonoBehaviour, ISaveable
 {
     public int _id = -1;
-    //public string Id
-    //{
-    //    get
-    //    {
-    //        return _id; 
-    //    }
-    //    set
-    //    {
-    //        _id = value; 
-    //    }
-    //}
-    [SerializeField]
-    public int goldQuantity;
-    [SerializeField]
-    public int foodQuantity;
 
-    public int Id { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+    public int Id
+    {
+        get
+        {
+            return _id;
+        }
+        set
+        {
+            _id = value;
+        }
+    }
+
+    public float foodQuantity;
+    public float goldQuantity;
+
+    public void SetId(int id) => Id = id;
 
     public void Save(SaveLoadManager saveManager)
     {
-        if(_id == -1)
-            _id = Random.Range(0, int.MaxValue);
+        if(Id == -1)
+            Id = Random.Range(0, int.MaxValue);
 
-        Reward reward = new Reward(new List<ResourceType>() { ResourceType.Food, ResourceType.Gold }, new List<float>() { foodQuantity, goldQuantity });
+        Reward reward = new Reward(
+            new List<ResourceType>() 
+            { 
+                ResourceType.Food, 
+                ResourceType.Gold 
+            },
+            new List<float>() 
+            {
+                foodQuantity,
+                goldQuantity 
+            });
 
-        saveManager.FillSaveData(_id, reward);
+        saveManager.FillSaveData(Id, reward);
     }    
 
     public void Load(SaveLoadManager saveManager, Dictionary<int, object> state)
     {
-        Debug.Log(_id + ": " + state.GetType());
-        goldQuantity = 1234;
-        foodQuantity = 4567;
+        if(state.ContainsKey(Id) == true)
+        {
+            Reward reward = saveManager.ConvertToRequiredType<Reward>(state[Id]);
 
-        //if(state.ContainsKey(_id) == true)
-        //{
-        //    //Debug.Log(state[_id].GetType());
-        //    Newtonsoft.Json.Linq.JObject test = (Newtonsoft.Json.Linq.JObject)state[_id];
-        //    Reward reward = test.ToObject<Reward>();
-        //    Debug.Log("LOADED for " + gameObject.name + " : " + reward.resourcesQuantity[0] + " & " + reward.resourcesQuantity[1]);
-        //    goldQuantity = reward.resourcesQuantity[0];
-        //    foodQuantity = reward.resourcesQuantity[1];
-        //    Debug.Log("LOADED for " + gameObject.name + " : " + reward.resourcesQuantity[0] + " & " + reward.resourcesQuantity[1]);
-        //}
-        //else
-        //{
-        //    Debug.Log("I don't have data for loading!");
-        //}
-
-        //goldQuantity = 1234;
-        //foodQuantity = 4567;
+            foodQuantity = (int)reward.resourcesQuantity[0];
+            goldQuantity = reward.resourcesQuantity[1];
+        }
+        else
+        {
+            Debug.Log("I don't have data for loading!");
+        }
 
         saveManager.LoadDataComplete("Tester is loaded");
     }

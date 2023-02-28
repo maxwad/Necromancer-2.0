@@ -86,6 +86,8 @@ public class GlobalStorage : MonoBehaviour
 
     [HideInInspector] public bool isGameLoaded = false;
 
+    private bool isGameInitializing = false;
+
     private CameraSwitcher cameraSwitcher;
 
     void Awake()
@@ -96,19 +98,26 @@ public class GlobalStorage : MonoBehaviour
             Destroy(gameObject);
     }
 
-    public void StartNewGame()
+    public void StartGame(bool createMode)
     {
         cameraSwitcher = Camera.main.GetComponent<CameraSwitcher>();
-        StartCoroutine(CreateNewWorld());
+        StartCoroutine(LoadTheGame(createMode));
     }
 
-    public void LoadSavedGame()
-    {
-        cameraSwitcher = Camera.main.GetComponent<CameraSwitcher>();
-        StartCoroutine(LoadTheGame());
-    }
+    //public void LoadSavedGame()
+    //{
+    //    cameraSwitcher = Camera.main.GetComponent<CameraSwitcher>();
+    //    StartCoroutine(LoadTheGame());
+    //}
 
-    private IEnumerator CreateNewWorld()
+    //public bool Init()
+    //{
+    //    canILoadNextPart = false;
+    //    gmManager.Init(false);
+    //    return true;
+    //}
+
+    private IEnumerator LoadTheGame(bool createMode)
     {
         //1
         canILoadNextPart = false;
@@ -120,7 +129,7 @@ public class GlobalStorage : MonoBehaviour
 
         //2
         canILoadNextPart = false;
-        gmManager.Init(true);
+        gmManager.Init(createMode);
         while(canILoadNextPart == false)
         {
             yield return null;
@@ -136,7 +145,7 @@ public class GlobalStorage : MonoBehaviour
 
         //4
         canILoadNextPart = false;
-        enemyManager.InitializeEnemies();
+        enemyManager.InitializeEnemies(createMode);
         while(canILoadNextPart == false)
         {
             yield return null;
@@ -144,7 +153,7 @@ public class GlobalStorage : MonoBehaviour
 
         //5
         canILoadNextPart = false;
-        mapBonusManager.InitializeHeaps();
+        mapBonusManager.InitializeHeaps(createMode);
         while(canILoadNextPart == false)
         {
             yield return null;
@@ -168,7 +177,7 @@ public class GlobalStorage : MonoBehaviour
 
         //8
         canILoadNextPart = false;
-        calendarManager.Init();
+        calendarManager.Init(createMode);
         while(canILoadNextPart == false)
         {
             yield return null;
@@ -176,7 +185,7 @@ public class GlobalStorage : MonoBehaviour
 
         //9
         canILoadNextPart = false;
-        gameStarter.Init();
+        gameStarter.Init(createMode);
         while(canILoadNextPart == false)
         {
             yield return null;
@@ -186,18 +195,32 @@ public class GlobalStorage : MonoBehaviour
         Debug.Log("GAME IS LOADED!");        
     }
 
-    private IEnumerator LoadTheGame()
-    {
-        //1
-        canILoadNextPart = false;
-        objectsPoolManager.Initialize();
-        while(canILoadNextPart == false)
-        {
-            yield return null;
-        }
+    //private IEnumerator LoadTheGame()
+    //{
+    //    //1
+    //    canILoadNextPart = false;
+    //    objectsPoolManager.Initialize();
+    //    while(canILoadNextPart == false)
+    //    {
+    //        yield return null;
+    //    }
 
+    //    canILoadNextPart = false;
+    //    unitManager.LoadUnits();
+    //    while(canILoadNextPart == false)
+    //    {
+    //        yield return null;
+    //    }
 
-    }
+    //    //4
+    //    canILoadNextPart = false;
+    //    enemyManager.InitializeEnemies(false);
+    //    while(canILoadNextPart == false)
+    //    {
+    //        yield return null;
+    //    }
+
+    //}
 
 
     public void LoadNextPart()

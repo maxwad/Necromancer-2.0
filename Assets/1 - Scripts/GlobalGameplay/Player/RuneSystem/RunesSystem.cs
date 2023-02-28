@@ -32,7 +32,6 @@ public class RunesSystem : MonoBehaviour
         boostManager = GlobalStorage.instance.boostManager;
 
         runesStorage.Init();
-        //availableRunes = runesStorage.GetAvailableRunes();
 
         for(int i = 0; i < 3; i++)
         {
