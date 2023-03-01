@@ -13,6 +13,8 @@ public class SaveIdGenerator : MonoBehaviour
     {
         objectsToSave = new List<ISaveable>(FindObjectsOfType<MonoBehaviour>(true).OfType<ISaveable>());
 
+        Debug.Log(objectsToSave.Count + " objects have numerated.");
+
         for(int i = 0; i < objectsToSave.Count; i++)
             objectsToSave[i].SetId(i + 1);
     }

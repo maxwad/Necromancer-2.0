@@ -31,17 +31,7 @@ public class CampBuilder : MonoBehaviour
             }
         }
 
-        for(int x = 0; x < bonfiresMap.size.x; x++)
-        {
-            for(int y = 0; y < bonfiresMap.size.y; y++)
-            {
-                Vector3Int position = new Vector3Int(x, y, 0);
-                if(bonfiresMap.HasTile(position) == true)
-                {
-                    bonfiresMap.SetTile(position, null);
-                }
-            }
-        }
+        manager.GetTempPoints(bonfiresMap);        
 
         for(int i = 0; i < emptyPoints.Count; i++)
         {
@@ -53,5 +43,5 @@ public class CampBuilder : MonoBehaviour
             gmManager.AddBuildingToAllOnTheMap(bonfire);
             campManager.Register(bonfire);
         }
-    }    
+    }
 }

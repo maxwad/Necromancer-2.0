@@ -120,10 +120,7 @@ public class BoxObject : MonoBehaviour
 
     public void GetReward()
     {
-        if(reward == null)
-        {
-            return;
-        }
+        if(reward == null) return;
 
         spriteRenderer.sprite = openedSprite;
         tooltip.SetStatus(true);

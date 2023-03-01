@@ -39,7 +39,9 @@ public class BonusOnTheMapUI : MonoBehaviour
         GlobalStorage.instance.ModalWindowOpen(true);
 
         uiPanel.SetActive(true);
-        if(canvas == null) canvas = uiPanel.GetComponent<CanvasGroup>();
+        if(canvas == null) 
+            canvas = uiPanel.GetComponent<CanvasGroup>();
+
         Fading.instance.Fade(true, canvas);
 
         Initialize(obj);

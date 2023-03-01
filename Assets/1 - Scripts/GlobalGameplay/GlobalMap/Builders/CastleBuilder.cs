@@ -14,7 +14,7 @@ public class CastleBuilder : MonoBehaviour
 
     public int castlesCount = 9;
 
-    public void Build(GlobalMapTileManager manager)
+    public void Build(GlobalMapTileManager manager, List<Vector3> pointsToLoad)
     {
         if(gmManager == null)
         {
@@ -22,28 +22,28 @@ public class CastleBuilder : MonoBehaviour
             aiSystem = GlobalStorage.instance.aiSystem;
         }
 
-        List<Vector3Int> tempPoints = new List<Vector3Int>();
+        List<Vector3Int> tempPoints = manager.GetTempPoints(castlesMap);
 
-        for(int x = 0; x < castlesMap.size.x; x++)
+        if(pointsToLoad == null)
         {
-            for(int y = 0; y < castlesMap.size.y; y++)
+            while(castlesPoints.Count < castlesCount)
             {
-                Vector3Int position = new Vector3Int(x, y, 0);
-
-                if(castlesMap.HasTile(position) == true)
-                {
-                    tempPoints.Add(position);
-                    castlesMap.SetTile(position, null);
-                }
+                int randomPosition = Random.Range(0, tempPoints.Count);
+                castlesPoints.Add(castlesMap.CellToWorld(tempPoints[randomPosition]));
+                tempPoints.RemoveAt(randomPosition);
+            }
+        }
+        else
+        {
+            castlesPoints = pointsToLoad;
+            foreach(var point in castlesPoints)
+            {
+                tempPoints.Remove(castlesMap.WorldToCell(point));
+                Debug.Log("Castle point was deleted!");
             }
         }
 
-        while(castlesPoints.Count < castlesCount)
-        {
-            int randomPosition = Random.Range(0, tempPoints.Count);
-            castlesPoints.Add(castlesMap.CellToWorld(tempPoints[randomPosition]));
-            tempPoints.RemoveAt(randomPosition);
-        }
+        Debug.Log("There are " + tempPoints.Count + " Castle temp points left! Compare it later!");
 
         for(int i = 0; i < tempPoints.Count; i++)
         {
@@ -59,5 +59,10 @@ public class CastleBuilder : MonoBehaviour
 
             aiSystem.RegisterCastle(castle);
         }
+    }
+
+    public List<Vector3> GetPointsList()
+    {
+        return castlesPoints;
     }
 }

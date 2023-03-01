@@ -1,10 +1,9 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using System.Collections;
 using System.Collections.Generic;
 using static NameManager;
 
-public class GlobalMapTileManager : MonoBehaviour
+public partial class GlobalMapTileManager : MonoBehaviour
 {
     public Tile fogTile;
     public Tile testTile;
@@ -59,10 +58,10 @@ public class GlobalMapTileManager : MonoBehaviour
 
     public void CreateWorld()
     {
-        arenaBuilder.Build(this);
-        castleBuilder.Build(this);
-        tombBuilder.Build(this);
-        resourceBuilder.Build(this);
+        arenaBuilder.Build(this, null);
+        castleBuilder.Build(this, null);
+        tombBuilder.Build(this, null);
+        resourceBuilder.Build(this, null);
         campBuilder.Build(this);
         boxesBuilder.Build(this);
         environmentRegister.Registration(this);
@@ -164,11 +163,31 @@ public class GlobalMapTileManager : MonoBehaviour
 
     #region Generating
 
+    public List<Vector3Int> GetTempPoints(Tilemap tilemap)
+    {
+        List<Vector3Int> tempPoints = new List<Vector3Int>();
+
+        for(int x = 0; x < tilemap.size.x; x++)
+        {
+            for(int y = 0; y < tilemap.size.y; y++)
+            {
+                Vector3Int position = new Vector3Int(x, y, 0);
+
+                if(tilemap.HasTile(position) == true)
+                {
+                    tempPoints.Add(position);
+                    tilemap.SetTile(position, null);
+                }
+            }
+        }
+
+        return tempPoints;
+    }
+
     public void AddPointToEmptyPoints(Vector3 point)
     {
         emptyPoints.Add(point);
     }
-
 
     public void AddBuildingToAllOnTheMap(GameObject building)
     {

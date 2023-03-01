@@ -15,7 +15,7 @@ public class TombBuilder : MonoBehaviour
     private EnemyArragement enemyArragement;
     private TombsManager tombsManager;
 
-    public void Build(GlobalMapTileManager manager)
+    public void Build(GlobalMapTileManager manager, List<Vector3> pointsToLoad)
     {
         if(gmManager == null)
         {
@@ -24,28 +24,28 @@ public class TombBuilder : MonoBehaviour
             tombsManager = GlobalStorage.instance.tombsManager;
         }
 
-        List<Vector3Int> tempPoints = new List<Vector3Int>();
+        List<Vector3Int> tempPoints = manager.GetTempPoints(tombsMap);
 
-        for(int x = 0; x < tombsMap.size.x; x++)
+        if(pointsToLoad == null)
         {
-            for(int y = 0; y < tombsMap.size.y; y++)
+            while(tombsPoints.Count < tombsCount)
             {
-                Vector3Int position = new Vector3Int(x, y, 0);
-
-                if(tombsMap.HasTile(position) == true)
-                {
-                    tempPoints.Add(position);
-                    tombsMap.SetTile(position, null);
-                }
+                int randomPosition = Random.Range(0, tempPoints.Count);
+                tombsPoints.Add(tombsMap.CellToWorld(tempPoints[randomPosition]));
+                tempPoints.RemoveAt(randomPosition);
+            }
+        }
+        else
+        {
+            tombsPoints = pointsToLoad;
+            foreach(var point in tombsPoints)
+            {
+                tempPoints.Remove(tombsMap.WorldToCell(point));
+                Debug.Log("Tomb point was deleted!");
             }
         }
 
-        while(tombsPoints.Count < tombsCount)
-        {
-            int randomPosition = Random.Range(0, tempPoints.Count);
-            tombsPoints.Add(tombsMap.CellToWorld(tempPoints[randomPosition]));
-            tempPoints.RemoveAt(randomPosition);
-        }
+        Debug.Log("There are " + tempPoints.Count + " Tomb temp points left! Compare it later!");
 
         for(int i = 0; i < tempPoints.Count; i++)
         {
@@ -61,5 +61,10 @@ public class TombBuilder : MonoBehaviour
 
             tombsManager.Register(tomb);
         }
+    }
+
+    public List<Vector3> GetPointsList()
+    {
+        return tombsPoints;
     }
 }

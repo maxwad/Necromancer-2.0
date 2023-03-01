@@ -86,8 +86,6 @@ public class GlobalStorage : MonoBehaviour
 
     [HideInInspector] public bool isGameLoaded = false;
 
-    private bool isGameInitializing = false;
-
     private CameraSwitcher cameraSwitcher;
 
     void Awake()

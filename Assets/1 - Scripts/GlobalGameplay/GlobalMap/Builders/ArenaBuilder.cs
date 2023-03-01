@@ -11,29 +11,28 @@ public class ArenaBuilder : MonoBehaviour
     private Vector3 arenaPoint;
     public GameObject arenaPrefab;
 
-    public void Build(GlobalMapTileManager manager)
+    private List<Vector3> pointToSave = new List<Vector3>();
+
+    public void Build(GlobalMapTileManager manager, List<Vector3> pointsToLoad)
     {
         if(gmManager == null) gmManager = manager;
 
-        List<Vector3Int> tempPoints = new List<Vector3Int>();
+        List<Vector3Int> tempPoints = manager.GetTempPoints(arenaMap);
 
-        for(int x = 0; x < arenaMap.size.x; x++)
+        if(pointsToLoad == null)
         {
-            for(int y = 0; y < arenaMap.size.y; y++)
-            {
-                Vector3Int position = new Vector3Int(x, y, 0);
-
-                if(arenaMap.HasTile(position) == true) tempPoints.Add(position);
-            }
+            int randomPosition = Random.Range(0, tempPoints.Count);
+            arenaPoint = tempPoints[randomPosition];
+            pointToSave.Add(arenaPoint);            
         }
-
-        int randomPosition = Random.Range(0, tempPoints.Count);
+        else
+        {
+            arenaPoint = pointsToLoad[0];
+        }
 
         for(int i = 0; i < tempPoints.Count; i++)
         {
-            if(i == randomPosition)
-                arenaPoint = arenaMap.CellToWorld(tempPoints[i]);
-            else
+            if(tempPoints[i] != arenaPoint)
                 manager.AddPointToEmptyPoints(arenaMap.CellToWorld(tempPoints[i]));
 
             arenaMap.SetTile(tempPoints[i], null);
@@ -43,5 +42,10 @@ public class ArenaBuilder : MonoBehaviour
         arena.transform.SetParent(arenaMap.transform);
 
         manager.AddBuildingToAllOnTheMap(arena);
+    }
+
+    public List<Vector3> GetPointsList()
+    {
+        return pointToSave;
     }
 }

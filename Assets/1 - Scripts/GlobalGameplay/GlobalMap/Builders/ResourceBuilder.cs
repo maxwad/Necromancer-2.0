@@ -12,21 +12,19 @@ public class ResourceBuilder : MonoBehaviour
     private List<Vector3> resourcesPoints = new List<Vector3>();
     public GameObject resourcePrefab;
 
-    public void Build(GlobalMapTileManager manager)
+    public void Build(GlobalMapTileManager manager, List<Vector3> pointsToLoad)
     {
         if(gmManager == null) gmManager = manager;
 
-        for(int x = 0; x < resourcesMap.size.x; x++)
+        List<Vector3Int> tempPoints = manager.GetTempPoints(resourcesMap);
+        if(pointsToLoad == null)
         {
-            for(int y = 0; y < resourcesMap.size.y; y++)
-            {
-                Vector3Int position = new Vector3Int(x, y, 0);
-                if(resourcesMap.HasTile(position) == true)
-                {
-                    resourcesPoints.Add(resourcesMap.CellToWorld(position));
-                    resourcesMap.SetTile(position, null);
-                }
-            }
+            foreach(var point in tempPoints)
+                resourcesPoints.Add(resourcesMap.CellToWorld(point));
+        }
+        else
+        {
+            resourcesPoints = pointsToLoad;
         }
 
         for(int i = 0; i < resourcesPoints.Count; i++)
@@ -36,5 +34,10 @@ public class ResourceBuilder : MonoBehaviour
 
             manager.AddBuildingToAllOnTheMap(resBuilding);
         }
+    }
+
+    public List<Vector3> GetPointsList()
+    {
+        return resourcesPoints;
     }
 }

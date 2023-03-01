@@ -6,7 +6,6 @@ using static NameManager;
 
 public class MapBoxesManager : MonoBehaviour
 {
-
     private GlobalMapTileManager gmManager;
     private ObjectsPoolManager poolManager;
 
@@ -25,21 +24,14 @@ public class MapBoxesManager : MonoBehaviour
 
     public void Build(GlobalMapTileManager manager)
     {
-        if(gmManager == null) gmManager = manager;
-        if(poolManager == null) poolManager = GlobalStorage.instance.objectsPoolManager;
-
-        if(isFirstBuilding == true)
+        if(poolManager == null)
         {
-            FillBoxPoints();
-            Generation();
-        }
-        else
-        {
-            ClearActualPoints();
-            StartCoroutine(Regeneration());
+            gmManager = manager;
+            poolManager = GlobalStorage.instance.objectsPoolManager;
         }
 
-        isFirstBuilding = false;
+        FillBoxPoints();
+        Generation();        
     }
 
     private IEnumerator Regeneration()
@@ -82,20 +74,10 @@ public class MapBoxesManager : MonoBehaviour
 
     private void FillBoxPoints()
     {
-        for(int x = 0; x < boxesMap.size.x; x++)
-        {
-            for(int y = 0; y < boxesMap.size.y; y++)
-            {
-                Vector3Int position = new Vector3Int(x, y, 0);
-                if(boxesMap.HasTile(position) == true)
-                {
-                    boxesMap.SetTile(position, null);
+        List<Vector3Int> tempPoints = gmManager.GetTempPoints(boxesMap);
 
-                    Vector3 realPos = boxesMap.CellToWorld(position);
-                    CreateBox(realPos);
-                }
-            }
-        }
+        foreach(var point in tempPoints)
+            CreateBox(boxesMap.CellToWorld(point));
     }
 
     private void CreateBox(Vector3 position)
@@ -126,7 +108,8 @@ public class MapBoxesManager : MonoBehaviour
 
     private void ReGenerateBoxesOnTheMap()
     {
-        Build(null);
+        ClearActualPoints();
+        StartCoroutine(Regeneration());
     }
 
     private void OnEnable()
