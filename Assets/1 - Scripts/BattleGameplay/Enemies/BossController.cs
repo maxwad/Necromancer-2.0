@@ -78,7 +78,7 @@ public class BossController : MonoBehaviour
     #region RUNES
     public void ApplyRune(bool changeMode)
     {
-        BoostType type = EnumConverter.instance.RuneToBoostType(rune.rune);
+        BoostType type = TypesConverter.RuneToBoostType(rune.rune);
         float value;
         if(changeMode == false)
             value = (rune.isInvertedRune == true) ? -rune.value : rune.value;
@@ -90,7 +90,7 @@ public class BossController : MonoBehaviour
 
     public void DeleteRune()
     {
-        BoostType type = EnumConverter.instance.RuneToBoostType(rune.rune);
+        BoostType type = TypesConverter.RuneToBoostType(rune.rune);
         float value = (rune.isInvertedRune == true) ? -rune.value : rune.value;
         boostManager.DeleteBoost(type, BoostSender.EnemySystem, value);
 

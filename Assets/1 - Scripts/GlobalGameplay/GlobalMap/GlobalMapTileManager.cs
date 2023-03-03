@@ -63,9 +63,9 @@ public partial class GlobalMapTileManager : MonoBehaviour
         tombBuilder.Build(this, null);
         resourceBuilder.Build(this, null);
         campBuilder.Build(this);
-        boxesBuilder.Build(this);
-        environmentRegister.Registration(this);
+        boxesBuilder.Build(this, null);
 
+        environmentRegister.Registration(this);
         CreateEnterPointsForAllBuildings();
     }
 
@@ -186,12 +186,14 @@ public partial class GlobalMapTileManager : MonoBehaviour
 
     public void AddPointToEmptyPoints(Vector3 point)
     {
-        emptyPoints.Add(point);
+        if(emptyPoints.Contains(point) == false)
+            emptyPoints.Add(point);
     }
 
     public void AddBuildingToAllOnTheMap(GameObject building)
     {
-        allBuildingsOnTheMap.Add(building);
+        if(allBuildingsOnTheMap.Contains(building) == false)
+            allBuildingsOnTheMap.Add(building);
     }
 
 
@@ -240,6 +242,8 @@ public partial class GlobalMapTileManager : MonoBehaviour
 
     public void CreateEnterPoint(GameObject building)
     {
+        if(allBuildingsOnTheMap.Contains(building) == true) return;
+
         allBuildingsOnTheMap.Add(building);
         Vector3Int enterPoint = SearchRealEmptyCellNearRoad(false, building.transform.position);
         Vector3 position = roadMap.CellToWorld(enterPoint);

@@ -12,7 +12,6 @@ public class TombBuilder : MonoBehaviour
     public GameObject tombPrefab;
 
     public int tombsCount = 12;
-    private EnemyArragement enemyArragement;
     private TombsManager tombsManager;
 
     public void Build(GlobalMapTileManager manager, List<Vector3> pointsToLoad)
@@ -20,7 +19,6 @@ public class TombBuilder : MonoBehaviour
         if(gmManager == null)
         {
             gmManager = manager;
-            enemyArragement = GlobalStorage.instance.enemyManager.GetComponent<EnemyArragement>();
             tombsManager = GlobalStorage.instance.tombsManager;
         }
 
@@ -39,13 +37,8 @@ public class TombBuilder : MonoBehaviour
         {
             tombsPoints = pointsToLoad;
             foreach(var point in tombsPoints)
-            {
                 tempPoints.Remove(tombsMap.WorldToCell(point));
-                Debug.Log("Tomb point was deleted!");
-            }
         }
-
-        Debug.Log("There are " + tempPoints.Count + " Tomb temp points left! Compare it later!");
 
         for(int i = 0; i < tempPoints.Count; i++)
         {

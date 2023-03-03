@@ -8,13 +8,11 @@ public class ResourceObject : MonoBehaviour
 {
     [HideInInspector] public ResourceType resourceType;
     private SpriteRenderer sprite;
-    public float quantity;
 
     private RewardManager rewardManager;
     [HideInInspector] public Reward reward;
     private ResourcesManager resourcesManager;
     private MapBonusManager mapBonusManager;
-    private ObjectsPoolManager poolManager;
     private Dictionary<ResourceType, Sprite> resourcesIcons;
 
     private void OnEnable()
@@ -25,7 +23,6 @@ public class ResourceObject : MonoBehaviour
             rewardManager = GlobalStorage.instance.rewardManager;
             resourcesManager = GlobalStorage.instance.resourcesManager;
             resourcesIcons = resourcesManager.GetAllResourcesIcons();
-            poolManager = GlobalStorage.instance.objectsPoolManager;
         }
 
         Birth();
@@ -45,7 +42,6 @@ public class ResourceObject : MonoBehaviour
         sprite.sprite = resourcesIcons[resourceType];
 
         reward = rewardManager.GetHeapReward(resourceType);
-        quantity = reward.resourcesQuantity[0];
     }
 
     private void Birth()
@@ -53,6 +49,25 @@ public class ResourceObject : MonoBehaviour
         StartCoroutine(Initialize());
         StartCoroutine(Blink(true));
     }
+
+    //public void Load(HeapSaveData sd)
+    //{
+
+    //}
+    public Reward SaveReward()
+    {
+        return reward;
+    }
+
+    //public HeapSaveData GetSaveData()
+    //{
+    //    HeapSaveData sd = new HeapSaveData();
+    //    sd.resourceType = resourceType;
+    //    sd.sprite = sprite;
+    //    sd.reward = reward;
+
+    //    return sd;
+    //}
 
     public void Death()
     {
@@ -130,12 +145,8 @@ public class ResourceObject : MonoBehaviour
         float quantity = reward.resourcesQuantity[0];
 
         if(isPlayerPickuping == true)
-        {
             BonusTipUIManager.ShowVisualEffect(sprite, quantity);
-        }
         else
-        {
             BonusTipUIManager.ShowVisualEffectForEnemy(sprite, quantity, transform.position);
-        }
     }
 }

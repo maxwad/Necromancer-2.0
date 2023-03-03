@@ -22,17 +22,18 @@ public class ArenaBuilder : MonoBehaviour
         if(pointsToLoad == null)
         {
             int randomPosition = Random.Range(0, tempPoints.Count);
-            arenaPoint = tempPoints[randomPosition];
+            arenaPoint = arenaMap.CellToWorld(tempPoints[randomPosition]);
             pointToSave.Add(arenaPoint);            
         }
         else
         {
             arenaPoint = pointsToLoad[0];
+            pointToSave.Add(arenaPoint);
         }
 
         for(int i = 0; i < tempPoints.Count; i++)
         {
-            if(tempPoints[i] != arenaPoint)
+            if(tempPoints[i] != arenaMap.WorldToCell(arenaPoint))
                 manager.AddPointToEmptyPoints(arenaMap.CellToWorld(tempPoints[i]));
 
             arenaMap.SetTile(tempPoints[i], null);

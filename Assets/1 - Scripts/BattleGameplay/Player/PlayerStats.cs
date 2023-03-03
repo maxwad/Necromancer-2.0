@@ -221,7 +221,7 @@ public class PlayerStats : MonoBehaviour
     public float GetCurrentParameter(PlayersStats stat)
     {
         float result = allStatsDict[stat].maxValue;
-        float boost = boostManager.GetBoost(EnumConverter.instance.PlayerStatToBoostType(stat));
+        float boost = boostManager.GetBoost(TypesConverter.PlayerStatToBoostType(stat));
 
         return result + (result * boost);
     }

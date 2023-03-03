@@ -42,7 +42,6 @@ public class EnemyArragement : MonoBehaviour
         GenerateRandomEnemies();
 
         EventManager.OnResetGarrisonsEvent();
-
         enemyManager.SetEnemiesPointsDict(enemiesPointsDict);
     }
 
@@ -126,26 +125,16 @@ public class EnemyArragement : MonoBehaviour
 
     private bool CheckPosition(Vector3 position)
     {
-        bool isPositionFree = false;        
-        int currentSearchIndex = 0;
         foreach(var point in enterPointsDict)
         {
             if(Vector3.Distance(point.Value, position) < enemiesGap)
             {
                 //roadMap.SetTile(roadMap.WorldToCell(position), fogTile);
-                isPositionFree = false;
-                break;
-            }
-            else
-            {
-                isPositionFree = true;
-                currentSearchIndex++;                
+                return false;
             }
         }
 
-        if(isPositionFree == true) isPositionFree = CheckPlayerPosition(position);
-
-        return isPositionFree;        
+        return CheckPlayerPosition(position);     
     }
 
     #endregion
@@ -157,20 +146,22 @@ public class EnemyArragement : MonoBehaviour
 
     private GameObject CreateUsualEnemy(Vector3 position)
     {
-        GameObject enemyOnTheMap = poolManager.GetObject(ObjectPool.EnemyOnTheMap);
-        enemyOnTheMap.transform.SetParent(enemiesMap.transform);
-        enemyOnTheMap.transform.position = position;
-        enemyOnTheMap.SetActive(true);
+        GameObject enemy = poolManager.GetObject(ObjectPool.EnemyOnTheMap);
+        enemy.transform.SetParent(enemiesMap.transform);
+        enemy.transform.position = position;
+        enemy.SetActive(true);
+        EnemyArmyOnTheMap enemyOnTheMap  = enemy.GetComponent<EnemyArmyOnTheMap>();
 
-        return enemyOnTheMap;
+        if(enemyOnTheMap.typeOfArmy != TypeOfArmy.Vassals)
+            enemyManager.enemyArragement.RegisterEnemy(enemyOnTheMap);
+
+        return enemy;
     }
 
     public void RegisterEnemy(EnemyArmyOnTheMap enemyArmyOnTheMap)
     {
         if(enemiesPointsDict.ContainsKey(enemyArmyOnTheMap) == false)
-        {
             enemiesPointsDict.Add(enemyArmyOnTheMap, enemyArmyOnTheMap.gameObject.transform.position);
-        }
     }
 
     public EnemyArmyOnTheMap CreateEnemyOnTheMap(Vector3 position)

@@ -114,7 +114,7 @@ public class EnemyEffector : MonoBehaviour
     {
         battleUI.boostPart.ClearRuneTimer();
 
-        BoostType type = EnumConverter.instance.RuneToBoostType(rune.rune);
+        BoostType type = TypesConverter.RuneToBoostType(rune.rune);
         float value = (rune.isInvertedRune == true) ? -rune.value : rune.value;
         boostManager.SetBoost(type, BoostSender.EnemySystem, BoostEffect.EnemiesBattle, value);
 

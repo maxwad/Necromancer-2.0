@@ -18,11 +18,10 @@ public class MapBoxesManager : MonoBehaviour
     private List<GameObject> actualBoxes = new List<GameObject>();
     public GameObject boxPrefabs;
 
-    private bool isFirstBuilding = true;
     private float buildPropability = 75f;
 
 
-    public void Build(GlobalMapTileManager manager)
+    public void Build(GlobalMapTileManager manager, Dictionary<Vector3, Reward> boxesData)
     {
         if(poolManager == null)
         {
@@ -31,7 +30,11 @@ public class MapBoxesManager : MonoBehaviour
         }
 
         FillBoxPoints();
-        Generation();        
+
+        if(boxesData == null)
+            Generation();
+        else
+            LoadBoxes(boxesData);
     }
 
     private IEnumerator Regeneration()
@@ -66,11 +69,50 @@ public class MapBoxesManager : MonoBehaviour
                 allBoxes[i].SetActive(true);
 
                 gmManager.AddBuildingToAllOnTheMap(allBoxes[i]);
-
-                if(isFirstBuilding == false) gmManager.CreateEnterPoint(allBoxes[i]);
+                gmManager.CreateEnterPoint(allBoxes[i]);
             }
         }
     }
+
+    #region SAVE/LOAD
+
+    private void LoadBoxes(Dictionary<Vector3, Reward> boxesData)
+    {
+        actualBoxesPoints.Clear();
+        actualBoxes.Clear();
+
+        int counter = 0;
+        foreach(var box in allBoxes)
+        {
+            if(boxesData.ContainsKey(box.transform.position) == true)
+            {
+                actualBoxesPoints.Add(box.transform.position);
+                actualBoxes.Add(box);
+                box.SetActive(true);
+
+                if(allBoxesComponents.ContainsKey(box) == true)
+                    allBoxesComponents[box].Load(boxesData[box.transform.position]);
+
+                gmManager.AddBuildingToAllOnTheMap(box);
+                gmManager.CreateEnterPoint(box);
+                counter++;
+            }
+        }
+
+        Debug.Log("Boxes loaded: " + counter + "/" + boxesData.Count);
+    }
+
+    public Dictionary<Vector3, Reward> SaveBoxes()
+    {
+        Dictionary<Vector3, Reward> boxesData = new Dictionary<Vector3, Reward>();
+
+        foreach(var box in actualBoxes)
+            boxesData.Add(box.transform.position, allBoxesComponents[box].SaveReward());
+
+        return boxesData;
+    }
+
+    #endregion
 
     private void FillBoxPoints()
     {

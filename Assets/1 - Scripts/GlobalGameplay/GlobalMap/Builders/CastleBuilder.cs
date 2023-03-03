@@ -37,13 +37,8 @@ public class CastleBuilder : MonoBehaviour
         {
             castlesPoints = pointsToLoad;
             foreach(var point in castlesPoints)
-            {
                 tempPoints.Remove(castlesMap.WorldToCell(point));
-                Debug.Log("Castle point was deleted!");
-            }
         }
-
-        Debug.Log("There are " + tempPoints.Count + " Castle temp points left! Compare it later!");
 
         for(int i = 0; i < tempPoints.Count; i++)
         {

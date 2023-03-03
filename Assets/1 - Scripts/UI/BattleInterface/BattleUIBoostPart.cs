@@ -107,7 +107,7 @@ public class BattleUIBoostPart : MonoBehaviour
         boostItemUI.SetActive(true);
         if(parent != fleshBoostWrapper) boostItemList.Add(boostItemUI);
 
-        RunesType runeType = EnumConverter.instance.BoostTypeToRune(type);
+        RunesType runeType = TypesConverter.BoostTypeToRune(type);
         float value = boost;
         BoostInBattleUI item = boostItemUI.GetComponent<BoostInBattleUI>();
         item.Init(runeType, value, constMode, effectType);

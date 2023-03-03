@@ -24,6 +24,9 @@ public class SaveLoadManager : MonoBehaviour
     private string _directory = "/SaveData/";
     private string _fileName = "Save.txt";
 
+    private float _saveTime = 0f;
+    private float _loadTime = 0f;
+
 
     private void Start()
     {
@@ -74,6 +77,8 @@ public class SaveLoadManager : MonoBehaviour
 
     public IEnumerator SaveGameCRTN()
     {
+        _saveTime = Time.time;
+
         objectsToSave = new List<ISaveable>(FindObjectsOfType<MonoBehaviour>(true).OfType<ISaveable>());
 
         string savePath = rootPath + _directory;
@@ -82,12 +87,6 @@ public class SaveLoadManager : MonoBehaviour
 
         if(Directory.Exists(savePath) == false)
             Directory.CreateDirectory(savePath);
-
-        //Debug.Log("Before saving we have data:");
-        //foreach(var item in _states)
-        //{
-        //    Debug.Log($"{item.Key} have data {item.Value}");
-        //}
 
         _saveCounter = objectsToSave.Count;
 
@@ -103,14 +102,18 @@ public class SaveLoadManager : MonoBehaviour
         FileStream fileStream = new FileStream(pathToFile, FileMode.Create);
         using(StreamWriter writer = new StreamWriter(fileStream))
         {
-            //Debug.Log("SERIALIZE: " + _states.Count);
-            string serializedStates = JsonConvert.SerializeObject(_states);
-            //Debug.Log("STRING: " + serializedStates);
+            JsonSerializerSettings settings = new JsonSerializerSettings()
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            };
+            string serializedStates = JsonConvert.SerializeObject(_states, Formatting.Indented, settings);
+
             writer.Write(serializedStates);
             writer.Close();
         }
 
-        InfotipManager.ShowMessage("Game saved.");
+        InfotipManager.ShowMessage("Game saved");
+        Debug.Log("Game saved (" + (Time.time - _saveTime) + ")");
     }
 
     #endregion
@@ -127,6 +130,17 @@ public class SaveLoadManager : MonoBehaviour
 
     public IEnumerator LoadGameCRTN()
     {
+        string pathToFile = rootPath + _directory + _fileName;
+        //string pathToFile = Application.persistentDataPath + _directory + _fileName;
+
+        if(File.Exists(pathToFile) == false)
+        {
+            InfotipManager.ShowMessage("You don't have any saves yet.");
+            yield break; 
+        }
+
+        _loadTime = Time.time;
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 
         while(SceneManager.GetActiveScene().isLoaded == false)
@@ -144,51 +158,31 @@ public class SaveLoadManager : MonoBehaviour
             yield return null;
         }
 
-        string pathToFile = rootPath + _directory + _fileName;
-        //string pathToFile = Application.persistentDataPath + _directory + _fileName;
-
-        if(File.Exists(pathToFile) == true)
+        using(StreamReader reader = new StreamReader(pathToFile))
         {
-            using(StreamReader reader = new StreamReader(pathToFile))
-            {
-                string json = reader.ReadToEnd();
-                _states = (json.Length == 0) ? new Dictionary<int, object>() : JsonConvert.DeserializeObject<Dictionary<int, object>>(json);
-            }
-
-            _loadCounter = _states.Count;
-
-            objectsToSave = new List<ISaveable>(FindObjectsOfType<MonoBehaviour>(true).OfType<ISaveable>());
-
-            foreach(var saveItem in objectsToSave)
-                saveItem.Load(this, _states);
-
-            while(_loadCounter > 0)
-            {
-                Debug.Log(_loadCounter + " objects to load left.");
-                yield return null;
-            }
-
-            InfotipManager.ShowMessage("Game loaded.");
+            string json = reader.ReadToEnd();
+            _states = (json.Length == 0) ? new Dictionary<int, object>() : JsonConvert.DeserializeObject<Dictionary<int, object>>(json);
         }
-        else
+
+        _loadCounter = _states.Count;
+
+        objectsToSave = new List<ISaveable>(FindObjectsOfType<MonoBehaviour>(true).OfType<ISaveable>());
+
+        foreach(var saveItem in objectsToSave)
+            saveItem.Load(this, _states);
+
+        while(_loadCounter > 0)
         {
-            GlobalStorage.instance.StartGame(true);
+            Debug.Log(_loadCounter + " objects to load left.");
+            yield return null;
         }
+
+        InfotipManager.ShowMessage("Game loaded.");
+        Debug.Log("Game loaded (" + (Time.time - _loadTime) + ")");
     }
 
 #endregion
 
-
-    public bool CanIUseId(int id)
-    {
-        if(_idList.Contains(id) == false)
-        {
-            _idList.Add(id);
-            return true;
-        }
-
-        return false;
-    }
 
     public void FillSaveData(int dataId, object dataObject)
     {
@@ -202,6 +196,7 @@ public class SaveLoadManager : MonoBehaviour
 
     public void LoadDataComplete(string loadMessage)
     {
+        Debug.Log(loadMessage);
         _loadCounter--;
     }
 

@@ -18,7 +18,7 @@ public class PreSpellLibrary : MonoBehaviour
 
     public void Activate(SpellSO spell, bool mode)
     {
-        PreSpells preSpell = EnumConverter.instance.SpellToPreEpell(spell.spell);
+        PreSpells preSpell = TypesConverter.SpellToPreEpell(spell.spell);
 
         foreach(var item in preSpellsList)
         {

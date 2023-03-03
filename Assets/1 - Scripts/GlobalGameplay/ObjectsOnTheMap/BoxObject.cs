@@ -42,9 +42,32 @@ public class BoxObject : MonoBehaviour
         Birth();
     }
 
-    private void Initialize()
+    public void Initialize()
     {
         reward = rewardManager.GetBoxReward();
+    }
+
+    public void Load(Reward oldReward)
+    {
+        reward = oldReward;
+
+        if(reward == null)
+        {
+            spriteRenderer.sprite = openedSprite;
+            tooltip.SetStatus(true);
+            tooltip.content = visitedContent;
+        }
+        else
+        {
+            spriteRenderer.sprite = closedSprite;
+            tooltip.SetStatus(false);
+            tooltip.content = defaultContent;
+        }
+    }
+
+    public Reward SaveReward()
+    {
+        return reward;
     }
 
     private void Birth()

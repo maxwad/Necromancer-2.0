@@ -156,7 +156,7 @@ public class CalendarManager : MonoBehaviour, IInputableKeys
 
         if(currentDecadeEffect != null)
         {
-            boost = EnumConverter.instance.RuneToBoostType(currentDecadeEffect.effect.rune);
+            boost = TypesConverter.RuneToBoostType(currentDecadeEffect.effect.rune);
             value = (currentDecadeEffect.isNegative == true) ? -currentDecadeEffect.effect.value : currentDecadeEffect.effect.value;
             boostManager.DeleteBoost(boost, BoostSender.Calendar, value);
         }        
@@ -164,7 +164,7 @@ public class CalendarManager : MonoBehaviour, IInputableKeys
         currentDecadeEffect = decadeList[currentDecadeIndex];
         gmInterface.calendarPart.UpdateDecadeOnCalendar(currentDecadeEffect);
 
-        boost = EnumConverter.instance.RuneToBoostType(currentDecadeEffect.effect.rune);
+        boost = TypesConverter.RuneToBoostType(currentDecadeEffect.effect.rune);
         value = (currentDecadeEffect.isNegative == true) ? -currentDecadeEffect.effect.value : currentDecadeEffect.effect.value;
 
         boostManager.SetBoost(boost, BoostSender.Calendar, currentDecadeEffect.purpose, value);

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using static NameManager;
 
-public class MapBonusManager : MonoBehaviour
+public partial class MapBonusManager : MonoBehaviour
 {
     private GlobalMapTileManager gmManager;
     private EnemyManager enemyManager;
@@ -78,21 +78,12 @@ public class MapBonusManager : MonoBehaviour
 
     private bool CheckPosition(Vector3 position)
     {
-        bool isPositionFree = false;
-        //int currentSearchIndex = 0;
-
         foreach(var point in enemiesPointsDict)
         {
             if(Vector3.Distance(point.Value, position) < heapsGap)
             {
                 //roadMap.SetTile(roadMap.WorldToCell(position), fogTile);
-                isPositionFree = false;
                 return false;
-            }
-            else
-            {
-                isPositionFree = true;
-                //currentSearchIndex++;
             }
         }
 
@@ -101,13 +92,7 @@ public class MapBonusManager : MonoBehaviour
             if(Vector3.Distance(point.Value, position) < heapsGap)
             {
                 //roadMap.SetTile(roadMap.WorldToCell(position), fogTile);
-                isPositionFree = false;
                 return false;
-            }
-            else
-            {
-                isPositionFree = true;
-                //currentSearchIndex++;
             }
         }
 
@@ -116,20 +101,11 @@ public class MapBonusManager : MonoBehaviour
             if(Vector3.Distance(point.Value, position) < heapsGap / 2f)
             {
                 //roadMap.SetTile(roadMap.WorldToCell(position), fogTile);
-                isPositionFree = false;
                 return false;
-            }
-            else
-            {
-                isPositionFree = true;
-                //currentSearchIndex++;
             }
         }
 
-        if(isPositionFree == true) isPositionFree = CheckPlayerPosition(position);
-
-        //Debug.Log("Tries " + currentSearchIndex);
-        return isPositionFree;
+        return CheckPlayerPosition(position);
     }
 
     private bool CheckPlayerPosition(Vector3 position)

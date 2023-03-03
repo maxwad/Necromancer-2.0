@@ -95,7 +95,7 @@ public class BoostManager : MonoBehaviour
             if(result < -99) result = -99f;
             EventManager.OnSetBattleBoostEvent(type, result / 100);
 
-            PlayersStats stat = EnumConverter.instance.BoostTypeToPlayerStat(type);
+            PlayersStats stat = TypesConverter.BoostTypeToPlayerStat(type);
             if(stat != PlayersStats.Level) playerStats.ForceUpdateStat(stat);
         }
     }

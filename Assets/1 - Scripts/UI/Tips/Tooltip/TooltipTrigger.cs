@@ -21,7 +21,7 @@ public class TooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     private void Start()
     {
-        SetStatus(false);
+        //SetStatus(false);
         gmManager = GlobalStorage.instance.gmManager;
     }
 

@@ -60,9 +60,6 @@ public class EnemyArmyOnTheMap : MonoBehaviour
             yield return null;
         }
 
-        if(typeOfArmy != TypeOfArmy.Vassals)
-            enemyManager.enemyArragement.RegisterEnemy(this);
-
         if(sourceArmy == null)
             army = enemyManager.enemySquadGenerator.GenerateArmy(typeOfArmy);
         else

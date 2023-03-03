@@ -139,7 +139,7 @@ public class BattleUISpellPart : MonoBehaviour
         {
             currentActiveSpells.Remove(spell);
 
-            List<BoostType> boosts = EnumConverter.instance.SpellToBoost(spell.spell);
+            List<BoostType> boosts = TypesConverter.SpellToBoost(spell.spell);
             if(boosts.Count == 0)
             {
                 Debug.Log("There is smth wrong!");
