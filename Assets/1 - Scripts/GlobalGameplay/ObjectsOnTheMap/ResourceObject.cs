@@ -25,7 +25,13 @@ public class ResourceObject : MonoBehaviour
             resourcesIcons = resourcesManager.GetAllResourcesIcons();
         }
 
-        Birth();
+        //Birth();
+    }
+
+    public void Birth()
+    {
+        StartCoroutine(Initialize());
+        StartCoroutine(Blink(true));
     }
 
     private IEnumerator Initialize()
@@ -44,30 +50,17 @@ public class ResourceObject : MonoBehaviour
         reward = rewardManager.GetHeapReward(resourceType);
     }
 
-    private void Birth()
+    public void Load(Reward oldReward)
     {
-        StartCoroutine(Initialize());
-        StartCoroutine(Blink(true));
+        resourceType = oldReward.resourcesList[0];
+        sprite.sprite = resourcesIcons[resourceType];
+        reward = oldReward;
     }
 
-    //public void Load(HeapSaveData sd)
-    //{
-
-    //}
     public Reward SaveReward()
     {
         return reward;
     }
-
-    //public HeapSaveData GetSaveData()
-    //{
-    //    HeapSaveData sd = new HeapSaveData();
-    //    sd.resourceType = resourceType;
-    //    sd.sprite = sprite;
-    //    sd.reward = reward;
-
-    //    return sd;
-    //}
 
     public void Death()
     {

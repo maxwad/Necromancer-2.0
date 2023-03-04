@@ -37,6 +37,8 @@ public partial class MapBonusManager : ISaveable
         foreach(var heap in heapsPointsDict)
             heapsRewards.Add(heap.Key.SaveReward());
 
+        Debug.Log(heapsRewards.Count + " heaps saved.");
+
         MapBonusManagerSD saveData = new MapBonusManagerSD();
         saveData.heapsRewards = heapsRewards;
         saveData.heapsPoints = TypesConverter.SplitDictionary(heapsPointsDict).Item2.ToVec3List();
@@ -45,6 +47,25 @@ public partial class MapBonusManager : ISaveable
 
     public void Load(SaveLoadManager manager, Dictionary<int, object> state)
     {
-        throw new System.NotImplementedException();
+        if(state.ContainsKey(Id) == false)
+        {
+            Debug.Log("There is no data for loading GMTileManager!");
+            return;
+        }
+
+        MapBonusManagerSD saveData = manager.ConvertToRequiredType<MapBonusManagerSD>(state[Id]);
+
+        heapsPointsDict.Clear();
+        List<Vector3> heapPoints = saveData.heapsPoints.ToVector3List();
+
+        for(int i = 0; i < heapPoints.Count; i++)
+        {
+            ResourceObject heap = CreateHeap(heapPoints[i], false);
+            heap.Load(saveData.heapsRewards[i]);
+        }
+
+        Debug.Log(heapPoints.Count + " heaps loaded.");
+
+        manager.LoadDataComplete("Heaps are loaded");
     }
 }

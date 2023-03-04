@@ -70,7 +70,7 @@ public partial class MapBonusManager : MonoBehaviour
                 //roadMap.SetTile(tempCellPositions[i], fogTile);                
                 if(CheckPosition(tempWorldPositions[i]) == true)
                 {
-                    CreateHeap(tempWorldPositions[i]);
+                    CreateHeap(tempWorldPositions[i], true);
                 }
             }
         }
@@ -113,7 +113,7 @@ public partial class MapBonusManager : MonoBehaviour
         return !(GlobalStorage.instance.globalPlayer.transform.position == position);
     }
 
-    private void CreateHeap(Vector3 position)
+    private ResourceObject CreateHeap(Vector3 position, bool createMode)
     {
         GameObject heapOnTheMap = poolManager.GetObject(ObjectPool.ResourceOnTheMap);
         heapOnTheMap.transform.SetParent(heapsMap.transform);
@@ -121,10 +121,14 @@ public partial class MapBonusManager : MonoBehaviour
         heapOnTheMap.SetActive(true);
 
         ResourceObject heap = heapOnTheMap.GetComponent<ResourceObject>();
+        if(createMode == true)
+            heap.Birth();
+
         heap.SetMapBonusManager(this);
         heapsPointsDict.Add(heap, position);
-    }
 
+        return heap;
+    }
 
     public void DeleteHeap(ResourceObject heap)
     {
