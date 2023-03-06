@@ -14,7 +14,6 @@ public class SaveLoadManager : MonoBehaviour
 
     private List<ISaveable> objectsToSave = new List<ISaveable>();
     private Dictionary<int, object> _states = new Dictionary<int, object>();
-    private List<int> _idList = new List<int>();
 
     private Coroutine _coroutine;
     private int _saveCounter = 0;
@@ -27,6 +26,8 @@ public class SaveLoadManager : MonoBehaviour
     private float _saveTime = 0f;
     private float _loadTime = 0f;
 
+    private bool canILoadNextPart = true;
+    private int parallelIdFlag = 100;
 
     private void Start()
     {
@@ -142,14 +143,15 @@ public class SaveLoadManager : MonoBehaviour
         _loadTime = Time.time;
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-
         while(SceneManager.GetActiveScene().isLoaded == false)
         {
             Debug.Log("Loading scene");
             yield return null;
         }
 
+
         yield return new WaitForSecondsRealtime(0.2f);
+
 
         GlobalStorage.instance.StartGame(false);
         while(GlobalStorage.instance.isGameLoaded == false)
@@ -157,6 +159,7 @@ public class SaveLoadManager : MonoBehaviour
             Debug.Log("Initializing map");
             yield return null;
         }
+
 
         using(StreamReader reader = new StreamReader(pathToFile))
         {
@@ -166,10 +169,26 @@ public class SaveLoadManager : MonoBehaviour
 
         _loadCounter = _states.Count;
 
-        objectsToSave = new List<ISaveable>(FindObjectsOfType<MonoBehaviour>(true).OfType<ISaveable>());
+        objectsToSave = new List<ISaveable>(FindObjectsOfType<MonoBehaviour>(true).OfType<ISaveable>()).OrderBy(ch => ch.GetId()).ToList();
+        Debug.Log("Srt order: " + objectsToSave.First().GetId());
+
+        //objectsToSave = objectsToSave.OrderByDescending(ch => ch.GetId()).ToList();        
+        //Debug.Log("Reverse order: " + objectsToSave.First().GetId());
 
         foreach(var saveItem in objectsToSave)
+        {
+            if(saveItem.GetId() < parallelIdFlag)
+            {
+                while(canILoadNextPart == false)
+                {
+                    Debug.Log("Waiting for loading part.");
+                    yield return null;
+                }
+            }
+
+            canILoadNextPart = false;
             saveItem.Load(this, _states);
+        }
 
         while(_loadCounter > 0)
         {
@@ -179,6 +198,7 @@ public class SaveLoadManager : MonoBehaviour
 
         InfotipManager.ShowMessage("Game loaded.");
         Debug.Log("Game loaded (" + (Time.time - _loadTime) + ")");
+        canILoadNextPart = true; ;
     }
 
 #endregion
@@ -198,6 +218,7 @@ public class SaveLoadManager : MonoBehaviour
     {
         Debug.Log(loadMessage);
         _loadCounter--;
+        canILoadNextPart = true;
     }
 
     public T ConvertToRequiredType<T>(object data)

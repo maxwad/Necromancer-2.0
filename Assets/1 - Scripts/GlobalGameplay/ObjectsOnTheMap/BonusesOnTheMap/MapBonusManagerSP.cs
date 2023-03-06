@@ -24,11 +24,7 @@ public partial class MapBonusManager : ISaveable
         if(Id == -1) Id = id;
     }
 
-    public class MapBonusManagerSD
-    {
-        public List<Vec3> heapsPoints = new List<Vec3>();
-        public List<Reward> heapsRewards = new List<Reward>();
-    }
+    public int GetId() => Id;
 
     public void Save(SaveLoadManager manager)
     {
@@ -49,7 +45,7 @@ public partial class MapBonusManager : ISaveable
     {
         if(state.ContainsKey(Id) == false)
         {
-            Debug.Log("There is no data for loading GMTileManager!");
+            manager.LoadDataComplete("WARNING: no data about Heaps");
             return;
         }
 
@@ -64,8 +60,6 @@ public partial class MapBonusManager : ISaveable
             heap.Load(saveData.heapsRewards[i]);
         }
 
-        Debug.Log(heapPoints.Count + " heaps loaded.");
-
-        manager.LoadDataComplete("Heaps are loaded");
+        manager.LoadDataComplete("Heaps are loaded (" + heapPoints.Count + ")");
     }
 }

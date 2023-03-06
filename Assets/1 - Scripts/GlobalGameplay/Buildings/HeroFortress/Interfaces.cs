@@ -48,6 +48,9 @@ public interface ISaveable
 
     public void SetId(int id);
 
+    public int GetId();
+
+
     public void Save(SaveLoadManager manager);
 
     public void Load(SaveLoadManager manager, Dictionary<int, object> state);

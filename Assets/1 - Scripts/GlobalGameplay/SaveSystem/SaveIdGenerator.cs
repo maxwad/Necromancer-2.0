@@ -7,6 +7,7 @@ using static NameManager;
 public class SaveIdGenerator : MonoBehaviour
 {
     private List<ISaveable> objectsToSave = new List<ISaveable>();
+    private int parallelIdFlag = 100;
 
     [ContextMenu("Generate ids")]
     public void GenerateId()
@@ -16,6 +17,6 @@ public class SaveIdGenerator : MonoBehaviour
         Debug.Log(objectsToSave.Count + " objects have numerated.");
 
         for(int i = 0; i < objectsToSave.Count; i++)
-            objectsToSave[i].SetId(i + 1);
+            objectsToSave[i].SetId(i + parallelIdFlag);
     }
 }

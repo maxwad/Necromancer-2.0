@@ -43,9 +43,22 @@ public class GMTileManagerSDLarge
     public List<Reward> boxesRewards = new List<Reward>();
 }
 
-//public class HeapSaveData
-//{
-//    public ResourceType resourceType;
-//    public SpriteRenderer sprite;
-//    public Reward reward;
-//}
+public class MapBonusManagerSD
+{
+    public List<Vec3> heapsPoints = new List<Vec3>();
+    public List<Reward> heapsRewards = new List<Reward>();
+}
+
+public class EnemySD
+{
+    public Vec3 position = new Vec3(Vector3.zero);
+    public Army army;
+    public TypeOfArmy typeOfArmy;
+    public bool isEnemyGarrison = false;
+    public Vec3 color = new Vec3(Vector3.zero);
+}
+
+public class EnemySDWrapper
+{
+    public List<EnemySD> enemyList = new List<EnemySD>();
+}

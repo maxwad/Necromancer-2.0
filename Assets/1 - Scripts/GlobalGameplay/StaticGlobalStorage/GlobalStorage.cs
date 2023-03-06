@@ -102,19 +102,6 @@ public class GlobalStorage : MonoBehaviour
         StartCoroutine(LoadTheGame(createMode));
     }
 
-    //public void LoadSavedGame()
-    //{
-    //    cameraSwitcher = Camera.main.GetComponent<CameraSwitcher>();
-    //    StartCoroutine(LoadTheGame());
-    //}
-
-    //public bool Init()
-    //{
-    //    canILoadNextPart = false;
-    //    gmManager.Init(false);
-    //    return true;
-    //}
-
     private IEnumerator LoadTheGame(bool createMode)
     {
         //1
@@ -193,38 +180,8 @@ public class GlobalStorage : MonoBehaviour
         Debug.Log("GAME IS LOADED!");        
     }
 
-    //private IEnumerator LoadTheGame()
-    //{
-    //    //1
-    //    canILoadNextPart = false;
-    //    objectsPoolManager.Initialize();
-    //    while(canILoadNextPart == false)
-    //    {
-    //        yield return null;
-    //    }
 
-    //    canILoadNextPart = false;
-    //    unitManager.LoadUnits();
-    //    while(canILoadNextPart == false)
-    //    {
-    //        yield return null;
-    //    }
-
-    //    //4
-    //    canILoadNextPart = false;
-    //    enemyManager.InitializeEnemies(false);
-    //    while(canILoadNextPart == false)
-    //    {
-    //        yield return null;
-    //    }
-
-    //}
-
-
-    public void LoadNextPart()
-    {
-        canILoadNextPart = true;
-    }
+    public void LoadNextPart() => canILoadNextPart = true;
 
     public void SetGlobalMode(bool mode)
     {
@@ -232,20 +189,10 @@ public class GlobalStorage : MonoBehaviour
         EventManager.OnSwitchPlayerEvent(mode);
     }
 
-    public bool IsGlobalMode()
-    {
-        return isGlobalMode;
-    }
+    public bool IsGlobalMode() => isGlobalMode;
 
-    public void ChangePlayMode(bool mode)
-    {
-        //isGlobalMode = mode;
-        cameraSwitcher.FadeIn(mode);
-        //EventManager.OnChangePlayModeEvent(mode);
-    }
+    public void ChangePlayMode(bool mode) => cameraSwitcher.FadeIn(mode);
 
-    public void ModalWindowOpen(bool mode)
-    {
-        isModalWindowOpen = mode;
-    }
+    public void ModalWindowOpen(bool mode) => isModalWindowOpen = mode;
+
 }

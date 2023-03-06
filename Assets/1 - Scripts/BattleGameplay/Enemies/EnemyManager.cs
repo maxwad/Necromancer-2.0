@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static NameManager;
 
-public class EnemyManager : MonoBehaviour
+public partial class EnemyManager : MonoBehaviour
 {
     public List<EnemySO> allEnemiesSO;
     public List<EnemiesTypes> allEnemiesTypes;
@@ -79,7 +79,7 @@ public class EnemyManager : MonoBehaviour
     public void DeleteArmy(EnemyArmyOnTheMap enemyGO, Army army)
     {
         enemiesPointsDict.Remove(enemyGO);
-        enemySquadGenerator.RemoveArmy(army);
+        //enemySquadGenerator.RemoveArmy(army);
         enemyGO.Death();
     }
 
@@ -129,7 +129,7 @@ public class EnemyManager : MonoBehaviour
         }
 
         enemiesPointsDict.Clear();
-        enemySquadGenerator.ClearAllArmies();
+        //enemySquadGenerator.ClearAllArmies();
 
         enemyArragement.GenerateEnemiesOnTheMap(this);
     }
@@ -147,7 +147,7 @@ public class EnemyManager : MonoBehaviour
 
     public EnemyArmyOnTheMap CreateEnemyOnTheMap(Vector3 position)
     {
-        return enemyArragement.CreateEnemyOnTheMap(position);
+        return enemyArragement.CreateUsualEnemy(position, true);
     }
 
     private void OnEnable()

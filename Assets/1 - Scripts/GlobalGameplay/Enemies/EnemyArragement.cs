@@ -9,8 +9,6 @@ public class EnemyArragement : MonoBehaviour
     private GlobalMapTileManager gmManager;
     private EnemyManager enemyManager;
     private ObjectsPoolManager poolManager;
-    private TombsManager tombsManager;
-    private AISystem aiSystem;
 
     public GameObject enemiesMap;
     public Tilemap roadMap;
@@ -25,17 +23,15 @@ public class EnemyArragement : MonoBehaviour
     private Dictionary<GameObject, Vector3> enterPointsDict = new Dictionary<GameObject, Vector3>();
     private Dictionary<EnemyArmyOnTheMap, Vector3> enemiesPointsDict = new Dictionary<EnemyArmyOnTheMap, Vector3>();
 
+    private void Start()
+    {
+        gmManager = GlobalStorage.instance.gmManager;
+        poolManager = GlobalStorage.instance.objectsPoolManager;
+    }
+
     public void GenerateEnemiesOnTheMap(EnemyManager manager)
     {
-        if(enemyManager == null)
-        {
-            enemyManager = manager;
-            gmManager = GlobalStorage.instance.gmManager;
-            poolManager = GlobalStorage.instance.objectsPoolManager;
-            tombsManager = GlobalStorage.instance.tombsManager;
-            aiSystem = GlobalStorage.instance.aiSystem;
-        }
-
+        enemyManager = manager;
         enterPointsDict = gmManager.GetEnterPoints();
 
         GenerateEnterEnemies();
@@ -52,9 +48,7 @@ public class EnemyArragement : MonoBehaviour
         foreach(var enterPoint in enterPointsDict)
         {
             if(CanICreateEnterEnemy(enterPoint.Key, enterPoint.Value) == true)
-            {
-                CreateUsualEnemy(enterPoint.Value);
-            }
+                CreateUsualEnemy(enterPoint.Value, true);
         }
     }
 
@@ -69,9 +63,7 @@ public class EnemyArragement : MonoBehaviour
             if(objectInfo.isGuardNeeded == true)
             {
                 if(objectInfo.probabilityGuard >= Random.Range(0, 101))
-                {
                     canICreateEnemy = true;
-                }
             }
         }
 
@@ -116,9 +108,7 @@ public class EnemyArragement : MonoBehaviour
             {
                 //roadMap.SetTile(tempCellPositions[i], testTile);                
                 if(CheckPosition(tempWorldPositions[i]) == true)
-                {
-                    CreateUsualEnemy(tempWorldPositions[i]);
-                }
+                    CreateUsualEnemy(tempWorldPositions[i], true);
             }
         }
     }
@@ -144,18 +134,20 @@ public class EnemyArragement : MonoBehaviour
         return !(GlobalStorage.instance.globalPlayer.transform.position == position);
     }
 
-    private GameObject CreateUsualEnemy(Vector3 position)
+    public EnemyArmyOnTheMap CreateUsualEnemy(Vector3 position, bool createMode = true)
     {
         GameObject enemy = poolManager.GetObject(ObjectPool.EnemyOnTheMap);
         enemy.transform.SetParent(enemiesMap.transform);
         enemy.transform.position = position;
         enemy.SetActive(true);
         EnemyArmyOnTheMap enemyOnTheMap  = enemy.GetComponent<EnemyArmyOnTheMap>();
+        if(createMode == true)
+            enemyOnTheMap.Birth();
 
         if(enemyOnTheMap.typeOfArmy != TypeOfArmy.Vassals)
             enemyManager.enemyArragement.RegisterEnemy(enemyOnTheMap);
 
-        return enemy;
+        return enemyOnTheMap;
     }
 
     public void RegisterEnemy(EnemyArmyOnTheMap enemyArmyOnTheMap)
@@ -164,8 +156,11 @@ public class EnemyArragement : MonoBehaviour
             enemiesPointsDict.Add(enemyArmyOnTheMap, enemyArmyOnTheMap.gameObject.transform.position);
     }
 
-    public EnemyArmyOnTheMap CreateEnemyOnTheMap(Vector3 position)
+    public void ReloadArmies()
     {
-        return CreateUsualEnemy(position).GetComponent<EnemyArmyOnTheMap>();
+        enterPointsDict = gmManager.GetEnterPoints();
+        enemyManager.SetEnemiesPointsDict(enemiesPointsDict);
     }
+
+    public void SetManager(EnemyManager manager) => enemyManager = manager;
 }

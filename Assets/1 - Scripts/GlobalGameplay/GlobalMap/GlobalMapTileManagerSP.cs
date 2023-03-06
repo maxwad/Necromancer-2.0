@@ -25,6 +25,8 @@ public partial class GlobalMapTileManager : ISaveable
         if(Id == -1) Id = id;
     }
 
+    public int GetId() => Id;
+
     public void Save(SaveLoadManager manager)
     {
         GMTileManagerSD saveData = new GMTileManagerSD();
@@ -53,7 +55,7 @@ public partial class GlobalMapTileManager : ISaveable
     {
         if(state.ContainsKey(Id) == false)
         {
-            Debug.Log("There is no data for loading GMTileManager!");
+            manager.LoadDataComplete("WARNING: no data about GMTileManager");
             return;            
         }
 

@@ -5,7 +5,6 @@ using static NameManager;
 
 public class EnemySquadGenerator : MonoBehaviour
 {
-    [HideInInspector] public List<Army> allArmies = new List<Army>();
     [HideInInspector] public List<EnemiesTypes> allEnemiesList = new List<EnemiesTypes>();
 
     private float playerLevel;
@@ -58,7 +57,6 @@ public class EnemySquadGenerator : MonoBehaviour
         }
 
         newArmy.strength = currentStrength;
-        newArmy.typeOfArmy = typeOfArmy;
         newArmy.isThisASiege = isSiege;
         newArmy.isAutobattlePosible = canAutobattle;
 
@@ -82,19 +80,7 @@ public class EnemySquadGenerator : MonoBehaviour
             newArmy.quantityList.Add(randomQuantity);
         }
 
-        allArmies.Add(newArmy);
-
         return newArmy;
-    }
-
-    public void RemoveArmy(Army army)
-    {
-        allArmies.Remove(army);
-    }
-
-    public void ClearAllArmies()
-    {
-        allArmies.Clear();
     }
 
     public float GetPortionAmount()

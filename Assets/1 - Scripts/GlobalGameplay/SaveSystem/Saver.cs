@@ -21,6 +21,8 @@ public abstract class Saver : ISaveable
 
     public void SetId(int id) => Id = id;
 
+    public int GetId() => Id;
+
     public abstract void Load(SaveLoadManager manager, Dictionary<int, object> state);
 
     public abstract void Save(SaveLoadManager manager);

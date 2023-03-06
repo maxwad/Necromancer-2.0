@@ -5,7 +5,7 @@ using static NameManager;
 
 public static class Extensions
 {
-    public static Vec3 ToVec(this Vector3 realVector)
+    public static Vec3 ToVec3(this Vector3 realVector)
     {
         return new Vec3(realVector);
     }
@@ -15,7 +15,7 @@ public static class Extensions
         List<Vec3> newList = new List<Vec3>();
 
         foreach(var realVector in list)
-            newList.Add(realVector.ToVec());
+            newList.Add(realVector.ToVec3());
 
         return newList;
     }

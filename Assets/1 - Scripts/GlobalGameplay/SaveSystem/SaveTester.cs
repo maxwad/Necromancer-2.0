@@ -23,6 +23,7 @@ public class SaveTester : MonoBehaviour, ISaveable
     public float goldQuantity;
 
     public void SetId(int id) => Id = id;
+    public int GetId() => Id;
 
     public void Save(SaveLoadManager saveManager)
     {

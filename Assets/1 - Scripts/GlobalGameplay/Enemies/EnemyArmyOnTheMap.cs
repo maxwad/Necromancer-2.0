@@ -32,7 +32,7 @@ public class EnemyArmyOnTheMap : MonoBehaviour
             sprite = GetComponent<SpriteRenderer>();
         } 
 
-        Birth();
+        //Birth();
     }
 
     private void OnDisable()
@@ -43,14 +43,18 @@ public class EnemyArmyOnTheMap : MonoBehaviour
     private void ResetGarrison()
     {
         if(isEnemyGarrison == true)
-        {
             Birth();
-        }
     }
 
     public void Birth(Army sourceArmy = null) 
     {
         StartCoroutine(Initialize(sourceArmy));
+
+        if(typeOfArmy == TypeOfArmy.NearUsualObjects || typeOfArmy == TypeOfArmy.OnTheMap)
+        {
+            sprite.color = new Color(Random.value, Random.value, Random.value);
+            StartCoroutine(Blink(true));
+        }
     }
 
     private IEnumerator Initialize(Army sourceArmy)
@@ -69,12 +73,6 @@ public class EnemyArmyOnTheMap : MonoBehaviour
 
         for(int i = 0; i < army.squadList.Count; i++)
             commonCount += army.quantityList[i];
-
-        if(typeOfArmy == TypeOfArmy.NearUsualObjects || typeOfArmy == TypeOfArmy.OnTheMap)
-        {
-            sprite.color = new Color(Random.value, Random.value, Random.value);
-            StartCoroutine(Blink(true));
-        }
     }
 
     public void Death(bool resetMode = false)
@@ -191,5 +189,31 @@ public class EnemyArmyOnTheMap : MonoBehaviour
         EnemyArmyOnTheMap newSquad = enemyManager.CreateEnemyOnTheMap(transform.position);
         Army newArmy = Army.Splitting(army, splitPercent, false);
         newSquad.Birth(newArmy);
+    }
+
+    public EnemySD SaveEnemy()
+    {
+        EnemySD saveData = new EnemySD();
+
+        saveData.position = transform.position.ToVec3();
+        saveData.army = army;
+        saveData.typeOfArmy = typeOfArmy;
+        saveData.isEnemyGarrison = isEnemyGarrison;
+        saveData.color = new Vector3(sprite.color.r, sprite.color.g, sprite.color.b).ToVec3();
+
+        return saveData;
+    }
+
+    public void LoadEnemy(EnemySD saveData)
+    {
+        army = saveData.army;
+        isEnemyGarrison = saveData.isEnemyGarrison;
+        typeOfArmy = saveData.typeOfArmy;
+        commonCount = 0;
+
+        for(int i = 0; i < army.squadList.Count; i++)
+            commonCount += army.quantityList[i];
+
+        sprite.color = new Color(saveData.color.x, saveData.color.y, saveData.color.z);
     }
 }

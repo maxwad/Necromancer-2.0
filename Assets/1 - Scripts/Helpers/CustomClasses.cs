@@ -210,7 +210,7 @@ public class Army
     public List<EnemiesTypes> squadList = new List<EnemiesTypes>();
     public List<int> quantityList = new List<int>();
     public bool isThisASiege = false;
-    public TypeOfArmy typeOfArmy = TypeOfArmy.OnTheMap;
+    //public TypeOfArmy typeOfArmy = TypeOfArmy.OnTheMap;
     public ArmyStrength strength = ArmyStrength.Low;
     public bool isAutobattlePosible = true;
 
@@ -220,13 +220,11 @@ public class Army
         newArmy.squadList = new List<EnemiesTypes>(parent.squadList);
 
         for(int i = 0; i < newArmy.squadList.Count; i++)
-        {
             newArmy.quantityList.Add(Convert.ToInt32(parent.quantityList[i] * percent));
-        }
 
         newArmy.isAutobattlePosible = !isItVassal;
 
-        newArmy.typeOfArmy = (isItVassal == true) ? TypeOfArmy.Vassals : TypeOfArmy.OnTheMap;
+        //newArmy.typeOfArmy = (isItVassal == true) ? TypeOfArmy.Vassals : TypeOfArmy.OnTheMap;
 
         return newArmy;
     }
