@@ -23,9 +23,6 @@ public class SaveLoadManager : MonoBehaviour
     private string _directory = "/SaveData/";
     private string _fileName = "Save.txt";
 
-    private float _saveTime = 0f;
-    private float _loadTime = 0f;
-
     private bool canILoadNextPart = true;
     private int parallelIdFlag = 100;
 
@@ -78,7 +75,8 @@ public class SaveLoadManager : MonoBehaviour
 
     public IEnumerator SaveGameCRTN()
     {
-        _saveTime = Time.time;
+        var stopwatch = new System.Diagnostics.Stopwatch();
+        stopwatch.Start();
 
         objectsToSave = new List<ISaveable>(FindObjectsOfType<MonoBehaviour>(true).OfType<ISaveable>());
 
@@ -114,7 +112,8 @@ public class SaveLoadManager : MonoBehaviour
         }
 
         InfotipManager.ShowMessage("Game saved");
-        Debug.Log("Game saved (" + (Time.time - _saveTime) + ")");
+        stopwatch.Stop();
+        Debug.Log("Game saved (" + stopwatch.ElapsedMilliseconds / 1000.0f + ")");
     }
 
     #endregion
@@ -140,7 +139,8 @@ public class SaveLoadManager : MonoBehaviour
             yield break; 
         }
 
-        _loadTime = Time.time;
+        var stopwatch = new System.Diagnostics.Stopwatch();
+        stopwatch.Start();
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         while(SceneManager.GetActiveScene().isLoaded == false)
@@ -197,8 +197,10 @@ public class SaveLoadManager : MonoBehaviour
         }
 
         InfotipManager.ShowMessage("Game loaded.");
-        Debug.Log("Game loaded (" + (Time.time - _loadTime) + ")");
-        canILoadNextPart = true; ;
+        stopwatch.Stop();
+        Debug.Log("Game loaded (" + stopwatch.ElapsedMilliseconds / 1000.0f + ")");
+
+        canILoadNextPart = true; 
     }
 
 #endregion

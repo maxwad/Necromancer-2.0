@@ -1,9 +1,5 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using static NameManager;
 
 public class CampUI : MonoBehaviour
 {
@@ -144,8 +140,13 @@ public class CampUI : MonoBehaviour
     {
         resultLabel.SetActive(true);
         instructionLabel.SetActive(false);
-        SpriteRenderer campSprite = currentCamp.GetComponent<SpriteRenderer>();
+        SetCampEmpty(currentCamp);
+        campManager.CloseCamp(currentCamp);
+    }
+
+    public void SetCampEmpty(GameObject camp)
+    {
+        SpriteRenderer campSprite = camp.GetComponent<SpriteRenderer>();
         campSprite.sprite = closedBonfire;
-        //campManager.CloseCamp(currentCamp);
     }
 }

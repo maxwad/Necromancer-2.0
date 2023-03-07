@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,7 +10,6 @@ public class CampGame : MonoBehaviour
     private CampUI campUI;
     private ResourcesManager resourcesManager;
     private MacroLevelUpManager levelUpManager;
-    //private RunesManager runesManager;
 
     [Header("Parameters")]
     [SerializeField] private List<BonfireItemUI> cells;
@@ -44,7 +42,6 @@ public class CampGame : MonoBehaviour
 
         resourcesManager = GlobalStorage.instance.resourcesManager;
         levelUpManager = GlobalStorage.instance.macroLevelUpManager;
-        //runesManager = GlobalStorage.instance.runesManager;
 
         ResetCells();
         SetIndexes();
@@ -227,10 +224,7 @@ public class CampGame : MonoBehaviour
         }
     }
 
-    public void CancelCorounite()
-    {
-        shouldCoroutineStop = true;
-    }
+    public void CancelCorounite() => shouldCoroutineStop = true;
 
     #endregion
 

@@ -31,21 +31,15 @@ public partial class GlobalMapTileManager : ISaveable
     {
         GMTileManagerSD saveData = new GMTileManagerSD();
 
-        saveData.arenaPoint = arenaBuilder.GetPointsList().ToVec3List();
-        saveData.castlesPoints = castleBuilder.GetPointsList().ToVec3List();
-        saveData.tombsPoints = tombBuilder.GetPointsList().ToVec3List();
+        saveData.arenaPoint      = arenaBuilder.GetPointsList().ToVec3List();
+        saveData.castlesPoints   = castleBuilder.GetPointsList().ToVec3List();
+        saveData.tombsPoints     = tombBuilder.GetPoints().ToVec3List();
+        saveData.tombsData       = tombBuilder.GetPointsList();
         saveData.resourcesPoints = resourceBuilder.GetPointsList().ToVec3List();
-
-        //GMTileManagerSDLarge saveData = new GMTileManagerSDLarge();
-
-        //saveData.arenaPoint = arenaBuilder.GetPointsList();
-        //saveData.castlesPoints = castleBuilder.GetPointsList();
-        //saveData.tombsPoints = tombBuilder.GetPointsList();
-        //saveData.resourcesPoints = resourceBuilder.GetPointsList();
+        saveData.campsPoints     = campBuilder.GetPointsList().ToVec3List();
 
         (List<Vector3>, List<Reward>) boxesData = TypesConverter.SplitDictionary(boxesBuilder.SaveBoxes());
         saveData.boxesPoints = boxesData.Item1.ToVec3List();
-        //saveData.boxesPoints = boxesData.Item1;
         saveData.boxesRewards = boxesData.Item2;
 
         manager.FillSaveData(Id, saveData);
@@ -64,17 +58,15 @@ public partial class GlobalMapTileManager : ISaveable
 
         arenaBuilder.Build(this, saveData.arenaPoint.ToVector3List());
         castleBuilder.Build(this, saveData.castlesPoints.ToVector3List());
+
         tombBuilder.Build(this, saveData.tombsPoints.ToVector3List());
+        tombBuilder.LoadData(saveData.tombsData);
+
         resourceBuilder.Build(this, saveData.resourcesPoints.ToVector3List());
 
-        //GMTileManagerSDLarge saveData = manager.ConvertToRequiredType<GMTileManagerSDLarge>(state[Id]);
-        //Dictionary<Vector3, Reward> boxesData = TypesConverter.CreateDictionary(saveData.boxesPoints, saveData.boxesRewards);
-
-        //arenaBuilder.Build(this, saveData.arenaPoint);
-        //castleBuilder.Build(this, saveData.castlesPoints);
-        //tombBuilder.Build(this, saveData.tombsPoints);
-        //resourceBuilder.Build(this, saveData.resourcesPoints);
         campBuilder.Build(this);
+        campBuilder.LoadData(saveData.campsPoints.ToVector3List());
+
         boxesBuilder.Build(this, boxesData);
 
         environmentRegister.Registration(this);

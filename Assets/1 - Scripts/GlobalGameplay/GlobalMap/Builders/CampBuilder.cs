@@ -44,4 +44,14 @@ public class CampBuilder : MonoBehaviour
             campManager.Register(bonfire);
         }
     }
+
+    public List<Vector3> GetPointsList()
+    {
+        return campManager.GetSaveData();
+    }
+
+    public void LoadData(List<Vector3> emptyCamps)
+    {
+         campManager.LoadCamps(emptyCamps);
+    }
 }

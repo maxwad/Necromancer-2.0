@@ -54,10 +54,22 @@ public class TombBuilder : MonoBehaviour
 
             tombsManager.Register(tomb);
         }
+
+        tombsManager.HideSpells();
     }
 
-    public List<Vector3> GetPointsList()
+    public List<Vector3> GetPoints()
     {
         return tombsPoints;
+    }
+
+    public List<TombsSD> GetPointsList()
+    {
+        return tombsManager.GetSaveData();
+    }
+
+    public void LoadData(List<TombsSD> tombsData)
+    {
+        tombsManager.LoadTomb(tombsData);        
     }
 }

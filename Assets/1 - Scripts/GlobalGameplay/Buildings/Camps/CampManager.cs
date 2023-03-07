@@ -1,5 +1,4 @@
-using System;
-using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using static NameManager;
@@ -9,6 +8,7 @@ public class CampManager : MonoBehaviour
     private ResourcesManager resourcesManager;
     private RewardManager rewardManager;
     private PlayerStats playerStats;
+    private CampUI campUI;
 
     private Dictionary<ResourceType, Sprite> resourcesIcons;
     private Dictionary<GameObject, bool> campsRewardsDict = new Dictionary<GameObject, bool>();
@@ -35,10 +35,7 @@ public class CampManager : MonoBehaviour
         playerStats = GlobalStorage.instance.playerStats;
     }
 
-    public void Register(GameObject building)
-    {
-        campsRewardsDict.Add(building, true);
-    }
+    public void Register(GameObject building) => campsRewardsDict.Add(building, true);
 
     #region GETTINGS
 
@@ -136,21 +133,42 @@ public class CampManager : MonoBehaviour
         }
     }
 
-    public int GetHelpsCount()
-    {
-        return helps;
-    }
+    public int GetHelpsCount() => helps;
 
-    public void CloseCamp(GameObject building)
-    {
-        campsRewardsDict[building] = false;
-        Debug.Log("Close Camp");
-    }
+    public void CloseCamp(GameObject building) => campsRewardsDict[building] = false;
 
     #endregion
 
-    public void ChangeHelpPointsAmount(int delta)
+    public void ChangeHelpPointsAmount(int delta) => helps += delta;
+
+    public List<Vector3> GetSaveData()
     {
-        helps += delta;
+        List<Vector3> emptyCamps = new List<Vector3>();
+
+        foreach(var camp in campsRewardsDict)
+        {
+            if(camp.Value == false)
+                emptyCamps.Add(camp.Key.transform.position);        
+        }
+
+        return emptyCamps;
+    }
+
+    public void LoadCamps(List<Vector3> emptyCamps)
+    {
+        campUI = GlobalStorage.instance.campDoor;
+
+        foreach(var campWith in emptyCamps)
+        {
+            foreach(var camp in campsRewardsDict.Keys.ToList())
+            {
+                if(campWith == camp.transform.position)
+                {
+                    campsRewardsDict[camp] = false;
+                    campUI.SetCampEmpty(camp);
+                    break;
+                }
+            }
+        }
     }
 }

@@ -24,8 +24,13 @@ public class GMTileManagerSD
 {
     public List<Vec3> arenaPoint = new List<Vec3>();
     public List<Vec3> castlesPoints = new List<Vec3>();
+
     public List<Vec3> tombsPoints = new List<Vec3>();
+    public List<TombsSD> tombsData = new List<TombsSD>();
+
     public List<Vec3> resourcesPoints = new List<Vec3>();
+
+    public List<Vec3> campsPoints = new List<Vec3>();
 
     public List<Vec3> boxesPoints = new List<Vec3>();
     public List<Reward> boxesRewards = new List<Reward>();
@@ -43,12 +48,28 @@ public class GMTileManagerSDLarge
     public List<Reward> boxesRewards = new List<Reward>();
 }
 
+public class TombsSD
+{
+    public Vec3 position;
+    public bool status;
+    public Reward reward;
+    public Spells spell;
+    public EnemySD enemyGarrison;
+}
+
+public class CampsSD
+{
+    public List<Vec3> campsPoints = new List<Vec3>();
+}
+
 public class MapBonusManagerSD
 {
     public List<Vec3> heapsPoints = new List<Vec3>();
     public List<Reward> heapsRewards = new List<Reward>();
 }
 
+
+[Serializable]
 public class EnemySD
 {
     public Vec3 position = new Vec3(Vector3.zero);

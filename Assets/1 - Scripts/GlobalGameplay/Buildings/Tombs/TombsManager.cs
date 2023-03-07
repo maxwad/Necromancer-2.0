@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 using static NameManager;
 
 public class TombsManager : MonoBehaviour
@@ -11,17 +12,13 @@ public class TombsManager : MonoBehaviour
     private SpellManager spellManager;
     private ResourcesManager resourcesManager;
     private RewardManager rewardManager;
-    /// <summary>
-    /// 
-    /// </summary>
+
     private int countForTest = 0;
 
     private void Update()
     {
         if(Input.GetKeyDown(KeyCode.Insert) == true)
-        {
             TestOpenSpell();
-        }
     }
 
     private void TestOpenSpell()
@@ -33,18 +30,10 @@ public class TombsManager : MonoBehaviour
 
         countForTest++;
         if(spell == null)
-        {
             TestOpenSpell();
-        }
         else
-        {
             UnlockSpell(spell);
-        }
     }
-
-    /// <summary>
-    /// 
-    /// </summary>
 
 
     public void Register(GameObject building)
@@ -54,21 +43,19 @@ public class TombsManager : MonoBehaviour
         tombsDict.Add(building, tombInfo);
     }
 
-    private void Start()
+    public void HideSpells()
     {
-        spellManager = GlobalStorage.instance.spellManager;
-        resourcesManager = GlobalStorage.instance.resourcesManager;
-        rewardManager = GlobalStorage.instance.rewardManager;
-        hiddenSpells = spellManager.GetSpellsForTombs();
-        HideSpells();
-    }
-
-    private void HideSpells()
-    {
-        while(hiddenSpells.Count < tombsDict.Count)
+        if(spellManager == null)
         {
-            hiddenSpells.Add(null);
+            spellManager = GlobalStorage.instance.spellManager;
+            resourcesManager = GlobalStorage.instance.resourcesManager;
+            rewardManager = GlobalStorage.instance.rewardManager;
         }
+
+        hiddenSpells = spellManager.GetSpellsForTombs();
+
+        while(hiddenSpells.Count < tombsDict.Count)
+            hiddenSpells.Add(null);
 
         foreach(var tomb in tombsDict)
         {
@@ -88,16 +75,10 @@ public class TombsManager : MonoBehaviour
 
     #region GETTINGS
 
-    public Dictionary<GameObject, TombInfo> GetTombs()
-    {
-        return tombsDict;
-    }
-
     public SpellSO GetSpell(GameObject tomb)
     {
         return tombsDict[tomb].spell;
     }
-
 
     public Reward GetReward(GameObject tomb)
     {
@@ -119,5 +100,78 @@ public class TombsManager : MonoBehaviour
         }
     }
 
+
+    #endregion
+
+    #region SAVE/LOAD
+
+
+    public List<TombsSD> GetSaveData()
+    {
+        List<TombsSD> saveData = new List<TombsSD>();
+
+        foreach(var tomb in tombsDict)
+        {
+            TombsSD saveItem = new TombsSD();
+            saveItem.position = tomb.Value.position.ToVec3();
+            saveItem.status = tomb.Value.isVisited;
+            saveItem.reward = tomb.Value.reward;
+            saveItem.spell = (tomb.Value.spell == null) ? (Spells)(-1) : tomb.Value.spell.spell;
+
+            EnemyArmyOnTheMap enemy = tomb.Key.GetComponent<EnemyArmyOnTheMap>();
+            if(enemy == null)
+            {
+                saveItem.enemyGarrison = null;
+            }
+            else
+            {
+                EnemySD enemyData = new EnemySD();
+                enemyData.typeOfArmy = enemy.typeOfArmy;
+                enemyData.army = enemy.army;
+
+                saveItem.enemyGarrison = enemyData;
+            }
+
+            saveData.Add(saveItem);
+        }
+
+        return saveData;
+    }
+
+    public void LoadTomb(List<TombsSD> tombsData)
+    {
+        foreach(var point in tombsDict.Keys.ToList())
+        {
+            foreach(var tomb in tombsData)
+            {
+                if(tomb.position.ToVector3() == point.transform.position)
+                {
+                    TombInfo tombInfo = new TombInfo();
+                    tombInfo.position = point.transform.position;
+                    tombInfo.isVisited = tomb.status;
+                    tombInfo.reward = tomb.reward;
+                    tombInfo.spell = ((int)tomb.spell == -1) ? null : spellManager.GetSpellsForTombs().First(s => s.spell == tomb.spell);
+
+                    tombsDict[point] = tombInfo;
+
+                    EnemyArmyOnTheMap enemy = point.GetComponent<EnemyArmyOnTheMap>();
+                    if(tomb.enemyGarrison == null)
+                    {
+                        Destroy(enemy);
+                        point.GetComponent<ObjectOwner>().SetVisitStatus(true);
+                    }
+                    else
+                    {
+                        enemy.typeOfArmy = tomb.enemyGarrison.typeOfArmy;
+                        enemy.army = tomb.enemyGarrison.army;
+                        enemy.isEnemyGarrison = true;
+                    }
+
+                    break;
+                }
+            }
+        }
+    }
+    
     #endregion
 }
