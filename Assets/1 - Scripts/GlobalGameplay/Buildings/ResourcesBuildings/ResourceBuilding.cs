@@ -1,5 +1,5 @@
 using System;
-using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using static NameManager;
@@ -42,25 +42,36 @@ public class ResourceBuilding : MonoBehaviour
     private bool isGarrisonThere = false;
     private float resourceMultiplier = 1;
 
-    private void Start()
+    //private void Start()
+    //{
+    //    Init(null);
+    //}
+
+    public void Init(ResBuildingSD saveData)
     {
-        owner            = GetComponent<ObjectOwner>();
-        spriteRenderer   = GetComponent<SpriteRenderer>();
-        resourcesManager = GlobalStorage.instance.resourcesManager;
-        resourcesSources = resourcesManager.GetComponent<ResourcesSources>();
-        garrison         = GetComponent<Garrison>();
-        boostManager     = GlobalStorage.instance.boostManager;
-        heroCastle       = GlobalStorage.instance.fortressBuildings;
+        if(owner == null)
+        {
+            owner = GetComponent<ObjectOwner>();
+            spriteRenderer = GetComponent<SpriteRenderer>();
+            resourcesManager = GlobalStorage.instance.resourcesManager;
+            resourcesSources = resourcesManager.GetComponent<ResourcesSources>();
+            garrison = GetComponent<Garrison>();
+            boostManager = GlobalStorage.instance.boostManager;
+            heroCastle = GlobalStorage.instance.fortressBuildings;
+        }
 
         // Length - 2 because we don't need in resource buildings Castle or outposts
         if(isRandomResource == true)
             buildingType = (ResourceBuildings)UnityEngine.Random.Range(0, Enum.GetValues(typeof(ResourceBuildings)).Length - 2);
 
+        if(saveData != null)
+            buildingType = saveData.buildingType;
+
         ResourceBuildingData data = resourcesSources.GetResourceBuildingData(buildingType);
-        buildingName              = data.resourceBuilding.ToString();
-        resourceType              = data.resourceType;
-        resourceSprite            = data.resourceSprite;
-        resourceBaseQuote         = data.resourceBaseIncome;
+        buildingName = data.resourceBuilding.ToString();
+        resourceType = data.resourceType;
+        resourceSprite = data.resourceSprite;
+        resourceBaseQuote = data.resourceBaseIncome;
 
         if(buildingType == ResourceBuildings.Castle)
         {
@@ -73,22 +84,27 @@ public class ResourceBuilding : MonoBehaviour
             spriteRenderer.color = data.buildingColor;
             owner.Init(buildingType, resourceType);
             owner.ChangeLevel(0);
+
+            if(saveData != null && saveData.owner == TypeOfObjectsOwner.Player)
+                resourcesSources.RegisterAsIncome(this);
         }
 
         resourcesSources.RegisterInCommonList(this);
 
-        GetUpgrades();
-        ResetBonuses();
-
+        if(saveData == null)
+        {
+            GetUpgrades();
+            ResetBonuses();
+        }
     }
 
-    //private void Update()
-    //{
-    //    if(Input.GetKeyDown(KeyCode.R))
-    //    {
-    //        StartSiege();
-    //    }
-    //}
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            StartSiege();
+        }
+    }
 
     #region UPGRADES
 
@@ -166,7 +182,7 @@ public class ResourceBuilding : MonoBehaviour
         resourceMultiplier = number;
     }
 
-    public void ApplyUpgrade(RBUpgradeSO upgrade, bool activeMode = true)
+    public void ApplyUpgrade(RBUpgradeSO upgrade)
     {
         UpgradeStatus upgradeStatus = upgradesDict[upgrade];
         upgradeStatus.isEnable = true;
@@ -190,7 +206,7 @@ public class ResourceBuilding : MonoBehaviour
 
     #endregion
 
-    #region Bonuses
+    #region BONUSES
 
     public void ResetBonuses()
     {
@@ -340,6 +356,58 @@ public class ResourceBuilding : MonoBehaviour
         }
 
         return false;
+    }
+
+    #endregion
+
+    #region SAVE/LOAD
+
+    public ResBuildingSD GetSaveData()
+    {
+        ResBuildingSD saveData = new ResBuildingSD();
+        saveData.owner = owner.owner;
+        saveData.isVisited = owner.GetVisitStatus();
+
+        saveData.buildingType = buildingType;
+        saveData.position = transform.position.ToVec3();
+
+        saveData.isSiege = isSiege;
+        saveData.currentSiegeDays = currentSiegeDays;
+        if(isGarrisonThere == true)
+        {
+            saveData.garrisonTypes = new List<UnitsTypes>(garrison.GetUnitsInGarrison().Keys);
+            saveData.garrisonAmounts = new List<int>(garrison.GetUnitsInGarrison().Values);
+        }
+
+        foreach(var upgrade in upgradesDict)
+        {
+            if(upgrade.Value.isEnable == true)
+                saveData.upgrades.Add(upgrade.Key.upgradeName);
+        }
+
+        return saveData;
+    }
+
+    public void LoadData(ResBuildingSD saveData)
+    {
+        Init(saveData);
+        owner.ChangeOwner(saveData.owner);
+        owner.isVisited = saveData.isVisited;
+
+        if(saveData.garrisonAmounts.Count != 0)
+            garrison.LoadGarrisonArmy(TypesConverter.CreateDictionary(saveData.garrisonTypes, saveData.garrisonAmounts));
+
+        foreach(var savedUpgrade in saveData.upgrades)
+        {
+            foreach(var upgrade in upgradesDict.Keys.ToList())
+            {
+                if(savedUpgrade == upgrade.upgradeName)
+                    ApplyUpgrade(upgrade);
+            }
+        }
+
+        StartSiege(saveData.isSiege);
+        currentSiegeDays = saveData.currentSiegeDays;
     }
 
     #endregion

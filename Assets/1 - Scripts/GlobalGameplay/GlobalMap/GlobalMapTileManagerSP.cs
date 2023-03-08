@@ -34,8 +34,9 @@ public partial class GlobalMapTileManager : ISaveable
         saveData.arenaPoint      = arenaBuilder.GetPointsList().ToVec3List();
         saveData.castlesPoints   = castleBuilder.GetPointsList().ToVec3List();
         saveData.tombsPoints     = tombBuilder.GetPoints().ToVec3List();
-        saveData.tombsData       = tombBuilder.GetPointsList();
+        saveData.tombsData       = tombBuilder.GetSaveData();
         saveData.resourcesPoints = resourceBuilder.GetPointsList().ToVec3List();
+        saveData.resBuildings    = resourceBuilder.GetSaveData();
         saveData.campsPoints     = campBuilder.GetPointsList().ToVec3List();
 
         (List<Vector3>, List<Reward>) boxesData = TypesConverter.SplitDictionary(boxesBuilder.SaveBoxes());
@@ -63,6 +64,7 @@ public partial class GlobalMapTileManager : ISaveable
         tombBuilder.LoadData(saveData.tombsData);
 
         resourceBuilder.Build(this, saveData.resourcesPoints.ToVector3List());
+        resourceBuilder.LoadData(saveData.resBuildings);
 
         campBuilder.Build(this);
         campBuilder.LoadData(saveData.campsPoints.ToVector3List());

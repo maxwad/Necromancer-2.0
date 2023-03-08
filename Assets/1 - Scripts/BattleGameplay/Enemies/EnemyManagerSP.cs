@@ -26,10 +26,6 @@ public partial class EnemyManager : ISaveable
 
     public int GetId() => Id;
 
-    private void Start()
-    {
-        Debug.Log(Id);
-    }
     public void Save(SaveLoadManager manager)
     {
         List<EnemySD> saveData = new List<EnemySD>();

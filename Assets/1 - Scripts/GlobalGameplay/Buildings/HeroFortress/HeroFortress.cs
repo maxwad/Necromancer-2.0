@@ -116,25 +116,15 @@ public class HeroFortress : MonoBehaviour, IInputableKeys
         return result;
     }
 
-    public int GetMaxLevel()
-    {
-        return maxUnitLevel;
-    }
+    public int GetMaxLevel() => maxUnitLevel;
 
-    public int GetLevelUpMultiplier()
-    {
-        return levelUpMultiplier;
-    }
+    public int GetLevelUpMultiplier() => levelUpMultiplier;
 
-    public int GetSealsAmount()
-    {
-        return seals;
-    }
+    public int GetSealsAmount() => seals;
 
-    public void AddSeals()
-    {
-        seals++;
-    }
+    public ResourceBuilding GetCastleMint() => resourceBuilding;
+
+    public void AddSeals() => seals++;
 
     private void ActivateBonusesForHero()
     {

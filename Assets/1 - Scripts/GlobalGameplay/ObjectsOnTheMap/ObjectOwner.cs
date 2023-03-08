@@ -8,7 +8,7 @@ public class ObjectOwner : MonoBehaviour
     public bool isGuardNeeded = true;
     public float probabilityGuard = 100;
     public bool isOwnerRequired = false;
-    private bool isVisited = false;
+    [HideInInspector] public bool isVisited = false;
 
     private Color currentColor;
     public Color neutralColor;
@@ -104,7 +104,11 @@ public class ObjectOwner : MonoBehaviour
 
     public void Init(ResourceBuildings buildingType, ResourceType resourceType)
     {
-        if(tooltip == null) return;
+        if(tooltip == null)
+        {
+            Debug.Log("Tiiltip in owner = null");
+            return;
+        }
 
         tooltip.header = buildingType.ToString();
 

@@ -63,7 +63,7 @@ public class TombBuilder : MonoBehaviour
         return tombsPoints;
     }
 
-    public List<TombsSD> GetPointsList()
+    public List<TombsSD> GetSaveData()
     {
         return tombsManager.GetSaveData();
     }

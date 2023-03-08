@@ -29,6 +29,7 @@ public class GMTileManagerSD
     public List<TombsSD> tombsData = new List<TombsSD>();
 
     public List<Vec3> resourcesPoints = new List<Vec3>();
+    public List<ResBuildingSD> resBuildings = new List<ResBuildingSD>();
 
     public List<Vec3> campsPoints = new List<Vec3>();
 
@@ -37,17 +38,6 @@ public class GMTileManagerSD
 }
 
 [Serializable]
-public class GMTileManagerSDLarge
-{
-    public List<Vector3> arenaPoint = new List<Vector3>();
-    public List<Vector3> castlesPoints = new List<Vector3>();
-    public List<Vector3> tombsPoints = new List<Vector3>();
-    public List<Vector3> resourcesPoints = new List<Vector3>();
-
-    public List<Vector3> boxesPoints = new List<Vector3>();
-    public List<Reward> boxesRewards = new List<Reward>();
-}
-
 public class TombsSD
 {
     public Vec3 position;
@@ -57,11 +47,31 @@ public class TombsSD
     public EnemySD enemyGarrison;
 }
 
-public class CampsSD
+//public class CampsSD
+//{
+//    public List<Vec3> campsPoints = new List<Vec3>();
+//}
+
+[Serializable]
+public class ResBuildingSD
 {
-    public List<Vec3> campsPoints = new List<Vec3>();
+    public TypeOfObjectsOwner owner = TypeOfObjectsOwner.Nobody;
+    public bool isVisited = false;
+
+    public ResourceBuildings buildingType;
+
+    public bool isSiege = false;
+    public Vec3 position;
+
+    public List<string> upgrades = new List<string>();
+
+    public int currentSiegeDays;
+    public List<UnitsTypes> garrisonTypes = new List<UnitsTypes>();
+    public List<int> garrisonAmounts = new List<int>();
 }
 
+
+[Serializable]
 public class MapBonusManagerSD
 {
     public List<Vec3> heapsPoints = new List<Vec3>();
@@ -79,6 +89,7 @@ public class EnemySD
     public Vec3 color = new Vec3(Vector3.zero);
 }
 
+[Serializable]
 public class EnemySDWrapper
 {
     public List<EnemySD> enemyList = new List<EnemySD>();

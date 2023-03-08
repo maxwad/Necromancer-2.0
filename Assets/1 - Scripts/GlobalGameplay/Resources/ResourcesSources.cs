@@ -33,20 +33,23 @@ public class ResourcesSources : MonoBehaviour
 
     public void RegisterAsIncome(ResourceBuilding building)
     {
-        bool isBuildingInList = false;
-        for(int i = 0; i < sources.Count; i++)
-        {
-            if(sources[i] == building)
-            {
-                isBuildingInList = true;
-                break;
-            }
-        }
+        //bool isBuildingInList = false;
+        //for(int i = 0; i < sources.Count; i++)
+        //{
+        //    if(sources[i] == building)
+        //    {
+        //        isBuildingInList = true;
+        //        break;
+        //    }
+        //}
 
-        if(isBuildingInList == false)
-        {
+        //if(isBuildingInList == false)
+        //{
+        //    sources.Add(building);
+        //}
+
+        if(sources.Contains(building) == false)
             sources.Add(building);
-        }
 
         UpdateIncomes(dailyIncome, true);
         UpdateIncomes(weeklyIncome, false);

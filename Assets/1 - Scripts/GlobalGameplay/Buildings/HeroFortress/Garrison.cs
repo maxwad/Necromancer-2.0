@@ -72,4 +72,9 @@ public class Garrison : MonoBehaviour
             }
         }
     }
+
+    public void LoadGarrisonArmy(Dictionary<UnitsTypes, int> army)
+    {
+        currentAmounts = army;
+    }
 }
