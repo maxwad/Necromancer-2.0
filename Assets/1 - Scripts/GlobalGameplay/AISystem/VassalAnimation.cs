@@ -16,25 +16,15 @@ public class VassalAnimation : MonoBehaviour
         Activate(false);
     }
 
-    public void Activate(bool activeMode)
-    {
-        gameObject.SetActive(activeMode);
-    }
+    public void Activate(bool activeMode) => gameObject.SetActive(activeMode);
 
-    public void FlipSprite(bool flipMode)
-    {
-        spriteRenderer.flipX = flipMode;
-    }
+    public void SetFlipProperty(bool flipMode) => spriteRenderer.flipX = flipMode;
 
-    public void ShowAction(string action)
-    {
-        actionLabel.text = action;
-    }
+    public bool GetFlipProperty() => spriteRenderer.flipX;
 
-    public void Fading(bool isFading)
-    {
-        StartCoroutine(Fade(isFading));
-    }
+    public void ShowAction(string action) => actionLabel.text = action;
+
+    public void Fading(bool isFading) => StartCoroutine(Fade(isFading));
 
     private IEnumerator Fade(bool isFading)
     {

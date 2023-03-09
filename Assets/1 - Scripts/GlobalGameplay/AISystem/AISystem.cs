@@ -16,6 +16,7 @@ public class AISystem : MonoBehaviour
 
     //private Dictionary<EnemyCastle, bool> allCastles = new Dictionary<EnemyCastle, bool>();
     private List<EnemyCastle> allCastles = new List<EnemyCastle>();
+    private List<EnemyCastle> destroyedCastles = new List<EnemyCastle>();
     private List<EnemyCastle> activeCastles = new List<EnemyCastle>();
     private int countOfCastles = 0;
     private int currentMover = 0;
@@ -145,11 +146,11 @@ public class AISystem : MonoBehaviour
         ActivateNextCastle();
     }
 
-    public void CrusadeComplete(EnemyCastle castle)
-    {
-        //allCastles[castle] = false;
-        //activeCastles.Remove(castle);
-    }
+    //public void CrusadeComplete(EnemyCastle castle)
+    //{
+    //    //allCastles[castle] = false;
+    //    //activeCastles.Remove(castle);
+    //}
 
     public void EndMoves()
     {
@@ -197,8 +198,10 @@ public class AISystem : MonoBehaviour
     //    }
     //}
 
-    //public void CastleIsDestroyed(EnemyCastle castle)
+    //public void CastleIsDestroyed(EnemyCastle castle, bool messageNeeded)
     //{
+    //    castle.CastleDestroyed()
+    //    destroyedCastles.Add(castle);
     //    allCastles.Remove(castle);
     //    countOfCastles--;
 
@@ -207,7 +210,7 @@ public class AISystem : MonoBehaviour
     //    else
     //    {
     //        foreach(var castleItem in allCastles)
-    //            castleItem.Key.SetNewActionParameters();
+    //            castleItem.SetNewActionParameters();
     //    }
     //}
 
@@ -262,4 +265,31 @@ public class AISystem : MonoBehaviour
     {
         return isPlayerDead;
     }
+
+    #region SAVE/LOAD
+
+    public AI_SD SaveData()
+    {
+        AI_SD aiSD = new AI_SD();
+
+        foreach(var castle in allCastles)
+            aiSD.vassalsList.Add(castle.SaveData());
+
+        foreach(var castle in destroyedCastles)
+            aiSD.vassalsList.Add(castle.SaveData());
+
+
+        foreach(var castle in activeCastles)
+            aiSD.activeCastleList.Add(castle.transform.position.ToVec3());
+
+        return aiSD;
+    }
+
+    public void LoadData(AI_SD aiData)
+    {
+        //run destroy
+
+
+    }
+    #endregion
 }

@@ -33,12 +33,12 @@ public partial class GlobalMapTileManager : ISaveable
 
         saveData.arenaPoint      = arenaBuilder.GetPointsList().ToVec3List();
         saveData.castlesPoints   = castleBuilder.GetPointsList().ToVec3List();
+        saveData.aiData          = castleBuilder.GetSaveData();
         saveData.tombsPoints     = tombBuilder.GetPoints().ToVec3List();
         saveData.tombsData       = tombBuilder.GetSaveData();
         saveData.resourcesPoints = resourceBuilder.GetPointsList().ToVec3List();
         saveData.resBuildings    = resourceBuilder.GetSaveData();
         saveData.campsPoints     = campBuilder.GetPointsList().ToVec3List();
-
         (List<Vector3>, List<Reward>) boxesData = TypesConverter.SplitDictionary(boxesBuilder.SaveBoxes());
         saveData.boxesPoints = boxesData.Item1.ToVec3List();
         saveData.boxesRewards = boxesData.Item2;
@@ -50,15 +50,16 @@ public partial class GlobalMapTileManager : ISaveable
     {
         if(state.ContainsKey(Id) == false)
         {
-            manager.LoadDataComplete("WARNING: no data about GMTileManager");
+            manager.LoadDataComplete("WARNING: no data for GMTileManager");
             return;            
         }
 
         GMTileManagerSD saveData = manager.ConvertToRequiredType<GMTileManagerSD>(state[Id]);
         Dictionary<Vector3, Reward> boxesData = TypesConverter.CreateDictionary(saveData.boxesPoints.ToVector3List(), saveData.boxesRewards);
-
         arenaBuilder.Build(this, saveData.arenaPoint.ToVector3List());
+
         castleBuilder.Build(this, saveData.castlesPoints.ToVector3List());
+        castleBuilder.LoadData(saveData.aiData);
 
         tombBuilder.Build(this, saveData.tombsPoints.ToVector3List());
         tombBuilder.LoadData(saveData.tombsData);

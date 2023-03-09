@@ -1,5 +1,4 @@
 using System.Linq;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -21,8 +20,8 @@ public class VassalPathfinder : MonoBehaviour
     private Tilemap overlayMap;
     private GMHexCell[,] roads;
 
-    private Queue<Vector3> currentPath = new Queue<Vector3>();
-    private int movementPoints;
+    //private Queue<Vector3> currentPath = new Queue<Vector3>();
+    //private int movementPoints;
 
 
     [SerializeField] private Tile testTile;
@@ -36,7 +35,7 @@ public class VassalPathfinder : MonoBehaviour
         targetSelector = ts;
 
         movement = mv;
-        movementPoints = movement.GetMovementPointsAmoumt();
+        //movementPoints = movement.GetMovementPointsAmoumt();
 
         tileManager  = GlobalStorage.instance.gmManager;
         roadMap      = GlobalStorage.instance.roadMap;
@@ -66,6 +65,10 @@ public class VassalPathfinder : MonoBehaviour
         return tileManager.CellConverterToV3Int(pos);
     }
 
+    public ResourceBuilding ConvertPositionToBuilding(Vector3 position)
+    {
+        return null;
+    }
     #endregion
 
 
@@ -188,7 +191,7 @@ public class VassalPathfinder : MonoBehaviour
 
     public Queue<Vector3> CreatePath(Vector3Int finishCell, Vector3Int startCell = default)
     {
-        currentPath.Clear();
+        Queue<Vector3> currentPath = new Queue<Vector3>();
 
         Dictionary<GMHexCell, NeighborData> queueDict = new Dictionary<GMHexCell, NeighborData>();
         Queue<GMHexCell> neighborsQueue = new Queue<GMHexCell>();

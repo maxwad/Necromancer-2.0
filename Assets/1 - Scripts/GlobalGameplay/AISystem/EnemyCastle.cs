@@ -1,8 +1,5 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using static NameManager;
 
 public class EnemyCastle : MonoBehaviour
 {
@@ -12,6 +9,7 @@ public class EnemyCastle : MonoBehaviour
     [SerializeField] private int completeRestDays = 5;
     private int currentRest = 0;
     private bool isReady = true;
+    private bool isCastleDestroyed = false;
 
     public Vassal vassal;
     private Vector3 enterPoint;
@@ -71,28 +69,20 @@ public class EnemyCastle : MonoBehaviour
     {
         isReady = false;
         currentRest = (deathMode == false) ? completeRestDays : defeatRestDays;
-        aiSystem.CrusadeComplete(this);
+        //aiSystem.CrusadeComplete(this);
     }
 
-    public Vector3 GetStartPosition()
-    {
-        return enterPoint;
-    }
+    public Vector3 GetStartPosition() => enterPoint;
 
-    public Vassal GetVassal()
-    {
-        return vassal;
-    }
+    public Vassal GetVassal() => vassal;
 
-    public bool GetCastleStatus()
-    {       
-        return isReady;
-    }
+    public bool GetCastleStatus() => isReady;
 
-    public bool GetRestStatus()
-    {        
-        return currentRest > 0;
-    }
+    public bool GetRestStatus() => currentRest > 0;
+
+    public void CastleDestroyed() => isCastleDestroyed = true;
+
+    public bool IsCastleDestroyed() => isCastleDestroyed;
 
     //public void SetNewActionParameters()
     //{
@@ -101,6 +91,28 @@ public class EnemyCastle : MonoBehaviour
 
     //    vassal.SetNewActionParameters();
     //}
+
+    #region SAVE/LOAD
+
+    public VassalSD SaveData()
+    {
+        VassalSD vassalSD = new VassalSD();
+
+        if(isCastleDestroyed == false)
+            vassalSD = vassal.SaveData();
+
+        vassalSD.isCastleDestroyed = isCastleDestroyed;
+        vassalSD.isCastleReady = isReady;
+        vassalSD.currentRest = currentRest;
+
+        return vassalSD;
+    }
+
+    public void LoadData()
+    {
+
+    }
+    #endregion
 
     private void OnEnable()
     {

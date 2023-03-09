@@ -334,4 +334,36 @@ public partial class VassalTargetSelector : MonoBehaviour
     {
         movement.AddExtraMovementPoints();
     }
+
+    #region SAVE/LOAD
+
+    public VassalSD SaveData()
+    {
+        VassalSD vassalSD = new VassalSD();
+
+        vassalSD.shouldIContinueAction = shouldIContinueAction;
+        vassalSD.aggressiveMode = aggressiveMode;
+
+        vassalSD.currentTriesToGetTarget = currentTriesToGetTarget;
+
+        if(finishCell != Vector3Int.zero)
+            vassalSD.finishCell = pathfinder.ConvertToV3(finishCell).ToVec3();
+
+        vassalSD.currentTarget = currentTarget;
+        vassalSD.currentAction = currentAction;
+        vassalSD.currentActionsList = new List<AIActions>(currentActionsQ);
+        vassalSD.currentPath = new List<Vector3>(currentPath).ToVec3List();
+
+
+        if(currentSiegeTarget != null)
+            vassalSD.currentSiegeTargetPosition = currentSiegeTarget.transform.position.ToVec3();
+
+        return vassalSD;
+    }
+
+    public void LoadData()
+    {
+
+    }
+    #endregion
 }

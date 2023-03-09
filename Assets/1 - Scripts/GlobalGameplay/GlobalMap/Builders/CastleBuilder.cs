@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -56,8 +55,9 @@ public class CastleBuilder : MonoBehaviour
         }
     }
 
-    public List<Vector3> GetPointsList()
-    {
-        return castlesPoints;
-    }
+    public List<Vector3> GetPointsList() => castlesPoints;
+
+    public AI_SD GetSaveData() => aiSystem.SaveData();
+
+    public void LoadData(AI_SD aiData) => aiSystem.LoadData(aiData);
 }

@@ -116,7 +116,7 @@ public class VassalMovement : MonoBehaviour
                 break;
             }
 
-            animationScript.FlipSprite(previousPosition.x - nextPoint.x < 0);
+            animationScript.SetFlipProperty(previousPosition.x - nextPoint.x < 0);
             Vector3 distance = nextPoint - transform.position;
             Vector3 step = distance / (defaultCountSteps / speed);
 

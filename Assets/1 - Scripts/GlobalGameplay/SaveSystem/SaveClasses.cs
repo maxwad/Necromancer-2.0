@@ -23,7 +23,9 @@ public class Vec3
 public class GMTileManagerSD
 {
     public List<Vec3> arenaPoint = new List<Vec3>();
+
     public List<Vec3> castlesPoints = new List<Vec3>();
+    public AI_SD aiData = new AI_SD();
 
     public List<Vec3> tombsPoints = new List<Vec3>();
     public List<TombsSD> tombsData = new List<TombsSD>();
@@ -37,6 +39,46 @@ public class GMTileManagerSD
     public List<Reward> boxesRewards = new List<Reward>();
 }
 
+
+[Serializable]
+public class AI_SD
+{
+    public List<VassalSD> vassalsList = new List<VassalSD>();
+    public List<Vec3> activeCastleList = new List<Vec3>();
+}
+
+
+[Serializable]
+public class VassalSD
+{
+    public Vec3 castlePosition;
+    public bool isCastleDestroyed = false;
+    public bool isCastleReady = false;
+    public int currentRest;
+
+    public EnemySD vassalArmy;
+
+    public bool isVassalActive = false;
+    public bool isFlipped = false;
+    public Vec3 vassalPosition;
+
+    public bool shouldIContinueAction = false;
+    public bool aggressiveMode = false;
+
+    public int currentTriesToGetTarget;
+
+    public Vec3 finishCell = new Vec3(Vector3.zero);
+
+    public AITargetType currentTarget = AITargetType.Rest;
+    public AIActions currentAction = AIActions.End;
+    public List<AIActions> currentActionsList = new List<AIActions>();
+
+    public List<Vec3> currentPath = new List<Vec3>();
+
+    public Vec3 currentSiegeTargetPosition = new Vec3(Vector3.zero);
+}
+
+
 [Serializable]
 public class TombsSD
 {
@@ -47,10 +89,6 @@ public class TombsSD
     public EnemySD enemyGarrison;
 }
 
-//public class CampsSD
-//{
-//    public List<Vec3> campsPoints = new List<Vec3>();
-//}
 
 [Serializable]
 public class ResBuildingSD

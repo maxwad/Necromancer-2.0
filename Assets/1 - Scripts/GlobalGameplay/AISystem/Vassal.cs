@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using static NameManager;
 
@@ -150,6 +149,29 @@ public class Vassal : MonoBehaviour
     public EnemyArmyOnTheMap GetArmy()
     {
         return enemyArmy;
+    }
+    #endregion
+
+
+
+    #region SAVE/LOAD
+
+    public VassalSD SaveData()
+    {
+        VassalSD vassalSD = targetSelector.SaveData();
+
+        vassalSD.vassalArmy = enemyArmy.SaveEnemy();
+
+        vassalSD.isFlipped = animScript.GetFlipProperty();
+        vassalSD.isVassalActive = gameObject.activeInHierarchy;
+        vassalSD.vassalPosition = gameObject.transform.position.ToVec3();
+
+        return vassalSD;
+    }
+
+    public void LoadData()
+    {
+
     }
     #endregion
 }
