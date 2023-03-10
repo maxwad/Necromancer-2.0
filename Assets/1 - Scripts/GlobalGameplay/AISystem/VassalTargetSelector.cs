@@ -352,8 +352,6 @@ public partial class VassalTargetSelector : MonoBehaviour
         vassalSD.currentTarget = currentTarget;
         vassalSD.currentAction = currentAction;
         vassalSD.currentActionsList = new List<AIActions>(currentActionsQ);
-        vassalSD.currentPath = new List<Vector3>(currentPath).ToVec3List();
-
 
         if(currentSiegeTarget != null)
             vassalSD.currentSiegeTargetPosition = currentSiegeTarget.transform.position.ToVec3();
@@ -361,8 +359,29 @@ public partial class VassalTargetSelector : MonoBehaviour
         return vassalSD;
     }
 
-    public void LoadData()
+    public void LoadData(VassalSD vassalSD)
     {
+        shouldIContinueAction = vassalSD.shouldIContinueAction;
+        aggressiveMode = vassalSD.aggressiveMode;
+
+        currentTriesToGetTarget = vassalSD.currentTriesToGetTarget;
+
+        Vector3Int cell = pathfinder.ConvertToV3Int(vassalSD.finishCell.ToVector3());
+        if(cell != Vector3Int.zero)
+        {
+            finishCell = cell;
+            currentPath = pathfinder.CreatePath(finishCell);
+        }
+
+        currentTarget = vassalSD.currentTarget;
+        currentAction = vassalSD.currentAction;
+        currentActionsQ = new Queue<AIActions>(vassalSD.currentActionsList);
+
+        Vector3 targetCell = vassalSD.currentSiegeTargetPosition.ToVector3();
+        if(targetCell != Vector3.zero)
+            currentSiegeTarget = pathfinder.GetSiegeTarget(targetCell);
+
+        animScript.ShowAction(currentTarget + ":\n " + currentAction);
 
     }
     #endregion

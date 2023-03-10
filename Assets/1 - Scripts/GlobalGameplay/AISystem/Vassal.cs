@@ -113,10 +113,10 @@ public class Vassal : MonoBehaviour
 
     #region GETTINGS & SETTINGS
 
-    //public void SetNewActionParameters()
-    //{
-    //    targetSelector.IncreaseActionRadius();
-    //}
+    public void SetNewActionParameters()
+    {
+        targetSelector.IncreaseActionRadius();
+    }
 
     private void CreateArmy()
     {
@@ -169,9 +169,16 @@ public class Vassal : MonoBehaviour
         return vassalSD;
     }
 
-    public void LoadData()
+    public void LoadData(VassalSD vassalSD)
     {
+        enemyArmy.LoadEnemy(vassalSD.vassalArmy);
 
+        animScript.SetFlipProperty(vassalSD.isFlipped);
+        gameObject.SetActive(vassalSD.isVassalActive);
+        gameObject.transform.position = vassalSD.vassalPosition.ToVector3();
+
+        targetSelector.LoadData(vassalSD);
     }
+
     #endregion
 }

@@ -84,13 +84,13 @@ public class EnemyCastle : MonoBehaviour
 
     public bool IsCastleDestroyed() => isCastleDestroyed;
 
-    //public void SetNewActionParameters()
-    //{
-    //    defeatRestDays--;
-    //    completeRestDays--;
+    public void SetNewActionParameters()
+    {
+        defeatRestDays--;
+        completeRestDays--;
 
-    //    vassal.SetNewActionParameters();
-    //}
+        vassal.SetNewActionParameters();
+    }
 
     #region SAVE/LOAD
 
@@ -101,6 +101,7 @@ public class EnemyCastle : MonoBehaviour
         if(isCastleDestroyed == false)
             vassalSD = vassal.SaveData();
 
+        vassalSD.castlePosition = transform.position.ToVec3();
         vassalSD.isCastleDestroyed = isCastleDestroyed;
         vassalSD.isCastleReady = isReady;
         vassalSD.currentRest = currentRest;
@@ -108,8 +109,17 @@ public class EnemyCastle : MonoBehaviour
         return vassalSD;
     }
 
-    public void LoadData()
+    public void LoadData(VassalSD vassalSD)
     {
+        isCastleDestroyed = vassalSD.isCastleDestroyed;
+        isReady = vassalSD.isCastleReady;
+        currentRest = vassalSD.currentRest;
+
+        if(isCastleDestroyed == false)
+            vassal.LoadData(vassalSD);
+
+        Debug.Log("Castle is Load " + gameObject.name);
+
 
     }
     #endregion

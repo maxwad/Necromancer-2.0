@@ -65,9 +65,9 @@ public class VassalPathfinder : MonoBehaviour
         return tileManager.CellConverterToV3Int(pos);
     }
 
-    public ResourceBuilding ConvertPositionToBuilding(Vector3 position)
+    public ResourceBuilding GetSiegeTarget(Vector3 targetCell)
     {
-        return null;
+        return resources.GetAllResBuildings().Where(o => o.transform.position == targetCell).First();
     }
     #endregion
 

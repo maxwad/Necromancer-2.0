@@ -1,4 +1,4 @@
-using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -198,21 +198,23 @@ public class AISystem : MonoBehaviour
     //    }
     //}
 
-    //public void CastleIsDestroyed(EnemyCastle castle, bool messageNeeded)
-    //{
-    //    castle.CastleDestroyed()
-    //    destroyedCastles.Add(castle);
-    //    allCastles.Remove(castle);
-    //    countOfCastles--;
+    public void CastleIsDestroyed(EnemyCastle castle, bool messageNeeded)
+    {
+        //messageNeeded - for loading = false
+        // for destroying during game = true
+        castle.CastleDestroyed();
+        destroyedCastles.Add(castle);
+        allCastles.Remove(castle);
+        countOfCastles--;
 
-    //    if(allCastles.Count == 0)
-    //        Debug.Log("All Vassals are DEAD!");
-    //    else
-    //    {
-    //        foreach(var castleItem in allCastles)
-    //            castleItem.SetNewActionParameters();
-    //    }
-    //}
+        if(allCastles.Count == 0)
+            Debug.Log("All Vassals are DEAD!");
+        else
+        {
+            foreach(var castleItem in allCastles)
+                castleItem.SetNewActionParameters();
+        }
+    }
 
     public List<Vassal> GetVassalsInfo()
     {
@@ -287,9 +289,39 @@ public class AISystem : MonoBehaviour
 
     public void LoadData(AI_SD aiData)
     {
-        //run destroy
+        foreach(var castle in aiData.vassalsList)
+        {
+            allCastles
+                    .Where(o => o.transform.position == castle.castlePosition.ToVector3())
+                    .First()
+                    .LoadData(castle);
+        }
 
+        foreach(var castle in aiData.vassalsList)
+        {
+            if(castle.isCastleDestroyed == true)
+            {
+                EnemyCastle neededCastle = allCastles
+                    .Where(o => o.transform.position == castle.castlePosition.ToVector3())
+                    .First();
 
+                if(neededCastle == null)
+                    Debug.Log("ATTENTION! I CAN'T FIND DESTROYED CASTLE");
+                else
+                    CastleIsDestroyed(neededCastle, false);
+            }
+        }
+
+        foreach(var castlePos in aiData.activeCastleList)
+        {
+             activeCastles.Add(allCastles
+                 .Where(o => o.transform.position == castlePos.ToVector3())
+                 .First()
+                 );
+        }
+
+        Debug.Log("Active Castles are " + activeCastles.Count);
     }
+
     #endregion
 }

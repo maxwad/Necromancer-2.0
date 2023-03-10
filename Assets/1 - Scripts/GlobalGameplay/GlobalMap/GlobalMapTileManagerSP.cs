@@ -59,13 +59,14 @@ public partial class GlobalMapTileManager : ISaveable
         arenaBuilder.Build(this, saveData.arenaPoint.ToVector3List());
 
         castleBuilder.Build(this, saveData.castlesPoints.ToVector3List());
-        castleBuilder.LoadData(saveData.aiData);
 
         tombBuilder.Build(this, saveData.tombsPoints.ToVector3List());
         tombBuilder.LoadData(saveData.tombsData);
 
         resourceBuilder.Build(this, saveData.resourcesPoints.ToVector3List());
         resourceBuilder.LoadData(saveData.resBuildings);
+        //WARNING: it's should be here because vassals need ResBuildingRegistrationList
+        castleBuilder.LoadData(saveData.aiData);
 
         campBuilder.Build(this);
         campBuilder.LoadData(saveData.campsPoints.ToVector3List());

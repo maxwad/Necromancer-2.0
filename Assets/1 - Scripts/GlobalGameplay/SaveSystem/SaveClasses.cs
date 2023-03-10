@@ -73,8 +73,6 @@ public class VassalSD
     public AIActions currentAction = AIActions.End;
     public List<AIActions> currentActionsList = new List<AIActions>();
 
-    public List<Vec3> currentPath = new List<Vec3>();
-
     public Vec3 currentSiegeTargetPosition = new Vec3(Vector3.zero);
 }
 

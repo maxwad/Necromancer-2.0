@@ -211,8 +211,11 @@ public class EnemyArmyOnTheMap : MonoBehaviour
         typeOfArmy = saveData.typeOfArmy;
         commonCount = 0;
 
-        for(int i = 0; i < army.squadList.Count; i++)
-            commonCount += army.quantityList[i];
+        if(army != null)
+        {
+            for(int i = 0; i < army.squadList.Count; i++)
+                commonCount += army.quantityList[i];
+        }
 
         sprite.color = new Color(saveData.color.x, saveData.color.y, saveData.color.z);
     }

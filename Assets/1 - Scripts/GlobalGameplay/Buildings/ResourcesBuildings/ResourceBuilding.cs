@@ -306,9 +306,11 @@ public class ResourceBuilding : MonoBehaviour
 
     #region SIEGE
 
-    public void StartSiege(bool siegeMode = true)
+    public void StartSiege(bool siegeMode = true, bool needReset = true)
     {
-        ResetSiegeDays();
+        if(needReset == true)
+            ResetSiegeDays();
+
         isSiege = siegeMode;
 
         owner.StartSiege(isSiege);
@@ -330,7 +332,7 @@ public class ResourceBuilding : MonoBehaviour
 
             if(currentSiegeDays <= 0)
             {
-                StartSiege(false);
+                StartSiege(siegeMode: false);
 
                 if(buildingType != ResourceBuildings.Castle)
                 {
@@ -406,8 +408,8 @@ public class ResourceBuilding : MonoBehaviour
             }
         }
 
-        StartSiege(saveData.isSiege);
         currentSiegeDays = saveData.currentSiegeDays;
+        StartSiege(saveData.isSiege, false);
     }
 
     #endregion
