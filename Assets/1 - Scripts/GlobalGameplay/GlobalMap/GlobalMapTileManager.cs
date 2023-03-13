@@ -19,6 +19,7 @@ public partial class GlobalMapTileManager : MonoBehaviour
 
     [Header("Builders")]
     [HideInInspector] public ArenaBuilder arenaBuilder;
+    [HideInInspector] public AltarBuilder altarBuilder;
     [HideInInspector] public CastleBuilder castleBuilder;
     [HideInInspector] public TombBuilder tombBuilder;
     [HideInInspector] public ResourceBuilder resourceBuilder;
@@ -36,6 +37,7 @@ public partial class GlobalMapTileManager : MonoBehaviour
     {
         gmPathfinder        = GetComponent<GlobalMapPathfinder>();
         arenaBuilder        = GetComponent<ArenaBuilder>();
+        altarBuilder        = GetComponent<AltarBuilder>();
         castleBuilder       = GetComponent<CastleBuilder>();
         tombBuilder         = GetComponent<TombBuilder>();
         resourceBuilder     = GetComponent<ResourceBuilder>();
@@ -59,6 +61,7 @@ public partial class GlobalMapTileManager : MonoBehaviour
     public void CreateWorld()
     {
         arenaBuilder.Build(this, null);
+        altarBuilder.Build(this);
         castleBuilder.Build(this, null);
         tombBuilder.Build(this, null);
         resourceBuilder.Build(this, null);

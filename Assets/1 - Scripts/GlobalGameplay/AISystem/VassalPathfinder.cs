@@ -201,10 +201,7 @@ public class VassalPathfinder : MonoBehaviour
         GMHexCell firstPathCell = roads[startPoint.x, startPoint.y];
 
         if(finishCell == startPoint || finishCell == Vector3Int.zero)
-        {
-            Debug.Log("Start point is finish point");
             return currentPath;
-        }
 
         bool isSearching = true;
         bool isDeadEnd = true;

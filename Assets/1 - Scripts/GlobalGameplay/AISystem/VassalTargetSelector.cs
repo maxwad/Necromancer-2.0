@@ -57,9 +57,9 @@ public partial class VassalTargetSelector : MonoBehaviour
     public void CreateTargetList()
     {
         targetList.Add(AITargetType.Walking);
-        //targetList.Add(AITargetType.ResBuildingAttack);
-        //targetList.Add(AITargetType.ArmyDescent);
-        //targetList.Add(AITargetType.PlayerAttack);
+        targetList.Add(AITargetType.ResBuildingAttack);
+        targetList.Add(AITargetType.ArmyDescent);
+        targetList.Add(AITargetType.PlayerAttack);
         targetList.Add(AITargetType.CastleAttack);
     }
 
@@ -218,7 +218,16 @@ public partial class VassalTargetSelector : MonoBehaviour
 
     public void HandleAction()
     {
-        StartCoroutine(HandleActionCoroutine());
+        if(gameObject.activeInHierarchy == false)
+        {
+            Debug.Log("GO IS FALSE");
+            mainAI.EndOfMove();
+        }
+        else
+        {
+            StartCoroutine(HandleActionCoroutine());
+        }
+
     }
 
     private IEnumerator HandleActionCoroutine()
@@ -319,7 +328,6 @@ public partial class VassalTargetSelector : MonoBehaviour
     public bool SpendTry()
     {
         currentTriesToGetTarget--;
-        Debug.Log(currentTriesToGetTarget + " moves left");
 
         if(currentTriesToGetTarget == 0)
         {

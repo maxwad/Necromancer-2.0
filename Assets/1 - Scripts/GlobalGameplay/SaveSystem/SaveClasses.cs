@@ -27,6 +27,8 @@ public class GMTileManagerSD
     public List<Vec3> castlesPoints = new List<Vec3>();
     public AI_SD aiData = new AI_SD();
 
+    public List<Vec3> altarsPoints = new List<Vec3>();
+
     public List<Vec3> tombsPoints = new List<Vec3>();
     public List<TombsSD> tombsData = new List<TombsSD>();
 
@@ -129,4 +131,22 @@ public class EnemySD
 public class EnemySDWrapper
 {
     public List<EnemySD> enemyList = new List<EnemySD>();
+}
+
+[Serializable]
+public class CalendarSD
+{
+    public int day;
+    public int week;
+    public int month;
+    public int year;
+
+    public int daysPassed;
+    public int daysLeft;
+    public int weeksPassed;
+    public int monthsPassed;
+    public int yearsPassed;
+
+    public List<string> decadeList = new List<string>();
+    public int currentDecadeIndex;
 }

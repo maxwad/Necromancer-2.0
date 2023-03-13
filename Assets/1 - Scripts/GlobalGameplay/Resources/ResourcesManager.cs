@@ -1,9 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static NameManager;
 
-public class ResourcesManager : MonoBehaviour
+public partial class ResourcesManager : MonoBehaviour
 {
     private GMInterface gmInterface;
     private PlayerStats playerStats;
@@ -201,18 +200,21 @@ public class ResourcesManager : MonoBehaviour
         EventManager.OnUpgradeResourceEvent(type, resourcesDict[type]);
     }
 
+    public void LoadResource(ResourceType type, float value)
+    {
+        resourcesDict[type] = value;
+
+        EventManager.OnUpgradeResourceEvent(type, resourcesDict[type]);
+    }
+
     public void DecreaseHealth(float value)
     {
         ResourceType type = ResourceType.Health;
 
         if(CheckMinResource(type, value) == false)
-        {
             resourcesDict[type] = 0;
-        }
         else
-        {
             resourcesDict[type] += value;
-        }
 
         EventManager.OnUpgradeResourceEvent(type, resourcesDict[type]);
 
@@ -240,9 +242,14 @@ public class ResourcesManager : MonoBehaviour
 
     private void AddResourceAsBonus(BonusType type, float value)
     {
-        if(type == BonusType.Gold) ChangeResource(ResourceType.Gold, value);
-        if(type == BonusType.Mana) ChangeResource(ResourceType.Mana, value);
-        if(type == BonusType.Health) ChangeResource(ResourceType.Health, value);
+        if(type == BonusType.Gold) 
+            ChangeResource(ResourceType.Gold, value);
+
+        if(type == BonusType.Mana) 
+            ChangeResource(ResourceType.Mana, value);
+
+        if(type == BonusType.Health) 
+            ChangeResource(ResourceType.Health, value);
     }
 
     public bool CheckMinResource(ResourceType type, float value)

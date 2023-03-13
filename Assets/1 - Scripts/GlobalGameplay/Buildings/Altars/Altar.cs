@@ -17,8 +17,8 @@ public class Altar : MonoBehaviour
     private Dictionary<ResourceType, float> currentPrice;
 
     private List<ResourceType> defaultResList = new List<ResourceType>();
-    private List<ResourceType> currentResourcesList = new List<ResourceType>();
-    private List<ResourceType> workResourcesList = new List<ResourceType>();
+    //private List<ResourceType> currentResourcesList = new List<ResourceType>();
+    //private List<ResourceType> workResourcesList = new List<ResourceType>();
     private float percentCommonCost = 0.15f;
     private float minCost = 50f;
 

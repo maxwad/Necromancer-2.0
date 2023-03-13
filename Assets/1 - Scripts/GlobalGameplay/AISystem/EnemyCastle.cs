@@ -117,11 +117,8 @@ public class EnemyCastle : MonoBehaviour
 
         if(isCastleDestroyed == false)
             vassal.LoadData(vassalSD);
-
-        Debug.Log("Castle is Load " + gameObject.name);
-
-
     }
+
     #endregion
 
     private void OnEnable()

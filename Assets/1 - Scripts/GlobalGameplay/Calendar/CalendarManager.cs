@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static NameManager;
 
-public class CalendarManager : MonoBehaviour, IInputableKeys
+public partial class CalendarManager : MonoBehaviour, IInputableKeys
 {
     private BoostManager boostManager;
     private InputSystem inputSystem;
@@ -15,9 +15,9 @@ public class CalendarManager : MonoBehaviour, IInputableKeys
     private int dayMax = 10;
     private int daysPassed = 0;
 
-    private int decade = 1;
-    private int decadeMax = 3;
-    private int decadesPassed = 0;
+    private int week = 1;
+    private int weekMax = 3;
+    private int weeksPassed = 0;
 
     private int month = 1;
     private int monthMax = 12;
@@ -45,12 +45,11 @@ public class CalendarManager : MonoBehaviour, IInputableKeys
         boostManager = GlobalStorage.instance.boostManager;
         gmInterface = GlobalStorage.instance.gmInterface;
         gameMaster = GlobalStorage.instance.gameMaster;
-        calendarData = new CalendarData(daysLeft, day, decade, month);
-        gmInterface.calendarPart.UpdateCalendar(calendarData);
+        UpdateCalendar();
 
         if(createMode == true)
         {
-            //decadeList = ShuffleList(decadeList);
+            decadeList = ShuffleList(decadeList);
             StartCoroutine(SetStartDecade());
         }
 
@@ -96,8 +95,8 @@ public class CalendarManager : MonoBehaviour, IInputableKeys
         if(day > dayMax)
         {
             //new decade
-            decade++;
-            decadesPassed++;
+            week++;
+            weeksPassed++;
             day = 1;
 
             currentDecadeIndex++;
@@ -105,16 +104,16 @@ public class CalendarManager : MonoBehaviour, IInputableKeys
 
             EventManager.OnWeekEndEvent();
             NewDecade();
-            EventManager.OnNewWeekEvent(decadesPassed);
+            EventManager.OnNewWeekEvent(weeksPassed);
 
         }
 
-        if(decade > decadeMax)
+        if(week > weekMax)
         {
             //new month
             month++;
             monthsPassed++;
-            decade = 1;
+            week = 1;
 
             EventManager.OnNewMonthEvent();
             Debug.Log("New month");
@@ -128,8 +127,7 @@ public class CalendarManager : MonoBehaviour, IInputableKeys
             month = 1;
         }
 
-        calendarData = new CalendarData(daysLeft, day, decade, month);
-        gmInterface.calendarPart.UpdateCalendar(calendarData);
+        UpdateCalendar();
 
         gameMaster.EnemyTurn();
     }
@@ -159,7 +157,7 @@ public class CalendarManager : MonoBehaviour, IInputableKeys
             boost = TypesConverter.RuneToBoostType(currentDecadeEffect.effect.rune);
             value = (currentDecadeEffect.isNegative == true) ? -currentDecadeEffect.effect.value : currentDecadeEffect.effect.value;
             boostManager.DeleteBoost(boost, BoostSender.Calendar, value);
-        }        
+        }
 
         currentDecadeEffect = decadeList[currentDecadeIndex];
         gmInterface.calendarPart.UpdateDecadeOnCalendar(currentDecadeEffect);
@@ -168,5 +166,11 @@ public class CalendarManager : MonoBehaviour, IInputableKeys
         value = (currentDecadeEffect.isNegative == true) ? -currentDecadeEffect.effect.value : currentDecadeEffect.effect.value;
 
         boostManager.SetBoost(boost, BoostSender.Calendar, currentDecadeEffect.purpose, value);
+    }
+
+    public void UpdateCalendar()
+    {
+        calendarData = new CalendarData(daysLeft, day, week, month);
+        gmInterface.calendarPart.UpdateCalendar(calendarData);
     }
 }

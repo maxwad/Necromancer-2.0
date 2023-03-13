@@ -70,7 +70,7 @@ public class SaveLoadManager : MonoBehaviour
         if(_coroutine != null)
             StopCoroutine(_coroutine);
 
-        StartCoroutine(SaveGameCRTN());
+        _coroutine = StartCoroutine(SaveGameCRTN());
     }
 
     public IEnumerator SaveGameCRTN()
@@ -125,7 +125,7 @@ public class SaveLoadManager : MonoBehaviour
         if(_coroutine != null)
             StopCoroutine(_coroutine);
 
-        StartCoroutine(LoadGameCRTN());
+        _coroutine = StartCoroutine(LoadGameCRTN());
     }
 
     public IEnumerator LoadGameCRTN()
@@ -198,7 +198,7 @@ public class SaveLoadManager : MonoBehaviour
 
         InfotipManager.ShowMessage("Game loaded.");
         stopwatch.Stop();
-        Debug.Log("Game loaded (" + stopwatch.ElapsedMilliseconds / 1000.0f + ")");
+        Debug.Log("Load complete (" + stopwatch.ElapsedMilliseconds / 1000.0f + ")");
 
         canILoadNextPart = true; 
     }

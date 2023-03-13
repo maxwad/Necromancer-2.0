@@ -22,7 +22,7 @@ public class GMPlayerMovement : MonoBehaviour
 
     private float luck = 0;
 
-    private float speed = 50f; //50 for build
+    private float speed = 200f; //50 for build
     private float defaultCountSteps = 1000;
 
     private bool cancelMovement = false;

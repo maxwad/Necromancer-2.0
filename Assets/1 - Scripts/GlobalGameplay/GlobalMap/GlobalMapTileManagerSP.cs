@@ -1,8 +1,5 @@
-using System.Collections;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static NameManager;
 
 public partial class GlobalMapTileManager : ISaveable
 {
@@ -33,6 +30,7 @@ public partial class GlobalMapTileManager : ISaveable
 
         saveData.arenaPoint      = arenaBuilder.GetPointsList().ToVec3List();
         saveData.castlesPoints   = castleBuilder.GetPointsList().ToVec3List();
+        saveData.altarsPoints    = altarBuilder.GetPointsList().ToVec3List();
         saveData.aiData          = castleBuilder.GetSaveData();
         saveData.tombsPoints     = tombBuilder.GetPoints().ToVec3List();
         saveData.tombsData       = tombBuilder.GetSaveData();
@@ -55,10 +53,11 @@ public partial class GlobalMapTileManager : ISaveable
         }
 
         GMTileManagerSD saveData = manager.ConvertToRequiredType<GMTileManagerSD>(state[Id]);
+
         Dictionary<Vector3, Reward> boxesData = TypesConverter.CreateDictionary(saveData.boxesPoints.ToVector3List(), saveData.boxesRewards);
         arenaBuilder.Build(this, saveData.arenaPoint.ToVector3List());
 
-        castleBuilder.Build(this, saveData.castlesPoints.ToVector3List());
+        altarBuilder.LoadData(saveData.altarsPoints);
 
         tombBuilder.Build(this, saveData.tombsPoints.ToVector3List());
         tombBuilder.LoadData(saveData.tombsData);
@@ -66,6 +65,7 @@ public partial class GlobalMapTileManager : ISaveable
         resourceBuilder.Build(this, saveData.resourcesPoints.ToVector3List());
         resourceBuilder.LoadData(saveData.resBuildings);
         //WARNING: it's should be here because vassals need ResBuildingRegistrationList
+        castleBuilder.Build(this, saveData.castlesPoints.ToVector3List());
         castleBuilder.LoadData(saveData.aiData);
 
         campBuilder.Build(this);

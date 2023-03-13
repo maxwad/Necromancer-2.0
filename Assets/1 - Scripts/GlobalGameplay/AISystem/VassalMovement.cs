@@ -15,7 +15,7 @@ public class VassalMovement : MonoBehaviour
     private int extraPoints = 5;
     private int currentMovementPoints;
 
-    private float speed = 50f; //50 for build
+    private float speed = 300f; //50 for build
     private float defaultCountSteps = 500; //between cells
 
     private bool shouldIFigth = false;
