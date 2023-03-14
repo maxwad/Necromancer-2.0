@@ -30,7 +30,6 @@ public class GlobalMapPathfinder : MonoBehaviour, IInputableAxies
 
     private float movementPointsMax = 0;
     private float currentMovementPoints = 0;
-    private float constStep = 1.4f; // experimental const
 
     private Vector3Int startPoint;
     private Vector3Int destinationPoint;
@@ -398,32 +397,33 @@ public class GlobalMapPathfinder : MonoBehaviour, IInputableAxies
         overlayMap.SetTile(roadMap.WorldToCell(point), null);
     }
 
-    public void CheckFog(bool isFogNeeded, float radius)
-    {
-        // in release we need check FALSE
-        if(isFogNeeded == true)
-        {
-            fogMap.gameObject.SetActive(false);
-            return;
-        }
-        fogMap.gameObject.SetActive(true);
+    //public void CheckFog(bool isFogNeeded, float radius)
+    //{
+    //    // in release we need check FALSE
+    //    if(isFogNeeded == false)
+    //    {
+    //        fogMap.gameObject.SetActive(false);
+    //        return;
+    //    }
 
-        Vector3Int center = fogMap.WorldToCell(player.transform.position);
+    //    fogMap.gameObject.SetActive(true);
 
-        radius *= constStep;
+    //    Vector3Int center = fogMap.WorldToCell(player.transform.position);
 
-        for(float x = -radius; x < radius; x++)
-        {
-            for(float y = -radius; y <= radius + 1; y++)
-            {
-                Vector3Int checkPosition = new Vector3Int((int)x, (int)y, 0) + center;
-                if(Vector3Int.Distance(checkPosition, center) < radius)
-                {
-                    fogMap.SetTile(checkPosition, null);
-                }
-            }
-        }
-    }
+    //    radius *= constStep;
+
+    //    for(float x = -radius; x < radius; x++)
+    //    {
+    //        for(float y = -radius; y <= radius + 1; y++)
+    //        {
+    //            Vector3Int checkPosition = new Vector3Int((int)x, (int)y, 0) + center;
+    //            if(Vector3Int.Distance(checkPosition, center) < radius)
+    //            {
+    //                fogMap.SetTile(checkPosition, null);
+    //            }
+    //        }
+    //    }
+    //}
 
     private void GetParameters()
     {

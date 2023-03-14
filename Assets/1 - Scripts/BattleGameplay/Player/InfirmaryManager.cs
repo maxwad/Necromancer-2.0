@@ -1,10 +1,8 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static NameManager;
 
-public class InfirmaryManager : MonoBehaviour
+public partial class InfirmaryManager : MonoBehaviour
 {
     private float currentCapacity;
     private float dayToDeath;
@@ -23,10 +21,9 @@ public class InfirmaryManager : MonoBehaviour
 
 
         //FOR ALTAR TESTING
-        injuredDict.Add(UnitsTypes.Barbarians, new InjuredUnitData(3, 60));
-        injuredDict.Add(UnitsTypes.Mercenaries, new InjuredUnitData(7, 60));
-        injuredDict.Add(UnitsTypes.Paladins, new InjuredUnitData(5, 60));
-
+        injuredDict.Add(UnitsTypes.Barbarians, new InjuredUnitData(3, 6));
+        injuredDict.Add(UnitsTypes.Mercenaries, new InjuredUnitData(7, 6));
+        injuredDict.Add(UnitsTypes.Paladins, new InjuredUnitData(5, 6));
     }
 
     public void AddUnitToInfirmary(UnitsTypes unitType)
@@ -58,29 +55,25 @@ public class InfirmaryManager : MonoBehaviour
 
     public void RemoveUnitFromInfirmary(UnitsTypes unitType)
     {
-        if(injuredDict.ContainsKey(unitType) == true)
-        {
-            injuredDict[unitType].quantity--;
-            injuredDict[unitType].term = dayToDeath;
-
-            if(injuredDict[unitType].quantity == 0)
-                injuredDict.Remove(unitType);
-        }
-        else
-        {
+        if(injuredDict.ContainsKey(unitType) == false)
             return;
-        }
+
+        injuredDict[unitType].quantity--;
+        injuredDict[unitType].term = dayToDeath;
+
+        if(injuredDict[unitType].quantity == 0)
+            injuredDict.Remove(unitType);
 
         EventManager.OnUpdateInfirmaryUIEvent(GetInjuredCount(), currentCapacity);
     }
 
-    public void HealUnits(Dictionary<UnitsTypes, int> injuredUnitsDict)
-    {
-        foreach(var unit in injuredUnitsDict)
-        {
+    //public void HealUnits(Dictionary<UnitsTypes, int> injuredUnitsDict)
+    //{
+    //    foreach(var unit in injuredUnitsDict)
+    //    {
 
-        }
-    }
+    //    }
+    //}
 
     public Dictionary<UnitsTypes, InjuredUnitData> GetCurrentInjuredDict()
     {

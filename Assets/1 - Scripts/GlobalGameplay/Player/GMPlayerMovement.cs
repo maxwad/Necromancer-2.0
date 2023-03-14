@@ -1,6 +1,5 @@
 using System.Collections;
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 using static NameManager;
 
@@ -10,6 +9,7 @@ public class GMPlayerMovement : MonoBehaviour
     private GMInterface gmInterface;
     private BattleManager battleManager;
     private GlobalMapPathfinder gmPathFinder;
+    private GlobalMapTileManager mapTileManager;
     private GMPlayerPositionChecker positionChecker;
     private ResourcesManager resourcesManager;
 
@@ -42,6 +42,7 @@ public class GMPlayerMovement : MonoBehaviour
 
         playerStats      = GlobalStorage.instance.playerStats;
         gmInterface      = GlobalStorage.instance.gmInterface;
+        mapTileManager   = GlobalStorage.instance.gmManager;
         gmPathFinder     = GlobalStorage.instance.globalMap.GetComponent<GlobalMapPathfinder>();
         resourcesManager = GlobalStorage.instance.resourcesManager;
         positionChecker  = GetComponent<GMPlayerPositionChecker>();
@@ -125,7 +126,7 @@ public class GMPlayerMovement : MonoBehaviour
             ChangeMovementPoints(movementPointsMax);
 
             viewRadius = movementPointsMax;
-            gmPathFinder.CheckFog(isFogNeeded, viewRadius);
+            mapTileManager.CheckFog(isFogNeeded, viewRadius);
         }
 
         if(stats == PlayersStats.ExtraMovementPoints) extraMovementPoints = value;
@@ -133,7 +134,7 @@ public class GMPlayerMovement : MonoBehaviour
         if(stats == PlayersStats.Fog) 
         { 
             isFogNeeded = (value == 1) ? false : true;
-            gmPathFinder.CheckFog(isFogNeeded, viewRadius);
+            mapTileManager.CheckFog(isFogNeeded, viewRadius);
         }
         
         if(stats == PlayersStats.Luck) luck = value;
@@ -175,7 +176,7 @@ public class GMPlayerMovement : MonoBehaviour
 
 
             gmPathFinder.ClearRoadTile(pathPoints[i - 1]);
-            gmPathFinder.CheckFog(isFogNeeded, viewRadius);
+            mapTileManager.CheckFog(isFogNeeded, viewRadius);
 
             Vector2 distance = pathPoints[i] - (Vector2)transform.position;
             Vector2 step = distance / (defaultCountSteps / speed);
@@ -270,7 +271,7 @@ public class GMPlayerMovement : MonoBehaviour
         Camera.main.transform.position = new Vector3(newPosition.x, newPosition.y, Camera.main.transform.position.z);        
         transform.position = newPosition;
         currentPosition = newPosition;
-        gmPathFinder.CheckFog(isFogNeeded, viewRadius);
+        mapTileManager.CheckFog(isFogNeeded, viewRadius);
 
         while(alfa < 1)
         {
@@ -294,7 +295,8 @@ public class GMPlayerMovement : MonoBehaviour
 
         if(result == 1)
         {
-            if(gmPathFinder != null) gmPathFinder.RefreshPath(currentPosition, currentMovementPoints);
+            if(gmPathFinder != null) 
+                gmPathFinder.RefreshPath(currentPosition, currentMovementPoints);
         }
         else
         {

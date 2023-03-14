@@ -29,13 +29,17 @@ public partial class GlobalMapTileManager : MonoBehaviour
 
     private List<GameObject> allBuildingsOnTheMap = new List<GameObject>();
 
-    GlobalMapPathfinder gmPathfinder;
+    private GlobalMapPathfinder gmPathfinder;
+    private GameObject player;
     private float startRadiusWithoutFog = 15;
+    private float constStep = 1.4f; // experimental const
+    private List<Vector3Int> fogFreeCells = new List<Vector3Int>();
 
 
     public void Init(bool createMode)
     {
         gmPathfinder        = GetComponent<GlobalMapPathfinder>();
+        player              = GlobalStorage.instance.globalPlayer.gameObject;
         arenaBuilder        = GetComponent<ArenaBuilder>();
         altarBuilder        = GetComponent<AltarBuilder>();
         castleBuilder       = GetComponent<CastleBuilder>();
@@ -48,11 +52,13 @@ public partial class GlobalMapTileManager : MonoBehaviour
         roads = new GMHexCell[roadMap.size.x, roadMap.size.y];
 
         CreateRoadCells();
-        CreateFogCells();
         SetHeighbors();
 
         if(createMode == true)
+        {
             CreateWorld();
+            CreateFogCells();
+        }
 
         // end of loading initializing
         GlobalStorage.instance.LoadNextPart();
@@ -71,12 +77,6 @@ public partial class GlobalMapTileManager : MonoBehaviour
         environmentRegister.Registration(this);
         CreateEnterPointsForAllBuildings();
     }
-
-    //public void Finalizing()
-    //{
-    //    CreateEnterPointsForAllBuildings();
-    //    SendDataToPathfinder();
-    //}
 
     public void CreateRoadCells()
     {
@@ -102,15 +102,52 @@ public partial class GlobalMapTileManager : MonoBehaviour
 
     public void CreateFogCells()
     {
+        Vector3Int position;
+
         for(int x = 0; x < mapBG.size.x; x++)
         {
             for(int y = 0; y < mapBG.size.y; y++)
             {
-                fogMap.SetTile(new Vector3Int(x, y, 0), fogTile);
+                position = new Vector3Int(x, y, 0);
+                fogMap.SetTile(position, fogTile);
             }
         }
 
-        gmPathfinder.CheckFog(true, startRadiusWithoutFog);
+        foreach(var cell in fogFreeCells)
+            fogMap.SetTile(cell, null);
+
+        CheckFog(true, startRadiusWithoutFog);
+    }
+
+    public void CheckFog(bool isFogNeeded, float radius)
+    {
+        // in release we need check FALSE
+        if(isFogNeeded == true)
+        {
+            fogMap.gameObject.SetActive(false);
+            return;
+        }
+
+        fogMap.gameObject.SetActive(true);
+
+        Vector3Int center = fogMap.WorldToCell(player.transform.position);
+
+        radius *= constStep;
+
+        for(float x = -radius; x < radius; x++)
+        {
+            for(float y = -radius; y <= radius + 1; y++)
+            {
+                Vector3Int checkPosition = new Vector3Int((int)x, (int)y, 0) + center;
+                if(Vector3Int.Distance(checkPosition, center) < radius)
+                {
+                    if(fogMap.GetTile(checkPosition) != null)
+                        fogFreeCells.Add(checkPosition);
+
+                    fogMap.SetTile(checkPosition, null);
+                }
+            }
+        }
     }
 
     private void SetHeighbors()
@@ -379,19 +416,12 @@ public partial class GlobalMapTileManager : MonoBehaviour
     }
     #endregion
 
-
-    private void SendDataToPathfinder()
-    {
-        //gmPathfinder.roads = roads;
-        //gmPathfinder.CheckFog(true, startRadiusWithoutFog);
-        //gmPathfinder.SetEnterPoints(enterPointsDict);
-    }
-
     public bool CheckCellAsEnterPoint(Vector3 cell)
     {
         foreach(var enterPoint in enterPointsDict)
         {
-            if(enterPoint.Value == cell) return true;
+            if(enterPoint.Value == cell) 
+                return true;
         }
 
         return false;

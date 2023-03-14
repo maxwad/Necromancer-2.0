@@ -17,9 +17,9 @@ public partial class GlobalMapTileManager : ISaveable
         }
     }
 
-    public void SetId(int id) 
+    public void SetId(int id)
     {
-        if(Id == -1) Id = id;
+        if(Id >= 100) Id = id;
     }
 
     public int GetId() => Id;
@@ -40,6 +40,8 @@ public partial class GlobalMapTileManager : ISaveable
         (List<Vector3>, List<Reward>) boxesData = TypesConverter.SplitDictionary(boxesBuilder.SaveBoxes());
         saveData.boxesPoints = boxesData.Item1.ToVec3List();
         saveData.boxesRewards = boxesData.Item2;
+
+        saveData.fogFreeCells = fogFreeCells.ToFogCellList();
 
         manager.FillSaveData(Id, saveData);
     }
@@ -75,6 +77,9 @@ public partial class GlobalMapTileManager : ISaveable
 
         environmentRegister.Registration(this);
         CreateEnterPointsForAllBuildings();
+
+        fogFreeCells = saveData.fogFreeCells.ToVector3IntList();
+        CreateFogCells();
 
         manager.LoadDataComplete("GMTileManager is loaded");
     }

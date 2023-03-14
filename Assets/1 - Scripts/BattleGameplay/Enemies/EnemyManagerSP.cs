@@ -5,23 +5,23 @@ using static NameManager;
 
 public partial class EnemyManager : ISaveable
 {
-    [HideInInspector] public int id = -1;
+    [SerializeField] private int _id = 101;
 
     public int Id
     {
         get
         {
-            return id;
+            return _id;
         }
         set
         {
-            id = value;
+            _id = value;
         }
     }
 
     public void SetId(int id)
     {
-        if(Id == -1) Id = id;
+        if(Id >= 100) Id = id;
     }
 
     public int GetId() => Id;

@@ -17,6 +17,9 @@ public class SaveIdGenerator : MonoBehaviour
         Debug.Log(objectsToSave.Count + " objects have numerated.");
 
         for(int i = 0; i < objectsToSave.Count; i++)
+        {
             objectsToSave[i].SetId(i + parallelIdFlag);
+            Debug.Log(i + parallelIdFlag + " - " + objectsToSave[i].GetType());
+        }
     }
 }

@@ -5,7 +5,7 @@ using static NameManager;
 
 public partial class MapBonusManager : ISaveable
 {
-    private int _id = 1;
+    [SerializeField] private int _id = 101;
 
     public int Id
     {
@@ -21,7 +21,7 @@ public partial class MapBonusManager : ISaveable
 
     public void SetId(int id)
     {
-        if(Id == -1) Id = id;
+        if(Id >= 100) Id = id;
     }
 
     public int GetId() => Id;
@@ -33,11 +33,12 @@ public partial class MapBonusManager : ISaveable
         foreach(var heap in heapsPointsDict)
             heapsRewards.Add(heap.Key.SaveReward());
 
-        Debug.Log(heapsRewards.Count + " heaps saved.");
-
         MapBonusManagerSD saveData = new MapBonusManagerSD();
         saveData.heapsRewards = heapsRewards;
         saveData.heapsPoints = TypesConverter.SplitDictionary(heapsPointsDict).Item2.ToVec3List();
+
+        Debug.Log(heapsRewards.Count + " heaps saved.");
+
         manager.FillSaveData(Id, saveData);
     }
 

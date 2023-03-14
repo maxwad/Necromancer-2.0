@@ -1,7 +1,6 @@
 using UnityEngine;
-using static NameManager;
 
-public class GlobalCamera : MonoBehaviour, IInputableAxies
+public partial class GlobalCamera : MonoBehaviour, IInputableAxies
 {
     private InputSystem inputSystem;
 
@@ -65,19 +64,18 @@ public class GlobalCamera : MonoBehaviour, IInputableAxies
 
         if(MenuManager.instance.IsTherePauseOrMiniPause() == false)
         {
-            //float zoomDelta = Input.GetAxis("Mouse ScrollWheel");
-            if(inputDeltaZoom != 0f) ChangeZoom(inputDeltaZoom);
+            if(inputDeltaZoom != 0f) 
+                ChangeZoom(inputDeltaZoom);
 
-            //float deltaRotation = Input.GetAxisRaw("Rotation");
-            if(inputDeltaRatate != 0f) ChangeRotation(inputDeltaRatate);
+            if(inputDeltaRatate != 0f) 
+                ChangeRotation(inputDeltaRatate);
 
-            //float deltaX = Input.GetAxisRaw("Horizontal");
-            //float deltaY = Input.GetAxisRaw("Vertical");
-            if(inputDeltaX != 0 || inputDeltaY != 0) ChangePosition(inputDeltaX, inputDeltaY, moveSpeedMax);
+            if(inputDeltaX != 0 || inputDeltaY != 0) 
+                ChangePosition(inputDeltaX, inputDeltaY, moveSpeedMax);
 
             if(inputMiddleMB == true)
             {
-                difference = mainCamera.ScreenToWorldPoint(inputMousePosition) - mainCamera.transform.position;
+                difference = mainCamera.ScreenToWorldPoint(inputMousePosition) - transform.position;
 
                 if(isDrag == false)
                 {
@@ -90,7 +88,8 @@ public class GlobalCamera : MonoBehaviour, IInputableAxies
                 isDrag = false;
             }
 
-            if(isDrag == true) mainCamera.transform.position = ClampPosition(origin - difference);
+            if(isDrag == true) 
+                transform.position = ClampPosition(origin - difference);
 
             //CheckMouseNearEdge();
         }
@@ -203,11 +202,10 @@ public class GlobalCamera : MonoBehaviour, IInputableAxies
         mainCamera.orthographicSize = distance;
     }
 
-    public void SetGlobalCamera(Vector3 startPosition, Vector3 startRotation, float size, GameObject player)
+    public void SetGlobalCamera(Vector3 startPosition, Vector3 startRotation, float size)
     {
-        globalPlayer = player;
-
-        if(mainCamera == null) mainCamera = Camera.main;
+        if(mainCamera == null) 
+            mainCamera = Camera.main;
         
         if(startPosition != Vector3.zero) transform.position = startPosition;
         if(startRotation != Vector3.zero) transform.eulerAngles = startRotation;

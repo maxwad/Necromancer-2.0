@@ -18,6 +18,18 @@ public class Vec3
     }
 }
 
+[Serializable]
+public class fogCell
+{
+    public float x = 0;
+    public float y = 0;
+
+    public fogCell(Vector3Int oldVector)
+    {
+        x = oldVector.x;
+        y = oldVector.y;
+    }
+}
 
 [Serializable]
 public class GMTileManagerSD
@@ -39,6 +51,8 @@ public class GMTileManagerSD
 
     public List<Vec3> boxesPoints = new List<Vec3>();
     public List<Reward> boxesRewards = new List<Reward>();
+
+    public List<fogCell> fogFreeCells = new List<fogCell>();
 }
 
 
@@ -149,4 +163,22 @@ public class CalendarSD
 
     public List<string> decadeList = new List<string>();
     public int currentDecadeIndex;
+}
+
+
+[Serializable]
+public class CameraSD
+{
+    public Vec3 position;
+    public Vec3 rotation;
+    public float rotationAngle;
+    public float zoom;
+    public float cameraSize;
+}
+
+[Serializable]
+public class InfirmarySD
+{
+    public List<UnitsTypes> units = new List<UnitsTypes>();
+    public List<InjuredUnitData> quantity = new List<InjuredUnitData>();
 }

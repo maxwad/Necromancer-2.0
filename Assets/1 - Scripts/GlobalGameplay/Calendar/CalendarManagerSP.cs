@@ -1,11 +1,10 @@
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
-using static NameManager;
 
 public partial class CalendarManager : ISaveable
 {
-    [HideInInspector] public int _id = -1;
+    [SerializeField] private int _id = 101;
 
     public int Id
     {
@@ -21,7 +20,7 @@ public partial class CalendarManager : ISaveable
 
     public void SetId(int id)
     {
-        if(Id == -1) Id = id;
+        if(Id >= 100) Id = id;
     }
 
     public int GetId() => Id;

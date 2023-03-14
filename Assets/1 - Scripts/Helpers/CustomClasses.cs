@@ -129,6 +129,7 @@ public class RuneBoost
 
 #region INFIRMARY
 
+[Serializable]
 public class InjuredUnitData
 {
     public int quantity;

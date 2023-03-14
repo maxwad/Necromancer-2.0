@@ -34,7 +34,7 @@ public class CameraSwitcher : MonoBehaviour
         globalCameraMode = GetComponent<GlobalCamera>();
         battleCameraMode = GetComponent<BattleCamera>();
 
-        globalCameraMode.SetGlobalCamera(globalCameraPosition, globalCameraRotation, globalCameraSize, globalPlayer);
+        globalCameraMode.SetGlobalCamera(globalCameraPosition, globalCameraRotation, globalCameraSize);
     }
 
     public void FadeIn(bool mode)
@@ -69,7 +69,7 @@ public class CameraSwitcher : MonoBehaviour
             battleCameraMode.enabled = false;
 
             mainCamera.transform.SetParent(MapsCameraContainer.transform);
-            globalCameraMode.SetGlobalCamera(globalCameraPosition, globalCameraRotation, globalCameraSize, globalPlayer);
+            globalCameraMode.SetGlobalCamera(globalCameraPosition, globalCameraRotation, globalCameraSize);
         }
         else
         {
