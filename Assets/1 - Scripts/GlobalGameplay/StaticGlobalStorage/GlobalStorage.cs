@@ -52,6 +52,7 @@ public class GlobalStorage : MonoBehaviour
     public AltarUI altarDoor;
     public TombUI tombDoor;
     public CampUI campDoor;
+    public PortalsWindowUI portalDoor;
 
     [Header("Player")]
     public GameObject player;

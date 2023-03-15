@@ -44,6 +44,8 @@ public class GMTileManagerSD
     public List<Vec3> tombsPoints = new List<Vec3>();
     public List<TombsSD> tombsData = new List<TombsSD>();
 
+    public PortalsSD portalsData = new PortalsSD();
+
     public List<Vec3> resourcesPoints = new List<Vec3>();
     public List<ResBuildingSD> resBuildings = new List<ResBuildingSD>();
 
@@ -92,6 +94,13 @@ public class VassalSD
     public Vec3 currentSiegeTargetPosition = new Vec3(Vector3.zero);
 }
 
+
+[Serializable]
+public class PortalsSD
+{
+    public List<Vec3> unlockedPortals = new List<Vec3>();
+    public Vec3 backPosition = new Vec3(Vector3.zero);
+}
 
 [Serializable]
 public class TombsSD

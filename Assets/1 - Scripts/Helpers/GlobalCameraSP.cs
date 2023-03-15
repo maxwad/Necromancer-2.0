@@ -4,10 +4,7 @@ using UnityEngine;
 public partial class GlobalCamera : ISaveable
 {
     [SerializeField] private int _id = 101;
-    private void Start()
-    {
-        Debug.Log("Camera " + Id);
-    }
+
     public int Id
     {
         get

@@ -1,5 +1,7 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 using System.Collections.Generic;
 using static NameManager;
 
@@ -201,6 +203,26 @@ public class CampBonus
     public string name;
     public int amount;
 }
+
+public class PortalsParts
+{
+    public GameObject portal;
+
+    public GameObject mainButtonGO;
+    public GameObject buttonOnTheMapGO;
+
+    public Button mainButton;
+    public Button buttonOnTheMap;
+
+    public Image mainButtonImage;
+    public Image buttonOnTheMapImage;
+
+    public TMP_Text mainButtonText;
+
+    public Color color;
+    public Vector3 position;
+}
+
 #endregion
 
 
@@ -383,6 +405,7 @@ public struct NeighborData
         cost = currentCost;
     }
 }
+
 #endregion
 
 

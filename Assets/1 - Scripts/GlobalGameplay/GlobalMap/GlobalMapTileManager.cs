@@ -22,6 +22,7 @@ public partial class GlobalMapTileManager : MonoBehaviour
     [HideInInspector] public AltarBuilder altarBuilder;
     [HideInInspector] public CastleBuilder castleBuilder;
     [HideInInspector] public TombBuilder tombBuilder;
+    [HideInInspector] public PortalBuilder portalBuilder;
     [HideInInspector] public ResourceBuilder resourceBuilder;
     [HideInInspector] public CampBuilder campBuilder;
     [HideInInspector] public MapBoxesManager boxesBuilder;
@@ -44,6 +45,7 @@ public partial class GlobalMapTileManager : MonoBehaviour
         altarBuilder        = GetComponent<AltarBuilder>();
         castleBuilder       = GetComponent<CastleBuilder>();
         tombBuilder         = GetComponent<TombBuilder>();
+        portalBuilder       = GetComponent<PortalBuilder>();
         resourceBuilder     = GetComponent<ResourceBuilder>();
         campBuilder         = GetComponent<CampBuilder>();
         boxesBuilder        = GlobalStorage.instance.mapBoxesManager;
@@ -70,6 +72,7 @@ public partial class GlobalMapTileManager : MonoBehaviour
         altarBuilder.Build(this);
         castleBuilder.Build(this, null);
         tombBuilder.Build(this, null);
+        portalBuilder.Build(this);
         resourceBuilder.Build(this, null);
         campBuilder.Build(this);
         boxesBuilder.Build(this, null);
@@ -269,7 +272,7 @@ public partial class GlobalMapTileManager : MonoBehaviour
             if(enterPointsDict.ContainsKey(allBuildingsOnTheMap[i]) == false)
             {
                 enterPointsDict.Add(allBuildingsOnTheMap[i], pos);
-                SortingBuildings(allBuildingsOnTheMap[i], pos);
+                //SortingBuildings(allBuildingsOnTheMap[i], pos);
 
                 ClickableObject building = allBuildingsOnTheMap[i].GetComponent<ClickableObject>();
                 if(building != null)
@@ -288,7 +291,7 @@ public partial class GlobalMapTileManager : MonoBehaviour
         Vector3Int enterPoint = SearchRealEmptyCellNearRoad(false, building.transform.position);
         Vector3 position = roadMap.CellToWorld(enterPoint);
         enterPointsDict.Add(building, position);
-        SortingBuildings(building, position);
+        //SortingBuildings(building, position);
     }
 
     public void DeleteEnterPoint(GameObject building)
@@ -374,46 +377,46 @@ public partial class GlobalMapTileManager : MonoBehaviour
     }
 
 
-    private void SortingBuildings(GameObject building, Vector3 position)
-    {
-        ClickableObject obj = building.GetComponent<ClickableObject>();
+    //private void SortingBuildings(GameObject building, Vector3 position)
+    //{
+    //    ClickableObject obj = building.GetComponent<ClickableObject>();
 
-        if(obj == null) return;
+    //    if(obj == null) return;
 
-        switch(obj.objectType)
-        {
-            case TypeOfObjectOnTheMap.PlayersCastle:
-                GlobalStorage.instance.portalsManager.SetCastle(building, position);
-                break;
+    //    switch(obj.objectType)
+    //    {
+    //        case TypeOfObjectOnTheMap.PlayersCastle:
+    //            //GlobalStorage.instance.portalsManager.SetCastle(building, position);
+    //            break;
 
-            case TypeOfObjectOnTheMap.NecromancerCastle:
-                break;
-            case TypeOfObjectOnTheMap.Castle:
-                break;
-            //case TypeOfObjectOnTheMap.ResourceBuilding:
-            //    break;
-            //case TypeOfObjectOnTheMap.Outpost:
-            //    break;
-            case TypeOfObjectOnTheMap.Camp:
-                break;
-            //case TypeOfObjectOnTheMap.Altar:
-            //    break;
+    //        case TypeOfObjectOnTheMap.NecromancerCastle:
+    //            break;
+    //        case TypeOfObjectOnTheMap.Castle:
+    //            break;
+    //        //case TypeOfObjectOnTheMap.ResourceBuilding:
+    //        //    break;
+    //        //case TypeOfObjectOnTheMap.Outpost:
+    //        //    break;
+    //        case TypeOfObjectOnTheMap.Camp:
+    //            break;
+    //        //case TypeOfObjectOnTheMap.Altar:
+    //        //    break;
 
-            case TypeOfObjectOnTheMap.Portal:
-                GlobalStorage.instance.portalsManager.AddPortal(building, position);
-                break;
+    //        case TypeOfObjectOnTheMap.Portal:
+    //           //GlobalStorage.instance.portalsManager.Register(building, position);
+    //            break;
 
-            case TypeOfObjectOnTheMap.RoadPointer:
-                break;
-            case TypeOfObjectOnTheMap.Arena:
-                break;
-            //case TypeOfObjectOnTheMap.Tomb:
-            //    GlobalStorage.instance.tombsManager.Register(building, position);
-            //    break;
-            default:
-                break;
-        }
-    }
+    //        case TypeOfObjectOnTheMap.RoadPointer:
+    //            break;
+    //        case TypeOfObjectOnTheMap.Arena:
+    //            break;
+    //        //case TypeOfObjectOnTheMap.Tomb:
+    //        //    GlobalStorage.instance.tombsManager.Register(building, position);
+    //        //    break;
+    //        default:
+    //            break;
+    //    }
+    //}
     #endregion
 
     public bool CheckCellAsEnterPoint(Vector3 cell)

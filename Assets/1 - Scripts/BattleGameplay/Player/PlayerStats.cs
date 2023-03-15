@@ -194,6 +194,10 @@ public class PlayerStats : MonoBehaviour
                     baseValue = spellBase;
                     break;
 
+                case PlayersStats.Portal:
+                    baseValue = 4;
+                    break;
+
                 default:
                     break;
             }

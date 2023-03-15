@@ -1,22 +1,19 @@
-using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using static NameManager;
 
-public class PortalsManager : MonoBehaviour, IInputableKeys
+public class PortalsManager : MonoBehaviour
 {
     private PlayerStats playerStats;
-    private InputSystem inputSystem;
+    private GMPlayerMovement globalPlayer;
+    private GlobalMapTileManager gmManager;
+    private PortalsWindowUI portalsDoor;
 
-    public GameObject uiPanel;
-    private CanvasGroup canvas;
-    private PortalsInfoUI portalsInfo;
-    private bool isPortalWindowOpened = false;
+    private Dictionary<GameObject, bool> allPortals = new Dictionary<GameObject, bool>();
 
-    [HideInInspector] public Dictionary<GameObject, Vector3> portalsDict = new Dictionary<GameObject, Vector3>();
-    [HideInInspector] public List<Building> portals = new List<Building>();
-    [HideInInspector] public GameObject currentPortal;
-    private Building castle;
+    private GameObject currentPortal;
+    private GameObject castle;
     private Vector3 backPosition = Vector3.zero;
 
     [Header("Cost of Teleport")]
@@ -27,155 +24,77 @@ public class PortalsManager : MonoBehaviour, IInputableKeys
 
     private void Awake()
     {
-        playerStats = GlobalStorage.instance.playerStats;
-        RegisterInputKeys();
+        portalsDoor  = GlobalStorage.instance.portalDoor;
+        playerStats  = GlobalStorage.instance.playerStats;
+        globalPlayer = GlobalStorage.instance.globalPlayer;
+        gmManager    = GlobalStorage.instance.gmManager;
+        castle       = GlobalStorage.instance.fortressGO;
     }
 
-    public void RegisterInputKeys()
+    public bool CanIUsePortals()
     {
-        inputSystem = GlobalStorage.instance.inputSystem;
-        inputSystem.RegisterInputKeys(KeyActions.Teleport, this);
+        return playerStats.GetCurrentParameter(PlayersStats.Portal) > 3;
     }
 
-    public void InputHandling(KeyActions keyAction)
+    public void SetCurrentPortal(GameObject portal) => currentPortal = portal;
+
+    public GameObject GetCurrentPortal() => currentPortal;
+
+    public void Register(GameObject building) => allPortals.Add(building, false);
+
+    public void UnlockPortal(GameObject portal = null)
     {
-        if(CanIUsePortals() == true)
-        {
-            if(MenuManager.instance.IsTherePauseOrMiniPause() == false && GlobalStorage.instance.isGlobalMode == true)
-            {
-                if(isPortalWindowOpened == false)
-                    OpenWindow(true, null);
-                else
-                    CloseWindow();
-            }
-        }
-    }
+        if(portal == null) return;
 
-    private bool CanIUsePortals()
-    {
-        return playerStats.GetCurrentParameter(PlayersStats.Portal) > 0;
-    }
-
-    public void OpenWindow(bool mode, ClickableObject obj)   
-    {
-        if(CanIUsePortals() == false)
-        {
-            InfotipManager.ShowWarning("You don't know how to use portals yet");
-            return;
-        }
-
-        GlobalStorage.instance.ModalWindowOpen(true);
-        isPortalWindowOpened = true;
-
-        currentPortal = (obj == null) ? null : obj.gameObject;
-
-        if(portals.Count == 0) CreatePortalsList();
-
-        uiPanel.SetActive(true);
-        if(canvas == null) canvas = uiPanel.GetComponent<CanvasGroup>();
-        Fading.instance.Fade(true, canvas);
-
-        if(portalsInfo == null) portalsInfo = uiPanel.GetComponent<PortalsInfoUI>();
-        portalsInfo.Initialize(mode);
-    }
-
-
-    public void AddPortal(GameObject building, Vector3 position)
-    {
-        portalsDict.Add(building, position);
-    }
-
-
-    public void SetCastle(GameObject building, Vector3 position)
-    {
-        castle = new Building(building, position);
-    }
-
-    public Dictionary<GameObject, Vector3> CheckPortal(bool mode, GameObject portal = null)
-    {
-        Dictionary<GameObject, Vector3> visitedPortals = new Dictionary<GameObject, Vector3>();
-        GameObject chekingPortal = (portal == null) ? currentPortal : portal;
-
-        if(mode == true)
-        {
-            for(int i = 0; i < portals.Count; i++)
-            {
-                if(portals[i].building == chekingPortal)
-                {
-                    Building newPortal = portals[i];
-                    newPortal.isVisited = true;
-                    newPortal.status = "Portal is unlocked";
-                    portals[i] = newPortal;
-
-                    portals[i].building.GetComponent<TooltipTrigger>()?.SetStatus(true);
-                }
-            }
-        }        
-
-        foreach(var item in portals)
-        {
-            if(item.isVisited == true)
-            {
-                visitedPortals.Add(item.building, item.position);
-            }
-        }
-
-        return visitedPortals;
+        allPortals[portal] = true;
+        portal.GetComponent<TooltipTrigger>()?.SetStatus(true);       
     }
     
-    public List<Building> GetAllPortals()
-    {
-        return portals;
-    }
+    public Dictionary<GameObject, bool> GetAllPortals() => allPortals;
 
-    private void CreatePortalsList()
+    public void TeleportTo(GameObject destinationPortal)
     {
-        foreach(var portal in portalsDict)
-        {
-            portals.Add(new Building(portal.Key, portal.Value));
-        }
-    }
-
-    public void TeleportTo(Vector3 newPosition)
-    {
-        GlobalStorage.instance.globalPlayer.TeleportTo(newPosition, toCertainTeleportCost);
-        CloseWindow();
+        globalPlayer.TeleportTo(gmManager.GetEnterPoint(destinationPortal), toCertainTeleportCost);
+        portalsDoor.CloseWindow();
     }
 
     public void TeleportToRandomPortal()
     {
+        List<GameObject> portals = new List<GameObject>(allPortals.Keys);
         int index = Random.Range(0, portals.Count);
-        if(portals[index].building == currentPortal)
+        if(portals[index] == currentPortal)
         {
             TeleportToRandomPortal();
         }
         else
         {
-            Vector2 position = portals[index].position;
-            GlobalStorage.instance.globalPlayer.TeleportTo(position, toRandomTeleportCost);
+            Vector2 position = gmManager.GetEnterPoint(portals[index]);
+            globalPlayer.TeleportTo(position, toRandomTeleportCost);
         }
 
-        CheckPortal(true, portals[index].building);
-        CloseWindow();
+        UnlockPortal(portals[index]);
+        portalsDoor.CloseWindow();
     }
 
     public void TeleportToCastle()
     {
-        backPosition = GlobalStorage.instance.globalPlayer.transform.position;
-        GlobalStorage.instance.globalPlayer.TeleportTo(castle.position, toCastleTeleport);
-        CloseWindow();
+        backPosition = globalPlayer.transform.position;
+        globalPlayer.TeleportTo(gmManager.GetEnterPoint(castle), toCastleTeleport);
+        portalsDoor.CloseWindow();
     }
 
     public void ResurrectionTeleport()
     {
-        GlobalStorage.instance.globalPlayer.TeleportTo(castle.position, 0);
+        globalPlayer.TeleportTo(gmManager.GetEnterPoint(castle), 0);
     }
 
     public void BackToPath()
     {
-        if(backPosition != Vector3.zero) GlobalStorage.instance.globalPlayer.TeleportTo(backPosition, toBackTeleport);
+        if(backPosition != Vector3.zero) 
+            globalPlayer.TeleportTo(backPosition, toBackTeleport);
+
         backPosition = Vector3.zero;
-        CloseWindow();
+        portalsDoor.CloseWindow();
     }
 
     public bool IsThereBackPosition()
@@ -183,11 +102,28 @@ public class PortalsManager : MonoBehaviour, IInputableKeys
         return (backPosition == Vector3.zero) ? false : true;
     }
 
-    public void CloseWindow()
+    public PortalsSD Save()
     {
-        GlobalStorage.instance.ModalWindowOpen(false);
-        isPortalWindowOpened = false;
-        currentPortal = null;
-        uiPanel.SetActive(false);
+        PortalsSD saveData = new PortalsSD();
+        foreach(var portal in allPortals)
+        {
+            if(portal.Value == true)
+                saveData.unlockedPortals.Add(portal.Key.transform.position.ToVec3());
+        }
+
+        saveData.backPosition = backPosition.ToVec3();
+
+        return saveData;
+    }
+
+    public void Load(PortalsSD saveData)
+    {
+        foreach(var portalItem in saveData.unlockedPortals)
+        {
+            GameObject portal = allPortals.Where(item => item.Key.transform.position == portalItem.ToVector3()).First().Key;
+            UnlockPortal(portal);
+        }
+
+        backPosition = saveData.backPosition.ToVector3();
     }
 }

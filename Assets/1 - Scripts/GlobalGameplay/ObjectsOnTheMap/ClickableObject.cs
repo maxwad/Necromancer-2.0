@@ -52,11 +52,6 @@ public class ClickableObject : MonoBehaviour
 
         switch(objectType)
         {
-            case TypeOfObjectOnTheMap.Portal:
-                GlobalStorage.instance.portalsManager.OpenWindow(modeClick, this);
-                isThereManager = true;
-                break;
-
             case TypeOfObjectOnTheMap.RoadPointer:
                 break;
 
@@ -115,6 +110,11 @@ public class ClickableObject : MonoBehaviour
                     enemy.PrepairToTheBattle();
                     isThereManager = true;
                 }
+                break;
+
+            case TypeOfObjectOnTheMap.Portal:
+                GlobalStorage.instance.portalDoor.Open(modeClick, this.gameObject);
+                isThereManager = true;
                 break;
 
             case TypeOfObjectOnTheMap.ResourceBuilding:

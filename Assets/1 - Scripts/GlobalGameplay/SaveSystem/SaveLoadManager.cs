@@ -170,7 +170,6 @@ public class SaveLoadManager : MonoBehaviour
         _loadCounter = _states.Count;
 
         objectsToSave = new List<ISaveable>(FindObjectsOfType<MonoBehaviour>(true).OfType<ISaveable>()).OrderBy(ch => ch.GetId()).ToList();
-        Debug.Log("Srt order: " + objectsToSave.First().GetId());
 
         //objectsToSave = objectsToSave.OrderByDescending(ch => ch.GetId()).ToList();        
         //Debug.Log("Reverse order: " + objectsToSave.First().GetId());

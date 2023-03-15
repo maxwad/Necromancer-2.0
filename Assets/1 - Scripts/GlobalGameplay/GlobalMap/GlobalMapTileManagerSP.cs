@@ -34,6 +34,7 @@ public partial class GlobalMapTileManager : ISaveable
         saveData.aiData          = castleBuilder.GetSaveData();
         saveData.tombsPoints     = tombBuilder.GetPoints().ToVec3List();
         saveData.tombsData       = tombBuilder.GetSaveData();
+        saveData.portalsData     = portalBuilder.GetSaveData();
         saveData.resourcesPoints = resourceBuilder.GetPointsList().ToVec3List();
         saveData.resBuildings    = resourceBuilder.GetSaveData();
         saveData.campsPoints     = campBuilder.GetPointsList().ToVec3List();
@@ -63,6 +64,9 @@ public partial class GlobalMapTileManager : ISaveable
 
         tombBuilder.Build(this, saveData.tombsPoints.ToVector3List());
         tombBuilder.LoadData(saveData.tombsData);
+
+        portalBuilder.Build(this);
+        portalBuilder.Load(saveData.portalsData);
 
         resourceBuilder.Build(this, saveData.resourcesPoints.ToVector3List());
         resourceBuilder.LoadData(saveData.resBuildings);
