@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static NameManager;
 
-public class HeroFortress : MonoBehaviour, IInputableKeys
+public partial class HeroFortress : MonoBehaviour, IInputableKeys
 {
     private InputSystem inputSystem;
     //private GMInterface gmInterface;
@@ -131,19 +131,13 @@ public class HeroFortress : MonoBehaviour, IInputableKeys
         float bonusAmount = buildings.GetBonusAmount(CastleBuildingsBonuses.ShelterBonus);
 
         if(bonusAmount > 0)
-        {
             gmPlayerMovement.ChangeMovementPoints(100);
-        }
 
         if(bonusAmount > 1)
-        {
             resourcesManager.ChangeResource(ResourceType.Health, 1000);
-        }
 
         if(bonusAmount > 2)
-        {
             resourcesManager.ChangeResource(ResourceType.Mana, 1000);
-        }
     }
 
     #endregion

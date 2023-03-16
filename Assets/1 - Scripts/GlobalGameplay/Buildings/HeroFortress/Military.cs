@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static NameManager;
@@ -85,5 +84,15 @@ public class Military : SpecialBuilding
                 unitsInBuilding[j].CloseConfirm();
             }
         }
+    }
+
+    public override ISpecialSaveData Save()
+    {
+        return null;
+    }
+
+    public override void Load(List<ISpecialSaveData> saveData)
+    {
+        
     }
 }

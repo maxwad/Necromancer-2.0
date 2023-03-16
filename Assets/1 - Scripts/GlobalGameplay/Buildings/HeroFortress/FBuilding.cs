@@ -334,4 +334,21 @@ public class FBuilding : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
     {
         allBuildings.CloseDescription();
     }
+
+    #region SAVE/LOAD
+
+    public ISpecialSaveData SaveData()
+    {
+        if(specialFunctional != null)
+            return specialFunctional.Save();
+
+        return null;
+    }
+
+    public void Load(List<ISpecialSaveData> saveData)
+    {
+        if(specialFunctional != null)
+            specialFunctional.Load(saveData);
+    }
+    #endregion
 }

@@ -1,10 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 using static NameManager;
-using System;
+
 
 public class RuneWorkroom : SpecialBuilding
 {
@@ -221,6 +219,16 @@ public class RuneWorkroom : SpecialBuilding
     {
         foreach(var itemCost in costList)
             resourcesManager.ChangeResource(itemCost.type, -itemCost.amount);
+    }
+
+    public override ISpecialSaveData Save()
+    {
+        return null;
+    }
+
+    public override void Load(List<ISpecialSaveData> saveData)
+    {
+        
     }
     #endregion
 }

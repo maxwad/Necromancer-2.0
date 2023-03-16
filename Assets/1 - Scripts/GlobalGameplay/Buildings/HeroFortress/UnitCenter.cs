@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -324,6 +323,16 @@ public class UnitCenter : SpecialBuilding
 
             //garrisonUI.UpdateArmies();
         }
+    }
+
+    public override ISpecialSaveData Save()
+    {
+        return null;
+    }
+
+    public override void Load(List<ISpecialSaveData> saveData)
+    {
+        
     }
 
     #endregion

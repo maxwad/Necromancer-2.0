@@ -56,4 +56,13 @@ public interface ISaveable
     public void Load(SaveLoadManager manager, Dictionary<int, object> state);
 }
 
+public interface ISpecialSavable
+{
+    public ISpecialSaveData Save();
+
+    public void Load(List<ISpecialSaveData> saveData);
+}
+
+public interface ISpecialSaveData { }
+
 #endregion

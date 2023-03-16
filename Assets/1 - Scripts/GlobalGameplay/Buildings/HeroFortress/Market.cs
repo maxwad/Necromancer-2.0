@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -178,5 +177,15 @@ public class Market : SpecialBuilding
 
             ResetForm();
         }
+    }
+
+    public override ISpecialSaveData Save()
+    {
+        return null;
+    }
+
+    public override void Load(List<ISpecialSaveData> saveData)
+    {
+        
     }
 }

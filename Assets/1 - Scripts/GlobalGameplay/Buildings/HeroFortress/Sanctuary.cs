@@ -90,7 +90,7 @@ public class Sanctuary : SpecialBuilding
     public void SelectSlider(int index, float leftAmount)
     {
         currentMaxAmount = resourcesManager.GetResource(sealCost[index].type);
-        if(leftAmount < currentMaxAmount) 
+        if(leftAmount < currentMaxAmount)
             currentMaxAmount = leftAmount;
 
         currentResourceType = sealCost[index].type;
@@ -137,9 +137,11 @@ public class Sanctuary : SpecialBuilding
     }
 
     //Button
-    public void AddResource()
+    public void AddResource(bool loadMode = false)
     {
-        resourcesManager.ChangeResource(currentResourceType, -currentAmount);
+        if(loadMode == false)
+            resourcesManager.ChangeResource(currentResourceType, -currentAmount);
+
         progressItems[currentResourceType].AddResource(currentAmount);
 
         BowlerUpdate();
@@ -152,5 +154,53 @@ public class Sanctuary : SpecialBuilding
 
         fortress.AddSeals();
         ResetSeals();
+    }
+
+    [System.Serializable]
+    public class SanctuarySD : ISpecialSaveData
+    {
+        public List<ResourceType> resources = new List<ResourceType>();
+        public List<float> amounts = new List<float>();
+    }
+
+    public override ISpecialSaveData Save()
+    {
+        SanctuarySD saveData = new SanctuarySD();
+
+        foreach(var item in progressItems)
+        {
+            saveData.resources.Add(item.Key);
+            saveData.amounts.Add(item.Value.GetAmount());
+        }
+
+        return saveData;
+    }
+
+    public override void Load(List<ISpecialSaveData> saveData)
+    {
+        SanctuarySD loadData = null;
+
+        foreach(var data in saveData)
+        {
+            if(data is SanctuarySD)
+            {
+                loadData = (SanctuarySD)data;
+                break;
+            }
+        }
+
+        if(loadData != null)
+        {
+            for(int i = 0; i < loadData.resources.Count; i++)
+            {
+                currentResourceType = loadData.resources[i];
+                currentAmount = loadData.amounts[i];
+                AddResource(true);
+            }
+        }
+        else
+        {
+            Debug.Log("There is no data for SANCTUARY!");
+        }        
     }
 }

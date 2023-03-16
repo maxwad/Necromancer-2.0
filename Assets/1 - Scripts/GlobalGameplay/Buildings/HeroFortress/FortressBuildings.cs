@@ -89,13 +89,13 @@ public class FortressBuildings : MonoBehaviour
         UpdateBuildProgressUI();
     }
 
-    public void Test()
-    {
-        foreach(var bonus in buildingsBonuses)
-        {
-            Debug.Log(bonus.Key + " = " + bonus.Value);
-        }
-    }
+    //public void Test()
+    //{
+    //    foreach(var bonus in buildingsBonuses)
+    //    {
+    //        Debug.Log(bonus.Key + " = " + bonus.Value);
+    //    }
+    //}
 
     private void Update()
     {
@@ -115,12 +115,6 @@ public class FortressBuildings : MonoBehaviour
         }
     }
 
-    public void RegisterBuilding(CastleBuildings building)
-    {
-        if(allReadyBuildings.ContainsKey(building) == false)
-            allReadyBuildings.Add(building, buildingsComponentDict[building]);
-    }
-
     public void UpgradeBuilding(CastleBuildings building, bool levelUpMode)
     {
         if(buildingsLevels[building] == 0)
@@ -135,7 +129,8 @@ public class FortressBuildings : MonoBehaviour
         //    buildingsLevels[building] = newLevel;
 
         UpgradeFortressLevel();
-        if(buildingsLevels[building] == 0) allReadyBuildings.Remove(building);
+        if(buildingsLevels[building] == 0) 
+            allReadyBuildings.Remove(building);
 
         buildingsInProgress.Remove(building);
         UpdateBuildProgressUI();
@@ -184,6 +179,12 @@ public class FortressBuildings : MonoBehaviour
         }
 
         gmInterface.castlePart.UpdateCastleStatus();
+    }
+
+    public void RegisterBuilding(CastleBuildings building)
+    {
+        if(allReadyBuildings.ContainsKey(building) == false)
+            allReadyBuildings.Add(building, buildingsComponentDict[building]);
     }
 
     #endregion
@@ -463,6 +464,50 @@ public class FortressBuildings : MonoBehaviour
     }
     #endregion
 
+    #region SAVE/LOAD
+
+    public HFBuildingsSD Save()
+    {
+        HFBuildingsSD saveData = new HFBuildingsSD();
+
+        foreach(var building in buildingsLevels)
+        {
+            if(building.Value != 0)
+            {
+                saveData.buildedBuildings.Add(building.Key);
+                saveData.buildedBuildingsLevels.Add(building.Value);                
+            }
+        }
+
+        foreach(var building in buildingsInProgress)
+        {
+            saveData.buildingsInProgress.Add(building.Key);
+            saveData.constructionsTimes.Add(building.Value);            
+        }
+
+        foreach(var building in allReadyBuildings)
+            saveData.specialBuildingsSD.Add(building.Value.SaveData());
+
+        return saveData;
+    }
+
+    public void Load(HFBuildingsSD saveData)
+    {
+        for(int i = 0; i < saveData.buildedBuildings.Count; i++)
+        {
+            for(int j = 0; j < saveData.buildedBuildingsLevels[i]; j++)
+                BuildStartBuilding(saveData.buildedBuildings[i]);
+        }
+
+        buildingsInProgress = TypesConverter.CreateDictionary(saveData.buildingsInProgress, saveData.constructionsTimes);
+
+        foreach(var building in allReadyBuildings)
+            building.Value.Load(saveData.specialBuildingsSD);
+    }
+
+    #endregion
+
+
     private void OnEnable()
     {
         EventManager.NewMove += NewDay;
@@ -472,4 +517,19 @@ public class FortressBuildings : MonoBehaviour
     {
         EventManager.NewMove -= NewDay;
     }
+}
+
+[System.Serializable]
+public class HFBuildingsSD
+{
+    //public Dictionary<CastleBuildings, int> buildingsLevels = new Dictionary<CastleBuildings, int>();
+    public List<CastleBuildings> buildedBuildings = new List<CastleBuildings>();
+    public List<int> buildedBuildingsLevels = new List<int>();
+
+    //Dictionary<CastleBuildings, ConstructionTime> buildingsInProgress = new Dictionary<CastleBuildings, ConstructionTime>();
+
+    public List<CastleBuildings> buildingsInProgress = new List<CastleBuildings>();
+    public List<ConstructionTime> constructionsTimes = new List<ConstructionTime>();
+
+    public List<ISpecialSaveData> specialBuildingsSD = new List<ISpecialSaveData>();
 }
