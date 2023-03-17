@@ -9,6 +9,7 @@ public class Market : SpecialBuilding
     private HeroFortress fortress;
     private FortressBuildings allBuildings;
     private ResourcesManager resourcesManager;
+    private FBuilding sourceBuilding;
     public Dictionary<ResourceType, Sprite> resourcesIcons;
     public Dictionary<int, ResourceType> resources = new Dictionary<int, ResourceType>();
 
@@ -43,7 +44,7 @@ public class Market : SpecialBuilding
 
     private float marketDiscount = 0f;
 
-    public override GameObject Init(CastleBuildings building)
+    public override GameObject Init(FBuilding building)
     {
         if(fortress == null)
         {
@@ -59,6 +60,7 @@ public class Market : SpecialBuilding
             resources.Add(4, ResourceType.Iron);
         }
 
+        sourceBuilding = building;
         gameObject.SetActive(true);
 
         ResetForm();
@@ -179,13 +181,42 @@ public class Market : SpecialBuilding
         }
     }
 
-    public override ISpecialSaveData Save()
+
+    [System.Serializable]
+    public class MarketSD
     {
-        return null;
+        public float currentInflation = 0;
+        public bool isMarketContainer = false;
     }
 
-    public override void Load(List<ISpecialSaveData> saveData)
+    public override object Save()
     {
-        
+        MarketSD saveData = new MarketSD();
+        saveData.currentInflation = currentInflation;
+        saveData.isMarketContainer = true;
+
+        return saveData;
+    }
+
+    public override void Load(List<object> saveData)
+    {
+        MarketSD loadData = null;
+
+        foreach(var data in saveData)
+        {
+            if(data != null)
+            {
+                loadData = TypesConverter.ConvertToRequiredType<MarketSD>(data);                
+
+                if(loadData.isMarketContainer == true)
+                    break;
+            }
+        }
+
+        if(loadData != null)
+            currentInflation = loadData.currentInflation;
+        else
+            Debug.Log("There is no data for MARKET!");
+
     }
 }

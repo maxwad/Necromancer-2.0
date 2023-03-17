@@ -36,6 +36,7 @@ public class GlobalStorage : MonoBehaviour
     public TombsManager tombsManager;
     public CampManager campManager;
     public AISystem aiSystem;
+    public SaveLoadManager saveManager;
 
 
     [Header("UI")]

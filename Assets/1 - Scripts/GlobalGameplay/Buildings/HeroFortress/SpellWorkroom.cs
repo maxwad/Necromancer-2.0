@@ -7,6 +7,7 @@ public class SpellWorkroom : SpecialBuilding
 {
     private SpellManager spellManager;
     private FortressBuildings allBuildings;
+    private FBuilding sourceBuilding;
 
     private Dictionary<Spells, SpellSO> findedSpells = new Dictionary<Spells, SpellSO>();
 
@@ -18,9 +19,9 @@ public class SpellWorkroom : SpecialBuilding
     [SerializeField] private SpellDetailUI nextLevelSpellDetails;
 
     private SpellSO currentSpell;
-    
 
-    public override GameObject Init(CastleBuildings building)
+
+    public override GameObject Init(FBuilding building)
     {
         if(spellManager == null)
         {
@@ -28,6 +29,7 @@ public class SpellWorkroom : SpecialBuilding
             allBuildings = GlobalStorage.instance.fortressBuildings;
         }
 
+        sourceBuilding = building;
         ResetForm();
 
         gameObject.SetActive(true);
@@ -157,12 +159,12 @@ public class SpellWorkroom : SpecialBuilding
         }
     }
 
-    public override ISpecialSaveData Save()
+    public override object Save()
     {
         return null;
     }
 
-    public override void Load(List<ISpecialSaveData> saveData)
+    public override void Load(List<object> saveData)
     {
         
     }

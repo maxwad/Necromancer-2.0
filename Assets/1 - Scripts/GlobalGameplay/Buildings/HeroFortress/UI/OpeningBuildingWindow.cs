@@ -26,7 +26,7 @@ public class OpeningBuildingWindow : MonoBehaviour
         if(building.isSpecialBuilding == true)
         {
             statusText.gameObject.SetActive(false);
-            currentBuilding = building.specialFunctional.Init(building.building);
+            currentBuilding = building.specialFunctional.Init(building);
         }
         else
         {

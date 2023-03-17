@@ -38,14 +38,9 @@ public class SealResourceProgressItem : MonoBehaviour
             if(sanctuary != null)
             {
                 if(isComplete == false)
-                {
                     sanctuary.SelectSlider(index, maxAmount - currentAmount);
-                }
                 else
-                {
-                    resToggle.interactable = false;
                     sanctuary.SelectAnoterSlider();
-                }
             }
         }
     }
@@ -69,8 +64,11 @@ public class SealResourceProgressItem : MonoBehaviour
     {
         currentAmount += amount;
         UpdateScale();
-
         isComplete = currentAmount >= maxAmount;
+
+        if(isComplete == true)
+            resToggle.interactable = false;
+
         ChangeResource();
     }
 

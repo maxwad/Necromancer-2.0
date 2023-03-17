@@ -61,6 +61,7 @@ public class FBuilding : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
     private OpeningBuildingWindow door;
     private FortressBuildings allBuildings;
     private ResourcesManager resourcesManager;
+    private SaveLoadManager saveManager;
 
     private void Start()
     { 
@@ -79,6 +80,7 @@ public class FBuilding : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
             resourcesManager = GlobalStorage.instance.resourcesManager;
             allBuildings = GlobalStorage.instance.fortressBuildings;
             door = GlobalStorage.instance.fortressBuildingDoor;
+            saveManager = GlobalStorage.instance.saveManager;
         }
         //we don't care about level, we need common info
         currentBonus = allBuildings.GetBuildingBonus(building, 1);
@@ -88,12 +90,19 @@ public class FBuilding : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
         buildingName = currentBonus.buildingName;
         caption.text = buildingName;
 
+        buildingsIcon.sprite = currentBonus.inActiveIcon;
         buildingDescr = currentBonus.buildingDescription;
         level = allBuildings.GetBuildingsLevel(building);
         maxLevel = allBuildings.GetMaxLevel();
 
         if(allBuildings.GetConstructionStatus(building) == true)
         {
+            if(level == 0)
+            {
+                borderBlock.SetActive(false);
+                buildingsBG.color = new Color(buildingsBG.color.r, buildingsBG.color.g, buildingsBG.color.b, 0.9f);
+            }
+
             processBlock.SetActive(true);
             levelBlock.SetActive(false);
             warningBlock.SetActive(false);
@@ -111,7 +120,6 @@ public class FBuilding : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
             if(level == 0)
             {
                 buildingsBG.color = new Color(buildingsBG.color.r, buildingsBG.color.g, buildingsBG.color.b, 0.9f);
-                buildingsIcon.sprite = currentBonus.inActiveIcon;
                 levelText.color = warningColor;
                 borderBlock.SetActive(false);
                 statusBuild.SetActive(true);
@@ -120,7 +128,6 @@ public class FBuilding : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
             else
             {
                 levelText.color = Color.white;
-                buildingsBG.color = new Color(buildingsBG.color.r, buildingsBG.color.g, buildingsBG.color.b, 1f);
                 buildingsIcon.sprite = currentBonus.activeIcon;
                 borderBlock.SetActive(true);
                 statusBuild.SetActive(false);
@@ -337,7 +344,12 @@ public class FBuilding : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
 
     #region SAVE/LOAD
 
-    public ISpecialSaveData SaveData()
+    public T ConvertData<T>(object data)
+    {
+        return saveManager.ConvertToRequiredType<T>(data);
+    }
+
+    public object SaveData()
     {
         if(specialFunctional != null)
             return specialFunctional.Save();
@@ -345,7 +357,7 @@ public class FBuilding : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
         return null;
     }
 
-    public void Load(List<ISpecialSaveData> saveData)
+    public void Load(List<object> saveData)
     {
         if(specialFunctional != null)
             specialFunctional.Load(saveData);

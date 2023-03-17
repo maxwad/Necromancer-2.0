@@ -173,7 +173,7 @@ public class UnitInMarketUI : MonoBehaviour
         }
 
         root.UpgradeUnitLevel(unitsType, level + 1);
-        root.Init(root.currentBuilding);
+        root.Init(root.sourceBuilding);
     }
 
     public void ShowConfirm()

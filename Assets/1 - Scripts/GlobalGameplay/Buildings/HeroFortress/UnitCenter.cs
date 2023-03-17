@@ -13,6 +13,7 @@ public class UnitCenter : SpecialBuilding
     private ResourcesManager resourcesManager;
     private ResourcesSources growthManager;
     private BoostManager boostManager;
+    private FBuilding sourceBuilding;
 
     private Dictionary<ResourceType, Sprite> resourcesIcons;
     private Dictionary<UnitsTypes, int> potentialAmounts = new Dictionary<UnitsTypes, int>();
@@ -41,7 +42,7 @@ public class UnitCenter : SpecialBuilding
     private Unit currentUnit;
     private bool canIHire = true;
 
-    public override GameObject Init(CastleBuildings building)
+    public override GameObject Init(FBuilding building)
     {
         if(allBuildings == null)
         {
@@ -55,6 +56,7 @@ public class UnitCenter : SpecialBuilding
             emptyIcon = currentUnitIcon.sprite;
         }
 
+        sourceBuilding = building;
         gameObject.SetActive(true);
 
         ResetForm();
@@ -325,12 +327,12 @@ public class UnitCenter : SpecialBuilding
         }
     }
 
-    public override ISpecialSaveData Save()
+    public override object Save()
     {
         return null;
     }
 
-    public override void Load(List<ISpecialSaveData> saveData)
+    public override void Load(List<object> saveData)
     {
         
     }

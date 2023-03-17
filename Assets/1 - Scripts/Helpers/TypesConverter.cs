@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using static NameManager;
 
 public class TypesConverter : MonoBehaviour
@@ -153,34 +155,42 @@ public class TypesConverter : MonoBehaviour
     }
 
 
-    public static Vector3 GetVector3(Vec3 falseVector)
+    //public static Vector3 GetVector3(Vec3 falseVector)
+    //{
+    //    return new Vector3(falseVector.x, falseVector.y, falseVector.z);
+    //}
+
+    //public static Vec3 GetVec3(Vector3 realVector)
+    //{
+    //    return new Vec3(realVector);
+    //}
+
+    //public static List<Vector3> GetVector3List(List<Vec3> falseVectorList)
+    //{
+    //    List<Vector3> newList = new List<Vector3>();
+
+    //    foreach(var oldVector in falseVectorList)
+    //        newList.Add(GetVector3(oldVector));
+
+    //    return newList;
+    //}
+
+    //public static List<Vec3> GetVec3List(List<Vector3> vectorList)
+    //{
+    //    List<Vec3> newList = new List<Vec3>();
+
+    //    foreach(var falseVector in vectorList)
+    //        newList.Add(GetVec3(falseVector));
+
+    //    return newList;
+    //}
+
+
+    public static T ConvertToRequiredType<T>(object data)
     {
-        return new Vector3(falseVector.x, falseVector.y, falseVector.z);
-    }
-
-    public static Vec3 GetVec3(Vector3 realVector)
-    {
-        return new Vec3(realVector);
-    }
-
-    public static List<Vector3> GetVector3List(List<Vec3> falseVectorList)
-    {
-        List<Vector3> newList = new List<Vector3>();
-
-        foreach(var oldVector in falseVectorList)
-            newList.Add(GetVector3(oldVector));
-
-        return newList;
-    }
-
-    public static List<Vec3> GetVec3List(List<Vector3> vectorList)
-    {
-        List<Vec3> newList = new List<Vec3>();
-
-        foreach(var falseVector in vectorList)
-            newList.Add(GetVec3(falseVector));
-
-        return newList;
+        JObject tempObject = (JObject)data;
+        T convertedData = tempObject.ToObject<T>();
+        return convertedData;
     }
 
 

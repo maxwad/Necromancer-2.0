@@ -499,10 +499,18 @@ public class FortressBuildings : MonoBehaviour
                 BuildStartBuilding(saveData.buildedBuildings[i]);
         }
 
-        buildingsInProgress = TypesConverter.CreateDictionary(saveData.buildingsInProgress, saveData.constructionsTimes);
+        for(int i = 0; i < saveData.buildingsInProgress.Count; i++)
+        {
+            CastleBuildings building = saveData.buildingsInProgress[i];
+            StartBuildingBuilding(building);
+            buildingsInProgress[building] = saveData.constructionsTimes[i];
+            buildingsComponentDict[building].UpdateBuildingProcess(saveData.constructionsTimes[i]);
+        }
 
         foreach(var building in allReadyBuildings)
             building.Value.Load(saveData.specialBuildingsSD);
+
+        gmInterface.castlePart.UpdateCastleStatus();
     }
 
     #endregion
@@ -519,17 +527,14 @@ public class FortressBuildings : MonoBehaviour
     }
 }
 
-[System.Serializable]
+[Serializable]
 public class HFBuildingsSD
 {
-    //public Dictionary<CastleBuildings, int> buildingsLevels = new Dictionary<CastleBuildings, int>();
     public List<CastleBuildings> buildedBuildings = new List<CastleBuildings>();
     public List<int> buildedBuildingsLevels = new List<int>();
-
-    //Dictionary<CastleBuildings, ConstructionTime> buildingsInProgress = new Dictionary<CastleBuildings, ConstructionTime>();
 
     public List<CastleBuildings> buildingsInProgress = new List<CastleBuildings>();
     public List<ConstructionTime> constructionsTimes = new List<ConstructionTime>();
 
-    public List<ISpecialSaveData> specialBuildingsSD = new List<ISpecialSaveData>();
+    public List<object> specialBuildingsSD = new List<object>();
 }

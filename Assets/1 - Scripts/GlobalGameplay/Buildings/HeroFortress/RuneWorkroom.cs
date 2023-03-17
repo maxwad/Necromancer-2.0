@@ -12,6 +12,8 @@ public class RuneWorkroom : SpecialBuilding
     private ResourcesManager resourcesManager;
     private Dictionary<ResourceType, Sprite> resourcesIcons;
 
+    private FBuilding sourceBuilding;
+
     [Header("Common UI")]
     [SerializeField] private GameObject storeContainer;
     [SerializeField] private GameObject herosRunesContainer;
@@ -37,8 +39,9 @@ public class RuneWorkroom : SpecialBuilding
     private RunesType currentRuneType;
     private List<RuneSO> currentRuneFamily;
 
-    public override GameObject Init(CastleBuildings building)
+    public override GameObject Init(FBuilding building)
     {
+
         if(runesManager == null)
         {
             runesManager = GlobalStorage.instance.runesManager;
@@ -50,6 +53,7 @@ public class RuneWorkroom : SpecialBuilding
             runesInStore = runesManager.GetRunesForStorage();
         }
 
+        sourceBuilding = building;
         ResetForm();
 
         detailsBlock.SetActive(false);
@@ -221,12 +225,12 @@ public class RuneWorkroom : SpecialBuilding
             resourcesManager.ChangeResource(itemCost.type, -itemCost.amount);
     }
 
-    public override ISpecialSaveData Save()
+    public override object Save()
     {
         return null;
     }
 
-    public override void Load(List<ISpecialSaveData> saveData)
+    public override void Load(List<object> saveData)
     {
         
     }

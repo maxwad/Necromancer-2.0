@@ -7,6 +7,7 @@ public class Military : SpecialBuilding
     private UnitManager unitManager;
     [HideInInspector] public HeroFortress fortress;
     private ResourcesManager resourcesManager;
+    [HideInInspector] public FBuilding sourceBuilding;
     public Dictionary<ResourceType, Sprite> resourcesIcons;
 
     [SerializeField] private List<GameObject> unitsRows;
@@ -15,9 +16,8 @@ public class Military : SpecialBuilding
     [HideInInspector] public CastleBuildings currentBuilding;
 
 
-    public override GameObject Init(CastleBuildings building)
+    public override GameObject Init(FBuilding building)
     {
-        currentBuilding = building;
         if(fortress == null)
         {
             unitManager = GlobalStorage.instance.unitManager;
@@ -27,11 +27,14 @@ public class Military : SpecialBuilding
             resourcesIcons = resourcesManager.GetAllResourcesIcons();
         }
 
+        sourceBuilding = building;
+        currentBuilding = building.building;
+
         ResetForm();
         gameObject.SetActive(true);
         maxUnitLevel = fortress.GetMaxLevel();
 
-        List<UnitsTypes> units = unitManager.GetUnitsByBuildings(building);
+        List<UnitsTypes> units = unitManager.GetUnitsByBuildings(currentBuilding);
         for(int i = 0; i < units.Count; i++)
         {
             GameObject unitsRow = unitsRows[i];
@@ -86,12 +89,12 @@ public class Military : SpecialBuilding
         }
     }
 
-    public override ISpecialSaveData Save()
+    public override object Save()
     {
         return null;
     }
 
-    public override void Load(List<ISpecialSaveData> saveData)
+    public override void Load(List<object> saveData)
     {
         
     }

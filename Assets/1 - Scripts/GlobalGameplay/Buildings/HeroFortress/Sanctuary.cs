@@ -11,6 +11,8 @@ public class Sanctuary : SpecialBuilding
     private ResourcesManager resourcesManager;
     private Dictionary<ResourceType, Sprite> resourcesIcons;
 
+    private FBuilding sourceBuilding;
+
     [SerializeField] private List<Cost> sealCost;
     private float commonAmountNeed = 0;
     private float commonAmountPaid = 0;
@@ -36,16 +38,15 @@ public class Sanctuary : SpecialBuilding
     private ResourceType currentResourceType;
     private float currentMaxAmount = 0;
     private float currentAmount = 0;
+    private bool researchIsComplete = false;
+    private bool isDataLoading = false;
 
 
-    public override GameObject Init(CastleBuildings building)
+    public override GameObject Init(FBuilding building)
     {
-        if(fortress == null)
-        {
-            fortress = GlobalStorage.instance.heroFortress;
-            resourcesManager = GlobalStorage.instance.resourcesManager;
-            resourcesIcons = resourcesManager.GetAllResourcesIcons();
-
+        if(sourceBuilding == null)     
+        {            
+            sourceBuilding = building;
             SetStartParameters();
         }
 
@@ -58,6 +59,14 @@ public class Sanctuary : SpecialBuilding
 
     private void SetStartParameters()
     {
+        if(fortress == null)
+        {
+            fortress = GlobalStorage.instance.heroFortress;
+            resourcesManager = GlobalStorage.instance.resourcesManager;
+            resourcesIcons = resourcesManager.GetAllResourcesIcons();
+        }
+
+        commonAmountNeed = 0;
         foreach(var item in sealCost)
             commonAmountNeed += item.amount;
 
@@ -152,18 +161,26 @@ public class Sanctuary : SpecialBuilding
         sliderBlock.SetActive(false);
         resultBlock.SetActive(true);
 
-        fortress.AddSeals();
+        if(researchIsComplete == false)
+        {
+            if(isDataLoading == false)
+                fortress.AddSeals();
+
+            researchIsComplete = true;
+        }
+
         ResetSeals();
     }
 
     [System.Serializable]
-    public class SanctuarySD : ISpecialSaveData
+    public class SanctuarySD
     {
+        public bool isSanctContainer = false;
         public List<ResourceType> resources = new List<ResourceType>();
         public List<float> amounts = new List<float>();
     }
 
-    public override ISpecialSaveData Save()
+    public override object Save()
     {
         SanctuarySD saveData = new SanctuarySD();
 
@@ -173,30 +190,39 @@ public class Sanctuary : SpecialBuilding
             saveData.amounts.Add(item.Value.GetAmount());
         }
 
+        saveData.isSanctContainer = true;
+
         return saveData;
     }
 
-    public override void Load(List<ISpecialSaveData> saveData)
+    public override void Load(List<object> saveData)
     {
         SanctuarySD loadData = null;
 
         foreach(var data in saveData)
         {
-            if(data is SanctuarySD)
+            if(data != null)
             {
-                loadData = (SanctuarySD)data;
-                break;
+                loadData = TypesConverter.ConvertToRequiredType<SanctuarySD>(data);
+
+                if(loadData.isSanctContainer == true)
+                    break;
             }
         }
 
         if(loadData != null)
         {
+            SetStartParameters();
+            isDataLoading = true;
+
             for(int i = 0; i < loadData.resources.Count; i++)
             {
                 currentResourceType = loadData.resources[i];
                 currentAmount = loadData.amounts[i];
                 AddResource(true);
             }
+
+            isDataLoading = false;
         }
         else
         {
@@ -204,3 +230,5 @@ public class Sanctuary : SpecialBuilding
         }        
     }
 }
+
+public abstract class SaveSpecialClass { }
