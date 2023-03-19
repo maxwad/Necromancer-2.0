@@ -230,5 +230,3 @@ public class Sanctuary : SpecialBuilding
         }        
     }
 }
-
-public abstract class SaveSpecialClass { }

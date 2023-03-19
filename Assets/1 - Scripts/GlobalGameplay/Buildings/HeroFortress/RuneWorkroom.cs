@@ -10,7 +10,7 @@ public class RuneWorkroom : SpecialBuilding
     private FortressBuildings allBuildings;
     private ObjectsPoolManager poolManager;
     private ResourcesManager resourcesManager;
-    private Dictionary<ResourceType, Sprite> resourcesIcons;
+    //private Dictionary<ResourceType, Sprite> resourcesIcons;
 
     private FBuilding sourceBuilding;
 
@@ -28,7 +28,7 @@ public class RuneWorkroom : SpecialBuilding
 
     private List<RuneSO> runesInStore = new List<RuneSO>();
     [SerializeField] private List<RuneRWItemUI> runesInStoreUI = new List<RuneRWItemUI>();
-    private List<RuneSO> createdRunes = new List<RuneSO>();
+    //private List<RuneSO> createdRunes = new List<RuneSO>();
     private Dictionary<RuneSO, int> createdRunesDict = new Dictionary<RuneSO, int>();
     private List<RuneRWItemUI> createdRunesUI = new List<RuneRWItemUI>();
 
@@ -36,7 +36,7 @@ public class RuneWorkroom : SpecialBuilding
     private RuneSO currentRune;
     private RuneRWItemUI currentRuneUI;
 
-    private RunesType currentRuneType;
+    //private RunesType currentRuneType;
     private List<RuneSO> currentRuneFamily;
 
     public override GameObject Init(FBuilding building)
@@ -49,7 +49,7 @@ public class RuneWorkroom : SpecialBuilding
             poolManager = GlobalStorage.instance.objectsPoolManager;
             resourcesManager = GlobalStorage.instance.resourcesManager;
 
-            resourcesIcons = resourcesManager.GetAllResourcesIcons();
+            //resourcesIcons = resourcesManager.GetAllResourcesIcons();
             runesInStore = runesManager.GetRunesForStorage();
         }
 
@@ -232,7 +232,8 @@ public class RuneWorkroom : SpecialBuilding
 
     public override void Load(List<object> saveData)
     {
-        
+        //we don't need any info for loading
+        //all system is saving in SpellManager
     }
     #endregion
 }

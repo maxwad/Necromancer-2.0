@@ -11,7 +11,7 @@ public class GameMaster : MonoBehaviour, IInputableKeys
     private InputSystem inputSystem;
 
     //for Testing
-    private bool isAIEnable = true;
+    private bool isAIEnable = false;
 
     private void Start()
     {

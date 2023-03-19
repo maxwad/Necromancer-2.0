@@ -51,6 +51,11 @@ public class ResourcesSources : MonoBehaviour
         if(sources.Contains(building) == false)
             sources.Add(building);
 
+        UpdateResourceAmount();
+    }
+
+    public void UpdateResourceAmount()
+    {
         UpdateIncomes(dailyIncome, true);
         UpdateIncomes(weeklyIncome, false);
     }
@@ -59,8 +64,7 @@ public class ResourcesSources : MonoBehaviour
     {
         sources.Remove(building);
 
-        UpdateIncomes(dailyIncome, true);
-        UpdateIncomes(weeklyIncome, false);
+        UpdateResourceAmount(); ;
     }
 
     #endregion
@@ -76,13 +80,14 @@ public class ResourcesSources : MonoBehaviour
         {
             if(building.dailyFee == dailyMode)
             {
+                float amount = building.GetAmount() / divider;
                 if(income.ContainsKey(building.resourceType))
                 {
-                    income[building.resourceType] += building.GetAmount() / divider;
+                    income[building.resourceType] += amount;
                 }
                 else
                 {
-                    income.Add(building.resourceType, building.GetAmount() / divider);
+                    income.Add(building.resourceType, amount);
                 }
             }
         }

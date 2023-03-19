@@ -168,7 +168,7 @@ public class ResourceBuilding : MonoBehaviour
 
     public float GetAmount()
     {
-        ResetResourceAmount();
+        //ResetResourceAmount();
         return resourceAmount * resourceMultiplier;
     }
 
@@ -187,6 +187,8 @@ public class ResourceBuilding : MonoBehaviour
         UpgradeStatus upgradeStatus = upgradesDict[upgrade];
         upgradeStatus.isEnable = true;
         upgradesDict[upgrade] = upgradeStatus;
+
+        //resourcesSources.RegisterAsIncome(this);
 
         ResetBonuses();
 
@@ -251,8 +253,10 @@ public class ResourceBuilding : MonoBehaviour
                 resourceBonus += (upgrade.Key.value * 0.01f);
         }
 
-        resourceAmount += resourceAmount * resourceBonus;
+        resourceAmount += resourceAmount * resourceBonus;        
         resourceAmount = Mathf.RoundToInt(resourceAmount);
+
+        resourcesSources.UpdateResourceAmount();
     }
 
     public void ResetDailyPortion()
@@ -392,9 +396,9 @@ public class ResourceBuilding : MonoBehaviour
 
     public void LoadData(ResBuildingSD saveData)
     {
-        Init(saveData);
         owner.ChangeOwner(saveData.owner);
         owner.isVisited = saveData.isVisited;
+        Init(saveData);
 
         if(saveData.garrisonAmounts.Count != 0)
             garrison.LoadGarrisonArmy(TypesConverter.CreateDictionary(saveData.garrisonTypes, saveData.garrisonAmounts));

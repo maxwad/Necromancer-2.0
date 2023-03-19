@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using static NameManager;
@@ -166,6 +165,7 @@ public class SpellWorkroom : SpecialBuilding
 
     public override void Load(List<object> saveData)
     {
-        
+        //we don't need any info for loading
+        //all system is saving in SpellManager
     }
 }

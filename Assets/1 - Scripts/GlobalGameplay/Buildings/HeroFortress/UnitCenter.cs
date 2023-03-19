@@ -46,14 +46,14 @@ public class UnitCenter : SpecialBuilding
     {
         if(allBuildings == null)
         {
-            allBuildings = GlobalStorage.instance.fortressBuildings;
-            garrison = allBuildings.GetComponent<Garrison>();
-            unitManager = GlobalStorage.instance.unitManager;
-            boostManager = GlobalStorage.instance.boostManager;
+            allBuildings     = GlobalStorage.instance.fortressBuildings;
+            garrison         = GlobalStorage.instance.fortressGO.GetComponent<Garrison>();
+            unitManager      = GlobalStorage.instance.unitManager;
+            boostManager     = GlobalStorage.instance.boostManager;
             resourcesManager = GlobalStorage.instance.resourcesManager;
-            growthManager = resourcesManager.GetComponent<ResourcesSources>();
-            resourcesIcons = resourcesManager.GetAllResourcesIcons();
-            emptyIcon = currentUnitIcon.sprite;
+            growthManager    = resourcesManager.GetComponent<ResourcesSources>();
+            resourcesIcons   = resourcesManager.GetAllResourcesIcons();
+            emptyIcon        = currentUnitIcon.sprite;
         }
 
         sourceBuilding = building;
@@ -268,6 +268,7 @@ public class UnitCenter : SpecialBuilding
 
         foreach(var unit in growthAmounts)
         {
+            //Here we need check for unlocked units
             int amount = GetHiringGrowth(unit.unitType);
             potentialAmounts[unit.unitType] += amount;
         }
@@ -286,6 +287,7 @@ public class UnitCenter : SpecialBuilding
         }
 
         amount += (int)allBuildings.GetBonusAmount(CastleBuildingsBonuses.HiringAmount);
+        //Debug.Log((int)growthManager.GetResourceGrowth(ResourceType.Units));
         amount += (int)growthManager.GetResourceGrowth(ResourceType.Units);
         float bonusAmount = boostManager.GetBoost(BoostType.Hiring);
         amount += Mathf.RoundToInt(amount * bonusAmount);
@@ -326,15 +328,59 @@ public class UnitCenter : SpecialBuilding
             //garrisonUI.UpdateArmies();
         }
     }
+    public class UnitCenterSD
+    {
+        public bool isGrowthContainer = false;
+
+        public List<HiringAmount> potentialAmounts = new List<HiringAmount>();
+        public List<HiringAmount> growthAmounts = new List<HiringAmount>();
+    }
 
     public override object Save()
     {
-        return null;
+        UnitCenterSD saveData = new UnitCenterSD();
+
+        foreach(var squad in potentialAmounts)
+        {
+            HiringAmount amount = new HiringAmount();
+            amount.unitType = squad.Key;
+            amount.amount = squad.Value;
+            saveData.potentialAmounts.Add(amount);
+        }
+
+        saveData.growthAmounts = new List<HiringAmount>(growthAmounts);
+
+        saveData.isGrowthContainer = true;
+
+        return saveData;
     }
 
     public override void Load(List<object> saveData)
     {
-        
+        UnitCenterSD loadData = null;
+
+        foreach(var data in saveData)
+        {
+            if(data != null)
+            {
+                loadData = TypesConverter.ConvertToRequiredType<UnitCenterSD>(data);
+
+                if(loadData.isGrowthContainer == true)
+                    break;
+            }
+        }
+
+        if(loadData != null)
+        {
+            growthAmounts = loadData.growthAmounts;
+
+            foreach(var squad in loadData.potentialAmounts)
+                potentialAmounts.Add(squad.unitType, squad.amount);
+        }
+        else
+        {
+            Debug.Log("There is no data for UNITCENTER!");
+        }
     }
 
     #endregion
