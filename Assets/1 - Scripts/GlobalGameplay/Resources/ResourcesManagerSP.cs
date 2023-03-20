@@ -48,7 +48,7 @@ public partial class ResourcesManager : ISaveable
             return;
         }
 
-        ResourceManagerSD saveData = manager.ConvertToRequiredType<ResourceManagerSD>(state[Id]);
+        ResourceManagerSD saveData = TypesConverter.ConvertToRequiredType<ResourceManagerSD>(state[Id]);
 
         int counter = 0;
         foreach(var resource in new List<ResourceType>(resourcesDict.Keys))

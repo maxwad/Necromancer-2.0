@@ -52,19 +52,13 @@ public class PlayerStats : MonoBehaviour
     private struct Stat
     {
         public PlayersStats playerStat;
-
         public float baseValue;
-        //public float currentValue;
-        //public float tempBoostValue;
         public float maxValue;
 
         public Stat(PlayersStats stat, float baseV)
         {
             playerStat     = stat;
-
             baseValue      = baseV;
-            //currentValue   = baseV;
-            //tempBoostValue = 0;
             maxValue       = baseV;
         }
 
@@ -92,16 +86,7 @@ public class PlayerStats : MonoBehaviour
                     Debug.Log("Problem with boost " + playerStat);
                     break;
             }
-
-            //maxValue = currentValue + tempBoostValue;
-            //maxValue = currentValue;
         }
-
-        //public void SetTempBoost(float value)
-        //{
-        //    tempBoostValue = value;
-        //    maxValue = currentValue + currentValue * tempBoostValue;
-        //}
     }
 
     private BoostManager boostManager;
@@ -204,6 +189,8 @@ public class PlayerStats : MonoBehaviour
 
             allStatsDict.Add(itemStat, new Stat(itemStat, baseValue));
         }
+
+        Debug.Log("Player start parameters created.");
     }
 
     public void UpdateMaxStat(PlayersStats stat, StatBoostType upgradeType, float value)

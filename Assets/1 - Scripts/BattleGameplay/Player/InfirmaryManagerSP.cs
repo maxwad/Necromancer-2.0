@@ -45,7 +45,7 @@ public partial class InfirmaryManager : ISaveable
             return;
         }
 
-        InfirmarySD saveData = manager.ConvertToRequiredType<InfirmarySD>(state[Id]);
+        InfirmarySD saveData = TypesConverter.ConvertToRequiredType<InfirmarySD>(state[Id]);
         injuredDict = TypesConverter.CreateDictionary(saveData.units, saveData.quantity);
 
         manager.LoadDataComplete("Infirmary is loaded");

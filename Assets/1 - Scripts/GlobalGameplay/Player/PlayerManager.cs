@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using static NameManager;
 
-public class PlayerManager : MonoBehaviour
+public partial class PlayerManager : MonoBehaviour
 {
     private PlayerResurrection playerResurrection;
     private ResourcesManager resourcesManager;
@@ -18,10 +16,11 @@ public class PlayerManager : MonoBehaviour
 
     private void Start()
     {
-        resourcesManager = GlobalStorage.instance.resourcesManager;
+        resourcesManager   = GlobalStorage.instance.resourcesManager;
         playerResurrection = GetComponent<PlayerResurrection>();
-        battlePlayer = GlobalStorage.instance.battlePlayer.gameObject;
-        playerStats = GlobalStorage.instance.playerStats;
+        battlePlayer       = GlobalStorage.instance.battlePlayer.gameObject;
+        playerStats        = GetComponent<PlayerStats>();
+
         luck = playerStats.GetCurrentParameter(PlayersStats.Luck);
     }
 
@@ -106,5 +105,4 @@ public class PlayerManager : MonoBehaviour
         EventManager.SetNewPlayerStat -= UpgradeParameters;
         EventManager.NewMove -= NewTurn;
     }
-
 }

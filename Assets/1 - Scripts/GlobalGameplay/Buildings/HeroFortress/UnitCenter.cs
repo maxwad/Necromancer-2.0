@@ -328,13 +328,6 @@ public class UnitCenter : SpecialBuilding
             //garrisonUI.UpdateArmies();
         }
     }
-    public class UnitCenterSD
-    {
-        public bool isGrowthContainer = false;
-
-        public List<HiringAmount> potentialAmounts = new List<HiringAmount>();
-        public List<HiringAmount> growthAmounts = new List<HiringAmount>();
-    }
 
     public override object Save()
     {

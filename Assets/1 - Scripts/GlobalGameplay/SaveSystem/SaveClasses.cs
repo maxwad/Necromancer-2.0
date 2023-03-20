@@ -150,11 +150,13 @@ public class EnemySD
     public Vec3 color = new Vec3(Vector3.zero);
 }
 
+
 [Serializable]
 public class EnemySDWrapper
 {
     public List<EnemySD> enemyList = new List<EnemySD>();
 }
+
 
 [Serializable]
 public class CalendarSD
@@ -185,9 +187,65 @@ public class CameraSD
     public float cameraSize;
 }
 
+
 [Serializable]
 public class InfirmarySD
 {
     public List<UnitsTypes> units = new List<UnitsTypes>();
     public List<InjuredUnitData> quantity = new List<InjuredUnitData>();
+}
+
+
+[Serializable]
+public class MarketSD
+{
+    public bool isMarketContainer = false;
+
+    public float currentInflation = 0;
+}
+
+
+[Serializable]
+public class UnitCenterSD
+{
+    public bool isGrowthContainer = false;
+
+    public List<HiringAmount> potentialAmounts = new List<HiringAmount>();
+    public List<HiringAmount> growthAmounts = new List<HiringAmount>();
+}
+
+
+[Serializable]
+public class SanctuarySD
+{
+    public bool isSanctContainer = false;
+
+    public List<ResourceType> resources = new List<ResourceType>();
+    public List<float> amounts = new List<float>();
+}
+
+
+[Serializable]
+public class HFBuildingsSD
+{
+    public List<CastleBuildings> buildedBuildings = new List<CastleBuildings>();
+    public List<int> buildedBuildingsLevels = new List<int>();
+
+    public List<CastleBuildings> buildingsInProgress = new List<CastleBuildings>();
+    public List<ConstructionTime> constructionsTimes = new List<ConstructionTime>();
+
+    public List<object> specialBuildingsSD = new List<object>();
+}
+
+
+[Serializable]
+public class HeroFortressSD
+{
+    public int marketDays = 0;
+    public int seals = 0;
+
+    public bool isHeroInside = false;
+    public bool isHeroVisitedOnThisWeek = false;
+
+    public HFBuildingsSD specialBuildingsSD = new HFBuildingsSD();
 }

@@ -57,7 +57,7 @@ public partial class CalendarManager : ISaveable
             return;
         }
 
-        CalendarSD saveData = manager.ConvertToRequiredType<CalendarSD>(state[Id]);
+        CalendarSD saveData = TypesConverter.ConvertToRequiredType<CalendarSD>(state[Id]);
 
         day = saveData.day;
         week = saveData.week;

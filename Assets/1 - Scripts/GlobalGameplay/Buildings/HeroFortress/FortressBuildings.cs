@@ -462,6 +462,7 @@ public class FortressBuildings : MonoBehaviour
     {
         UpgradeBuilding(building, true);
     }
+
     #endregion
 
     #region SAVE/LOAD
@@ -525,16 +526,4 @@ public class FortressBuildings : MonoBehaviour
     {
         EventManager.NewMove -= NewDay;
     }
-}
-
-[Serializable]
-public class HFBuildingsSD
-{
-    public List<CastleBuildings> buildedBuildings = new List<CastleBuildings>();
-    public List<int> buildedBuildingsLevels = new List<int>();
-
-    public List<CastleBuildings> buildingsInProgress = new List<CastleBuildings>();
-    public List<ConstructionTime> constructionsTimes = new List<ConstructionTime>();
-
-    public List<object> specialBuildingsSD = new List<object>();
 }

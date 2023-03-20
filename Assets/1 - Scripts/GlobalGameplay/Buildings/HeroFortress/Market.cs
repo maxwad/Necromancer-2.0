@@ -181,14 +181,6 @@ public class Market : SpecialBuilding
         }
     }
 
-
-    [System.Serializable]
-    public class MarketSD
-    {
-        public float currentInflation = 0;
-        public bool isMarketContainer = false;
-    }
-
     public override object Save()
     {
         MarketSD saveData = new MarketSD();

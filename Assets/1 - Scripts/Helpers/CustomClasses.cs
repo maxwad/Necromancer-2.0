@@ -303,6 +303,15 @@ public class Boost
     }
 }
 
+public class FullSquad
+{
+    public Unit unit;
+    public GameObject unitGO;
+    public UnitController unitController;
+    public ArmySlot squadUI;
+}
+
+
 #endregion
 
 

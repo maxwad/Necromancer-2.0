@@ -26,6 +26,7 @@ public class GMPlayerMovement : MonoBehaviour
     private float defaultCountSteps = 1000;
 
     private bool cancelMovement = false;
+
     private bool iAmMoving = false;
 
     private SpriteRenderer sprite;
@@ -65,10 +66,7 @@ public class GMPlayerMovement : MonoBehaviour
     //    }
     //}
 
-    public Vector3 GetCurrentPosition()
-    {
-        return currentPosition;
-    }
+    public Vector3 GetCurrentPosition() => currentPosition;
 
     private void SetParameters()
     {
@@ -101,9 +99,13 @@ public class GMPlayerMovement : MonoBehaviour
         }
     }    
 
-    public void ChangeMovementPoints(float value)
+    public void ChangeMovementPoints(float value, bool setValue = false)
     {
-        currentMovementPoints += value;
+        if(setValue == true)
+            currentMovementPoints = value;
+        else
+            currentMovementPoints += value;
+
         if(currentMovementPoints > movementPointsMax) currentMovementPoints = movementPointsMax;
 
         gmInterface.movesPart.UpdateCurrentMoves(currentMovementPoints);
@@ -121,7 +123,6 @@ public class GMPlayerMovement : MonoBehaviour
     {
         if(stats == PlayersStats.MovementDistance)
         {
-
             movementPointsMax = (float)Math.Round(value, MidpointRounding.AwayFromZero);
             ChangeMovementPoints(movementPointsMax);
 
@@ -302,6 +303,27 @@ public class GMPlayerMovement : MonoBehaviour
         {
             gmPathFinder.DestroyPath(true);
         }
+    }
+
+
+    public PlayersMovementSD Save()
+    {
+        PlayersMovementSD saveData = new PlayersMovementSD();
+        saveData.flipHero = sprite.flipX;
+        saveData.position = transform.position.ToVec3();
+        saveData.movementPoints = currentMovementPoints;
+        saveData.isExtraMovementWaisted = isExtraMovementWaisted;
+
+        return saveData;
+    }
+
+    public void Load (PlayersMovementSD saveData)
+    {
+        sprite.flipX = saveData.flipHero;
+        transform.position = saveData.position.ToVector3();
+        currentPosition = transform.position;
+        ChangeMovementPoints(saveData.movementPoints, true);
+        isExtraMovementWaisted = saveData.isExtraMovementWaisted;
     }
 
     private void OnEnable()

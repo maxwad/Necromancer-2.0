@@ -1,17 +1,9 @@
-using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using static NameManager;
 using System;
-
-public class FullSquad
-{
-    public Unit unit;
-    public GameObject unitGO;
-    public UnitController unitController;
-    public ArmySlot squadUI;
-}
 
 public class PlayersArmy : MonoBehaviour
 {
@@ -118,9 +110,7 @@ public class PlayersArmy : MonoBehaviour
     private void ResetArmy()
     {
         foreach(var squad in fullArmy)
-        {
             UpgradeSquad(squad.Value.unit.unitType, false);
-        }
     }
 
     public void UpdateArmy()
@@ -324,10 +314,7 @@ public class PlayersArmy : MonoBehaviour
         unitsForResurrectionList.Clear();
     }
 
-    public Dictionary<UnitsTypes, int> GetDeadUnits()
-    {
-        return deadUnitsInCurrentBattle;
-    }
+    public Dictionary<UnitsTypes, int> GetDeadUnits() => deadUnitsInCurrentBattle;
 
     #region DAMAGE army after defeat/escape
 
@@ -380,10 +367,70 @@ public class PlayersArmy : MonoBehaviour
 
     #endregion
 
-    public Unit[] GetPlayersArmyForAutobattle()
+    public Unit[] GetPlayersArmyForAutobattle() => playersArmy;
+
+    #region SAVE/LOAD
+
+    public PlayersArmySD Save()
     {
-        return playersArmy;
+        PlayersArmySD saveData = new PlayersArmySD();
+
+        foreach(var squad in fullArmy)
+        {
+            PlayersArmySquadInfoSD squadData = new PlayersArmySquadInfoSD();
+            squadData.unit = squad.Key;
+            squadData.status = squad.Value.unit.status;
+            squadData.quantity = squad.Value.unitController.quantity;
+            //squadData.index = squad.Value.squadUI.index;
+            if(squadData.status == UnitStatus.Army)
+                Debug.Log("Save Slot " + squad.Value.squadUI.index + " = " + squad.Key);
+
+            saveData.wholeArmy.Add(squadData);
+        }
+
+        for(int i = 0; i < playersArmy.Length; i++)
+        {
+            if(playersArmy[i] != null)
+            {
+                saveData.activeArmy[i] = (int)playersArmy[i].unitType;
+                //UnitsTypes unit = playersArmy[i].unitType;
+                //saveData.wholeArmy.Where(squad => squad.unit == unit).First().index = i;
+            }
+        }
+
+        return saveData;
     }
+
+    public void Load(PlayersArmySD saveData)
+    {
+        playersArmyWindow.CreateReserveScheme(fullArmy);
+
+        foreach(var squad in saveData.wholeArmy)
+        {
+            fullArmy[squad.unit].unit.status = squad.status;
+            fullArmy[squad.unit].unitController.quantity = squad.quantity;
+
+            //if(squad.status == UnitStatus.Army)
+            //{
+            //    playersArmy[squad.index] = fullArmy[squad.unit].unit;
+            //    playersArmyWindow.LoadUnit(fullArmy[squad.unit], squad.index);
+            //    fullArmy[squad.unit].squadUI.index = squad.index;
+            //    fullArmy[squad.unit].squadUI.slotType = squad.status;
+            //    Debug.Log("Load Slot " + squad.index + " = " + squad.unit);
+            //}
+        }
+
+        for(int i = 0; i < saveData.activeArmy.Length; i++)
+        {
+            if(saveData.activeArmy[i] != -1)
+                playersArmyWindow.LoadUnit(fullArmy[(UnitsTypes)saveData.activeArmy[i]], i);
+        }
+
+
+        //playersArmyWindow.CreateArmyScheme(fullArmy, playersArmy);
+    }
+
+    #endregion
 
     private void OnEnable()
     {

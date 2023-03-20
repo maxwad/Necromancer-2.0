@@ -139,4 +139,6 @@ public class ArmySlot : MonoBehaviour, IPointerClickHandler, IDragHandler, IEndD
 
         //playersArmy.UpdateSquads();
     }
+
+    public int GetPositionIndex() => index;
 }

@@ -55,7 +55,7 @@ public partial class GlobalMapTileManager : ISaveable
             return;            
         }
 
-        GMTileManagerSD saveData = manager.ConvertToRequiredType<GMTileManagerSD>(state[Id]);
+        GMTileManagerSD saveData = TypesConverter.ConvertToRequiredType<GMTileManagerSD>(state[Id]);
 
         Dictionary<Vector3, Reward> boxesData = TypesConverter.CreateDictionary(saveData.boxesPoints.ToVector3List(), saveData.boxesRewards);
         arenaBuilder.Build(this, saveData.arenaPoint.ToVector3List());

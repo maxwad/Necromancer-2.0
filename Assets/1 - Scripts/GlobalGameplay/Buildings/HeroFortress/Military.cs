@@ -89,13 +89,7 @@ public class Military : SpecialBuilding
         }
     }
 
-    public override object Save()
-    {
-        return null;
-    }
+    public override object Save() => null;
 
-    public override void Load(List<object> saveData)
-    {
-        
-    }
+    public override void Load(List<object> saveData) { }
 }

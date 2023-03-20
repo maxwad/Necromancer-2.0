@@ -50,7 +50,7 @@ public partial class EnemyManager : ISaveable
         }
 
         enemyArragement.SetManager(this);
-        EnemySDWrapper saveData = manager.ConvertToRequiredType<EnemySDWrapper>(state[Id]);
+        EnemySDWrapper saveData = TypesConverter.ConvertToRequiredType<EnemySDWrapper>(state[Id]);
 
         foreach(var enemy in saveData.enemyList)
         {

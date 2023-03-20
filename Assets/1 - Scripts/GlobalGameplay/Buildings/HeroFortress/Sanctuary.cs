@@ -172,14 +172,6 @@ public class Sanctuary : SpecialBuilding
         ResetSeals();
     }
 
-    [System.Serializable]
-    public class SanctuarySD
-    {
-        public bool isSanctContainer = false;
-        public List<ResourceType> resources = new List<ResourceType>();
-        public List<float> amounts = new List<float>();
-    }
-
     public override object Save()
     {
         SanctuarySD saveData = new SanctuarySD();

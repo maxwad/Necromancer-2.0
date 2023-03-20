@@ -26,20 +26,6 @@ public partial class HeroFortress : ISaveable
 
     public int GetId() => Id;
 
-    [System.Serializable]
-    public class HeroFortressSD
-    {
-        public int marketDays = 0;
-        public int seals = 0;
-
-        public bool isHeroInside = false;
-        public bool isHeroVisitedOnThisWeek = false;
-
-        public HFBuildingsSD specialBuildingsSD = new HFBuildingsSD();
-
-        
-    }
-
     public void Save(SaveLoadManager manager)
     {
         HeroFortressSD saveData = new HeroFortressSD();
@@ -62,7 +48,7 @@ public partial class HeroFortress : ISaveable
             return;
         }
 
-        HeroFortressSD saveData = manager.ConvertToRequiredType<HeroFortressSD>(state[Id]);
+        HeroFortressSD saveData = TypesConverter.ConvertToRequiredType<HeroFortressSD>(state[Id]);
 
         marketDays = saveData.marketDays;
         seals = saveData.seals;

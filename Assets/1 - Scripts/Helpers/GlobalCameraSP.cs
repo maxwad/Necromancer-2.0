@@ -45,7 +45,7 @@ public partial class GlobalCamera : ISaveable
             return;
         }
 
-        CameraSD saveData = manager.ConvertToRequiredType<CameraSD>(state[Id]);
+        CameraSD saveData = TypesConverter.ConvertToRequiredType<CameraSD>(state[Id]);
 
         rotationAngle = saveData.rotationAngle;
         zoom = saveData.zoom;

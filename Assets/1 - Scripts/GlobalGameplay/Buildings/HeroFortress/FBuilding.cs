@@ -61,7 +61,6 @@ public class FBuilding : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
     private OpeningBuildingWindow door;
     private FortressBuildings allBuildings;
     private ResourcesManager resourcesManager;
-    private SaveLoadManager saveManager;
 
     private void Start()
     { 
@@ -80,7 +79,6 @@ public class FBuilding : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
             resourcesManager = GlobalStorage.instance.resourcesManager;
             allBuildings = GlobalStorage.instance.fortressBuildings;
             door = GlobalStorage.instance.fortressBuildingDoor;
-            saveManager = GlobalStorage.instance.saveManager;
         }
         //we don't care about level, we need common info
         currentBonus = allBuildings.GetBuildingBonus(building, 1);
@@ -343,11 +341,6 @@ public class FBuilding : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
     }
 
     #region SAVE/LOAD
-
-    public T ConvertData<T>(object data)
-    {
-        return saveManager.ConvertToRequiredType<T>(data);
-    }
 
     public object SaveData()
     {

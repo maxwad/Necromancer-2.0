@@ -50,7 +50,7 @@ public partial class MapBonusManager : ISaveable
             return;
         }
 
-        MapBonusManagerSD saveData = manager.ConvertToRequiredType<MapBonusManagerSD>(state[Id]);
+        MapBonusManagerSD saveData = TypesConverter.ConvertToRequiredType<MapBonusManagerSD>(state[Id]);
 
         heapsPointsDict.Clear();
         List<Vector3> heapPoints = saveData.heapsPoints.ToVector3List();

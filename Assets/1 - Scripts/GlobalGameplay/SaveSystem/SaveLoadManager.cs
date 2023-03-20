@@ -221,11 +221,4 @@ public class SaveLoadManager : MonoBehaviour
         _loadCounter--;
         canILoadNextPart = true;
     }
-
-    public T ConvertToRequiredType<T>(object data)
-    {
-        JObject tempObject = (JObject)data;
-        T convertedData = tempObject.ToObject<T>();
-        return convertedData;
-    }
 }

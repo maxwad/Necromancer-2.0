@@ -47,23 +47,43 @@ public class PlayersArmyPart : MonoBehaviour
             {
                 reserveSlots[i].FillSlot(squad.Value.squadUI.gameObject);
                 squad.Value.squadUI.gameObject.SetActive(true);
-                i++;
+            }
+            i++;
+        }
+    }
+
+    public void CreateArmyScheme(Dictionary<UnitsTypes, FullSquad> armyDict, Unit[] playerArmy)
+    {
+        //foreach(var squad in armyDict)
+        //{
+        //    if(squad.Value.unit.status == UnitStatus.Army)
+        //    {
+        //        Debug.Log("FILL ARMY SLOT " + squad.Value.squadUI.index + " = " + squad.Key);
+
+        //        //armySlots[squad.Value.squadUI.index].FillSlot(squad.Value.squadUI.gameObject);
+        //        //squad.Value.squadUI.gameObject.SetActive(true);
+        //    }
+        //}
+        Debug.Log("ARRAY: " + playerArmy.Length);
+
+        for(int i = 0; i < playerArmy.Length; i++)
+        {
+            if(playerArmy[i] != null)
+            {
+                Debug.Log(i + " != null");
+                armySlots[armyDict[playerArmy[i].unitType].squadUI.index].HandlingNewSlot(armyDict[playerArmy[i].unitType].squadUI);
+                //armySlots[armyDict[playerArmy[i].unitType].squadUI.index].FillSlot(armyDict[playerArmy[i].unitType].squadUI.gameObject);
+                //armyDict[playerArmy[i].unitType].squadUI.gameObject.SetActive(true);
             }
         }
     }
 
-    public void CreateArmyScheme(Dictionary<UnitsTypes, FullSquad> armyDict)
+    public void LoadUnit(FullSquad squad, int index)
     {
-        int i = 0;
-        foreach(var squad in armyDict)
-        {
-            if(squad.Value.unit.status == UnitStatus.Army)
-            {
-                armySlots[i].FillSlot(squad.Value.squadUI.gameObject);
-                squad.Value.squadUI.gameObject.SetActive(true);
-                i++;
-            }
-        }
+        //armySlots[index].FillSlot(squad.squadUI.gameObject);
+        armySlots[index].HandlingNewSlot(squad.squadUI);
+        if(squad.unitController.quantity != 0)
+            squad.squadUI.gameObject.SetActive(true);
     }
 
     public void ForceClearCell(ArmySlot armySlot, bool directionMode = true)
@@ -117,9 +137,7 @@ public class PlayersArmyPart : MonoBehaviour
     private void DisableAllSlots(Dictionary<UnitsTypes, FullSquad> armyDict)
     {
         foreach(var item in armyDict)
-        {
             item.Value.squadUI.gameObject.SetActive(false);
-        }
     }
 
     public void UpdateArmyWindow()
@@ -127,10 +145,14 @@ public class PlayersArmyPart : MonoBehaviour
         if(isStartInit == true)
         {
             DisableAllSlots(playersArmy.fullArmy);
-            CreateArmyScheme(playersArmy.fullArmy);
+            //CreateArmyScheme(playersArmy.fullArmy);
             CreateReserveScheme(playersArmy.fullArmy);
             isStartInit = false;
         }
+
+        //DisableAllSlots(playersArmy.fullArmy);
+        //CreateArmyScheme(playersArmy.fullArmy);
+        //CreateReserveScheme(playersArmy.fullArmy);
 
         storeVeil.SetActive(!GlobalStorage.instance.isGlobalMode);
 
@@ -139,7 +161,6 @@ public class PlayersArmyPart : MonoBehaviour
 
         UpdateInfirmaryScheme();
     }
-
 
     public void SortingUnits()
     {

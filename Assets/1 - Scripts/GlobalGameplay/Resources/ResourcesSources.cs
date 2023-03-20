@@ -135,10 +135,7 @@ public class ResourcesSources : MonoBehaviour
         return null;
     }
 
-    public List<ResourceBuilding> GetAllResBuildings()
-    {
-        return listForAI;
-    }
+    public List<ResourceBuilding> GetAllResBuildings() => listForAI;
 
     #endregion
 
