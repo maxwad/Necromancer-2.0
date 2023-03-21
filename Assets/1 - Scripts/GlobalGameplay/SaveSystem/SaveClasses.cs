@@ -249,3 +249,71 @@ public class HeroFortressSD
 
     public HFBuildingsSD specialBuildingsSD = new HFBuildingsSD();
 }
+
+
+[Serializable]
+public class PlayerSD
+{
+    public PlayersMovementSD parameters;
+    public PlayersArmySD army;
+    public PlayersLevelUpSD abilities;
+    public PlayersSpells spells;
+}
+
+[Serializable]
+public class PlayersArmySD
+{
+    public List<PlayersArmySquadInfoSD> wholeArmy = new List<PlayersArmySquadInfoSD>();
+    public int[] activeArmy = new int[4] { -1, -1, -1, -1 };
+}
+
+[Serializable]
+public class PlayersArmySquadInfoSD
+{
+    public UnitsTypes unit;
+    public UnitStatus status;
+    public int quantity = 0;
+}
+
+[Serializable]
+public class PlayersMovementSD
+{
+    public bool flipHero = false;
+    public float movementPoints = 0;
+    public bool isExtraMovementWaisted = false;
+    public Vec3 position;
+}
+
+[Serializable]
+public class AbilityData
+{
+    public PlayersStats abilitySerie;
+    public int level;
+}
+
+[Serializable]
+public class PlayersLevelUpSD
+{
+    public float currentLevel;
+    public float currentExp;
+    public int abilityPoints;
+
+    public List<AbilityData> openedAbilities;
+}
+
+[Serializable]
+public class PlayersSpells
+{
+    public List<SpellData> spellsLevels = new List<SpellData>();
+    public List<Spells> readySpells = new List<Spells>();
+    public List<Spells> findedSpells = new List<Spells>();
+    public List<Spells> spellsInStorage = new List<Spells>();
+    public List<Spells> spellsForBattle = new List<Spells>();
+}
+
+[Serializable]
+public class SpellData
+{
+    public Spells spell;
+    public int level;
+}

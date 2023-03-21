@@ -45,11 +45,7 @@ public class ArmySlot : MonoBehaviour, IPointerClickHandler, IDragHandler, IEndD
     public void Init(Unit unit)
     {
         if(squadtipTrigger == null) squadtipTrigger = GetComponent<InfotipTrigger>();
-        //if(unitInSlot != null)
-        //{
-        //    Debug.Log("ArmySlot Level was = " + unitInSlot.level + " and became " + unit.level);
-        //}
-        
+     
         unitInSlot = unit;
         icon.sprite = unit.unitIcon;
         quantity.text = unit.unitController.quantity.ToString();

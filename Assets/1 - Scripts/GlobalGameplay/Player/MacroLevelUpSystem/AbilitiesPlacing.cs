@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using static NameManager;
+using System;
 
 public class AbilitiesPlacing : MonoBehaviour
 {
@@ -110,6 +111,20 @@ public class AbilitiesPlacing : MonoBehaviour
                         }
                     }
                 }
+            }
+        }
+    }
+
+    internal void Load(List<AbilityData> openedAbilities)
+    {
+        foreach(var item in openedAbilities)
+        {
+            List<SkillItem> uiList = skillsUIDict[item.abilitySerie];
+
+            foreach(var uiItem in uiList)
+            {
+                if(uiItem.skill.level == item.level)
+                    uiItem.MarkAsOpened(true);
             }
         }
     }

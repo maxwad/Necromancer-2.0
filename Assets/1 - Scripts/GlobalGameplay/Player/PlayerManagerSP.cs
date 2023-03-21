@@ -7,6 +7,9 @@ public partial class PlayerManager : ISaveable
 {
     private PlayersArmy playersArmy;
     private GMPlayerMovement playerMovement;
+    private MacroLevelUpManager levelUpManager;
+    private SpellManager spellManager;
+    
 
     [SerializeField] private int _id = 101;
 
@@ -26,6 +29,8 @@ public partial class PlayerManager : ISaveable
     {
         playerMovement = GetComponentInChildren<GMPlayerMovement>(true);
         playersArmy = GetComponent<PlayersArmy>();
+        levelUpManager = GlobalStorage.instance.macroLevelUpManager;
+        spellManager = GlobalStorage.instance.spellManager;
     }
 
     public void SetId(int id)
@@ -41,7 +46,8 @@ public partial class PlayerManager : ISaveable
 
         saveData.parameters = playerMovement.Save();
         saveData.army = playersArmy.Save();
-
+        saveData.abilities = levelUpManager.Save();
+        saveData.spells = spellManager.Save();
 
         manager.FillSaveData(Id, saveData);
     }
@@ -56,45 +62,13 @@ public partial class PlayerManager : ISaveable
 
         PlayerSD saveData = TypesConverter.ConvertToRequiredType<PlayerSD>(state[Id]);
 
-        playerMovement.Load(saveData.parameters);
         playersArmy.Load(saveData.army);
+        levelUpManager.Load(saveData.abilities);
+        spellManager.Load(saveData.spells);
+
+        playerMovement.Load(saveData.parameters);
 
         manager.LoadDataComplete("Player are loaded");
     }
-
-
 }
 
-
-[Serializable]
-public class PlayerSD
-{
-    public PlayersMovementSD parameters;
-    public PlayersArmySD army;
-}
-
-[Serializable]
-public class PlayersArmySD
-{
-    public List<PlayersArmySquadInfoSD> wholeArmy = new List<PlayersArmySquadInfoSD>();
-    public int[] activeArmy = new int[4] { -1, -1, -1, -1 };
-}
-
-[Serializable]
-public class PlayersArmySquadInfoSD
-{
-    public UnitsTypes unit;
-    public UnitStatus status;
-    public int quantity = 0;
-    public int index = -1;
-}
-
-[Serializable]
-public class PlayersMovementSD
-{
-    public bool flipHero = false;
-    public float movementPoints = 0;
-    public bool isExtraMovementWaisted = false;
-    public Vec3 position;
-
-}

@@ -1,5 +1,4 @@
-using System;
-using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using static NameManager;
@@ -65,12 +64,10 @@ public class SpellManager : MonoBehaviour
             spellsInStorage.Add(findedSpells[spell].spell);
     }
 
+
     #region GETTINGS
 
-    public List<SpellSO> GetCurrentSpells()
-    {
-        return readySpells;
-    }
+    public List<SpellSO> GetCurrentSpells() => readySpells;
 
     public List<SpellSO> GetSpellsForTombs()
     {
@@ -85,10 +82,7 @@ public class SpellManager : MonoBehaviour
         return spellsForTombs;
     }
 
-    public Dictionary<Spells, SpellSO> GetFindedSpells()
-    {
-        return findedSpells;
-    }
+    public Dictionary<Spells, SpellSO> GetFindedSpells() => findedSpells;
 
     public int GetSpellMaxLevel(Spells spell)
     {
@@ -102,10 +96,7 @@ public class SpellManager : MonoBehaviour
         return maxLevel;
     }
 
-    public int GetSpelLevel(Spells spell)
-    {
-        return spellsLevels[spell];
-    }
+    public int GetSpelLevel(Spells spell) => spellsLevels[spell];
 
     public SpellSO GetNextLevelSpell(SpellSO spell)
     {
@@ -122,8 +113,11 @@ public class SpellManager : MonoBehaviour
     {
         List<SpellSO> tempList = new List<SpellSO>();
 
-        foreach(var spell in spellsForBattle)
-            tempList.Add(findedSpells[spell]);
+        foreach(var spellItem in spellsForBattle)
+        {
+            SpellSO spell = allSpells.Where(i => i.spell == spellItem && i.level == spellsLevels[spellItem]).First();
+            tempList.Add(spell);
+        }
 
         return tempList;
     }
@@ -132,11 +126,17 @@ public class SpellManager : MonoBehaviour
     {
         List<SpellSO> tempList = new List<SpellSO>();
 
-        foreach(var spell in spellsInStorage)
-            tempList.Add(findedSpells[spell]);
+        foreach(var spellItem in spellsInStorage)
+        {
+            SpellSO spell = allSpells.Where(i => i.spell == spellItem && i.level == spellsLevels[spellItem]).First();
+            tempList.Add(spell);
+        }
+            //tempList.Add(findedSpells[spell]);
 
         return tempList;
     }
+
+
 
     #endregion
 
@@ -172,4 +172,57 @@ public class SpellManager : MonoBehaviour
 
     #endregion
 
+
+    #region SAVE/LOAD
+
+    public PlayersSpells Save()
+    {
+        PlayersSpells saveData = new PlayersSpells();
+
+        foreach(var spellItem in spellsLevels)
+        {
+            SpellData spell = new SpellData();
+            spell.spell = spellItem.Key;
+            spell.level = spellItem.Value;
+
+            saveData.spellsLevels.Add(spell);
+        }
+
+        foreach(var spellItem in readySpells)
+            saveData.readySpells.Add(spellItem.spell);
+
+        foreach(var spellItem in findedSpells)
+            saveData.findedSpells.Add(spellItem.Key);
+
+        saveData.spellsInStorage = spellsInStorage;
+        saveData.spellsForBattle = spellsForBattle;
+
+        return saveData;
+    }
+
+    public void Load(PlayersSpells saveData)
+    {
+        spellsLevels.Clear();
+        foreach(var spellItem in saveData.spellsLevels)
+            spellsLevels.Add(spellItem.spell, spellItem.level);
+
+        readySpells.Clear();
+        foreach(var spellItem in saveData.readySpells)
+        {
+            SpellSO spell = allSpells.Where(i => i.spell == spellItem && i.level == spellsLevels[spellItem]).First();
+            readySpells.Add(spell);
+        }
+
+        findedSpells.Clear();
+        foreach(var spellItem in saveData.findedSpells)
+        {
+            SpellSO spell = allSpells.Where(i => i.spell == spellItem && i.level == 1).First();
+            findedSpells.Add(spellItem, spell);
+        }
+
+        spellsInStorage = saveData.spellsInStorage;
+        spellsForBattle = saveData.spellsForBattle;
+    }
+
+    #endregion
 }

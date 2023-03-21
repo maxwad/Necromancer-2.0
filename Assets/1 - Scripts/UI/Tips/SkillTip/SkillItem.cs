@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
@@ -96,7 +94,7 @@ public class SkillItem : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         }
     }
 
-    public void MarkAsOpened()
+    public void MarkAsOpened(bool loadMode = false)
     {
         icon.sprite = skill.activeIcon;
 
@@ -108,20 +106,17 @@ public class SkillItem : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
         isTaken = true;
         amINext = false;
-        macroManager.OpenAbility(skill);
+
+        macroManager.OpenAbility(skill, loadMode);
+        
+        if(loadMode == true)
+            border.fillAmount = 0f;
     }
 
     public void IAmNextSkill(bool mode)
     {
-        if(mode == true)
-        {
-            bgSkill.color = readyColor;
-        }
-        else
-        {
-            bgSkill.color = normalColor;
-        }
 
+        bgSkill.color = (mode == true) ? readyColor : normalColor;
         amINext = mode;
     }
 }

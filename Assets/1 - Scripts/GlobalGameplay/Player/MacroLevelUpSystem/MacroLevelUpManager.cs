@@ -41,19 +41,18 @@ public class MacroLevelUpManager : MonoBehaviour
 
     public void Init()
     {
-        playerStats = GlobalStorage.instance.playerStats;
-        maxLevel = playerStats.GetCurrentParameter(PlayersStats.Level);
-        newLevelUI = GlobalStorage.instance.gmInterface.gameObject.GetComponent<NewLevelUI>();
-        managerUI = GlobalStorage.instance.playerMilitaryWindow.GetComponentInChildren<MacroLevelWindow>();
-        gmInterface = GlobalStorage.instance.gmInterface;
-        bonusSkillLevel = playerStats.GetCurrentParameter(PlayersStats.Learning);
+        playerStats      = GlobalStorage.instance.playerStats;
+        maxLevel         = playerStats.GetCurrentParameter(PlayersStats.Level);
+        newLevelUI       = GlobalStorage.instance.gmInterface.gameObject.GetComponent<NewLevelUI>();
+        managerUI        = GlobalStorage.instance.playerMilitaryWindow.GetComponentInChildren<MacroLevelWindow>();
+        gmInterface      = GlobalStorage.instance.gmInterface;
+        bonusSkillLevel  = playerStats.GetCurrentParameter(PlayersStats.Learning);
         abilitiesStorage = GetComponentInChildren<AbilitiesStorage>();
         abilitiesStorage.Init();
-        managerUI.UpdateAbilityBlock(abilityPoints);
+        ChangeAbilityPoints(3, true);
 
         //TODO: delete on release
         //abilityPoints = abilitiesStorage.abilitiesCount;
-        abilityPoints = 3;
 
         //for(int i = 0; i < 11; i++)
         //{
@@ -86,10 +85,10 @@ public class MacroLevelUpManager : MonoBehaviour
 
     private void UpgradeTempExpGoal(bool levelUpMode)
     {
+        if(levelUpMode == true) NewLevel();
+
         currentExp = 0;
         currentExpGoal = Mathf.Pow(((currentLevel + 1) / standartExpRate), levelMultiplierRate);
-
-        if(levelUpMode == true) NewLevel();
     }
 
     private void NewLevel()
@@ -113,29 +112,30 @@ public class MacroLevelUpManager : MonoBehaviour
         EventManager.OnUpgradeLevelEvent(currentLevel);
     }
 
-    public void ChangeAbilityPoints(int delta)
+    public void ChangeAbilityPoints(int delta, bool loadMode = false)
     {
-        abilityPoints += delta;
+        if(loadMode == true)
+            abilityPoints = delta;
+        else
+            abilityPoints += delta;
+
+        managerUI.UpdateAbilityBlock(abilityPoints);
         gmInterface.heroPart.UpgradeAbilityPoints(abilityPoints);
     }
 
-    public void OpenAbility(MacroAbilitySO newAbility)
+    public void OpenAbility(MacroAbilitySO newAbility, bool loadMode = false)
     {
-        ChangeAbilityPoints(-newAbility.cost);
+        if(loadMode == false)
+            ChangeAbilityPoints(-newAbility.cost);
+
         abilitiesStorage.ApplyAbility(newAbility);
         playerStats.UpdateMaxStat(newAbility.ability, newAbility.valueType, newAbility.value);
         managerUI.UpdateAbilityBlock(abilityPoints);
     }
 
-    public float GetCurrentLevel()
-    {
-        return currentLevel;
-    }
+    public float GetCurrentLevel() => currentLevel;
 
-    public float GetMaxLevel()
-    {
-        return maxLevel;
-    }
+    public float GetMaxLevel() => maxLevel;
 
     public LevelData GetLevelData()
     {
@@ -147,15 +147,40 @@ public class MacroLevelUpManager : MonoBehaviour
         return new LevelData(currentLevel + 1, 0, futureExpGoal, abilityPoints);
     }
 
-    public int GetAbilityPoints()
-    {
-        return abilityPoints;
-    }
+    public int GetAbilityPoints() => abilityPoints;
 
     private void UpgradeParameter(PlayersStats stat, float value)
     {
         if(stat == PlayersStats.Learning) bonusSkillLevel = value;
     }
+
+
+    #region SAVE/LOAD
+
+    public PlayersLevelUpSD Save()
+    {
+        PlayersLevelUpSD saveData = new PlayersLevelUpSD();
+
+        saveData.currentLevel = currentLevel;
+        saveData.currentExp = currentExp;
+        saveData.abilityPoints = abilityPoints;
+        saveData.openedAbilities = abilitiesStorage.GetOpenedAbilities();
+
+        return saveData;
+    }
+
+    public void Load(PlayersLevelUpSD saveData)
+    {
+        currentLevel = saveData.currentLevel;
+        UpgradeTempExpGoal(false);
+        AddExp(saveData.currentExp);
+
+        ChangeAbilityPoints(saveData.abilityPoints, true);
+        abilitiesStorage.LoadOpenedAbilities(saveData.openedAbilities);
+    }
+
+    #endregion
+
 
     private void OnEnable()
     {

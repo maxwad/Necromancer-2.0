@@ -46,44 +46,28 @@ public class PlayersArmyPart : MonoBehaviour
             if(squad.Value.unit.status == UnitStatus.Store)
             {
                 reserveSlots[i].FillSlot(squad.Value.squadUI.gameObject);
-                squad.Value.squadUI.gameObject.SetActive(true);
+                squad.Value.squadUI.gameObject.SetActive(squad.Value.unitController.quantity != 0);
+            }
+            else
+            {
+                reserveSlots[i].FillSlot(null);
             }
             i++;
         }
     }
 
-    public void CreateArmyScheme(Dictionary<UnitsTypes, FullSquad> armyDict, Unit[] playerArmy)
-    {
-        //foreach(var squad in armyDict)
-        //{
-        //    if(squad.Value.unit.status == UnitStatus.Army)
-        //    {
-        //        Debug.Log("FILL ARMY SLOT " + squad.Value.squadUI.index + " = " + squad.Key);
-
-        //        //armySlots[squad.Value.squadUI.index].FillSlot(squad.Value.squadUI.gameObject);
-        //        //squad.Value.squadUI.gameObject.SetActive(true);
-        //    }
-        //}
-        Debug.Log("ARRAY: " + playerArmy.Length);
-
-        for(int i = 0; i < playerArmy.Length; i++)
-        {
-            if(playerArmy[i] != null)
-            {
-                Debug.Log(i + " != null");
-                armySlots[armyDict[playerArmy[i].unitType].squadUI.index].HandlingNewSlot(armyDict[playerArmy[i].unitType].squadUI);
-                //armySlots[armyDict[playerArmy[i].unitType].squadUI.index].FillSlot(armyDict[playerArmy[i].unitType].squadUI.gameObject);
-                //armyDict[playerArmy[i].unitType].squadUI.gameObject.SetActive(true);
-            }
-        }
-    }
-
     public void LoadUnit(FullSquad squad, int index)
     {
-        //armySlots[index].FillSlot(squad.squadUI.gameObject);
-        armySlots[index].HandlingNewSlot(squad.squadUI);
-        if(squad.unitController.quantity != 0)
-            squad.squadUI.gameObject.SetActive(true);
+        if(squad != null)
+        {
+            armySlots[index].FillSlot(squad.squadUI.gameObject);
+            if(squad.unitController.quantity != 0)
+                squad.squadUI.gameObject.SetActive(true);
+        }
+        else
+        {
+            armySlots[index].FillSlot(null);
+        }
     }
 
     public void ForceClearCell(ArmySlot armySlot, bool directionMode = true)

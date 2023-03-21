@@ -189,8 +189,6 @@ public class PlayerStats : MonoBehaviour
 
             allStatsDict.Add(itemStat, new Stat(itemStat, baseValue));
         }
-
-        Debug.Log("Player start parameters created.");
     }
 
     public void UpdateMaxStat(PlayersStats stat, StatBoostType upgradeType, float value)

@@ -27,8 +27,6 @@ public class SquadSlotPlacing : MonoBehaviour, IDropHandler, IPointerClickHandle
             squad.index = index;
             squad.slotType = slotType;
             squad.unitInSlot.status = slotType;
-            Debug.Log("New Data: " + index + "/" + slotType);
-
             currentSquad.transform.SetParent(transform, false);
             currentSquad.transform.localPosition = Vector3.zero;
         }

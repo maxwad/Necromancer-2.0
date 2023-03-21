@@ -217,7 +217,7 @@ public class SaveLoadManager : MonoBehaviour
 
     public void LoadDataComplete(string loadMessage)
     {
-        Debug.Log(loadMessage);
+        //Debug.Log(loadMessage);
         _loadCounter--;
         canILoadNextPart = true;
     }

@@ -116,18 +116,14 @@ public class PlayersArmy : MonoBehaviour
     public void UpdateArmy()
     {
         for(int i = 0; i < playersArmy.Length; i++)
-        {
             playersArmy[i] = null;
-        }
 
         foreach(var item in playersArmyWindow.armySlots)
         {
             if(item.squad != null)
-            {
                 playersArmy[item.index] = fullArmy[item.squad.unitInSlot.unitType].unit;
-            }
         }
-
+       
         if(GlobalStorage.instance.isGlobalMode == false)
         {
             ShowSquadsOnBattleField(false);
@@ -381,9 +377,6 @@ public class PlayersArmy : MonoBehaviour
             squadData.unit = squad.Key;
             squadData.status = squad.Value.unit.status;
             squadData.quantity = squad.Value.unitController.quantity;
-            //squadData.index = squad.Value.squadUI.index;
-            if(squadData.status == UnitStatus.Army)
-                Debug.Log("Save Slot " + squad.Value.squadUI.index + " = " + squad.Key);
 
             saveData.wholeArmy.Add(squadData);
         }
@@ -391,11 +384,7 @@ public class PlayersArmy : MonoBehaviour
         for(int i = 0; i < playersArmy.Length; i++)
         {
             if(playersArmy[i] != null)
-            {
                 saveData.activeArmy[i] = (int)playersArmy[i].unitType;
-                //UnitsTypes unit = playersArmy[i].unitType;
-                //saveData.wholeArmy.Where(squad => squad.unit == unit).First().index = i;
-            }
         }
 
         return saveData;
@@ -403,31 +392,20 @@ public class PlayersArmy : MonoBehaviour
 
     public void Load(PlayersArmySD saveData)
     {
-        playersArmyWindow.CreateReserveScheme(fullArmy);
 
         foreach(var squad in saveData.wholeArmy)
         {
             fullArmy[squad.unit].unit.status = squad.status;
             fullArmy[squad.unit].unitController.quantity = squad.quantity;
-
-            //if(squad.status == UnitStatus.Army)
-            //{
-            //    playersArmy[squad.index] = fullArmy[squad.unit].unit;
-            //    playersArmyWindow.LoadUnit(fullArmy[squad.unit], squad.index);
-            //    fullArmy[squad.unit].squadUI.index = squad.index;
-            //    fullArmy[squad.unit].squadUI.slotType = squad.status;
-            //    Debug.Log("Load Slot " + squad.index + " = " + squad.unit);
-            //}
         }
+
+        playersArmyWindow.CreateReserveScheme(fullArmy);
 
         for(int i = 0; i < saveData.activeArmy.Length; i++)
         {
             if(saveData.activeArmy[i] != -1)
                 playersArmyWindow.LoadUnit(fullArmy[(UnitsTypes)saveData.activeArmy[i]], i);
         }
-
-
-        //playersArmyWindow.CreateArmyScheme(fullArmy, playersArmy);
     }
 
     #endregion

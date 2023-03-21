@@ -1,4 +1,4 @@
-using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using static NameManager;
@@ -81,30 +81,30 @@ public class AbilitiesStorage : MonoBehaviour
     }
 
 
-    public List<MacroAbilitySO> GetAbilitiesForNewLevel(int countOfVariants)
-    {
-        List<MacroAbilitySO> newList = new List<MacroAbilitySO>();
-        List<PlayersStats> abilitiesList = new List<PlayersStats>();
+    //public List<MacroAbilitySO> GetAbilitiesForNewLevel(int countOfVariants)
+    //{
+    //    List<MacroAbilitySO> newList = new List<MacroAbilitySO>();
+    //    List<PlayersStats> abilitiesList = new List<PlayersStats>();
 
-        foreach(var item in availableAbilitiesDict)
-        {
-            abilitiesList.Add(item.Key);
-        }
+    //    foreach(var item in availableAbilitiesDict)
+    //    {
+    //        abilitiesList.Add(item.Key);
+    //    }
 
-        for(int i = 0; i < countOfVariants; i++)
-        {
-            if(abilitiesList.Count == 0) break;
+    //    for(int i = 0; i < countOfVariants; i++)
+    //    {
+    //        if(abilitiesList.Count == 0) break;
  
-            int randomIndex = Random.Range(0, abilitiesList.Count);
-            PlayersStats randomAbility = abilitiesList[randomIndex];
-            newList.Add(availableAbilitiesDict[randomAbility][0]);
-            abilitiesList.Remove(randomAbility);
+    //        int randomIndex = Random.Range(0, abilitiesList.Count);
+    //        PlayersStats randomAbility = abilitiesList[randomIndex];
+    //        newList.Add(availableAbilitiesDict[randomAbility][0]);
+    //        abilitiesList.Remove(randomAbility);
 
-            //Debug.Log("Take " + randomAbility + " level " + availableDict[randomAbility][0].level);
-        }
+    //        //Debug.Log("Take " + randomAbility + " level " + availableDict[randomAbility][0].level);
+    //    }
 
-        return newList;
-    }
+    //    return newList;
+    //}
 
     public void ApplyAbility(MacroAbilitySO ability)
     {
@@ -126,7 +126,7 @@ public class AbilitiesStorage : MonoBehaviour
         }
         else
         {
-            Debug.Log("ERROR: We don't have this ability serie");
+            Debug.Log("ERROR: We don't have this ability serie " + availableAbilitiesDict.Count);
             return;
         }
 
@@ -168,7 +168,6 @@ public class AbilitiesStorage : MonoBehaviour
         abilitiesLeft = 0;
         abilitiesOpened = 0;
 
-
         foreach(var serie in availableAbilitiesDict)
         {
             for(int i = 0; i < serie.Value.Count; i++)
@@ -190,4 +189,34 @@ public class AbilitiesStorage : MonoBehaviour
         return abilitiesLeft + abilitiesOpened;
     }
 
+    public List<AbilityData> GetOpenedAbilities()
+    {
+        List<AbilityData> openedAbility = new List<AbilityData>();
+
+        foreach(var ability in openedAbilitiesDict)
+        {
+            foreach(var abilityItem in ability.Value)
+            {
+                AbilityData saveData = new AbilityData();
+                saveData.abilitySerie = abilityItem.abilitySeries;
+                saveData.level = abilityItem.level;
+
+                openedAbility.Add(saveData);
+            }
+        }
+
+        return openedAbility;
+    }
+
+    public void LoadOpenedAbilities(List<AbilityData> openedAbilities)
+    {
+        //foreach(var openedAbility in openedAbilities)
+        //{
+        //    MacroAbilitySO ability = allAbilities.Where(a => a.abilitySeries == openedAbility.abilitySerie && a.level == openedAbility.level).First();
+        //    Debug.Log(ability);
+        //    ApplyAbility(ability);
+        //}
+
+        abilitiesPlacing.Load(openedAbilities);
+    }
 }
