@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class RunesRowWrapper : MonoBehaviour
 {
+    private RunesWindow runesWindow;
     [SerializeField] private List<RunePlaceItem> runesList;
     [SerializeField] private int rowNumber;
     [SerializeField] private bool isNegativeRow = false;
@@ -14,7 +15,12 @@ public class RunesRowWrapper : MonoBehaviour
         //Init();
     }
 
-    public void Init(float level, bool negativeMode, bool conditionMode)
+    public void Init(RunesWindow rw)
+    {
+        runesWindow = rw;
+    }
+
+    public void Init(RunesWindow rw, float level, bool negativeMode, bool conditionMode)
     {
         bool mode;
         isNegativeRow = negativeMode;
@@ -45,8 +51,44 @@ public class RunesRowWrapper : MonoBehaviour
         runesList[cell].ClearCell(); ;
     }
 
-    internal int CheckCell(int index)
+    public int CheckCell(int index)
     {
         return (runesList[index].currentRune == null) ? -1 : runesList[index].currentRune.level;
     }
+
+    public List<RunesEffectsData> GetRunes()
+    {
+        List<RunesEffectsData> runeList = new List<RunesEffectsData>();
+
+        foreach(var rune in runesList)
+        {
+            RunesEffectsData runeData = null;
+
+            if(rune.currentRune != null)
+            {
+                runeData = new RunesEffectsData();
+                runeData.rune = rune.currentRune.rune;
+                runeData.level = rune.currentRune.level;
+            }
+
+            runeList.Add(runeData);
+        }
+
+        return runeList;
+    }
+
+    public void LoadRunes(List<RunesEffectsData> runeList)
+    {
+        for(int i = 0; i < runeList.Count; i++)
+        {
+            if(runeList[i] != null)
+            {
+                GameObject runeGO = runesWindow.CreateRuneForLoading(runeList[i].rune, runeList[i].level);
+                runesList[i].SetParameters(rowNumber, i);
+                runesList[i].InsertRune(runeGO, true);
+            }
+        }
+        
+    }
+
 }

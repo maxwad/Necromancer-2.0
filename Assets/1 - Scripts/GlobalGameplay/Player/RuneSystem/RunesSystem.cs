@@ -32,6 +32,7 @@ public class RunesSystem : MonoBehaviour
         boostManager = GlobalStorage.instance.boostManager;
 
         runesStorage.Init();
+        runesWindow.Init();
 
         for(int i = 0; i < 3; i++)
         {
@@ -59,13 +60,14 @@ public class RunesSystem : MonoBehaviour
         runesStorage.ClearCell(rune);
     }
 
-    public void ApplyRune(int row, int cell, RuneSO rune)
+    public void ApplyRune(int row, int cell, RuneSO rune, bool loadMode = false)
     {
         runesRows[row][cell] = rune;
 
         ApplyEffect(row, cell, rune);
 
-        CheckOverflow();
+        if(loadMode == false)
+            CheckOverflow();
     }
 
     private void CheckOverflow()
@@ -127,12 +129,12 @@ public class RunesSystem : MonoBehaviour
 
     private void ApplyEffect(int row, int cell, RuneSO rune)
     {
-        RunesType currentType = RunesType.WeaponSpeed;
+        RunesType currentRuneType = RunesType.WeaponSpeed;
 
         if(rune != null)
         {
             runeBoostesDict[rune.rune].Add(new RuneBoost(row, cell, rune));
-            currentType = rune.rune;
+            currentRuneType = rune.rune;
         }
         else
         {
@@ -141,14 +143,13 @@ public class RunesSystem : MonoBehaviour
             for(int i = 0; i < runesTypes.Length; i++)
             {
                 if(isfinded == true) break;
-
                 List<RuneBoost> checkList = runeBoostesDict[runesTypes[i]];
                 for(int j = 0; j < checkList.Count; j++)
                 {
                     if(checkList[j].row == row && checkList[j].cell == cell)
                     {
                         checkList.Remove(checkList[j]);
-                        currentType = runesTypes[i];
+                        currentRuneType = runesTypes[i];
                         isfinded = true;
                         break;
                     }
@@ -157,16 +158,16 @@ public class RunesSystem : MonoBehaviour
         }
 
         float result = 0;
-        List<RuneBoost> runeList = runeBoostesDict[currentType];
+        List<RuneBoost> runeList = runeBoostesDict[currentRuneType];
 
         for(int i = 0; i < runeList.Count; i++)
         {
             result += runeList[i].boost;
         }
 
-        commonBoostDict[currentType] = result;
+        commonBoostDict[currentRuneType] = result;
 
-        runesWindow.UpdateParameters(currentType, result);
+        runesWindow.UpdateParameters(currentRuneType, result);
     }
 
     public bool CanIUseThisRune(bool negativeMode, RuneSO rune)
@@ -226,4 +227,75 @@ public class RunesSystem : MonoBehaviour
             }            
         }
     }
+
+    #region SAVE/LOAD
+
+    public PlayersRunes Save()
+    {
+        PlayersRunes saveData = new PlayersRunes();
+
+        saveData.runesEffectsLists = runesStorage.Save();
+
+        for(int row = 0; row < runesRows.Count; row++)
+        {
+            for(int cell = 0; cell < runesRows[row].Length; cell++)
+            {
+                if(runesRows[row][cell] != null)
+                {
+                    RunesEffectsData rrd = new RunesEffectsData();
+                    rrd.row = row;
+                    rrd.cell = cell;
+                    rrd.rune = runesRows[row][cell].rune;
+                    rrd.level = runesRows[row][cell].level;
+
+                    saveData.runesInRows.Add(rrd);
+                }
+            }
+        }
+
+        saveData.runesLists = runesWindow.Save();
+
+        return saveData;
+    }
+
+    public void Load(PlayersRunes saveData)
+    {
+        runesStorage.Load(saveData.runesEffectsLists);
+
+        //foreach(var runeItem in saveData.runesInRows)
+        //{
+        //    RuneSO rune = runesStorage.GetRune(runeItem.rune, runeItem.level);
+        //    ApplyRune(runeItem.row, runeItem.cell, rune, true);
+        //}
+
+        runesWindow.Load(saveData.runesLists);
+    }
+
+    #endregion
 }
+
+public class PlayersRunes
+{
+    public List<RunesEffectsData> runesInRows = new List<RunesEffectsData>();
+    public RunesEffectsLists runesEffectsLists;
+    public RunesLists runesLists;
+}
+
+public class RunesEffectsData
+{
+    public int row = 0;
+    public int cell = 0;
+    public RunesType rune;
+    public int level = 0;
+    public int quantity = 0;
+}
+
+public class RunesLists
+{
+    public List<RunesEffectsData> firstRowRunes = new List<RunesEffectsData>();
+    public List<RunesEffectsData> negativeRowRunes = new List<RunesEffectsData>();
+    public List<RunesEffectsData> bonusRowRunes = new List<RunesEffectsData>();
+}
+
+
+

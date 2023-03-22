@@ -47,6 +47,9 @@ public class GlobalMapPathfinder : MonoBehaviour, IInputableAxies
         player = GlobalStorage.instance.globalPlayer;
         positionChecker = player.GetComponent<GMPlayerPositionChecker>();
 
+        Vector3Int correctPosition = roadMap.WorldToCell(player.transform.position);
+        player.transform.position = roadMap.CellToWorld(correctPosition);
+
         RegisterInputAxies();
     }
 

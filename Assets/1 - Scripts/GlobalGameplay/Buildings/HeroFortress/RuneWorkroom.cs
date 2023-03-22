@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System.Collections;
 using TMPro;
 using static NameManager;
 
@@ -54,12 +55,13 @@ public class RuneWorkroom : SpecialBuilding
         }
 
         sourceBuilding = building;
-        ResetForm();
 
         detailsBlock.SetActive(false);
         destroyBlock.SetActive(false);
-
         gameObject.SetActive(true);
+
+
+        ResetForm();
         return gameObject;
     }
 
@@ -92,23 +94,20 @@ public class RuneWorkroom : SpecialBuilding
     private void ResetHeroRunes()
     {
         foreach(var runeUI in createdRunesUI)
-        {
             runeUI.gameObject.SetActive(false);
-        }
 
+        createdRunesUI.Clear();
         createdRunesDict = runesManager.GetCreatedRunes();
 
         int index = 0;
         foreach(var itemRune in createdRunesDict)
         {
-            if(index >= createdRunesUI.Count)
-            {
-                GameObject newRuneUI = poolManager.GetObject(ObjectPool.RuneUI);
-                RuneRWItemUI ui = newRuneUI.GetComponent<RuneRWItemUI>();
-                newRuneUI.transform.SetParent(herosRunesContainer.transform, false);
+            GameObject newRuneUI = poolManager.GetObject(ObjectPool.RuneUI);
+            newRuneUI.SetActive(true);
+            RuneRWItemUI ui = newRuneUI.GetComponent<RuneRWItemUI>();
+            newRuneUI.transform.SetParent(herosRunesContainer.transform, false);
 
-                createdRunesUI.Add(ui);
-            }
+            createdRunesUI.Add(ui);
 
             createdRunesUI[index].gameObject.SetActive(true);
             createdRunesUI[index].Init(this, itemRune.Key, false, itemRune.Value + "/" + maxCount);
@@ -120,14 +119,10 @@ public class RuneWorkroom : SpecialBuilding
     public void ResetSelections()
     {
         for(int i = 0; i < runesInStore.Count; i++)
-        {
             runesInStoreUI[i].ResetSelection();
-        }
 
         for(int i = 0; i < createdRunesUI.Count; i++)
-        {
             createdRunesUI[i].ResetSelection();
-        }
 
     }
 

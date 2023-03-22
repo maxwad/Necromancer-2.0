@@ -7,7 +7,6 @@ public class GMPlayerMovement : MonoBehaviour
 {
     private PlayerStats playerStats;
     private GMInterface gmInterface;
-    private BattleManager battleManager;
     private GlobalMapPathfinder gmPathFinder;
     private GlobalMapTileManager mapTileManager;
     private GMPlayerPositionChecker positionChecker;
@@ -47,7 +46,6 @@ public class GMPlayerMovement : MonoBehaviour
         gmPathFinder     = GlobalStorage.instance.globalMap.GetComponent<GlobalMapPathfinder>();
         resourcesManager = GlobalStorage.instance.resourcesManager;
         positionChecker  = GetComponent<GMPlayerPositionChecker>();
-        battleManager    = GlobalStorage.instance.battleManager;
     }
 
     private void Start()

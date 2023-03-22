@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using static NameManager;
+using System;
 
 public class RunesWindow : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class RunesWindow : MonoBehaviour
 
     [Header("Rows")]
     [SerializeField] private RuneLevelWrapper levelRow;
+
     [SerializeField] private RunesRowWrapper firstRuneRow;
     [SerializeField] private RunesRowWrapper negativeRuneRow;
     [SerializeField] private RunesRowWrapper bonusRuneRow;
@@ -52,16 +54,16 @@ public class RunesWindow : MonoBehaviour
     //    }
     //}
 
-    private void Start()
+    public void Init()
     {
         runesManager = GlobalStorage.instance.runesSystem;
         poolManager = GlobalStorage.instance.objectsPoolManager;
         grid = runesContainer.GetComponent<GridLayoutGroup>();
         levelUpManager = GlobalStorage.instance.macroLevelUpManager;
 
-        runeUIRows[0] = firstRuneRow;
-        runeUIRows[1] = negativeRuneRow;
-        runeUIRows[2] = bonusRuneRow;
+        firstRuneRow.Init(this);
+        negativeRuneRow.Init(this);
+        bonusRuneRow.Init(this);
 
         boostDict = new Dictionary<RunesType, TMP_Text>()
         {
@@ -92,9 +94,9 @@ public class RunesWindow : MonoBehaviour
 
         if(level == 0) level = levelUpManager.GetCurrentLevel();
         levelRow.Init(level);
-        firstRuneRow.Init(level, false, false);
-        negativeRuneRow.Init(level, true, false);
-        bonusRuneRow.Init(level, false, true);
+        firstRuneRow.Init(this, level, false, false);
+        negativeRuneRow.Init(this, level, true, false);
+        bonusRuneRow.Init(this, level, false, true);
         FillRunesStorages();
     }
 
@@ -182,7 +184,7 @@ public class RunesWindow : MonoBehaviour
 
     private void UpgradeParameter(PlayersStats stat, float value)
     {
-        if(stat == PlayersStats.NegativeCell && value > 0) negativeRuneRow.Init(levelUpManager.GetCurrentLevel(), true, false);
+        if(stat == PlayersStats.NegativeCell && value > 0) negativeRuneRow.Init(this, levelUpManager.GetCurrentLevel(), true, false);
     }
 
     private void OnEnable()
@@ -193,5 +195,41 @@ public class RunesWindow : MonoBehaviour
     private void OnDisable()
     {
         EventManager.SetNewPlayerStat -= UpgradeParameter;
+    }
+
+    public RunesLists Save()
+    {
+        RunesLists runesLists = new RunesLists();
+
+        runesLists.firstRowRunes    = firstRuneRow.GetRunes();
+        runesLists.negativeRowRunes = negativeRuneRow.GetRunes();
+        runesLists.bonusRowRunes    = bonusRuneRow.GetRunes();
+
+        return runesLists;
+    }
+
+    public GameObject CreateRuneForLoading(RunesType type, int level)
+    {
+        GameObject runeGO = poolManager.GetObject(ObjectPool.Rune);
+        runeGO.transform.SetParent(runesContainer.transform, false);
+        runeGO.transform.SetAsLastSibling();
+        runeGO.SetActive(true);
+
+        CanvasGroup runeCanvas = runeGO.GetComponent<CanvasGroup>();
+        runeCanvas.alpha = 1f;
+        runeCanvas.blocksRaycasts = true;
+
+        RuneUIItem runeUI = runeGO.GetComponent<RuneUIItem>();
+        RuneSO rune = runesManager.runesStorage.GetRune(type, level);
+        runeUI.Init(rune);
+
+        return runeGO;
+    }
+
+    public void Load(RunesLists runesLists)
+    {
+        firstRuneRow.LoadRunes(runesLists.firstRowRunes);
+        negativeRuneRow.LoadRunes(runesLists.negativeRowRunes);
+        bonusRuneRow.LoadRunes(runesLists.bonusRowRunes);
     }
 }

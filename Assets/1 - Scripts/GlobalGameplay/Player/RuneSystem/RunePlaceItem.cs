@@ -31,12 +31,12 @@ public class RunePlaceItem : MonoBehaviour, IDropHandler, IPointerClickHandler
     private Color originalColor;
     private Color runeColor;
 
-    [HideInInspector] public RuneUIItem tempRune;
+    [HideInInspector] public RuneUIItem runeUI;
     [HideInInspector] public RuneSO currentRune;
     private int allowedLevel = -1;
 
 
-    private void Start()
+    private void Awake()
     {
         runesManager = GlobalStorage.instance.runesSystem;
         runesWindow = GlobalStorage.instance.playerMilitaryWindow.GetComponentInChildren<RunesWindow>();
@@ -144,8 +144,8 @@ public class RunePlaceItem : MonoBehaviour, IDropHandler, IPointerClickHandler
         currentRune = null;
         runesManager.ApplyRune(indexRow, indexCell, currentRune);
 
-        tempRune.ResetRune();
-        tempRune = null;
+        runeUI.ResetRune();
+        runeUI = null;
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -189,14 +189,15 @@ public class RunePlaceItem : MonoBehaviour, IDropHandler, IPointerClickHandler
                     return;
                 }
             }
-            if(tempRune != null)
+
+            if(runeUI != null)
             {
                 if(runesManager.CanIReplaceThisRune(isNegativeCell, currentRune, rune.rune, indexRow, indexCell) == false)
                 {
                     InfotipManager.ShowWarning("Sorry, but you cannot replace this rune, because in this case, the parameter will be lower than allowed.");
                     return;
                 }
-                tempRune.ResetRune();
+                runeUI.ResetRune();
                 runesManager.ApplyRune(indexRow, indexCell, null);
             }
             else
@@ -209,18 +210,58 @@ public class RunePlaceItem : MonoBehaviour, IDropHandler, IPointerClickHandler
 
             }
 
-            currentRune = rune.rune;
-            infotip.SetRune(currentRune);      
+            InsertRune(eventData.pointerDrag, rune);
+            //currentRune = rune.rune;
+            //infotip.SetRune(currentRune);      
 
-            eventData.pointerDrag.transform.SetParent(transform, false);
-            eventData.pointerDrag.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-            eventData.pointerDrag.transform.localPosition = Vector3.zero;
-            tempRune = rune;
+            //eventData.pointerDrag.transform.SetParent(transform, false);
+            //eventData.pointerDrag.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+            //eventData.pointerDrag.transform.localPosition = Vector3.zero;
+            //tempRune = rune;
 
-            runesWindow.CutRuneFromList(rune);
-            runesManager.FillCell(currentRune);
+            //runesWindow.CutRuneFromList(rune);
+            //runesManager.FillCell(currentRune);
 
-            runesManager.ApplyRune(indexRow, indexCell, currentRune);
+            //runesManager.ApplyRune(indexRow, indexCell, currentRune);
         }
+    }
+
+    public void InsertRune(GameObject runeGO, bool loadMode = false)
+    {
+        if(runesWindow == null)
+        {
+            runesManager = GlobalStorage.instance.runesSystem;
+            runesWindow = GlobalStorage.instance.playerMilitaryWindow.GetComponentInChildren<RunesWindow>();
+        }
+
+        RuneUIItem rune = runeGO.GetComponent<RuneUIItem>();
+        currentRune = rune.rune;
+        infotip.SetRune(currentRune);
+
+        runeGO.transform.SetParent(transform, false);
+        runeGO.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+        runeGO.transform.localPosition = Vector3.zero;
+        runeUI = rune;
+
+        runesWindow.CutRuneFromList(rune);
+        runesManager.FillCell(currentRune);
+        runesManager.ApplyRune(indexRow, indexCell, currentRune, loadMode);
+
+        //if(loadMode == false)
+        //{
+        //    runesWindow.CutRuneFromList(rune);
+        //    runesManager.FillCell(currentRune);
+        //    runesManager.ApplyRune(indexRow, indexCell, currentRune, loadMode);
+        //}
+        //else
+        //{
+        //    FillCell();
+        //}        
+    }
+
+    public void SetParameters(int row, int cell)
+    {
+        indexRow = row;
+        indexCell = cell;
     }
 }

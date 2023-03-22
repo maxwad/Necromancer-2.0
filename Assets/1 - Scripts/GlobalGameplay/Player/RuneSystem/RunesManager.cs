@@ -1,4 +1,4 @@
-using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
@@ -11,7 +11,6 @@ public class RunesManager : MonoBehaviour
     [HideInInspector] public List<RuneSO> calendarRunes = new List<RuneSO>();
     [HideInInspector] public List<RuneSO> enemySystemRunes = new List<RuneSO>();
 
-    private List<RuneSO> createdRunes = new List<RuneSO>();
     private List<RuneSO> createdRunesInBild = new List<RuneSO>();
     private List<RuneSO> createdRunesFree = new List<RuneSO>();
     private Dictionary<RuneSO, int> createdRunesDict = new Dictionary<RuneSO, int>();
@@ -81,11 +80,6 @@ public class RunesManager : MonoBehaviour
 
     public void FillCell(RuneSO rune)
     {
-        //allSystemRunes.Remove(rune);
-        //allSystemRunes = SortingRunes(allSystemRunes);
-        //createdRunesInBild.Remove(rune);
-        //allSystemRunes = SortingRunes(allSystemRunes);
-
         createdRunesFree.Remove(rune);
         createdRunesFree = SortingRunes(createdRunesFree);
 
@@ -94,10 +88,6 @@ public class RunesManager : MonoBehaviour
 
     public void ClearCell(RuneSO rune)
     {
-        //allSystemRunes.Add(rune);
-        //allSystemRunes = SortingRunes(allSystemRunes);
-
-
         createdRunesFree.Add(rune);
         createdRunesFree = SortingRunes(createdRunesFree);
 
@@ -107,10 +97,7 @@ public class RunesManager : MonoBehaviour
 
     #region GETTINGS
 
-    public RunesType[] GetRunesTypes()
-    {
-        return runesTypes;
-    }
+    public RunesType[] GetRunesTypes() => runesTypes;
 
     public Sprite GetRuneIcon(RunesType type)
     {
@@ -177,9 +164,12 @@ public class RunesManager : MonoBehaviour
         return bossRune;
     }
 
-    public List<RuneSO> GetEnemySystemRunes()
+    public List<RuneSO> GetEnemySystemRunes() => enemySystemRunes;
+
+
+    public RuneSO GetRune(RunesType type, int level)
     {
-        return enemySystemRunes;
+        return allSystemRunes.Where(i => i.rune == type && i.level == level).First();
     }
 
     #endregion
@@ -198,14 +188,10 @@ public class RunesManager : MonoBehaviour
             createdRunesDict.Add(rune, 1);
         }
 
-        //createdRunes.Add(rune);
         createdRunesFree.Add(rune);
     }
 
-    public Dictionary<RuneSO, int> GetCreatedRunes()
-    {
-        return createdRunesDict;
-    }
+    public Dictionary<RuneSO, int> GetCreatedRunes() => createdRunesDict;
 
     public List<RuneSO> GetRunesForStorage()
     {
@@ -233,10 +219,7 @@ public class RunesManager : MonoBehaviour
         return runeList;
     }
 
-    public bool CanIDestroyRune(RuneSO rune)
-    {
-        return createdRunesFree.Contains(rune);
-    }
+    public bool CanIDestroyRune(RuneSO rune) => createdRunesFree.Contains(rune);
 
     public void DestroyRune(RuneSO rune)
     {
@@ -253,4 +236,82 @@ public class RunesManager : MonoBehaviour
         return (createdRunesDict.ContainsKey(rune) == true) ? createdRunesDict[rune] : 0;
     }
     #endregion
+
+    #region SAVE/LOAD
+
+    public RunesEffectsLists Save()
+    {
+        RunesEffectsLists saveData = new RunesEffectsLists();
+
+        foreach(var runeItem in createdRunesInBild)
+        {
+            RunesEffectsData runeData = new RunesEffectsData();
+            runeData.rune = runeItem.rune;
+            runeData.level = runeItem.level;
+
+            saveData.createdRunesInBild.Add(runeData);
+            saveData.createdRunes.Add(runeData);
+        }
+
+        foreach(var runeItem in createdRunesFree)
+        {
+            RunesEffectsData runeData = new RunesEffectsData();
+            runeData.rune = runeItem.rune;
+            runeData.level = runeItem.level;
+
+            saveData.createdRunesFree.Add(runeData);
+            saveData.createdRunes.Add(runeData);
+        }
+
+        foreach(var runeItem in createdRunesDict)
+        {
+            RunesEffectsData runeData = new RunesEffectsData();
+            runeData.rune = runeItem.Key.rune;
+            runeData.level = runeItem.Key.level;
+            runeData.quantity = runeItem.Value;
+
+            saveData.createdRunesDict.Add(runeData);
+        }
+
+        return saveData;
+    }
+
+    public void Load(RunesEffectsLists saveData)
+    {
+        //foreach(var runeItem in saveData.createdRunesInBild)
+        //{
+        //    RuneSO rune = GetRune(runeItem.rune, runeItem.level);
+        //    createdRunesInBild.Add(rune);
+        //}
+
+        foreach(var runeItem in saveData.createdRunes)
+        {
+            RuneSO rune = GetRune(runeItem.rune, runeItem.level);
+            createdRunesFree.Add(rune);
+        }
+
+        foreach(var runeItem in saveData.createdRunesDict)
+        {
+            RuneSO rune = GetRune(runeItem.rune, runeItem.level);
+            if(createdRunesDict.ContainsKey(rune) == false)
+            {
+                createdRunesDict.Add(rune, runeItem.quantity);
+            }
+            else
+            {
+                Debug.Log("RUNE ERROR");
+            }
+        }
+    }
+
+    #endregion
+}
+
+public class RunesEffectsLists
+{
+    public List<RunesEffectsData> createdRunesInBild = new List<RunesEffectsData>();
+    public List<RunesEffectsData> createdRunesFree = new List<RunesEffectsData>();
+    public List<RunesEffectsData> createdRunes = new List<RunesEffectsData>();
+
+    public List<RunesEffectsData> createdRunesDict = new List<RunesEffectsData>();
 }

@@ -48,8 +48,8 @@ public class SaveLoadManager : MonoBehaviour
 
     private void DeleteSaveFile()
     {
-        string savePath = rootPath + _directory;
-        //string savePath = Application.persistentDataPath + _directory;
+        //string savePath = rootPath + _directory;
+        string savePath = Application.persistentDataPath + _directory;
         string pathToFile = savePath + _fileName;
 
         if(Directory.Exists(savePath) == false)
@@ -80,8 +80,8 @@ public class SaveLoadManager : MonoBehaviour
 
         objectsToSave = new List<ISaveable>(FindObjectsOfType<MonoBehaviour>(true).OfType<ISaveable>());
 
-        string savePath = rootPath + _directory;
-        //string savePath = Application.persistentDataPath + _directory;
+        //string savePath = rootPath + _directory;
+        string savePath = Application.persistentDataPath + _directory;
         string pathToFile = savePath + _fileName;
 
         if(Directory.Exists(savePath) == false)
@@ -130,8 +130,8 @@ public class SaveLoadManager : MonoBehaviour
 
     public IEnumerator LoadGameCRTN()
     {
-        string pathToFile = rootPath + _directory + _fileName;
-        //string pathToFile = Application.persistentDataPath + _directory + _fileName;
+        //string pathToFile = rootPath + _directory + _fileName;
+        string pathToFile = Application.persistentDataPath + _directory + _fileName;
 
         if(File.Exists(pathToFile) == false)
         {

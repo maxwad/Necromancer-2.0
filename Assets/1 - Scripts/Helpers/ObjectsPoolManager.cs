@@ -162,7 +162,7 @@ public class ObjectsPoolManager : MonoBehaviour
                 continue;
             }
 
-            if (currentObjectsList[i].activeInHierarchy == false && i != 0)
+            if (currentObjectsList[i].activeSelf == false && i != 0)
             {
                 obj = currentObjectsList[i];
                 break;

@@ -258,6 +258,7 @@ public class PlayerSD
     public PlayersArmySD army;
     public PlayersLevelUpSD abilities;
     public PlayersSpells spells;
+    public PlayersRunes runes;
 }
 
 [Serializable]

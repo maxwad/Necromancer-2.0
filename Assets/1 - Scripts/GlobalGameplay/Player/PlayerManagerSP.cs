@@ -9,7 +9,7 @@ public partial class PlayerManager : ISaveable
     private GMPlayerMovement playerMovement;
     private MacroLevelUpManager levelUpManager;
     private SpellManager spellManager;
-    
+    private RunesSystem runesSystem;
 
     [SerializeField] private int _id = 101;
 
@@ -31,6 +31,7 @@ public partial class PlayerManager : ISaveable
         playersArmy = GetComponent<PlayersArmy>();
         levelUpManager = GlobalStorage.instance.macroLevelUpManager;
         spellManager = GlobalStorage.instance.spellManager;
+        runesSystem = GlobalStorage.instance.runesSystem;
     }
 
     public void SetId(int id)
@@ -48,6 +49,7 @@ public partial class PlayerManager : ISaveable
         saveData.army = playersArmy.Save();
         saveData.abilities = levelUpManager.Save();
         saveData.spells = spellManager.Save();
+        saveData.runes = runesSystem.Save();
 
         manager.FillSaveData(Id, saveData);
     }
@@ -65,6 +67,7 @@ public partial class PlayerManager : ISaveable
         playersArmy.Load(saveData.army);
         levelUpManager.Load(saveData.abilities);
         spellManager.Load(saveData.spells);
+        runesSystem.Load(saveData.runes);
 
         playerMovement.Load(saveData.parameters);
 
