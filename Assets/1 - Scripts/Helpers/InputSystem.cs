@@ -1,4 +1,4 @@
-using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +9,7 @@ public class InputSystem : MonoBehaviour
     [SerializeField] private List<KeyAction> keyActions;
 
     private List<InputAction> inputKeyActions = new List<InputAction>();
+    private List<KeyActions> registeredActions = new List<KeyActions>();
     private List<IInputableAxies> inputAxiesActions = new List<IInputableAxies>();
 
     private bool isInputEnable = true;
@@ -16,6 +17,12 @@ public class InputSystem : MonoBehaviour
     public void RegisterInputKeys(KeyActions keyAction, IInputableKeys objectToActivate)
     {
         inputKeyActions.Add(new InputAction(keyAction, objectToActivate));
+
+        //if(registeredActions.Contains(keyAction) == true)
+        //    inputKeyActions.Remove(inputKeyActions.Where(i => i.keyAction == keyAction).First());
+
+        //inputKeyActions.Add(new InputAction(keyAction, objectToActivate));
+        //registeredActions.Add(keyAction);
     }
 
     public void RegisterInputAxies(IInputableAxies objectToActivate)

@@ -73,7 +73,6 @@ public class ResourceBuilder : MonoBehaviour
         foreach(var building in resBuildingsDynamic)
             saveData.Add(building.GetSaveData());
 
-        Debug.Log("Res building saved (" + saveData.Count + ")");
         return saveData;
     }
 
@@ -93,7 +92,5 @@ public class ResourceBuilder : MonoBehaviour
                 }
             }
         }
-
-        Debug.Log("Res building loaded (" + counter + ")");
     }
 }

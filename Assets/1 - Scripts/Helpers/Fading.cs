@@ -4,6 +4,7 @@ using UnityEngine;
 public class Fading : MonoBehaviour
 {
     public static Fading instance;
+    public static bool isFadingWork = false;
 
     private void Awake()
     {
@@ -13,28 +14,30 @@ public class Fading : MonoBehaviour
             Destroy(gameObject);
     }
 
-    public void Fade(bool fadeMode, CanvasGroup canvasGroup, float step = 0.1f, float delay = 0f, bool activeMode = true)
+    public void Fade(bool isShowing, CanvasGroup canvasGroup, float step = 0.1f, float delay = 0f, bool activeMode = true)
     {
-        StartCoroutine(StartFading(fadeMode, false, canvasGroup, step, delay, activeMode));
+        StartCoroutine(StartFading(isShowing, false, canvasGroup, step, delay, activeMode));
     }
 
-    public void FadeWhilePause(bool fadeMode, CanvasGroup canvasGroup, float step = 0.1f, float delay = 0f, bool activeMode = true)
+    public void FadeWhilePause(bool isShowing, CanvasGroup canvasGroup, float step = 0.1f, float delay = 0f, bool activeMode = true)
     {
-        StartCoroutine(StartFading(fadeMode, true, canvasGroup, step, delay, activeMode));
+        StartCoroutine(StartFading(isShowing, true, canvasGroup, step, delay, activeMode));
     }
 
-    public IEnumerator StartFading(bool fadeMode, bool timeMode, CanvasGroup canvasGroup, float step, float delay = 0f, bool activeMode = true)
+    private IEnumerator StartFading(bool isShowing, bool timeMode, CanvasGroup canvasGroup, float step, float delay = 0f, bool activeMode = true)
     {
+        isFadingWork = true;
+
         float pauseMultiplier = 0.25f;
         float currentAlfa;
 
-        if(fadeMode == true)
+        if(isShowing == true)
             currentAlfa = 0;
         else
             currentAlfa = 1;
 
         canvasGroup.alpha = currentAlfa;
-        if(fadeMode == true)
+        if(isShowing == true)
             canvasGroup.gameObject.SetActive(true);
 
 
@@ -53,7 +56,7 @@ public class Fading : MonoBehaviour
         WaitForSeconds pause = new WaitForSeconds(step * pauseMultiplier);
         WaitForSecondsRealtime pauseRT = new WaitForSecondsRealtime(step * pauseMultiplier);
 
-        if(fadeMode == true)
+        if(isShowing == true)
         {
             while(currentAlfa < 1)
             {
@@ -84,5 +87,7 @@ public class Fading : MonoBehaviour
                 canvasGroup.gameObject.SetActive(false);
             }
         }
+
+        isFadingWork = false;
     }
 }

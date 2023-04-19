@@ -28,15 +28,14 @@ public class AutobattleUI : MonoBehaviour
     {
         if(autobattle == null) 
         {
-            autobattle = autobattleScript;
-            battleManager = GlobalStorage.instance.battleManager;
-            battleResult = GetComponent<BattleResult>();
+            autobattle        = autobattleScript;
+            battleManager     = GlobalStorage.instance.battleManager;
+            battleResult      = GetComponent<BattleResult>();
             playersArmyScript = GlobalStorage.instance.playersArmy;
-            canvas = uiPanel.GetComponentInChildren<CanvasGroup>();
+            canvas            = uiPanel.GetComponentInChildren<CanvasGroup>();
         }
 
         MenuManager.instance.MiniPause(true);
-        //GlobalStorage.instance.ModalWindowOpen(true);
 
         playersArmyScript.StopControlUnitDeath(false);
         uiPanel.SetActive(true);

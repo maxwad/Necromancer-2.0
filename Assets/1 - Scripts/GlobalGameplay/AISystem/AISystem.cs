@@ -2,7 +2,6 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static NameManager;
 
 public class AISystem : MonoBehaviour
 {
@@ -14,7 +13,6 @@ public class AISystem : MonoBehaviour
     [SerializeField] private List<string> castleOwners;
     [SerializeField] private int countOfActiveVassals = 3; 
 
-    //private Dictionary<EnemyCastle, bool> allCastles = new Dictionary<EnemyCastle, bool>();
     private List<EnemyCastle> allCastles = new List<EnemyCastle>();
     private List<EnemyCastle> destroyedCastles = new List<EnemyCastle>();
     private List<EnemyCastle> activeCastles = new List<EnemyCastle>();
@@ -36,7 +34,6 @@ public class AISystem : MonoBehaviour
         if(newCastle != null)
         {
             allCastles.Add(newCastle);
-            //allCastlesGO.Add(castle);
 
             Color castleColor = Color.black;
             string name = "";
@@ -145,12 +142,6 @@ public class AISystem : MonoBehaviour
     {
         ActivateNextCastle();
     }
-
-    //public void CrusadeComplete(EnemyCastle castle)
-    //{
-    //    //allCastles[castle] = false;
-    //    //activeCastles.Remove(castle);
-    //}
 
     public void EndMoves()
     {
@@ -319,8 +310,6 @@ public class AISystem : MonoBehaviour
                  .First()
                  );
         }
-
-        Debug.Log("Active Castles are " + activeCastles.Count);
     }
 
     #endregion

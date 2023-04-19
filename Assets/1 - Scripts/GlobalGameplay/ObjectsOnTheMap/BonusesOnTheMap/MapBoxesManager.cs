@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using static NameManager;
 
 public class MapBoxesManager : MonoBehaviour
 {
@@ -98,8 +97,6 @@ public class MapBoxesManager : MonoBehaviour
                 counter++;
             }
         }
-
-        Debug.Log("Boxes loaded: " + counter + "/" + boxesData.Count);
     }
 
     public Dictionary<Vector3, Reward> SaveBoxes()

@@ -5,29 +5,34 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using static NameManager;
 
-public class SaveLoadManager : MonoBehaviour
+public class SaveLoadManager : MonoBehaviour, IInputableKeys
 {
+    private InputSystem inputSystem;
     private static SaveLoadManager instance;
+    private LoaderUI loaderUI;
 
     private List<ISaveable> objectsToSave = new List<ISaveable>();
-    private Dictionary<int, object> _states = new Dictionary<int, object>();
+    private Dictionary<int, object> states = new Dictionary<int, object>();
 
-    private Coroutine _coroutine;
-    private int _saveCounter = 0;
-    private int _loadCounter = 0;
+    private Coroutine coroutine;
+    private int saveCounter = 0;
+    private int loadCounter = 0;
 
     private string rootPath = "G:/Unity_projects/Necromancer/Necromancer/Builds";
-    private string _directory = "/SaveData/";
-    private string _fileName = "Save.txt";
+    private string directory = "/SaveData/";
+    private string fileName = "Save.txt";
 
     private bool canILoadNextPart = true;
     private int parallelIdFlag = 100;
+    private float loadingStep;
+
+    [SerializeField] private bool isLoadScreenNeeded = true;
 
     private void Start()
     {
+        bool shouldIRegister = true;
         if(instance == null)
         {
             instance = this;
@@ -35,7 +40,31 @@ public class SaveLoadManager : MonoBehaviour
             GlobalStorage.instance.StartGame(true);
         }
         else
+        {
+            shouldIRegister = false;
             Destroy(gameObject);
+        }
+
+        if(shouldIRegister == true)
+            RegisterInputKeys();
+
+        loaderUI = GlobalStorage.instance.loaderUI;
+    }
+
+    public void RegisterInputKeys()
+    {
+        inputSystem = GlobalStorage.instance.inputSystem;
+        inputSystem.RegisterInputKeys(KeyActions.SaveGame, this);
+        inputSystem.RegisterInputKeys(KeyActions.LoadGame, this);
+    }
+
+    public void InputHandling(KeyActions keyAction)
+    {
+        if(keyAction == KeyActions.SaveGame)
+            SaveGame();
+
+        else if(keyAction == KeyActions.LoadGame)
+            LoadGame();
     }
 
     private void Update()
@@ -48,9 +77,14 @@ public class SaveLoadManager : MonoBehaviour
 
     private void DeleteSaveFile()
     {
-        //string savePath = rootPath + _directory;
-        string savePath = Application.persistentDataPath + _directory;
-        string pathToFile = savePath + _fileName;
+
+#if UNITY_EDITOR
+        string savePath = rootPath + directory;
+#else
+        string savePath = Application.persistentDataPath + directory;
+#endif
+
+        string pathToFile = savePath + fileName;
 
         if(Directory.Exists(savePath) == false)
             return;
@@ -67,34 +101,34 @@ public class SaveLoadManager : MonoBehaviour
 
     public void SaveGame()
     {
-        if(_coroutine != null)
-            StopCoroutine(_coroutine);
+        if(coroutine != null)
+            StopCoroutine(coroutine);
 
-        _coroutine = StartCoroutine(SaveGameCRTN());
+        coroutine = StartCoroutine(Saving());
     }
 
-    public IEnumerator SaveGameCRTN()
+    private IEnumerator Saving()
     {
         var stopwatch = new System.Diagnostics.Stopwatch();
         stopwatch.Start();
 
         objectsToSave = new List<ISaveable>(FindObjectsOfType<MonoBehaviour>(true).OfType<ISaveable>());
 
-        //string savePath = rootPath + _directory;
-        string savePath = Application.persistentDataPath + _directory;
-        string pathToFile = savePath + _fileName;
+        string savePath = rootPath + directory;
+        //string savePath = Application.persistentDataPath + directory;
+        string pathToFile = savePath + fileName;
 
         if(Directory.Exists(savePath) == false)
             Directory.CreateDirectory(savePath);
 
-        _saveCounter = objectsToSave.Count;
+        saveCounter = objectsToSave.Count;
 
         foreach(var saveItem in objectsToSave)
             saveItem.Save(this);
 
-        while(_saveCounter > 0)
+        while(saveCounter > 0)
         {
-            Debug.Log(_saveCounter + " objects to save left.");
+            Debug.Log(saveCounter + " objects to save left.");
             yield return null;
         }
 
@@ -105,7 +139,7 @@ public class SaveLoadManager : MonoBehaviour
             {
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore
             };
-            string serializedStates = JsonConvert.SerializeObject(_states, Formatting.Indented, settings);
+            string serializedStates = JsonConvert.SerializeObject(states, Formatting.Indented, settings);
 
             writer.Write(serializedStates);
             writer.Close();
@@ -122,16 +156,21 @@ public class SaveLoadManager : MonoBehaviour
 
     public void LoadGame()
     {
-        if(_coroutine != null)
-            StopCoroutine(_coroutine);
+        if(coroutine != null)
+            StopCoroutine(coroutine);
 
-        _coroutine = StartCoroutine(LoadGameCRTN());
+        coroutine = StartCoroutine(Loading());
     }
 
-    public IEnumerator LoadGameCRTN()
+    private IEnumerator Loading()
     {
-        //string pathToFile = rootPath + _directory + _fileName;
-        string pathToFile = Application.persistentDataPath + _directory + _fileName;
+       // string pathToFile;
+
+#if UNITY_EDITOR
+        string pathToFile = rootPath + directory + fileName;
+#else
+        string pathToFile = Application.persistentDataPath + directory + fileName;
+#endif
 
         if(File.Exists(pathToFile) == false)
         {
@@ -139,18 +178,26 @@ public class SaveLoadManager : MonoBehaviour
             yield break; 
         }
 
-        var stopwatch = new System.Diagnostics.Stopwatch();
-        stopwatch.Start();
+        var stopWatch = new System.Diagnostics.Stopwatch();
+        stopWatch.Start();
+
+        loaderUI.ShowLogo(false);
+        loaderUI.Open(true);
+
+        while(Fading.isFadingWork == true)
+            yield return null;
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+
         while(SceneManager.GetActiveScene().isLoaded == false)
-        {
-            Debug.Log("Loading scene");
             yield return null;
-        }
 
+        yield return new WaitForSecondsRealtime(0.1f);
 
-        yield return new WaitForSecondsRealtime(0.2f);
+        loaderUI.ShowLogo(true);
+        loaderUI.ResetWindow();
+        loaderUI.ShowPhase("Loading...", 0);
+        loaderUI.StartLoading();
 
 
         GlobalStorage.instance.StartGame(false);
@@ -160,14 +207,14 @@ public class SaveLoadManager : MonoBehaviour
             yield return null;
         }
 
-
         using(StreamReader reader = new StreamReader(pathToFile))
         {
             string json = reader.ReadToEnd();
-            _states = (json.Length == 0) ? new Dictionary<int, object>() : JsonConvert.DeserializeObject<Dictionary<int, object>>(json);
+            states = (json.Length == 0) ? new Dictionary<int, object>() : JsonConvert.DeserializeObject<Dictionary<int, object>>(json);
         }
 
-        _loadCounter = _states.Count;
+        loadCounter = states.Count;
+        loadingStep = 1 / (float)loadCounter;
 
         objectsToSave = new List<ISaveable>(FindObjectsOfType<MonoBehaviour>(true).OfType<ISaveable>()).OrderBy(ch => ch.GetId()).ToList();
 
@@ -179,25 +226,22 @@ public class SaveLoadManager : MonoBehaviour
             if(saveItem.GetId() < parallelIdFlag)
             {
                 while(canILoadNextPart == false)
-                {
-                    Debug.Log("Waiting for loading part.");
                     yield return null;
-                }
             }
 
             canILoadNextPart = false;
-            saveItem.Load(this, _states);
+            saveItem.Load(this, states);
         }
 
-        while(_loadCounter > 0)
-        {
-            Debug.Log(_loadCounter + " objects to load left.");
+        while(loadCounter > 0)
             yield return null;
-        }
 
-        InfotipManager.ShowMessage("Game loaded.");
-        stopwatch.Stop();
-        Debug.Log("Load complete (" + stopwatch.ElapsedMilliseconds / 1000.0f + ")");
+        stopWatch.Stop();
+        Debug.Log("Load complete (" + stopWatch.ElapsedMilliseconds / 1000.0f + ")");
+
+        loaderUI.HeavyClose();
+
+        RegisterInputKeys();
 
         canILoadNextPart = true; 
     }
@@ -207,18 +251,18 @@ public class SaveLoadManager : MonoBehaviour
 
     public void FillSaveData(int dataId, object dataObject)
     {
-        if(_states == null || _states.ContainsKey(dataId) == false)
-            _states.Add(dataId, dataObject);
+        if(states == null || states.ContainsKey(dataId) == false)
+            states.Add(dataId, dataObject);
         else
-            _states[dataId] = dataObject;
+            states[dataId] = dataObject;
 
-        _saveCounter--;
+        saveCounter--;
     }
 
     public void LoadDataComplete(string loadMessage)
     {
-        //Debug.Log(loadMessage);
-        _loadCounter--;
+        loaderUI.ShowPhase("Loading...", loadingStep);
+        loadCounter--;
         canILoadNextPart = true;
     }
 }

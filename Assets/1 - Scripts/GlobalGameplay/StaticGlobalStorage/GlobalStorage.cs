@@ -54,6 +54,7 @@ public class GlobalStorage : MonoBehaviour
     public TombUI tombDoor;
     public CampUI campDoor;
     public PortalsWindowUI portalDoor;
+    public LoaderUI loaderUI;
 
     [Header("Player")]
     public GameObject player;
@@ -179,6 +180,11 @@ public class GlobalStorage : MonoBehaviour
         }
 
         isGameLoaded = true;
+
+        if(createMode == true)
+            loaderUI.Close();
+
+
         Debug.Log("GAME IS LOADED!");        
     }
 
