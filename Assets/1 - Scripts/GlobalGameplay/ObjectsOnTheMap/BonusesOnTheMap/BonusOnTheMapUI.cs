@@ -1,13 +1,15 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using static NameManager;
+using Zenject;
 
 public class BonusOnTheMapUI : MonoBehaviour
 {
     private ResourcesManager resourcesManager;
+    private PlayerStats playerStats;
+    private ObjectsPoolManager poolManager;
     public GameObject uiPanel;
     private CanvasGroup canvas;
     public GameObject bonusItemPrefab;
@@ -32,6 +34,18 @@ public class BonusOnTheMapUI : MonoBehaviour
     private int countOfItems = 5;
     private float curiosity = 0;
 
+    [Inject]
+    public void Construct(
+        ResourcesManager resourcesManager,
+        PlayerStats playerStats,
+        ObjectsPoolManager poolManager
+        )
+    {
+        this.resourcesManager = resourcesManager;
+        this.playerStats = playerStats;
+        this.poolManager = poolManager;
+    }
+
     public void OpenWindow(ClickableObject obj)
     {
         if(obj.objectType == TypeOfObjectOnTheMap.BoxBonus && obj.gameObject.GetComponent<BoxObject>().reward == null) return;
@@ -49,14 +63,13 @@ public class BonusOnTheMapUI : MonoBehaviour
 
     private void Initialize(ClickableObject obj)
     {
-        if(resourcesManager == null) 
-        {
-            resourcesManager = GlobalStorage.instance.resourcesManager;
+        if(resourcesIcons == null) 
+        {            
             resourcesIcons = resourcesManager.GetAllResourcesIcons();
             CreateAllItems();
         }
 
-        curiosity = GlobalStorage.instance.playerStats.GetCurrentParameter(PlayersStats.Curiosity);
+        curiosity = playerStats.GetCurrentParameter(PlayersStats.Curiosity);
         ClearContainer();
 
         Reward reward = null;
@@ -101,16 +114,18 @@ public class BonusOnTheMapUI : MonoBehaviour
     {
         for(int i = 0; i < countOfItems; i++)
         {
-            GameObject item = Instantiate(bonusItemPrefab);
+            GameObject item = poolManager.GetUnusualPrefab(bonusItemPrefab);
             item.transform.SetParent(bonusContainer.transform, false);
 
             resourceImagesList.Add(item.GetComponentInChildren<Image>());
             countList.Add(item.GetComponentInChildren<TMP_Text>());
             tooltipList.Add(item.GetComponent<TooltipTrigger>());
-            item.SetActive(false);
+            item.SetActive(true);
 
             itemList.Add(item);
         }
+
+        itemList.ForEach(i => i.gameObject.SetActive(false));
     }
 
     private void ClearContainer()

@@ -2,6 +2,7 @@ using System.Collections;
 using System;
 using UnityEngine;
 using static NameManager;
+using Zenject;
 
 public class GMPlayerMovement : MonoBehaviour
 {
@@ -35,17 +36,24 @@ public class GMPlayerMovement : MonoBehaviour
     private Vector2 previousPosition = Vector2.zero;
     private Vector2 currentPosition = Vector2.zero;
 
-    private void Awake()
-    {
-        sprite       = GetComponent<SpriteRenderer>();
-        sprite.color = activeColor;
+    [Inject]
+    public void Construct(
+        [Inject(Id = Constants.EFFECTS_CONTAINER)] GameObject globalMap,
+        PlayerStats playerStats,
+        GMInterface gmInterface,
+        GlobalMapTileManager mapTileManager,
+        ResourcesManager resourcesManager
+        )
+    {        
+        this.playerStats = playerStats;
+        this.gmInterface = gmInterface;
+        this.mapTileManager = mapTileManager;
+        this.resourcesManager = resourcesManager;
+        this.gmPathFinder = globalMap.GetComponent<GlobalMapPathfinder>();
 
-        playerStats      = GlobalStorage.instance.playerStats;
-        gmInterface      = GlobalStorage.instance.gmInterface;
-        mapTileManager   = GlobalStorage.instance.gmManager;
-        gmPathFinder     = GlobalStorage.instance.globalMap.GetComponent<GlobalMapPathfinder>();
-        resourcesManager = GlobalStorage.instance.resourcesManager;
-        positionChecker  = GetComponent<GMPlayerPositionChecker>();
+        positionChecker = GetComponent<GMPlayerPositionChecker>();
+        sprite = GetComponent<SpriteRenderer>();
+        sprite.color = activeColor;
     }
 
     private void Start()

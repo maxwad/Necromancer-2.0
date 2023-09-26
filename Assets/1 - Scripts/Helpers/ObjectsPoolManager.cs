@@ -1,12 +1,14 @@
 using System;
-using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 using static NameManager;
 
 public class ObjectsPoolManager : MonoBehaviour
 {
-    public static ObjectsPoolManager instance;
+    //public ObjectsPoolManager instance;
+    public DiContainer container;
 
     public List<ObjectPoolObjects> objectsList;
     private Dictionary<ObjectPool, List<GameObject>> allObjectsDict = new Dictionary<ObjectPool, List<GameObject>>();
@@ -20,23 +22,20 @@ public class ObjectsPoolManager : MonoBehaviour
     public List<ObjectPoolBossWeapon> bossWeaponList;
     private Dictionary<BossWeapons, List<GameObject>> allBossWeaponList = new Dictionary<BossWeapons, List<GameObject>>();
 
+    private Dictionary<string, List<GameObject>> unusualPrefabs = new Dictionary<string, List<GameObject>>();
+
     private int minElementsCount = 5;
     private List<GameObject> currentObjectsList = new List<GameObject>();
 
-    private void Awake()
+    [Inject]
+    public void Construct(DiContainer container)
     {
-        if(instance != null)
-            Destroy(gameObject);
-        else
-            instance = this;
+        this.container = container;
+
+        //Initialize();
     }
 
     public void Initialize()
-    {
-        CreateDicts();
-    }
-
-    private void CreateDicts()
     {
         for (int x = 0; x < enemyPrefabsList.Count; x++)
         {
@@ -82,7 +81,9 @@ public class ObjectsPoolManager : MonoBehaviour
 
     private GameObject CreateObject(GameObject prefab)
     {
-        GameObject obj = Instantiate(prefab);
+        //GameObject obj = Instantiate(prefab);
+        //Debug.Log("Create " + prefab);
+        GameObject obj = container.InstantiatePrefab(prefab);
         obj.name = prefab.name;
         obj.transform.SetParent(transform);
         obj.SetActive(false);      
@@ -154,13 +155,15 @@ public class ObjectsPoolManager : MonoBehaviour
         GameObject obj = null;
         currentObjectsList = allObjectsDict[type];
 
+        currentObjectsList.RemoveAll(c => c == null);
+
         for (int i = 0; i < currentObjectsList.Count; i++)
         {
-            if(currentObjectsList[i] == null)
-            {
-                currentObjectsList.Remove(currentObjectsList[i]);
-                continue;
-            }
+            //if(currentObjectsList[i] == null)
+            //{
+            //    currentObjectsList.Remove(currentObjectsList[i]);
+            //    continue;
+            //}
 
             if (currentObjectsList[i].activeSelf == false && i != 0)
             {
@@ -171,6 +174,8 @@ public class ObjectsPoolManager : MonoBehaviour
 
         if (obj == null)
             obj = AddObject(currentObjectsList);
+
+        obj.transform.rotation = Quaternion.identity;
 
         return obj;
     }
@@ -183,5 +188,44 @@ public class ObjectsPoolManager : MonoBehaviour
         list.Add(newObj);
 
         return newObj;
-    }        
+    }
+
+    // This method was created after reworking project for using Zenject
+    // I know, that is ugly, but someday i will rework the whole poll manager
+    // I hope...
+    public GameObject GetUnusualPrefab(GameObject prefab, bool needActive = true)
+    {
+        GameObject obj = null;
+
+        if(unusualPrefabs.ContainsKey(prefab.name))
+        {
+            currentObjectsList = unusualPrefabs[prefab.name];
+
+            currentObjectsList.RemoveAll(c => c == null);
+
+            for(int i = 0; i < currentObjectsList.Count; i++)
+            {
+                if(currentObjectsList[i].activeSelf == false && i != 0)
+                {
+                    obj = currentObjectsList[i];
+                    break;
+                }
+            }
+
+            if(obj == null)
+                obj = AddObject(currentObjectsList);
+        }
+        else
+        {
+            List<GameObject> list = new List<GameObject>();
+            obj = CreateObject(prefab);
+            list.Add(obj);
+            unusualPrefabs[prefab.name] = list;
+
+            obj = GetUnusualPrefab(prefab);
+        }
+
+        obj.transform.rotation = Quaternion.identity;
+        return obj;
+    }
 }

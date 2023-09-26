@@ -28,7 +28,7 @@ public partial class EnemyManager : MonoBehaviour
         enemySquadGenerator.SetAllEnemiesList(allEnemiesTypes);
 
         if(generateMode == true)
-            enemyArragement.GenerateEnemiesOnTheMap(this);
+            enemyArragement.GenerateEnemiesOnTheMap();
 
         GlobalStorage.instance.LoadNextPart();
     }
@@ -131,7 +131,7 @@ public partial class EnemyManager : MonoBehaviour
         enemiesPointsDict.Clear();
         //enemySquadGenerator.ClearAllArmies();
 
-        enemyArragement.GenerateEnemiesOnTheMap(this);
+        enemyArragement.GenerateEnemiesOnTheMap();
     }
 
     private void GrowUp(int weekCounter)

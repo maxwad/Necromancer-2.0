@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using Zenject;
 
 public class SkillItem : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
@@ -22,10 +23,14 @@ public class SkillItem : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     private bool amINext = false;
     private bool isMousePressed = false;
 
+    [Inject]
+    public void Construct(MacroLevelUpManager macroManager)
+    {
+        this.macroManager = macroManager;
+    }
+
     public void Init(MacroAbilitySO ability, int ind, float linkWidth)
     {
-        macroManager = GlobalStorage.instance.macroLevelUpManager;
-
         skill = ability;
         index = ind;
         icon.sprite = skill.inActiveIcon;

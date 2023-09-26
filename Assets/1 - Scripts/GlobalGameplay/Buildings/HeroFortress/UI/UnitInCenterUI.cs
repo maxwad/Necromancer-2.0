@@ -1,19 +1,16 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
 using static NameManager;
-using System;
+using Zenject;
 
 public class UnitInCenterUI : MonoBehaviour, IPointerClickHandler
 {
     private ResourcesManager resourcesManager;
-    //private BoostManager boostManager;
     private Dictionary<ResourceType, Sprite> resourcesIcons;
     private FortressBuildings allBuildings;
-    //private GarrisonUI garrison;
     private UnitCenter uCenter;
 
     [SerializeField] private Button thisButton;
@@ -30,15 +27,18 @@ public class UnitInCenterUI : MonoBehaviour, IPointerClickHandler
     private Unit currentUnit;
     private int currentAmount;
 
+    [Inject]
+    public void Construct(ResourcesManager resourcesManager, FortressBuildings allBuildings)
+    {
+        this.resourcesManager = resourcesManager;
+        this.allBuildings = allBuildings;
+    }
+
     public void Init(Unit unit, UnitCenter center)
     {
-        if(resourcesManager == null)
-        {
-            //boostManager = GlobalStorage.instance.boostManager;
-            resourcesManager = GlobalStorage.instance.resourcesManager;
-            resourcesIcons = resourcesManager.GetAllResourcesIcons();
-            allBuildings = GlobalStorage.instance.fortressBuildings;
-           // garrison = allBuildings.GetComponent<GarrisonUI>();
+        if(resourcesIcons == null)
+        {            
+            resourcesIcons = resourcesManager.GetAllResourcesIcons();           
         }
 
         gameObject.SetActive(true);

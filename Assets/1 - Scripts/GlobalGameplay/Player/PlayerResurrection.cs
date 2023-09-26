@@ -1,16 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public class PlayerResurrection : MonoBehaviour
 {
     private HeroController hero;
     private PortalsManager portalsManager;
 
-    private void Start()
+
+    [Inject]
+    public void Construct(PortalsManager portalsManager, HeroController hero)
     {
-        hero = GlobalStorage.instance.hero;
-        portalsManager = GlobalStorage.instance.portalsManager;
+        this.portalsManager = portalsManager;
+        this.hero = hero;
     }
 
     public void StartResurrection()
@@ -20,7 +23,6 @@ public class PlayerResurrection : MonoBehaviour
 
     private IEnumerator Resurrection()
     {
-        //yield return new WaitForSeconds(1f);
         CameraSwitcher switcher = Camera.main.GetComponent<CameraSwitcher>();
         while(switcher.isSwitching == true)
         {

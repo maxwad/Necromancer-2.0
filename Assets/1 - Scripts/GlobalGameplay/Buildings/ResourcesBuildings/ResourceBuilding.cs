@@ -3,10 +3,10 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using static NameManager;
+using Zenject;
 
 public class ResourceBuilding : MonoBehaviour
 {
-    private ResourcesManager resourcesManager;
     private ResourcesSources resourcesSources;
     private BoostManager boostManager;
     [HideInInspector] public Garrison garrison;
@@ -42,24 +42,24 @@ public class ResourceBuilding : MonoBehaviour
     private bool isGarrisonThere = false;
     private float resourceMultiplier = 1;
 
-    //private void Start()
-    //{
-    //    Init(null);
-    //}
+    [Inject]
+    public void Construct(
+        ResourcesManager resourcesManager,
+        BoostManager boostManager,
+        FortressBuildings heroCastle
+        )
+    {
+        this.boostManager = boostManager;
+        this.heroCastle = heroCastle;
+
+        resourcesSources = resourcesManager.GetComponent<ResourcesSources>();
+        owner = GetComponent<ObjectOwner>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        garrison = GetComponent<Garrison>();
+    }
 
     public void Init(ResBuildingSD saveData)
     {
-        if(owner == null)
-        {
-            owner = GetComponent<ObjectOwner>();
-            spriteRenderer = GetComponent<SpriteRenderer>();
-            resourcesManager = GlobalStorage.instance.resourcesManager;
-            resourcesSources = resourcesManager.GetComponent<ResourcesSources>();
-            garrison = GetComponent<Garrison>();
-            boostManager = GlobalStorage.instance.boostManager;
-            heroCastle = GlobalStorage.instance.fortressBuildings;
-        }
-
         // Length - 2 because we don't need in resource buildings Castle or outposts
         if(isRandomResource == true)
             buildingType = (ResourceBuildings)UnityEngine.Random.Range(0, Enum.GetValues(typeof(ResourceBuildings)).Length - 2);
@@ -76,7 +76,6 @@ public class ResourceBuilding : MonoBehaviour
         if(buildingType == ResourceBuildings.Castle)
         {
             Register();
-            //owner = GlobalStorage.instance.fortressGO;
         }
         else
         {
@@ -168,7 +167,6 @@ public class ResourceBuilding : MonoBehaviour
 
     public float GetAmount()
     {
-        //ResetResourceAmount();
         return resourceAmount * resourceMultiplier;
     }
 
@@ -187,8 +185,6 @@ public class ResourceBuilding : MonoBehaviour
         UpgradeStatus upgradeStatus = upgradesDict[upgrade];
         upgradeStatus.isEnable = true;
         upgradesDict[upgrade] = upgradeStatus;
-
-        //resourcesSources.RegisterAsIncome(this);
 
         ResetBonuses();
 

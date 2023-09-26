@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using static NameManager;
+using Zenject;
 
 public class GMInterfaceCastle : MonoBehaviour
 {
@@ -26,10 +27,15 @@ public class GMInterfaceCastle : MonoBehaviour
     private float itemWidth;
     private float spaceWidth = 0;
 
+    [Inject]
+    public void Construct(HeroFortress heroFortress, FortressBuildings fortressBuildings)
+    {
+        this.heroFortress = heroFortress;
+        this.fortressBuildings = fortressBuildings;
+    }
+
     private void Start()
     {
-        heroFortress = GlobalStorage.instance.heroFortress;
-        fortressBuildings = GlobalStorage.instance.fortressBuildings;
         castleRect = castleBlock.GetComponent<RectTransform>();
 
         for(int i = 0; i < buildingsList.Count; i++)
@@ -46,7 +52,8 @@ public class GMInterfaceCastle : MonoBehaviour
 
         itemWidth = buildingsList[0].GetComponent<RectTransform>().rect.width;
         HorizontalLayoutGroup layoutGroup = buildingsWrapper.GetComponent<HorizontalLayoutGroup>();
-        if(layoutGroup != null) spaceWidth = layoutGroup.spacing;
+        if(layoutGroup != null) 
+            spaceWidth = layoutGroup.spacing;
 
         Init();
     }

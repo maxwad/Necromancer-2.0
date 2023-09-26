@@ -72,8 +72,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -689341299
-  m_SortingLayer: 2
+  m_SortingLayerID: -1653435041
+  m_SortingLayer: 1
   m_SortingOrder: 3
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
@@ -103,6 +103,9 @@ MonoBehaviour:
   minEnemyDamage: 5
   maxEnemyDamage: 7
   radiusExplosion: 1
+  verticalVelocity: 8
+  bottleShadowPrefab: {fileID: 1132100649567338931, guid: fa6a8d7f28592b942a763f8f8426f2bb, type: 3}
+  bottleShadowStartScale: {x: 0.1, y: 0.1, z: 1}
   death: {fileID: 2389708433616454076, guid: 340d686e91f01964187d4a5f275c3bcb, type: 3}
 --- !u!58 &-4541956387227817449
 CircleCollider2D:

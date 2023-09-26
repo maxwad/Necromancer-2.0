@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 using static NameManager;
 
 public class Military : SpecialBuilding
@@ -15,17 +16,23 @@ public class Military : SpecialBuilding
     private int maxUnitLevel;
     [HideInInspector] public CastleBuildings currentBuilding;
 
+    [Inject]
+    public void Construct
+        (
+        UnitManager unitManager,
+        HeroFortress fortress,
+        ResourcesManager resourcesManager
+        )
+    {
+        this.unitManager = unitManager;
+        this.fortress = fortress;
+        this.resourcesManager = resourcesManager;
+    }
 
     public override GameObject Init(FBuilding building)
     {
-        if(fortress == null)
-        {
-            unitManager = GlobalStorage.instance.unitManager;
-            fortress = GlobalStorage.instance.heroFortress;
-            resourcesManager = GlobalStorage.instance.resourcesManager;
-
+        if(resourcesIcons == null)
             resourcesIcons = resourcesManager.GetAllResourcesIcons();
-        }
 
         sourceBuilding = building;
         currentBuilding = building.building;

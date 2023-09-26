@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Zenject;
 using static NameManager;
 
 public class PlayerWindowTab : MonoBehaviour, IPointerClickHandler
@@ -8,10 +9,14 @@ public class PlayerWindowTab : MonoBehaviour, IPointerClickHandler
     [SerializeField] private PlayersWindow playersWindow;
     [SerializeField] private KeyActions keyAction;
 
+    [Inject]
+    public void Construct(PlayerPersonalWindow playerPersonalWindow)
+    {
+        this.playerPersonalWindow = playerPersonalWindow;
+    }
+
     public void OnPointerClick(PointerEventData eventData)
     {
-        if(playerPersonalWindow == null) playerPersonalWindow = GlobalStorage.instance.playerMilitaryWindow;
-
         playerPersonalWindow.HandlingTabs(playersWindow, keyAction);
     }    
 }

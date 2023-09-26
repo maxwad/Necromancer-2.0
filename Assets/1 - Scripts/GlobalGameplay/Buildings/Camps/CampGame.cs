@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 using static NameManager;
 
 public class CampGame : MonoBehaviour
@@ -35,14 +36,22 @@ public class CampGame : MonoBehaviour
     private WaitForSecondsRealtime bigPause = new WaitForSecondsRealtime(1f);
     private WaitForSecondsRealtime smallPause = new WaitForSecondsRealtime(0.25f);
 
+    [Inject]
+    public void Construct(
+        CampManager campManager,
+        ResourcesManager resourcesManager,
+        MacroLevelUpManager levelUpManager
+        )
+    {
+        this.campManager = campManager;
+        this.resourcesManager = resourcesManager;
+        this.levelUpManager = levelUpManager;
+
+        campUI = GetComponent<CampUI>();
+    }
+
     private void Start()
     {
-        campManager = GlobalStorage.instance.campManager;
-        campUI = GetComponent<CampUI>();
-
-        resourcesManager = GlobalStorage.instance.resourcesManager;
-        levelUpManager = GlobalStorage.instance.macroLevelUpManager;
-
         ResetCells();
         SetIndexes();
     }

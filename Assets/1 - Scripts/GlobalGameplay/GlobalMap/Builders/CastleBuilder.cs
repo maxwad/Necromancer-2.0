@@ -1,11 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Zenject;
 
 public class CastleBuilder : MonoBehaviour
 {
     private GlobalMapTileManager gmManager;
     private AISystem aiSystem;
+    private ObjectsPoolManager poolManager;
 
     public Tilemap castlesMap;
     private List<Vector3> castlesPoints = new List<Vector3>();
@@ -13,15 +15,20 @@ public class CastleBuilder : MonoBehaviour
 
     public int castlesCount = 9;
 
-    public void Build(GlobalMapTileManager manager, List<Vector3> pointsToLoad)
+    [Inject]
+    public void Construct(
+        ObjectsPoolManager poolManager, 
+        AISystem aiSystem,
+        GlobalMapTileManager manager)
     {
-        if(gmManager == null)
-        {
-            gmManager = manager;
-            aiSystem = GlobalStorage.instance.aiSystem;
-        }
+        this.poolManager = poolManager;
+        this.aiSystem = aiSystem;
+        this.gmManager = manager;
+    }
 
-        List<Vector3Int> tempPoints = manager.GetTempPoints(castlesMap);
+    public void Build(List<Vector3> pointsToLoad = null)
+    {
+        List<Vector3Int> tempPoints = gmManager.GetTempPoints(castlesMap);
 
         if(pointsToLoad == null)
         {
@@ -41,15 +48,17 @@ public class CastleBuilder : MonoBehaviour
 
         for(int i = 0; i < tempPoints.Count; i++)
         {
-            manager.AddPointToEmptyPoints(castlesMap.CellToWorld(tempPoints[i]));
+            gmManager.AddPointToEmptyPoints(castlesMap.CellToWorld(tempPoints[i]));
         }
 
         for(int i = 0; i < castlesPoints.Count; i++)
         {
-            GameObject castle = Instantiate(castlePrefab, castlesPoints[i], Quaternion.identity);
+            GameObject castle = poolManager.GetUnusualPrefab(castlePrefab);
+            castle.transform.position = castlesPoints[i];
             castle.transform.SetParent(castlesMap.transform);
+            castle.SetActive(true);
 
-            manager.AddBuildingToAllOnTheMap(castle);
+            gmManager.AddBuildingToAllOnTheMap(castle);
 
             aiSystem.RegisterCastle(castle);
         }

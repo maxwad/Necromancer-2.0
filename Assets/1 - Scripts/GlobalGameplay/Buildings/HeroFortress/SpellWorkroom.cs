@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 using static NameManager;
 
 public class SpellWorkroom : SpecialBuilding
@@ -19,15 +20,15 @@ public class SpellWorkroom : SpecialBuilding
 
     private SpellSO currentSpell;
 
+    [Inject]
+    public void Construct(SpellManager spellManager, FortressBuildings allBuildings)
+    {
+        this.spellManager = spellManager;
+        this.allBuildings = allBuildings;
+    }
 
     public override GameObject Init(FBuilding building)
     {
-        if(spellManager == null)
-        {
-            spellManager = GlobalStorage.instance.spellManager;
-            allBuildings = GlobalStorage.instance.fortressBuildings;
-        }
-
         sourceBuilding = building;
         ResetForm();
 
@@ -105,7 +106,6 @@ public class SpellWorkroom : SpecialBuilding
 
     public float GetWorkroomEffect()
     {
-        //return allBuildings.GetBuildingsLevel(CastleBuildings.SpellWorkroom);
         return allBuildings.GetBonusAmount(CastleBuildingsBonuses.SpellLevel);
     }
 

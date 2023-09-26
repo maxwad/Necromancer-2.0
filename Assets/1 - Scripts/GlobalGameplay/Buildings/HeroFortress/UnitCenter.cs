@@ -4,16 +4,17 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using static NameManager;
+using Zenject;
 
 public class UnitCenter : SpecialBuilding
 {
-    private FortressBuildings allBuildings;
-    private Garrison garrison;
     private UnitManager unitManager;
     private ResourcesManager resourcesManager;
     private ResourcesSources growthManager;
     private BoostManager boostManager;
     private FBuilding sourceBuilding;
+    private FortressBuildings allBuildings;
+    private Garrison garrison;
 
     private Dictionary<ResourceType, Sprite> resourcesIcons;
     private Dictionary<UnitsTypes, int> potentialAmounts = new Dictionary<UnitsTypes, int>();
@@ -42,18 +43,33 @@ public class UnitCenter : SpecialBuilding
     private Unit currentUnit;
     private bool canIHire = true;
 
+
+    [Inject]
+    public void Construct
+        (
+        [Inject(Id = Constants.FORTRESS)]
+        GameObject fortressGO,
+        UnitManager unitManager,
+        ResourcesManager resourcesManager,
+        BoostManager boostManager,
+        FortressBuildings allBuildings
+        )
+    {
+        this.unitManager = unitManager;
+        this.boostManager = boostManager;
+        this.resourcesManager = resourcesManager;
+        this.allBuildings = allBuildings;
+
+        garrison = fortressGO.GetComponent<Garrison>();
+        growthManager = resourcesManager.GetComponent<ResourcesSources>();
+    }
+
     public override GameObject Init(FBuilding building)
     {
-        if(allBuildings == null)
+        if(resourcesIcons == null)
         {
-            allBuildings     = GlobalStorage.instance.fortressBuildings;
-            garrison         = GlobalStorage.instance.fortressGO.GetComponent<Garrison>();
-            unitManager      = GlobalStorage.instance.unitManager;
-            boostManager     = GlobalStorage.instance.boostManager;
-            resourcesManager = GlobalStorage.instance.resourcesManager;
-            growthManager    = resourcesManager.GetComponent<ResourcesSources>();
-            resourcesIcons   = resourcesManager.GetAllResourcesIcons();
-            emptyIcon        = currentUnitIcon.sprite;
+            resourcesIcons = resourcesManager.GetAllResourcesIcons();
+            emptyIcon = currentUnitIcon.sprite;
         }
 
         sourceBuilding = building;

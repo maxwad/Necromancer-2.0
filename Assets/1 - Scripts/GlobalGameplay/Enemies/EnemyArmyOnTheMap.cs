@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 using static NameManager;
 
 public class EnemyArmyOnTheMap : MonoBehaviour
@@ -20,24 +21,14 @@ public class EnemyArmyOnTheMap : MonoBehaviour
 
     private SpriteRenderer sprite;
 
-    private void OnEnable()
+    [Inject]
+    public void Construct(BattleManager battleManager, EnemyManager enemyManager)
     {
-        EventManager.ResetGarrisons += ResetGarrison;
+        this.battleManager = battleManager;
+        this.enemyManager = enemyManager;
 
-        if(sprite == null)
-        {
-            battleManager = GlobalStorage.instance.battleManager;
-            enemyManager = GlobalStorage.instance.enemyManager;
-
-            sprite = GetComponent<SpriteRenderer>();
-        } 
-
-        //Birth();
-    }
-
-    private void OnDisable()
-    {
-        EventManager.ResetGarrisons -= ResetGarrison;
+        sprite = GetComponent<SpriteRenderer>();
+        enemySquadGenerator = enemyManager.enemySquadGenerator;
     }
 
     private void ResetGarrison()
@@ -189,6 +180,16 @@ public class EnemyArmyOnTheMap : MonoBehaviour
         EnemyArmyOnTheMap newSquad = enemyManager.CreateEnemyOnTheMap(transform.position);
         Army newArmy = Army.Splitting(army, splitPercent, false);
         newSquad.Birth(newArmy);
+    }
+
+    private void OnEnable()
+    {
+        EventManager.ResetGarrisons += ResetGarrison;
+    }
+
+    private void OnDisable()
+    {
+        EventManager.ResetGarrisons -= ResetGarrison;
     }
 
     public EnemySD SaveEnemy()

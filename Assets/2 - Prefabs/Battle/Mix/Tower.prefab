@@ -182,7 +182,7 @@ Transform:
   m_GameObject: {fileID: 8112095528433492535}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1.2, z: 0}
-  m_LocalScale: {x: 7, y: 7, z: 1}
+  m_LocalScale: {x: 10, y: 10, z: 1}
   m_Children: []
   m_Father: {fileID: 8914104296081387612}
   m_RootOrder: 1
@@ -194,7 +194,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8112095528433492535}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -272,7 +272,6 @@ MonoBehaviour:
   - {fileID: 5574737356054754202}
   - {fileID: 7007981381959909211}
   - {fileID: 3487965423114200686}
-  cannonball: {fileID: 2075501283442241309, guid: 0cc7c68010b6be348bda8f2d0b3848ce, type: 3}
   startDust: {fileID: 2389708433616454076, guid: 340d686e91f01964187d4a5f275c3bcb, type: 3}
   shootingDelay: 5
 --- !u!1 &8914104296081387614
@@ -407,7 +406,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b86444e567abd744bf54d8258deb7fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isFromPool: 0
+  isFreguentObject: 0
   isImmortal: 0
   health: 100
   damageNote: {fileID: 4223726373541259902, guid: dc8112cb6cbc981458351f24ddb13002, type: 3}

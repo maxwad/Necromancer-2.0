@@ -62,6 +62,7 @@ GameObject:
   - component: {fileID: 7807448034713493309}
   - component: {fileID: 7794682533265461464}
   - component: {fileID: 5275119753049613452}
+  - component: {fileID: 3075862123243870454}
   m_Layer: 7
   m_Name: Enemy_Fish
   m_TagString: Enemy
@@ -240,3 +241,19 @@ MonoBehaviour:
   bonusType: 3
   enemyManager: {fileID: 0}
   bonusManager: {fileID: 0}
+--- !u!114 &3075862123243870454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7807448034713493280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9dd5249454a94304ea05a0df17e37d68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthMax: 0
+  currentHealth: 0
+  sprite: {fileID: 0}
+  rune: {fileID: 0}

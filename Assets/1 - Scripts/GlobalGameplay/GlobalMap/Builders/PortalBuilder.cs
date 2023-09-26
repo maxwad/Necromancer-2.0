@@ -1,4 +1,5 @@
 using UnityEngine;
+using Zenject;
 
 public class PortalBuilder : MonoBehaviour
 {
@@ -7,14 +8,15 @@ public class PortalBuilder : MonoBehaviour
 
     [SerializeField] private GameObject portalsContainer;
 
-    public void Build(GlobalMapTileManager manager)
+    [Inject]
+    public void Construct(PortalsManager portalsManager, GlobalMapTileManager manager)
     {
-        if(gmManager == null)
-        {
-            gmManager = manager;
-            portalsManager = GlobalStorage.instance.portalsManager;
-        }
+        this.portalsManager = portalsManager;
+        this.gmManager = manager;
+    }
 
+    public void Build()
+    {
         foreach(Transform child in portalsContainer.transform)
         {
             if(child.GetComponent<ClickableObject>() != null)

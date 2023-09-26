@@ -4,9 +4,12 @@ using UnityEngine;
 using TMPro;
 using static NameManager;
 using System;
+using Zenject;
 
 public class AbilitiesPlacing : MonoBehaviour
 {
+    private ObjectsPoolManager objectsPoolManager;
+
     private Dictionary<PlayersStats, List<MacroAbilitySO>> availableAbilitiesDict = new Dictionary<PlayersStats, List<MacroAbilitySO>>();
     private Dictionary<PlayersStats, List<SkillItem>> skillsUIDict = new Dictionary<PlayersStats, List<SkillItem>>();
 
@@ -22,6 +25,12 @@ public class AbilitiesPlacing : MonoBehaviour
     private float baseWidth;
     private float linkOffset = 20f;
     private float sidesPadding = 5f;
+
+    [Inject]
+    public void Construct(ObjectsPoolManager objectsPoolManager)
+    {
+        this.objectsPoolManager = objectsPoolManager;
+    }
 
     public void Init(Dictionary<PlayersStats, List<MacroAbilitySO>> abilities)
     {
@@ -65,7 +74,8 @@ public class AbilitiesPlacing : MonoBehaviour
                 }
             }
 
-            GameObject newSkillBlock = Instantiate(skillBlock);
+            GameObject newSkillBlock = objectsPoolManager.GetUnusualPrefab(skillBlock);
+            newSkillBlock.SetActive(true);
             newSkillBlock.transform.SetParent(rowContainers[currentRow].transform, false);
             newSkillBlock.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, width);
             newSkillBlock.GetComponentInChildren<Wrapper>().gameObject
@@ -76,19 +86,17 @@ public class AbilitiesPlacing : MonoBehaviour
             float linkWidth = (width - baseWidth * skillSeries.Value.Count) / skillSeries.Value.Count;
 
             skillsUIDict[skillSeries.Key] = new List<SkillItem>();
-
             for(int i = 0; i < skillSeries.Value.Count; i++)
             {
-                GameObject newSkillItem = Instantiate(skillItem);
+                GameObject newSkillItem = objectsPoolManager.GetUnusualPrefab(skillItem);
+
+                newSkillItem.SetActive(true);
                 newSkillItem.transform.SetParent(newSkillBlock.GetComponentInChildren<Wrapper>().gameObject.transform, false);
                 SkillItem skillScript = newSkillItem.GetComponent<SkillItem>();
 
-                //Debug.Log("Level " + skillSeries.Value[i].level);
                 skillScript.Init(skillSeries.Value[i], i, linkWidth);
                 skillsUIDict[skillSeries.Key].Add(skillScript);
             }
-
-            //Debug.Log(skillsUIDict[skillSeries.Key].Count);
         }
     }
 

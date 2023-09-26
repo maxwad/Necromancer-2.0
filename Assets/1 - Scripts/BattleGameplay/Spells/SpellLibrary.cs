@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 using static NameManager;
 
 public class SpellLibrary : MonoBehaviour
@@ -8,12 +9,28 @@ public class SpellLibrary : MonoBehaviour
     private BoostManager boostManager;
     private ObjectsPoolManager objectsPool;
     private PlayersArmy playersArmy;
+    private GameObject battlePlayer;
+    private BonusManager bonusManager;
+    private EnemySpawner enemySpawner;
 
-    private void Start()
+    [Inject]
+    public void Construct
+        (
+        [Inject(Id = Constants.BATTLE_MAP)] 
+        GameObject battleMap,
+        BoostManager boostManager,
+        ObjectsPoolManager objectsPool,
+        PlayersArmy playersArmy,
+        HeroController hero,
+        BonusManager bonusManager
+        )
     {
-        boostManager = GlobalStorage.instance.boostManager;
-        objectsPool = GlobalStorage.instance.objectsPoolManager;
-        playersArmy = GlobalStorage.instance.playersArmy;
+        this.boostManager = boostManager;
+        this.objectsPool = objectsPool;
+        this.playersArmy = playersArmy;
+        this.bonusManager = bonusManager;
+        battlePlayer = hero.gameObject;
+        enemySpawner = battleMap.GetComponent<EnemySpawner>();
     }
 
     public void ActivateSpell(SpellSO spell, bool mode)
@@ -83,23 +100,10 @@ public class SpellLibrary : MonoBehaviour
             default:
                 break;
         }
-
-        //if(mode == true)
-        //{
-        //    float realDuration = spell.actionTime + spell.actionTime * boostManager.GetBoost(BoostType.SpellActionTime);
-        //    StartCoroutine(DeactivateSpell(spell, realDuration));
-        //}
     }
 
     #region Helpers
 
-    //private IEnumerator DeactivateSpell(SpellSO spell, float duration)
-    //{
-    //    yield return new WaitForSeconds(duration);
-
-    //    if(GlobalStorage.instance.IsGlobalMode() == false)
-    //        ActivateSpell(spell, false);
-    //}
 
     #endregion
 
@@ -111,11 +115,7 @@ public class SpellLibrary : MonoBehaviour
         if(mode == true)
         {
             boostManager.SetBoost(BoostType.MovementSpeed, BoostSender.Spell, BoostEffect.PlayerBattle, spell.value);
-        }
-        //else
-        //{
-        //    boostManager.DeleteBoost(BoostType.MovementSpeed, BoostSender.Spell, value);
-        //}        
+        }       
     }
 
 
@@ -127,11 +127,6 @@ public class SpellLibrary : MonoBehaviour
             boostManager.SetBoost(BoostType.MagicAttack, BoostSender.Spell, BoostEffect.PlayerBattle, spell.value);
             boostManager.SetBoost(BoostType.PhysicAttack, BoostSender.Spell, BoostEffect.PlayerBattle, spell.value);
         }
-        //else
-        //{
-        //    boostManager.DeleteBoost(BoostType.MagicAttack, BoostSender.Spell, value);
-        //    boostManager.DeleteBoost(BoostType.PhysicAttack, BoostSender.Spell, value);
-        //}
     }
 
 
@@ -142,10 +137,6 @@ public class SpellLibrary : MonoBehaviour
         {
             boostManager.SetBoost(BoostType.CriticalDamage, BoostSender.Spell, BoostEffect.PlayerBattle, spell.value);
         }
-        //else
-        //{
-        //    boostManager.DeleteBoost(BoostType.CriticalDamage, BoostSender.Spell, value);
-        //}
     }
 
 
@@ -156,10 +147,6 @@ public class SpellLibrary : MonoBehaviour
         {
             boostManager.SetBoost(BoostType.WeaponSize, BoostSender.Spell, BoostEffect.PlayerBattle, spell.value);
         }
-        //else
-        //{
-        //    boostManager.DeleteBoost(BoostType.WeaponSize, BoostSender.Spell, value);
-        //}
     }
 
 
@@ -173,7 +160,7 @@ public class SpellLibrary : MonoBehaviour
             for(int i = 0; i < spell.value; i++)
             {
                 GameObject item = objectsPool.GetObject(ObjectPool.Shuriken);
-                item.transform.position = GlobalStorage.instance.hero.transform.position;
+                item.transform.position = battlePlayer.transform.position;
                 item.transform.rotation = Quaternion.Euler(0f, 0f, angleItem * i);
                 item.SetActive(true);
             }
@@ -187,7 +174,7 @@ public class SpellLibrary : MonoBehaviour
         if(mode == true)
         {
             GameObject circle = objectsPool.GetObject(ObjectPool.PushCircle);
-            circle.transform.position = GlobalStorage.instance.hero.transform.position;
+            circle.transform.position = battlePlayer.transform.position;
             circle.SetActive(true);
             circle.GetComponent<PushCircleController>().Init(spell.radius * 2);
         }
@@ -199,7 +186,7 @@ public class SpellLibrary : MonoBehaviour
     {
         if(mode == true)
         {
-            List<GameObject> bonusList = GlobalStorage.instance.bonusManager.bonusesOnTheMap;            
+            List<GameObject> bonusList = bonusManager.bonusesOnTheMap;            
             foreach(var bonus in bonusList)
             {
                 bonus.GetComponent<BonusController>().ActivatateBonus();
@@ -235,10 +222,6 @@ public class SpellLibrary : MonoBehaviour
         {
             boostManager.SetBoost(BoostType.BonusAmount, BoostSender.Spell, BoostEffect.PlayerBattle, spell.value);
         }
-        //else
-        //{
-        //    boostManager.DeleteBoost(BoostType.BonusAmount, BoostSender.Spell, value);
-        //}
     }
 
 
@@ -251,7 +234,6 @@ public class SpellLibrary : MonoBehaviour
             boostManager.SetBoost(BoostType.PhysicDefence, BoostSender.Spell, BoostEffect.PlayerBattle, spell.value);
         }
 
-        //EventManager.OnSpellImmortalEvent(mode);
     }
 
 
@@ -262,7 +244,6 @@ public class SpellLibrary : MonoBehaviour
         {
             boostManager.SetBoost(BoostType.EnemyMovementSpeed, BoostSender.Spell, BoostEffect.EnemiesBattle, spell.value);
         }
-        //List<GameObject> enemies = GlobalStorage.instance.battleMap.GetComponent<EnemySpawner>().enemiesOnTheMap;
 
         //foreach(var enemy in enemies)
         //    enemy.GetComponent<EnemyMovement>().MakeMeFixed(mode);
@@ -275,14 +256,13 @@ public class SpellLibrary : MonoBehaviour
     {
         if(mode == true)
         {
-            List<GameObject> enemies = GlobalStorage.instance.battleMap.GetComponent<EnemySpawner>().enemiesOnTheMap;
-            GameObject hero = GlobalStorage.instance.hero.gameObject;
+            List<GameObject> enemies = enemySpawner.enemiesOnTheMap;
 
             int count = enemies.Count - 1;
 
             for(int i = count; i >= 0; i--)
             {
-                if(Vector2.Distance(enemies[i].transform.position, hero.transform.position) <= spell.radius)
+                if(Vector2.Distance(enemies[i].transform.position, battlePlayer.transform.position) <= spell.radius)
                 {
                     enemies[i].GetComponent<EnemyController>().Kill(spell.value);
                 }
@@ -298,13 +278,13 @@ public class SpellLibrary : MonoBehaviour
     {
         if(mode == true)
         {
-            List<GameObject> allBonuses = GlobalStorage.instance.bonusManager.bonusesOnTheMap;
+            List<GameObject> allBonuses = bonusManager.bonusesOnTheMap;
 
             List<GameObject> bonuses = new List<GameObject>();
 
             foreach(var item in allBonuses)
             {
-                if(Vector2.Distance(item.transform.position, GlobalStorage.instance.hero.gameObject.transform.position) <= spell.radius)
+                if(Vector2.Distance(item.transform.position, battlePlayer.transform.position) <= spell.radius)
                 {
                     bonuses.Add(item);
                 } 
@@ -318,7 +298,7 @@ public class SpellLibrary : MonoBehaviour
                 float amount = bonus.baseValue;
                 if(bonus.bonusType == BonusType.TempExp)
                 {
-                    GlobalStorage.instance.bonusManager.CreateBonus(false, BonusType.Gold, bonus.transform.position, amount);
+                    bonusManager.CreateBonus(false, BonusType.Gold, bonus.transform.position, amount);
                     bonus.DestroyMe();
                 }
             }

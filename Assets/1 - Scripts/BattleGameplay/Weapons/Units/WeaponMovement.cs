@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 using static NameManager;
 
 public class WeaponMovement : MonoBehaviour
@@ -15,10 +16,12 @@ public class WeaponMovement : MonoBehaviour
 
     [SerializeField] private GameObject bottleDeath;
     [SerializeField] private GameObject bottleShadowPrefab;
+    [SerializeField] private Vector3 bottleShadowStartScale = new Vector3(1f, 1f, 1f);
     private GameObject bottleShadow;
     private Vector3 groundVelocity;
     private float verticalVelocity;
     private float gravity = -10;
+
 
     public float speed = 1;
     private SpriteRenderer unitSprite;
@@ -30,6 +33,24 @@ public class WeaponMovement : MonoBehaviour
     private WeaponStorage weaponStorage;
     private WeaponDamage weaponDamage;
     private BoostManager boostManager;
+    private GameObject effectsContainer;
+    private ObjectsPoolManager poolManager;
+
+    [Inject]
+    public void Construct(
+        [Inject(Id = Constants.EFFECTS_CONTAINER)] GameObject effectsContainer,
+        WeaponStorage weaponStorage, 
+        BoostManager boostManager,
+        ObjectsPoolManager poolManager
+        )
+    {
+        this.effectsContainer = effectsContainer;
+        this.weaponStorage = weaponStorage;
+        this.boostManager = boostManager;
+        this.poolManager = poolManager;;
+
+        weaponDamage = GetComponent<WeaponDamage>();
+    }
 
     private void Update()
     {
@@ -40,7 +61,8 @@ public class WeaponMovement : MonoBehaviour
             if(currentLifeTime >= lifeTime) gameObject.SetActive(false);
         }
 
-        if(isReadyToWork == true) WeaponMoving();
+        if(isReadyToWork == true) 
+            WeaponMoving();
     }
 
     private void WeaponMoving()
@@ -76,11 +98,6 @@ public class WeaponMovement : MonoBehaviour
     {
         unit = unitSource;
         unitSprite = unitSource.unitController.unitSprite;
-        if(weaponDamage == null)
-        {
-            weaponDamage = GetComponent<WeaponDamage>();
-            boostManager = GlobalStorage.instance.boostManager;        
-        }
     }
 
     public void ActivateWeapon(Unit unit, int index = 0)
@@ -176,27 +193,31 @@ public class WeaponMovement : MonoBehaviour
 
         void Explosive()
         {
-            GameObject death = Instantiate(bottleDeath, transform.position, Quaternion.identity);
-            death.transform.SetParent(GlobalStorage.instance.effectsContainer.transform);
+            GameObject death = poolManager.GetUnusualPrefab(bottleDeath);
+            death.transform.position = transform.position;
+            death.SetActive(true);
+            death.transform.SetParent(effectsContainer.transform);
             PrefabSettings settings = death.GetComponent<PrefabSettings>();
             float weaponSize = unit.size + unit.size * boostManager.GetBoost(BoostType.WeaponSize);
 
-            if(settings != null) settings.SetSettings(
+            if(settings != null)
+            {
+                settings.SetSettings(
                 sortingLayer: TagManager.T_PLAYER, 
                 sortingOrder: 11, 
                 color: Color.cyan, 
                 size: weaponSize * 2,
                 animationSpeed: 0.07f);
+            }
 
             Collider2D[] objects = Physics2D.OverlapCircleAll(transform.position, weaponSize * 2);
             foreach(Collider2D obj in objects)
             {
                 if(obj.CompareTag(TagManager.T_ENEMY) == true)
                     weaponDamage.Hit(obj.GetComponent<EnemyController>(), transform.position);
-                    //obj.GetComponent<EnemyController>().TakeDamage(unit.physicAttack, unit.magicAttack, transform.position);
             }
 
-            Destroy(bottleShadow);
+            bottleShadow.SetActive(false);
             gameObject.SetActive(false);
         }
     }
@@ -322,12 +343,17 @@ public class WeaponMovement : MonoBehaviour
         torqueForce = goalVector.x < 0 ? torqueForce : -torqueForce;
         rbWeapon.AddTorque(torqueForce);
 
-        bottleShadow = Instantiate(bottleShadowPrefab, transform.position, Quaternion.identity);
-        bottleShadow.transform.SetParent(GlobalStorage.instance.effectsContainer.transform);
+        bottleShadow = poolManager.GetUnusualPrefab(bottleShadowPrefab);
+        bottleShadow.transform.position = transform.position;
+        bottleShadow.transform.localScale = bottleShadowStartScale;
+        bottleShadow.transform.SetParent(effectsContainer.transform);
+        bottleShadow.SetActive(true);
 
         if(gameObject.activeInHierarchy == true)
         {
-            if(coroutine != null) StopCoroutine(coroutine);
+            if(coroutine != null) 
+                StopCoroutine(coroutine);
+
             coroutine = StartCoroutine(ScaleShadow());
         }
         isReadyToWork = true;
@@ -352,7 +378,8 @@ public class WeaponMovement : MonoBehaviour
         {
             while(true)
             {
-                if(bottleShadow == null) break;
+                if(bottleShadow == null) 
+                    break;
 
                 if(verticalVelocity > 0)
                     bottleShadow.transform.localScale -= new Vector3(0.01f, 0.01f, 0.01f);
@@ -377,8 +404,11 @@ public class WeaponMovement : MonoBehaviour
     {
         if(bottleShadow != null)
         {
-            if(coroutine != null) StopCoroutine(coroutine);
-            Destroy(bottleShadow);
+            if(coroutine != null) 
+                StopCoroutine(coroutine);
+
+            bottleShadow.SetActive(false);
+            bottleShadow = null;
         }
         if(unit != null && unit.unitAbility == UnitsAbilities.Bible)
         {
@@ -391,13 +421,10 @@ public class WeaponMovement : MonoBehaviour
     {
         EventManager.SwitchPlayer += DestroyWeapon;
         currentLifeTime = 0;
-        if(weaponStorage == null) weaponStorage = GlobalStorage.instance.player.GetComponent<WeaponStorage>();
     }
 
     private void OnDisable()
     {
         EventManager.SwitchPlayer -= DestroyWeapon;
-        //Debug.Log("NO ME");
-        //DestroyWeapon();
     }
 }

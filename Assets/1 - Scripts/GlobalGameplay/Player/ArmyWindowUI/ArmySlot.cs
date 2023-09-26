@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using static NameManager;
+using Zenject;
 
 public class ArmySlot : MonoBehaviour, IPointerClickHandler, IDragHandler, IEndDragHandler, IBeginDragHandler
 {
@@ -27,19 +28,21 @@ public class ArmySlot : MonoBehaviour, IPointerClickHandler, IDragHandler, IEndD
     private Transform parentStorage;
     private Canvas dragdropZone;
 
+    [Inject]
+    public void Construct(PlayersArmy playersArmy, PlayerPersonalWindow playerMilitaryWindow)
+    {
+        this.playersArmy = playersArmy;
+
+        playersArmyUI = playerMilitaryWindow.GetComponent<PlayersArmyPart>();
+        canvasGroup = GetComponent<CanvasGroup>();
+        Canvas[] group = playerMilitaryWindow.GetComponentsInChildren<Canvas>();
+        dragdropZone = group[group.Length - 1];
+    }
+
     private void OnEnable()
     {
-        if(playersArmy == null) 
-        { 
-            playersArmy = GlobalStorage.instance.playersArmy;
-            playersArmyUI = GlobalStorage.instance.playerMilitaryWindow.GetComponent<PlayersArmyPart>();
-
-            canvasGroup = GetComponent<CanvasGroup>();
-            Canvas[] group = GlobalStorage.instance.playerMilitaryWindow.GetComponentsInChildren<Canvas>();
-            dragdropZone = group[group.Length - 1];
-        }
-
-        if(unitInSlot != null) quantity.text = unitInSlot.unitController.quantity.ToString();
+        if(unitInSlot != null) 
+            quantity.text = unitInSlot.unitController.quantity.ToString();
     }
 
     public void Init(Unit unit)

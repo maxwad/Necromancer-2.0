@@ -1,4 +1,5 @@
 using UnityEngine;
+using Zenject;
 
 public class GameMaster : MonoBehaviour
 {
@@ -8,10 +9,15 @@ public class GameMaster : MonoBehaviour
     //for Testing
     [SerializeField] private bool isAIEnable = false;
 
-    private void Start()
+    [Inject]
+    public void Construct(
+        AISystem aiSystem,
+        InputSystem inputSystem
+        )
     {
-        aiSystem = GlobalStorage.instance.aiSystem;
-        inputSystem = GlobalStorage.instance.inputSystem;
+        this.inputSystem = inputSystem;
+        this.aiSystem = aiSystem;
+
     }
 
     private void Update()

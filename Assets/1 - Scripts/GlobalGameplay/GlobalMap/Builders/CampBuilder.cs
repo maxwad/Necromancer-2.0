@@ -2,25 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Zenject;
 
 public class CampBuilder : MonoBehaviour
 {
     private GlobalMapTileManager gmManager;
     private CampManager campManager;
+    private ObjectsPoolManager poolManager;
 
     public Tilemap bonfiresMap;
     public GameObject bonfirePrefab;
 
     private List<Vector3> emptyPoints = new List<Vector3>();
 
-    public void Build(GlobalMapTileManager manager) 
+    [Inject]
+    public void Construct(
+        CampManager campManager,
+        ObjectsPoolManager poolManager,
+        GlobalMapTileManager manager
+        )
     {
-        if(gmManager == null)
-        {
-            gmManager = manager;
-            campManager = GlobalStorage.instance.campManager;
-        }
+        this.campManager = campManager;
+        this.poolManager = poolManager;
+        this.gmManager = manager;
+    }
 
+    public void Build() 
+    {
         emptyPoints = gmManager.GetEmptyPoints();
         foreach(Transform child in bonfiresMap.transform)
         {
@@ -31,14 +39,16 @@ public class CampBuilder : MonoBehaviour
             }
         }
 
-        manager.GetTempPoints(bonfiresMap);        
+        gmManager.GetTempPoints(bonfiresMap);        
 
         for(int i = 0; i < emptyPoints.Count; i++)
         {
             Vector3Int point = gmManager.SearchRealEmptyCellNearRoad(true, emptyPoints[i]);
 
-            GameObject bonfire = Instantiate(bonfirePrefab, bonfiresMap.CellToWorld(point), Quaternion.identity);
+            GameObject bonfire = poolManager.GetUnusualPrefab(bonfirePrefab);
+            bonfire.transform.position = bonfiresMap.CellToWorld(point);
             bonfire.transform.SetParent(bonfiresMap.transform);
+            bonfire.SetActive(true);
 
             gmManager.AddBuildingToAllOnTheMap(bonfire);
             campManager.Register(bonfire);

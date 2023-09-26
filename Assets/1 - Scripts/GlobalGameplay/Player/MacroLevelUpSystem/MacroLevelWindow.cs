@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Zenject;
 
 public class MacroLevelWindow : MonoBehaviour
 {
@@ -17,9 +18,10 @@ public class MacroLevelWindow : MonoBehaviour
     [Header("Ability")]
     [SerializeField] private TMP_Text abilityPointsText;
 
-    private void Start()
+    [Inject]
+    public void Construct(MacroLevelUpManager macroLevelUpManager)
     {
-        macroLevelUpManager = GlobalStorage.instance.macroLevelUpManager;
+        this.macroLevelUpManager = macroLevelUpManager;
     }
 
     public void Init()

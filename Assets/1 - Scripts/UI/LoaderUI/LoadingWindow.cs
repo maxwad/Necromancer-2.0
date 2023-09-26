@@ -9,15 +9,15 @@ public class LoadingWindow : MonoBehaviour
 {
     [SerializeField] private float FADE_SPEED = 0.01f;
     [SerializeField] private float LOADING_SPEED = 0.02f;
+    [SerializeField] private string LOADING_TEXT = "Loading..";
 
     [SerializeField] private CanvasGroup progressBarBlock;
     [SerializeField] private Image loadbar;
     [SerializeField] private TMP_Text percent;
     [SerializeField] private TMP_Text phase;
 
-    private float showSpeed = 0.01f;
-
     private bool isProgressFinished = false;
+
     public bool IsProgressFinished { 
         get => isProgressFinished; 
         set => isProgressFinished = value; 
@@ -39,7 +39,7 @@ public class LoadingWindow : MonoBehaviour
         loadbar.fillAmount = 0;
         currentLoadingPercent = 0;
         percent.text = "";
-        phase.text = "";
+        phase.text = LOADING_TEXT;
     }
 
     public void ShowNewPhase(string message, float loadingStep)

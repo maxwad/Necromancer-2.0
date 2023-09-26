@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using static NameManager;
+using Zenject;
 
 public class BoostInBattleUI : MonoBehaviour
 {
@@ -35,10 +36,14 @@ public class BoostInBattleUI : MonoBehaviour
 
     private Coroutine fadeCoroutine;
 
+    [Inject]
+    public void Construct(RunesSystem runesManager)
+    {
+        this.runesManager = runesManager;
+    }
+
     public void Init(RunesType runeType, float value, bool constEffect = true, EffectType effectType = EffectType.Rune)
     {
-        if(runesManager == null) runesManager = GlobalStorage.instance.runesSystem;
-
         bool isInvertedRune = runesManager.runesStorage.GetRuneInvertion(runeType);
         Sprite pict = runesManager.runesStorage.GetRuneIcon(runeType);
 

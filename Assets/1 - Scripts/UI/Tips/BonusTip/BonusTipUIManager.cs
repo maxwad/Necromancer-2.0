@@ -2,17 +2,26 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 using static NameManager;
 
 public class BonusTipUIManager : MonoBehaviour
 {
     public static BonusTipUIManager instance;
     private ObjectsPoolManager poolManager;
+    private GMPlayerMovement globalPlayer;
 
     public List<GMSpriteAssosiating> objectsGMList;
     public List<BattleSpriteAssosiating> objectsBattleList;
 
     private int currentHeigth = 0;
+
+    [Inject]
+    public void Construct(ObjectsPoolManager poolManager, GMPlayerMovement globalPlayer)
+    {
+        this.poolManager = poolManager;
+        this.globalPlayer = globalPlayer;
+    }
 
     private void Start()
     {
@@ -20,8 +29,6 @@ public class BonusTipUIManager : MonoBehaviour
             instance = this;
         else
             Destroy(gameObject);
-
-        instance.poolManager = GlobalStorage.instance.objectsPoolManager;
     }
 
     public static void ShowVisualEffect(PlayersStats stat, float quantity, string text = "")     
@@ -45,7 +52,7 @@ public class BonusTipUIManager : MonoBehaviour
     {
         GameObject rewardText = instance.poolManager.GetObject(ObjectPool.BonusText);
 
-        rewardText.transform.position = GlobalStorage.instance.globalPlayer.gameObject.transform.position;
+        rewardText.transform.position = instance.globalPlayer.gameObject.transform.position;
         rewardText.SetActive(true);
         rewardText.GetComponent<BonusTip>().Show(instance.currentHeigth, sprite, quantity, text);
         instance.currentHeigth++;

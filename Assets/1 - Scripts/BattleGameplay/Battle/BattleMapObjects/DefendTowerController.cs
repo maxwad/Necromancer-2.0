@@ -1,16 +1,14 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public class DefendTowerController : MonoBehaviour
 {
     private ObjectsPoolManager poolManager;
-    [SerializeField] private GameObject[] shootingPoints;
     private GameObject player;
     private GameObject effectsContainer;
-    //[SerializeField] private GameObject cannonball;
 
+    [SerializeField] private GameObject[] shootingPoints;
     [SerializeField] private GameObject startDust;
 
     public float shootingDelay = 3f;
@@ -18,13 +16,15 @@ public class DefendTowerController : MonoBehaviour
     private float coroutineStep = 0.1f;
     private Coroutine coroutine;
 
-    private void Awake()
+    [Inject]
+    public void Construct([Inject(Id = Constants.EFFECTS_CONTAINER)] GameObject effectsContainer, ObjectsPoolManager poolManager)
     {
-        effectsContainer = GlobalStorage.instance.effectsContainer;
-        poolManager = GlobalStorage.instance.objectsPoolManager;
+        this.poolManager = poolManager;
+        this.effectsContainer = effectsContainer;
 
         coroutineStep = shootingDelay;
     }
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -81,22 +81,23 @@ public class DefendTowerController : MonoBehaviour
 
     private void CreateBullet(Vector3 point)
     {
-        //GameObject bullet = Instantiate(cannonball);
         GameObject bullet = poolManager.GetObject(NameManager.ObjectPool.Cannonball);
         bullet.transform.position = point;
         bullet.SetActive(true);
-        //bullet.transform.SetParent(effectsContainer.transform);
         bullet.GetComponent<CannonballController>().Initialize(player.transform.position);
     }
 
     private void CreateEffect(Vector3 point)
     {
-        GameObject dust = Instantiate(startDust);
+        GameObject dust = poolManager.GetUnusualPrefab(startDust);
         dust.transform.position = point;
         dust.transform.SetParent(effectsContainer.transform);
+        dust.SetActive(true);
+
         PrefabSettings settings = dust.GetComponent<PrefabSettings>();
 
-        if(settings != null) settings.SetSettings(color: Color.white, sortingOrder: 11, sortingLayer: TagManager.T_PLAYER, animationSpeed: 0.05f);
+        if(settings != null) 
+            settings.SetSettings(color: Color.white, sortingOrder: 11, sortingLayer: TagManager.T_PLAYER, animationSpeed: 0.05f);
     }
     private void Victory()
     {

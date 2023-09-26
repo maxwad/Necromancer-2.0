@@ -136,9 +136,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53293a8a24d971141a3a2644e99de30b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  physicAttack: 0
-  magicAttack: 0
-  controller: {fileID: 0}
 --- !u!114 &3670724544215358467
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -153,5 +150,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bottleDeath: {fileID: 5129068117508607062, guid: 494278796b523b243972145a26dde814, type: 3}
   bottleShadowPrefab: {fileID: 1132100649567338931, guid: fa6a8d7f28592b942a763f8f8426f2bb, type: 3}
+  bottleShadowStartScale: {x: 0.5, y: 0.5, z: 0.5}
   speed: 5
   lifeTime: 0

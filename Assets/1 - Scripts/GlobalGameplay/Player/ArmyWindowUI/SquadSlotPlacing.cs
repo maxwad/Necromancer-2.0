@@ -6,6 +6,7 @@ using TMPro;
 using static NameManager;
 using UnityEngine.EventSystems;
 using System;
+using Zenject;
 
 public class SquadSlotPlacing : MonoBehaviour, IDropHandler, IPointerClickHandler
 {
@@ -14,6 +15,12 @@ public class SquadSlotPlacing : MonoBehaviour, IDropHandler, IPointerClickHandle
     public int index = 0;
 
     private PlayersArmy playersArmy;
+
+    [Inject]
+    public void Construct(PlayersArmy playersArmy)
+    {
+        this.playersArmy = playersArmy;
+    }
 
     public void FillSlot(GameObject currentSquad)
     {
@@ -31,7 +38,6 @@ public class SquadSlotPlacing : MonoBehaviour, IDropHandler, IPointerClickHandle
             currentSquad.transform.localPosition = Vector3.zero;
         }
 
-        if(playersArmy == null) playersArmy = GlobalStorage.instance.playersArmy;
         playersArmy.UpdateArmy();
     }
 

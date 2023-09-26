@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using static NameManager;
+using Zenject;
 
 public class TombUI : MonoBehaviour
 {
@@ -35,15 +36,18 @@ public class TombUI : MonoBehaviour
     private List<Image> rewardIcons = new List<Image>();
     private List<TMP_Text> rewardCounts = new List<TMP_Text>();
 
-
-
-    private void Start()
-    {       
-        tombsManager = GlobalStorage.instance.tombsManager;
-        resourcesManager = GlobalStorage.instance.resourcesManager;
-        resourcesIcons = resourcesManager.GetAllResourcesIcons();
+    [Inject]
+    public void Construct(TombsManager tombsManager, ResourcesManager resourcesManager)
+    {
+        this.tombsManager = tombsManager;
+        this.resourcesManager = resourcesManager;
 
         canvas = uiPanel.GetComponent<CanvasGroup>();
+    }
+
+    private void Start()
+    {           
+        resourcesIcons = resourcesManager.GetAllResourcesIcons();
 
         foreach(var item in rewardItems)
         {

@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using static NameManager;
+using Zenject;
 
 public class FogBreaker : MonoBehaviour
 {
@@ -10,9 +11,14 @@ public class FogBreaker : MonoBehaviour
     private float scaleConstant;
     private float viewRadius;
 
+    [Inject]
+    public void Construct(PlayerStats playerStats)
+    {
+        this.playerStats = playerStats;
+    }
+
     private void Start()
     {
-        playerStats = GlobalStorage.instance.playerStats;
         viewRadius = Mathf.Round(playerStats.GetCurrentParameter(PlayersStats.MovementDistance));
         scale = transform.localScale.x;
 

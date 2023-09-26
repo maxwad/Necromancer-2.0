@@ -1,10 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 using static NameManager;
-
+using Zenject;
 
 public class HeroUITip : MonoBehaviour
 {
@@ -19,29 +18,29 @@ public class HeroUITip : MonoBehaviour
     public TMP_Text mana;
     public TMP_Text manaRegeneration;
     public TMP_Text defence;
-    //public TMP_Text speed;
     public TMP_Text movementPoints;
     public TMP_Text luck;
 
+    [Inject]
+    public void Construct(PlayerStats playerStats, MacroLevelUpManager macroLevelUpManager)
+    {
+        this.playerStats = playerStats;
+        this.macroLevelUpManager = macroLevelUpManager;
+
+        canvas = GetComponent<CanvasGroup>();
+    }
+
     public void ShowTip()
     {
-        if(canvas == null) canvas = GetComponent<CanvasGroup>();
         Fading.instance.FadeWhilePause(true, canvas);
     }
 
     public void Init()
     {
-        if(playerStats == null)
-        {
-            playerStats = GlobalStorage.instance.playerStats;
-            macroLevelUpManager = GlobalStorage.instance.macroLevelUpManager;
-        }
-
         level.text = macroLevelUpManager.GetCurrentLevel().ToString();
         health.text = playerStats.GetCurrentParameter(PlayersStats.Health).ToString();
         mana.text = playerStats.GetCurrentParameter(PlayersStats.Mana).ToString();
         defence.text = playerStats.GetCurrentParameter(PlayersStats.Defence).ToString();
-        //speed.text = playerStats.GetCurrentParameter(PlayersStats.Speed).ToString();
         movementPoints.text = (Mathf.Round(playerStats.GetCurrentParameter(PlayersStats.MovementDistance))).ToString();
         luck.text = playerStats.GetCurrentParameter(PlayersStats.Luck).ToString();
 

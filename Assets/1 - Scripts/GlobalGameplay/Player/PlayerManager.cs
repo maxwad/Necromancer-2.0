@@ -1,4 +1,5 @@
 using UnityEngine;
+using Zenject;
 using static NameManager;
 
 public partial class PlayerManager : MonoBehaviour
@@ -14,13 +15,22 @@ public partial class PlayerManager : MonoBehaviour
     [HideInInspector] public float healthRegeneration = 0;
     private float luckHealthBonus = 0;
 
+    [Inject]
+    public void Construct(
+        BattleArmyController battlePlayer,
+        ResourcesManager resourcesManager,
+        PlayerStats playerStats
+        )
+    {
+        this.resourcesManager = resourcesManager;
+        this.battlePlayer = battlePlayer.gameObject;
+        this.playerStats = playerStats;
+
+        playerResurrection = GetComponent<PlayerResurrection>();
+    }
+
     private void Start()
     {
-        resourcesManager   = GlobalStorage.instance.resourcesManager;
-        playerResurrection = GetComponent<PlayerResurrection>();
-        battlePlayer       = GlobalStorage.instance.battlePlayer.gameObject;
-        playerStats        = GetComponent<PlayerStats>();
-
         luck = playerStats.GetCurrentParameter(PlayersStats.Luck);
     }
 

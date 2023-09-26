@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Collections.Generic;
 using static NameManager;
+using Zenject;
 
 public partial class GlobalMapTileManager : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public partial class GlobalMapTileManager : MonoBehaviour
     public Tilemap mapBG;
     public Tilemap fogMap;
     public Tilemap roadMap;
+    public Tilemap overlayMap;
 
     private List<Vector3> emptyPoints = new List<Vector3>();
     private Dictionary<GameObject, Vector3> enterPointsDict = new Dictionary<GameObject, Vector3>();
@@ -30,17 +32,20 @@ public partial class GlobalMapTileManager : MonoBehaviour
 
     private List<GameObject> allBuildingsOnTheMap = new List<GameObject>();
 
-    private GlobalMapPathfinder gmPathfinder;
-    private GameObject player;
     private float startRadiusWithoutFog = 15;
     private float constStep = 1.4f; // experimental const
     private List<Vector3Int> fogFreeCells = new List<Vector3Int>();
 
+    private GameObject player;
+    private GlobalMapPathfinder gmPathfinder;
 
-    public void Init(bool createMode)
+    [Inject]
+    public void Construct(GMPlayerMovement globalPlayer, MapBoxesManager boxesBuilder)
     {
+        this.player = globalPlayer.gameObject;
+        this.boxesBuilder = boxesBuilder;
+
         gmPathfinder        = GetComponent<GlobalMapPathfinder>();
-        player              = GlobalStorage.instance.globalPlayer.gameObject;
         arenaBuilder        = GetComponent<ArenaBuilder>();
         altarBuilder        = GetComponent<AltarBuilder>();
         castleBuilder       = GetComponent<CastleBuilder>();
@@ -48,9 +53,11 @@ public partial class GlobalMapTileManager : MonoBehaviour
         portalBuilder       = GetComponent<PortalBuilder>();
         resourceBuilder     = GetComponent<ResourceBuilder>();
         campBuilder         = GetComponent<CampBuilder>();
-        boxesBuilder        = GlobalStorage.instance.mapBoxesManager;
         environmentRegister = GetComponent<EnvironmentRegister>();
+    }
 
+    public void Init(bool createMode)
+    {
         roads = new GMHexCell[roadMap.size.x, roadMap.size.y];
 
         CreateRoadCells();
@@ -68,16 +75,16 @@ public partial class GlobalMapTileManager : MonoBehaviour
 
     public void CreateWorld()
     {
-        arenaBuilder.Build(this, null);
-        altarBuilder.Build(this);
-        castleBuilder.Build(this, null);
-        tombBuilder.Build(this, null);
-        portalBuilder.Build(this);
-        resourceBuilder.Build(this, null);
-        campBuilder.Build(this);
-        boxesBuilder.Build(this, null);
+        arenaBuilder.Build();
+        altarBuilder.Build();
+        castleBuilder.Build();
+        tombBuilder.Build();
+        portalBuilder.Build();
+        resourceBuilder.Build();
+        campBuilder.Build();
+        boxesBuilder.Build();
 
-        environmentRegister.Registration(this);
+        environmentRegister.Registration();
         CreateEnterPointsForAllBuildings();
     }
 
@@ -272,7 +279,6 @@ public partial class GlobalMapTileManager : MonoBehaviour
             if(enterPointsDict.ContainsKey(allBuildingsOnTheMap[i]) == false)
             {
                 enterPointsDict.Add(allBuildingsOnTheMap[i], pos);
-                //SortingBuildings(allBuildingsOnTheMap[i], pos);
 
                 ClickableObject building = allBuildingsOnTheMap[i].GetComponent<ClickableObject>();
                 if(building != null)
@@ -291,7 +297,6 @@ public partial class GlobalMapTileManager : MonoBehaviour
         Vector3Int enterPoint = SearchRealEmptyCellNearRoad(false, building.transform.position);
         Vector3 position = roadMap.CellToWorld(enterPoint);
         enterPointsDict.Add(building, position);
-        //SortingBuildings(building, position);
     }
 
     public void DeleteEnterPoint(GameObject building)
@@ -376,47 +381,6 @@ public partial class GlobalMapTileManager : MonoBehaviour
         return pos;
     }
 
-
-    //private void SortingBuildings(GameObject building, Vector3 position)
-    //{
-    //    ClickableObject obj = building.GetComponent<ClickableObject>();
-
-    //    if(obj == null) return;
-
-    //    switch(obj.objectType)
-    //    {
-    //        case TypeOfObjectOnTheMap.PlayersCastle:
-    //            //GlobalStorage.instance.portalsManager.SetCastle(building, position);
-    //            break;
-
-    //        case TypeOfObjectOnTheMap.NecromancerCastle:
-    //            break;
-    //        case TypeOfObjectOnTheMap.Castle:
-    //            break;
-    //        //case TypeOfObjectOnTheMap.ResourceBuilding:
-    //        //    break;
-    //        //case TypeOfObjectOnTheMap.Outpost:
-    //        //    break;
-    //        case TypeOfObjectOnTheMap.Camp:
-    //            break;
-    //        //case TypeOfObjectOnTheMap.Altar:
-    //        //    break;
-
-    //        case TypeOfObjectOnTheMap.Portal:
-    //           //GlobalStorage.instance.portalsManager.Register(building, position);
-    //            break;
-
-    //        case TypeOfObjectOnTheMap.RoadPointer:
-    //            break;
-    //        case TypeOfObjectOnTheMap.Arena:
-    //            break;
-    //        //case TypeOfObjectOnTheMap.Tomb:
-    //        //    GlobalStorage.instance.tombsManager.Register(building, position);
-    //        //    break;
-    //        default:
-    //            break;
-    //    }
-    //}
     #endregion
 
     public bool CheckCellAsEnterPoint(Vector3 cell)

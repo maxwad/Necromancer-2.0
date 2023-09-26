@@ -1,10 +1,14 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 using static NameManager;
 
 public class ManningWeapon : MonoBehaviour
 {
+    private ResourcesManager resourcesManager;
+    private ObjectsPoolManager objectsPoolManager;
+    private HeroController hero;
+
     private EnemyWeaponParameters weaponParameters;
     private Coroutine coroutine;
     private float attackPeriod;
@@ -14,19 +18,28 @@ public class ManningWeapon : MonoBehaviour
     private float countOfShoot = 0;
     private float currentShoot = 0;
 
+    [Inject]
+    public void Construct(
+        ResourcesManager resourcesManager,
+        ObjectsPoolManager objectsPoolManager,
+        HeroController hero
+        )
+    {
+        this.resourcesManager = resourcesManager;
+        this.objectsPoolManager = objectsPoolManager;
+        this.hero = hero;
+
+        weaponParameters = GetComponent<EnemyWeaponParameters>();
+
+        attackPeriod = weaponParameters.attackPeriod;
+        attackDelay = weaponParameters.attackDelay;
+        timeOffset = weaponParameters.timeOffset;
+        countOfShoot = Mathf.Floor(attackPeriod / attackDelay);
+    }
+
     private void OnEnable()
     {
         EventManager.EndOfBattle += Stop;
-
-        if(weaponParameters == null)
-        {
-            weaponParameters = GetComponent<EnemyWeaponParameters>();
-
-            attackPeriod = weaponParameters.attackPeriod;
-            attackDelay = weaponParameters.attackDelay;
-            timeOffset = weaponParameters.timeOffset;
-            countOfShoot = Mathf.Floor(attackPeriod / attackDelay);
-        }
 
         currentTime = 0;
         currentShoot = 0;
@@ -63,14 +76,14 @@ public class ManningWeapon : MonoBehaviour
 
     private void Shot()
     {
-        GlobalStorage.instance.resourcesManager.ChangeResource(ResourceType.Mana, -1);
+        resourcesManager.ChangeResource(ResourceType.Mana, -1);
 
-        GameObject death = GlobalStorage.instance.objectsPoolManager.GetObject(ObjectPool.ManaDeath);
-        death.transform.position = GlobalStorage.instance.hero.transform.position;
+        GameObject death = objectsPoolManager.GetObject(ObjectPool.ManaDeath);
+        death.transform.position = hero.transform.position;
         death.SetActive(true);
 
-        GameObject bloodSpot = GlobalStorage.instance.objectsPoolManager.GetObject(ObjectPool.ManaSpot);
-        bloodSpot.transform.position = GlobalStorage.instance.hero.transform.position;
+        GameObject bloodSpot = objectsPoolManager.GetObject(ObjectPool.ManaSpot);
+        bloodSpot.transform.position = hero.transform.position;
         bloodSpot.SetActive(true);
     }
 

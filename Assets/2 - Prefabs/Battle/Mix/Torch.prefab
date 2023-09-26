@@ -150,7 +150,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b86444e567abd744bf54d8258deb7fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isFromPool: 1
+  isFreguentObject: 1
   isImmortal: 0
   health: 10
   damageNote: {fileID: 4223726373541259902, guid: dc8112cb6cbc981458351f24ddb13002, type: 3}

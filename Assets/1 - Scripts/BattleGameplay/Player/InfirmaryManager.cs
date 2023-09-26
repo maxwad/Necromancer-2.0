@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 using static NameManager;
 
 public partial class InfirmaryManager : MonoBehaviour
@@ -11,11 +12,16 @@ public partial class InfirmaryManager : MonoBehaviour
 
     private PlayerStats playerStats;
     private GameObject player;
+    
+    [Inject]
+    public void Construct(PlayerStats playerStats, GMPlayerMovement globalPlayer)
+    {
+        this.playerStats = playerStats;
+        player = globalPlayer.gameObject;
+    }
 
     private void Start()
     {
-        playerStats = GlobalStorage.instance.playerStats;
-        player = GlobalStorage.instance.globalPlayer.gameObject;
         currentCapacity = playerStats.GetCurrentParameter(PlayersStats.Infirmary);
         dayToDeath = playerStats.GetCurrentParameter(PlayersStats.InfirmaryTime);
 
@@ -66,14 +72,6 @@ public partial class InfirmaryManager : MonoBehaviour
 
         EventManager.OnUpdateInfirmaryUIEvent(GetInjuredCount(), currentCapacity);
     }
-
-    //public void HealUnits(Dictionary<UnitsTypes, int> injuredUnitsDict)
-    //{
-    //    foreach(var unit in injuredUnitsDict)
-    //    {
-
-    //    }
-    //}
 
     public Dictionary<UnitsTypes, InjuredUnitData> GetCurrentInjuredDict()
     {

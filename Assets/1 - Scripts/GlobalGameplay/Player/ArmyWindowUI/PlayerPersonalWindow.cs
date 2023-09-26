@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 using static NameManager;
 
 public class PlayerPersonalWindow : MonoBehaviour, IInputableKeys
@@ -45,12 +46,14 @@ public class PlayerPersonalWindow : MonoBehaviour, IInputableKeys
     [SerializeField] private GameObject activeMicroTab;
     [SerializeField] private GameObject activeSpellsTab;
 
-
-    //private GMInterface gmInterface;
+    
     private InputSystem inputSystem;
     private EnemyArmyOnTheMap currentEnemy;
     private MacroLevelWindow macroLevelUI;
     private RunesWindow runesWindow;
+    private BattleManager battleManager;
+    private PlayerStats playerStats;
+
     [HideInInspector] public bool isWindowOpened = false;
     private bool canICloseWindow = true;
     private float playerCuriosity;
@@ -62,20 +65,31 @@ public class PlayerPersonalWindow : MonoBehaviour, IInputableKeys
     private KeyActions currentKeyAction;
     private PlayersWindow currentWindow;
 
+    [Inject]
+    public void Construct(
+        InputSystem inputSystem,
+        BattleManager battleManager,
+        PlayerStats playerStats
+        )
+    {
+        this.inputSystem = inputSystem;
+        this.battleManager = battleManager;
+        this.playerStats = playerStats;
+
+        autobattleButtonComponent = autobattleButton.GetComponent<Button>();
+        playersArmyUIPart         = GetComponent<PlayersArmyPart>();
+        enemyArmyUIPart           = GetComponent<EnemyArmyPart>();
+        macroLevelUI              = GetComponentInChildren<MacroLevelWindow>();
+        runesWindow               = GetComponentInChildren<RunesWindow>();
+
+    }
     private void Start()
     {
-        autobattleButtonComponent = autobattleButton.GetComponent<Button>();
-        playersArmyUIPart = GetComponent<PlayersArmyPart>();
-        enemyArmyUIPart = GetComponent<EnemyArmyPart>();
-        macroLevelUI = GetComponentInChildren<MacroLevelWindow>();
-        runesWindow = GetComponentInChildren<RunesWindow>();
-        //gmInterface = GlobalStorage.instance.gmInterface;
         RegisterInputKeys();
     }
 
     public void RegisterInputKeys()
     {
-        inputSystem = GlobalStorage.instance.inputSystem;
         inputSystem.RegisterInputKeys(KeyActions.Army, this);
         inputSystem.RegisterInputKeys(KeyActions.Skills, this);
         inputSystem.RegisterInputKeys(KeyActions.Runes, this);
@@ -189,7 +203,7 @@ public class PlayerPersonalWindow : MonoBehaviour, IInputableKeys
 
     private void Refactoring()
     {
-        playerCuriosity = GlobalStorage.instance.playerStats.GetCurrentParameter(PlayersStats.Curiosity);
+        playerCuriosity = playerStats.GetCurrentParameter(PlayersStats.Curiosity);
 
         enemyBlock.SetActive(false);
 
@@ -288,13 +302,13 @@ public class PlayerPersonalWindow : MonoBehaviour, IInputableKeys
     public void ToTheBattle()
     {
         CloseWindow();
-        GlobalStorage.instance.battleManager.InitializeBattle();
+        battleManager.InitializeBattle();
     }
 
     //Button
     public void AutoBattle()
     {
-        GlobalStorage.instance.battleManager.AutoBattle();
+        battleManager.AutoBattle();
         CloseWindow();
     }
 }

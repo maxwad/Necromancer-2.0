@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using static NameManager;
+using Zenject;
 
 public class GMInterfaceResources : MonoBehaviour
 {
@@ -31,43 +32,43 @@ public class GMInterfaceResources : MonoBehaviour
     [SerializeField] private GameObject unitsContainer;
     private Dictionary<ResourceType, GameObject> deltaContainers = new Dictionary<ResourceType, GameObject>();
 
-    private void Awake()
+    [Inject]
+    public void Construct(ObjectsPoolManager poolManager, ResourcesManager resourcesManager)
     {
-        resourceCounters = new Dictionary<ResourceType, TMP_Text>()
-        {
-            [ResourceType.Gold]   = goldCount,
-            [ResourceType.Food]   = foodCount,
-            [ResourceType.Stone]  = stoneCount,
-            [ResourceType.Wood]   = woodCount,
-            [ResourceType.Iron]   = ironCount,
-            [ResourceType.Shards] = shardsCount,
-            [ResourceType.Units]  = unitsCount,
-        };
-
-        deltaContainers = new Dictionary<ResourceType, GameObject>()
-        {
-            [ResourceType.Gold]   = goldContainer,
-            [ResourceType.Food]   = foodContainer,
-            [ResourceType.Stone]  = stoneContainer,
-            [ResourceType.Wood]   = woodContainer,
-            [ResourceType.Iron]   = ironContainer,
-            [ResourceType.Shards] = shardsContainer,
-            [ResourceType.Units]  = unitsContainer
-        };
+        this.poolManager = poolManager;
+        this.resourcesManager = resourcesManager;
     }
 
     private void Start()
     {
-        poolManager = GlobalStorage.instance.objectsPoolManager;
-        resourcesManager = GlobalStorage.instance.resourcesManager;
-
         FillStartResources();
     }
-
 
     private void FillStartResources()
     {
         resourcesDict = resourcesManager.GetAllResources();
+
+        resourceCounters = new Dictionary<ResourceType, TMP_Text>()
+        {
+            [ResourceType.Gold] = goldCount,
+            [ResourceType.Food] = foodCount,
+            [ResourceType.Stone] = stoneCount,
+            [ResourceType.Wood] = woodCount,
+            [ResourceType.Iron] = ironCount,
+            [ResourceType.Shards] = shardsCount,
+            [ResourceType.Units] = unitsCount,
+        };
+
+        deltaContainers = new Dictionary<ResourceType, GameObject>()
+        {
+            [ResourceType.Gold] = goldContainer,
+            [ResourceType.Food] = foodContainer,
+            [ResourceType.Stone] = stoneContainer,
+            [ResourceType.Wood] = woodContainer,
+            [ResourceType.Iron] = ironContainer,
+            [ResourceType.Shards] = shardsContainer,
+            [ResourceType.Units] = unitsContainer
+        };
 
         foreach(var resource in resourceCounters)
         {

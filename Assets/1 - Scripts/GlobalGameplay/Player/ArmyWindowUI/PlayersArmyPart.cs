@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using static NameManager;
+using Zenject;
 
 public class PlayersArmyPart : MonoBehaviour
 {
@@ -25,11 +26,17 @@ public class PlayersArmyPart : MonoBehaviour
     [HideInInspector] public bool isStartInit = true;
     #region Schemes
 
-    private void Awake()
+    [Inject]
+    public void Construct
+        (
+        PlayersArmy playersArmy,
+        InfirmaryManager infirmaryManager,
+        UnitManager unitManager
+        )
     {
-        playersArmy = GlobalStorage.instance.playersArmy;
-        infirmaryManager = GlobalStorage.instance.infirmaryManager;
-        unitManager = GlobalStorage.instance.unitManager;
+        this.playersArmy = playersArmy;
+        this.infirmaryManager = infirmaryManager;
+        this.unitManager = unitManager;
     }
 
     public void CreateReserveScheme(Dictionary<UnitsTypes, FullSquad> armyDict)

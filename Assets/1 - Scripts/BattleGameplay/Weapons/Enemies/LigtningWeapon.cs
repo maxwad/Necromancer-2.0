@@ -1,7 +1,6 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 using static NameManager;
 
 public class LigtningWeapon : MonoBehaviour
@@ -18,22 +17,23 @@ public class LigtningWeapon : MonoBehaviour
     private float currentShoot = 0;
     private ObjectPool bullet;
 
+    [Inject]
+    public void Construct(ObjectsPoolManager objectsPool)
+    {
+        this.objectsPool =  objectsPool;
+
+        weaponParameters = GetComponent<EnemyWeaponParameters>();
+
+        bullet = weaponParameters.bullet;
+        attackPeriod = weaponParameters.attackPeriod;
+        attackDelay = weaponParameters.attackDelay;
+        timeOffset = weaponParameters.timeOffset;
+        countOfShoot = Mathf.Floor(attackPeriod / attackDelay);
+    }
 
     private void OnEnable()
     {
         EventManager.EndOfBattle += Stop;
-   
-        if(objectsPool == null) 
-        {
-            objectsPool = GlobalStorage.instance.objectsPoolManager;
-            weaponParameters = GetComponent<EnemyWeaponParameters>();
-
-            bullet = weaponParameters.bullet;
-            attackPeriod = weaponParameters.attackPeriod;
-            attackDelay = weaponParameters.attackDelay;
-            timeOffset = weaponParameters.timeOffset;
-            countOfShoot = Mathf.Floor(attackPeriod / attackDelay);
-        }
 
         currentTime = 0;
         currentShoot = 0;

@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 using static NameManager;
 
 public class EnemyController : MonoBehaviour
@@ -56,17 +55,35 @@ public class EnemyController : MonoBehaviour
 
     private EnemyMovement movementScript;
     private BoostManager boostManager;
-    public EnemyManager enemyManager;
-    public BonusManager bonusManager;
+    private EnemyManager enemyManager;
+    private BonusManager bonusManager;
+    private ObjectsPoolManager poolManager;
 
-    private void Awake()
+
+    [Inject]
+    public void Construct
+        (
+        HeroController hero,
+        BonusManager bonusManager,
+        BoostManager boostManager,
+        EnemyManager enemyManager,
+        ObjectsPoolManager poolManager
+        )
     {
-        rbEnemy = GetComponent<Rigidbody2D>();
-        hero = GlobalStorage.instance.hero;
-        enemySpriteRenderer = GetComponent<SpriteRenderer>();
-        enemySprite = enemySpriteRenderer.sprite;
-        movementScript = GetComponent<EnemyMovement>();
+        this.hero = hero;
+        this.bonusManager = bonusManager;
+        this.boostManager = boostManager;
+        this.enemyManager = enemyManager;
+        this.poolManager = poolManager;
+
+        rbEnemy                = GetComponent<Rigidbody2D>();
+        bossController         = GetComponent<BossController>();
+        bossController.enabled = false;
+        enemySpriteRenderer    = GetComponent<SpriteRenderer>();
+        movementScript         = GetComponent<EnemyMovement>();
+        enemySprite            = enemySpriteRenderer.sprite;
     }
+
 
     private void LateUpdate()
     {
@@ -88,8 +105,8 @@ public class EnemyController : MonoBehaviour
         {
             isBoss = false;
 
-            bossController = GetComponent<BossController>();
-            if(bossController != null) Destroy(bossController);
+            if(bossController != null)
+                bossController.enabled = false;
 
             Debug.Log("Reset");
         }
@@ -228,7 +245,7 @@ public class EnemyController : MonoBehaviour
 
     private void ShowDamage(float damageValue, Color colorDamage)
     {
-        GameObject damageObject = GlobalStorage.instance.objectsPoolManager.GetObject(ObjectPool.DamageText);
+        GameObject damageObject = poolManager.GetObject(ObjectPool.DamageText);
         damageObject.transform.position = transform.position;
         damageObject.SetActive(true);
         damageObject.GetComponent<DamageText>().Iniatilize(damageValue, colorDamage);
@@ -236,11 +253,11 @@ public class EnemyController : MonoBehaviour
 
     private void Dead()
     {           
-        GameObject death = GlobalStorage.instance.objectsPoolManager.GetObject(ObjectPool.EnemyDeath);
+        GameObject death = poolManager.GetObject(ObjectPool.EnemyDeath);
         death.transform.position = transform.position;
         death.SetActive(true);
 
-        GameObject bloodSpot = GlobalStorage.instance.objectsPoolManager.GetObject(ObjectPool.BloodSpot);
+        GameObject bloodSpot = poolManager.GetObject(ObjectPool.BloodSpot);
         bloodSpot.transform.position = transform.position;
         bloodSpot.SetActive(true);
 
@@ -282,7 +299,9 @@ public class EnemyController : MonoBehaviour
         exp                  *= (bossCreateSecondMultiplier * bossCreateMainMultiplier);
 
         movementScript.BoostSpeed(0.2f);
-        bossController = gameObject.AddComponent<BossController>();
+        if(bossController != null)
+            bossController.enabled = true;
+
         bossController.Init(currentHealth, enemySprite);
     }    
 
@@ -300,7 +319,7 @@ public class EnemyController : MonoBehaviour
         {
             bool runeClear = (currentHealth <= 0) ? true : false;
             bossController.BossDeath(runeClear);
-            Destroy(bossController);
+            bossController.enabled = false;
         }
     }
 
@@ -329,13 +348,6 @@ public class EnemyController : MonoBehaviour
     {
         EventManager.EndOfBattle += BackToPool;
         EventManager.SetBattleBoost += UpgradeParameters;
-
-        if(boostManager == null)
-        {
-            enemyManager = GlobalStorage.instance.enemyManager;
-            boostManager = GlobalStorage.instance.boostManager;
-            bonusManager = GlobalStorage.instance.bonusManager;
-        }
 
         if(originalStats == null) originalStats = enemyManager.GetEnemySO(enemiesType);
         InitializeParameters();

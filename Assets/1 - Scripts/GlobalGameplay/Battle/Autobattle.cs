@@ -1,19 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 using static NameManager;
-
-public class ResultOfAutobattle
-{
-    public bool result;
-
-    public float losses;
-    public float minLosses;
-    public float maxLosses;
-
-    public float healthLosses;
-    public float manaLosses;
-}
 
 public class Autobattle : MonoBehaviour
 {
@@ -57,15 +46,24 @@ public class Autobattle : MonoBehaviour
     private ResultOfAutobattle result;
     private bool isRecalculating = false;
 
-    private void Start()
+    [Inject]
+    public void Construct(
+        AutobattleUI autobattleUI,
+        PlayersArmy playersArmyScript,
+        ResourcesManager resourcesManager,
+        BattleManager battleManager,
+        SpellManager spellManager,
+        PlayerStats playerStats,
+        EnemyManager enemyManager
+        )
     {
-        autobattleUI = GlobalStorage.instance.autobattleUI;
-        playersArmyScript = GlobalStorage.instance.playersArmy;
-        resourcesManager = GlobalStorage.instance.resourcesManager;
-        battleManager = GlobalStorage.instance.battleManager;
-        spellManager = GlobalStorage.instance.spellManager;
-        playerStats = GlobalStorage.instance.playerStats;
-        enemyManager = GlobalStorage.instance.enemyManager;
+        this.autobattleUI = autobattleUI;
+        this.playersArmyScript = playersArmyScript;
+        this.resourcesManager = resourcesManager;
+        this.battleManager = battleManager;
+        this.spellManager = spellManager;
+        this.playerStats = playerStats;
+        this.enemyManager = enemyManager;
     }
 
     public void Preview(Army enemyArmy)

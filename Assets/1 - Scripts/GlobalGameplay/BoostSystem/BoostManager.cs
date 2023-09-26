@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 using static NameManager;
 
 public class BoostManager : MonoBehaviour
@@ -11,9 +12,14 @@ public class BoostManager : MonoBehaviour
     private Dictionary<BoostType, List<Boost>> boostItemsDict = new Dictionary<BoostType, List<Boost>>();
     private Dictionary<BoostType, float> commonBoostDict = new Dictionary<BoostType, float>();
 
+    [Inject]
+    public void Construct(PlayerStats playerStats)
+    {
+        this.playerStats = playerStats;
+    }
+
     private void Awake()
     {
-        playerStats = GlobalStorage.instance.playerStats;
         boostTypes = new BoostType[Enum.GetValues(typeof(BoostType)).Length];
 
         int counter = 0;

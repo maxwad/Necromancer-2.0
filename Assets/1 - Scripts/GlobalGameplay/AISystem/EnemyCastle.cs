@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Zenject;
 
 public class EnemyCastle : MonoBehaviour
 {
@@ -15,10 +16,15 @@ public class EnemyCastle : MonoBehaviour
     private Vector3 enterPoint;
     private GameObject player;
 
+    [Inject]
+    public void Construct(GMPlayerMovement globalPlayer, AISystem aiSystem)
+    {
+        this.aiSystem = aiSystem;
+        this.player = globalPlayer.gameObject;
+    }
+
     private void Start()
-    {       
-        aiSystem   = GlobalStorage.instance.aiSystem;
-        player     = GlobalStorage.instance.globalPlayer.gameObject;
+    {
         enterPoint = GetComponent<ClickableObject>().GetEnterPoint();
     }
 
@@ -27,7 +33,6 @@ public class EnemyCastle : MonoBehaviour
         GetComponent<SpriteRenderer>().color = castleColor;
         GetComponent<TooltipTrigger>().header = name + "'s Castle";
         gameObject.name = name + "'s Castle";
-
         vassal.Init(this, castleColor, name);
     }
 
@@ -69,7 +74,6 @@ public class EnemyCastle : MonoBehaviour
     {
         isReady = false;
         currentRest = (deathMode == false) ? completeRestDays : defeatRestDays;
-        //aiSystem.CrusadeComplete(this);
     }
 
     public Vector3 GetStartPosition() => enterPoint;

@@ -2,6 +2,7 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using static NameManager;
+using Zenject;
 
 public class CampManager : MonoBehaviour
 {
@@ -26,13 +27,23 @@ public class CampManager : MonoBehaviour
     [SerializeField] private List<CampBonus> bonusesData;
     [SerializeField] private List<ResourceType> resources;
 
+    [Inject]
+    public void Construct(
+        ResourcesManager resourcesManager,
+        RewardManager rewardManager,
+        PlayerStats playerStats,
+        CampUI campUI
+        )
+    {
+        this.resourcesManager = resourcesManager;
+        this.rewardManager = rewardManager;
+        this.playerStats = playerStats;
+        this.campUI = campUI;
+    }
+
     private void Start()
     {
-        resourcesManager = GlobalStorage.instance.resourcesManager;
         resourcesIcons = resourcesManager.GetAllResourcesIcons();
-
-        rewardManager = GlobalStorage.instance.rewardManager;
-        playerStats = GlobalStorage.instance.playerStats;
     }
 
     public void Register(GameObject building) => campsRewardsDict.Add(building, true);
@@ -156,8 +167,6 @@ public class CampManager : MonoBehaviour
 
     public void LoadCamps(List<Vector3> emptyCamps)
     {
-        campUI = GlobalStorage.instance.campDoor;
-
         foreach(var campWith in emptyCamps)
         {
             foreach(var camp in campsRewardsDict.Keys.ToList())

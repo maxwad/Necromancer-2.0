@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
@@ -7,6 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 using TMPro;
 using static NameManager;
+using Zenject;
 
 public class MenuManager : MonoBehaviour, IInputableKeys
 {
@@ -48,6 +47,13 @@ public class MenuManager : MonoBehaviour, IInputableKeys
 
     //public TMP_Text settingsLabel;
 
+    [Inject]
+    public void Construct(InputSystem inputSystem, GMInterface gmInterface)
+    {
+        this.inputSystem = inputSystem;
+        this.gmInterface = gmInterface;
+    }
+
     private void Start()
     {
         if (instance != null)
@@ -82,13 +88,11 @@ public class MenuManager : MonoBehaviour, IInputableKeys
         LoadSoundOptions();
         LaodVideoOptions();
 
-        gmInterface = GlobalStorage.instance.gmInterface;
         RegisterInputKeys();
     }
 
     public void RegisterInputKeys()
     {
-        inputSystem = GlobalStorage.instance.inputSystem;
         inputSystem.RegisterInputKeys(KeyActions.Menu, this);
     }
 

@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
 using static NameManager;
+using Zenject;
 
 public class GarrisonUI : MonoBehaviour, IGarrison
 {
@@ -36,16 +37,31 @@ public class GarrisonUI : MonoBehaviour, IGarrison
     private int heroAmountToSet = 0;
     private int castleAmountToSet = 0;
 
+    [Inject]
+    public void Construct
+        (
+        UnitManager unitManager,
+        PlayersArmy playersArmy,
+        PlayerStats playerStats
+        )
+    {
+        this.unitManager = unitManager;
+        this.playersArmy = playersArmy;
+        this.playerStats = playerStats;
+
+        takeWholeSquad.isOn = true;
+    }
+
     public void Init(bool heroMode, Garrison gar)
     {
-        if(playerStats == null)
-        {
-            unitManager = GlobalStorage.instance.unitManager;
-            playersArmy = GlobalStorage.instance.playersArmy;
-            playerStats = GlobalStorage.instance.playerStats;
+        //if(playerStats == null)
+        //{
+        //    unitManager = GlobalStorage.instance.unitManager;
+        //    playersArmy = GlobalStorage.instance.playersArmy;
+        //    playerStats = GlobalStorage.instance.playerStats;
 
-            takeWholeSquad.isOn = true;
-        }
+        //    takeWholeSquad.isOn = true;
+        //}
 
         isHeroInside = heroMode;
         squadMaxAmount = Mathf.RoundToInt(playerStats.GetCurrentParameter(PlayersStats.SquadMaxSize));

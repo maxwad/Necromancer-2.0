@@ -2,6 +2,7 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using static NameManager;
+using Zenject;
 
 public class PortalsManager : MonoBehaviour
 {
@@ -9,11 +10,10 @@ public class PortalsManager : MonoBehaviour
     private GMPlayerMovement globalPlayer;
     private GlobalMapTileManager gmManager;
     private PortalsWindowUI portalsDoor;
+    private GameObject castle;
 
     private Dictionary<GameObject, bool> allPortals = new Dictionary<GameObject, bool>();
 
-    private GameObject currentPortal;
-    private GameObject castle;
     private Vector3 backPosition = Vector3.zero;
 
     [Header("Cost of Teleport")]
@@ -21,14 +21,22 @@ public class PortalsManager : MonoBehaviour
     public float toCertainTeleportCost = 20f;
     public float toCastleTeleport = 30f;
     public float toBackTeleport = 0f;
+    private GameObject currentPortal;
 
-    private void Awake()
+    [Inject]
+    public void Construct(
+        [Inject(Id = Constants.FORTRESS)] GameObject castle,
+        PlayerStats playerStats,
+        GMPlayerMovement globalPlayer,
+        GlobalMapTileManager gmManager,
+        PortalsWindowUI portalsDoor
+        )
     {
-        portalsDoor  = GlobalStorage.instance.portalDoor;
-        playerStats  = GlobalStorage.instance.playerStats;
-        globalPlayer = GlobalStorage.instance.globalPlayer;
-        gmManager    = GlobalStorage.instance.gmManager;
-        castle       = GlobalStorage.instance.fortressGO;
+        this.castle = castle;
+        this.playerStats = playerStats;
+        this.globalPlayer = globalPlayer;
+        this.gmManager = gmManager;
+        this.portalsDoor = portalsDoor;
     }
 
     public bool CanIUsePortals()
@@ -102,6 +110,7 @@ public class PortalsManager : MonoBehaviour
         return (backPosition == Vector3.zero) ? false : true;
     }
 
+    #region SAVE/LOAD
     public PortalsSD Save()
     {
         PortalsSD saveData = new PortalsSD();
@@ -126,4 +135,5 @@ public class PortalsManager : MonoBehaviour
 
         backPosition = saveData.backPosition.ToVector3();
     }
+    #endregion
 }

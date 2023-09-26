@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
-using static NameManager;
+using Zenject;
 
 public class GMInterfaceMoves : MonoBehaviour
 {
@@ -15,9 +12,10 @@ public class GMInterfaceMoves : MonoBehaviour
     [SerializeField] private TMP_Text leftDaysCount;
     [SerializeField] private Animator nextDayButton;
 
-    private void Start()
+    [Inject]
+    public void Construct(CalendarManager calendarManager)
     {
-        calendarManager = GlobalStorage.instance.calendarManager;
+        this.calendarManager = calendarManager;
     }
 
     public void UpdateCurrentMoves(float currentValue)

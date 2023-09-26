@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 using static NameManager;
 
 public class WeaponDamage : MonoBehaviour
@@ -20,14 +21,15 @@ public class WeaponDamage : MonoBehaviour
 
     [HideInInspector] private List<GameObject> enemyList = new List<GameObject>();
 
+    [Inject]
+    public void Construct(BoostManager boostManager, PlayerStats playersStats)
+    {
+        this.boostManager = boostManager;
+        this.playersStats = playersStats;
+    }
+
     public void SetSettings(Unit unitSource)
     {
-        if(boostManager == null)
-        {
-            boostManager = GlobalStorage.instance.boostManager;
-            playersStats = GlobalStorage.instance.playerStats;
-        }
-
         unit = unitSource;
         physicAttackBase = unitSource.physicAttack;
         magicAttackBase = unitSource.magicAttack;

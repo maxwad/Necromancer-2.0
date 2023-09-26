@@ -1,10 +1,10 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using TMPro;
 using UnityEngine.EventSystems;
+using Zenject;
 
 public class GlobalMapPathfinder : MonoBehaviour, IInputableAxies
 {
@@ -42,11 +42,19 @@ public class GlobalMapPathfinder : MonoBehaviour, IInputableAxies
     [HideInInspector] public GameObject focusObject = null;
     private bool shouldIClearPath = false;
 
+    [Inject]
+    public void Construct(
+        InputSystem inputSystem,
+        GMPlayerMovement player
+        )
+    {
+        this.inputSystem = inputSystem;
+        this.player      = player;
+        positionChecker  = player.GetComponent<GMPlayerPositionChecker>();
+    }
+
     private void Awake()
     {
-        player = GlobalStorage.instance.globalPlayer;
-        positionChecker = player.GetComponent<GMPlayerPositionChecker>();
-
         Vector3Int correctPosition = roadMap.WorldToCell(player.transform.position);
         player.transform.position = roadMap.CellToWorld(correctPosition);
 
@@ -55,7 +63,6 @@ public class GlobalMapPathfinder : MonoBehaviour, IInputableAxies
 
     public void RegisterInputAxies()
     {
-        inputSystem = GlobalStorage.instance.inputSystem;
         inputSystem.RegisterInputAxies(this);
     }
 

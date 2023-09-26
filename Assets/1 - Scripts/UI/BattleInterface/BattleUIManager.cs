@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using static NameManager;
 using System;
+using Zenject;
 
 public class BattleUIManager : MonoBehaviour
 {
@@ -15,7 +16,6 @@ public class BattleUIManager : MonoBehaviour
 
     [Header("End of Battle")]
     [SerializeField] private int timer = 10;
-    //[SerializeField] private int currentTime = 10;
     private Coroutine redirectCoroutine;
     
     [SerializeField] private GameObject leaveBlock;
@@ -34,6 +34,14 @@ public class BattleUIManager : MonoBehaviour
     [HideInInspector] public BattleUISpellPart spellPart;
     [HideInInspector] public BattleUIEnemyPart enemyPart;
     [HideInInspector] public BattleUIBoostPart boostPart;
+
+    private BattleManager battleManager;
+
+    [Inject]
+    public void Construct(BattleManager battleManager)
+    {
+        this.battleManager = battleManager;
+    }
 
     private void Start()
     {
@@ -62,20 +70,26 @@ public class BattleUIManager : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Tab))
         {
-            if(GlobalStorage.instance.isGlobalMode == false) OpenLeaveBlock(!isLeaveBlockOpened);
+            if(GlobalStorage.instance.isGlobalMode == false) 
+                OpenLeaveBlock(!isLeaveBlockOpened);
         }
 
         if(Input.GetKeyDown(KeyCode.End))
         {
-            if(GlobalStorage.instance.isGlobalMode == false && isBattleOver == false) Victory();
+            if(GlobalStorage.instance.isGlobalMode == false && isBattleOver == false) 
+                Victory();
         }
+
         if(Input.GetKeyDown(KeyCode.Backspace))
         {
-            if(GlobalStorage.instance.isGlobalMode == false && isBattleOver == false) Defeat();
+            if(GlobalStorage.instance.isGlobalMode == false && isBattleOver == false) 
+                Defeat();
         }
+
         if(Input.GetKeyDown(KeyCode.Home))
         {
-            if(GlobalStorage.instance.isGlobalMode == false && isBattleOver == false) LeaveTheBattle();
+            if(GlobalStorage.instance.isGlobalMode == false && isBattleOver == false) 
+                LeaveTheBattle();
         }
     }
 
@@ -137,7 +151,7 @@ public class BattleUIManager : MonoBehaviour
     public void LeaveTheBattle()
     {
         OpenLeaveBlock(false);
-        GlobalStorage.instance.battleManager.FinishTheBattle(false, -1);
+        battleManager.FinishTheBattle(false, -1);
     }
 
     public void ShowVictoryBlock()
@@ -153,7 +167,7 @@ public class BattleUIManager : MonoBehaviour
     {
         victoryBlock.SetActive(false);
         if(redirectCoroutine != null) StopCoroutine(redirectCoroutine);
-        GlobalStorage.instance.battleManager.FinishTheBattle(false, 1);
+        battleManager.FinishTheBattle(false, 1);
     }
 
     public void ShowDefeatBlock()
@@ -168,7 +182,7 @@ public class BattleUIManager : MonoBehaviour
     {
         defeatBlock.SetActive(false);
         if(redirectCoroutine != null) StopCoroutine(redirectCoroutine);
-        GlobalStorage.instance.battleManager.FinishTheBattle(false, 0);
+        battleManager.FinishTheBattle(false, 0);
     }
 
 

@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Zenject;
+using static NameManager;
 
 public class MapBoxesManager : MonoBehaviour
 {
@@ -19,15 +21,15 @@ public class MapBoxesManager : MonoBehaviour
 
     private float buildPropability = 75f;
 
-
-    public void Build(GlobalMapTileManager manager, Dictionary<Vector3, Reward> boxesData)
+    [Inject]
+    public void Construct(GlobalMapTileManager gmManager, ObjectsPoolManager poolManager)
     {
-        if(poolManager == null)
-        {
-            gmManager = manager;
-            poolManager = GlobalStorage.instance.objectsPoolManager;
-        }
+        this.gmManager = gmManager;
+        this.poolManager = poolManager;
+    }
 
+    public void Build(Dictionary<Vector3, Reward> boxesData = null)
+    {
         FillBoxPoints();
 
         if(boxesData == null)
@@ -117,11 +119,15 @@ public class MapBoxesManager : MonoBehaviour
 
         foreach(var point in tempPoints)
             CreateBox(boxesMap.CellToWorld(point));
+
+        foreach(var box in allBoxes)
+            box.SetActive(false);
     }
 
     private void CreateBox(Vector3 position)
     {
-        GameObject boxOnTheMap = Instantiate(boxPrefabs, position, Quaternion.identity);
+        GameObject boxOnTheMap = poolManager.GetObject(ObjectPool.BoxOnTheMap);
+        boxOnTheMap.transform.position = position;
         boxOnTheMap.transform.SetParent(boxesMap.transform);
         BoxObject box = boxOnTheMap.GetComponent<BoxObject>();
         box.SetMapBoxManager(this);
@@ -130,7 +136,7 @@ public class MapBoxesManager : MonoBehaviour
         allBoxes.Add(boxOnTheMap);
         allBoxesPoints.Add(position);
 
-        boxOnTheMap.SetActive(false);
+        boxOnTheMap.SetActive(true);
     }
 
     private void ClearActualPoints()

@@ -1,14 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using static NameManager;
+using Zenject;
 
 public class BattleUIInfirmaryPart : MonoBehaviour
 {
     private BattleUIManager battleUIManager;
     private PlayerStats playerStats;
+    private InfirmaryManager infirmaryManager;
 
     [Header("Infirmary")]
     [SerializeField] private Image infirmaryScale;
@@ -19,10 +19,16 @@ public class BattleUIInfirmaryPart : MonoBehaviour
     [SerializeField] private Color infirmaryDownColor;
     [SerializeField] private Color normalInfirmaryColor;
 
+    [Inject]
+    public void Construct(PlayerStats playerStats, InfirmaryManager infirmaryManager)
+    {
+        this.playerStats = playerStats;
+        this.infirmaryManager = infirmaryManager;
+    }
+
     public void Init(BattleUIManager manager)
     {
         battleUIManager = manager;
-        playerStats = GlobalStorage.instance.playerStats;
     }
 
     public void FillInfirmary(float max = 0, float current = 0)
@@ -31,7 +37,7 @@ public class BattleUIInfirmaryPart : MonoBehaviour
         if(max == 0)
         {
             currentMaxInfirmaryCount = playerStats.GetCurrentParameter(PlayersStats.Infirmary);
-            currentInfirmaryCount = GlobalStorage.instance.infirmaryManager.GetInjuredCount();
+            currentInfirmaryCount = infirmaryManager.GetInjuredCount();
         }
         else
         {

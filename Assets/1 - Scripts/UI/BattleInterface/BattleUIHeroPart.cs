@@ -1,9 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using static NameManager;
+using Zenject;
 
 public class BattleUIHeroPart : MonoBehaviour
 {
@@ -32,11 +31,15 @@ public class BattleUIHeroPart : MonoBehaviour
     [SerializeField] private TMP_Text goldInfo;
     private float startGold;
 
+    [Inject]
+    public void Construct(ResourcesManager resourcesManager)
+    {
+        this.resourcesManager = resourcesManager;
+    }
 
     public void Init(BattleUIManager manager)
     {
         battleUIManager = manager;
-        resourcesManager = GlobalStorage.instance.resourcesManager;
     }
 
     public void UpgradeResourceUI(ResourceType type, float value)

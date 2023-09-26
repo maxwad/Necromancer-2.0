@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 using static NameManager;
 
 public class BattleManager : MonoBehaviour
@@ -28,13 +29,18 @@ public class BattleManager : MonoBehaviour
     private bool isFightWithVassal = false;
     private bool isVassalWin = false;
 
-
-    private void Start()
+    [Inject]
+    public void Construct(
+        AISystem aiSystem,
+        PlayerPersonalWindow playerArmyWindow,
+        BattleResult battleResultUI
+        )
     {
-        autobattle       = GetComponent<Autobattle>();
-        battleResultUI   = GlobalStorage.instance.battleResultUI;
-        playerArmyWindow = GlobalStorage.instance.playerMilitaryWindow;
-        aiSystem         = GlobalStorage.instance.aiSystem;
+        this.aiSystem = aiSystem;
+        this.playerArmyWindow = playerArmyWindow;
+        this.battleResultUI = battleResultUI;
+
+        autobattle = GetComponent<Autobattle>();
     }
 
     #region Starting Initialisation

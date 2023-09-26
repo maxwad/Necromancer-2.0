@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Zenject;
 
 public class AutobattleUI : MonoBehaviour
 {
@@ -10,7 +11,6 @@ public class AutobattleUI : MonoBehaviour
     private CanvasGroup canvas;
     private Autobattle autobattle;
     private BattleManager battleManager;
-    private BattleResult battleResult;
     private PlayersArmy playersArmyScript;
 
     public Toggle[] attackToggles;
@@ -24,16 +24,18 @@ public class AutobattleUI : MonoBehaviour
     public TMP_Text healthText;
     public TMP_Text manaText;
 
+    [Inject]
+    public void Construct(BattleManager battleManager, PlayersArmy playersArmyScript)
+    {
+        this.battleManager = battleManager;
+        this.playersArmyScript = playersArmyScript;
+
+        canvas = uiPanel.GetComponentInChildren<CanvasGroup>();
+    }
+
     public void ShowResult(Autobattle autobattleScript, ResultOfAutobattle result)
     {
-        if(autobattle == null) 
-        {
-            autobattle        = autobattleScript;
-            battleManager     = GlobalStorage.instance.battleManager;
-            battleResult      = GetComponent<BattleResult>();
-            playersArmyScript = GlobalStorage.instance.playersArmy;
-            canvas            = uiPanel.GetComponentInChildren<CanvasGroup>();
-        }
+        autobattle = autobattleScript;
 
         MenuManager.instance.MiniPause(true);
 
@@ -97,6 +99,5 @@ public class AutobattleUI : MonoBehaviour
         uiPanel.SetActive(false);
 
         MenuManager.instance.MiniPause(false);
-        //GlobalStorage.instance.ModalWindowOpen(false);
     }
 }

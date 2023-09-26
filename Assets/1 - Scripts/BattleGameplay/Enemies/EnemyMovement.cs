@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 using static NameManager;
 
 public class EnemyMovement : MonoBehaviour
@@ -10,8 +11,9 @@ public class EnemyMovement : MonoBehaviour
     private Collider2D collEnemy;
     private SpriteRenderer sprite;
     private BoostManager boostManager;
+    private SimpleAnimator animator;
 
-    private float speedBase = 1f;
+    private float speedBase = 0.1f;
     private float speed;
     private float stuckTime = 0;
     private float maxStuckTime = 1f;
@@ -26,19 +28,22 @@ public class EnemyMovement : MonoBehaviour
     private bool canIMove = true;
     private float timeAutoEnabling = 1f;
 
-    void Start()
+    [Inject]
+    public void Construct(BattleArmyController player, BoostManager boostManager)
     {
-        player = GlobalStorage.instance.battlePlayer.gameObject;
+        this.player = player.gameObject;
+        this.boostManager = boostManager;
+
         collEnemy = GetComponent<Collider2D>();
-        rbEnemy = GetComponent<Rigidbody2D>();
-        sprite = GetComponent<SpriteRenderer>();
+        rbEnemy   = GetComponent<Rigidbody2D>();
+        sprite    = GetComponent<SpriteRenderer>();
+        animator  = GetComponent<SimpleAnimator>();
     }
 
     private void OnEnable()
     {
         EventManager.SetBattleBoost += UpgradeParameters;
 
-        if(boostManager == null) boostManager = GlobalStorage.instance.boostManager;
         speed = speedBase + speedBase * boostManager.GetBoost(BoostType.EnemyMovementSpeed);
     }
 
@@ -84,7 +89,7 @@ public class EnemyMovement : MonoBehaviour
     public void MakeMeFixed(bool mode = false, bool autoEnable = false)
     {
         canIMove = !mode;
-        gameObject.GetComponent<SimpleAnimator>().StopAnimation(mode);
+        animator.StopAnimation(mode);
 
         if(autoEnable == true) Invoke("MakeMeUnfixed", timeAutoEnabling);
     }
@@ -136,14 +141,4 @@ public class EnemyMovement : MonoBehaviour
     {
         speedBase = 1;
     }
-
-    //private void OnBecameVisible()
-    //{
-    //    collEnemy.enabled = true;
-    //}
-
-    //private void OnBecameInvisible()
-    //{
-    //    collEnemy.enabled = false;
-    //}
 }

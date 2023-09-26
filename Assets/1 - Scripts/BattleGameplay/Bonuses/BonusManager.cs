@@ -1,21 +1,24 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 using static NameManager;
 
 public class BonusManager : MonoBehaviour
 {
     [Header("Prefabs")]
     private ObjectsPoolManager poolManager;
+    private GameObject bonusesContainer;
     [SerializeField] private List<BonusSO> bonuses;
     public List<GameObject> bonusesOnTheMap = new List<GameObject>();
 
     private bool isEnoughTempExp = false;
     private BonusType alternativeBonusType = BonusType.Gold;
 
-    private void Start()
+    [Inject]
+    public void Construct([Inject(Id = Constants.EFFECTS_CONTAINER)] GameObject bonusesContainer, ObjectsPoolManager poolManager)
     {
-        poolManager = GlobalStorage.instance.objectsPoolManager;        
+        this.poolManager = poolManager;
+        this.bonusesContainer = bonusesContainer;
     }
 
     public void CreateBonus(bool isThisFromBoss, BonusType type, Vector3 position, float value = 0)
@@ -40,7 +43,7 @@ public class BonusManager : MonoBehaviour
 
         bonus = poolManager.GetObject(ObjectPool.BattleBonus);
         bonus.transform.position = position;
-        bonus.transform.SetParent(GlobalStorage.instance.bonusesContainer.transform);
+        bonus.transform.SetParent(bonusesContainer.transform);
         bonus.GetComponent<BonusController>().Init(isThisFromBoss, bonusSO, value);        
 
         bonusesOnTheMap.Add(bonus);

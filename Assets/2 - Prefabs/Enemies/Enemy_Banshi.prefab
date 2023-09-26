@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 6595363662515921892}
   - component: {fileID: 6625523645141117953}
   - component: {fileID: 9145172188335675477}
+  - component: {fileID: 1945860366500321015}
   m_Layer: 7
   m_Name: Enemy_Banshi
   m_TagString: Enemy
@@ -196,6 +197,22 @@ MonoBehaviour:
   bonusType: 3
   enemyManager: {fileID: 0}
   bonusManager: {fileID: 0}
+--- !u!114 &1945860366500321015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6595363662515921913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9dd5249454a94304ea05a0df17e37d68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthMax: 0
+  currentHealth: 0
+  sprite: {fileID: 0}
+  rune: {fileID: 0}
 --- !u!1 &7590297369794310908
 GameObject:
   m_ObjectHideFlags: 0

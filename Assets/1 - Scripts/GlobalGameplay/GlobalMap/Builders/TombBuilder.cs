@@ -1,11 +1,12 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Zenject;
 
 public class TombBuilder : MonoBehaviour
 {
     private GlobalMapTileManager gmManager;
+    private ObjectsPoolManager poolManager;
 
     public Tilemap tombsMap;
     private List<Vector3> tombsPoints = new List<Vector3>();
@@ -14,15 +15,21 @@ public class TombBuilder : MonoBehaviour
     public int tombsCount = 12;
     private TombsManager tombsManager;
 
-    public void Build(GlobalMapTileManager manager, List<Vector3> pointsToLoad)
+    [Inject]
+    public void Construct(
+        ObjectsPoolManager poolManager,
+        TombsManager tombsManager,
+        GlobalMapTileManager gmManager
+        )
     {
-        if(gmManager == null)
-        {
-            gmManager = manager;
-            tombsManager = GlobalStorage.instance.tombsManager;
-        }
+        this.poolManager = poolManager;
+        this.tombsManager = tombsManager;
+        this.gmManager = gmManager;
+    }
 
-        List<Vector3Int> tempPoints = manager.GetTempPoints(tombsMap);
+    public void Build(List<Vector3> pointsToLoad = null)
+    {
+        List<Vector3Int> tempPoints = gmManager.GetTempPoints(tombsMap);
 
         if(pointsToLoad == null)
         {
@@ -42,15 +49,17 @@ public class TombBuilder : MonoBehaviour
 
         for(int i = 0; i < tempPoints.Count; i++)
         {
-            manager.AddPointToEmptyPoints(tombsMap.CellToWorld(tempPoints[i]));
+            gmManager.AddPointToEmptyPoints(tombsMap.CellToWorld(tempPoints[i]));
         }
 
         for(int i = 0; i < tombsPoints.Count; i++)
         {
-            GameObject tomb = Instantiate(tombPrefab, tombsPoints[i], Quaternion.identity);
+            GameObject tomb = poolManager.GetUnusualPrefab(tombPrefab);
+            tomb.transform.position = tombsPoints[i];
             tomb.transform.SetParent(tombsMap.transform);
+            tomb.SetActive(true);
 
-            manager.AddBuildingToAllOnTheMap(tomb);
+            gmManager.AddBuildingToAllOnTheMap(tomb);
 
             tombsManager.Register(tomb);
         }

@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using Zenject;
 using static NameManager;
 
 public class WeaponStorage : MonoBehaviour
@@ -8,10 +9,17 @@ public class WeaponStorage : MonoBehaviour
     //this is gross, i need rework it
     [HideInInspector] public Unit unitForBible;
 
+    [SerializeField] private GameObject weaponContainer;
     public Vector3 weaponOffset;
     private ObjectsPoolManager objectsPool;
     private BoostManager boostManager;
-    [SerializeField] private GameObject weaponContainer;
+
+    [Inject]
+    public void Construct(ObjectsPoolManager objectsPool, BoostManager boostManager)
+    {
+        this.objectsPool = objectsPool;
+        this.boostManager = boostManager;
+    }
 
     public void Attack(Unit unit)
     {
@@ -59,12 +67,6 @@ public class WeaponStorage : MonoBehaviour
 
     private GameObject CreateWeapon(Unit unit)
     {
-        if(objectsPool == null) 
-        { 
-            objectsPool = GlobalStorage.instance.objectsPoolManager;
-            boostManager = GlobalStorage.instance.boostManager;
-        }
-
         if(unit.isUnitActive == false)
         {
             Debug.Log("Unit is unActive in WeaponScript");

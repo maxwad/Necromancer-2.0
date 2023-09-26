@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 using static NameManager;
 
 public class ResourceObject : MonoBehaviour
@@ -15,17 +16,18 @@ public class ResourceObject : MonoBehaviour
     private MapBonusManager mapBonusManager;
     private Dictionary<ResourceType, Sprite> resourcesIcons;
 
-    private void OnEnable()
+    [Inject]
+    public void Construct(
+        RewardManager rewardManager,
+        ResourcesManager resourcesManager,
+        MapBonusManager mapBonusManager
+        )
     {
-        if(sprite == null)
-        {
-            sprite = GetComponent<SpriteRenderer>();
-            rewardManager = GlobalStorage.instance.rewardManager;
-            resourcesManager = GlobalStorage.instance.resourcesManager;
-            resourcesIcons = resourcesManager.GetAllResourcesIcons();
-        }
+        this.rewardManager = rewardManager;
+        this.resourcesManager = resourcesManager;
+        this.mapBonusManager = mapBonusManager;
 
-        //Birth();
+        sprite = GetComponent<SpriteRenderer>();
     }
 
     public void Birth()
@@ -41,10 +43,16 @@ public class ResourceObject : MonoBehaviour
             yield return null;
         }
 
-        int index = UnityEngine.Random.Range(0, Enum.GetValues(typeof(ResourceType)).Length);
-        if(index > 4) index = 0;
-        resourceType = (ResourceType)Enum.GetValues(typeof(ResourceType)).GetValue(index);
+        if(resourcesIcons == null)
+        {
+            resourcesIcons = resourcesManager.GetAllResourcesIcons();
+        }
 
+        int index = UnityEngine.Random.Range(0, Enum.GetValues(typeof(ResourceType)).Length);
+        if(index > 4) 
+            index = 0;
+
+        resourceType = (ResourceType)Enum.GetValues(typeof(ResourceType)).GetValue(index);
         sprite.sprite = resourcesIcons[resourceType];
 
         reward = rewardManager.GetHeapReward(resourceType);
@@ -52,6 +60,11 @@ public class ResourceObject : MonoBehaviour
 
     public void Load(Reward oldReward)
     {
+        if(resourcesIcons == null)
+        {
+            resourcesIcons = resourcesManager.GetAllResourcesIcons();
+        }
+
         resourceType = oldReward.resourcesList[0];
         sprite.sprite = resourcesIcons[resourceType];
         reward = oldReward;

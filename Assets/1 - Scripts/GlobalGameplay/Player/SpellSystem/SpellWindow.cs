@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 using static NameManager;
 
 public class SpellWindow : MonoBehaviour
@@ -15,10 +16,11 @@ public class SpellWindow : MonoBehaviour
 
     private float spellsAmount;
 
-    private void Start()
+    [Inject]
+    public void Construct(SpellManager spellManager, PlayerStats playerStats)
     {
-        spellManager = GlobalStorage.instance.spellManager;
-        playerStats = GlobalStorage.instance.playerStats;
+        this.spellManager = spellManager;
+        this.playerStats = playerStats;
     }
 
     public void Init()

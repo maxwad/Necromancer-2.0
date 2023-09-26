@@ -3,12 +3,12 @@ using TMPro;
 using static NameManager;
 using System.Collections;
 using System;
+using Zenject;
 
 public class UnitController : MonoBehaviour
 {
     private BoostManager boostManager;
     private ObjectsPoolManager poolManager;
-    private UnitManager unitManager;
     private PlayersArmy playersArmy;
     private AttackController attackController;
 
@@ -49,8 +49,20 @@ public class UnitController : MonoBehaviour
 
     private TMP_Text unitCountsText;
 
-    private void Start()
+    [Inject]
+    public void Construct
+    (
+    BoostManager boostManager,
+    ObjectsPoolManager poolManager,
+    PlayersArmy playersArmy
+    )
     {
+        this.boostManager = boostManager;
+        this.poolManager = poolManager;
+        this.playersArmy = playersArmy;
+
+        attackController = GetComponent<AttackController>();
+        unitCountsText = GetComponentInChildren<TMP_Text>();
         unitSprite = GetComponent<SpriteRenderer>();
         normalColor = unitSprite.color;
         originalColor = unitSprite.color;
@@ -64,8 +76,6 @@ public class UnitController : MonoBehaviour
 
     public void Initilize(Unit unitSource) 
     {
-        if(boostManager == null) boostManager = GlobalStorage.instance.boostManager;
-
         unit = unitSource;
         currentHealth = unitSource.health;
 
@@ -170,8 +180,11 @@ public class UnitController : MonoBehaviour
 
     private void UpgradeParameters(BoostType boost, float value)
     {
-        if(boost == BoostType.PhysicDefence) physicDefence = physicDefenceBase + physicDefenceBase * value;
-        if(boost == BoostType.MagicDefence) magicDefence = magicDefenceBase + magicDefenceBase * value;
+        if(boost == BoostType.PhysicDefence) 
+            physicDefence = physicDefenceBase + physicDefenceBase * value;
+
+        if(boost == BoostType.MagicDefence) 
+            magicDefence = magicDefenceBase + magicDefenceBase * value;
     }
 
     private void Victory()
@@ -316,15 +329,6 @@ public class UnitController : MonoBehaviour
         EventManager.Victory += Victory;
         EventManager.SwitchPlayer += ResetSquad;
         EventManager.KillEnemyBy += IKilledEnemy;
-
-        if(unitManager == null)
-        {
-            playersArmy = GlobalStorage.instance.playersArmy;
-            poolManager = GlobalStorage.instance.objectsPoolManager;
-            unitManager = GlobalStorage.instance.unitManager;
-            attackController = GetComponent<AttackController>();
-            unitCountsText = GetComponentInChildren<TMP_Text>();
-        }
 
         unitCountsText.text = quantity.ToString();
         MakeMeImmortal(false);

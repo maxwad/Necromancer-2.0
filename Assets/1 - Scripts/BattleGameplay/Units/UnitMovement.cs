@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using Zenject;
 
 public class UnitMovement : MonoBehaviour
 {
@@ -18,19 +19,21 @@ public class UnitMovement : MonoBehaviour
 
     SpriteRenderer[] sprites;
 
+    [Inject]
+    public void Construct(BattleArmyController armyController)
+    {
+        this.armyController = armyController;
+
+        animator = GetComponent<Animator>();
+        unitCountMesh = GetComponentInChildren<MeshRenderer>();
+        sprites = transform.GetComponentsInChildren<SpriteRenderer>();
+        unitSprite = sprites[0];
+        countLabel = sprites[1];
+        levelUpLabel = sprites[2];
+    }
+
     private void Start()
     {
-        animator      = GetComponent<Animator>();
-
-        sprites = transform.GetComponentsInChildren<SpriteRenderer>();
-        unitSprite    = sprites[0];
-        countLabel    = sprites[1];
-        levelUpLabel  = sprites[2];
-        
-        unitCountMesh = GetComponentInChildren<MeshRenderer>();
-
-        armyController = GlobalStorage.instance.battlePlayer;
-
         CheckDirectoin();
         Animamion();
     }

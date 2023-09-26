@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using static NameManager;
+using Zenject;
 
 public class FortressBuildings : MonoBehaviour
 {
@@ -48,6 +49,13 @@ public class FortressBuildings : MonoBehaviour
     public int maxLevel = 3;
     public int destroyBuildings = 3;
 
+    [Inject]
+    public void Construct([Inject(Id = Constants.FORTRESS)] GameObject fortressGO, GMInterface gmInterface)
+    {
+        this.gmInterface = gmInterface;
+        this.fortressGO = fortressGO;
+    }
+
     private void Awake()
     {
         foreach(var item in buildingsGOList)
@@ -76,7 +84,6 @@ public class FortressBuildings : MonoBehaviour
             upgradesDict.Add(item, upgrades);
         }
 
-        fortressGO = GlobalStorage.instance.fortressGO;
         mint = fortressGO.GetComponent<ResourceBuilding>();
         buildingCanvas = buildingDescription.GetComponent<CanvasGroup>();
 
@@ -85,17 +92,8 @@ public class FortressBuildings : MonoBehaviour
 
     private void Start()
     {
-        gmInterface = GlobalStorage.instance.gmInterface;
         UpdateBuildProgressUI();
     }
-
-    //public void Test()
-    //{
-    //    foreach(var bonus in buildingsBonuses)
-    //    {
-    //        Debug.Log(bonus.Key + " = " + bonus.Value);
-    //    }
-    //}
 
     private void Update()
     {

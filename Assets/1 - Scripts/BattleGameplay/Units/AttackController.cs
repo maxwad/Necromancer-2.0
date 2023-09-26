@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public class AttackController : MonoBehaviour
 {
@@ -15,17 +16,18 @@ public class AttackController : MonoBehaviour
 
     private Coroutine attack;
 
+    [Inject]
+    public void Construct(BoostManager boostManager, WeaponStorage weaponStorage)
+    {
+        this.boostManager = boostManager;
+        this.weaponStorage = weaponStorage;
+
+        unitController = GetComponent<UnitController>();
+        unit = unitController.unit;
+    }
 
     private void OnEnable()
     {
-        if(weaponStorage == null)
-        {
-            unitController = GetComponent<UnitController>();
-            unit = unitController.unit;
-            weaponStorage = GlobalStorage.instance.player.GetComponent<WeaponStorage>();
-            boostManager = GlobalStorage.instance.boostManager;
-        }
-
         startAttackDelay = Random.Range(startAttackDelay * 10 - startAttackDelay, startAttackDelay * 10 + startAttackDelay) / 10;
         if(attack != null) StopCoroutine(attack);
         attack = StartCoroutine(Attack());

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public class LigthningController : MonoBehaviour
 {
@@ -8,7 +9,7 @@ public class LigthningController : MonoBehaviour
     [SerializeField] private GameObject ray;
     [SerializeField] private Collider2D dangerCollider;
 
-    private HeroController hero;
+    private GameObject hero;
 
     [SerializeField] float originalSize = 6;
     private float currentSize = 0;
@@ -20,18 +21,23 @@ public class LigthningController : MonoBehaviour
 
     private Coroutine coroutine;
 
+    [Inject]
+    public void Construct(HeroController hero)
+    {
+        this.hero = hero.gameObject;
+    }
+
     private void OnEnable()
     {
         EventManager.EndOfBattle += BackToPool;
-
-        hero = GlobalStorage.instance.hero;
 
         transform.localScale = Vector3.zero;
         currentSize = 0;
         dangerCollider.enabled = false;
         ray.SetActive(false);
 
-        if(hero.gameObject.activeInHierarchy == false) return;
+        if(hero.activeInHierarchy == false) 
+            return;
 
         transform.position = hero.transform.position;
         coroutine = StartCoroutine(Appearing());

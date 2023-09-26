@@ -16,13 +16,14 @@ public class InputSystem : MonoBehaviour
 
     public void RegisterInputKeys(KeyActions keyAction, IInputableKeys objectToActivate)
     {
+        if(registeredActions.Contains(keyAction) == true)
+        {
+            inputKeyActions.Remove(inputKeyActions.Where(i => i.keyAction == keyAction).First());
+            registeredActions.Remove(keyAction);
+        }
+
         inputKeyActions.Add(new InputAction(keyAction, objectToActivate));
-
-        //if(registeredActions.Contains(keyAction) == true)
-        //    inputKeyActions.Remove(inputKeyActions.Where(i => i.keyAction == keyAction).First());
-
-        //inputKeyActions.Add(new InputAction(keyAction, objectToActivate));
-        //registeredActions.Add(keyAction);
+        registeredActions.Add(keyAction);
     }
 
     public void RegisterInputAxies(IInputableAxies objectToActivate)

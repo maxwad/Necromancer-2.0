@@ -1,15 +1,17 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 using static NameManager;
 
 public class FireballsController : MonoBehaviour
 {
+    private ObjectsPoolManager objectsPool;
+    private HeroController hero;
+
     private bool isWatching = false;
     private SpriteRenderer spriteRenderer;
     private Coroutine appearing;
     private Coroutine attack;
-    private ObjectsPoolManager objectsPool;
 
     private float currentAngle = 0f;
     public int bulletCount = 3;
@@ -20,21 +22,25 @@ public class FireballsController : MonoBehaviour
     private float currentTime = 0f;
     public GameObject fireball;
 
+    [Inject]
+    public void Construct(ObjectsPoolManager objectsPool, HeroController hero)
+    {
+        this.objectsPool = objectsPool;
+        this.hero = hero;
+
+        spriteRenderer = GetComponent<SpriteRenderer>();        
+    }
+
     private void OnEnable()
     {
         EventManager.EndOfBattle += AbortCoroutine;
 
-        if(GlobalStorage.instance.isGlobalMode == false) Init();
+        if(GlobalStorage.instance.isGlobalMode == false)
+            Init();
     }
 
     public void Init()
     {
-        if(spriteRenderer == null)
-        {
-            spriteRenderer = GetComponent<SpriteRenderer>();
-            objectsPool = GlobalStorage.instance.objectsPoolManager;
-        }
-
         appearing = StartCoroutine(Fade(false));
         isWatching = true;
         currentTime = 0f;
@@ -45,7 +51,7 @@ public class FireballsController : MonoBehaviour
     {
         if(isWatching == true && GlobalStorage.instance.isGlobalMode == false) 
         {
-            Vector3 targ = GlobalStorage.instance.hero.transform.position;
+            Vector3 targ = hero.transform.position;
             targ.z = 0f;
 
             Vector3 objectPos = transform.position;

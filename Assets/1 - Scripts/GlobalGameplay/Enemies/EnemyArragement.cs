@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Zenject;
 using static NameManager;
 
 public class EnemyArragement : MonoBehaviour
@@ -9,6 +10,7 @@ public class EnemyArragement : MonoBehaviour
     private GlobalMapTileManager gmManager;
     private EnemyManager enemyManager;
     private ObjectsPoolManager poolManager;
+    private GMPlayerMovement globalPlayer;
 
     public GameObject enemiesMap;
     public Tilemap roadMap;
@@ -23,15 +25,22 @@ public class EnemyArragement : MonoBehaviour
     private Dictionary<GameObject, Vector3> enterPointsDict = new Dictionary<GameObject, Vector3>();
     private Dictionary<EnemyArmyOnTheMap, Vector3> enemiesPointsDict = new Dictionary<EnemyArmyOnTheMap, Vector3>();
 
-    private void Start()
+    [Inject]
+    public void Construct(
+        GlobalMapTileManager gmManager,
+        EnemyManager enemyManager,
+        ObjectsPoolManager poolManager,
+        GMPlayerMovement globalPlayer
+        )
     {
-        gmManager = GlobalStorage.instance.gmManager;
-        poolManager = GlobalStorage.instance.objectsPoolManager;
+        this.gmManager = gmManager;
+        this.enemyManager = enemyManager;
+        this.poolManager = poolManager;
+        this.globalPlayer = globalPlayer;
     }
 
-    public void GenerateEnemiesOnTheMap(EnemyManager manager)
+    public void GenerateEnemiesOnTheMap()
     {
-        enemyManager = manager;
         enterPointsDict = gmManager.GetEnterPoints();
 
         GenerateEnterEnemies();
@@ -131,7 +140,7 @@ public class EnemyArragement : MonoBehaviour
 
     private bool CheckPlayerPosition(Vector3 position)
     {
-        return !(GlobalStorage.instance.globalPlayer.transform.position == position);
+        return !(globalPlayer.transform.position == position);
     }
 
     public EnemyArmyOnTheMap CreateUsualEnemy(Vector3 position, bool createMode = true)

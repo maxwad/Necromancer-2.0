@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 using static NameManager;
 
 public class EnemyEffector : MonoBehaviour
@@ -20,24 +21,26 @@ public class EnemyEffector : MonoBehaviour
     private float timePortionDefault = 140; //180
     private float timePortion;
     private float timerCount;
-    //private int countOfStrengthening;
-    //private int maxOfStrengthening = 14;
     private float nextRuneDelay = 1f;
     private float timerStep = 1f;
     private Coroutine nextRuneCoroutine;
     private Coroutine timerCoroutine;
 
-    private void Start()
+    [Inject]
+    public void Construct(
+        RunesSystem runesManager,
+        BoostManager boostManager,
+        BattleUIManager battleUI
+        )
     {
-        boostManager = GlobalStorage.instance.boostManager;
-        runesManager = GlobalStorage.instance.runesSystem;
-        battleUI = GlobalStorage.instance.battleIUManager;
+        this.runesManager = runesManager;
+        this.boostManager = boostManager;
+        this.battleUI = battleUI;
     }
 
     public void Init(ArmyStrength strength)
     {
         currentArmyStrenght = strength;
-        //countOfStrengthening = 0;
         timePortion = timePortionDefault - timeScaler * ((int)currentArmyStrenght - 1);
         timerCount = timePortion;
 
@@ -128,7 +131,6 @@ public class EnemyEffector : MonoBehaviour
         currentRune = GetRandomRune();
         timerCount = timePortion;
         SendBeforeRune(currentRune);
-        //countOfStrengthening++;
     }
 
     private IEnumerator Timer()

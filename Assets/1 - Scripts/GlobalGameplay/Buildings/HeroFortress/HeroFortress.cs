@@ -1,24 +1,22 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 using static NameManager;
 
 public partial class HeroFortress : MonoBehaviour, IInputableKeys
 {
     private InputSystem inputSystem;
-    //private GMInterface gmInterface;
     private CanvasGroup canvas;
     private bool isWindowOpen = false;
 
     [SerializeField] private GameObject uiPanel;
-    private OpeningBuildingWindow door;
+    private OpeningBuildingWindow fortressBuildingDoor;
     private FortressBuildings buildings;
-    private GameObject fortressGO;
     private UnitCenter unitCenter;
     private ResourceBuildingUI resourceBuildingUI;
     private ResourceBuilding resourceBuilding;
 
-    private GMPlayerMovement gmPlayerMovement;
+    private GMPlayerMovement globalPlayer;
     private ResourcesManager resourcesManager;
 
     private int marketDays = 0;
@@ -29,26 +27,36 @@ public partial class HeroFortress : MonoBehaviour, IInputableKeys
     private bool isHeroInside = false;
     private bool isHeroVisitedOnThisWeek = false;
 
-    private void Awake()
+    [Inject]
+    public void Construct
+        (
+        [Inject(Id = Constants.FORTRESS)]
+        GameObject fortressGO,
+        InputSystem inputSystem,
+        OpeningBuildingWindow fortressBuildingDoor,
+        GMPlayerMovement globalPlayer,
+        ResourcesManager resourcesManager
+        )
     {
-        //gmInterface = GlobalStorage.instance.gmInterface;
+        this.inputSystem          = inputSystem;
+        this.fortressBuildingDoor = fortressBuildingDoor;
+        this.globalPlayer         = globalPlayer;
+        this.resourcesManager     = resourcesManager;
+
         canvas             = uiPanel.GetComponent<CanvasGroup>();
-        door               = GlobalStorage.instance.fortressBuildingDoor;
         buildings          = GetComponent<FortressBuildings>();
-        fortressGO         = GlobalStorage.instance.fortressGO;
         unitCenter         = GetComponentInChildren<UnitCenter>(true);
         resourceBuildingUI = GetComponentInChildren<ResourceBuildingUI>(true);
         resourceBuilding   = fortressGO.GetComponent<ResourceBuilding>();
+    }
 
-        gmPlayerMovement = GlobalStorage.instance.globalPlayer;
-        resourcesManager = GlobalStorage.instance.resourcesManager;
-
+    private void Start()
+    {
         RegisterInputKeys();
     }
 
     public void RegisterInputKeys()
     {
-        inputSystem = GlobalStorage.instance.inputSystem;
         inputSystem.RegisterInputKeys(KeyActions.Castle, this);
     }
 
@@ -75,7 +83,6 @@ public partial class HeroFortress : MonoBehaviour, IInputableKeys
 
         uiPanel.SetActive(true);
         isWindowOpen = true;
-        //door.Close();
         buildings.CloseDescription();
         buildings.CloseAnotherConfirm();
 
@@ -95,7 +102,7 @@ public partial class HeroFortress : MonoBehaviour, IInputableKeys
     {      
         MenuManager.instance?.MiniPause(false);
         isWindowOpen = false;
-        door.Close();
+        fortressBuildingDoor.Close();
         uiPanel.SetActive(false);
     }
 
@@ -131,7 +138,7 @@ public partial class HeroFortress : MonoBehaviour, IInputableKeys
         float bonusAmount = buildings.GetBonusAmount(CastleBuildingsBonuses.ShelterBonus);
 
         if(bonusAmount > 0)
-            gmPlayerMovement.ChangeMovementPoints(100);
+            globalPlayer.ChangeMovementPoints(100);
 
         if(bonusAmount > 1)
             resourcesManager.ChangeResource(ResourceType.Health, 1000);

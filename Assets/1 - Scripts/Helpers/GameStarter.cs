@@ -1,13 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 using static NameManager;
 
 public class GameStarter : MonoBehaviour
 {
     private HeroFortress heroFortress;
     private ResourcesManager resourcesManager;
-    //private UnitManager unitManager;
 
     [Header("Resources")]
     public List<Cost> startResources;
@@ -20,12 +20,16 @@ public class GameStarter : MonoBehaviour
     public List<CastleBuildings> castleBuildings;
     public int buildingsLevel = 3;
 
+
+    [Inject]
+    public void Construct(HeroFortress heroFortress, ResourcesManager resourcesManager)
+    {
+        this.heroFortress = heroFortress;
+        this.resourcesManager = resourcesManager;
+    }
+
     public void Init(bool createMode)
     {
-        heroFortress = GlobalStorage.instance.heroFortress;
-        resourcesManager = GlobalStorage.instance.resourcesManager;
-        //unitManager = GlobalStorage.instance.unitManager;
-
         if(createMode == true)
             StartCoroutine(Launch());
         else

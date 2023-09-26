@@ -1,9 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using static NameManager;
+using Zenject;
 
 public class ResourceBuildingUI : MonoBehaviour
 {
@@ -31,6 +30,14 @@ public class ResourceBuildingUI : MonoBehaviour
 
     [SerializeField] private List<RBUpgradeItemUI> upgradesUIList;
 
+    [Inject]
+    public void Construct(GMInterface gmInterface)
+    {
+        this.gmInterface = gmInterface;
+
+        canvas = uiPanel.GetComponent<CanvasGroup>();
+        garrisonUI = GetComponent<GarrisonUI>();
+    }
 
     public void Open(bool openByClick, ResourceBuilding rBuilding)
     {
@@ -41,13 +48,13 @@ public class ResourceBuildingUI : MonoBehaviour
             return;
         }
 
-        if(gmInterface == null)
-        {
-            //we can't do it in Start becouse some "doors" are disable before open (Castle)
-            gmInterface = GlobalStorage.instance.gmInterface;
-            canvas      = uiPanel.GetComponent<CanvasGroup>();
-            garrisonUI  = GetComponent<GarrisonUI>();
-        }
+        //if(gmInterface == null)
+        //{
+        //    //we can't do it in Start becouse some "doors" are disable before open (Castle)
+        //    gmInterface = GlobalStorage.instance.gmInterface;
+        //    canvas      = uiPanel.GetComponent<CanvasGroup>();
+        //    garrisonUI  = GetComponent<GarrisonUI>();
+        //}
         currentBuilding = rBuilding;
 
         MenuManager.instance.MiniPause(true);

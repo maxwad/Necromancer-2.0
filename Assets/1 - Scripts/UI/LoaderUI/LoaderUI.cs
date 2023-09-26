@@ -5,18 +5,14 @@ public class LoaderUI : MonoBehaviour
 {
     [SerializeField] private float FADE_SPEED = 0.005f;
 
-    private LoadingWindow loadingWindow;
-
+    [SerializeField] private LoadingWindow loadingWindow;
     [SerializeField] private CanvasGroup canvas;
 
     private bool canICloseScreen = false;
     public bool CanICloseScreen { get => canICloseScreen; set => canICloseScreen = value; }
 
     public void Open(bool isSlowShowing)
-    {
-        if(loadingWindow == null)
-            loadingWindow = canvas.GetComponent<LoadingWindow>();
-
+    { 
         canvas.gameObject.SetActive(true);
 
         if(isSlowShowing == true)
@@ -25,9 +21,6 @@ public class LoaderUI : MonoBehaviour
 
     public void ShowLogo(bool isProgressBarNeeded)
     {
-        if(loadingWindow == null)
-            loadingWindow = canvas.GetComponent<LoadingWindow>();
-
         loadingWindow.ShowProgressBar(isProgressBarNeeded);
     }
 
@@ -51,7 +44,7 @@ public class LoaderUI : MonoBehaviour
         Fading.instance.Fade(false, canvas, step: FADE_SPEED, activeMode: false);
     }
 
-    public void HeavyClose()
+    public void ForceClosing()
     {
         StartCoroutine(Closing());
     }

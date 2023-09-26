@@ -3,14 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 using static NameManager;
 
 public class BattleUISpellPart : MonoBehaviour
 {
     private BattleUIManager battleUIManager;
-    private ObjectsPoolManager poolManager;
+    private ObjectsPoolManager objectsPool;
     private BoostManager boostManager;
     private PlayerStats playerStats;
+    private SpellManager spellManager;
 
     [Header("Spells")]
     [SerializeField] private List<SpellButtonController> allSpellButtons;
@@ -22,6 +24,22 @@ public class BattleUISpellPart : MonoBehaviour
     private int countOfActiveSpells = 6;
     private int currentSpellIndex = -1;
     private int realNumberOfSpells = -1;
+
+    [Inject]
+    public void Construct(
+        BoostManager boostManager,
+        ObjectsPoolManager objectsPool,
+        BattleUIManager battleUIManager,
+        PlayerStats playerStats,
+        SpellManager spellManager
+        )
+    {
+        this.boostManager = boostManager;
+        this.objectsPool = objectsPool;
+        this.battleUIManager = battleUIManager;
+        this.playerStats = playerStats;
+        this.spellManager = spellManager;
+    }
 
     private void Start()
     {
@@ -88,16 +106,9 @@ public class BattleUISpellPart : MonoBehaviour
 
     public void FillSpells()
     {
-        if(poolManager == null) 
-        {
-            poolManager = GlobalStorage.instance.objectsPoolManager;
-            boostManager = GlobalStorage.instance.boostManager;
-            playerStats = GlobalStorage.instance.playerStats;
-        }
-
         currentActiveSpells.Clear();
 
-        currentSpells = GlobalStorage.instance.spellManager.GetSpellsForBattle();
+        currentSpells = spellManager.GetSpellsForBattle();
         if(currentSpells.Count == 0) return;
 
         countOfActiveSpells = (int)playerStats.GetCurrentParameter(PlayersStats.Spell);
@@ -125,7 +136,7 @@ public class BattleUISpellPart : MonoBehaviour
 
     public void AddUISpellEffect(SpellSO spell)
     {
-        GameObject effectGO = poolManager.GetObject(ObjectPool.SpellEffect);
+        GameObject effectGO = objectsPool.GetObject(ObjectPool.SpellEffect);
         effectGO.transform.SetParent(spellEffectsContainer.transform, false);
         effectGO.SetActive(true);
         SpellBattleUI effectUI = effectGO.GetComponent<SpellBattleUI>();
@@ -151,7 +162,6 @@ public class BattleUISpellPart : MonoBehaviour
                     boostManager.DeleteBoost(item, BoostSender.Spell, spell.value);
                 }
             }
-
         }
     }
 

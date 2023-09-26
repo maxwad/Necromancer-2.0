@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Zenject;
 
 public class OpeningBuildingWindow : MonoBehaviour
 {
@@ -14,13 +15,14 @@ public class OpeningBuildingWindow : MonoBehaviour
 
     private GameObject currentBuilding;
 
+    [Inject]
+    public void Construct(FortressBuildings allBuildings)
+    {
+        this.allBuildings = allBuildings;
+    }
+
     public void Open(FBuilding building)
     {
-        if(allBuildings == null) 
-        {
-            allBuildings = GlobalStorage.instance.fortressBuildings;
-        }
-
         caption.text = building.buildingName;
 
         if(building.isSpecialBuilding == true)
@@ -53,7 +55,7 @@ public class OpeningBuildingWindow : MonoBehaviour
 
     public void Close()
     {
-        GlobalStorage.instance.fortressBuildings.ShowAllBuildings(true);
+        allBuildings.ShowAllBuildings(true);
 
         if(currentBuilding != null)
         {

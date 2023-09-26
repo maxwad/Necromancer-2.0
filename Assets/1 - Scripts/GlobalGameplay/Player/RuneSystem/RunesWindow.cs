@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using static NameManager;
 using System;
+using Zenject;
 
 public class RunesWindow : MonoBehaviour
 {
@@ -18,7 +19,6 @@ public class RunesWindow : MonoBehaviour
     [SerializeField] private RunesRowWrapper firstRuneRow;
     [SerializeField] private RunesRowWrapper negativeRuneRow;
     [SerializeField] private RunesRowWrapper bonusRuneRow;
-    private RunesRowWrapper[] runeUIRows = new RunesRowWrapper[3];
     [SerializeField] private GameObject runesContainer;
     private GridLayoutGroup grid;
 
@@ -54,13 +54,22 @@ public class RunesWindow : MonoBehaviour
     //    }
     //}
 
+    [Inject]
+    public void Construct(
+        RunesSystem runesManager,
+        ObjectsPoolManager poolManager,
+        MacroLevelUpManager levelUpManager
+        )
+    {
+        this.runesManager = runesManager;
+        this.poolManager = poolManager;
+        this.levelUpManager = levelUpManager;
+
+        grid = runesContainer.GetComponent<GridLayoutGroup>();
+    }
+
     public void Init()
     {
-        runesManager = GlobalStorage.instance.runesSystem;
-        poolManager = GlobalStorage.instance.objectsPoolManager;
-        grid = runesContainer.GetComponent<GridLayoutGroup>();
-        levelUpManager = GlobalStorage.instance.macroLevelUpManager;
-
         firstRuneRow.Init(this);
         negativeRuneRow.Init(this);
         bonusRuneRow.Init(this);

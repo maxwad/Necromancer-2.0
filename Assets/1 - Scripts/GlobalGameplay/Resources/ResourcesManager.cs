@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 using static NameManager;
 
 public partial class ResourcesManager : MonoBehaviour
@@ -7,14 +8,6 @@ public partial class ResourcesManager : MonoBehaviour
     private GMInterface gmInterface;
     private PlayerStats playerStats;
     private MacroLevelUpManager macroLevelUpManager;
-
-    //public float startGold   = 100;
-    //public float startFood   = 100;
-    //public float startStone  = 10;
-    //public float startWood   = 10;
-    //public float startIron   = 10;
-    //public float startMana   = 10;
-    //public float startHealth = 100;
 
     public float maxMana;
     public float maxHealth;
@@ -35,12 +28,20 @@ public partial class ResourcesManager : MonoBehaviour
 
     public Dictionary<ResourceType, Sprite> resourcesIcons;
 
+    [Inject]
+    public void Construct(
+        GMInterface gmInterface,
+        PlayerStats playerStats,
+        MacroLevelUpManager macroLevelUpManager
+        )
+    {
+        this.gmInterface = gmInterface;
+        this.playerStats = playerStats;
+        this.macroLevelUpManager = macroLevelUpManager;
+    }
+
     private void Awake()
     {
-        gmInterface = GlobalStorage.instance.gmInterface;
-        playerStats = GlobalStorage.instance.playerStats;
-        macroLevelUpManager = GlobalStorage.instance.macroLevelUpManager;
-
         resourcesIcons = new Dictionary<ResourceType, Sprite>()
         {
             [ResourceType.Gold]   = goldIcon,

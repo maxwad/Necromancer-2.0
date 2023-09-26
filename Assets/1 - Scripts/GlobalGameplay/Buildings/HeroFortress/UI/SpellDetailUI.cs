@@ -1,9 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using static NameManager;
+using Zenject;
 
 public class SpellDetailUI : MonoBehaviour
 {
@@ -32,23 +32,25 @@ public class SpellDetailUI : MonoBehaviour
     [SerializeField] private GameObject levelUpWarning;
     [SerializeField] private GameObject levelUpButton;
 
-
     private SpellWorkroom workroom;
     private SpellSO currentSpell;
-    //private bool isCreating = false;
     private bool isResourceDeficit = false;
+
+    [Inject]
+    public void Construct(ResourcesManager resourcesManager)
+    {
+        this.resourcesManager = resourcesManager;
+    }
 
     public void FillData(SpellWorkroom room, SpellSO spell, SpellSO previousSpell, bool isFirstSpell, bool createMode)
     {
-        if(workroom == null)
+        if(resourcesIcons == null)
         {
             workroom = room;
-            resourcesManager = GlobalStorage.instance.resourcesManager;
             resourcesIcons = resourcesManager.GetAllResourcesIcons();
         }
 
         isResourceDeficit = false;
-        //isCreating = createMode;
 
         currentSpell = spell;
 

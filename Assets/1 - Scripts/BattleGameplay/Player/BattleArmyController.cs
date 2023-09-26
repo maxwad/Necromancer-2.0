@@ -1,5 +1,6 @@
 using UnityEngine;
 using static NameManager;
+using Zenject;
 
 public class BattleArmyController : MonoBehaviour, IInputableAxies
 {
@@ -8,6 +9,7 @@ public class BattleArmyController : MonoBehaviour, IInputableAxies
 
     private Rigidbody2D rbPlayer;
     private HeroController hero;
+    private HeroMovement heroMovement;
 
     private float speedBase;
     private float speed;
@@ -18,17 +20,24 @@ public class BattleArmyController : MonoBehaviour, IInputableAxies
     [HideInInspector] public bool currentFacing = false;
     private bool isMovementInverted = false;
 
-    private void Start()
+    [Inject]
+    public void Construct(
+        InputSystem inputSystem,
+        HeroController hero,
+        PlayerStats playerStats)
     {
+        this.inputSystem = inputSystem;
+        this.hero        = hero;
+        this.playerStats = playerStats;
+
         rbPlayer = GetComponent<Rigidbody2D>();
-        hero = GetComponentInChildren<HeroController>();
+        heroMovement = hero.GetComponent<HeroMovement>();
 
         RegisterInputAxies();
     }
 
     public void RegisterInputAxies()
     {
-        inputSystem = GlobalStorage.instance.inputSystem;
         inputSystem.RegisterInputAxies(this);
     }
 
@@ -39,9 +48,6 @@ public class BattleArmyController : MonoBehaviour, IInputableAxies
 
         if(MenuManager.instance.IsTherePauseOrMiniPause() == false)
         {
-            //float horizontalMovement = (hero.IsHeroDead()) ? 0 : Input.GetAxisRaw("Horizontal");
-            //float verticalMovement = (hero.IsHeroDead()) ? 0 : Input.GetAxisRaw("Vertical");
-
             currentDirection = (hero.IsHeroDead()) ? Vector2.zero : new Vector2(inputDeltaX, inputDeltaY).normalized;
 
             CheckDirection();
@@ -50,19 +56,10 @@ public class BattleArmyController : MonoBehaviour, IInputableAxies
         }
     }
 
-    //private void Update()
+    //private void Awake()
     //{
-    //    if (MenuManager.instance.IsTherePauseOrMiniPause() == false)
-    //    {
-    //        float horizontalMovement = (hero.IsHeroDead()) ? 0 : Input.GetAxisRaw("Horizontal");
-    //        float verticalMovement = (hero.IsHeroDead()) ? 0 : Input.GetAxisRaw("Vertical");
-
-    //        currentDirection = new Vector2(horizontalMovement, verticalMovement).normalized;
-
-    //        CheckDirection();
-
-    //        Moving(currentDirection);
-    //    }
+    //    rbPlayer = GetComponent<Rigidbody2D>();
+    //    heroMovement = hero.GetComponent<HeroMovement>();
     //}
 
     private void CheckDirection()
@@ -90,8 +87,7 @@ public class BattleArmyController : MonoBehaviour, IInputableAxies
     public void MovementInverting(bool mode)
     {
         isMovementInverted = mode;
-        if(GlobalStorage.instance.hero != null)
-            GlobalStorage.instance.hero.gameObject.GetComponent<HeroMovement>().Dizziness(mode);
+        heroMovement.Dizziness(mode);
     }
 
     private void UpgradeSpeed(BoostType boost, float value)
@@ -101,13 +97,15 @@ public class BattleArmyController : MonoBehaviour, IInputableAxies
 
     private void OnEnable()
     {
-        if(playerStats == null) 
-        { 
-            playerStats = GlobalStorage.instance.playerStats;
-        }
+        //if(playerStats == null) 
+        //{ 
+        //    playerStats = GlobalStorage.instance.playerStats;
+        //}
 
         speedBase = playerStats.GetCurrentParameter(PlayersStats.Speed);
         speed = speedBase;
+
+        MovementInverting(false);
 
         EventManager.SetBattleBoost += UpgradeSpeed;
     }

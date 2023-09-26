@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using static NameManager;
+using Zenject;
 
 public class VassalPathfinder : MonoBehaviour
 {
-    private VassalMovement movement;
     private VassalTargetSelector targetSelector;
     private GlobalMapTileManager tileManager;
     private EnemyManager enemyManager;
@@ -20,33 +20,43 @@ public class VassalPathfinder : MonoBehaviour
     private Tilemap overlayMap;
     private GMHexCell[,] roads;
 
-    //private Queue<Vector3> currentPath = new Queue<Vector3>();
-    //private int movementPoints;
-
-
     [SerializeField] private Tile testTile;
     [SerializeField] private int playerDistanceToRun = 20;
     [SerializeField] private int playerDistanceToAttack = 10;
     private float distanceGap = 0.25f;
 
+    [Inject]
+    public void Construct(
+        [Inject(Id = Constants.FORTRESS)] GameObject fortressGO,
+        //[Inject(Id = Constants.ROAD_MAP)] Tilemap roadMap,
+        //[Inject(Id = Constants.OVERLAY_MAP)] Tilemap overlayMap,
+        GlobalMapTileManager tileManager,
+        EnemyManager enemyManager,
+        ResourcesManager resources,
+        AISystem aiSystem,
+        GMPlayerMovement player,
+        MapBonusManager heapManager
+        )
+    {
+        this.tileManager = tileManager;
+        this.enemyManager = enemyManager;
+        this.aiSystem = aiSystem;
+        this.heapManager = heapManager;
+        this.roadMap = tileManager.roadMap;
+        this.overlayMap = tileManager.overlayMap;
+
+        this.player = player.gameObject;
+        this.resources = resources.GetComponent<ResourcesSources>(); ;
+        this.playerCastle = fortressGO.GetComponent<ResourceBuilding>();
+    }
+
     #region GETTINGS
-    public void Init(VassalTargetSelector ts, VassalMovement mv)
+    public void Init(VassalTargetSelector ts)
     {
         targetSelector = ts;
 
-        movement = mv;
-        //movementPoints = movement.GetMovementPointsAmoumt();
-
-        tileManager  = GlobalStorage.instance.gmManager;
-        roadMap      = GlobalStorage.instance.roadMap;
-        overlayMap   = GlobalStorage.instance.overlayMap;
-        enemyManager = GlobalStorage.instance.enemyManager;
-        resources    = GlobalStorage.instance.resourcesManager.GetComponent<ResourcesSources>();
-        aiSystem     = GlobalStorage.instance.aiSystem;
-        playerCastle = GlobalStorage.instance.fortressGO.GetComponent<ResourceBuilding>();
-        heapManager  = GlobalStorage.instance.mapBonusManager;
-        player       = GlobalStorage.instance.globalPlayer.gameObject;
-
+        //roadMap = GlobalStorage.instance.roadMap;
+        //overlayMap = GlobalStorage.instance.overlayMap;        
         roads = tileManager.GetRoads();
     }
 
@@ -196,8 +206,7 @@ public class VassalPathfinder : MonoBehaviour
         Dictionary<GMHexCell, NeighborData> queueDict = new Dictionary<GMHexCell, NeighborData>();
         Queue<GMHexCell> neighborsQueue = new Queue<GMHexCell>();
         List<GMHexCell> roadBack = new List<GMHexCell>();
-
-        Vector3Int startPoint = (startCell == default) ? overlayMap.WorldToCell(gameObject.transform.position) : startCell;
+        Vector3Int startPoint = (startCell == default) ? tileManager.overlayMap.WorldToCell(gameObject.transform.position) : startCell;
         GMHexCell firstPathCell = roads[startPoint.x, startPoint.y];
 
         if(finishCell == startPoint || finishCell == Vector3Int.zero)

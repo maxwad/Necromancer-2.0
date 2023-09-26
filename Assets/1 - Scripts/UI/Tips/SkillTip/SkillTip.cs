@@ -1,11 +1,11 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Zenject;
 
 public class SkillTip : MonoBehaviour
 {
     private MacroLevelUpManager macroLevelUpManager;
-    private CanvasGroup canvas;
 
     [SerializeField] private GameObject content;
     [SerializeField] private TMP_Text caption;
@@ -16,14 +16,14 @@ public class SkillTip : MonoBehaviour
     [SerializeField] private GameObject border;
     [SerializeField] private GameObject luck;
 
+    [Inject]
+    public void Construct(MacroLevelUpManager macroLevelUpManager)
+    {
+        this.macroLevelUpManager = macroLevelUpManager;
+    }
+
     public void Init(MacroAbilitySO skill)
     {
-        if(macroLevelUpManager == null) 
-        { 
-            macroLevelUpManager = GlobalStorage.instance.macroLevelUpManager;
-            canvas = GetComponent<CanvasGroup>();
-        }
-
         caption.text = skill.abilityName;
         icon.sprite = skill.activeIcon;
         cost.text = skill.cost.ToString();
@@ -32,7 +32,6 @@ public class SkillTip : MonoBehaviour
         luck.SetActive(skill.luckDepending);
 
         border.SetActive(!CheckStatus(skill));
-        //Fading.instance.FadeWhilePause(true, canvas);
     }
 
     private bool CheckStatus(MacroAbilitySO skill)

@@ -1,11 +1,21 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
-using System.Collections;
-using System.Collections.Generic;
 using static NameManager;
+using Zenject;
 
 public class ClickableObject : MonoBehaviour
 {
+    private CursorManager cursorManager;
+    private BonusOnTheMapUI bonusOnTheMapUI;
+    private EnemyArmyUI enemyArmyUI;
+    private PlayerPersonalWindow playerMilitaryWindow;
+    private HeroFortress heroFortress;
+    private PortalsWindowUI portalDoor;
+    private AltarUI altarDoor;
+    private ResourceBuildingUI resourceBuildingDoor;
+    private TombUI tombDoor;
+    private CampUI campDoor;
+
     public TypeOfObjectOnTheMap objectType;
     public bool isItDoor = false;
 
@@ -13,16 +23,34 @@ public class ClickableObject : MonoBehaviour
     public bool canBeOpenedByClick = true;
     public bool canBeOpenedByMove = true;
 
-    //[HideInInspector] public TooltipTrigger tooltip;
-    private CursorManager cursorManager;
     public CursorView cursor = CursorView.Default;
 
     private Vector3 enterPoint;
 
-    private void Start()
-    {        
-        cursorManager = GlobalStorage.instance.cursorManager;
-        //tooltip = GetComponent<TooltipTrigger>();
+    [Inject]
+    public void Construct(        
+        CursorManager cursorManager,
+        BonusOnTheMapUI bonusOnTheMapUI,
+        EnemyArmyUI enemyArmyUI,
+        PlayerPersonalWindow playerMilitaryWindow,
+        PortalsWindowUI portalDoor,
+        HeroFortress heroFortress,
+        AltarUI altarDoor,
+        ResourceBuildingUI resourceBuildingDoor,
+        TombUI tombDoor,
+        CampUI campDoor
+        )
+    {
+        this.cursorManager = cursorManager;
+        this.bonusOnTheMapUI = bonusOnTheMapUI;
+        this.enemyArmyUI = enemyArmyUI;
+        this.playerMilitaryWindow = playerMilitaryWindow;
+        this.portalDoor = portalDoor;
+        this.heroFortress = heroFortress;
+        this.altarDoor = altarDoor;
+        this.resourceBuildingDoor = resourceBuildingDoor;
+        this.tombDoor = tombDoor;
+        this.campDoor = campDoor;
     }
 
     public void ActivateUIWindow(bool modeClick)
@@ -56,22 +84,22 @@ public class ClickableObject : MonoBehaviour
                 break;
 
             case TypeOfObjectOnTheMap.Resource:
-                GlobalStorage.instance.bonusOnTheMapUI.OpenWindow(this);
+                bonusOnTheMapUI.OpenWindow(this);
                 isThereManager = true;
                 break;
 
             case TypeOfObjectOnTheMap.BoxBonus:
-                GlobalStorage.instance.bonusOnTheMapUI.OpenWindow(this);
+                bonusOnTheMapUI.OpenWindow(this);
                 isThereManager = true;
                 break;
 
             case TypeOfObjectOnTheMap.Enemy:
-                GlobalStorage.instance.enemyArmyUI.OpenWindow(modeClick, gameObject.GetComponent<EnemyArmyOnTheMap>());
+                enemyArmyUI.OpenWindow(modeClick, gameObject.GetComponent<EnemyArmyOnTheMap>());
                 isThereManager = true;
                 break;
 
             case TypeOfObjectOnTheMap.Player:
-                GlobalStorage.instance.playerMilitaryWindow.OpenWindow(PlayersWindow.PlayersArmy);
+                playerMilitaryWindow.OpenWindow(PlayersWindow.PlayersArmy);
                 isThereManager = true;
                 break;
 
@@ -83,7 +111,6 @@ public class ClickableObject : MonoBehaviour
         if(isThereManager == false) 
         {
             Debug.Log("There was a common manager, but sorry");
-            //GlobalStorage.instance.commonUIManager.OpenWindow(modeClick, modeUISize, this);
         }
     }
 
@@ -95,7 +122,7 @@ public class ClickableObject : MonoBehaviour
         switch(objectType)
         {
             case TypeOfObjectOnTheMap.PlayersCastle:
-                GlobalStorage.instance.heroFortress.Open(modeClick);
+                heroFortress.Open(modeClick);
                 isThereManager = true;
                 break;
 
@@ -113,19 +140,19 @@ public class ClickableObject : MonoBehaviour
                 break;
 
             case TypeOfObjectOnTheMap.Portal:
-                GlobalStorage.instance.portalDoor.Open(modeClick, this.gameObject);
+                portalDoor.Open(modeClick, this.gameObject);
                 isThereManager = true;
                 break;
 
             case TypeOfObjectOnTheMap.ResourceBuilding:
                 ResourceBuilding rBuilding = GetComponent<ResourceBuilding>();
-                GlobalStorage.instance.resourceBuildingDoor.Open(modeClick, rBuilding);
+                resourceBuildingDoor.Open(modeClick, rBuilding);
                 isThereManager = true;
                 break;
 
             case TypeOfObjectOnTheMap.Altar:
                 Altar altar = GetComponent<Altar>();
-                GlobalStorage.instance.altarDoor.Open(modeClick, altar);
+                altarDoor.Open(modeClick, altar);
                 isThereManager = true;
                 break;
 
@@ -135,14 +162,14 @@ public class ClickableObject : MonoBehaviour
                 if(enemy != null && modeClick == false)
                     enemy.PrepairToTheBattle();
                 else
-                    GlobalStorage.instance.tombDoor.Open(modeClick, gameObject);               
+                    tombDoor.Open(modeClick, gameObject);               
 
                 isThereManager = true;
                 break;
 
             case TypeOfObjectOnTheMap.Camp:
 
-                GlobalStorage.instance.campDoor.Open(modeClick, gameObject);
+                campDoor.Open(modeClick, gameObject);
                 isThereManager = true;
                 break;
 
@@ -154,7 +181,10 @@ public class ClickableObject : MonoBehaviour
                 break;
         }
 
-        if(isThereManager == false) GlobalStorage.instance.commonUIManager.OpenWindow(modeClick, true, this);
+        if(isThereManager == false)
+        {
+            Debug.Log("There was a common manager, but sorry 2");
+        }
     }
 
     public Vector3 GetEnterPoint()

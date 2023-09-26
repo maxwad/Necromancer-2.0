@@ -1,4 +1,5 @@
 using UnityEngine;
+using Zenject;
 using static NameManager;
 
 public class GMPlayerPositionChecker : MonoBehaviour
@@ -8,12 +9,19 @@ public class GMPlayerPositionChecker : MonoBehaviour
     private EnemyManager enemyManager;
     private AISystem aiSystem;
 
-    private void Start()
+    [Inject]
+    public void Construct(
+        [Inject(Id = Constants.GLOBAL_MAP)] GameObject globalMap,
+        GMPlayerMovement gmMovement,
+        EnemyManager enemyManager,
+        AISystem aiSystem
+        )
     {
-        gmPathFinder = GlobalStorage.instance.globalMap.GetComponent<GlobalMapPathfinder>();
-        gmMovement   = GlobalStorage.instance.globalPlayer.GetComponent<GMPlayerMovement>();
-        enemyManager = GlobalStorage.instance.enemyManager;
-        aiSystem     = GlobalStorage.instance.aiSystem;
+        this.gmMovement = gmMovement;
+        this.enemyManager = enemyManager;
+        this.aiSystem = aiSystem;
+
+        this.gmPathFinder = globalMap.GetComponent<GlobalMapPathfinder>();
     }
 
     public void CheckPosition(Vector3 position)

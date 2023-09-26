@@ -126,8 +126,50 @@ public class RuneBoost
     }
 }
 
+public class PlayersRunes
+{
+    public List<RunesEffectsData> runesInRows = new List<RunesEffectsData>();
+    public RunesEffectsLists runesEffectsLists;
+    public RunesLists runesLists;
+}
+
+public class RunesEffectsData
+{
+    public int row = 0;
+    public int cell = 0;
+    public RunesType rune;
+    public int level = 0;
+    public int quantity = 0;
+}
+
+public class RunesLists
+{
+    public List<RunesEffectsData> firstRowRunes = new List<RunesEffectsData>();
+    public List<RunesEffectsData> negativeRowRunes = new List<RunesEffectsData>();
+    public List<RunesEffectsData> bonusRowRunes = new List<RunesEffectsData>();
+}
+
 #endregion
 
+#region MACRO
+
+public struct LevelData
+{
+    public float level;
+    public float currentExp;
+    public float boundExp;
+    public int abilitiesPoints;
+
+    public LevelData(float lvl, float cExp, float bExp, int aPoints)
+    {
+        level = lvl;
+        currentExp = cExp;
+        boundExp = bExp;
+        abilitiesPoints = aPoints;
+    }
+}
+
+#endregion
 
 #region INFIRMARY
 
@@ -232,7 +274,7 @@ public class Army
 {
     public List<EnemiesTypes> squadList = new List<EnemiesTypes>();
     public List<int> quantityList = new List<int>();
-    public bool isThisASiege = false;
+    public bool isThisASiege = true;
     //public TypeOfArmy typeOfArmy = TypeOfArmy.OnTheMap;
     public ArmyStrength strength = ArmyStrength.Low;
     public bool isAutobattlePosible = true;
@@ -251,6 +293,13 @@ public class Army
 
         return newArmy;
     }
+}
+
+public class BossData
+{
+    public bool wasCreated = false;
+    public bool isDead = false;
+    public float bound = 0;
 }
 
 #endregion
@@ -418,10 +467,26 @@ public struct NeighborData
 #endregion
 
 
+#region BATTLE
+public class ResultOfAutobattle
+{
+    public bool result;
+
+    public float losses;
+    public float minLosses;
+    public float maxLosses;
+
+    public float healthLosses;
+    public float manaLosses;
+}
+
+#endregion
+
 #region NEW
 
 
 #endregion
+
 
 #region NEW
 

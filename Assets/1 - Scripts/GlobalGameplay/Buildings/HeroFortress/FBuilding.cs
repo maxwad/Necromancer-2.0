@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
 using static NameManager;
+using Zenject;
 
 public class FBuilding : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, IUpgradable
 {
@@ -62,9 +63,16 @@ public class FBuilding : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
     private FortressBuildings allBuildings;
     private ResourcesManager resourcesManager;
 
-    private void Start()
-    { 
-        door = GlobalStorage.instance.fortressBuildingDoor;
+    [Inject]
+    public void Construct(
+        OpeningBuildingWindow fortressBuildingDoor,
+        FortressBuildings allBuildings,
+        ResourcesManager resourcesManager
+        )
+    {
+        this.allBuildings = allBuildings;
+        this.door = fortressBuildingDoor;
+        this.resourcesManager = resourcesManager;
     }
 
     private void OnEnable()
@@ -74,12 +82,6 @@ public class FBuilding : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
 
     private void Init()
     {
-        if(resourcesManager == null)
-        {
-            resourcesManager = GlobalStorage.instance.resourcesManager;
-            allBuildings = GlobalStorage.instance.fortressBuildings;
-            door = GlobalStorage.instance.fortressBuildingDoor;
-        }
         //we don't care about level, we need common info
         currentBonus = allBuildings.GetBuildingBonus(building, 1);
 
@@ -266,8 +268,8 @@ public class FBuilding : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
 
     public void Downgrade()
     {
-        if(allBuildings == null)
-            allBuildings = GlobalStorage.instance.fortressBuildings;
+        //if(allBuildings == null)
+        //    allBuildings = GlobalStorage.instance.fortressBuildings;
 
         allBuildings.UpgradeBuilding(building, false);
         Init();

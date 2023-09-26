@@ -2,12 +2,14 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public class AISystem : MonoBehaviour
 {
     private GameMaster gameMaster;
     private GMInterface gmInterface;
     private GlobalCamera gmCamera;
+    private GameObject player;
 
     [SerializeField] private List<Color> castleColors;
     [SerializeField] private List<string> castleOwners;
@@ -22,9 +24,17 @@ public class AISystem : MonoBehaviour
     private bool isCastlesSorted = false;
     private bool isPlayerDead = false;
 
-    private void Start()
+    [Inject]
+    public void Construct(
+        GameMaster gameMaster,
+        GMInterface gmInterface,
+        GMPlayerMovement globalPlayer
+        )
     {
-        gmInterface = GlobalStorage.instance.gmInterface;
+        this.gameMaster  = gameMaster;
+        this.gmInterface = gmInterface;
+        this.player = globalPlayer.gameObject;
+
         gmCamera = Camera.main.GetComponent<GlobalCamera>();
     }
 
@@ -102,7 +112,7 @@ public class AISystem : MonoBehaviour
 
         foreach(var castle in allCastles)
         {
-            float distance = Vector3.Distance(castle.gameObject.transform.position, GlobalStorage.instance.globalPlayer.gameObject.transform.position);
+            float distance = Vector3.Distance(castle.gameObject.transform.position, player.transform.position);
             distCastles.Add(castle, distance);
             distList.Add(distance);
         }
@@ -145,9 +155,6 @@ public class AISystem : MonoBehaviour
 
     public void EndMoves()
     {
-        if(gameMaster == null)
-            gameMaster = GlobalStorage.instance.gameMaster;
-
         foreach(var checkCastle in new List<EnemyCastle>(activeCastles))
         {
             if(checkCastle.GetCastleStatus() == false && checkCastle.GetRestStatus() == true)
@@ -192,7 +199,7 @@ public class AISystem : MonoBehaviour
     public void CastleIsDestroyed(EnemyCastle castle, bool messageNeeded)
     {
         //messageNeeded - for loading = false
-        // for destroying during game = true
+        //for destroying during game = true
         castle.CastleDestroyed();
         destroyedCastles.Add(castle);
         allCastles.Remove(castle);

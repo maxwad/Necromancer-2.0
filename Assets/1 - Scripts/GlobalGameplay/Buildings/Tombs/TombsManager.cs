@@ -1,8 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using static NameManager;
+using Zenject;
 
 public class TombsManager : MonoBehaviour
 {
@@ -14,6 +14,17 @@ public class TombsManager : MonoBehaviour
     private RewardManager rewardManager;
 
     private int countForTest = 0;
+
+    [Inject]
+    public void Construct(
+        SpellManager spellManager,
+        ResourcesManager resourcesManager,
+        RewardManager rewardManager)
+    {
+        this.spellManager = spellManager;
+        this.resourcesManager = resourcesManager;
+        this.rewardManager = rewardManager;
+    }
 
     private void Update()
     {
@@ -45,13 +56,6 @@ public class TombsManager : MonoBehaviour
 
     public void HideSpells()
     {
-        if(spellManager == null)
-        {
-            spellManager = GlobalStorage.instance.spellManager;
-            resourcesManager = GlobalStorage.instance.resourcesManager;
-            rewardManager = GlobalStorage.instance.rewardManager;
-        }
-
         hiddenSpells = spellManager.GetSpellsForTombs();
 
         while(hiddenSpells.Count < tombsDict.Count)

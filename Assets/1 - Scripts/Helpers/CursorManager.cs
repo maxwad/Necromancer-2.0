@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Zenject;
 using static NameManager;
 
 public class CursorManager : MonoBehaviour
@@ -22,11 +23,16 @@ public class CursorManager : MonoBehaviour
     private GlobalMapTileManager gmManager;
     private ClickableObject currentObject = null;
 
+    [Inject]
+    public void Construct(GlobalMapTileManager gmManager)
+    {
+        this.gmManager = gmManager;
+    }
+
     private void Start()
     {
         //Cursor.lockState = CursorLockMode.Confined;
         //Cursor.SetCursor(cursorDefault, Vector2.zero, UnityEngine.CursorMode.ForceSoftware);
-        gmManager = GlobalStorage.instance.gmManager;
     }
 
     private void LateUpdate()

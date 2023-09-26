@@ -1,9 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using static NameManager;
+using Zenject;
 
 public class Sanctuary : SpecialBuilding
 {
@@ -41,6 +41,12 @@ public class Sanctuary : SpecialBuilding
     private bool researchIsComplete = false;
     private bool isDataLoading = false;
 
+    [Inject]
+    public void Construct(HeroFortress fortress, ResourcesManager resourcesManager)
+    {
+        this.fortress = fortress;
+        this.resourcesManager = resourcesManager;
+    }
 
     public override GameObject Init(FBuilding building)
     {
@@ -59,10 +65,8 @@ public class Sanctuary : SpecialBuilding
 
     private void SetStartParameters()
     {
-        if(fortress == null)
-        {
-            fortress = GlobalStorage.instance.heroFortress;
-            resourcesManager = GlobalStorage.instance.resourcesManager;
+        if(resourcesIcons == null)
+        {            
             resourcesIcons = resourcesManager.GetAllResourcesIcons();
         }
 

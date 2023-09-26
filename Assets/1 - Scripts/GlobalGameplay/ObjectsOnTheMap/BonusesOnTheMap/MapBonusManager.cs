@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Zenject;
 using static NameManager;
 
 public partial class MapBonusManager : MonoBehaviour
@@ -9,6 +10,7 @@ public partial class MapBonusManager : MonoBehaviour
     private GlobalMapTileManager gmManager;
     private EnemyManager enemyManager;
     private ObjectsPoolManager poolManager;
+    private GMPlayerMovement globalPlayer;
     public GameObject heapsMap;
     public Tilemap roadMap;
 
@@ -22,12 +24,22 @@ public partial class MapBonusManager : MonoBehaviour
     private Dictionary<EnemyArmyOnTheMap, Vector3> enemiesPointsDict = new Dictionary<EnemyArmyOnTheMap, Vector3>();
     private Dictionary<ResourceObject, Vector3> heapsPointsDict = new Dictionary<ResourceObject, Vector3>();
 
+    [Inject]
+    public void Construct(
+        GlobalMapTileManager gmManager,
+        EnemyManager enemyManager,
+        ObjectsPoolManager poolManager,
+        GMPlayerMovement globalPlayer
+        )
+    {
+        this.gmManager = gmManager;
+        this.enemyManager = enemyManager;
+        this.poolManager = poolManager;
+        this.globalPlayer = globalPlayer;
+    }
+
     public void InitializeHeaps(bool createMode)
     {
-        enemyManager = GlobalStorage.instance.enemyManager;
-        gmManager    = GlobalStorage.instance.gmManager;
-        poolManager  = GlobalStorage.instance.objectsPoolManager;
-
         if(createMode == true)
             GenerateHeapsOnTheMap();
 
@@ -110,7 +122,7 @@ public partial class MapBonusManager : MonoBehaviour
 
     private bool CheckPlayerPosition(Vector3 position)
     {
-        return !(GlobalStorage.instance.globalPlayer.transform.position == position);
+        return !(globalPlayer.transform.position == position);
     }
 
     private ResourceObject CreateHeap(Vector3 position, bool createMode)
@@ -191,19 +203,4 @@ public partial class MapBonusManager : MonoBehaviour
     {
         EventManager.NewMonth -= ReGenerateHeapsOnTheMap;
     }
-
-    ////FOR TESTING
-
-    //private void Update()
-    //{
-    //    if(Input.GetMouseButtonDown(1) == true)
-    //    {
-    //        Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-    //        pos = new Vector3(pos.x, pos.y, 0);
-    //        Vector3Int pos3 = gmManager.CellConverterToV3Int(pos);
-    //        pos = gmManager.CellConverterToV3(pos3);
-    //        //Debug.Log("Click on " + pos + " player on " + GlobalStorage.instance.globalPlayer.gameObject.transform.position );
-    //        CreateHeap(pos);
-    //    }
-    //}
 }

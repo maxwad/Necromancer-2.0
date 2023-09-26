@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 using static NameManager;
 
 public class FireballWeapon : MonoBehaviour
 {
     private ObjectsPoolManager objectsPool;
+    private GameObject player;
 
     private EnemyWeaponParameters weaponParameters;
     private Coroutine coroutine;
@@ -27,22 +29,25 @@ public class FireballWeapon : MonoBehaviour
 
     private ObjectPool bullet;
 
+    [Inject]
+    public void Construct(ObjectsPoolManager objectsPool, HeroController hero)
+    {
+        this.objectsPool = objectsPool;
+        player = hero.gameObject;
+
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        weaponParameters = GetComponent<EnemyWeaponParameters>();
+
+        bullet = weaponParameters.bullet;
+        attackPeriod = weaponParameters.attackPeriod;
+        attackDelay = weaponParameters.attackDelay;
+        timeOffset = weaponParameters.timeOffset;
+        countOfShoot = Mathf.Floor(attackPeriod / attackDelay);
+    }
+
     private void OnEnable()
     {
         EventManager.EndOfBattle += Stop;
-
-        if(objectsPool == null)
-        {
-            objectsPool = GlobalStorage.instance.objectsPoolManager;
-            spriteRenderer = GetComponent<SpriteRenderer>();
-            weaponParameters = GetComponent<EnemyWeaponParameters>();
-
-            bullet = weaponParameters.bullet;
-            attackPeriod = weaponParameters.attackPeriod;
-            attackDelay = weaponParameters.attackDelay;
-            timeOffset = weaponParameters.timeOffset;
-            countOfShoot = Mathf.Floor(attackPeriod / attackDelay);
-        }
 
         currentTime = 0;
         currentShoot = 0;
@@ -58,7 +63,7 @@ public class FireballWeapon : MonoBehaviour
     {
         if(isWatching == true)
         {
-            Vector3 targ = GlobalStorage.instance.hero.transform.position;
+            Vector3 targ = player.transform.position;
             targ.z = 0f;
 
             Vector3 objectPos = transform.position;

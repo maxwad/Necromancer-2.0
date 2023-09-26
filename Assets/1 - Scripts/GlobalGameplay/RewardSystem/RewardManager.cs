@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 using static NameManager;
 
 
@@ -37,14 +38,21 @@ public class RewardManager : MonoBehaviour
     private float luck;
     private float playerLevel;
 
+    [Inject]
+    public void Construct(PlayerStats playerStats, MacroLevelUpManager levelUpManager)
+    {
+        this.playerStats = playerStats;
+        this.levelUpManager = levelUpManager;
+    }
+
     #region GET/SET Parameters
     private void GetPlayersParameters()
     {
-        if(playerStats == null)
-        {
-            levelUpManager = GlobalStorage.instance.macroLevelUpManager;
-            playerStats = GlobalStorage.instance.playerStats;
-        }
+        //if(playerStats == null)
+        //{
+        //    levelUpManager = GlobalStorage.instance.macroLevelUpManager;
+        //    playerStats = GlobalStorage.instance.playerStats;
+        //}
 
         extraBoxReward = playerStats.GetCurrentParameter(PlayersStats.ExtraBoxReward);
         extraBonusAfterBattle = playerStats.GetCurrentParameter(PlayersStats.ExtraAfterBattleReward);
@@ -108,7 +116,6 @@ public class RewardManager : MonoBehaviour
             float quantity = GetValueWithGap(portion, randomGap);
             quantity = Mathf.Round(quantity + quantity * (boost / 100));
             bonusResourcesQuantityList.Add(quantity);
-            //Debug.Log(list[i] + " quantity = " + quantity);
         }
 
         return bonusResourcesQuantityList;
@@ -171,8 +178,6 @@ public class RewardManager : MonoBehaviour
 
         difficultBattleMultiplier = (int)army.strength;
         float strenghtBoost = army.squadList.Count * difficultBattleMultiplier * difficultConstant;
-
-        //Debug.Log("countOfSquad = " + countOfSquad + ". strenghtBoost = " + strenghtBoost);
 
         float exp = GetValueWithGap(expAfterBattlePortion, randomGap);
         float expBoost = 0;

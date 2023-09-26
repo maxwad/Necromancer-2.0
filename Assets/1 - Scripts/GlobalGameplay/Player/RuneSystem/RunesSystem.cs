@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 using static NameManager;
 
 public class RunesSystem : MonoBehaviour
@@ -11,9 +12,6 @@ public class RunesSystem : MonoBehaviour
     [HideInInspector] public RunesManager runesStorage;
     private RunesWindow runesWindow;
 
-    //[HideInInspector] public List<RuneSO> availableRunes = new List<RuneSO>();
-    //[HideInInspector] public List<RuneSO> hiddenRunes = new List<RuneSO>();
-
     private List<RuneSO[]> runesRows = new List<RuneSO[]>();
 
     private RunesType[] runesTypes;
@@ -22,15 +20,22 @@ public class RunesSystem : MonoBehaviour
 
     private float limitValue = -99;
 
-    //private int shardOfRunes = 0;
+    [Inject]
+    public void Construct(
+        MacroLevelUpManager levelUpManager,
+        BoostManager boostManager,
+        PlayerPersonalWindow playerMilitaryWindow
+        )
+    {
+        this.levelUpManager = levelUpManager;
+        this.boostManager = boostManager;
+        this.runesWindow = playerMilitaryWindow.GetComponentInChildren<RunesWindow>();
+
+        runesStorage = gameObject.GetComponentInChildren<RunesManager>();
+    }
 
     public void Init()
     {
-        runesStorage = gameObject.GetComponentInChildren<RunesManager>();
-        runesWindow = GlobalStorage.instance.playerMilitaryWindow.GetComponentInChildren<RunesWindow>();
-        levelUpManager = GlobalStorage.instance.macroLevelUpManager;
-        boostManager = GlobalStorage.instance.boostManager;
-
         runesStorage.Init();
         runesWindow.Init();
 
@@ -262,40 +267,8 @@ public class RunesSystem : MonoBehaviour
     {
         runesStorage.Load(saveData.runesEffectsLists);
 
-        //foreach(var runeItem in saveData.runesInRows)
-        //{
-        //    RuneSO rune = runesStorage.GetRune(runeItem.rune, runeItem.level);
-        //    ApplyRune(runeItem.row, runeItem.cell, rune, true);
-        //}
-
         runesWindow.Load(saveData.runesLists);
     }
 
     #endregion
 }
-
-public class PlayersRunes
-{
-    public List<RunesEffectsData> runesInRows = new List<RunesEffectsData>();
-    public RunesEffectsLists runesEffectsLists;
-    public RunesLists runesLists;
-}
-
-public class RunesEffectsData
-{
-    public int row = 0;
-    public int cell = 0;
-    public RunesType rune;
-    public int level = 0;
-    public int quantity = 0;
-}
-
-public class RunesLists
-{
-    public List<RunesEffectsData> firstRowRunes = new List<RunesEffectsData>();
-    public List<RunesEffectsData> negativeRowRunes = new List<RunesEffectsData>();
-    public List<RunesEffectsData> bonusRowRunes = new List<RunesEffectsData>();
-}
-
-
-

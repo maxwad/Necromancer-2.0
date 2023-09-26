@@ -5,21 +5,23 @@ using TMPro;
 using UnityEngine.UI;
 using static NameManager;
 using System;
+using Zenject;
 
 public class BattleResult : MonoBehaviour
 {
     [Header("Managers")]
     private AISystem aiSystem;
     private BattleManager battleManager;
-    private Reward currentReward;
     private RewardManager rewardManager;
     private ResourcesManager resourcesManager;
     private EnemyManager enemyManager;
     private MacroLevelUpManager macroManager;
+    private UnitManager unitManager;
 
     private PlayersArmy playersArmy;
     private GMPlayerMovement playerMovement;
 
+    private Reward currentReward;
     private Army currentEnemyArmy;
     private EnemyArmyOnTheMap currentEnemyGO;
 
@@ -78,23 +80,40 @@ public class BattleResult : MonoBehaviour
     private int currentStatus;
     private float currentPercentReward;
 
+    [Inject]
+    public void Construct
+        (
+        AISystem aISystem,
+        BattleManager battleManager,
+        RewardManager rewardManager,
+        ResourcesManager resourcesManager,
+        EnemyManager enemyManager,
+        MacroLevelUpManager macroManager,
+        PlayersArmy playersArmy,
+        GMPlayerMovement playerMovement,
+        UnitManager unitManager
+        )
+    {
+        this.aiSystem = aISystem;
+        this.battleManager = battleManager;
+        this.rewardManager = rewardManager;
+        this.resourcesManager = resourcesManager;
+        this.enemyManager = enemyManager;
+        this.macroManager = macroManager;
+        this.playersArmy = playersArmy;
+        this.playerMovement = playerMovement;
+        this.unitManager = unitManager;
+
+        rectContainer = canvas.GetComponent<RectTransform>();
+    }
+
     public void Init(int mode, float percentOfReward, EnemyArmyOnTheMap currentArmyGO, Army currentArmy)
     {
         GlobalStorage.instance.ModalWindowOpen(true);
 
-        if(rectContainer == null)
+        if(resourcesIcons == null)
         {
-            rectContainer    = canvas.GetComponent<RectTransform>();
-            rewardManager    = GlobalStorage.instance.rewardManager;
-            resourcesManager = GlobalStorage.instance.resourcesManager;
-            resourcesIcons   = resourcesManager.GetAllResourcesIcons();
-            enemyManager     = GlobalStorage.instance.enemyManager;
-            macroManager     = GlobalStorage.instance.macroLevelUpManager; 
-            playersArmy      = GlobalStorage.instance.playersArmy;
-            playerMovement   = GlobalStorage.instance.globalPlayer;
-            battleManager    = GlobalStorage.instance.battleManager;
-            aiSystem         = GlobalStorage.instance.aiSystem;
-
+            resourcesIcons = resourcesManager.GetAllResourcesIcons();
             CreateLists();
         }
 
@@ -137,8 +156,7 @@ public class BattleResult : MonoBehaviour
     {
         rewardBlock.SetActive(true);
 
-        currentReward = rewardManager.GetBattleReward(currentEnemyArmy);        
-
+        currentReward = rewardManager.GetBattleReward(currentEnemyArmy);
         for(int i = 0; i < currentReward.resourcesList.Count; i++)
         {
             if(currentPercentReward != 1f)
@@ -335,7 +353,7 @@ public class BattleResult : MonoBehaviour
 
     private void UpdateActualArmy()
     {
-        actualUnits = GlobalStorage.instance.unitManager.GetActualArmy();
+        actualUnits = unitManager.GetActualArmy();
     }
 
     private void CreateLists()
@@ -388,22 +406,7 @@ public class BattleResult : MonoBehaviour
         GlobalStorage.instance.ModalWindowOpen(false);
         uiPanel.SetActive(false);
 
-        //if(currentStatus != 0) battleManager.TryToContinueEnemysTurn();
         if(battleManager.WasBattleWithVassal() == true)
             battleManager.TryToContinueEnemysTurn();
     }
-
-    //private void OnEnable()
-    //{ 
-    //    //EventManager.SwitchPlayer += StartCheckingUnitDeath;
-    //    //EventManager.WeLostOneUnit += RegisterDeadUnit;
-    //    //EventManager.ResurrectUnit += DeleteDeadUnit;
-    //}
-
-    //private void OnDisable()
-    //{
-    //    //EventManager.SwitchPlayer -= StartCheckingUnitDeath;
-    //    //EventManager.WeLostOneUnit -= RegisterDeadUnit;
-    //    //EventManager.ResurrectUnit -= DeleteDeadUnit;
-    //}
 }

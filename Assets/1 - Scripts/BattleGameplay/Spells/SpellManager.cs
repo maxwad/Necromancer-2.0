@@ -2,6 +2,7 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using static NameManager;
+using Zenject;
 
 public class SpellManager : MonoBehaviour
 {
@@ -15,9 +16,10 @@ public class SpellManager : MonoBehaviour
     private List<Spells> spellsInStorage = new List<Spells>();
     private List<Spells> spellsForBattle = new List<Spells>();
 
-    private void Start()
+    [Inject]
+    public void Construct(PlayerStats playerStats)
     {
-        playerStats = GlobalStorage.instance.playerStats;
+        this.playerStats = playerStats;
     }
 
     public void UnlockSpell(SpellSO spell)
@@ -30,7 +32,6 @@ public class SpellManager : MonoBehaviour
 
                 spellsLevels.Add(spell.spell, 0);
                 findedSpells.Add(spell.spell, spell);
-                //Debug.Log("Spell " + spell + " is unlock!");
             }
         }
     }

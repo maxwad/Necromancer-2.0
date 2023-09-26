@@ -3,10 +3,12 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using static NameManager;
+using Zenject;
 
 public class EnemyArmyUI : MonoBehaviour
 {
-    public EnemyManager enemyManager;
+    private EnemyManager enemyManager;
+    private PlayerStats playerStats;
 
     public GameObject uiPanel;
     public CanvasGroup canvas;
@@ -38,11 +40,16 @@ public class EnemyArmyUI : MonoBehaviour
 
     private float playerCuriosity;
 
+    [Inject]
+    public void Construct(EnemyManager enemyManager, PlayerStats playerStats)
+    {
+        this.enemyManager = enemyManager;
+        this.playerStats = playerStats;
+    }
+
     public void OpenWindow(bool modeClick, EnemyArmyOnTheMap enemyArmy = null)
     {
         //modeClick = false - by movement; true - by click
-        if(enemyManager == null) enemyManager = GlobalStorage.instance.enemyManager;
-
 
         GlobalStorage.instance.ModalWindowOpen(true);
         isOpenedByClick = modeClick;
@@ -55,7 +62,7 @@ public class EnemyArmyUI : MonoBehaviour
         if(canvas == null) canvas = uiPanel.GetComponent<CanvasGroup>();
         Fading.instance.Fade(true, canvas);
 
-        playerCuriosity = GlobalStorage.instance.playerStats.GetCurrentParameter(PlayersStats.Curiosity);
+        playerCuriosity = playerStats.GetCurrentParameter(PlayersStats.Curiosity);
         Initialize();
     }
 

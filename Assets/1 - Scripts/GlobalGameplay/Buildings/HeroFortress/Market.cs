@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using static NameManager;
+using Zenject;
 
 public class Market : SpecialBuilding
 {
@@ -44,14 +45,22 @@ public class Market : SpecialBuilding
 
     private float marketDiscount = 0f;
 
+    [Inject]
+    public void Construct(
+        HeroFortress fortress,
+        FortressBuildings fortressBuildings,
+        ResourcesManager resourcesManager
+        )
+    {
+        this.fortress = fortress;
+        this.allBuildings = fortressBuildings;
+        this.resourcesManager = resourcesManager;
+    }
+
     public override GameObject Init(FBuilding building)
     {
-        if(fortress == null)
+        if(resourcesIcons == null)
         {
-            fortress = GlobalStorage.instance.heroFortress;
-            allBuildings = GlobalStorage.instance.fortressBuildings;
-            resourcesManager = GlobalStorage.instance.resourcesManager;
-
             resourcesIcons = resourcesManager.GetAllResourcesIcons();
             resources.Add(0, ResourceType.Gold);
             resources.Add(1, ResourceType.Food);

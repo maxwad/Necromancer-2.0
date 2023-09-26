@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 using static NameManager;
 
 public class Altar : MonoBehaviour
@@ -17,18 +18,24 @@ public class Altar : MonoBehaviour
     private Dictionary<ResourceType, float> currentPrice;
 
     private List<ResourceType> defaultResList = new List<ResourceType>();
-    //private List<ResourceType> currentResourcesList = new List<ResourceType>();
-    //private List<ResourceType> workResourcesList = new List<ResourceType>();
     private float percentCommonCost = 0.15f;
     private float minCost = 50f;
 
-    private void Start()
+    [Inject]
+    public void Construct
+        (
+        InfirmaryManager infirmary,
+        UnitManager unitManager,
+        ResourcesManager resourcesManager,
+        BoostManager boostManager,
+        PlayersArmy playersArmy
+        )
     {
-        infirmary = GlobalStorage.instance.infirmaryManager;
-        unitManager = GlobalStorage.instance.unitManager;
-        resourcesManager = GlobalStorage.instance.resourcesManager;
-        boostManager = GlobalStorage.instance.boostManager;
-        playersArmy = GlobalStorage.instance.playersArmy;
+        this.infirmary = infirmary;
+        this.unitManager = unitManager;
+        this.resourcesManager = resourcesManager;
+        this.boostManager = boostManager;
+        this.playersArmy = playersArmy;
 
         objectOwner = GetComponent<ObjectOwner>();
 
@@ -40,6 +47,26 @@ public class Altar : MonoBehaviour
             ResourceType.Iron,
             ResourceType.Stone
         };
+    }
+
+    private void Start()
+    {
+        //infirmary = GlobalStorage.instance.infirmaryManager;
+        //unitManager = GlobalStorage.instance.unitManager;
+        //resourcesManager = GlobalStorage.instance.resourcesManager;
+        //boostManager = GlobalStorage.instance.boostManager;
+        //playersArmy = GlobalStorage.instance.playersArmy;
+
+        //objectOwner = GetComponent<ObjectOwner>();
+
+        //defaultResList = new List<ResourceType>()
+        //{
+        //    ResourceType.Wood,
+        //    ResourceType.Food,
+        //    ResourceType.Gold,
+        //    ResourceType.Iron,
+        //    ResourceType.Stone
+        //};
     }
 
     #region SETTINGS

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using static NameManager;
+using Zenject;
 
 public class GMInterfaceHero : MonoBehaviour
 {
@@ -31,11 +32,15 @@ public class GMInterfaceHero : MonoBehaviour
     public KeyActions runesAction;
     public KeyActions spellsAction;
 
+    [Inject]
+    public void Construct(ResourcesManager resourcesManager, PlayerPersonalWindow personalWindow)
+    {
+        this.resourcesManager = resourcesManager;
+        this.personalWindow = personalWindow;
+    }
+
     private void Start()
     {
-        personalWindow = GlobalStorage.instance.playerMilitaryWindow;
-
-        resourcesManager = GlobalStorage.instance.resourcesManager;
         resourcesDict = resourcesManager.GetAllResources();
 
         healthMax = resourcesManager.GetMaxHealth();

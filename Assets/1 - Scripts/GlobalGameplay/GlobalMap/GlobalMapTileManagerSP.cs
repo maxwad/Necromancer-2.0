@@ -58,28 +58,28 @@ public partial class GlobalMapTileManager : ISaveable
         GMTileManagerSD saveData = TypesConverter.ConvertToRequiredType<GMTileManagerSD>(state[Id]);
 
         Dictionary<Vector3, Reward> boxesData = TypesConverter.CreateDictionary(saveData.boxesPoints.ToVector3List(), saveData.boxesRewards);
-        arenaBuilder.Build(this, saveData.arenaPoint.ToVector3List());
+        arenaBuilder.Build(saveData.arenaPoint.ToVector3List());
 
         altarBuilder.LoadData(saveData.altarsPoints);
 
-        tombBuilder.Build(this, saveData.tombsPoints.ToVector3List());
+        tombBuilder.Build(saveData.tombsPoints.ToVector3List());
         tombBuilder.LoadData(saveData.tombsData);
 
-        portalBuilder.Build(this);
+        portalBuilder.Build();
         portalBuilder.Load(saveData.portalsData);
 
-        resourceBuilder.Build(this, saveData.resourcesPoints.ToVector3List());
+        resourceBuilder.Build(saveData.resourcesPoints.ToVector3List());
         resourceBuilder.LoadData(saveData.resBuildings);
         //WARNING: it's should be here because vassals need ResBuildingRegistrationList
-        castleBuilder.Build(this, saveData.castlesPoints.ToVector3List());
+        castleBuilder.Build(saveData.castlesPoints.ToVector3List());
         castleBuilder.LoadData(saveData.aiData);
 
-        campBuilder.Build(this);
+        campBuilder.Build();
         campBuilder.LoadData(saveData.campsPoints.ToVector3List());
 
-        boxesBuilder.Build(this, boxesData);
+        boxesBuilder.Build(boxesData);
 
-        environmentRegister.Registration(this);
+        environmentRegister.Registration();
         CreateEnterPointsForAllBuildings();
 
         fogFreeCells = saveData.fogFreeCells.ToVector3IntList();

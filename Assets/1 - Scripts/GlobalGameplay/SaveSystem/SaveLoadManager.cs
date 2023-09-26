@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Newtonsoft.Json;
 using static NameManager;
+using Zenject;
 
 public class SaveLoadManager : MonoBehaviour, IInputableKeys
 {
@@ -28,7 +29,17 @@ public class SaveLoadManager : MonoBehaviour, IInputableKeys
     private int parallelIdFlag = 100;
     private float loadingStep;
 
-    [SerializeField] private bool isLoadScreenNeeded = true;
+    [Inject]
+    public void Construct(InputSystem inputSystem, LoaderUI loaderUI)
+    {
+        this.inputSystem = inputSystem;
+        this.loaderUI = loaderUI;
+    }
+
+    private void ReloadInput(InputSystem inputSystem)
+    {
+        this.inputSystem = inputSystem;
+    }
 
     private void Start()
     {
@@ -42,18 +53,18 @@ public class SaveLoadManager : MonoBehaviour, IInputableKeys
         else
         {
             shouldIRegister = false;
+            instance.ReloadInput(inputSystem);
             Destroy(gameObject);
         }
 
         if(shouldIRegister == true)
+        {
             RegisterInputKeys();
-
-        loaderUI = GlobalStorage.instance.loaderUI;
+        }
     }
 
     public void RegisterInputKeys()
     {
-        inputSystem = GlobalStorage.instance.inputSystem;
         inputSystem.RegisterInputKeys(KeyActions.SaveGame, this);
         inputSystem.RegisterInputKeys(KeyActions.LoadGame, this);
     }
@@ -164,7 +175,6 @@ public class SaveLoadManager : MonoBehaviour, IInputableKeys
 
     private IEnumerator Loading()
     {
-       // string pathToFile;
 
 #if UNITY_EDITOR
         string pathToFile = rootPath + directory + fileName;
@@ -181,10 +191,11 @@ public class SaveLoadManager : MonoBehaviour, IInputableKeys
         var stopWatch = new System.Diagnostics.Stopwatch();
         stopWatch.Start();
 
-        loaderUI.ShowLogo(false);
+        loaderUI.ResetWindow();
         loaderUI.Open(true);
+        loaderUI.ShowLogo(true);
 
-        while(Fading.isFadingWork == true)
+        while(Fading.IsFadingWork() == true)
             yield return null;
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -194,11 +205,7 @@ public class SaveLoadManager : MonoBehaviour, IInputableKeys
 
         yield return new WaitForSecondsRealtime(0.1f);
 
-        loaderUI.ShowLogo(true);
-        loaderUI.ResetWindow();
-        loaderUI.ShowPhase("Loading...", 0);
         loaderUI.StartLoading();
-
 
         GlobalStorage.instance.StartGame(false);
         while(GlobalStorage.instance.isGameLoaded == false)
@@ -239,7 +246,7 @@ public class SaveLoadManager : MonoBehaviour, IInputableKeys
         stopWatch.Stop();
         Debug.Log("Load complete (" + stopWatch.ElapsedMilliseconds / 1000.0f + ")");
 
-        loaderUI.HeavyClose();
+        loaderUI.ForceClosing();
 
         RegisterInputKeys();
 

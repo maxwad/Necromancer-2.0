@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using static NameManager;
-using System;
+using Zenject;
 
 public class RuneDetailsItem : MonoBehaviour
 {
@@ -30,11 +30,15 @@ public class RuneDetailsItem : MonoBehaviour
     private RuneWorkroom workroom;
     private RuneSO rune;
 
+    [Inject]
+    public void Construct(ResourcesManager resourcesManager)
+    {
+        this.resourcesManager = resourcesManager;
+    }
     public void Init(RuneWorkroom room, RuneSO runeSO, int count, int maxCount, bool canICreate)
     {        
-        if(resourcesManager == null)
-        {
-            resourcesManager = GlobalStorage.instance.resourcesManager;
+        if(resourcesIcons == null)
+        {            
             resourcesIcons = resourcesManager.GetAllResourcesIcons();
             workroom = room;
         }
@@ -91,8 +95,6 @@ public class RuneDetailsItem : MonoBehaviour
     //Button
     public void TryToCreate()
     {
-        //bool isToExpensive = detailsItems[index].GetPriceState();
-
         if(isToExpensive == true)
         {
             InfotipManager.ShowWarning("You do not have enough Resources for this action.");

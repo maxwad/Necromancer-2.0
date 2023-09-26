@@ -1,7 +1,7 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 using static NameManager;
 
 public class PlayerStats : MonoBehaviour
@@ -92,10 +92,14 @@ public class PlayerStats : MonoBehaviour
     private BoostManager boostManager;
     [SerializeField] private Dictionary<PlayersStats, Stat> allStatsDict = new Dictionary<PlayersStats, Stat>();
 
+    [Inject]
+    public void Construct(BoostManager boostManager)
+    {
+        this.boostManager = boostManager;
+    }
 
     private void Awake()
     {
-        boostManager = GlobalStorage.instance.boostManager;
         InitStartParameters();
     }
 

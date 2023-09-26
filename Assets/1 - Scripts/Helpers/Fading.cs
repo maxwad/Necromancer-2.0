@@ -1,10 +1,11 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Fading : MonoBehaviour
 {
     public static Fading instance;
-    public static bool isFadingWork = false;
+    private static List<CanvasGroup> currentFadings = new List<CanvasGroup>();
 
     private void Awake()
     {
@@ -26,7 +27,10 @@ public class Fading : MonoBehaviour
 
     private IEnumerator StartFading(bool isShowing, bool timeMode, CanvasGroup canvasGroup, float step, float delay = 0f, bool activeMode = true)
     {
-        isFadingWork = true;
+        if(currentFadings.Contains(canvasGroup) == true)
+            yield break;
+        else
+            currentFadings.Add(canvasGroup);
 
         float pauseMultiplier = 0.25f;
         float currentAlfa;
@@ -88,6 +92,16 @@ public class Fading : MonoBehaviour
             }
         }
 
-        isFadingWork = false;
+        currentFadings.Remove(canvasGroup);
+    }
+
+    public static bool IsFadingWork(CanvasGroup canvasGroup)
+    {
+        return currentFadings.Contains(canvasGroup);
+    }
+
+    public static bool IsFadingWork()
+    {
+        return currentFadings.Count > 0;
     }
 }

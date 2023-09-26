@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Zenject;
 using static NameManager;
 
 public class TooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
@@ -19,12 +20,11 @@ public class TooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     private GlobalMapTileManager gmManager;
 
-    private void Start()
+    [Inject]
+    public void Construct(GlobalMapTileManager gmManager)
     {
-        //SetStatus(false);
-        gmManager = GlobalStorage.instance.gmManager;
+        this.gmManager = gmManager;
     }
-
 
     private void Update()
     {

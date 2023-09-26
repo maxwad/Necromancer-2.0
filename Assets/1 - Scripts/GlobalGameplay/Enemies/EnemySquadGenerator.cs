@@ -1,10 +1,12 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 using static NameManager;
 
 public class EnemySquadGenerator : MonoBehaviour
 {
+    private MacroLevelUpManager macroLevelUpManager;
+
     [HideInInspector] public List<EnemiesTypes> allEnemiesList = new List<EnemiesTypes>();
 
     private float playerLevel;
@@ -17,6 +19,12 @@ public class EnemySquadGenerator : MonoBehaviour
     public float enemyPortion = 100;
     public float percentGap = 0.2f;
 
+    [Inject]
+    public void Construct(MacroLevelUpManager macroLevelUpManager)
+    {
+        this.macroLevelUpManager = macroLevelUpManager;
+    }
+
     public void SetAllEnemiesList(List<EnemiesTypes> enemies)
     {
         allEnemiesList = enemies;
@@ -27,7 +35,6 @@ public class EnemySquadGenerator : MonoBehaviour
         Army newArmy = new Army();
 
         ArmyStrength currentStrength = ArmyStrength.Low;
-        bool isSiege = false;
         bool canAutobattle = true;
 
         if(typeOfArmy == TypeOfArmy.InTomb)
@@ -46,21 +53,19 @@ public class EnemySquadGenerator : MonoBehaviour
         {
             currentStrength = ArmyStrength.Extremely;
             canAutobattle = false;
-            isSiege = true;
         }
 
         if(typeOfArmy == TypeOfArmy.Vassals)
         {
             currentStrength = ArmyStrength.High;
             canAutobattle = false;
-            isSiege = false;
         }
 
         newArmy.strength = currentStrength;
-        newArmy.isThisASiege = isSiege;
+        newArmy.isThisASiege = true;
         newArmy.isAutobattlePosible = canAutobattle;
 
-        playerLevel = GlobalStorage.instance.macroLevelUpManager.GetCurrentLevel();
+        playerLevel = macroLevelUpManager.GetCurrentLevel();
 
         countOfSquad = Mathf.Ceil(playerLevel / enemyQuantityDivider);
         if(countOfSquad > maxCountOfSquad) countOfSquad = maxCountOfSquad;

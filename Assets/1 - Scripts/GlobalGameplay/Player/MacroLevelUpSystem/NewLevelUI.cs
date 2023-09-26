@@ -1,9 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using static NameManager;
+using Zenject;
 
 public class NewLevelUI : MonoBehaviour
 {
@@ -26,9 +25,10 @@ public class NewLevelUI : MonoBehaviour
     private float fadeStep = 0.1f;
     private float fadeDelay = 5f;
 
-    private void Start()
+    [Inject]
+    public void Construct(PlayerPersonalWindow playerMilitaryWindow)
     {
-        playerMilitaryWindow = GlobalStorage.instance.playerMilitaryWindow;
+        this.playerMilitaryWindow = playerMilitaryWindow;
     }
 
     public void Init(PlayersStats bonusStat, float amount, float level, float points)

@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
-using System.Collections;
 using TMPro;
 using static NameManager;
-
+using Zenject;
 
 public class RuneWorkroom : SpecialBuilding
 {
@@ -11,9 +10,6 @@ public class RuneWorkroom : SpecialBuilding
     private FortressBuildings allBuildings;
     private ObjectsPoolManager poolManager;
     private ResourcesManager resourcesManager;
-    //private Dictionary<ResourceType, Sprite> resourcesIcons;
-
-    private FBuilding sourceBuilding;
 
     [Header("Common UI")]
     [SerializeField] private GameObject storeContainer;
@@ -29,7 +25,6 @@ public class RuneWorkroom : SpecialBuilding
 
     private List<RuneSO> runesInStore = new List<RuneSO>();
     [SerializeField] private List<RuneRWItemUI> runesInStoreUI = new List<RuneRWItemUI>();
-    //private List<RuneSO> createdRunes = new List<RuneSO>();
     private Dictionary<RuneSO, int> createdRunesDict = new Dictionary<RuneSO, int>();
     private List<RuneRWItemUI> createdRunesUI = new List<RuneRWItemUI>();
 
@@ -37,24 +32,27 @@ public class RuneWorkroom : SpecialBuilding
     private RuneSO currentRune;
     private RuneRWItemUI currentRuneUI;
 
-    //private RunesType currentRuneType;
     private List<RuneSO> currentRuneFamily;
+
+    [Inject]
+    public void Construct(
+        RunesManager runesManager,
+        FortressBuildings allBuildings,
+        ObjectsPoolManager poolManager,
+        ResourcesManager resourcesManager
+        )
+    {
+        this.runesManager = runesManager;
+        this.allBuildings = allBuildings;
+        this.poolManager = poolManager;
+        this.resourcesManager = resourcesManager;
+    }
 
     public override GameObject Init(FBuilding building)
     {
 
-        if(runesManager == null)
-        {
-            runesManager = GlobalStorage.instance.runesManager;
-            allBuildings = GlobalStorage.instance.fortressBuildings;
-            poolManager = GlobalStorage.instance.objectsPoolManager;
-            resourcesManager = GlobalStorage.instance.resourcesManager;
-
-            //resourcesIcons = resourcesManager.GetAllResourcesIcons();
+        if(runesInStore.Count == 0)
             runesInStore = runesManager.GetRunesForStorage();
-        }
-
-        sourceBuilding = building;
 
         detailsBlock.SetActive(false);
         destroyBlock.SetActive(false);

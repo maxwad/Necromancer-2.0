@@ -1,17 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public class AltarBuilder : MonoBehaviour
 {
-    private GlobalMapTileManager gmManager;
-
     public GameObject altarsContainer;
     public Dictionary<Vector3, Altar> altars = new Dictionary<Vector3, Altar>();
 
-    public void Build(GlobalMapTileManager manager)
+    public void Build()
     {
-        gmManager = manager;
-
         foreach(Transform child in altarsContainer.transform)
         {
             Altar altar = child.gameObject.GetComponent<Altar>();

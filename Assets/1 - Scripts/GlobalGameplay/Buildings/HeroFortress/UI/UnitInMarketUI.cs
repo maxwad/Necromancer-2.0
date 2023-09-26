@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using static NameManager;
+using Zenject;
 
 public class UnitInMarketUI : MonoBehaviour
 {
@@ -35,6 +36,12 @@ public class UnitInMarketUI : MonoBehaviour
     private CastleBuildings unitBuilding;
     private int level;
 
+    [Inject]
+    public void Construct(ResourcesManager resourcesManager, FortressBuildings allBuildings)
+    {
+        this.resourcesManager = resourcesManager;
+        this.allBuildings = allBuildings;
+    }
 
     public void Init(Military military, Unit unit, bool nextLevel)
     {
@@ -43,12 +50,9 @@ public class UnitInMarketUI : MonoBehaviour
         unitBuilding = unit.unitHome;
         level = unit.level;
 
-        if(resourcesManager == null)
-        {
-            resourcesManager = GlobalStorage.instance.resourcesManager;
-            resourcesIcons = resourcesManager.GetAllResourcesIcons();
-            allBuildings = GlobalStorage.instance.fortressBuildings;
-
+        if(resourcesIcons == null)
+        {            
+            resourcesIcons = resourcesManager.GetAllResourcesIcons();            
             levelUpMultiplier = root.fortress.GetLevelUpMultiplier();
         }
 

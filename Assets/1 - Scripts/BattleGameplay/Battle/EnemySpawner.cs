@@ -1,13 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 using static NameManager;
-
-public class BossData {
-    public bool wasCreated = false;
-    public bool isDead = false;
-    public float bound = 0;
-}
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -20,7 +15,8 @@ public class EnemySpawner : MonoBehaviour
     public List<GameObject> enemiesOnTheMap = new List<GameObject>();
 
     [Space]
-    [SerializeField] private List<GameObject> spawnPositions;
+    [SerializeField] private Transform spawnPointsGO;
+    [SerializeField] private List<GameObject> spawnPositions;    
 
     [Space]
     private bool canISpawn = false;
@@ -41,15 +37,26 @@ public class EnemySpawner : MonoBehaviour
 
     //private BattleMap battleMap;
 
+    private Transform player;
     private bool[,] battleMap;
     private EnemyEffector enemyEffector;
     private BattleUIManager battleUIManager;
+    private ObjectsPoolManager poolManager;
     private BossData[] bossBounds;
 
-    private void Start()
+
+    [Inject]
+    public void Construct(
+        ObjectsPoolManager poolManager,
+        BattleUIManager battleUIManager,
+        HeroController player
+        )
     {
+        this.poolManager = poolManager;
+        this.battleUIManager = battleUIManager;
+        this.player = player.transform;
+
         enemyEffector = GetComponent<EnemyEffector>();
-        battleUIManager = GlobalStorage.instance.battleIUManager;
     }
 
     public void Initialize(Army army)
@@ -100,11 +107,14 @@ public class EnemySpawner : MonoBehaviour
 
     private void Update()
     {
-        if (enemiesOnTheMap.Count < enemySlowCount) waitNextEnemy = waitNextEnemyFast;
+        if (enemiesOnTheMap.Count < enemySlowCount) 
+            waitNextEnemy = waitNextEnemyFast;
 
-        if (enemiesOnTheMap.Count > enemySlowCount) waitNextEnemy = waitNextEnemySlow;
+        if (enemiesOnTheMap.Count > enemySlowCount) 
+            waitNextEnemy = waitNextEnemySlow;
 
-        if (enemiesOnTheMap.Count > enemyTooSlowCount) waitNextEnemy = waitNextEnemyStop;
+        if (enemiesOnTheMap.Count > enemyTooSlowCount) 
+            waitNextEnemy = waitNextEnemyStop;
     }
 
     public void ReadyToSpawnEnemy()
@@ -132,10 +142,13 @@ public class EnemySpawner : MonoBehaviour
             if (currentCommonQuantity == 0)
             {
                 canISpawn = false;
-                if(spawnCoroutine != null) StopCoroutine(spawnCoroutine);
+                if(spawnCoroutine != null) 
+                    StopCoroutine(spawnCoroutine);
                 
                 break;
             }
+
+            spawnPointsGO.position = player.position;
 
             Vector3 randomPosition = GetSpawnPosition();
 
@@ -158,13 +171,8 @@ public class EnemySpawner : MonoBehaviour
                 //    currentProbably[i] = Mathf.Round((enemiesQuantityList[i] / commonQuantity) * 100);
                 //}
 
-                if(GlobalStorage.instance.IsGlobalMode() == true)
-                {
-                    Debug.Log("1 ERROR");
-                }
-
                 EnemiesTypes enemyType = enemiesList[randomIndex];
-                GameObject enemy = GlobalStorage.instance.objectsPoolManager.GetEnemy(enemyType);
+                GameObject enemy = poolManager.GetEnemy(enemyType);
 
                 enemy.transform.position = randomPosition;
                 enemy.SetActive(true);
@@ -252,7 +260,7 @@ public class EnemySpawner : MonoBehaviour
         if(removeQuantity == maxQuantity)
         {
             canISpawn = false;
-            GlobalStorage.instance.battleIUManager.ShowVictoryBlock();
+            battleUIManager.ShowVictoryBlock();
         }
         SpawnControl();        
     }     

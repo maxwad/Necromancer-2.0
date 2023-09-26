@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static NameManager;
+using Zenject;
 
 public partial class CalendarManager : MonoBehaviour, IInputableKeys
 {
     private BoostManager boostManager;
     private InputSystem inputSystem;
     private GameMaster gameMaster;
+    private GMInterface gmInterface;
 
     public int daysLeft = 1000;
 
@@ -26,7 +28,6 @@ public partial class CalendarManager : MonoBehaviour, IInputableKeys
     private int year = 0;
     private int yearsPassed = 0;
 
-    private GMInterface gmInterface;
     private CalendarData calendarData;
 
     [Header("Decades List")]
@@ -35,16 +36,26 @@ public partial class CalendarManager : MonoBehaviour, IInputableKeys
     private DecadeSO currentDecadeEffect;
     private int currentDecadeIndex = 0;
 
-    private void Awake()
+    [Inject]
+    private void Construct(
+        GameMaster gameMaster,
+        InputSystem inputSystem,
+        BoostManager boostManager,
+        GMInterface gmInterface)
     {
-        RegisterInputKeys();
+        this.gameMaster   = gameMaster;
+        this.inputSystem  = inputSystem;
+        this.boostManager = boostManager;
+        this.gmInterface  = gmInterface;
+    }
+
+    private void Start()
+    {
+        RegisterInputKeys();        
     }
 
     public void Init(bool createMode)
     {
-        boostManager = GlobalStorage.instance.boostManager;
-        gmInterface = GlobalStorage.instance.gmInterface;
-        gameMaster = GlobalStorage.instance.gameMaster;
         UpdateCalendar();
 
         if(createMode == true)
@@ -68,7 +79,6 @@ public partial class CalendarManager : MonoBehaviour, IInputableKeys
 
     public void RegisterInputKeys()
     {
-        inputSystem = GlobalStorage.instance.inputSystem;
         inputSystem.RegisterInputKeys(KeyActions.NewDay, this);
     }
 

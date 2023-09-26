@@ -4,12 +4,13 @@ using UnityEngine;
 using TMPro;
 using static NameManager;
 using System;
+using Zenject;
 
 public class PlayersArmy : MonoBehaviour
 {
     private UnitManager unitManager;
     private ObjectsPoolManager poolManager;
-    [SerializeField] private PlayersArmyPart playersArmyWindow;
+    private PlayersArmyPart playersArmyWindow;
     private InfirmaryManager infirmary;
     private PlayerStats playerStats;
 
@@ -32,13 +33,25 @@ public class PlayersArmy : MonoBehaviour
 
     private float damageArmyByEscape = 0.3f;
 
+    [Inject]
+    public void Construct
+        (
+        UnitManager unitManager,
+        ObjectsPoolManager poolManager,
+        PlayerPersonalWindow playerMilitaryWindow,
+        InfirmaryManager infirmary,
+        PlayerStats playerStats
+        )
+    {
+        this.unitManager = unitManager;
+        this.poolManager = poolManager;
+        this.playersArmyWindow = playerMilitaryWindow.GetComponent<PlayersArmyPart>();
+        this.infirmary = infirmary;
+        this.playerStats = playerStats;
+    }
+
     private void  InitializeArmy()
     {
-        unitManager = GlobalStorage.instance.unitManager;
-        infirmary = GlobalStorage.instance.infirmaryManager;
-        poolManager = GlobalStorage.instance.objectsPoolManager;
-        playerStats = GlobalStorage.instance.playerStats;
-
         unitsTypesList = unitManager.GetUnitsTypesList();
 
         foreach(var squad in unitsTypesList)
@@ -48,7 +61,7 @@ public class PlayersArmy : MonoBehaviour
 
             newSquad.unit = unitManager.GetNewSquad(squad);
 
-            newSquad.unitGO = Instantiate(newSquad.unit.unitGO);
+            newSquad.unitGO = poolManager.GetUnusualPrefab(newSquad.unit.unitGO);
             newSquad.unitGO.transform.SetParent(reserveArmyContainer.transform);
 
             newSquad.unitController = newSquad.unitGO.GetComponent<UnitController>();

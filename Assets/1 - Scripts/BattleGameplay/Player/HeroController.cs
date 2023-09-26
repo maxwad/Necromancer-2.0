@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using TMPro;
 using static NameManager;
+using Zenject;
 
 public class HeroController : MonoBehaviour
 {
@@ -9,6 +10,9 @@ public class HeroController : MonoBehaviour
     private MacroLevelUpManager levelManager;
     private ResourcesManager resourcesManager;
     private RunesSystem runesManager;
+    private ObjectsPoolManager poolManager;
+    private BattleUIManager battleUIManager;
+    private GameObject effectsContainer;
 
     [Header("Level up system")]
     [SerializeField] private float currentTempLevel;
@@ -48,18 +52,34 @@ public class HeroController : MonoBehaviour
 
     [Header("UI")]
     [Space]
-    private BattleUIManager battleUIManager;
     private bool isFigthingStarted = false;
     private Coroutine autoLevelUp;
     private float autoLevelUpTime = 5f;
     private WaitForSeconds dalayTime;
 
-    private void Start()
+    [Inject]
+    public void Construct
+        (
+        [Inject(Id = Constants.EFFECTS_CONTAINER)] 
+        GameObject effectsContainer,
+        PlayerStats playerStats,
+        MacroLevelUpManager levelManager,
+        ResourcesManager resourcesManager,
+        RunesSystem runesManager,
+        ObjectsPoolManager poolManager,
+        BattleUIManager battleUIManager
+        )
     {
+        this.effectsContainer = effectsContainer;
+        this.playerStats = playerStats;
+        this.levelManager = levelManager;
+        this.resourcesManager = resourcesManager;
+        this.runesManager = runesManager;
+        this.poolManager = poolManager;
+        this.battleUIManager = battleUIManager;
+
         unitSprite = GetComponent<SpriteRenderer>();
         normalColor = unitSprite.color;
-
-        battleUIManager = GlobalStorage.instance.battleIUManager;
 
         dalayTime = new WaitForSeconds(autoLevelUpTime);
     }
@@ -73,8 +93,6 @@ public class HeroController : MonoBehaviour
     {
         currentTempExp = 0;
         currentTempExpGoal = Mathf.Pow(((currentTempLevel + 1) / standartTempExpRate), levelMultiplierRate);
-
-        //Debug.Log(currentTempExpGoal);
     }
 
     private void SetNewParameters(BoostType boost, float value)
@@ -145,7 +163,7 @@ public class HeroController : MonoBehaviour
 
     private void ShowDamage(float damageValue, Color color)
     {
-        GameObject damageObject = GlobalStorage.instance.objectsPoolManager.GetObject(ObjectPool.DamageText);
+        GameObject damageObject = poolManager.GetObject(ObjectPool.DamageText);
         damageObject.transform.position = transform.position;
         damageObject.SetActive(true);
         damageObject.GetComponent<DamageText>().Iniatilize(damageValue, color);
@@ -158,10 +176,10 @@ public class HeroController : MonoBehaviour
         isDead = true;
         Debug.Log("HERO IS DEAD");
         GameObject death = Instantiate(deathPrefab, transform.position, Quaternion.identity);
-        death.transform.SetParent(GlobalStorage.instance.effectsContainer.transform);
+        death.transform.SetParent(effectsContainer.transform);
         gameObject.SetActive(false);
 
-        GlobalStorage.instance.battleIUManager.ShowDefeatBlock();
+        battleUIManager.ShowDefeatBlock();
     }
 
     private void AddTempExp(BonusType type, float value)
@@ -238,7 +256,6 @@ public class HeroController : MonoBehaviour
         gameObject.SetActive(true);
         isDead = false;
 
-        if(resourcesManager == null) resourcesManager = GlobalStorage.instance.resourcesManager;
         resourcesManager.ChangeResource(ResourceType.Health, resourcesManager.maxHealth);
     }
 
@@ -250,7 +267,8 @@ public class HeroController : MonoBehaviour
     private void Victory()
     {
         isBattleEnded = true;
-        if(autoLevelUp != null) StopCoroutine(autoLevelUp);
+        if(autoLevelUp != null) 
+            StopCoroutine(autoLevelUp);
     }
 
     private void OnEnable()
@@ -258,15 +276,7 @@ public class HeroController : MonoBehaviour
         EventManager.BonusPickedUp += AddTempExp;
         EventManager.SetBattleBoost += SetNewParameters;
         EventManager.SwitchPlayer += ResetTempLevel;
-        EventManager.Victory += Victory;
-
-        if(playerStats == null)
-        {
-            playerStats = GlobalStorage.instance.playerStats;
-            resourcesManager = GlobalStorage.instance.resourcesManager;
-            levelManager = GlobalStorage.instance.macroLevelUpManager;
-            runesManager = GlobalStorage.instance.runesSystem;
-        }        
+        EventManager.Victory += Victory;       
 
         ResetTempLevel(false);
 

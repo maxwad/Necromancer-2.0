@@ -1,4 +1,5 @@
 using UnityEngine;
+using Zenject;
 
 public partial class GlobalCamera : MonoBehaviour, IInputableAxies
 {
@@ -35,10 +36,17 @@ public partial class GlobalCamera : MonoBehaviour, IInputableAxies
     private GameObject globalPlayer;
     private GameObject observeObject;
 
+
+    [Inject]
+    public void Construct(InputSystem inputSystem, GMPlayerMovement globalPlayer)
+    {
+        this.inputSystem = inputSystem;
+        this.globalPlayer = globalPlayer.gameObject;
+    }
+
     private void Awake()
     {
         Camera mainCamera = Camera.main;
-        globalPlayer = GlobalStorage.instance.globalPlayer.gameObject;
 
         RegisterInputAxies();
 
@@ -48,7 +56,6 @@ public partial class GlobalCamera : MonoBehaviour, IInputableAxies
 
     public void RegisterInputAxies()
     {
-        inputSystem = GlobalStorage.instance.inputSystem;
         inputSystem.RegisterInputAxies(this);
     }
 

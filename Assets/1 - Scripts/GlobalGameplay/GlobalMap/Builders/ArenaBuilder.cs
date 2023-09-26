@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Zenject;
 
 public class ArenaBuilder : MonoBehaviour
 {
     private GlobalMapTileManager gmManager;
+    private ObjectsPoolManager poolManager;
 
     public Tilemap arenaMap;
     private Vector3 arenaPoint;
@@ -13,11 +15,16 @@ public class ArenaBuilder : MonoBehaviour
 
     private List<Vector3> pointToSave = new List<Vector3>();
 
-    public void Build(GlobalMapTileManager manager, List<Vector3> pointsToLoad)
+    [Inject]
+    public void Construct(ObjectsPoolManager poolManager, GlobalMapTileManager gmManager)
     {
-        if(gmManager == null) gmManager = manager;
+        this.poolManager = poolManager;
+        this.gmManager = gmManager;
+    }
 
-        List<Vector3Int> tempPoints = manager.GetTempPoints(arenaMap);
+    public void Build(List<Vector3> pointsToLoad = null)
+    {
+        List<Vector3Int> tempPoints = gmManager.GetTempPoints(arenaMap);
 
         if(pointsToLoad == null)
         {
@@ -34,15 +41,17 @@ public class ArenaBuilder : MonoBehaviour
         for(int i = 0; i < tempPoints.Count; i++)
         {
             if(tempPoints[i] != arenaMap.WorldToCell(arenaPoint))
-                manager.AddPointToEmptyPoints(arenaMap.CellToWorld(tempPoints[i]));
+                gmManager.AddPointToEmptyPoints(arenaMap.CellToWorld(tempPoints[i]));
 
             arenaMap.SetTile(tempPoints[i], null);
         }
 
-        GameObject arena = Instantiate(arenaPrefab, arenaPoint, Quaternion.identity);
+        GameObject arena = poolManager.GetUnusualPrefab(arenaPrefab);
+        arena.transform.position = arenaPoint;
         arena.transform.SetParent(arenaMap.transform);
+        arena.SetActive(true);
 
-        manager.AddBuildingToAllOnTheMap(arena);
+        gmManager.AddBuildingToAllOnTheMap(arena);
     }
 
     public List<Vector3> GetPointsList()

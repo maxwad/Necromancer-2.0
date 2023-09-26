@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using Zenject;
 
 public class CampUI : MonoBehaviour
 {
@@ -28,11 +29,12 @@ public class CampUI : MonoBehaviour
     private GameObject currentCamp;
     private CampGameParameters currentParameters;
 
-    private void Start()
+    [Inject]
+    public void Construct(CampManager campManager)
     {
-        campManager = GlobalStorage.instance.campManager;
-        campGame = GetComponent<CampGame>();
+        this.campManager = campManager;
 
+        campGame = GetComponent<CampGame>();
         canvas = uiPanel.GetComponent<CanvasGroup>();
     }
 

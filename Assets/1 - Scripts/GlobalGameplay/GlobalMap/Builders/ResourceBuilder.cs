@@ -1,11 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Zenject;
 using static NameManager;
 
 public class ResourceBuilder : MonoBehaviour
 {
     private GlobalMapTileManager gmManager;
+    private ObjectsPoolManager poolManager;
+    private HeroFortress heroFortress;
 
     public Tilemap resourcesMap;
     [SerializeField] private GameObject buildingsContainer;
@@ -13,13 +16,23 @@ public class ResourceBuilder : MonoBehaviour
     private List<ResourceBuilding> resBuildingsDynamic = new List<ResourceBuilding>();
     public GameObject resourcePrefab;
 
-    public void Build(GlobalMapTileManager manager, List<Vector3> pointsToLoad)
+    [Inject]
+    public void Construct(
+        ObjectsPoolManager poolManager,
+        GlobalMapTileManager manager,
+        HeroFortress heroFortress)
     {
-        if(gmManager == null) gmManager = manager;
+        this.poolManager = poolManager;
+        this.gmManager = manager;
+        this.heroFortress = heroFortress;
+    }
+
+    public void Build(List<Vector3> pointsToLoad = null)
+    {
 
         resBuildingsDynamic.Clear();
 
-        List<Vector3Int> tempPoints = manager.GetTempPoints(resourcesMap);
+        List<Vector3Int> tempPoints = gmManager.GetTempPoints(resourcesMap);
         if(pointsToLoad == null)
         {
             foreach(var point in tempPoints)
@@ -32,17 +45,20 @@ public class ResourceBuilder : MonoBehaviour
 
         for(int i = 0; i < resourcesPointsDynamic.Count; i++)
         {
-            GameObject resBuilding = Instantiate(resourcePrefab, resourcesPointsDynamic[i], Quaternion.identity);
+            GameObject resBuilding = poolManager.GetUnusualPrefab(resourcePrefab);
+            resBuilding.transform.position = resourcesPointsDynamic[i];
             resBuilding.transform.SetParent(buildingsContainer.transform);
+            resBuilding.SetActive(true);
 
-            manager.AddBuildingToAllOnTheMap(resBuilding);
+            gmManager.AddBuildingToAllOnTheMap(resBuilding);
 
             resBuildingsDynamic.Add(resBuilding.GetComponent<ResourceBuilding>());
         }
 
-        resBuildingsDynamic.Add(GlobalStorage.instance.heroFortress.GetCastleMint());
+        resBuildingsDynamic.Add(heroFortress.GetCastleMint());
 
         CreateFullBuildingsList();
+
         foreach(var building in resBuildingsDynamic)
             building.Init(null);
 

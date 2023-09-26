@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 public class InfirmarySlot : MonoBehaviour
 {
@@ -17,6 +18,12 @@ public class InfirmarySlot : MonoBehaviour
     [SerializeField] private InfotipTrigger squadtipTrigger;
     [SerializeField] private TooltipTrigger tooltipTrigger;
 
+    [Inject]
+    public void Construct(PlayerStats playerStats)
+    {
+        this.playerStats = playerStats;
+    }
+
     public void ResetSlot()
     {
         content.SetActive(false);
@@ -25,12 +32,9 @@ public class InfirmarySlot : MonoBehaviour
 
     public void FillTheInfarmarySlot(Sprite pict, int count, float days)
     {
-        if(playerStats == null) playerStats = GlobalStorage.instance.playerStats;
-
         float infirmaryCapacity = playerStats.GetCurrentParameter(NameManager.PlayersStats.InfirmaryTime);
 
         content.SetActive(true);
-        //squadtipTrigger.SetUnit(unit);
         
         tooltipTrigger.content = "Next unit from this squad will die in " + days + " day(s)";
         icon.sprite = pict;

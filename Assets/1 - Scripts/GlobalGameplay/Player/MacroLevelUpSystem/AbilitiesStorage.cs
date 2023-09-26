@@ -2,6 +2,7 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using static NameManager;
+using Zenject;
 
 public class AbilitiesStorage : MonoBehaviour
 {
@@ -14,6 +15,12 @@ public class AbilitiesStorage : MonoBehaviour
     public int abilitiesCount = 0;
     private int abilitiesOpened = 0;
     private int abilitiesLeft = 0;
+
+    [Inject]
+    public void Construct(PlayerPersonalWindow playerMilitaryWindow)
+    {
+        abilitiesPlacing = playerMilitaryWindow.gameObject.GetComponentInChildren<AbilitiesPlacing>();
+    }
 
     public void Init()
     {        
@@ -51,9 +58,8 @@ public class AbilitiesStorage : MonoBehaviour
 
         abilitiesCount = CountAbilities();
 
-        abilitiesPlacing = GlobalStorage.instance.playerMilitaryWindow.gameObject.GetComponentInChildren<AbilitiesPlacing>();
+        //abilitiesPlacing = GlobalStorage.instance.playerMilitaryWindow.gameObject.GetComponentInChildren<AbilitiesPlacing>();
         abilitiesPlacing.Init(availableAbilitiesDict);
-        //Debug.Log("Count dict = " + availableDict.Count);
     }
 
     private List<MacroAbilitySO> SortingByLevel(List<MacroAbilitySO> oldList)
@@ -184,8 +190,6 @@ public class AbilitiesStorage : MonoBehaviour
             }
         }
 
-        //Debug.Log("Left: " + abilitiesLeft + "; Opened: " + abilitiesOpened);
-
         return abilitiesLeft + abilitiesOpened;
     }
 
@@ -210,13 +214,6 @@ public class AbilitiesStorage : MonoBehaviour
 
     public void LoadOpenedAbilities(List<AbilityData> openedAbilities)
     {
-        //foreach(var openedAbility in openedAbilities)
-        //{
-        //    MacroAbilitySO ability = allAbilities.Where(a => a.abilitySeries == openedAbility.abilitySerie && a.level == openedAbility.level).First();
-        //    Debug.Log(ability);
-        //    ApplyAbility(ability);
-        //}
-
         abilitiesPlacing.Load(openedAbilities);
     }
 }

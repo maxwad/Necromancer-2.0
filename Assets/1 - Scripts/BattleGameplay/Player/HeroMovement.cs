@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public class HeroMovement : MonoBehaviour
 {
@@ -13,13 +12,17 @@ public class HeroMovement : MonoBehaviour
 
     private BattleArmyController armyController;
 
-    void Start()
+    [Inject]
+    public void Construct(BattleArmyController armyController)
     {
+        this.armyController = armyController;
+
         sprite = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
 
-        armyController = GlobalStorage.instance.battlePlayer;
-
+    }
+    void Start()
+    {
         CheckDirection();
         Animation();
     }

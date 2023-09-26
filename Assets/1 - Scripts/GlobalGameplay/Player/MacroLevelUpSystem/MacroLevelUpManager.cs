@@ -1,22 +1,6 @@
-using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 using static NameManager;
-
-public struct LevelData
-{
-    public float level;
-    public float currentExp;
-    public float boundExp;
-    public int abilitiesPoints;
-
-    public LevelData(float lvl, float cExp, float bExp, int aPoints)
-    {
-        level = lvl;
-        currentExp = cExp;
-        boundExp = bExp;
-        abilitiesPoints = aPoints;
-    }
-}
 
 public class MacroLevelUpManager : MonoBehaviour
 {
@@ -39,15 +23,24 @@ public class MacroLevelUpManager : MonoBehaviour
 
     private int abilityPoints = 50;
 
+    [Inject]
+    public void Construct(
+        PlayerStats playerStats,
+        GMInterface gmInterface,
+        PlayerPersonalWindow playerMilitaryWindow
+        )
+    {
+        this.playerStats = playerStats;
+        this.gmInterface = gmInterface;
+
+        newLevelUI = gmInterface.gameObject.GetComponent<NewLevelUI>();
+        managerUI = playerMilitaryWindow.GetComponentInChildren<MacroLevelWindow>();
+        abilitiesStorage = GetComponentInChildren<AbilitiesStorage>();
+    }
     public void Init()
     {
-        playerStats      = GlobalStorage.instance.playerStats;
         maxLevel         = playerStats.GetCurrentParameter(PlayersStats.Level);
-        newLevelUI       = GlobalStorage.instance.gmInterface.gameObject.GetComponent<NewLevelUI>();
-        managerUI        = GlobalStorage.instance.playerMilitaryWindow.GetComponentInChildren<MacroLevelWindow>();
-        gmInterface      = GlobalStorage.instance.gmInterface;
         bonusSkillLevel  = playerStats.GetCurrentParameter(PlayersStats.Learning);
-        abilitiesStorage = GetComponentInChildren<AbilitiesStorage>();
         abilitiesStorage.Init();
         ChangeAbilityPoints(3, true);
 

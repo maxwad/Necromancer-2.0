@@ -1,6 +1,6 @@
-using System;
 using System.Collections;
 using UnityEngine;
+using Zenject;
 using static NameManager;
 
 public class Vassal : MonoBehaviour
@@ -22,6 +22,19 @@ public class Vassal : MonoBehaviour
 
     private bool isTurnPaused = false;
 
+    [Inject]
+    public void Construct(GMInterface gmInterface)
+    {
+        this.gmInterface = gmInterface;
+
+        enemyArmy = GetComponent<EnemyArmyOnTheMap>();
+        targetSelector = GetComponent<VassalTargetSelector>();
+        pathfinder     = GetComponent<VassalPathfinder>();
+        movement       = GetComponent<VassalMovement>();
+        animScript     = GetComponent<VassalAnimation>();
+        gmCamera = Camera.main.GetComponent<GlobalCamera>();
+    }
+
     public void Init(EnemyCastle castle, Color color, string name)
     {
         myCastle = castle;
@@ -29,22 +42,12 @@ public class Vassal : MonoBehaviour
         vassalName = name;
         gameObject.name = vassalName;
 
-        gmInterface = GlobalStorage.instance.gmInterface;
-
         GetComponent<TooltipTrigger>().content = vassalName;
-        enemyArmy = GetComponent<EnemyArmyOnTheMap>();
-
-        targetSelector = GetComponent<VassalTargetSelector>();
-        pathfinder     = GetComponent<VassalPathfinder>();
-        movement       = GetComponent<VassalMovement>();
-        animScript     = GetComponent<VassalAnimation>();
 
         targetSelector.Init(this, pathfinder, movement, animScript);
-        pathfinder.Init(targetSelector, movement);
+        pathfinder.Init(targetSelector);
         movement.Init(this, targetSelector, animScript, pathfinder);
         animScript.Init(vassalColor);
-
-        gmCamera = Camera.main.GetComponent<GlobalCamera>();
     }
     
     public void StartAction()

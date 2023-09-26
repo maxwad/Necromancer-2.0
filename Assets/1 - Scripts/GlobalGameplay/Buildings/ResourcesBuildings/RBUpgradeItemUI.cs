@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
 using static NameManager;
+using Zenject;
 
 public class RBUpgradeItemUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IUpgradable
 {
@@ -26,13 +27,15 @@ public class RBUpgradeItemUI : MonoBehaviour, IPointerEnterHandler, IPointerExit
     [SerializeField] Color warningColor;
     [SerializeField] Color normalColor;
 
+    [Inject]
+    public void Construct(ResourcesManager resourcesManager, FortressBuildings allBuildings)
+    {
+        this.resourcesManager = resourcesManager;
+        this.fortressBuildings = allBuildings;
+    }
+
     public void Init(ResourceBuildingUI building, RBUpgradeSO upgrade, bool activeMode) 
     {
-        if(fortressBuildings == null)
-        {
-            fortressBuildings = GlobalStorage.instance.fortressBuildings;
-            resourcesManager = GlobalStorage.instance.resourcesManager;
-        }
         currentBuilding = building;
         currentUpgrade = upgrade;
 

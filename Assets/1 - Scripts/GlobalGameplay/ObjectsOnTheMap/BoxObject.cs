@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 using static NameManager;
 
 public class BoxObject : MonoBehaviour
@@ -9,6 +10,7 @@ public class BoxObject : MonoBehaviour
     public Reward reward;
     private MapBoxesManager mbManager;
     private ResourcesManager resourcesManager;
+    private PlayerStats playerStats;
 
     private Coroutine deathCoroutine;
 
@@ -23,19 +25,28 @@ public class BoxObject : MonoBehaviour
     private Dictionary<ResourceType, Sprite> resourcesIcons;
     private float multiplier = 1;
 
+    [Inject]
+    public void Construct(
+        RewardManager rewardManager,
+        ResourcesManager resourcesManager,
+        PlayerStats playerStats
+        )
+    {
+        this.rewardManager = rewardManager;
+        this.resourcesManager = resourcesManager;
+        this.playerStats = playerStats;
+
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        closedSprite = spriteRenderer.sprite;
+
+        tooltip = gameObject.GetComponent<TooltipTrigger>();
+        defaultContent = tooltip.content;
+    }
 
     private void OnEnable()
     {
-        if(spriteRenderer == null)
+        if(resourcesIcons == null)
         {
-            spriteRenderer = GetComponent<SpriteRenderer>();
-            closedSprite = spriteRenderer.sprite;
-
-            tooltip = gameObject.GetComponent<TooltipTrigger>();
-            defaultContent = tooltip.content;
-            rewardManager = GlobalStorage.instance.rewardManager;
-
-            resourcesManager = GlobalStorage.instance.resourcesManager;
             resourcesIcons = resourcesManager.GetAllResourcesIcons();
         }        
 
@@ -149,11 +160,11 @@ public class BoxObject : MonoBehaviour
         tooltip.SetStatus(true);
         tooltip.content = visitedContent;
 
-        float luck = GlobalStorage.instance.playerStats.GetCurrentParameter(PlayersStats.Luck);
+        float luck = playerStats.GetCurrentParameter(PlayersStats.Luck);
         multiplier = 1;
         if(Random.Range(0, 101) <= luck)
         {
-            multiplier += GlobalStorage.instance.playerStats.GetCurrentParameter(PlayersStats.DoubleBonusFromBox);
+            multiplier += playerStats.GetCurrentParameter(PlayersStats.DoubleBonusFromBox);
         }
 
         // Handling exp

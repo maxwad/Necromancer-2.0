@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using static NameManager;
+using Zenject;
 
 public class RuneUIItem : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDragHandler
 {
@@ -27,19 +25,20 @@ public class RuneUIItem : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDr
     private Transform currentParent;
     private Transform parentStorage;
 
+    [Inject]
+    public void Construct(RunesSystem runesManager, PlayerPersonalWindow playerMilitaryWindow)
+    {
+        this.runesManager = runesManager;
+        this.runesWindow = playerMilitaryWindow.GetComponentInChildren<RunesWindow>();
+
+        infotip = GetComponent<InfotipTrigger>();
+        canvasGroup = GetComponent<CanvasGroup>();
+        Canvas[] group = playerMilitaryWindow.GetComponentsInChildren<Canvas>();
+        dragdrop = group[group.Length - 1];
+    }
 
     public void Init(RuneSO currentRune)
     {        
-        if(runesWindow == null)
-        {
-            infotip = GetComponent<InfotipTrigger>();
-            canvasGroup = GetComponent<CanvasGroup>();
-            runesManager = GlobalStorage.instance.runesSystem;
-            runesWindow = GlobalStorage.instance.playerMilitaryWindow.GetComponentInChildren<RunesWindow>();
-            Canvas[] group = GlobalStorage.instance.playerMilitaryWindow.GetComponentsInChildren<Canvas>();
-            dragdrop = group[group.Length - 1];
-        }
-
         infotip.SetRune(currentRune);
 
         rune = currentRune;

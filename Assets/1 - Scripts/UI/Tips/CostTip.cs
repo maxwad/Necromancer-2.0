@@ -5,15 +5,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using static NameManager;
+using Zenject;
 
 public class CostTip : MonoBehaviour
 {
     [SerializeField] private RectTransform tipBlock;
-    //private float fullHeigth;
-    //private float differenceHeigth;
-    //private float levelBlockHeigth = 0;
-    //private float resumeHeigth = 0;
-
     [SerializeField] private GameObject levelBlock;
     [SerializeField] private TMP_Text fortressLevel;
 
@@ -27,14 +23,17 @@ public class CostTip : MonoBehaviour
     private ResourcesManager resourcesManager;
     public Dictionary<ResourceType, Sprite> resourcesIcons;
 
+    [Inject]
+    public void Construct(ResourcesManager resourcesManager)
+    {
+        this.resourcesManager = resourcesManager;
+    }
+
     public void Init(BuildingsRequirements requirements)
     {
-        if(resourcesManager == null)
+        if(resourcesIcons == null)
         {
-            resourcesManager = GlobalStorage.instance.resourcesManager;
             resourcesIcons = resourcesManager.GetAllResourcesIcons();
-            //levelBlockHeigth = levelBlock.GetComponent<RectTransform>().rect.height;
-            //fullHeigth = tipBlock.rect.height;
 
             labels = new List<Image>(costBlock.GetComponentsInChildren<Image>());
             amounts = new List<TMP_Text>(costBlock.GetComponentsInChildren<TMP_Text>());
@@ -51,7 +50,6 @@ public class CostTip : MonoBehaviour
             levelBlock.SetActive(!requirements.canIBuild);
             fortressLevel.text = requirements.fortressLevel.ToString();
             fortressLevel.color = (requirements.canIBuild == true) ? allowColor : deniedColor;
-            //differenceHeigth = (requirements.canIBuild == true) ? levelBlockHeigth : 0;
         }
             
         List<Cost> cost = requirements.costs;
@@ -70,8 +68,5 @@ public class CostTip : MonoBehaviour
             amounts[i].color = (checkColor == true) ? allowColor : deniedColor;
             amounts[i].text = cost[i].amount.ToString();
         }
-
-        //resumeHeigth = fullHeigth - differenceHeigth;
-        //tipBlock.SetSizeWithCurrentAnchors( RectTransform.Axis.Vertical, resumeHeigth);
     }
 }

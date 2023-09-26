@@ -4,12 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Zenject;
 using static NameManager;
 
 public class RunePlaceItem : MonoBehaviour, IDropHandler, IPointerClickHandler
 {
     private RunesSystem runesManager;
     private RunesWindow runesWindow;
+    private PlayerStats playerStats;
 
     public Image lockImage;
     public Image bg;
@@ -35,14 +37,24 @@ public class RunePlaceItem : MonoBehaviour, IDropHandler, IPointerClickHandler
     [HideInInspector] public RuneSO currentRune;
     private int allowedLevel = -1;
 
-
-    private void Awake()
+    [Inject]
+    public void Construct(
+        RunesSystem runesManager,
+        PlayerPersonalWindow playerMilitaryWindow,
+        PlayerStats playerStats)
     {
-        runesManager = GlobalStorage.instance.runesSystem;
-        runesWindow = GlobalStorage.instance.playerMilitaryWindow.GetComponentInChildren<RunesWindow>();
+        this.runesManager = runesManager;
+        this.runesWindow = playerMilitaryWindow.GetComponentInChildren<RunesWindow>();
+        this.playerStats = playerStats;
     }
 
-    #region Inits
+    //private void Awake()
+    //{
+    //    runesManager = GlobalStorage.instance.runesSystem;
+    //    runesWindow = GlobalStorage.instance.playerMilitaryWindow.GetComponentInChildren<RunesWindow>();
+    //}
+
+    #region INITS
 
     public void InitCell(bool unlockMode, int row, int cell)
     {
@@ -73,7 +85,7 @@ public class RunePlaceItem : MonoBehaviour, IDropHandler, IPointerClickHandler
             originalColor = activeNegativeColor;
             bg.color = activeNegativeColor;
 
-            if(GlobalStorage.instance.playerStats.GetCurrentParameter(PlayersStats.NegativeCell) > 0)
+            if(playerStats.GetCurrentParameter(PlayersStats.NegativeCell) > 0)
                 lockImage.gameObject.SetActive(false);
             else
             {
@@ -228,11 +240,11 @@ public class RunePlaceItem : MonoBehaviour, IDropHandler, IPointerClickHandler
 
     public void InsertRune(GameObject runeGO, bool loadMode = false)
     {
-        if(runesWindow == null)
-        {
-            runesManager = GlobalStorage.instance.runesSystem;
-            runesWindow = GlobalStorage.instance.playerMilitaryWindow.GetComponentInChildren<RunesWindow>();
-        }
+        //if(runesWindow == null)
+        //{
+        //    runesManager = GlobalStorage.instance.runesSystem;
+        //    runesWindow = GlobalStorage.instance.playerMilitaryWindow.GetComponentInChildren<RunesWindow>();
+        //}
 
         RuneUIItem rune = runeGO.GetComponent<RuneUIItem>();
         currentRune = rune.rune;

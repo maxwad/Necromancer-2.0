@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 using static NameManager;
 
 public class BonusController : MonoBehaviour
 {
     private BoostManager boostManager;
+    private BonusManager bonusManager;
+    private HeroController hero;
 
     private BonusSO bonusSO;
     public BonusType bonusType;
@@ -19,10 +22,22 @@ public class BonusController : MonoBehaviour
     private float inertion = -32f;
     private float currentInertion;
 
-    private BonusManager bonusManager;
     private List<Sprite> currentSpriteList = new List<Sprite>();
     private SimpleAnimator animator;
 
+    [Inject]
+    public void Construct(
+        BoostManager boostManager,
+        BonusManager bonusManager,
+        HeroController hero
+        )
+    {
+        this.boostManager = boostManager;
+        this.bonusManager = bonusManager;
+        this.hero = hero;
+
+        animator = GetComponent<SimpleAnimator>();
+    }
 
     private void Awake()
     {
@@ -33,7 +48,6 @@ public class BonusController : MonoBehaviour
     public void Init(bool specialMode, BonusSO bonus, float forceValue = 0)
     {
         if(bonus == null) return;
-        if(boostManager == null) boostManager = GlobalStorage.instance.boostManager;
 
         ResetBonusValue();
 
@@ -73,7 +87,7 @@ public class BonusController : MonoBehaviour
 
     private IEnumerator ToThePlayer()
     {
-        player = GlobalStorage.instance.hero.gameObject;
+        player = hero.gameObject;
         while(player.activeInHierarchy == true && isActivate == true)
         {
             float step = (speed + currentInertion) * Time.deltaTime;
@@ -141,12 +155,6 @@ public class BonusController : MonoBehaviour
         EventManager.Victory += ActivatateBonus;
         EventManager.EndOfBattle += DestroyMe;
         EventManager.SetBattleBoost += UpgradeParameters;
-
-        if(animator == null)
-        {
-            bonusManager = GlobalStorage.instance.bonusManager;
-            animator = GetComponent<SimpleAnimator>();
-        }
     }
 
     private void OnDisable()

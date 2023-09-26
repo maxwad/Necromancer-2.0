@@ -1,9 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using static NameManager;
+using Zenject;
 
 public class BattleUIExpPart : MonoBehaviour
 {
@@ -25,10 +24,15 @@ public class BattleUIExpPart : MonoBehaviour
     [SerializeField] private Color inactiveTempLevelColor;
     private List<Image> levelList = new List<Image>();
 
+    [Inject]
+    public void Construct(MacroLevelUpManager levelManager)
+    {
+        this.levelManager = levelManager;
+    }
+
     public void Init(BattleUIManager manager)
     {
         battleUIManager = manager;
-        levelManager = GlobalStorage.instance.macroLevelUpManager;
     }
 
     public void FillRigthTempLevelScale()

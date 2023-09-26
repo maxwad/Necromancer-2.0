@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 using static NameManager;
+using Zenject;
 
 public class BossController : MonoBehaviour
 {
@@ -34,16 +35,28 @@ public class BossController : MonoBehaviour
 
     #region HELPERS
 
-    public void Init(float maxHealth, Sprite pict)
+    [Inject]
+    public void Construct
+        (
+        BattleArmyController player,
+        ObjectsPoolManager poolManager,
+        BoostManager boostManager,
+        RunesSystem runesManager,
+        BattleUIManager battleUIManager
+        )
     {
-        battleUIManager = GlobalStorage.instance.battleIUManager;
+        this.player = player;
+        this.poolManager = poolManager;
+        this.boostManager = boostManager;
+        this.runesManager = runesManager;
+        this.battleUIManager = battleUIManager;
+
         movementScript = GetComponent<EnemyMovement>();
         animatorScript = GetComponent<SimpleAnimator>();
-        player = GlobalStorage.instance.battlePlayer;
-        runesManager = GlobalStorage.instance.runesSystem;
-        boostManager = GlobalStorage.instance.boostManager;
-        poolManager = GlobalStorage.instance.objectsPoolManager;
+    }
 
+    public void Init(float maxHealth, Sprite pict)
+    {
         healthMax = maxHealth;
         sprite = pict;
         rune = runesManager.runesStorage.GetRuneForBoss();
@@ -52,7 +65,7 @@ public class BossController : MonoBehaviour
         ApplyRune(false);
 
         weaponType = (BossWeapons)UnityEngine.Random.Range(0, Enum.GetValues(typeof(BossWeapons)).Length);
-        //weaponType = (BossWeapons)3;
+        weaponType = (BossWeapons)0;
 
         waitCoroutine = StartCoroutine(Waiting());
     }
@@ -64,12 +77,16 @@ public class BossController : MonoBehaviour
    
     public void BossDeath(bool runeDeleting)
     {
-        if(runeDeleting == true) DeleteRune();
+        if(runeDeleting == true) 
+            DeleteRune();
 
         battleUIManager.enemyPart.UnRegisterBoss(this, true);
 
-        if(waitCoroutine != null) StopCoroutine(waitCoroutine);
-        if(weapon != null) weapon.SetActive(false);
+        if(waitCoroutine != null) 
+            StopCoroutine(waitCoroutine);
+
+        if(weapon != null) 
+            weapon.SetActive(false);
 
     }
 

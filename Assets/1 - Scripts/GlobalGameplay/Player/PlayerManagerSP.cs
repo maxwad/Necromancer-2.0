@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 using static NameManager;
 
 public partial class PlayerManager : ISaveable
@@ -25,13 +26,20 @@ public partial class PlayerManager : ISaveable
         }
     }
 
-    private void Awake()
+    [Inject]
+    public void Construct(
+        PlayersArmy playersArmy,
+        GMPlayerMovement playerMovement,
+        MacroLevelUpManager levelUpManager,
+        SpellManager spellManager,
+        RunesSystem runesSystem
+        )
     {
-        playerMovement = GetComponentInChildren<GMPlayerMovement>(true);
-        playersArmy = GetComponent<PlayersArmy>();
-        levelUpManager = GlobalStorage.instance.macroLevelUpManager;
-        spellManager = GlobalStorage.instance.spellManager;
-        runesSystem = GlobalStorage.instance.runesSystem;
+        this.playersArmy = playersArmy;
+        this.playerMovement = playerMovement;
+        this.levelUpManager = levelUpManager;
+        this.spellManager = spellManager;
+        this.runesSystem = runesSystem;
     }
 
     public void SetId(int id)

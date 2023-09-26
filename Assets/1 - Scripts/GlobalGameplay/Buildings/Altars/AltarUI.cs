@@ -3,12 +3,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using static NameManager;
+using Zenject;
 
 public class AltarUI : MonoBehaviour
 {
     private PlayerStats playerStats;
     private ResourcesManager resourcesManager;
-    private GMInterface gmInterface;
     private CanvasGroup canvas;
     [HideInInspector] public Altar currentAltar;
     private AltarMiniGame gameScript;
@@ -49,14 +49,19 @@ public class AltarUI : MonoBehaviour
     [SerializeField] private Color rigthColor;
     [SerializeField] private Color warningColor;
 
+    [Inject]
+    public void Construct(PlayerStats playerStats, ResourcesManager resourcesManager)
+    {
+        this.playerStats = playerStats;
+        this.resourcesManager = resourcesManager;
+
+        canvas = uiPanel.GetComponent<CanvasGroup>();
+        gameScript = GetComponent<AltarMiniGame>();
+    }
+
     private void Start()
     {
-        playerStats      = GlobalStorage.instance.playerStats;
-        resourcesManager = GlobalStorage.instance.resourcesManager;
         resourcesIcons   = resourcesManager.GetAllResourcesIcons();
-        gmInterface      = GlobalStorage.instance.gmInterface;
-        canvas           = uiPanel.GetComponent<CanvasGroup>();
-        gameScript       = GetComponent<AltarMiniGame>();
     }
     
     private void Init()

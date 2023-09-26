@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Zenject;
 
 public class EnvironmentRegister : MonoBehaviour
 {
@@ -9,15 +10,20 @@ public class EnvironmentRegister : MonoBehaviour
 
     public Tilemap environmentMap;
 
-    public void Registration(GlobalMapTileManager manager)
-    {
-        if(gmManager == null) gmManager = manager;
 
+    [Inject]
+    public void Construct(GlobalMapTileManager gmManager)
+    {
+        this.gmManager = gmManager;
+    }
+
+    public void Registration()
+    {
         foreach(Transform child in environmentMap.transform)
         {
             if(child.GetComponent<ClickableObject>() != null)
             {
-                manager.AddBuildingToAllOnTheMap(child.gameObject);
+                gmManager.AddBuildingToAllOnTheMap(child.gameObject);
             }
             else
             {
@@ -25,7 +31,7 @@ public class EnvironmentRegister : MonoBehaviour
                 {
                     if(underChild.GetComponent<ClickableObject>() != null)
                     {
-                        manager.AddBuildingToAllOnTheMap(underChild.gameObject);
+                        gmManager.AddBuildingToAllOnTheMap(underChild.gameObject);
                     }
                 }
             }

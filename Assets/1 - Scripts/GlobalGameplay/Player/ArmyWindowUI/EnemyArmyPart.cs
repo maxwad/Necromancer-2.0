@@ -4,12 +4,14 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using static NameManager;
+using Zenject;
 
 public class EnemyArmyPart : MonoBehaviour
 {
-    public EnemyManager enemyManager;
-    public GameObject uiPanel;
+    private EnemyManager enemyManager;
+    private PlayerStats playerStats;
     private EnemyArmyOnTheMap currentEnemyArmy;
+    public GameObject uiPanel;
     public List<EnemiesTypes> currentEnemiesList = new List<EnemiesTypes>();
     public List<int> currentEnemiesQuantityList = new List<int>();
 
@@ -30,11 +32,16 @@ public class EnemyArmyPart : MonoBehaviour
 
     private float playerCuriosity;
 
+    [Inject]
+    public void Construct(EnemyManager enemyManager, PlayerStats playerStats)
+    {
+        this.enemyManager = enemyManager;
+        this.playerStats = playerStats;
+    }
+
     public void Init(EnemyArmyOnTheMap enemyArmy)
     {
         if(enemyArmy == null) return;
-
-        if(enemyManager == null) enemyManager = GlobalStorage.instance.enemyManager;
 
         currentEnemyArmy = enemyArmy;
         currentEnemiesList = enemyArmy.army.squadList;
@@ -48,8 +55,10 @@ public class EnemyArmyPart : MonoBehaviour
     {
         if(currentEnemyArmy != null)
         {
-            playerCuriosity = GlobalStorage.instance.playerStats.GetCurrentParameter(PlayersStats.Curiosity);
-            if(allEnemiesList.Count == 0) allEnemiesList = enemyManager.GetEnemiesList();
+            playerCuriosity = playerStats.GetCurrentParameter(PlayersStats.Curiosity);
+
+            if(allEnemiesList.Count == 0) 
+                allEnemiesList = enemyManager.GetEnemiesList();
 
             if(playerCuriosity < 1)
                 ShowMinimumInfo();

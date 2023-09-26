@@ -4,11 +4,14 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
 using static NameManager;
+using Zenject;
 
 public class SpellButtonController : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     private ResourcesManager resourcesManager;
     private BoostManager boostManager;
+    private HeroController hero;
+    private SpellLibrary spellLibrary;
     private BattleUISpellPart battleUISpellPart;
     private PreSpellLibrary preSpellLibrary;
 
@@ -34,20 +37,27 @@ public class SpellButtonController : MonoBehaviour, IPointerEnterHandler, IPoint
     private WaitForSeconds checkManaPeriod;
     private WaitForSeconds checkDelay;
 
-    private HeroController hero;
-    private SpellLibrary spellLibrary;
-
     [SerializeField] private TooltipTrigger tooltipTrigger;
     [SerializeField] private InfotipTrigger infotip;
 
+    [Inject]
+    public void Construct(
+            ResourcesManager resourcesManager,
+            BoostManager boostManager,
+            HeroController hero,
+            SpellManager spellManager
+        )
+    {
+        this.resourcesManager = resourcesManager;
+        this.boostManager = boostManager;
+        this.hero = hero;
+
+        spellLibrary = spellManager.GetComponent<SpellLibrary>();
+        preSpellLibrary = spellLibrary.GetComponent<PreSpellLibrary>();
+    }
+
     public void PreInit(BattleUISpellPart uiPart, int numberOfSlot)
     {
-        hero = GlobalStorage.instance.hero;
-        spellLibrary = GlobalStorage.instance.spellManager.GetComponent<SpellLibrary>();
-        preSpellLibrary = spellLibrary.GetComponent<PreSpellLibrary>();
-        resourcesManager = GlobalStorage.instance.resourcesManager;
-        boostManager = GlobalStorage.instance.boostManager;
-
         tooltipTrigger.enabled = true;
         tooltipTrigger.content = "This slot is empty";
         infotip.enabled = false;

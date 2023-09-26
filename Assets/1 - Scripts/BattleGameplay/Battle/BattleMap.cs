@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Zenject;
 using static NameManager;
 
 public class BattleMap : MonoBehaviour
@@ -54,16 +55,28 @@ public class BattleMap : MonoBehaviour
     public GameObject torchPrefab;
     private BattleObjectStats torchStats;
 
-
     [Header("Enemy")]
     private EnemySpawner enemySpawner;
     private Army currentArmy;
 
+    private ObjectsPoolManager objectsPoolManager;
+    private BattleManager battleManager;
+
+    [Inject]
+    public void Construct
+        (
+        BattleArmyController player,
+        ObjectsPoolManager objectsPoolManager,
+        BattleManager battleManager
+        )
+    {
+        this.player = player.gameObject;
+        this.objectsPoolManager = objectsPoolManager;
+        this.battleManager = battleManager;
+    }
 
     private void Start()
     {
-        player = GlobalStorage.instance.battlePlayer.gameObject;
-
         towerStats = towersPrefab.GetComponent<BattleObjectStats>();
         torchStats = torchPrefab.GetComponent<BattleObjectStats>();
 
@@ -73,13 +86,13 @@ public class BattleMap : MonoBehaviour
         enemySpawner = GetComponent<EnemySpawner>();
     }
 
-    private void Update()
-    {
-        if (readyToCheckObstacles == true)
-        {
-            //CheckObstaclesOnBattle();
-        }
-    }
+    //private void Update()
+    //{
+    //    if (readyToCheckObstacles == true)
+    //    {
+    //        CheckObstaclesOnBattle();
+    //    }
+    //}
 
     public void InitializeMap(bool mode)
     {
@@ -88,8 +101,11 @@ public class BattleMap : MonoBehaviour
             GetBattleData();
             DrawTheBackgroundMap();
 
-            if (currentArmy.isThisASiege == true) DrawObjects(towersPrefab, towerContainer, towerStats, towersOnMap, quantityOfTowers);
+            if (currentArmy.isThisASiege == true) 
+                DrawObjects(towersPrefab, towerContainer, towerStats, towersOnMap, quantityOfTowers);
+
             DrawObstacles();
+
             DrawObjects(torchPrefab, null, torchStats, torchesOnMap, quantityOfTorches);
             //MarkFilledCells();
 
@@ -322,18 +338,22 @@ public class BattleMap : MonoBehaviour
 
                 GameObject obj;
 
-                if (prefab.GetComponent<HealthObjectStats>().isFromPool == true)
+                if (prefab.GetComponent<HealthObjectStats>().isFreguentObject == true)
                 {
-                    obj = GlobalStorage.instance.objectsPoolManager.GetObject(ObjectPool.Torch);
-                    obj.transform.position = new Vector3(randomX, randomY, spawnZOffset);
-                    obj.SetActive(true);
+                    obj = objectsPoolManager.GetObject(ObjectPool.Torch);
                 }
                 else
                 {
-                    obj = Instantiate(prefab, new Vector3(randomX, randomY, spawnZOffset), Quaternion.identity);
-                    if (container != null) obj.transform.SetParent(container.transform);
+                    obj = objectsPoolManager.GetUnusualPrefab(prefab);                    
                 }
-                
+
+                if(container != null)
+                    obj.transform.SetParent(container.transform);
+
+                obj.transform.position = new Vector3(randomX, randomY, spawnZOffset);
+                obj.transform.rotation = Quaternion.identity;
+                obj.SetActive(true);
+
                 objectsOnMap.Add(obj);
 
                 FillCells(randomX, randomY, objectSizeX, objectSizeY, objectGap, false);                
@@ -370,11 +390,11 @@ public class BattleMap : MonoBehaviour
 
         //objects from pool have ObjectPoolManager as a parent!
 
-        foreach (Transform child in obstaclesContainer.transform)
-            Destroy(child.gameObject);
+        foreach(Transform child in obstaclesContainer.transform)
+            child.gameObject.SetActive(false);
 
         foreach (Transform child in towerContainer.transform)
-            Destroy(child.gameObject);
+            child.gameObject.SetActive(false);
 
         for (int i = 0; i < battleArray.GetLength(0); i++)
         {
@@ -426,7 +446,7 @@ public class BattleMap : MonoBehaviour
 
     public void GetBattleData()
     {
-        Vector3Int size = GlobalStorage.instance.battleManager.GetBattleMapSize();
+        Vector3Int size = battleManager.GetBattleMapSize();
         sizeX = size.x;
         sizeY = size.y;
 
@@ -436,7 +456,7 @@ public class BattleMap : MonoBehaviour
         player.transform.position = new Vector3 ((sizeX + 2 * widthOfBound) / 2, (sizeY + 2 * widthOfBound) / 2, spawnZOffset);
 
         quantityOfTorches = (sizeX * sizeY * torchQuotePerSomeCells) / someCells;
-        currentArmy = GlobalStorage.instance.battleManager.GetArmy();
+        currentArmy = battleManager.GetArmy();
     }
 
     private void ClearSpaceUnderObject(GameObject obj)
@@ -462,7 +482,7 @@ public class BattleMap : MonoBehaviour
         if (objHealthStats.typeOfObject == ObstacleTypes.Tower)
         {
             towersOnMap.Remove(obj);
-            Destroy(obj);
+            obj.SetActive(false);
         }
 
         //MarkFilledCells();

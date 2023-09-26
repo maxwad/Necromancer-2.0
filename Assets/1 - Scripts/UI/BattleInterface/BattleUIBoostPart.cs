@@ -1,10 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Zenject;
 using static NameManager;
-using System;
 
 public class BattleUIBoostPart : MonoBehaviour
 {
@@ -27,11 +26,16 @@ public class BattleUIBoostPart : MonoBehaviour
     [SerializeField] private TooltipTrigger runeTip;
     [SerializeField] private CanvasGroup runeCanvas;
 
+    [Inject]
+    public void Construct(BoostManager boostManager, ObjectsPoolManager objectsPool)
+    {
+        this.boostManager = boostManager;
+        this.objectsPool = objectsPool;
+    }
+
     public void Init(BattleUIManager manager)
     {
         battleUIManager = manager;
-        objectsPool = GlobalStorage.instance.objectsPoolManager;
-        boostManager = GlobalStorage.instance.boostManager;
     }
 
     public void FillPlayerBoost()

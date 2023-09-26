@@ -1,7 +1,7 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 using static NameManager;
 
 public partial class VassalTargetSelector : MonoBehaviour
@@ -37,17 +37,26 @@ public partial class VassalTargetSelector : MonoBehaviour
 
     private WaitForSeconds delay = new WaitForSeconds(0.15f);
 
+    [Inject]
+    public void Construct(
+        FortressBuildings fortressBuildings,
+        EnemyManager enemyManager,
+        GMPlayerMovement player
+        )
+    {
+        this.fortress = fortressBuildings;
+        this.player = player.gameObject;
+        this.enemyManager = enemyManager;
+
+        vassalsArmy = GetComponent<EnemyArmyOnTheMap>();
+    }
+
     public void Init(Vassal vassal, VassalPathfinder pf, VassalMovement mv, VassalAnimation anim)
     {
         mainAI     = vassal;
         pathfinder = pf;
         movement   = mv;
         animScript = anim;
-
-        vassalsArmy  = GetComponent<EnemyArmyOnTheMap>();
-        enemyManager = GlobalStorage.instance.enemyManager;
-        fortress     = GlobalStorage.instance.fortressBuildings;
-        player       = GlobalStorage.instance.globalPlayer.gameObject;
 
         currentTriesToGetTarget = tryToGetTarget;
 
@@ -69,27 +78,11 @@ public partial class VassalTargetSelector : MonoBehaviour
         tryToGetTarget = (int)(tryToGetTarget * (1 + increasePercent));
     }
 
-    //public void InsertAction(AITargetType action, bool insertMode)
-    //{
-    //    if(insertMode == true)
-    //    {
-    //        if(targetList.Contains(action) == false)
-    //            targetList.Add(action);
-    //    }
-    //    else
-    //    {
-    //        if(targetList.Contains(action) == true)
-    //            targetList.Remove(action);
-    //    }
-    //}
-
     public void SelectTESTTarget()
     {
-        Debug.Log(currentTarget + " is impossible now.");
         shouldIContinueAction = true;
         // change delta for skipping some target
         currentTarget = targetList[UnityEngine.Random.Range(0, targetList.Count)];
-        Debug.Log("New Target: " + currentTarget);
         CreateActionsQueue();
         GetNextAction();
     }

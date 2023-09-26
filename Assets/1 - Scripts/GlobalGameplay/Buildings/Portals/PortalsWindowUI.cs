@@ -3,12 +3,17 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using static NameManager;
+using Zenject;
 
 public class PortalsWindowUI : MonoBehaviour, IInputableKeys
 {
     [SerializeField] private GameObject uiPanel;
     private CanvasGroup canvas;
     private InputSystem inputSystem;
+    private PortalsManager portalsManager;
+    private ResourcesManager resourcesManager;
+    private GMPlayerMovement globalPlayer;
+    private GlobalMapTileManager gmManager;
 
     private bool isWindowOpened = false;
 
@@ -16,8 +21,6 @@ public class PortalsWindowUI : MonoBehaviour, IInputableKeys
     private Dictionary<GameObject, bool> allPortals = new Dictionary<GameObject, bool>();
     private bool isPortablePortal = false;
     private float portalsKnowledge = 0;
-    private PortalsManager portalsManager;
-    private ResourcesManager resourcesManager;
 
     [SerializeField] private TMP_Text caption;   
 
@@ -52,13 +55,26 @@ public class PortalsWindowUI : MonoBehaviour, IInputableKeys
     public Color activeColor;
     public Color deactiveColor;
 
-    private void Start()
+    [Inject]
+    public void Construct(InputSystem inputSystem,
+        PortalsManager portalsManager,
+        ResourcesManager resourcesManager,
+        PlayerStats playerStats,
+        GMPlayerMovement globalPlayer,
+        GlobalMapTileManager gmManager
+        )
     {
-        playerStats = GlobalStorage.instance.playerStats;
-        resourcesManager = GlobalStorage.instance.resourcesManager;
-        portalsManager = GlobalStorage.instance.portalsManager;
+        this.inputSystem      = inputSystem;
+        this.portalsManager   = portalsManager;
+        this.resourcesManager = resourcesManager;
+        this.playerStats      = playerStats;
+        this.globalPlayer     = globalPlayer;
+        this.gmManager        = gmManager;
 
         canvas = uiPanel.GetComponent<CanvasGroup>();
+    }
+    private void Start()
+    {
         CreateStartParameters();
 
         RegisterInputKeys();
@@ -66,7 +82,6 @@ public class PortalsWindowUI : MonoBehaviour, IInputableKeys
 
     public void RegisterInputKeys()
     {
-        inputSystem = GlobalStorage.instance.inputSystem;
         inputSystem.RegisterInputKeys(KeyActions.Teleport, this);
     }
 
@@ -129,7 +144,7 @@ public class PortalsWindowUI : MonoBehaviour, IInputableKeys
             caption.text = portalsManager.GetCurrentPortal().gameObject.name;
 
         portalsKnowledge = playerStats.GetCurrentParameter(PlayersStats.Portal);
-        playerIcon.anchoredPosition = CalculateIconPosition(GlobalStorage.instance.globalPlayer.transform.position);
+        playerIcon.anchoredPosition = CalculateIconPosition(globalPlayer.transform.position);
 
         textDirectlyCost.text = portalsManager.toCertainTeleportCost.ToString();
         textDirectlyCost.color = normalColor;
@@ -243,7 +258,7 @@ public class PortalsWindowUI : MonoBehaviour, IInputableKeys
 
     private void CreateStartParameters()
     {
-        mapSize = GlobalStorage.instance.gmManager.mapBG.size;
+        mapSize = gmManager.mapBG.size;
         mapUISize.x = buttonMap.GetComponent<RectTransform>().rect.width;
         mapUISize.y = buttonMap.GetComponent<RectTransform>().rect.height;        
 
@@ -284,7 +299,7 @@ public class PortalsWindowUI : MonoBehaviour, IInputableKeys
     private Vector3 CalculateIconPosition(Vector3 portalPosition)
     {
         float rate = mapUISize.x / mapSize.x;
-        Vector3Int posOnCell = GlobalStorage.instance.gmManager.mapBG.WorldToCell(portalPosition);
+        Vector3Int posOnCell = gmManager.mapBG.WorldToCell(portalPosition);
 
         return new Vector3(posOnCell.x, posOnCell.y, 0) * rate;
     }
