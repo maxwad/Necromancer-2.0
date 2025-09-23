@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-using static NameManager;
+using static Enums;
 
 public abstract class SpecialBuilding : MonoBehaviour
 {

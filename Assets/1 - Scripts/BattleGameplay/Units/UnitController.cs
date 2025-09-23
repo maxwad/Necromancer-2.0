@@ -1,6 +1,6 @@
 using UnityEngine;
 using TMPro;
-using static NameManager;
+using static Enums;
 using System.Collections;
 using System;
 using Zenject;

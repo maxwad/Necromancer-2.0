@@ -867,7 +867,7 @@ TextureImporter:
       213: 7655475011828907550
     second: Abilities Icons (Inactive)_287
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -884,10 +884,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -897,8 +899,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -926,6 +928,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -937,6 +941,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -949,6 +954,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -961,6 +967,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -973,6 +980,20 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
@@ -7036,9 +7057,297 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-  spritePackingTag: 
+    nameFileIdTable:
+      Abilities Icons (Inactive)_0: 4159476383217997386
+      Abilities Icons (Inactive)_1: 2215372290286811835
+      Abilities Icons (Inactive)_10: 4695681477916757925
+      Abilities Icons (Inactive)_100: -346449308290981752
+      Abilities Icons (Inactive)_101: 3435143946717776963
+      Abilities Icons (Inactive)_102: -1650924507893449720
+      Abilities Icons (Inactive)_103: 2343108928849504525
+      Abilities Icons (Inactive)_104: 674324698977221459
+      Abilities Icons (Inactive)_105: 4269963506636997267
+      Abilities Icons (Inactive)_106: -4984331486207475403
+      Abilities Icons (Inactive)_107: 8235638993605125332
+      Abilities Icons (Inactive)_108: -5378959431668570821
+      Abilities Icons (Inactive)_109: -7753721722637369680
+      Abilities Icons (Inactive)_11: 5441845971950400531
+      Abilities Icons (Inactive)_110: 7195525275188718610
+      Abilities Icons (Inactive)_111: -1371021556273102822
+      Abilities Icons (Inactive)_112: 2555228590212322043
+      Abilities Icons (Inactive)_113: -5414866961838093168
+      Abilities Icons (Inactive)_114: 6520617143533528245
+      Abilities Icons (Inactive)_115: -5362405092743808250
+      Abilities Icons (Inactive)_116: 2800596303991262108
+      Abilities Icons (Inactive)_117: -3161277403922978382
+      Abilities Icons (Inactive)_118: 2830244864234853591
+      Abilities Icons (Inactive)_119: 4114260440724795249
+      Abilities Icons (Inactive)_12: 5124068917551714664
+      Abilities Icons (Inactive)_120: 2542589854651008678
+      Abilities Icons (Inactive)_121: -3366813531997286222
+      Abilities Icons (Inactive)_122: 7220173164116165746
+      Abilities Icons (Inactive)_123: -6167396376176464799
+      Abilities Icons (Inactive)_124: -3882161878070793778
+      Abilities Icons (Inactive)_125: -3659670812821696642
+      Abilities Icons (Inactive)_126: 3679514428516553488
+      Abilities Icons (Inactive)_127: 7176519566299669485
+      Abilities Icons (Inactive)_128: -1996854571063780362
+      Abilities Icons (Inactive)_129: 3174467517835348979
+      Abilities Icons (Inactive)_13: -835126796913076466
+      Abilities Icons (Inactive)_130: -7260292259951059529
+      Abilities Icons (Inactive)_131: 8100323886242900162
+      Abilities Icons (Inactive)_132: -4677744131835296243
+      Abilities Icons (Inactive)_133: -6292864153922878629
+      Abilities Icons (Inactive)_134: -2774841285692986794
+      Abilities Icons (Inactive)_135: 734095841451755935
+      Abilities Icons (Inactive)_136: -8015355723912385141
+      Abilities Icons (Inactive)_137: -3604976760181300146
+      Abilities Icons (Inactive)_138: -6492657198755516748
+      Abilities Icons (Inactive)_139: -979814638561915398
+      Abilities Icons (Inactive)_14: 5496877716969684670
+      Abilities Icons (Inactive)_140: 179199425004495296
+      Abilities Icons (Inactive)_141: 4283520008407083466
+      Abilities Icons (Inactive)_142: -5175582622196561712
+      Abilities Icons (Inactive)_143: -2040941410745875326
+      Abilities Icons (Inactive)_144: 6180160239203069204
+      Abilities Icons (Inactive)_145: 5147491945923066374
+      Abilities Icons (Inactive)_146: -7122834044152699686
+      Abilities Icons (Inactive)_147: 7462020055656046795
+      Abilities Icons (Inactive)_148: -678026269552015909
+      Abilities Icons (Inactive)_149: 6281960152980441182
+      Abilities Icons (Inactive)_15: -5373929994478169714
+      Abilities Icons (Inactive)_150: 2262567241301024584
+      Abilities Icons (Inactive)_151: -5879513109568741904
+      Abilities Icons (Inactive)_152: -5128654088315169079
+      Abilities Icons (Inactive)_153: 3988070535041642328
+      Abilities Icons (Inactive)_154: -4990739195781944352
+      Abilities Icons (Inactive)_155: -5694992323556445504
+      Abilities Icons (Inactive)_156: 8325840893488052044
+      Abilities Icons (Inactive)_157: -3057057298042063049
+      Abilities Icons (Inactive)_158: 3141254175971837198
+      Abilities Icons (Inactive)_159: 9202995822883577916
+      Abilities Icons (Inactive)_16: 5869312702734062638
+      Abilities Icons (Inactive)_160: 1493133182319687444
+      Abilities Icons (Inactive)_161: 7171548925534274401
+      Abilities Icons (Inactive)_162: -8854841869220102832
+      Abilities Icons (Inactive)_163: 5358866250805651070
+      Abilities Icons (Inactive)_164: 240639589720313225
+      Abilities Icons (Inactive)_165: -6461958180757530643
+      Abilities Icons (Inactive)_166: 8519149124508386124
+      Abilities Icons (Inactive)_167: 4447089909058141723
+      Abilities Icons (Inactive)_168: -8741734300192178078
+      Abilities Icons (Inactive)_169: 8120984496780242809
+      Abilities Icons (Inactive)_17: 5089182974293020654
+      Abilities Icons (Inactive)_170: -3942414200307925997
+      Abilities Icons (Inactive)_171: 1416722200438489942
+      Abilities Icons (Inactive)_172: -2119393571847977804
+      Abilities Icons (Inactive)_173: -8035507907543322037
+      Abilities Icons (Inactive)_174: -4268439595408507306
+      Abilities Icons (Inactive)_175: -5677199862889737109
+      Abilities Icons (Inactive)_176: 6111373913081943781
+      Abilities Icons (Inactive)_177: -2842040327623056109
+      Abilities Icons (Inactive)_178: -113779281116380953
+      Abilities Icons (Inactive)_179: -1145507396803863323
+      Abilities Icons (Inactive)_18: -3859831542855257255
+      Abilities Icons (Inactive)_180: 8333201735923517128
+      Abilities Icons (Inactive)_181: 8489863229121659953
+      Abilities Icons (Inactive)_182: -7147653856249287187
+      Abilities Icons (Inactive)_183: 3033781476540374390
+      Abilities Icons (Inactive)_184: -510288388489732256
+      Abilities Icons (Inactive)_185: -7744059071262020615
+      Abilities Icons (Inactive)_186: 2077018587533090451
+      Abilities Icons (Inactive)_187: -7407898162832557026
+      Abilities Icons (Inactive)_188: 7475150693999895678
+      Abilities Icons (Inactive)_189: -4630904953675758438
+      Abilities Icons (Inactive)_19: 896753930949846673
+      Abilities Icons (Inactive)_190: -3824996251181127707
+      Abilities Icons (Inactive)_191: 4265078252532668467
+      Abilities Icons (Inactive)_192: 1925801047167689545
+      Abilities Icons (Inactive)_193: -5448270473616572367
+      Abilities Icons (Inactive)_194: 930021834287925646
+      Abilities Icons (Inactive)_195: -6291822271378103696
+      Abilities Icons (Inactive)_196: -8260410508824698062
+      Abilities Icons (Inactive)_197: -403691100932914641
+      Abilities Icons (Inactive)_198: -4660202243180697417
+      Abilities Icons (Inactive)_199: -7020398258683106476
+      Abilities Icons (Inactive)_2: 8121005372637932667
+      Abilities Icons (Inactive)_20: 6699443428437856705
+      Abilities Icons (Inactive)_200: 5728444845357625898
+      Abilities Icons (Inactive)_201: 4010215182954735211
+      Abilities Icons (Inactive)_202: -8207883572169893072
+      Abilities Icons (Inactive)_203: -1598635049246798745
+      Abilities Icons (Inactive)_204: -5873312828356952092
+      Abilities Icons (Inactive)_205: -2181460386895758954
+      Abilities Icons (Inactive)_206: -2361032349244963199
+      Abilities Icons (Inactive)_207: 1780257452781039801
+      Abilities Icons (Inactive)_208: -6562058647953947737
+      Abilities Icons (Inactive)_209: 2029187753830340681
+      Abilities Icons (Inactive)_21: 9098507038658897026
+      Abilities Icons (Inactive)_210: 8081014487627968178
+      Abilities Icons (Inactive)_211: -6510529885851885647
+      Abilities Icons (Inactive)_212: 455251735115914214
+      Abilities Icons (Inactive)_213: 1943227006397187470
+      Abilities Icons (Inactive)_214: 5109121562235313212
+      Abilities Icons (Inactive)_215: 363534107804646124
+      Abilities Icons (Inactive)_216: -3561670514343637479
+      Abilities Icons (Inactive)_217: -1831170190740075678
+      Abilities Icons (Inactive)_218: -2940796089733285982
+      Abilities Icons (Inactive)_219: -6104760065474877617
+      Abilities Icons (Inactive)_22: -7775079168623103626
+      Abilities Icons (Inactive)_220: 2572376919543012271
+      Abilities Icons (Inactive)_221: -1607644681399955196
+      Abilities Icons (Inactive)_222: -1368336686500714815
+      Abilities Icons (Inactive)_223: -4306795202658485801
+      Abilities Icons (Inactive)_224: 26178859298586020
+      Abilities Icons (Inactive)_225: -8221919023122571739
+      Abilities Icons (Inactive)_226: 4103145950143287506
+      Abilities Icons (Inactive)_227: -1722282272913555127
+      Abilities Icons (Inactive)_228: -2383566528933614526
+      Abilities Icons (Inactive)_229: 2396651677855526814
+      Abilities Icons (Inactive)_23: -5271148590958383732
+      Abilities Icons (Inactive)_230: -8284937228648027522
+      Abilities Icons (Inactive)_231: 1224452527437982658
+      Abilities Icons (Inactive)_232: -2313018446324877154
+      Abilities Icons (Inactive)_233: 6467137794347002592
+      Abilities Icons (Inactive)_234: 402384123866579005
+      Abilities Icons (Inactive)_235: -3755741648680038170
+      Abilities Icons (Inactive)_236: -6504233526523917591
+      Abilities Icons (Inactive)_237: -6212559742118782592
+      Abilities Icons (Inactive)_238: -3675769534442266751
+      Abilities Icons (Inactive)_239: -8371374198757067171
+      Abilities Icons (Inactive)_24: 1851267830543674710
+      Abilities Icons (Inactive)_240: -5341403869690050981
+      Abilities Icons (Inactive)_241: 6416247583417454773
+      Abilities Icons (Inactive)_242: -3437351464404692237
+      Abilities Icons (Inactive)_243: 2510739877397984315
+      Abilities Icons (Inactive)_244: 1486232596452381449
+      Abilities Icons (Inactive)_245: -1914184119971455293
+      Abilities Icons (Inactive)_246: 2475255995481766878
+      Abilities Icons (Inactive)_247: 5200258716088480064
+      Abilities Icons (Inactive)_248: 7227624190967254974
+      Abilities Icons (Inactive)_249: -5580643262751444609
+      Abilities Icons (Inactive)_25: 3728271674416352088
+      Abilities Icons (Inactive)_250: 234150554505766125
+      Abilities Icons (Inactive)_251: -7338135337967956737
+      Abilities Icons (Inactive)_252: 1167551609970296230
+      Abilities Icons (Inactive)_253: 5725653410381802078
+      Abilities Icons (Inactive)_254: -4520437047599878689
+      Abilities Icons (Inactive)_255: -5980148273204929110
+      Abilities Icons (Inactive)_256: 3354182360599624194
+      Abilities Icons (Inactive)_257: 1213286007894800765
+      Abilities Icons (Inactive)_258: 3815801168451344741
+      Abilities Icons (Inactive)_259: -6308803670538783706
+      Abilities Icons (Inactive)_26: 7196518245228134011
+      Abilities Icons (Inactive)_260: 3628280268023893955
+      Abilities Icons (Inactive)_261: -5237855509195931624
+      Abilities Icons (Inactive)_262: -4099364759933350995
+      Abilities Icons (Inactive)_263: -5029718259782766102
+      Abilities Icons (Inactive)_264: -7816731962717369739
+      Abilities Icons (Inactive)_265: -6639469545547054464
+      Abilities Icons (Inactive)_266: 6289774116108462859
+      Abilities Icons (Inactive)_267: 6730332041374683487
+      Abilities Icons (Inactive)_268: 2987853908326028758
+      Abilities Icons (Inactive)_269: 2091273988203530044
+      Abilities Icons (Inactive)_27: -8251309438438452782
+      Abilities Icons (Inactive)_270: 1273026544936422387
+      Abilities Icons (Inactive)_271: 7752503549737303781
+      Abilities Icons (Inactive)_272: 1617462275120628488
+      Abilities Icons (Inactive)_273: 551698477334685344
+      Abilities Icons (Inactive)_274: -7394530238662550153
+      Abilities Icons (Inactive)_275: 6759455613929079252
+      Abilities Icons (Inactive)_276: -388042184384730254
+      Abilities Icons (Inactive)_277: 8587347019230206618
+      Abilities Icons (Inactive)_278: 6301032568206646264
+      Abilities Icons (Inactive)_279: -2466921547458305263
+      Abilities Icons (Inactive)_28: -5471341374734733960
+      Abilities Icons (Inactive)_280: 6851511864681442703
+      Abilities Icons (Inactive)_281: -6224805213531835653
+      Abilities Icons (Inactive)_282: 7586274207345416656
+      Abilities Icons (Inactive)_283: -7507673210971736678
+      Abilities Icons (Inactive)_284: 4856343627911314831
+      Abilities Icons (Inactive)_285: 2594017424040886985
+      Abilities Icons (Inactive)_286: 2208273169397781734
+      Abilities Icons (Inactive)_287: 7655475011828907550
+      Abilities Icons (Inactive)_29: -7605044607445142572
+      Abilities Icons (Inactive)_3: 1533412914186724746
+      Abilities Icons (Inactive)_30: -6273754326192508073
+      Abilities Icons (Inactive)_31: -2909857586875782182
+      Abilities Icons (Inactive)_32: -3189285520932998985
+      Abilities Icons (Inactive)_33: -2781250998571224138
+      Abilities Icons (Inactive)_34: -7496964578501985179
+      Abilities Icons (Inactive)_35: -7037266017290881332
+      Abilities Icons (Inactive)_36: 7402231872475795653
+      Abilities Icons (Inactive)_37: -3969986841237551420
+      Abilities Icons (Inactive)_38: 8195179624612284768
+      Abilities Icons (Inactive)_39: -4864464895798457851
+      Abilities Icons (Inactive)_4: 6715295866602472214
+      Abilities Icons (Inactive)_40: -3093586672306232630
+      Abilities Icons (Inactive)_41: -5583115186440310860
+      Abilities Icons (Inactive)_42: -6830987058661217921
+      Abilities Icons (Inactive)_43: -3320154820447594872
+      Abilities Icons (Inactive)_44: 8562755765066579634
+      Abilities Icons (Inactive)_45: 3307715762615988032
+      Abilities Icons (Inactive)_46: 3694699535015171518
+      Abilities Icons (Inactive)_47: -1110803902975819381
+      Abilities Icons (Inactive)_48: -4130419075009346155
+      Abilities Icons (Inactive)_49: -3541485870794951314
+      Abilities Icons (Inactive)_5: -7242936275858603062
+      Abilities Icons (Inactive)_50: 6372138736970668724
+      Abilities Icons (Inactive)_51: 75904572829017390
+      Abilities Icons (Inactive)_52: -1278637961050576905
+      Abilities Icons (Inactive)_53: 2233421245346861178
+      Abilities Icons (Inactive)_54: 8428273614963923614
+      Abilities Icons (Inactive)_55: 7510791384634175835
+      Abilities Icons (Inactive)_56: -3652850108720308782
+      Abilities Icons (Inactive)_57: 3241740257632897240
+      Abilities Icons (Inactive)_58: 4736180146497243299
+      Abilities Icons (Inactive)_59: 3486436180147481220
+      Abilities Icons (Inactive)_6: 2937381797823568804
+      Abilities Icons (Inactive)_60: 5025242458801857444
+      Abilities Icons (Inactive)_61: 4688850633505634298
+      Abilities Icons (Inactive)_62: -677225791747712161
+      Abilities Icons (Inactive)_63: -6994438827371170113
+      Abilities Icons (Inactive)_64: -3228356375370810528
+      Abilities Icons (Inactive)_65: -2000196255551404415
+      Abilities Icons (Inactive)_66: 8851566309654869983
+      Abilities Icons (Inactive)_67: -7982206759729104254
+      Abilities Icons (Inactive)_68: -2088324953303684670
+      Abilities Icons (Inactive)_69: -6912158772662824746
+      Abilities Icons (Inactive)_7: -1394039630935770068
+      Abilities Icons (Inactive)_70: 5851203729137282656
+      Abilities Icons (Inactive)_71: -508850831563100870
+      Abilities Icons (Inactive)_72: -5320704427865081083
+      Abilities Icons (Inactive)_73: -9201492879209760180
+      Abilities Icons (Inactive)_74: 2050751510172884991
+      Abilities Icons (Inactive)_75: -1069122936982415814
+      Abilities Icons (Inactive)_76: -476029522262048822
+      Abilities Icons (Inactive)_77: -5546731805977382484
+      Abilities Icons (Inactive)_78: -2211569104085689273
+      Abilities Icons (Inactive)_79: -1791303708197977162
+      Abilities Icons (Inactive)_8: -2176349855336540642
+      Abilities Icons (Inactive)_80: 2179966921880958431
+      Abilities Icons (Inactive)_81: 453748327925508808
+      Abilities Icons (Inactive)_82: 2371269551491915783
+      Abilities Icons (Inactive)_83: -3902271623847597703
+      Abilities Icons (Inactive)_84: -4019367431740452735
+      Abilities Icons (Inactive)_85: 6221395579689354379
+      Abilities Icons (Inactive)_86: -4464135239939535370
+      Abilities Icons (Inactive)_87: -2069348133179929049
+      Abilities Icons (Inactive)_88: 6022390483997659415
+      Abilities Icons (Inactive)_89: 2944626602532959425
+      Abilities Icons (Inactive)_9: 1704675168752234019
+      Abilities Icons (Inactive)_90: -6823238209951111259
+      Abilities Icons (Inactive)_91: 1232270253111616092
+      Abilities Icons (Inactive)_92: -6105320245530087044
+      Abilities Icons (Inactive)_93: 189449436920066788
+      Abilities Icons (Inactive)_94: 4067945093906407306
+      Abilities Icons (Inactive)_95: -1921686025006342023
+      Abilities Icons (Inactive)_96: -2933754954773587713
+      Abilities Icons (Inactive)_97: 4437106811846771270
+      Abilities Icons (Inactive)_98: 8459891746755302205
+      Abilities Icons (Inactive)_99: -3661035609756965054
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

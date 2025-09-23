@@ -32,7 +32,7 @@ public class InfirmarySlot : MonoBehaviour
 
     public void FillTheInfarmarySlot(Sprite pict, int count, float days)
     {
-        float infirmaryCapacity = playerStats.GetCurrentParameter(NameManager.PlayersStats.InfirmaryTime);
+        float infirmaryCapacity = playerStats.GetCurrentParameter(Enums.PlayersStats.InfirmaryTime);
 
         content.SetActive(true);
         

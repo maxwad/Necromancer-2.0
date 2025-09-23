@@ -3,7 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
-using static NameManager;
+using static Enums;
 
 public class ObjectsPoolManager : MonoBehaviour
 {

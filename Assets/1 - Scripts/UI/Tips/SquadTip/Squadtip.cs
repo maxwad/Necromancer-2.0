@@ -1,7 +1,7 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-using static NameManager;
+using static Enums;
 using System;
 using Zenject;
 

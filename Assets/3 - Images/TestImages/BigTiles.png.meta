@@ -480,7 +480,7 @@ TextureImporter:
       213: 6979526964103633175
     second: BigTiles_158
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -497,10 +497,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -510,8 +512,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -539,6 +541,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -550,6 +554,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -562,6 +567,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -574,6 +580,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -586,6 +593,20 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
@@ -3898,9 +3919,166 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-  spritePackingTag: 
+    nameFileIdTable:
+      BigTiles_0: -539682981113024524
+      BigTiles_1: 2421769830579836717
+      BigTiles_10: -3391408301146641491
+      BigTiles_100: 3675425788419528200
+      BigTiles_101: 5468764048636338996
+      BigTiles_102: -3695148937399295070
+      BigTiles_103: 3431416643831947745
+      BigTiles_104: 6860596676838996864
+      BigTiles_105: 6087987451193025154
+      BigTiles_106: -7043940750322506677
+      BigTiles_107: -4946210978411523489
+      BigTiles_108: 5842322710305660697
+      BigTiles_109: -785046872442351284
+      BigTiles_11: 2610744795918242499
+      BigTiles_110: 3106823965934679863
+      BigTiles_111: 5111572540764360261
+      BigTiles_112: -993990752235248224
+      BigTiles_113: 4148544039125027034
+      BigTiles_114: -3893727004348149715
+      BigTiles_115: -3624731932435766695
+      BigTiles_116: -9172352344718776626
+      BigTiles_117: -776654062606080989
+      BigTiles_118: 2201272879701498190
+      BigTiles_119: 767746181089759404
+      BigTiles_12: 5889590245226849209
+      BigTiles_120: -2373061801848518050
+      BigTiles_121: 676304449421895157
+      BigTiles_122: -8407652943407213006
+      BigTiles_123: 5635928325126650884
+      BigTiles_124: -1637879914278799305
+      BigTiles_125: 5608206704135056512
+      BigTiles_126: 3066071230770364960
+      BigTiles_127: 3456548870475185490
+      BigTiles_128: 2690885402634678914
+      BigTiles_129: 2546227462562442256
+      BigTiles_13: -8629168504378598497
+      BigTiles_130: 2167043378688290793
+      BigTiles_131: 8774665220917930309
+      BigTiles_132: -6158934243811626787
+      BigTiles_133: -7825166261046483461
+      BigTiles_134: -6179652374512264791
+      BigTiles_135: 3354556603382802541
+      BigTiles_136: 1109181097831375392
+      BigTiles_137: -7058036045861839317
+      BigTiles_138: 7754563544917731794
+      BigTiles_139: -85890283430542192
+      BigTiles_14: -2483507364247265947
+      BigTiles_140: 8820977361472566792
+      BigTiles_141: -7605195641330463457
+      BigTiles_142: -3772527839506992228
+      BigTiles_143: 5130720000088805472
+      BigTiles_144: 8260503961473367815
+      BigTiles_145: -1086782257659290640
+      BigTiles_146: -2154845142761237482
+      BigTiles_147: -5039703007260393941
+      BigTiles_148: 1048998622126271023
+      BigTiles_149: -777257037844862578
+      BigTiles_15: 4494617834799742250
+      BigTiles_150: 7753839204777849277
+      BigTiles_151: 2214430046039079004
+      BigTiles_152: -1421645113661049075
+      BigTiles_153: 5193189914956903662
+      BigTiles_154: -5736671474907896713
+      BigTiles_155: -1720080109248895886
+      BigTiles_156: -555962755563366736
+      BigTiles_157: 11057137687896011
+      BigTiles_158: 6979526964103633175
+      BigTiles_16: 2939719156438469576
+      BigTiles_17: 1478553954280424499
+      BigTiles_18: -3620521341601916778
+      BigTiles_19: 8556340035650959058
+      BigTiles_2: 4612413997436502767
+      BigTiles_20: 3604200992637391610
+      BigTiles_21: -7765473574268714032
+      BigTiles_22: -4834695626286630925
+      BigTiles_23: -3811583748021106651
+      BigTiles_24: -8581300652615375759
+      BigTiles_25: -160734693351752549
+      BigTiles_26: -246837629313140669
+      BigTiles_27: 7288343617981837058
+      BigTiles_28: -4078827408256465169
+      BigTiles_29: -5153153473754714125
+      BigTiles_3: 3218369359026067680
+      BigTiles_30: -95019371974352999
+      BigTiles_31: -10372458341224824
+      BigTiles_32: 4794360599094857432
+      BigTiles_33: 7376876987784050030
+      BigTiles_34: 282587856981186317
+      BigTiles_35: -1652190823107157828
+      BigTiles_36: -3227551243643823909
+      BigTiles_37: 8565051218200129419
+      BigTiles_38: 1202327602014530630
+      BigTiles_39: 7889972704880477346
+      BigTiles_4: -5412411539723911474
+      BigTiles_40: -2069946102607720003
+      BigTiles_41: 1342494890791763479
+      BigTiles_42: -5976994682681445745
+      BigTiles_43: 4877517373847914483
+      BigTiles_44: 9204682290505763305
+      BigTiles_45: 4157273558189685777
+      BigTiles_46: 5386783546506533549
+      BigTiles_48: -8770252421712735537
+      BigTiles_49: 4469763061130766993
+      BigTiles_5: 8130372442593577474
+      BigTiles_50: 1265501727142343591
+      BigTiles_51: -3659839999039496689
+      BigTiles_52: -3189150801677715689
+      BigTiles_53: -4805380110469668118
+      BigTiles_54: -5605711422649555401
+      BigTiles_55: 7803748420496901330
+      BigTiles_56: 645778125719756509
+      BigTiles_57: -1440393587417823009
+      BigTiles_58: 7386440788363287599
+      BigTiles_6: 1570380324783098929
+      BigTiles_60: 8981316896336385449
+      BigTiles_61: -6823552876302308536
+      BigTiles_62: -3146738094798674347
+      BigTiles_63: 5511524779953464609
+      BigTiles_64: 7917230575864847978
+      BigTiles_65: -5867843453326870092
+      BigTiles_66: -2813572765682641351
+      BigTiles_67: -1391232090523084866
+      BigTiles_68: 531411013927688754
+      BigTiles_69: -7291489527715671522
+      BigTiles_7: 8959798941351712156
+      BigTiles_70: -3534799283585186149
+      BigTiles_71: 4228366985323979868
+      BigTiles_72: -2071447710647651411
+      BigTiles_73: -1559543958354508776
+      BigTiles_74: 4952567867116280103
+      BigTiles_75: -2449303496822314210
+      BigTiles_76: -476200267292605555
+      BigTiles_77: -1399254230508184759
+      BigTiles_78: -9152325903600421343
+      BigTiles_79: -5964361695983814044
+      BigTiles_8: -2382598594214777550
+      BigTiles_80: 8359768794703163848
+      BigTiles_81: 8924134139924011707
+      BigTiles_82: -7821937175398424495
+      BigTiles_83: -3548923351037493649
+      BigTiles_84: -3408901516616497155
+      BigTiles_85: -3419936138649270618
+      BigTiles_86: -4961578008007192784
+      BigTiles_87: 2154026594531048
+      BigTiles_88: 182526966021041320
+      BigTiles_89: 2078694213009021137
+      BigTiles_9: 6256661356781392455
+      BigTiles_90: 8804341078710187889
+      BigTiles_91: 8487417212613987426
+      BigTiles_92: -2704496565806576059
+      BigTiles_93: -134253851005806108
+      BigTiles_94: -2126237098920359681
+      BigTiles_95: -5217328402339519328
+      BigTiles_96: 2261102282377793429
+      BigTiles_97: -7582191430399742599
+      BigTiles_98: -6034928067237981399
+      BigTiles_99: 862011087989360220
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

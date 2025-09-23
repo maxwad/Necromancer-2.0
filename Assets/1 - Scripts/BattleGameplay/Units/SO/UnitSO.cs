@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-using static NameManager;
+using static Enums;
 
 [CreateAssetMenu(fileName = "UnitData", menuName = "UnitItem")]
 public class UnitSO : ScriptableObject

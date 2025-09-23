@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static NameManager;
+using static Enums;
 
 public class UnitManager : MonoBehaviour
 {

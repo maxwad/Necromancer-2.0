@@ -1,6 +1,6 @@
 using UnityEngine;
 using Zenject;
-using static NameManager;
+using static Enums;
 
 public partial class PlayerManager : MonoBehaviour
 {

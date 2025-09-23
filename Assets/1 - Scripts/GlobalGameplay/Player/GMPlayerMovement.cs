@@ -1,7 +1,7 @@
 using System.Collections;
 using System;
 using UnityEngine;
-using static NameManager;
+using static Enums;
 using Zenject;
 
 public class GMPlayerMovement : MonoBehaviour

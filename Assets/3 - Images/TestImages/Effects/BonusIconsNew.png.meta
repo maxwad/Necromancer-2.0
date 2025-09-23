@@ -105,7 +105,7 @@ TextureImporter:
       213: 3848400131600762777
     second: BonusIconsNew_33
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -122,10 +122,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -135,8 +137,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 1
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -164,6 +166,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -175,6 +179,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -187,6 +192,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -199,6 +205,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -211,6 +218,20 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
@@ -940,9 +961,43 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-  spritePackingTag: 
+    nameFileIdTable:
+      BonusIconsNew_0: 3220480761598718032
+      BonusIconsNew_1: -5482550628693517761
+      BonusIconsNew_10: -7745848540696411948
+      BonusIconsNew_11: 6800968708949722761
+      BonusIconsNew_12: -1801375859302902750
+      BonusIconsNew_13: 6829685504728554806
+      BonusIconsNew_14: -1404859467575812060
+      BonusIconsNew_15: 1270777071487171112
+      BonusIconsNew_16: -4939030482558361341
+      BonusIconsNew_17: 1080930744390022889
+      BonusIconsNew_18: 6672340472763731729
+      BonusIconsNew_19: 5344480837552469090
+      BonusIconsNew_2: -8261976256581902436
+      BonusIconsNew_20: -399065490099471758
+      BonusIconsNew_21: -3272876325474868337
+      BonusIconsNew_22: -1049760686348723944
+      BonusIconsNew_23: -7211367509557413602
+      BonusIconsNew_24: 5031007378103520923
+      BonusIconsNew_25: 2230243138519018516
+      BonusIconsNew_26: 2823430643740256620
+      BonusIconsNew_27: 3509857456108771121
+      BonusIconsNew_28: 8986615140600342538
+      BonusIconsNew_29: -6988764019275556124
+      BonusIconsNew_3: -4906993996087406195
+      BonusIconsNew_30: 1974369626626540396
+      BonusIconsNew_31: 8126853479380678069
+      BonusIconsNew_32: 4992433961517639873
+      BonusIconsNew_33: 3848400131600762777
+      BonusIconsNew_4: -3468947641228876987
+      BonusIconsNew_5: -3196195475518408930
+      BonusIconsNew_6: -1472632739880767670
+      BonusIconsNew_7: 567963113581065628
+      BonusIconsNew_8: -1968302492131694454
+      BonusIconsNew_9: -4272842822391838376
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

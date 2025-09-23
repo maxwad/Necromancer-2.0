@@ -480,7 +480,7 @@ TextureImporter:
       213: 1872556861604627621
     second: hexagonAll_sheet_158
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -497,10 +497,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -510,8 +512,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -539,6 +541,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -550,6 +554,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -562,6 +567,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -574,6 +580,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -586,6 +593,20 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
@@ -3856,9 +3877,164 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-  spritePackingTag: 
+    nameFileIdTable:
+      hexagonAll_sheet_0: -9132759917005597478
+      hexagonAll_sheet_1: -3869270208601288485
+      hexagonAll_sheet_10: 6460374770374822714
+      hexagonAll_sheet_100: 4806802060708784813
+      hexagonAll_sheet_101: 7854877391544164587
+      hexagonAll_sheet_102: -2417394115160992498
+      hexagonAll_sheet_103: -339415563650077238
+      hexagonAll_sheet_104: 1188671294321025406
+      hexagonAll_sheet_105: -7247874534630590005
+      hexagonAll_sheet_106: -5924434000570661056
+      hexagonAll_sheet_107: 2230221174111490791
+      hexagonAll_sheet_108: 5017888827633720571
+      hexagonAll_sheet_109: -3622335861228183011
+      hexagonAll_sheet_11: -1277942757342437703
+      hexagonAll_sheet_110: 1756132282978390108
+      hexagonAll_sheet_111: -15316048179599123
+      hexagonAll_sheet_112: -6226973721912557705
+      hexagonAll_sheet_113: 4126206562241220954
+      hexagonAll_sheet_114: -7766132162297062872
+      hexagonAll_sheet_115: 766985128584471981
+      hexagonAll_sheet_116: -2236452003695495355
+      hexagonAll_sheet_117: -819314410405952356
+      hexagonAll_sheet_118: -7368432911550177451
+      hexagonAll_sheet_119: 2427068161312858558
+      hexagonAll_sheet_12: -2934623175983394733
+      hexagonAll_sheet_120: 7776757687475339048
+      hexagonAll_sheet_121: 4333009371212758703
+      hexagonAll_sheet_122: 5467026718311656243
+      hexagonAll_sheet_123: -3419536559228340983
+      hexagonAll_sheet_124: -7057861485317142387
+      hexagonAll_sheet_125: -4257626009245848826
+      hexagonAll_sheet_126: -1069714902257002328
+      hexagonAll_sheet_127: 4173269313229277599
+      hexagonAll_sheet_128: -5364322697111591454
+      hexagonAll_sheet_129: 472870060980973665
+      hexagonAll_sheet_13: 3874169506066299198
+      hexagonAll_sheet_130: -1459053932708050422
+      hexagonAll_sheet_131: 3767270164815986789
+      hexagonAll_sheet_132: 810119626517365643
+      hexagonAll_sheet_133: 290013782476575669
+      hexagonAll_sheet_134: -2897868632590543925
+      hexagonAll_sheet_135: 5180996798455158095
+      hexagonAll_sheet_136: -197956948579015066
+      hexagonAll_sheet_137: 7420867820120420811
+      hexagonAll_sheet_138: 3624745890665087392
+      hexagonAll_sheet_139: 1881984775220167514
+      hexagonAll_sheet_14: -1825575807697710170
+      hexagonAll_sheet_140: -266249112178353136
+      hexagonAll_sheet_141: -5570404846418424321
+      hexagonAll_sheet_142: 7194173403831064187
+      hexagonAll_sheet_143: 663248383539053826
+      hexagonAll_sheet_144: 6285832239008621020
+      hexagonAll_sheet_145: -2696668955743904063
+      hexagonAll_sheet_146: -6440251959768935376
+      hexagonAll_sheet_147: -2220531889300747306
+      hexagonAll_sheet_148: 8713393626838636013
+      hexagonAll_sheet_149: -2910686357658334325
+      hexagonAll_sheet_15: 2543645708487641624
+      hexagonAll_sheet_150: 136497254491583217
+      hexagonAll_sheet_151: 3827534356168079087
+      hexagonAll_sheet_152: -3668869685019880806
+      hexagonAll_sheet_153: -2844812611055344372
+      hexagonAll_sheet_154: 7287523597879195334
+      hexagonAll_sheet_155: 4099022269030338200
+      hexagonAll_sheet_156: -102306417737000065
+      hexagonAll_sheet_157: -4137586720670644559
+      hexagonAll_sheet_158: 1872556861604627621
+      hexagonAll_sheet_16: -7996384071039838650
+      hexagonAll_sheet_17: -5134201130421952826
+      hexagonAll_sheet_18: 375796524526798925
+      hexagonAll_sheet_19: -1140425357659236533
+      hexagonAll_sheet_2: -6867708539320376738
+      hexagonAll_sheet_20: 6987289292015137481
+      hexagonAll_sheet_21: -4886149945576964032
+      hexagonAll_sheet_22: 166165773648281134
+      hexagonAll_sheet_24: -2194989009588088120
+      hexagonAll_sheet_25: -7406762673202007563
+      hexagonAll_sheet_26: -195675102619424291
+      hexagonAll_sheet_27: -4791931081542098837
+      hexagonAll_sheet_28: 5527260625888151111
+      hexagonAll_sheet_29: 6795267259242014474
+      hexagonAll_sheet_3: 4401445332641765098
+      hexagonAll_sheet_30: 471429897718473308
+      hexagonAll_sheet_31: -604587037688143522
+      hexagonAll_sheet_32: 7349989465513024309
+      hexagonAll_sheet_33: 3066848683573792913
+      hexagonAll_sheet_34: -9048687425226890391
+      hexagonAll_sheet_36: -4493650642320329152
+      hexagonAll_sheet_37: 2488163041964118360
+      hexagonAll_sheet_38: 6823606325772984298
+      hexagonAll_sheet_39: -8643285257783015952
+      hexagonAll_sheet_4: -7992976097710066545
+      hexagonAll_sheet_40: -2463134374175661053
+      hexagonAll_sheet_41: -2718691981314763237
+      hexagonAll_sheet_42: 5590923962243727309
+      hexagonAll_sheet_43: -8583834077335154405
+      hexagonAll_sheet_44: 4755564344811371681
+      hexagonAll_sheet_45: -6888479709154542397
+      hexagonAll_sheet_46: -4002240000084222651
+      hexagonAll_sheet_48: 72636711140006317
+      hexagonAll_sheet_49: -2194130417051427769
+      hexagonAll_sheet_5: -6996269655453082332
+      hexagonAll_sheet_50: 2150945889116354205
+      hexagonAll_sheet_51: 2580234708546843026
+      hexagonAll_sheet_52: 3235958955028859361
+      hexagonAll_sheet_53: -4910318330797614114
+      hexagonAll_sheet_54: -697473566008920394
+      hexagonAll_sheet_55: -8562758421368484917
+      hexagonAll_sheet_56: -6771617081202264721
+      hexagonAll_sheet_57: -8918439215120332992
+      hexagonAll_sheet_58: -5276655886263752864
+      hexagonAll_sheet_6: -6890051651370993405
+      hexagonAll_sheet_60: -2271245413270476428
+      hexagonAll_sheet_61: -5727020487112471015
+      hexagonAll_sheet_62: 7497197048968870014
+      hexagonAll_sheet_63: -3460217282438917667
+      hexagonAll_sheet_64: -8271844538126396902
+      hexagonAll_sheet_65: -8939810960791295754
+      hexagonAll_sheet_66: -4864802073686867998
+      hexagonAll_sheet_67: -1334258534143388904
+      hexagonAll_sheet_68: -2513750117507067672
+      hexagonAll_sheet_69: 4775316613697503077
+      hexagonAll_sheet_7: 1941549964689535324
+      hexagonAll_sheet_70: 5063231936901473414
+      hexagonAll_sheet_71: 2748138562148617172
+      hexagonAll_sheet_72: -4205477342409073953
+      hexagonAll_sheet_73: 1362949806031025
+      hexagonAll_sheet_74: 6851898402456455651
+      hexagonAll_sheet_75: 8483955546581163587
+      hexagonAll_sheet_76: 8888785735160511900
+      hexagonAll_sheet_77: 7113834558964637276
+      hexagonAll_sheet_78: -2115025756999665846
+      hexagonAll_sheet_79: -31553088897593137
+      hexagonAll_sheet_8: -1699799788836797476
+      hexagonAll_sheet_80: -5183858801355912670
+      hexagonAll_sheet_81: 6842317379045574074
+      hexagonAll_sheet_82: 367547624190190679
+      hexagonAll_sheet_83: 4125068195970682128
+      hexagonAll_sheet_84: -3011288931947314055
+      hexagonAll_sheet_85: -548338377061633442
+      hexagonAll_sheet_86: 8695424444216881336
+      hexagonAll_sheet_87: 1848546009305749694
+      hexagonAll_sheet_88: -8797297796577682156
+      hexagonAll_sheet_89: -876077541242401855
+      hexagonAll_sheet_9: -2401580648480704905
+      hexagonAll_sheet_90: -1358576809093655854
+      hexagonAll_sheet_91: -5622979751899164793
+      hexagonAll_sheet_92: -7028930367818621283
+      hexagonAll_sheet_93: 4760352424481771039
+      hexagonAll_sheet_94: 852436654522080200
+      hexagonAll_sheet_95: -8284595767884284451
+      hexagonAll_sheet_96: 1847980806721022675
+      hexagonAll_sheet_97: -8817823595230730511
+      hexagonAll_sheet_98: 1571422510668851796
+      hexagonAll_sheet_99: -9034301386662829170
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

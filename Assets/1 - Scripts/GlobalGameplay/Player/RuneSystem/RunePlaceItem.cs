@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Zenject;
-using static NameManager;
+using static Enums;
 
 public class RunePlaceItem : MonoBehaviour, IDropHandler, IPointerClickHandler
 {

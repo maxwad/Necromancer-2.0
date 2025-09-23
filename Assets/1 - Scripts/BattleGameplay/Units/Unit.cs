@@ -1,6 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
-using static NameManager;
+using static Enums;
 
 public class Unit
 {

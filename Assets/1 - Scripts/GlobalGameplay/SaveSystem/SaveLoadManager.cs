@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Newtonsoft.Json;
-using static NameManager;
+using static Enums;
 using Zenject;
 
 public class SaveLoadManager : MonoBehaviour, IInputableKeys

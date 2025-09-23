@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
-using static NameManager;
+using static Enums;
 using Zenject;
 
 public class BossController : MonoBehaviour

@@ -2,7 +2,7 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using static NameManager;
+using static Enums;
 using Zenject;
 
 public class VassalPathfinder : MonoBehaviour

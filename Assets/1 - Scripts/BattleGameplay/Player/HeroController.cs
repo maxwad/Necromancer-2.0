@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using TMPro;
-using static NameManager;
+using static Enums;
 using Zenject;
 
 public class HeroController : MonoBehaviour

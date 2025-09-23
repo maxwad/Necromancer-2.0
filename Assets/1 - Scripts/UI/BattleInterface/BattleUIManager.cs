@@ -3,7 +3,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static NameManager;
+using static Enums;
 using System;
 using Zenject;
 

@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static NameManager;
+using static Enums;
 
 [CreateAssetMenu(fileName = "SpellData", menuName = "SpellItem")]
 public class SpellSO : ScriptableObject

@@ -867,7 +867,7 @@ TextureImporter:
       213: 885360982176537579
     second: Abilities Icons_287
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -884,10 +884,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -897,8 +899,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -926,6 +928,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -937,6 +941,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -949,6 +954,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -961,6 +967,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -973,6 +980,20 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
@@ -7036,9 +7057,297 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-  spritePackingTag: 
+    nameFileIdTable:
+      Abilities Icons_0: -5089091979164420880
+      Abilities Icons_1: -4635111036992103801
+      Abilities Icons_10: -5165286651846006743
+      Abilities Icons_100: -8908887958833480558
+      Abilities Icons_101: -6034934046527547739
+      Abilities Icons_102: -2169106245570958771
+      Abilities Icons_103: 8685498301866170834
+      Abilities Icons_104: 1654636896950778247
+      Abilities Icons_105: 8047476347418722358
+      Abilities Icons_106: -9182444569370219373
+      Abilities Icons_107: -2578570922973968954
+      Abilities Icons_108: 2021442708962395955
+      Abilities Icons_109: 2240640824583282516
+      Abilities Icons_11: -5367347754047918767
+      Abilities Icons_110: -157299190641410595
+      Abilities Icons_111: -8338915024618380500
+      Abilities Icons_112: 2047338379455459793
+      Abilities Icons_113: -3051762837618724785
+      Abilities Icons_114: -4844502563870222920
+      Abilities Icons_115: -4845004746959689241
+      Abilities Icons_116: 5792773282628866263
+      Abilities Icons_117: 1490144436452446477
+      Abilities Icons_118: -197971935728803721
+      Abilities Icons_119: 546588738197044279
+      Abilities Icons_12: -4090511837883768138
+      Abilities Icons_120: 7126550226806565215
+      Abilities Icons_121: -7651601456433465128
+      Abilities Icons_122: 3585913512928522145
+      Abilities Icons_123: 5415704001337480646
+      Abilities Icons_124: 2641842317684004915
+      Abilities Icons_125: -6607861836913834808
+      Abilities Icons_126: -3820345466457503469
+      Abilities Icons_127: -349247819017660184
+      Abilities Icons_128: 1510806536656895647
+      Abilities Icons_129: -4788169871323851668
+      Abilities Icons_13: 1215963866162458498
+      Abilities Icons_130: 4142475851928316988
+      Abilities Icons_131: -4898258828759055425
+      Abilities Icons_132: 5603473546276660356
+      Abilities Icons_133: -8947258075661054757
+      Abilities Icons_134: -8811631546484903431
+      Abilities Icons_135: 1264680839180413853
+      Abilities Icons_136: -2252954700620767189
+      Abilities Icons_137: -5920213686930647784
+      Abilities Icons_138: -6884315072547757990
+      Abilities Icons_139: -2898264628382842533
+      Abilities Icons_14: 6266894923595763676
+      Abilities Icons_140: 8241942719484485348
+      Abilities Icons_141: 1282811436482497486
+      Abilities Icons_142: 1004626185001284156
+      Abilities Icons_143: 4889158318502872956
+      Abilities Icons_144: 7618510692505749007
+      Abilities Icons_145: -1126867286079670681
+      Abilities Icons_146: -2942086348935061010
+      Abilities Icons_147: -6803550258357295838
+      Abilities Icons_148: 4756965429147358549
+      Abilities Icons_149: -495361766996132248
+      Abilities Icons_15: -7600712416274450477
+      Abilities Icons_150: 4185718735886005833
+      Abilities Icons_151: 7634763398368531828
+      Abilities Icons_152: 4705604890271660343
+      Abilities Icons_153: -1461480427759181418
+      Abilities Icons_154: -5901402655006655448
+      Abilities Icons_155: -4255522010772547671
+      Abilities Icons_156: 4467076912080656809
+      Abilities Icons_157: -121169853405687627
+      Abilities Icons_158: 3029308048713487110
+      Abilities Icons_159: 8752423041434808384
+      Abilities Icons_16: -9179609867349887290
+      Abilities Icons_160: -5929358365628474456
+      Abilities Icons_161: -3241130427643146991
+      Abilities Icons_162: -511225240261811927
+      Abilities Icons_163: 192945328865011355
+      Abilities Icons_164: 1351345648138017421
+      Abilities Icons_165: 2287634249664227539
+      Abilities Icons_166: -8502415167412510777
+      Abilities Icons_167: -5330023191679279562
+      Abilities Icons_168: -8519423993834073164
+      Abilities Icons_169: 3084366989555670114
+      Abilities Icons_17: 707298879067874248
+      Abilities Icons_170: -7828805600809868186
+      Abilities Icons_171: 1391493126224250814
+      Abilities Icons_172: -4836399921021890828
+      Abilities Icons_173: 8843587831839778966
+      Abilities Icons_174: -2391086698929487091
+      Abilities Icons_175: 8761595901229908410
+      Abilities Icons_176: -819068986259882660
+      Abilities Icons_177: -6525249745763763413
+      Abilities Icons_178: -2528446233396318078
+      Abilities Icons_179: 8623870826975452670
+      Abilities Icons_18: -569895930976476183
+      Abilities Icons_180: 3411644457050541746
+      Abilities Icons_181: 157136202883532226
+      Abilities Icons_182: 3217267547800643348
+      Abilities Icons_183: -9143329450103956129
+      Abilities Icons_184: 5030339163716593067
+      Abilities Icons_185: -984103536840361807
+      Abilities Icons_186: 6383400466902158528
+      Abilities Icons_187: 1674404082190786677
+      Abilities Icons_188: -3768702653601696099
+      Abilities Icons_189: 2378241087439807715
+      Abilities Icons_19: -7354043757071604611
+      Abilities Icons_190: -5508732572200864911
+      Abilities Icons_191: -3436425243580117497
+      Abilities Icons_192: -3308130596522951459
+      Abilities Icons_193: -539184905429082655
+      Abilities Icons_194: 2248128446151158781
+      Abilities Icons_195: -4096589617472089979
+      Abilities Icons_196: -142749609986504233
+      Abilities Icons_197: 6171768068223419658
+      Abilities Icons_198: -6931362875933981599
+      Abilities Icons_199: 6786741794747999399
+      Abilities Icons_2: 3712727625655941299
+      Abilities Icons_20: 3139328353984305477
+      Abilities Icons_200: -8426681420267249035
+      Abilities Icons_201: -4703962015541690249
+      Abilities Icons_202: -5171427130579475915
+      Abilities Icons_203: -5558435291666171927
+      Abilities Icons_204: 1420663102615537371
+      Abilities Icons_205: 1701192209591893301
+      Abilities Icons_206: -8462119065930295931
+      Abilities Icons_207: 1060232540988066420
+      Abilities Icons_208: 645276914135617387
+      Abilities Icons_209: -1842514610154518673
+      Abilities Icons_21: -3564608647044872334
+      Abilities Icons_210: -6666051505180515176
+      Abilities Icons_211: 2094554163576137300
+      Abilities Icons_212: -8492052446923316516
+      Abilities Icons_213: -306771349736667172
+      Abilities Icons_214: 7359533271910042856
+      Abilities Icons_215: -6121607968282928856
+      Abilities Icons_216: 4996345733563074791
+      Abilities Icons_217: -478098386730719694
+      Abilities Icons_218: 7634612672448007974
+      Abilities Icons_219: 1941162279362903170
+      Abilities Icons_22: -5233075641874642883
+      Abilities Icons_220: 779045470653433676
+      Abilities Icons_221: 6837987866038685414
+      Abilities Icons_222: -2771937144304602993
+      Abilities Icons_223: 1708630622241616664
+      Abilities Icons_224: 4613409653622365634
+      Abilities Icons_225: 5707287202986255456
+      Abilities Icons_226: -5941576084185932970
+      Abilities Icons_227: 1749969483363693177
+      Abilities Icons_228: -7695895695352417323
+      Abilities Icons_229: 873162895342146286
+      Abilities Icons_23: -3829629100044968789
+      Abilities Icons_230: 2877347224018956092
+      Abilities Icons_231: 8920484618368721603
+      Abilities Icons_232: -4683178790062782088
+      Abilities Icons_233: -725078428364061640
+      Abilities Icons_234: -1722227301452009733
+      Abilities Icons_235: -1974979037552721518
+      Abilities Icons_236: 6341043726415196794
+      Abilities Icons_237: -2199230516093693547
+      Abilities Icons_238: -2790163513640337934
+      Abilities Icons_239: 956133957162400143
+      Abilities Icons_24: 2562807030506778606
+      Abilities Icons_240: 6607670350216837025
+      Abilities Icons_241: 7919764659816123223
+      Abilities Icons_242: -7638250156764468119
+      Abilities Icons_243: 5193670531872484153
+      Abilities Icons_244: 8297725126110666095
+      Abilities Icons_245: 4396793944302289069
+      Abilities Icons_246: -1106198346380102652
+      Abilities Icons_247: -2025975506203578093
+      Abilities Icons_248: -7101216001653600240
+      Abilities Icons_249: 6519476209859890346
+      Abilities Icons_25: -7491498114396544633
+      Abilities Icons_250: -6985470889290953792
+      Abilities Icons_251: -512592916160338539
+      Abilities Icons_252: 3150218610560824557
+      Abilities Icons_253: -7339087141827880904
+      Abilities Icons_254: -2806254281313890112
+      Abilities Icons_255: 5922017479358163792
+      Abilities Icons_256: 3610607889502154492
+      Abilities Icons_257: 3159949328540258476
+      Abilities Icons_258: -6509123824192317835
+      Abilities Icons_259: 1595557760376471980
+      Abilities Icons_26: 6542928676134051706
+      Abilities Icons_260: -4044741112066086921
+      Abilities Icons_261: -9193374588604817644
+      Abilities Icons_262: 3829001932378765281
+      Abilities Icons_263: -7141710148082079540
+      Abilities Icons_264: -2020482162827322870
+      Abilities Icons_265: 7488154975679986089
+      Abilities Icons_266: -1585430943435928067
+      Abilities Icons_267: -5819234531503062500
+      Abilities Icons_268: -1308778987103604579
+      Abilities Icons_269: -8355887828464192316
+      Abilities Icons_27: -7024677493080287692
+      Abilities Icons_270: -6840623557788430293
+      Abilities Icons_271: -8284558737715886835
+      Abilities Icons_272: -2113322350232762009
+      Abilities Icons_273: 8708852719514652166
+      Abilities Icons_274: 7410890730097403368
+      Abilities Icons_275: -2200159109874832422
+      Abilities Icons_276: -3523501709184514194
+      Abilities Icons_277: 7066313582347577473
+      Abilities Icons_278: -1471750050107456339
+      Abilities Icons_279: -8035495476119955440
+      Abilities Icons_28: 6032968590813742372
+      Abilities Icons_280: -9210385355249885538
+      Abilities Icons_281: 2841575698076014667
+      Abilities Icons_282: 261749896962576228
+      Abilities Icons_283: -4970427710730243284
+      Abilities Icons_284: -5407322733653408771
+      Abilities Icons_285: 7612563152321397170
+      Abilities Icons_286: 3282988984715667300
+      Abilities Icons_287: 885360982176537579
+      Abilities Icons_29: 3391145756154694430
+      Abilities Icons_3: 7759603921904243543
+      Abilities Icons_30: 8659803547931126495
+      Abilities Icons_31: -3550069203708477958
+      Abilities Icons_32: 5320628324388183712
+      Abilities Icons_33: 4976946514587307212
+      Abilities Icons_34: -3027317814524037964
+      Abilities Icons_35: 6784395236445852175
+      Abilities Icons_36: 3421098261769819114
+      Abilities Icons_37: 4208647517972058792
+      Abilities Icons_38: -8018989620657076018
+      Abilities Icons_39: -1292983948299392407
+      Abilities Icons_4: 5698478428334389497
+      Abilities Icons_40: 3801583529210509674
+      Abilities Icons_41: 1343616275325883195
+      Abilities Icons_42: 7085552107377350783
+      Abilities Icons_43: 5248849806553544285
+      Abilities Icons_44: -8524574556582081278
+      Abilities Icons_45: 8091041323760442376
+      Abilities Icons_46: -6076995097016467869
+      Abilities Icons_47: -922526413286848217
+      Abilities Icons_48: -8054743288391704647
+      Abilities Icons_49: 7801053878317103467
+      Abilities Icons_5: -974136114809997231
+      Abilities Icons_50: 6512522596310535540
+      Abilities Icons_51: -8821413520339289275
+      Abilities Icons_52: 6913123536713996304
+      Abilities Icons_53: 1968966886819968345
+      Abilities Icons_54: 2647852781852231996
+      Abilities Icons_55: -4582810406794101880
+      Abilities Icons_56: 470639047879027862
+      Abilities Icons_57: -709458913004607758
+      Abilities Icons_58: 6519905706526147840
+      Abilities Icons_59: -6300379211149360920
+      Abilities Icons_6: 5357701798610925136
+      Abilities Icons_60: -4755397958928282625
+      Abilities Icons_61: -14075704373105220
+      Abilities Icons_62: -7747791870402390380
+      Abilities Icons_63: -550571020255897212
+      Abilities Icons_64: 9180401270251959106
+      Abilities Icons_65: 2483918115939802292
+      Abilities Icons_66: -5330882791057053021
+      Abilities Icons_67: -5828665730060075048
+      Abilities Icons_68: 5231017938356255605
+      Abilities Icons_69: 7774805840610476555
+      Abilities Icons_7: -648977578371722848
+      Abilities Icons_70: -6207214005573974246
+      Abilities Icons_71: -151058550649372097
+      Abilities Icons_72: -17023485657906984
+      Abilities Icons_73: 6248984001387770360
+      Abilities Icons_74: -897191487325680559
+      Abilities Icons_75: -6522887059570431585
+      Abilities Icons_76: -7589083571039072767
+      Abilities Icons_77: 1424432803634526431
+      Abilities Icons_78: 5431587077077050333
+      Abilities Icons_79: 5677725426453307568
+      Abilities Icons_8: -5276675520131098099
+      Abilities Icons_80: -2369096852302969417
+      Abilities Icons_81: 3294469710807108791
+      Abilities Icons_82: 1152089731871888871
+      Abilities Icons_83: 6521279876776452125
+      Abilities Icons_84: -356764882984327276
+      Abilities Icons_85: 9139980774003097574
+      Abilities Icons_86: 8791076073055845693
+      Abilities Icons_87: -3626314839709973306
+      Abilities Icons_88: 5588120299462989669
+      Abilities Icons_89: 4473061224666645449
+      Abilities Icons_9: -781920068898556636
+      Abilities Icons_90: 8646946389760385562
+      Abilities Icons_91: 3489324498953284110
+      Abilities Icons_92: 1337909530299508979
+      Abilities Icons_93: -6658374690896479462
+      Abilities Icons_94: -8200830578034748404
+      Abilities Icons_95: -1308846124233723885
+      Abilities Icons_96: -8524096028826275178
+      Abilities Icons_97: -2856750502329831811
+      Abilities Icons_98: -1279256379991655494
+      Abilities Icons_99: 3588302844526526502
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

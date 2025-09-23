@@ -65,7 +65,7 @@ public class AttackController : MonoBehaviour
         while (unitController.quantity != 0)
         {
             //Debug.Log("Attack level " + unit.level);
-            speedAttack = unitController.unit.speedAttack + unitController.unit.speedAttack * boostManager.GetBoost(NameManager.BoostType.CoolDown);
+            speedAttack = unitController.unit.speedAttack + unitController.unit.speedAttack * boostManager.GetBoost(Enums.BoostType.CoolDown);
             weaponStorage.Attack(unitController.unit);
 
             yield return new WaitForSeconds(speedAttack);

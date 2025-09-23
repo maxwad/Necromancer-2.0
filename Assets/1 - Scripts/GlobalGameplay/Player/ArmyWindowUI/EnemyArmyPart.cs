@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-using static NameManager;
+using static Enums;
 using Zenject;
 
 public class EnemyArmyPart : MonoBehaviour

@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
-using static NameManager;
+using static Enums;
 using Zenject;
 
 public class ResourceBuilding : MonoBehaviour

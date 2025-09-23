@@ -2,7 +2,7 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static NameManager;
+using static Enums;
 
 public class InputSystem : MonoBehaviour
 {

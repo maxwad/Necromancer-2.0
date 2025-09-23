@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
-using static NameManager;
+using static Enums;
 
 public class UpgradeButton : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler
 {

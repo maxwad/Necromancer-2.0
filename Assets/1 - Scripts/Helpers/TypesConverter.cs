@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using static NameManager;
+using static Enums;
 
 public class TypesConverter : MonoBehaviour
 {

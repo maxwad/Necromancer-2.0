@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
-using static NameManager;
+using static Enums;
 using Zenject;
 
 public class ClickableObject : MonoBehaviour

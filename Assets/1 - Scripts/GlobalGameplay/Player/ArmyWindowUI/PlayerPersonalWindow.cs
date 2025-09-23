@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
-using static NameManager;
+using static Enums;
 
 public class PlayerPersonalWindow : MonoBehaviour, IInputableKeys
 {

@@ -81,7 +81,7 @@ public class DefendTowerController : MonoBehaviour
 
     private void CreateBullet(Vector3 point)
     {
-        GameObject bullet = poolManager.GetObject(NameManager.ObjectPool.Cannonball);
+        GameObject bullet = poolManager.GetObject(Enums.ObjectPool.Cannonball);
         bullet.transform.position = point;
         bullet.SetActive(true);
         bullet.GetComponent<CannonballController>().Initialize(player.transform.position);

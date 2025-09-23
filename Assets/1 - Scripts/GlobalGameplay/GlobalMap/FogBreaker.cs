@@ -1,6 +1,6 @@
 using UnityEngine;
 using System;
-using static NameManager;
+using static Enums;
 using Zenject;
 
 public class FogBreaker : MonoBehaviour

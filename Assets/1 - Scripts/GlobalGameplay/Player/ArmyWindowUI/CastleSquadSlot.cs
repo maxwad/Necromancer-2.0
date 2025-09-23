@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
-using static NameManager;
+using static Enums;
 
 public class CastleSquadSlot : MonoBehaviour, IPointerClickHandler
 {

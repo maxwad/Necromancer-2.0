@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
-using static NameManager;
+using static Enums;
 using Zenject;
 
 public class SpellButtonController : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler

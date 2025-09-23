@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Zenject;
-using static NameManager;
+using static Enums;
 
 public partial class MapBonusManager : MonoBehaviour
 {

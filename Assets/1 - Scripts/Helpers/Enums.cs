@@ -1,4 +1,4 @@
-public static class NameManager
+public static class Enums
 {
     public enum UnitsTypes
     {

@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
-using static NameManager;
+using static Enums;
 using Zenject;
 
 public class FBuilding : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, IUpgradable

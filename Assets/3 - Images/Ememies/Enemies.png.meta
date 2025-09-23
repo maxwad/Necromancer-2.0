@@ -141,7 +141,7 @@ TextureImporter:
       213: 89139527193386499
     second: Enemies_48
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -158,10 +158,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -170,9 +172,9 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: -1
-    aniso: -1
-    mipBias: -100
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -200,6 +202,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -211,6 +215,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -223,6 +228,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -235,6 +241,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -247,6 +254,20 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
@@ -1228,9 +1249,55 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-  spritePackingTag: 
+    nameFileIdTable:
+      Enemies_0: 2192450021786810173
+      Enemies_1: -7537196482120660328
+      Enemies_10: 7877921557971618100
+      Enemies_11: 5366457973745487733
+      Enemies_15: 1511843784806208459
+      Enemies_16: 9008768272413781845
+      Enemies_17: 615673380907259118
+      Enemies_18: -1010674888820381983
+      Enemies_19: -4181999719777712613
+      Enemies_2: -860468679390908754
+      Enemies_20: -3375038303658136201
+      Enemies_21: 1432442515227095082
+      Enemies_22: -4669921857946425314
+      Enemies_23: -731756946235510198
+      Enemies_24: 1621394836268213013
+      Enemies_25: 368555085621994118
+      Enemies_26: -3567033628092068868
+      Enemies_27: 8849371530552776352
+      Enemies_28: -509115650628796296
+      Enemies_29: -8178165961756399743
+      Enemies_3: -7945901444079236628
+      Enemies_30: -3934682143293241471
+      Enemies_31: -4640851858021030223
+      Enemies_32: -4030233447086554269
+      Enemies_33: 9099896256582322714
+      Enemies_34: 5751447635443309442
+      Enemies_35: 1205781820415724575
+      Enemies_36: 724912592566366239
+      Enemies_37: -438660108337136262
+      Enemies_38: 2884737313679868233
+      Enemies_39: -1360573819756025394
+      Enemies_4: -8421458170528590454
+      Enemies_40: -5557010403634338699
+      Enemies_41: 3551148586647959576
+      Enemies_42: -7452406817521087278
+      Enemies_43: -1871929004497759837
+      Enemies_44: -2767687718110399205
+      Enemies_45: -6767087442504108573
+      Enemies_46: 9150857795518445384
+      Enemies_47: -4453719734264909257
+      Enemies_48: 89139527193386499
+      Enemies_5: -1147401495359466748
+      Enemies_6: 8414478535512612329
+      Enemies_7: 3714015224569861163
+      Enemies_8: -7844560889915226194
+      Enemies_9: 4326287474489854147
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

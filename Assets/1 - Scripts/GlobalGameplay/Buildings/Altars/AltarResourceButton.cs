@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using static NameManager;
+using static Enums;
 using System;
 
 public class AltarResourceButton : MonoBehaviour
