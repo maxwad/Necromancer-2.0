@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Zenject;
-using static Enums;
+using Enums;
 
 public class BattleUIBoostPart : MonoBehaviour
 {

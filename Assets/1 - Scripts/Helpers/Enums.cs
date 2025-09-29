@@ -1,4 +1,4 @@
-public static class Enums
+namespace Enums
 {
     public enum UnitsTypes
     {
@@ -19,7 +19,7 @@ public static class Enums
 
     public enum UnitsAbilities
     {
-        Whip,  
+        Whip,
         Garlic,
         Axe,
         Spear,
@@ -44,8 +44,8 @@ public static class Enums
         Mantis
     }
 
-    public enum EnemyAbilities 
-    { 
+    public enum EnemyAbilities
+    {
         Empty
     }
 
@@ -118,7 +118,7 @@ public static class Enums
         Stone,
         Wood,
         Iron,
-        Exp, 
+        Exp,
         Mana,
         Health,
         Units,
@@ -146,9 +146,9 @@ public static class Enums
     //1000+ - it's constant ability only, they can't be boost
     public enum PlayersStats
     {
-        Level = 0, 
-        Health = 1001, 
-        Mana = 1002, 
+        Level = 0,
+        Health = 1001,
+        Mana = 1002,
         Speed = 7,
         SearchRadius = 1003,
         Defence = 15,
@@ -245,7 +245,7 @@ public static class Enums
         EnemyMagicDefence = 19,
         EnemyMovementSpeed = 20,
         EnemyCoolDown = 21,
-        EnemyHealth  = 22,
+        EnemyHealth = 22,
 
         ExtraResourcesProduce = 25,
         Altar = 26,
@@ -291,10 +291,10 @@ public static class Enums
 
     public enum BoostSender
     {
-        Spell, 
-        Calendar, 
-        Rune, 
-        EnemySystem, 
+        Spell,
+        Calendar,
+        Rune,
+        EnemySystem,
         Building
     }
 
@@ -345,8 +345,8 @@ public static class Enums
         Player
     }
 
-    public enum TypeOfObjectsOwner 
-    { 
+    public enum TypeOfObjectsOwner
+    {
         Player, Enemy, Nobody
     }
 
@@ -357,9 +357,9 @@ public static class Enums
 
     public enum TypeOfArmy
     {
-        OnTheMap, 
-        InCastle, 
-        InTomb, 
+        OnTheMap,
+        InCastle,
+        InTomb,
         InArena,
         NearUsualObjects,
         Vassals
@@ -384,7 +384,7 @@ public static class Enums
         ToTheOwnCastle,
         Dead
     }
-        
+
     public enum AITargetType
     {
         Walking,
@@ -509,4 +509,5 @@ public static class Enums
         LoadGame
     }
     #endregion
+    
 }

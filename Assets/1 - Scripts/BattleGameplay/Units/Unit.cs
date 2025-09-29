@@ -1,6 +1,6 @@
-using UnityEngine;
+using Enums;
 using System.Collections.Generic;
-using static Enums;
+using UnityEngine;
 
 public class Unit
 {
@@ -33,23 +33,23 @@ public class Unit
     public Unit(UnitSO unitSO)
     {
         unitName = unitSO.unitName;
-        unitGO   = unitSO.unitGO;
+        unitGO = unitSO.unitGO;
         unitIcon = unitSO.unitIcon;
 
         unitHome = unitSO.unitHome;
         unitType = unitSO.unitType;
 
-        health         = unitSO.health;
-        magicAttack    = unitSO.magicAttack;
-        physicAttack   = unitSO.physicAttack;
-        magicDefence   = unitSO.magicDefence;
-        physicDefence  = unitSO.physicDefence;
-        speedAttack    = unitSO.speedAttack;
-        size           = unitSO.size;
-        level          = unitSO.level;
+        health = unitSO.health;
+        magicAttack = unitSO.magicAttack;
+        physicAttack = unitSO.physicAttack;
+        magicDefence = unitSO.magicDefence;
+        physicDefence = unitSO.physicDefence;
+        speedAttack = unitSO.speedAttack;
+        size = unitSO.size;
+        level = unitSO.level;
 
-        unitAbility    = unitSO.unitAbility;
-        attackTool     = unitSO.attackTool;
+        unitAbility = unitSO.unitAbility;
+        attackTool = unitSO.attackTool;
         abilityDescription = WeaponsDictionary.instance.GetAbilityDescription(unitAbility, level);
 
         foreach(var cost in unitSO.costs)

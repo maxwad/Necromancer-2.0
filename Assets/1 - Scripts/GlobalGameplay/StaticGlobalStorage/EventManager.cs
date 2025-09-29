@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static Enums;
+using Enums;
 
 public static class EventManager
 {
@@ -189,9 +189,9 @@ public static class EventManager
     //ACTIVATION:
     // - EnemyController
     //
-    public delegate void EnemyDestroyedEvent(GameObject objectOnMap);
+    public delegate void EnemyDestroyedEvent(MonoBehaviour objectOnMap);
     public static event EnemyDestroyedEvent EnemyDestroyed;
-    public static void OnEnemyDestroyedEvent(GameObject objectOnMap) => EnemyDestroyed?.Invoke(objectOnMap);
+    public static void OnEnemyDestroyedEvent(MonoBehaviour objectOnMap) => EnemyDestroyed?.Invoke(objectOnMap);
 
 
     //calls when we destroy enemy

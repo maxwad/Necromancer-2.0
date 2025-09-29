@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static Enums;
+using Enums;
 
 [CreateAssetMenu(fileName = "RuneData", menuName = "RuneItem")]
 

@@ -1,8 +1,7 @@
-using System.Collections;
+using Enums;
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
-using static Enums;
 
 public class SpellLibrary : MonoBehaviour
 {
@@ -16,7 +15,7 @@ public class SpellLibrary : MonoBehaviour
     [Inject]
     public void Construct
         (
-        [Inject(Id = Constants.BATTLE_MAP)] 
+        [Inject(Id = Constants.BATTLE_MAP)]
         GameObject battleMap,
         BoostManager boostManager,
         ObjectsPoolManager objectsPool,
@@ -115,7 +114,7 @@ public class SpellLibrary : MonoBehaviour
         if(mode == true)
         {
             boostManager.SetBoost(BoostType.MovementSpeed, BoostSender.Spell, BoostEffect.PlayerBattle, spell.value);
-        }       
+        }
     }
 
 
@@ -131,7 +130,7 @@ public class SpellLibrary : MonoBehaviour
 
 
     //All damage becomes critical for 5 seconds.
-    private void DoubleCrit (bool mode, SpellSO spell)
+    private void DoubleCrit(bool mode, SpellSO spell)
     {
         if(mode == true)
         {
@@ -186,7 +185,7 @@ public class SpellLibrary : MonoBehaviour
     {
         if(mode == true)
         {
-            List<GameObject> bonusList = bonusManager.bonusesOnTheMap;            
+            List<GameObject> bonusList = bonusManager.bonusesOnTheMap;
             foreach(var bonus in bonusList)
             {
                 bonus.GetComponent<BonusController>().ActivatateBonus();
@@ -256,7 +255,7 @@ public class SpellLibrary : MonoBehaviour
     {
         if(mode == true)
         {
-            List<GameObject> enemies = enemySpawner.enemiesOnTheMap;
+            List<MonoBehaviour> enemies = enemySpawner.EnemiesOnTheMap;
 
             int count = enemies.Count - 1;
 
@@ -287,7 +286,7 @@ public class SpellLibrary : MonoBehaviour
                 if(Vector2.Distance(item.transform.position, battlePlayer.transform.position) <= spell.radius)
                 {
                     bonuses.Add(item);
-                } 
+                }
             }
 
             int count = bonuses.Count - 1;

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using static Enums;
+using Enums;
 using Zenject;
 
 public class BattleUIInfirmaryPart : MonoBehaviour

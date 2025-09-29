@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
-using static Enums;
+using Enums;
 using Zenject;
 
 public class UnitInCenterUI : MonoBehaviour, IPointerClickHandler

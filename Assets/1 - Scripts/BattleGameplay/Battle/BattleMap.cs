@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Zenject;
-using static Enums;
+using Enums;
 
 public class BattleMap : MonoBehaviour
 {
@@ -13,7 +13,6 @@ public class BattleMap : MonoBehaviour
     private int playerRadiusGap = 15; //always less than bounds size! 
     private float distanceToUpdateObstacles = 1f;
     private float radiusToCheckObstacles = 250f;
-    private bool readyToCheckObstacles = false;
 
 
     [Header("Battle Map")]
@@ -86,22 +85,19 @@ public class BattleMap : MonoBehaviour
         enemySpawner = GetComponent<EnemySpawner>();
     }
 
-    //private void Update()
-    //{
-    //    if (readyToCheckObstacles == true)
-    //    {
-    //        CheckObstaclesOnBattle();
-    //    }
-    //}
-
     public void InitializeMap(bool mode)
     {
-        if (mode == false)
+        if(mode)
+        {
+            enemySpawner.StopSpawnEnemy();
+            ClearMap();
+        }
+        else
         {
             GetBattleData();
             DrawTheBackgroundMap();
 
-            if (currentArmy.isThisASiege == true) 
+            if(currentArmy.isThisASiege == true)
                 DrawObjects(towersPrefab, towerContainer, towerStats, towersOnMap, quantityOfTowers);
 
             DrawObstacles();
@@ -112,11 +108,6 @@ public class BattleMap : MonoBehaviour
             enemySpawner.Initialize(currentArmy);
             enemySpawner.ReadyToSpawnEnemy();
         }
-        else
-        {
-            enemySpawner.StopSpawnEnemy();
-            ClearMap();
-        }        
     }
 
     private void DrawTheBackgroundMap() 
@@ -277,8 +268,6 @@ public class BattleMap : MonoBehaviour
                 } 
             }
         }
-
-        readyToCheckObstacles = true;        
     }
 
     private void DrawObjects(GameObject prefab, GameObject container, BattleObjectStats stats, List<GameObject> objectsOnMap, int quantity)
@@ -402,7 +391,6 @@ public class BattleMap : MonoBehaviour
                 battleArray[i, j] = true;
         }
 
-        readyToCheckObstacles = false;
         obstaclesOnMap.Clear();
         towersOnMap.Clear();
         torchesOnMap.Clear();

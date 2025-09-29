@@ -1,8 +1,8 @@
+using Enums;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
-using static Enums;
 
 public class PlayerStats : MonoBehaviour
 {
@@ -57,9 +57,9 @@ public class PlayerStats : MonoBehaviour
 
         public Stat(PlayersStats stat, float baseV)
         {
-            playerStat     = stat;
-            baseValue      = baseV;
-            maxValue       = baseV;
+            playerStat = stat;
+            baseValue = baseV;
+            maxValue = baseV;
         }
 
         public void UpgradeMaxValue(float value, StatBoostType type = StatBoostType.Value)
@@ -145,8 +145,8 @@ public class PlayerStats : MonoBehaviour
 
                 case PlayersStats.Infirmary:
                     baseValue = infirmaryBase;
-                    break; 
-                
+                    break;
+
                 case PlayersStats.InfirmaryTime:
                     baseValue = infirmaryTimeBase;
                     break;
@@ -161,8 +161,8 @@ public class PlayerStats : MonoBehaviour
 
                 case PlayersStats.MedicTry:
                     baseValue = medicTryBase;
-                    break; 
-                
+                    break;
+
                 case PlayersStats.Learning:
                     baseValue = learningBase;
                     break;
@@ -204,7 +204,7 @@ public class PlayerStats : MonoBehaviour
         EventManager.OnSetNewPlayerStatEvent(stat, GetCurrentParameter(stat));
         //Debug.Log("Now " + stat + " = " + GetCurrentParameter(stat));
     }
-    
+
     public void ForceUpdateStat(PlayersStats stat)
     {
         EventManager.OnSetNewPlayerStatEvent(stat, GetCurrentParameter(stat));

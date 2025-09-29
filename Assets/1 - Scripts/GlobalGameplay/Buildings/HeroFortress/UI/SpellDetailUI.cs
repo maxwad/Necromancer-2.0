@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using static Enums;
+using Enums;
 using Zenject;
 
 public class SpellDetailUI : MonoBehaviour

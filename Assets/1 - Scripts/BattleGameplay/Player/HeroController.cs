@@ -1,7 +1,6 @@
+using Enums;
 using System.Collections;
 using UnityEngine;
-using TMPro;
-using static Enums;
 using Zenject;
 
 public class HeroController : MonoBehaviour
@@ -60,7 +59,7 @@ public class HeroController : MonoBehaviour
     [Inject]
     public void Construct
         (
-        [Inject(Id = Constants.EFFECTS_CONTAINER)] 
+        [Inject(Id = Constants.EFFECTS_CONTAINER)]
         GameObject effectsContainer,
         PlayerStats playerStats,
         MacroLevelUpManager levelManager,
@@ -116,7 +115,7 @@ public class HeroController : MonoBehaviour
     #region DAMAGE
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag(TagManager.T_ENEMY) == true && isDead != true)
+        if(collision.gameObject.CompareTag(TagManager.T_ENEMY) == true && isDead != true)
         {
             unitSprite.color = damageColor;
             Invoke("ColorBack", blinkTime);
@@ -155,7 +154,7 @@ public class HeroController : MonoBehaviour
 
         ShowDamage(damage, damageText);
 
-        if (currentHealth <= 0)
+        if(currentHealth <= 0)
         {
             Dead();
         }
@@ -207,7 +206,7 @@ public class HeroController : MonoBehaviour
 
                         if(currentTempLevel != currentMaxLevel)
                         {
-                            UpgradeTempExpGoal();                            
+                            UpgradeTempExpGoal();
                         }
                         else
                         {
@@ -216,7 +215,7 @@ public class HeroController : MonoBehaviour
                         }
                     }
                 }
-            }           
+            }
         }
 
         if(isFigthingStarted == false)
@@ -232,7 +231,7 @@ public class HeroController : MonoBehaviour
         {
             yield return dalayTime;
             AddTempExp(BonusType.TempExp, 1);
-        }        
+        }
     }
 
     private void ResetTempLevel(bool mode)
@@ -267,7 +266,7 @@ public class HeroController : MonoBehaviour
     private void Victory()
     {
         isBattleEnded = true;
-        if(autoLevelUp != null) 
+        if(autoLevelUp != null)
             StopCoroutine(autoLevelUp);
     }
 
@@ -276,7 +275,7 @@ public class HeroController : MonoBehaviour
         EventManager.BonusPickedUp += AddTempExp;
         EventManager.SetBattleBoost += SetNewParameters;
         EventManager.SwitchPlayer += ResetTempLevel;
-        EventManager.Victory += Victory;       
+        EventManager.Victory += Victory;
 
         ResetTempLevel(false);
 

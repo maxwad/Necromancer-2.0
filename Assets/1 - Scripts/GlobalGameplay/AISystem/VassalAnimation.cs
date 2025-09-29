@@ -1,8 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
-using static Enums;
+using UnityEngine;
 
 public class VassalAnimation : MonoBehaviour
 {
@@ -30,7 +28,7 @@ public class VassalAnimation : MonoBehaviour
     {
         WaitForSecondsRealtime delay = new WaitForSecondsRealtime(0.02f);
         Color currentColor = spriteRenderer.color;
-        
+
         float alfaFrom = 0;
         float alfaTo = 1;
         float step = 0.05f;

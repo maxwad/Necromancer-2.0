@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
+using Enums;
 using UnityEngine;
 using Zenject;
-using static Enums;
 
 public class EnemyMovement : MonoBehaviour
 {
@@ -35,9 +33,9 @@ public class EnemyMovement : MonoBehaviour
         this.boostManager = boostManager;
 
         collEnemy = GetComponent<Collider2D>();
-        rbEnemy   = GetComponent<Rigidbody2D>();
-        sprite    = GetComponent<SpriteRenderer>();
-        animator  = GetComponent<SimpleAnimator>();
+        rbEnemy = GetComponent<Rigidbody2D>();
+        sprite = GetComponent<SpriteRenderer>();
+        animator = GetComponent<SimpleAnimator>();
     }
 
     private void OnEnable()
@@ -80,7 +78,7 @@ public class EnemyMovement : MonoBehaviour
         rbEnemy.velocity = Vector3.ClampMagnitude(rbEnemy.velocity, speed);
 
         if(transform.position.z != 20)
-        { 
+        {
             Debug.Log("2 ENEMY " + gameObject.name + " IS LOST! Z = " + transform.position.z + " local = " + transform.localPosition.z);
             transform.position = new Vector3(transform.position.x, transform.position.y, 20f);
         }

@@ -1,22 +1,30 @@
+using FakeDictionaries;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Zenject;
-using static Enums;
+using Enums;
 
 public class EnemySpawner : MonoBehaviour
 {
+    public List<MonoBehaviour> EnemiesOnTheMap => enemiesOnTheMap;
+
     private ArmyStrength currentStrength;
     private List<EnemiesTypes> enemiesList = new List<EnemiesTypes>();
-    public List<int> enemiesQuantityList = new List<int>();
+    private List<int> enemiesQuantityList = new List<int>();
     private int currentCommonQuantity = 0;
     private int maxQuantity = 0;
     private int removeQuantity = 0;
-    public List<GameObject> enemiesOnTheMap = new List<GameObject>();
+    private List<MonoBehaviour> enemiesOnTheMap = new List<MonoBehaviour>();
 
     [Space]
+    [SerializeField] private EnemyEffector enemyEffector;
     [SerializeField] private Transform spawnPointsGO;
-    [SerializeField] private List<GameObject> spawnPositions;    
+    [SerializeField] private Transform enemyContainerGO;
+    [SerializeField] private List<GameObject> spawnPositions;
+
+    [SerializeField] private List<EnumMonoDictionary> enemiesPrefabs;
 
     [Space]
     private bool canISpawn = false;
@@ -26,8 +34,7 @@ public class EnemySpawner : MonoBehaviour
 
     [Space]
     private Coroutine spawnCoroutine;
-    //private float waitNextEnemyTimeFast = 0.1f;
-    private float waitNextEnemyTimeFast = .1f;
+    private float waitNextEnemyTimeFast = 0.1f;
     private float waitNextEnemyTimeSlow = 0.5f;
     private float waitNextEnemyTimeStop = 2f;
     private WaitForSeconds waitNextEnemyFast;
@@ -35,14 +42,12 @@ public class EnemySpawner : MonoBehaviour
     private WaitForSeconds waitNextEnemyStop;
     private WaitForSeconds waitNextEnemy;
 
-    //private BattleMap battleMap;
-
     private Transform player;
+    private BossData[] bossBounds;
     private bool[,] battleMap;
-    private EnemyEffector enemyEffector;
+
     private BattleUIManager battleUIManager;
     private ObjectsPoolManager poolManager;
-    private BossData[] bossBounds;
 
 
     [Inject]
@@ -55,8 +60,6 @@ public class EnemySpawner : MonoBehaviour
         this.poolManager = poolManager;
         this.battleUIManager = battleUIManager;
         this.player = player.transform;
-
-        enemyEffector = GetComponent<EnemyEffector>();
     }
 
     public void Initialize(Army army)
@@ -65,11 +68,15 @@ public class EnemySpawner : MonoBehaviour
 
         enemiesList.Clear();
         foreach(var squad in army.squadList)
+        {
             enemiesList.Add(squad);
+        }
 
         enemiesQuantityList.Clear();
         foreach(var squad in army.quantityList)
+        {
             enemiesQuantityList.Add(squad);
+        }
 
         waitNextEnemyFast = new WaitForSeconds(waitNextEnemyTimeFast);
         waitNextEnemySlow = new WaitForSeconds(waitNextEnemyTimeSlow);
@@ -79,7 +86,9 @@ public class EnemySpawner : MonoBehaviour
         currentCommonQuantity = 0;
 
         for(int i = 0; i < enemiesQuantityList.Count; i++)
+        {
             currentCommonQuantity += enemiesQuantityList[i];
+        }
 
         maxQuantity = currentCommonQuantity;
 
@@ -107,13 +116,13 @@ public class EnemySpawner : MonoBehaviour
 
     private void Update()
     {
-        if (enemiesOnTheMap.Count < enemySlowCount) 
+        if(enemiesOnTheMap.Count < enemySlowCount)
             waitNextEnemy = waitNextEnemyFast;
 
-        if (enemiesOnTheMap.Count > enemySlowCount) 
+        if(enemiesOnTheMap.Count > enemySlowCount)
             waitNextEnemy = waitNextEnemySlow;
 
-        if (enemiesOnTheMap.Count > enemyTooSlowCount) 
+        if(enemiesOnTheMap.Count > enemyTooSlowCount)
             waitNextEnemy = waitNextEnemyStop;
     }
 
@@ -131,20 +140,22 @@ public class EnemySpawner : MonoBehaviour
         canISpawn = false;
         enemyEffector.StopEffector();
         enemiesOnTheMap.Clear();
+
+        poolManager.DiscardAll(this);
     }
 
     private IEnumerator SpawnEnemy()
     {
-        //List<float> currentProbably = new List<float>();
-
-        while (canISpawn == true)
-        {      
-            if (currentCommonQuantity == 0)
+        while(canISpawn == true)
+        {
+            if(currentCommonQuantity == 0)
             {
                 canISpawn = false;
-                if(spawnCoroutine != null) 
+                if(spawnCoroutine != null)
+                {
                     StopCoroutine(spawnCoroutine);
-                
+                }
+
                 break;
             }
 
@@ -152,15 +163,15 @@ public class EnemySpawner : MonoBehaviour
 
             Vector3 randomPosition = GetSpawnPosition();
 
-            if (randomPosition != Vector3.zero)
+            if(randomPosition != Vector3.zero)
             {
                 int randomIndex = 0;
                 bool finded = false;
 
-                while (finded == false && currentCommonQuantity != 0)
+                while(finded == false && currentCommonQuantity != 0)
                 {
-                    randomIndex = Random.Range(0, enemiesList.Count);
-                    if (enemiesQuantityList[randomIndex] != 0)
+                    randomIndex = UnityEngine.Random.Range(0, enemiesList.Count);
+                    if(enemiesQuantityList[randomIndex] != 0)
                     {
                         finded = true;
                     }
@@ -172,13 +183,15 @@ public class EnemySpawner : MonoBehaviour
                 //}
 
                 EnemiesTypes enemyType = enemiesList[randomIndex];
-                GameObject enemy = poolManager.GetEnemy(enemyType);
+
+                MonoBehaviour enemyPrefab = enemiesPrefabs.First(e => e.key == enemyType).value;
+
+                MonoBehaviour enemy = poolManager.GetOrCreateElement(enemyPrefab, this, enemyContainerGO, true);
 
                 enemy.transform.position = randomPosition;
-                enemy.SetActive(true);
 
                 //Create boss
-                if(ShouldICreateBoss(currentCommonQuantity) == true)
+                if(ShouldICreateBoss(currentCommonQuantity))
                 {
                     enemy.GetComponent<EnemyController>().MakeBoss();
                 }
@@ -188,7 +201,7 @@ public class EnemySpawner : MonoBehaviour
                 currentCommonQuantity--;
                 battleUIManager.enemyPart.FillSpawnEnemiesBar(currentCommonQuantity);
 
-                if(GlobalStorage.instance.IsGlobalMode() == true)
+                if(GlobalStorage.instance.IsGlobalMode())
                 {
                     Debug.Log("2 ERROR");
                 }
@@ -203,7 +216,7 @@ public class EnemySpawner : MonoBehaviour
         for(int i = 0; i < bossBounds.Length; i++)
         {
             if(currentCount <= bossBounds[i].bound && bossBounds[i].wasCreated == false)
-            {                
+            {
                 bossBounds[i].wasCreated = true;
                 return true;
             }
@@ -214,36 +227,36 @@ public class EnemySpawner : MonoBehaviour
 
     private Vector3 GetSpawnPosition()
     {
-        int randomIndex = Random.Range(0, spawnPositions.Count);
+        int randomIndex = UnityEngine.Random.Range(0, spawnPositions.Count);
         Vector3 randomPosition = spawnPositions[randomIndex].transform.position;
 
-        int tempX = Mathf.RoundToInt(Random.Range((randomPosition.x - spawnOffset) * 10, (randomPosition.x + spawnOffset + 1) * 10) / 10);
-        int tempY = Mathf.RoundToInt(Random.Range((randomPosition.y - spawnOffset) * 10, (randomPosition.y + spawnOffset + 1) * 10) / 10);
+        int tempX = Mathf.RoundToInt(UnityEngine.Random.Range((randomPosition.x - spawnOffset) * 10, (randomPosition.x + spawnOffset + 1) * 10) / 10);
+        int tempY = Mathf.RoundToInt(UnityEngine.Random.Range((randomPosition.y - spawnOffset) * 10, (randomPosition.y + spawnOffset + 1) * 10) / 10);
 
-        if (tempX <= 0 + 1 || tempX >= battleMap.GetLength(0) - 1 ||
+        if(tempX <= 0 + 1 || tempX >= battleMap.GetLength(0) - 1 ||
             tempY <= 0 + 1 || tempY >= battleMap.GetLength(1) - 1)
         {
             return Vector3.zero;
         }
 
-        if (battleMap[tempX, tempY] == false)
+        if(battleMap[tempX, tempY] == false)
         {
             return Vector3.zero;
         }
 
         int checkGap = 2;
-        if ((tempX - checkGap) <= 0 || (tempX + checkGap) >= battleMap.GetLength(0) ||
+        if((tempX - checkGap) <= 0 || (tempX + checkGap) >= battleMap.GetLength(0) ||
            (tempY - checkGap) <= 0 || (tempY + checkGap) >= battleMap.GetLength(1))
         {
             return Vector3.zero;
         }
         else
         {
-            for (int x = tempX - checkGap / 2; x <= tempX + checkGap / 2; x++)
+            for(int x = tempX - checkGap / 2; x <= tempX + checkGap / 2; x++)
             {
-                for (int y = tempY - checkGap / 2; y <= tempY + checkGap / 2; y++)
+                for(int y = tempY - checkGap / 2; y <= tempY + checkGap / 2; y++)
                 {
-                    if (battleMap[tempX, tempY] == false) return Vector3.zero;
+                    if(battleMap[tempX, tempY] == false) return Vector3.zero;
                 }
             }
         }
@@ -251,7 +264,7 @@ public class EnemySpawner : MonoBehaviour
         return new Vector3(tempX, tempY, randomPosition.z);
     }
 
-    public void UpdateEnemiesList(GameObject enemy)
+    public void UpdateEnemiesList(MonoBehaviour enemy)
     {
         enemiesOnTheMap.Remove(enemy);
         removeQuantity++;
@@ -262,8 +275,8 @@ public class EnemySpawner : MonoBehaviour
             canISpawn = false;
             battleUIManager.ShowVictoryBlock();
         }
-        SpawnControl();        
-    }     
+        SpawnControl();
+    }
 
     public void SpawnControl()
     {
@@ -274,7 +287,7 @@ public class EnemySpawner : MonoBehaviour
             int difference = (removeQuantity + currentCommonQuantity + enemiesOnTheMap.Count) - maxQuantity;
 
             Debug.Log("CONTROL " + difference);
-        }       
+        }
     }
 
     private void OnEnable()
@@ -282,7 +295,7 @@ public class EnemySpawner : MonoBehaviour
         EventManager.EnemyDestroyed += UpdateEnemiesList;
     }
 
-    private void OnDisable ()
+    private void OnDisable()
     {
         EventManager.EnemyDestroyed -= UpdateEnemiesList;
     }

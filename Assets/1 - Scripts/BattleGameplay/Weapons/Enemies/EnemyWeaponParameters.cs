@@ -1,5 +1,5 @@
 using UnityEngine;
-using static Enums;
+using Enums;
 
 public class EnemyWeaponParameters : MonoBehaviour
 {

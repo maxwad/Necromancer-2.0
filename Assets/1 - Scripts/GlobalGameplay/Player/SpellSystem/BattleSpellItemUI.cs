@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine;
 using TMPro;
-using static Enums;
+using Enums;
 
 public class BattleSpellItemUI : MonoBehaviour, IPointerClickHandler
 {

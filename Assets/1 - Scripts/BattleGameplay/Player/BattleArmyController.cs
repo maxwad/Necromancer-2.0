@@ -1,5 +1,5 @@
+using Enums;
 using UnityEngine;
-using static Enums;
 using Zenject;
 
 public class BattleArmyController : MonoBehaviour, IInputableAxies
@@ -27,7 +27,7 @@ public class BattleArmyController : MonoBehaviour, IInputableAxies
         PlayerStats playerStats)
     {
         this.inputSystem = inputSystem;
-        this.hero        = hero;
+        this.hero = hero;
         this.playerStats = playerStats;
 
         rbPlayer = GetComponent<Rigidbody2D>();

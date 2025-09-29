@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using static Enums;
+using Enums;
 
 public class AltarGiftColumnUI : MonoBehaviour
 {

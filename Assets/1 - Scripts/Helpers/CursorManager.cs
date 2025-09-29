@@ -1,13 +1,13 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Zenject;
-using static Enums;
+using Enums;
 
 public class CursorManager : MonoBehaviour
 {
     private bool canIChange = true;
 
-    CursorView cursorView = CursorView.Default;
+    //CursorView cursorView = CursorView.Default;
     //public GameObject cursor;
     //private SpriteRenderer sprite;
 
@@ -39,23 +39,24 @@ public class CursorManager : MonoBehaviour
     {
         return; // delete in build
 
-        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector3Int positionOnTileMap;
+        // Не помню, что это и зачем
+        //Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //Vector3Int positionOnTileMap;
 
-        positionOnTileMap = gmManager.mapBG.WorldToCell(mousePosition);
-        if(gmManager.mapBG.HasTile(positionOnTileMap) == true) cursorView = CursorView.Default;
+        //positionOnTileMap = gmManager.mapBG.WorldToCell(mousePosition);
+        //if(gmManager.mapBG.HasTile(positionOnTileMap) == true) cursorView = CursorView.Default;
 
-        positionOnTileMap = gmManager.roadMap.WorldToCell(mousePosition);
-        if(gmManager.roadMap.HasTile(positionOnTileMap) == true) cursorView = CursorView.Movement;
+        //positionOnTileMap = gmManager.roadMap.WorldToCell(mousePosition);
+        //if(gmManager.roadMap.HasTile(positionOnTileMap) == true) cursorView = CursorView.Movement;
 
-        if(currentObject != null) cursorView = currentObject.cursor;
+        //if(currentObject != null) cursorView = currentObject.cursor;
 
-        positionOnTileMap = gmManager.fogMap.WorldToCell(mousePosition);
-        if(gmManager.fogMap.HasTile(positionOnTileMap) == true) cursorView = CursorView.Default;
+        //positionOnTileMap = gmManager.fogMap.WorldToCell(mousePosition);
+        //if(gmManager.fogMap.HasTile(positionOnTileMap) == true) cursorView = CursorView.Default;
 
-        if(EventSystem.current.IsPointerOverGameObject() == true) cursorView = CursorView.Default;
+        //if(EventSystem.current.IsPointerOverGameObject() == true) cursorView = CursorView.Default;
 
-        ChangeCursor(cursorView);
+        //ChangeCursor(cursorView);
     }
 
     private void CursorMode(bool mode)

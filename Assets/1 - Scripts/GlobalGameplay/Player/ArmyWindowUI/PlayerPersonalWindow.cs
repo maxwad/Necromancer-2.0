@@ -1,9 +1,8 @@
-using System.Collections;
+using Enums;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
-using static Enums;
 
 public class PlayerPersonalWindow : MonoBehaviour, IInputableKeys
 {
@@ -46,7 +45,7 @@ public class PlayerPersonalWindow : MonoBehaviour, IInputableKeys
     [SerializeField] private GameObject activeMicroTab;
     [SerializeField] private GameObject activeSpellsTab;
 
-    
+
     private InputSystem inputSystem;
     private EnemyArmyOnTheMap currentEnemy;
     private MacroLevelWindow macroLevelUI;
@@ -77,10 +76,10 @@ public class PlayerPersonalWindow : MonoBehaviour, IInputableKeys
         this.playerStats = playerStats;
 
         autobattleButtonComponent = autobattleButton.GetComponent<Button>();
-        playersArmyUIPart         = GetComponent<PlayersArmyPart>();
-        enemyArmyUIPart           = GetComponent<EnemyArmyPart>();
-        macroLevelUI              = GetComponentInChildren<MacroLevelWindow>();
-        runesWindow               = GetComponentInChildren<RunesWindow>();
+        playersArmyUIPart = GetComponent<PlayersArmyPart>();
+        enemyArmyUIPart = GetComponent<EnemyArmyPart>();
+        macroLevelUI = GetComponentInChildren<MacroLevelWindow>();
+        runesWindow = GetComponentInChildren<RunesWindow>();
 
     }
     private void Start()
@@ -136,7 +135,7 @@ public class PlayerPersonalWindow : MonoBehaviour, IInputableKeys
         }
     }
 
-    public void PressButton(KeyActions keyAction) 
+    public void PressButton(KeyActions keyAction)
     {
         if(canICloseWindow == false) return;
 
@@ -178,7 +177,7 @@ public class PlayerPersonalWindow : MonoBehaviour, IInputableKeys
         currentMode = mode;
         rootCanvas.SetActive(true);
         Fading.instance.FadeWhilePause(true, canvasGroup);
-                
+
         Refactoring();
         HandlingTabs(currentMode, lastKeyAction);
 
@@ -236,7 +235,7 @@ public class PlayerPersonalWindow : MonoBehaviour, IInputableKeys
                 else
                     autobattleButtonComponent.interactable = false;
             }
-                
+
             else
                 autobattleButton.SetActive(false);
         }

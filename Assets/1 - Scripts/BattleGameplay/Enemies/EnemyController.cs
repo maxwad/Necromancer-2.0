@@ -1,6 +1,6 @@
+using Enums;
 using UnityEngine;
 using Zenject;
-using static Enums;
 
 public class EnemyController : MonoBehaviour
 {
@@ -76,12 +76,12 @@ public class EnemyController : MonoBehaviour
         this.enemyManager = enemyManager;
         this.poolManager = poolManager;
 
-        rbEnemy                = GetComponent<Rigidbody2D>();
-        bossController         = GetComponent<BossController>();
+        rbEnemy = GetComponent<Rigidbody2D>();
+        bossController = GetComponent<BossController>();
         bossController.enabled = false;
-        enemySpriteRenderer    = GetComponent<SpriteRenderer>();
-        movementScript         = GetComponent<EnemyMovement>();
-        enemySprite            = enemySpriteRenderer.sprite;
+        enemySpriteRenderer = GetComponent<SpriteRenderer>();
+        movementScript = GetComponent<EnemyMovement>();
+        enemySprite = enemySpriteRenderer.sprite;
     }
 
 
@@ -90,7 +90,7 @@ public class EnemyController : MonoBehaviour
         delayAttack -= Time.deltaTime;
 
         // we need check for death here because enemy can get much damage at the same time and activate few dead functions
-        if(currentHealth <= 0) 
+        if(currentHealth <= 0)
         {
             //BuildDebagger.instance.Show("Check health");
             Dead();
@@ -111,20 +111,20 @@ public class EnemyController : MonoBehaviour
             Debug.Log("Reset");
         }
 
-        enemyName   = originalStats.enemyName;
-        icon        = originalStats.enemyIcon;
+        enemyName = originalStats.enemyName;
+        icon = originalStats.enemyIcon;
 
-        pAttack     = originalStats.physicAttack + originalStats.physicAttack * boostManager.GetBoost(BoostType.EnemyPhysicAttack);
-        pDefence    = originalStats.physicDefence + originalStats.physicDefence * boostManager.GetBoost(BoostType.EnemyPhysicDefence);
-        mAttack     = originalStats.magicAttack + originalStats.magicAttack * boostManager.GetBoost(BoostType.EnemyMagicAttack);
-        mDefence    = originalStats.magicDefence + originalStats.magicDefence * boostManager.GetBoost(BoostType.EnemyMagicDefence);
+        pAttack = originalStats.physicAttack + originalStats.physicAttack * boostManager.GetBoost(BoostType.EnemyPhysicAttack);
+        pDefence = originalStats.physicDefence + originalStats.physicDefence * boostManager.GetBoost(BoostType.EnemyPhysicDefence);
+        mAttack = originalStats.magicAttack + originalStats.magicAttack * boostManager.GetBoost(BoostType.EnemyMagicAttack);
+        mDefence = originalStats.magicDefence + originalStats.magicDefence * boostManager.GetBoost(BoostType.EnemyMagicDefence);
         speedAttack = originalStats.speedAttack + originalStats.speedAttack * boostManager.GetBoost(BoostType.EnemyCoolDown);
         delayAttack = speedAttack;
 
-        size        = originalStats.size;
-        exp         = originalStats.exp;
+        size = originalStats.size;
+        exp = originalStats.exp;
 
-        health      = originalStats.health + originalStats.health * boostManager.GetBoost(BoostType.EnemyHealth);
+        health = originalStats.health + originalStats.health * boostManager.GetBoost(BoostType.EnemyHealth);
         currentHealth = health;
         transform.localScale = new Vector3(size, size, size);
 
@@ -133,13 +133,13 @@ public class EnemyController : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.collider.CompareTag(TagManager.T_PLAYER) == true || collision.collider.CompareTag(TagManager.T_SQUAD) == true)
+        if(collision.collider.CompareTag(TagManager.T_PLAYER) == true || collision.collider.CompareTag(TagManager.T_SQUAD) == true)
         {
             foreach(ContactPoint2D obj in collision.contacts)
             {
                 bool isCriticalDamage = Random.Range(0, 100) < luck;
-                
-                if (obj.collider.gameObject.CompareTag(TagManager.T_PLAYER) == true)
+
+                if(obj.collider.gameObject.CompareTag(TagManager.T_PLAYER) == true)
                 {
                     //without this check we have double damage becouse there are few contact points
                     if(delayAttack <= 0)
@@ -149,19 +149,19 @@ public class EnemyController : MonoBehaviour
                     }
                 }
 
-                if (obj.collider.gameObject.CompareTag(TagManager.T_SQUAD) == true)
+                if(obj.collider.gameObject.CompareTag(TagManager.T_SQUAD) == true)
                 {
                     if(delayAttack <= 0)
                     {
                         obj.collider.gameObject.GetComponent<UnitController>().TakeDamage(pAttack, mAttack, isCriticalDamage);
                         delayAttack = speedAttack;
-                    }                    
+                    }
                 }
             }
         }
 
     }
-        //TODO: check depending of time
+    //TODO: check depending of time
 
     public void TakeDamage(float physicalDamage, float magicDamage, Vector3 forceDirection, bool isCritical = false, UnitsAbilities killSource = UnitsAbilities.Notning)
     {
@@ -197,8 +197,8 @@ public class EnemyController : MonoBehaviour
             ShowDamage(damage, damageText);
 
             if(forceDirection != Vector3.zero) PushMe(forceDirection, pushForce);
-            
-        }   
+
+        }
     }
 
     public void Kill(float value = 0)
@@ -252,7 +252,7 @@ public class EnemyController : MonoBehaviour
     }
 
     private void Dead()
-    {           
+    {
         GameObject death = poolManager.GetObject(ObjectPool.EnemyDeath);
         death.transform.position = transform.position;
         death.SetActive(true);
@@ -263,7 +263,7 @@ public class EnemyController : MonoBehaviour
 
         CreateBonus();
 
-        EventManager.OnEnemyDestroyedEvent(gameObject);
+        EventManager.OnEnemyDestroyedEvent(this);
 
         if(sourceOfDeath != UnitsAbilities.Notning) EventManager.OnKillEnemyByEvent(sourceOfDeath);
 
@@ -288,32 +288,32 @@ public class EnemyController : MonoBehaviour
         bonusManager.CreateBonus(isBoss, bonusType, transform.position, exp);
     }
 
-    public void MakeBoss() 
+    public void MakeBoss()
     {
-        isBoss               = true;
-        currentHealth        *= bossCreateSecondMultiplier;
-        mAttack              *= bossCreateMainMultiplier;
-        pAttack              *= bossCreateMainMultiplier;
+        isBoss = true;
+        currentHealth *= bossCreateSecondMultiplier;
+        mAttack *= bossCreateMainMultiplier;
+        pAttack *= bossCreateMainMultiplier;
         transform.localScale *= bossCreateMainMultiplier;
-        rbEnemy.mass         *= bossCreateMainMultiplier;
-        exp                  *= (bossCreateSecondMultiplier * bossCreateMainMultiplier);
+        rbEnemy.mass *= bossCreateMainMultiplier;
+        exp *= (bossCreateSecondMultiplier * bossCreateMainMultiplier);
 
         movementScript.BoostSpeed(0.2f);
         if(bossController != null)
             bossController.enabled = true;
 
         bossController.Init(currentHealth, enemySprite);
-    }    
+    }
 
     private void ReturnBossToOrdinaryEnemy()
     {
-        isBoss               = false;
-        currentHealth        /= bossCreateSecondMultiplier;
-        mAttack              /= bossCreateMainMultiplier;
-        pAttack              /= bossCreateMainMultiplier;
+        isBoss = false;
+        currentHealth /= bossCreateSecondMultiplier;
+        mAttack /= bossCreateMainMultiplier;
+        pAttack /= bossCreateMainMultiplier;
         transform.localScale /= bossCreateMainMultiplier;
-        rbEnemy.mass         /= bossCreateMainMultiplier;
-        exp                  /= (bossCreateSecondMultiplier * bossCreateMainMultiplier);
+        rbEnemy.mass /= bossCreateMainMultiplier;
+        exp /= (bossCreateSecondMultiplier * bossCreateMainMultiplier);
 
         if(bossController != null)
         {
@@ -336,11 +336,11 @@ public class EnemyController : MonoBehaviour
             if(isBoss == false && currentHealth > health) currentHealth = health;
         }
 
-        if(boost == BoostType.EnemyPhysicAttack) pAttack       = originalStats.physicAttack + originalStats.physicAttack * value;
-        if(boost == BoostType.EnemyPhysicDefence) pDefence     = originalStats.physicDefence + originalStats.physicDefence * value;
-        if(boost == BoostType.EnemyMagicAttack) mAttack        = originalStats.magicAttack + originalStats.magicAttack * value;
-        if(boost == BoostType.EnemyMagicDefence) mDefence      = originalStats.magicDefence + originalStats.magicDefence * value;
-        if(boost == BoostType.EnemyCoolDown) speedAttack       = originalStats.speedAttack + originalStats.speedAttack * value;
+        if(boost == BoostType.EnemyPhysicAttack) pAttack = originalStats.physicAttack + originalStats.physicAttack * value;
+        if(boost == BoostType.EnemyPhysicDefence) pDefence = originalStats.physicDefence + originalStats.physicDefence * value;
+        if(boost == BoostType.EnemyMagicAttack) mAttack = originalStats.magicAttack + originalStats.magicAttack * value;
+        if(boost == BoostType.EnemyMagicDefence) mDefence = originalStats.magicDefence + originalStats.magicDefence * value;
+        if(boost == BoostType.EnemyCoolDown) speedAttack = originalStats.speedAttack + originalStats.speedAttack * value;
         if(boost == BoostType.BossDamade) bossDamageMultiplier = value;
     }
 

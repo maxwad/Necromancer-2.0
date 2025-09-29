@@ -58,9 +58,13 @@ public class GlobalStorage : MonoBehaviour
     void Awake()
     {
         if (instance == null)
+        {
             instance = this;
+        }
         else
+        {
             Destroy(gameObject);
+        }
     }
 
     public void StartGame(bool createMode)

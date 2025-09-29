@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
-using static Enums;
 
 public class BattleBossUI : MonoBehaviour
 {
@@ -26,7 +23,7 @@ public class BattleBossUI : MonoBehaviour
     public void UpdateHealth(float currentH)
     {
         float value = (currentH > 0 && currentH < 1) ? 1 : Mathf.Round(currentH);
-        
+
         healthScale.fillAmount = value / maxHealth;
         healthCount.text = value + "/" + maxHealth;
     }

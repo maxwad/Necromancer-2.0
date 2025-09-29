@@ -1,9 +1,6 @@
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
-using static Enums;
-using System;
 
 public class AltarResourceButton : MonoBehaviour
 {
@@ -23,7 +20,7 @@ public class AltarResourceButton : MonoBehaviour
         string amount = data.amount.ToString();
         amountText.text = amount;
 
-        amount = (data.amountTotalTry == 0) ? "" :  "(Max: " + data.amountTotalTry + ")";
+        amount = (data.amountTotalTry == 0) ? "" : "(Max: " + data.amountTotalTry + ")";
         maxTryText.text = amount;
 
         maxTryText.color = data.tryColor;

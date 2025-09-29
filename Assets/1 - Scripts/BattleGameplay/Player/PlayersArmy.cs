@@ -1,9 +1,7 @@
-using System.Linq;
+using Enums;
 using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
-using static Enums;
-using System;
+using UnityEngine;
 using Zenject;
 
 public class PlayersArmy : MonoBehaviour
@@ -22,7 +20,7 @@ public class PlayersArmy : MonoBehaviour
     private int possibleResurrections = 0;
     private List<UnitsTypes> unitsForResurrectionList = new List<UnitsTypes>();
 
-    [HideInInspector] public Unit[] playersArmy = new Unit[4];   
+    [HideInInspector] public Unit[] playersArmy = new Unit[4];
 
     [Space]
     [SerializeField] private GameObject reserveArmyContainer;
@@ -50,7 +48,7 @@ public class PlayersArmy : MonoBehaviour
         this.playerStats = playerStats;
     }
 
-    private void  InitializeArmy()
+    private void InitializeArmy()
     {
         unitsTypesList = unitManager.GetUnitsTypesList();
 
@@ -136,7 +134,7 @@ public class PlayersArmy : MonoBehaviour
             if(item.squad != null)
                 playersArmy[item.index] = fullArmy[item.squad.unitInSlot.unitType].unit;
         }
-       
+
         if(GlobalStorage.instance.isGlobalMode == false)
         {
             ShowSquadsOnBattleField(false);
@@ -190,7 +188,7 @@ public class PlayersArmy : MonoBehaviour
         {
             fullArmy[unitType].unitController.quantity = 0;
             fullArmy[unitType].unit.isUnitActive = false;
-            fullArmy[unitType].squadUI.gameObject.SetActive(false);            
+            fullArmy[unitType].squadUI.gameObject.SetActive(false);
         }
 
         ShowSquadsOnBattleField(false);
@@ -203,7 +201,8 @@ public class PlayersArmy : MonoBehaviour
 
         for(int i = 0; i < quantity; i++)
         {
-            if(unitsForResurrectionList.Count == 0) {                
+            if(unitsForResurrectionList.Count == 0)
+            {
                 break;
             }
             else
@@ -276,7 +275,7 @@ public class PlayersArmy : MonoBehaviour
                 deadUnitsInCurrentBattle[unitType]++;
             else
             {
-                deadUnitsInCurrentBattle.Add(unitType, 1);                
+                deadUnitsInCurrentBattle.Add(unitType, 1);
             }
 
             if(unitsForResurrectionList.Count < possibleResurrections)
@@ -298,7 +297,7 @@ public class PlayersArmy : MonoBehaviour
                 if(deadUnitsInCurrentBattle[unitType] == 0)
                 {
                     deadUnitsInCurrentBattle.Remove(unitType);
-                }                    
+                }
             }
         }
     }
@@ -365,13 +364,13 @@ public class PlayersArmy : MonoBehaviour
             SquadLost(unitType);
 
             if(fullArmy[unitType].unitController.quantity == 0)
-                unitForKillingList.Remove(unitType);            
+                unitForKillingList.Remove(unitType);
         }
     }
 
     public void DefeatDamage()
     {
-        EscapeDamage(-2);        
+        EscapeDamage(-2);
     }
 
     #endregion

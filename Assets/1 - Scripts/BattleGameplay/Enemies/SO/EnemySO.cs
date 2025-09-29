@@ -1,5 +1,5 @@
+using Enums;
 using UnityEngine;
-using static Enums;
 
 [CreateAssetMenu(fileName = "EnemyData", menuName = "EnemyItem")]
 

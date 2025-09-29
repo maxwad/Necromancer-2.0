@@ -1,5 +1,5 @@
 using UnityEngine;
-using static Enums;
+using Enums;
 
 [CreateAssetMenu(fileName = "DecadeData", menuName = "DecadeItem")]
 public class DecadeSO : ScriptableObject

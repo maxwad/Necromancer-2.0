@@ -1,8 +1,8 @@
+using Enums;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
-using static Enums;
 
 public class BonusController : MonoBehaviour
 {
@@ -68,7 +68,7 @@ public class BonusController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag(TagManager.T_PLAYER))
+        if(collision.CompareTag(TagManager.T_PLAYER))
         {
             EventManager.OnBonusPickedUpEvent(bonusType, value);
             DestroyMe();
@@ -81,8 +81,8 @@ public class BonusController : MonoBehaviour
         {
             isActivate = true;
             animator.StopAnimation(true);
-            StartCoroutine("ToThePlayer");            
-        }        
+            StartCoroutine("ToThePlayer");
+        }
     }
 
     private IEnumerator ToThePlayer()
@@ -103,7 +103,7 @@ public class BonusController : MonoBehaviour
     {
         isActivate = false;
         bonusManager.bonusesOnTheMap.Remove(gameObject);
-        gameObject.SetActive(false);       
+        gameObject.SetActive(false);
     }
 
     public void BoostBonusValue(float boost)
@@ -117,7 +117,7 @@ public class BonusController : MonoBehaviour
         currentInertion = inertion;
         isSpecialBonus = false;
 
-        if(bonusSO != null) 
+        if(bonusSO != null)
         {
             baseValue = bonusSO.value;
             value = baseValue;
@@ -143,10 +143,10 @@ public class BonusController : MonoBehaviour
 
     private void UpgradeParameters(BoostType boost, float boostValue)
     {
-        if(boost == BoostType.BonusAmount) 
+        if(boost == BoostType.BonusAmount)
         {
             value = baseValue + baseValue * boostValue;
-            CheckSizeOfBonus();        
+            CheckSizeOfBonus();
         }
     }
 

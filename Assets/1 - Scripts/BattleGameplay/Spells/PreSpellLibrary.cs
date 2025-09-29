@@ -1,12 +1,11 @@
+using Enums;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static Enums;
 
 public class PreSpellLibrary : MonoBehaviour
 {
-   [ Serializable]
+    [Serializable]
     public class PreSpellItem
     {
         public PreSpells preSpell;

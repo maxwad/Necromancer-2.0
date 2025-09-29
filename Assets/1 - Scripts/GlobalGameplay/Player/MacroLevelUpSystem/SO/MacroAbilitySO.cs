@@ -1,5 +1,5 @@
 using UnityEngine;
-using static Enums;
+using Enums;
 
 [CreateAssetMenu(fileName = "MacroAbilityData", menuName = "MacroAbilityItem")]
 

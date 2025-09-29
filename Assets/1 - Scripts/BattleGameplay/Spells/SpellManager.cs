@@ -1,7 +1,7 @@
-using System.Linq;
+using Enums;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-using static Enums;
 using Zenject;
 
 public class SpellManager : MonoBehaviour
@@ -61,7 +61,7 @@ public class SpellManager : MonoBehaviour
 
         readySpells.Add(findedSpells[spell]);
 
-        if(level == 1) 
+        if(level == 1)
             spellsInStorage.Add(findedSpells[spell].spell);
     }
 
@@ -132,7 +132,7 @@ public class SpellManager : MonoBehaviour
             SpellSO spell = allSpells.Where(i => i.spell == spellItem && i.level == spellsLevels[spellItem]).First();
             tempList.Add(spell);
         }
-            //tempList.Add(findedSpells[spell]);
+        //tempList.Add(findedSpells[spell]);
 
         return tempList;
     }

@@ -1,6 +1,6 @@
+using Enums;
 using UnityEngine;
 using Zenject;
-using static Enums;
 
 public class HealthObjectStats : MonoBehaviour
 {
@@ -92,7 +92,7 @@ public class HealthObjectStats : MonoBehaviour
     private void CreateBonus()
     {
         BonusType bonus = RandomBonus();
-        if(bonus != BonusType.Nothing) 
+        if(bonus != BonusType.Nothing)
             bonusManager.CreateBonus(false, bonus, transform.position);
 
     }

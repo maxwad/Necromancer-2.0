@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static Enums;
+using Enums;
 
 #region CASTLE
 
@@ -64,5 +64,21 @@ public interface ISpecialSavable
 }
 
 public interface ISpecialSaveData { }
+
+#endregion
+
+#region SYSTEM
+public interface IDiscardableInstance
+{
+    public void OnBeginUse()
+    {
+        // default implementation    
+    }
+
+    public void OnDiscard()
+    {
+        // default implementation    
+    }
+}
 
 #endregion

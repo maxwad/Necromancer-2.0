@@ -1,9 +1,8 @@
+using Enums;
 using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
-using static Enums;
 using Zenject;
 
 public class BoostInBattleUI : MonoBehaviour
@@ -54,7 +53,7 @@ public class BoostInBattleUI : MonoBehaviour
         icon.sprite = pict;
 
         string before = "";
-        if (value > 0) before = "+";
+        if(value > 0) before = "+";
         string after = "%";
         amount.text = before + value + after;
 

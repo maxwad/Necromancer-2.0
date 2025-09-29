@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static Enums;
+using Enums;
 
 [CreateAssetMenu(fileName = "FUpgradeData", menuName = "FUpgradeItem")]
 

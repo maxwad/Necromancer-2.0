@@ -1,8 +1,7 @@
-using System;
+using Enums;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static Enums;
 
 public class VassalMovement : MonoBehaviour
 {
@@ -26,10 +25,10 @@ public class VassalMovement : MonoBehaviour
 
     public void Init(Vassal v, VassalTargetSelector ts, VassalAnimation animation, VassalPathfinder pf)
     {
-        mainAI          = v;
-        targetSelector  = ts;
+        mainAI = v;
+        targetSelector = ts;
         animationScript = animation;
-        pathfinder      = pf;
+        pathfinder = pf;
     }
 
     public int GetMovementPointsAmoumt(bool currentMP = true)
@@ -80,7 +79,7 @@ public class VassalMovement : MonoBehaviour
 
         pathfinder.DrawThePath(pathPoints);
         Vector3 previousPosition;
-        Vector3 nextPoint = pathPoints.Dequeue();        
+        Vector3 nextPoint = pathPoints.Dequeue();
 
         yield return movingDelay;
 
@@ -139,10 +138,10 @@ public class VassalMovement : MonoBehaviour
         else
         {
             if(currentMovementPoints == 0)
-            {               
+            {
                 mainAI.EndOfMove();
                 yield break;
-            }                        
+            }
 
             if(pathPoints.Count <= 1)
             {
@@ -173,7 +172,7 @@ public class VassalMovement : MonoBehaviour
     private bool ShouldIContinuingTarget()
     {
         //checking for walking
-        if(targetSelector.GetCurrentTarget() == AITargetType.Walking && 
+        if(targetSelector.GetCurrentTarget() == AITargetType.Walking &&
             pathfinder.CheckPlayerNearBy(false) == true)
             return false;
 
@@ -210,9 +209,9 @@ public class VassalMovement : MonoBehaviour
         mainAI.SetCameraOnVassal();
         animationScript.Fading(false);
 
-        yield return delay;        
+        yield return delay;
 
-        targetSelector.PrepareToRest(true); 
+        targetSelector.PrepareToRest(true);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

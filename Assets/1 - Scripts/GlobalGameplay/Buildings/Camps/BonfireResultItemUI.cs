@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
-using static Enums;
+using Enums;
 
 public class BonfireResultItemUI : MonoBehaviour
 {

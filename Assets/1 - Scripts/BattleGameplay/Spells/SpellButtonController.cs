@@ -1,9 +1,9 @@
+using Enums;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using TMPro;
-using static Enums;
 using Zenject;
 
 public class SpellButtonController : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
@@ -205,7 +205,7 @@ public class SpellButtonController : MonoBehaviour, IPointerEnterHandler, IPoint
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        ActivatePreSpell(false);        
+        ActivatePreSpell(false);
     }
 
     private void ActivatePreSpell(bool mode)

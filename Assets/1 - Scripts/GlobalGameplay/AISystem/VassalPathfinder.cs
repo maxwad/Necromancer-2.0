@@ -1,8 +1,8 @@
-using System.Linq;
+using Enums;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using static Enums;
 using Zenject;
 
 public class VassalPathfinder : MonoBehaviour
@@ -177,7 +177,7 @@ public class VassalPathfinder : MonoBehaviour
             if(position != Vector3.zero)
                 findedPoint = tileManager.CellConverterToV3Int(position);
         }
-        
+
         return findedPoint;
     }
 
@@ -245,7 +245,7 @@ public class VassalPathfinder : MonoBehaviour
                 }
             }
 
-            if(isSearching == false) break;            
+            if(isSearching == false) break;
         }
 
         if(isDeadEnd == false)
@@ -256,12 +256,12 @@ public class VassalPathfinder : MonoBehaviour
                 roadBack.Add(queueDict[currentBackCell].source);
                 currentBackCell = queueDict[currentBackCell].source;
             }
-            roadBack.Reverse();            
+            roadBack.Reverse();
 
             for(int i = 0; i < roadBack.Count; i++)
-            {               
+            {
                 currentPath.Enqueue(roadMap.CellToWorld(roadBack[i].coordinates));
-                overlayMap.SetTile(roadBack[i].coordinates, testTile);                
+                overlayMap.SetTile(roadBack[i].coordinates, testTile);
             }
         }
 

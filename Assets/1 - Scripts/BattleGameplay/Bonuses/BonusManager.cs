@@ -1,7 +1,7 @@
+using Enums;
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
-using static Enums;
 
 public class BonusManager : MonoBehaviour
 {
@@ -27,7 +27,7 @@ public class BonusManager : MonoBehaviour
         {
             type = alternativeBonusType;
         }
-        
+
         GameObject bonus;
 
         BonusSO bonusSO = null;
@@ -44,7 +44,7 @@ public class BonusManager : MonoBehaviour
         bonus = poolManager.GetObject(ObjectPool.BattleBonus);
         bonus.transform.position = position;
         bonus.transform.SetParent(bonusesContainer.transform);
-        bonus.GetComponent<BonusController>().Init(isThisFromBoss, bonusSO, value);        
+        bonus.GetComponent<BonusController>().Init(isThisFromBoss, bonusSO, value);
 
         bonusesOnTheMap.Add(bonus);
     }

@@ -1,6 +1,6 @@
 using UnityEngine;
 using Zenject;
-using static Enums;
+using Enums;
 
 public class GMPlayerPositionChecker : MonoBehaviour
 {

@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using Zenject;
-using static Enums;
+using Enums;
 
 public class Vassal : MonoBehaviour
 {

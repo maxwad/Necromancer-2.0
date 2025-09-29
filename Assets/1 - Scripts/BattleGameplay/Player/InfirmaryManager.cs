@@ -1,7 +1,7 @@
+using Enums;
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
-using static Enums;
 
 public partial class InfirmaryManager : MonoBehaviour
 {
@@ -12,7 +12,7 @@ public partial class InfirmaryManager : MonoBehaviour
 
     private PlayerStats playerStats;
     private GameObject player;
-    
+
     [Inject]
     public void Construct(PlayerStats playerStats, GMPlayerMovement globalPlayer)
     {
@@ -103,14 +103,14 @@ public partial class InfirmaryManager : MonoBehaviour
 
         foreach(var unit in tempList)
         {
-            injuredDict[unit].term--; 
+            injuredDict[unit].term--;
         }
 
         int countOfUnitsDeath = 0;
 
         foreach(var unit in tempList)
         {
-            if(injuredDict[unit].term <= 0) 
+            if(injuredDict[unit].term <= 0)
             {
                 countOfUnitsDeath++;
                 RemoveUnitFromInfirmary(unit);

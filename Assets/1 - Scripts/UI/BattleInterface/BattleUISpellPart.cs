@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
-using static Enums;
+using Enums;
 
 public class BattleUISpellPart : MonoBehaviour
 {

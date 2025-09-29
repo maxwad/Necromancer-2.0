@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 using System.Collections.Generic;
-using static Enums;
+using Enums;
 
 [Serializable]
 public class Vec3

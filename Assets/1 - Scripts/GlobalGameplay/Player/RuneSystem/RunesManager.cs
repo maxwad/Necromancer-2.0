@@ -2,7 +2,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
-using static Enums;
+using Enums;
 
 public class RunesManager : MonoBehaviour
 {

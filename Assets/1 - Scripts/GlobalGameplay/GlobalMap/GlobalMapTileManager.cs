@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Collections.Generic;
-using static Enums;
+using Enums;
 using Zenject;
 
 public partial class GlobalMapTileManager : MonoBehaviour

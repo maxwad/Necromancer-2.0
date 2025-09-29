@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Zenject;
-using static Enums;
+using Enums;
 
 public class ResourceBuilder : MonoBehaviour
 {

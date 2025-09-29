@@ -1,8 +1,7 @@
+using Enums;
 using System;
-using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
-using static Enums;
 using Zenject;
 
 public class BossController : MonoBehaviour
@@ -74,18 +73,18 @@ public class BossController : MonoBehaviour
     {
         battleUIManager.enemyPart.UpdateBossHealth(currentHealth, this);
     }
-   
+
     public void BossDeath(bool runeDeleting)
     {
-        if(runeDeleting == true) 
+        if(runeDeleting == true)
             DeleteRune();
 
         battleUIManager.enemyPart.UnRegisterBoss(this, true);
 
-        if(waitCoroutine != null) 
+        if(waitCoroutine != null)
             StopCoroutine(waitCoroutine);
 
-        if(weapon != null) 
+        if(weapon != null)
             weapon.SetActive(false);
 
     }

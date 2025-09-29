@@ -1,7 +1,7 @@
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
-using static Enums;
+using Enums;
 using Zenject;
 
 public class AbilitiesStorage : MonoBehaviour

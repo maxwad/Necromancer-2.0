@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 using TMPro;
-using static Enums;
+using Enums;
 using Zenject;
 
 public class MenuManager : MonoBehaviour, IInputableKeys

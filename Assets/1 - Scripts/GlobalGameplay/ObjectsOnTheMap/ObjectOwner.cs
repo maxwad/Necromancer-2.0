@@ -1,6 +1,6 @@
 using UnityEngine;
 using TMPro;
-using static Enums;
+using Enums;
 
 public class ObjectOwner : MonoBehaviour
 {

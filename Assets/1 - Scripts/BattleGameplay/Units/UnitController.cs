@@ -1,8 +1,7 @@
-using UnityEngine;
-using TMPro;
-using static Enums;
+using Enums;
 using System.Collections;
-using System;
+using TMPro;
+using UnityEngine;
 using Zenject;
 
 public class UnitController : MonoBehaviour
@@ -35,7 +34,7 @@ public class UnitController : MonoBehaviour
 
     [Header("DEAD")]
     private bool isDead = false;
-    [HideInInspector]public SpriteRenderer unitSprite;
+    [HideInInspector] public SpriteRenderer unitSprite;
     public SpriteRenderer levelUpSprite;
 
     private Color normalColor;
@@ -74,7 +73,7 @@ public class UnitController : MonoBehaviour
         stopLevelUp = false;
     }
 
-    public void Initilize(Unit unitSource) 
+    public void Initilize(Unit unitSource)
     {
         unit = unitSource;
         currentHealth = unitSource.health;
@@ -144,7 +143,7 @@ public class UnitController : MonoBehaviour
             damageText = criticalColor;
         }
 
-        if (currentHealth <= 0)
+        if(currentHealth <= 0)
         {
             currentHealth = unit.health;
             playersArmy.SquadLost(unit.unitType);
@@ -180,10 +179,10 @@ public class UnitController : MonoBehaviour
 
     private void UpgradeParameters(BoostType boost, float value)
     {
-        if(boost == BoostType.PhysicDefence) 
+        if(boost == BoostType.PhysicDefence)
             physicDefence = physicDefenceBase + physicDefenceBase * value;
 
-        if(boost == BoostType.MagicDefence) 
+        if(boost == BoostType.MagicDefence)
             magicDefence = magicDefenceBase + magicDefenceBase * value;
     }
 

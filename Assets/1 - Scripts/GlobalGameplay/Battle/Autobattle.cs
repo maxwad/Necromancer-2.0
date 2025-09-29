@@ -1,8 +1,7 @@
-using System.Collections;
+using Enums;
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
-using static Enums;
 
 public class Autobattle : MonoBehaviour
 {
@@ -127,7 +126,7 @@ public class Autobattle : MonoBehaviour
             }
         }
 
-        if(unitsQuantity == 0) 
+        if(unitsQuantity == 0)
         {
             currentProportion = 0;
             CalculateResults();
@@ -240,7 +239,7 @@ public class Autobattle : MonoBehaviour
         foreach(var spell in currentSpells)
         {
             if((tacticMode == true && spell.type == TypeOfSpell.Attack) ||
-               (tacticMode == false && spell.type == TypeOfSpell.Defence)) 
+               (tacticMode == false && spell.type == TypeOfSpell.Defence))
             {
                 countOfSpells++;
                 commonCost += spell.manaCost;
@@ -277,7 +276,7 @@ public class Autobattle : MonoBehaviour
         //Debug.Log(currentProportion + ": You will lose units: " + Mathf.Round(enemiesQuantity / currentProportion) + " on " + enemiesQuantity + " enemies");
         lossesResult = Mathf.Round(enemiesQuantity / currentProportion);
 
-        if(lossesResult >= unitsQuantity || unitsQuantity == 0) 
+        if(lossesResult >= unitsQuantity || unitsQuantity == 0)
         {
             isVictory = false;
             result.result = isVictory;

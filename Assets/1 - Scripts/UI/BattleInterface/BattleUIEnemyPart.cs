@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using static Enums;
+using Enums;
 
 public class BattleUIEnemyPart : MonoBehaviour
 {
@@ -90,7 +90,7 @@ public class BattleUIEnemyPart : MonoBehaviour
         spawnValue.fillAmount = widthEnemyScale;
     }
 
-    public void FillDeadEnemiesBar(GameObject enemy)
+    public void FillDeadEnemiesBar(MonoBehaviour enemy)
     {
         if(enemy != null) currentEnemiesCount--;
 

@@ -2,7 +2,7 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using static Enums;
+using Enums;
 
 public class SaveIdGenerator : MonoBehaviour
 {

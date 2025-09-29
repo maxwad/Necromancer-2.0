@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using static Enums;
+using Enums;
 using Zenject;
 
 public class RuneWorkroom : SpecialBuilding

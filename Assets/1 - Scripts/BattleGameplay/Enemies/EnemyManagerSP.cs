@@ -1,7 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static Enums;
 
 public partial class EnemyManager : ISaveable
 {
@@ -44,7 +42,7 @@ public partial class EnemyManager : ISaveable
     public void Load(SaveLoadManager manager, Dictionary<int, object> state)
     {
         if(state.ContainsKey(Id) == false)
-        {           
+        {
             manager.LoadDataComplete("WARNING: no data about enemies");
             return;
         }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using static Enums;
+using Enums;
 using UnityEngine.EventSystems;
 using System;
 using Zenject;

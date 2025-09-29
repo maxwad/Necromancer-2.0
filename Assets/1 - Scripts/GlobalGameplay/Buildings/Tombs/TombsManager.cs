@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using static Enums;
+using Enums;
 using Zenject;
 
 public class TombsManager : MonoBehaviour

@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
-using static Enums;
+using Enums;
 
 
 #region CASTLE AND BUILDINGS
