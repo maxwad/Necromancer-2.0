@@ -24,7 +24,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private Transform enemyContainerGO;
     [SerializeField] private List<GameObject> spawnPositions;
 
-    [SerializeField] private List<EnumMonoDictionary> enemiesPrefabs;
+    [SerializeField] private List<EnemyController> enemiesPrefabs;
 
     [Space]
     private bool canISpawn = false;
@@ -184,16 +184,15 @@ public class EnemySpawner : MonoBehaviour
 
                 EnemiesTypes enemyType = enemiesList[randomIndex];
 
-                MonoBehaviour enemyPrefab = enemiesPrefabs.First(e => e.key == enemyType).value;
-
-                MonoBehaviour enemy = poolManager.GetOrCreateElement(enemyPrefab, this, enemyContainerGO, true);
+                EnemyController enemyPrefab = enemiesPrefabs.First(e => e.enemiesType == enemyType);
+                EnemyController enemy = poolManager.GetOrCreateElement(enemyPrefab, this, enemyContainerGO, true);
 
                 enemy.transform.position = randomPosition;
 
                 //Create boss
                 if(ShouldICreateBoss(currentCommonQuantity))
                 {
-                    enemy.GetComponent<EnemyController>().MakeBoss();
+                    enemy.MakeBoss();
                 }
 
                 enemiesOnTheMap.Add(enemy);
@@ -274,7 +273,15 @@ public class EnemySpawner : MonoBehaviour
         {
             canISpawn = false;
             battleUIManager.ShowVictoryBlock();
+            poolManager.DiscardAll(this);
+        } 
+        else
+        {
+            Debug.Log("Discard Enemy");
+            poolManager.DiscardByInstance(enemy, this);
+
         }
+
         SpawnControl();
     }
 

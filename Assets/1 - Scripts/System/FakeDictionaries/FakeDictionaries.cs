@@ -12,9 +12,9 @@ namespace FakeDictionaries
     }
 
     [Serializable]
-    public struct EnumMonoDictionary
+    public class EnumMonoDictionary
     {
         public EnemiesTypes key;
-        public MonoBehaviour value;
+        public EnemyController value;
     }
 }

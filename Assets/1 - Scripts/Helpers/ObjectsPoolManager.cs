@@ -1,5 +1,6 @@
 using Enums;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Zenject;
 
@@ -227,14 +228,15 @@ public class ObjectsPoolManager : MonoBehaviour
     private Dictionary<MonoBehaviour, Stack<MonoBehaviour>> discardedPrefabsPools = new();
     private Dictionary<MonoBehaviour, List<(MonoBehaviour instance, MonoBehaviour prefab)>> usedInstancesPool = new Dictionary<MonoBehaviour, List<(MonoBehaviour, MonoBehaviour)>>();
 
-    public MonoBehaviour GetOrCreateElement(MonoBehaviour proto, MonoBehaviour forSource, Transform parent, bool setActive = true)
+    public T GetOrCreateElement<T>(T proto, MonoBehaviour forSource, Transform parent, bool setActive = true) where T : MonoBehaviour
     {
         if(parent == null)
         {
             parent = root;
         }
 
-        MonoBehaviour instance = GetInstance<MonoBehaviour>(proto, forSource, parent, setActive);
+        T instance = GetInstance<T>(proto, forSource, parent, setActive);
+
         instance.gameObject.SetActive(setActive);
         instances.Add(instance);
 
@@ -264,12 +266,15 @@ public class ObjectsPoolManager : MonoBehaviour
             instance = discardedPool.Pop();
             instance.transform.SetParent(parent, false);
             newInstance = instance as T;
+
+            Debug.Log("Get instance from discarder list");
         }
         else
         {
             // В пуле таких нет, так что создаём новый
             newInstance = diContainer.InstantiatePrefab(prefab, parent).GetComponent<T>();
             instance = newInstance as MonoBehaviour;
+            Debug.Log("Get NEW instance");
         }
 
         //Закрепляем инстанс за родителем
@@ -315,7 +320,7 @@ public class ObjectsPoolManager : MonoBehaviour
             return;
         }
 
-        foreach(var item in usedInstancesPool[forSource])
+        foreach(var item in usedInstancesPool[forSource].ToList())
         {
             DiscardByInstance(item.instance, forSource);
         }
