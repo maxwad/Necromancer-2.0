@@ -4,10 +4,11 @@ using UnityEngine;
 using Zenject;
 using Enums;
 
-public class WeaponDamage : MonoBehaviour
+public class Weapon : MonoBehaviour
 {
-    private BoostManager boostManager;
-    private PlayerStats playersStats;
+    public UnitsWeapon WeaponType => weapon;
+
+    [SerializeField] private UnitsWeapon weapon;
 
     private float physicAttackBase;
     private float magicAttackBase;
@@ -20,6 +21,9 @@ public class WeaponDamage : MonoBehaviour
     [HideInInspector] public Unit unit;
 
     [HideInInspector] private List<GameObject> enemyList = new List<GameObject>();
+
+    private BoostManager boostManager;
+    private PlayerStats playersStats;
 
     [Inject]
     public void Construct(BoostManager boostManager, PlayerStats playersStats)
@@ -54,7 +58,7 @@ public class WeaponDamage : MonoBehaviour
             {
                 EnemyController enemy = collision.gameObject.GetComponent<EnemyController>();
 
-                if(unit.unitAbility == UnitsAbilities.Garlic)
+                if(unit.unitWeapon == UnitsWeapon.Garlic)
                 {
                     Hit(enemy, transform.position);
 
@@ -64,17 +68,17 @@ public class WeaponDamage : MonoBehaviour
                     enemyList.Add(collision.gameObject);
                 }
 
-                else if(unit.unitAbility == UnitsAbilities.Axe   ||
-                        unit.unitAbility == UnitsAbilities.Spear ||
-                        unit.unitAbility == UnitsAbilities.Bible ||
-                        unit.unitAbility == UnitsAbilities.Bow   ||
-                        unit.unitAbility == UnitsAbilities.Knife)
+                else if(unit.unitWeapon == UnitsWeapon.Axe   ||
+                        unit.unitWeapon == UnitsWeapon.Spear ||
+                        unit.unitWeapon == UnitsWeapon.Bible ||
+                        unit.unitWeapon == UnitsWeapon.Arrow   ||
+                        unit.unitWeapon == UnitsWeapon.Knife)
                 {
                     Hit(enemy, transform.position);
                     enemyList.Add(collision.gameObject);
                 }
                 
-                else if(unit.unitAbility == UnitsAbilities.Bottle)
+                else if(unit.unitWeapon == UnitsWeapon.Bottle)
                 {
                     //no action
                 }
@@ -84,12 +88,11 @@ public class WeaponDamage : MonoBehaviour
                     Hit(enemy, transform.position);
                 }
             }           
-            
         }
 
         if (collision.CompareTag(TagManager.T_OBSTACLE) == true)
         {
-            if(unit.unitAbility != UnitsAbilities.Bottle)
+            if(unit.unitWeapon != UnitsWeapon.Bottle)
             collision.gameObject.GetComponent<HealthObjectStats>().TakeDamage(physicAttack, magicAttack);
         }
     }
@@ -97,7 +100,7 @@ public class WeaponDamage : MonoBehaviour
     public void Hit(EnemyController enemy, Vector3 position)
     {
         bool isCriticalDamage = Random.Range(0, 100) < criticalDamage;
-        enemy.TakeDamage(physicAttack, magicAttack, position, isCriticalDamage, unit.unitAbility);
+        enemy.TakeDamage(physicAttack, magicAttack, position, isCriticalDamage, unit.unitWeapon);
 
         //Debug.Log("Ph attack = " + physicAttack);
     }

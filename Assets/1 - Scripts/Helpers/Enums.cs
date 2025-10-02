@@ -17,14 +17,14 @@ namespace Enums
         Army, Store, Nowhere, Infirmary
     }
 
-    public enum UnitsAbilities
+    public enum UnitsWeapon
     {
         Whip,
         Garlic,
         Axe,
         Spear,
         Bible,
-        Bow,
+        Arrow,
         Knife,
         Bottle,
         Notning

@@ -117,13 +117,19 @@ public class EnemySpawner : MonoBehaviour
     private void Update()
     {
         if(enemiesOnTheMap.Count < enemySlowCount)
+        {
             waitNextEnemy = waitNextEnemyFast;
+        }
 
         if(enemiesOnTheMap.Count > enemySlowCount)
+        {
             waitNextEnemy = waitNextEnemySlow;
+        }
 
         if(enemiesOnTheMap.Count > enemyTooSlowCount)
+        {
             waitNextEnemy = waitNextEnemyStop;
+        }
     }
 
     public void ReadyToSpawnEnemy()
@@ -177,11 +183,7 @@ public class EnemySpawner : MonoBehaviour
                     }
 
                 }
-                //for (int i = 0; i < enemiesQuantityList.Count; i++)
-                //{
-                //    currentProbably[i] = Mathf.Round((enemiesQuantityList[i] / commonQuantity) * 100);
-                //}
-
+ 
                 EnemiesTypes enemyType = enemiesList[randomIndex];
 
                 EnemyController enemyPrefab = enemiesPrefabs.First(e => e.enemiesType == enemyType);
@@ -226,7 +228,7 @@ public class EnemySpawner : MonoBehaviour
 
     private Vector3 GetSpawnPosition()
     {
-        int randomIndex = UnityEngine.Random.Range(0, spawnPositions.Count);
+        int randomIndex = Random.Range(0, spawnPositions.Count);
         Vector3 randomPosition = spawnPositions[randomIndex].transform.position;
 
         int tempX = Mathf.RoundToInt(UnityEngine.Random.Range((randomPosition.x - spawnOffset) * 10, (randomPosition.x + spawnOffset + 1) * 10) / 10);
@@ -277,7 +279,7 @@ public class EnemySpawner : MonoBehaviour
         } 
         else
         {
-            Debug.Log("Discard Enemy");
+            //Debug.Log("Discard Enemy");
             poolManager.DiscardByInstance(enemy, this);
 
         }

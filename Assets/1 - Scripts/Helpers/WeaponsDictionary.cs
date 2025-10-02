@@ -7,7 +7,7 @@ public class WeaponsDictionary : MonoBehaviour
 {
     [HideInInspector] public static WeaponsDictionary instance;
 
-    private List<Dictionary<UnitsAbilities, string>> abilities = new List<Dictionary<UnitsAbilities, string>>();
+    private List<Dictionary<UnitsWeapon, string>> abilities = new List<Dictionary<UnitsWeapon, string>>();
 
     [Header("Whip")]
     [SerializeField] private string WhipLvl_1; 
@@ -58,48 +58,48 @@ public class WeaponsDictionary : MonoBehaviour
             Destroy(gameObject);
 
         abilities.Add(
-            new Dictionary<UnitsAbilities, string>() { 
+            new Dictionary<UnitsWeapon, string>() { 
 
-                [UnitsAbilities.Whip]   = WhipLvl_1,
-                [UnitsAbilities.Garlic] = GarlicLvl_1,
-                [UnitsAbilities.Axe]    = AxeLvl_1,
-                [UnitsAbilities.Spear]  = SpearLvl_1,
-                [UnitsAbilities.Bible]  = BibleLvl_1,
-                [UnitsAbilities.Bow]    = BowLvl_1,
-                [UnitsAbilities.Knife]  = KnifeLvl_1,
-                [UnitsAbilities.Bottle] = BottleLvl_1
+                [UnitsWeapon.Whip]   = WhipLvl_1,
+                [UnitsWeapon.Garlic] = GarlicLvl_1,
+                [UnitsWeapon.Axe]    = AxeLvl_1,
+                [UnitsWeapon.Spear]  = SpearLvl_1,
+                [UnitsWeapon.Bible]  = BibleLvl_1,
+                [UnitsWeapon.Arrow]    = BowLvl_1,
+                [UnitsWeapon.Knife]  = KnifeLvl_1,
+                [UnitsWeapon.Bottle] = BottleLvl_1
             });
 
         abilities.Add(
-            new Dictionary<UnitsAbilities, string>()
+            new Dictionary<UnitsWeapon, string>()
             {
 
-                [UnitsAbilities.Whip]   = WhipLvl_2,
-                [UnitsAbilities.Garlic] = GarlicLvl_2,
-                [UnitsAbilities.Axe]    = AxeLvl_2,
-                [UnitsAbilities.Spear]  = SpearLvl_2,
-                [UnitsAbilities.Bible]  = BibleLvl_2,
-                [UnitsAbilities.Bow]    = BowLvl_2,
-                [UnitsAbilities.Knife]  = KnifeLvl_2,
-                [UnitsAbilities.Bottle] = BottleLvl_2
+                [UnitsWeapon.Whip]   = WhipLvl_2,
+                [UnitsWeapon.Garlic] = GarlicLvl_2,
+                [UnitsWeapon.Axe]    = AxeLvl_2,
+                [UnitsWeapon.Spear]  = SpearLvl_2,
+                [UnitsWeapon.Bible]  = BibleLvl_2,
+                [UnitsWeapon.Arrow]    = BowLvl_2,
+                [UnitsWeapon.Knife]  = KnifeLvl_2,
+                [UnitsWeapon.Bottle] = BottleLvl_2
             });
 
         abilities.Add(
-            new Dictionary<UnitsAbilities, string>()
+            new Dictionary<UnitsWeapon, string>()
             {
 
-                [UnitsAbilities.Whip]   = WhipLvl_3,
-                [UnitsAbilities.Garlic] = GarlicLvl_3,
-                [UnitsAbilities.Axe]    = AxeLvl_3,
-                [UnitsAbilities.Spear]  = SpearLvl_3,
-                [UnitsAbilities.Bible]  = BibleLvl_3,
-                [UnitsAbilities.Bow]    = BowLvl_3,
-                [UnitsAbilities.Knife]  = KnifeLvl_3,
-                [UnitsAbilities.Bottle] = BottleLvl_3
+                [UnitsWeapon.Whip]   = WhipLvl_3,
+                [UnitsWeapon.Garlic] = GarlicLvl_3,
+                [UnitsWeapon.Axe]    = AxeLvl_3,
+                [UnitsWeapon.Spear]  = SpearLvl_3,
+                [UnitsWeapon.Bible]  = BibleLvl_3,
+                [UnitsWeapon.Arrow]    = BowLvl_3,
+                [UnitsWeapon.Knife]  = KnifeLvl_3,
+                [UnitsWeapon.Bottle] = BottleLvl_3
             });
     }
 
-    public string GetAbilityDescription(UnitsAbilities ability, int level)
+    public string GetAbilityDescription(UnitsWeapon ability, int level)
     {
         return abilities[level - 1][ability];
     }

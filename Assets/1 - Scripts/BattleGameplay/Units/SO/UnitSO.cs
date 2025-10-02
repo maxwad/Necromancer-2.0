@@ -21,7 +21,7 @@ public class UnitSO : ScriptableObject
     public float size;
     public int level;
     public float killToNextLevel;
-    public UnitsAbilities unitAbility;
+    public UnitsWeapon unitAbility;
 
     public GameObject attackTool;
 

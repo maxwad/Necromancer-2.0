@@ -191,9 +191,9 @@ public class UnitController : MonoBehaviour
         MakeMeImmortal(true);
     }
 
-    private void IKilledEnemy(UnitsAbilities weapon)
+    private void IKilledEnemy(UnitsWeapon weapon)
     {
-        if(isDead == false && weapon == unit.unitAbility && stopLevelUp == false)
+        if(isDead == false && weapon == unit.unitWeapon && stopLevelUp == false)
         {
             currentKillCount++;
             UpdateLevel();

@@ -19,7 +19,7 @@ public class Unit
     public float speedAttack;
     public float size;
     public int level;
-    public UnitsAbilities unitAbility;
+    public UnitsWeapon unitWeapon;
     public string abilityDescription;
 
     public GameObject attackTool;
@@ -48,9 +48,9 @@ public class Unit
         size = unitSO.size;
         level = unitSO.level;
 
-        unitAbility = unitSO.unitAbility;
+        unitWeapon = unitSO.unitAbility;
         attackTool = unitSO.attackTool;
-        abilityDescription = WeaponsDictionary.instance.GetAbilityDescription(unitAbility, level);
+        abilityDescription = WeaponsDictionary.instance.GetAbilityDescription(unitWeapon, level);
 
         foreach(var cost in unitSO.costs)
             costs.Add(cost);

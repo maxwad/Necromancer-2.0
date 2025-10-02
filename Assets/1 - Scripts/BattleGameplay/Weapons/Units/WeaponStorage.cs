@@ -1,16 +1,23 @@
+using Enums;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Zenject;
-using Enums;
 
 public class WeaponStorage : MonoBehaviour
 {
+    [SerializeField] private List<Weapon> weaposPrefabs;
+    private List<Weapon> activeWeaponList;
+
     [HideInInspector] public bool isBibleWork = false;
     //this is gross, i need rework it
     [HideInInspector] public Unit unitForBible;
 
     [SerializeField] private GameObject weaponContainer;
     public Vector3 weaponOffset;
+
+
     private ObjectsPoolManager objectsPool;
     private BoostManager boostManager;
 
@@ -23,38 +30,38 @@ public class WeaponStorage : MonoBehaviour
 
     public void Attack(Unit unit)
     {
-        switch(unit.unitAbility)
+        switch(unit.unitWeapon)
         {
-            case UnitsAbilities.Whip:
+            case UnitsWeapon.Whip:
                 WhipAction(unit);
                 break;
 
-            case UnitsAbilities.Garlic:
-                GarlicAction(unit);                
+            case UnitsWeapon.Garlic:
+                GarlicAction(unit);
                 break;
 
-            case UnitsAbilities.Axe:
+            case UnitsWeapon.Axe:
                 AxeAction(unit);
                 break;
 
-            case UnitsAbilities.Spear:
+            case UnitsWeapon.Spear:
                 SpearAction(unit);
                 break;
 
-            case UnitsAbilities.Bible:
+            case UnitsWeapon.Bible:
                 unitForBible = unit;
                 if(isBibleWork == false) BibleAction(unit);
                 break;
 
-            case UnitsAbilities.Bow:
+            case UnitsWeapon.Arrow:
                 BowAction(unit);
                 break;
 
-            case UnitsAbilities.Knife:
+            case UnitsWeapon.Knife:
                 KnifeAction(unit);
                 break;
 
-            case UnitsAbilities.Bottle:
+            case UnitsWeapon.Bottle:
                 BottleAction(unit);
                 break;
 
@@ -74,25 +81,28 @@ public class WeaponStorage : MonoBehaviour
         }
 
         weaponOffset = new Vector3(0, transform.localScale.y / 2, 0);
-        GameObject weapon = objectsPool.GetWeapon(unit.unitAbility);
+        Weapon weaponPrefab = weaposPrefabs.First(w => w.WeaponType == unit.unitWeapon);
+
+        Weapon weapon = objectsPool.GetOrCreateElement(weaponPrefab, this, weaponContainer.transform, true);
+        activeWeaponList.Add(weapon);
 
         weapon.transform.position = unit.unitController.gameObject.transform.position;
         float weaponSize = unit.size + unit.size * boostManager.GetBoost(BoostType.WeaponSize);
 
         weapon.transform.localScale = new Vector3(weaponSize, weaponSize, weaponSize);
         weapon.transform.SetParent(weaponContainer.transform);
-        weapon.SetActive(true);
+        // weapon.SetActive(true);
 
-        weapon.GetComponent<WeaponDamage>().SetSettings(unit);
+        weapon.SetSettings(unit);
         weapon.GetComponent<WeaponMovement>().SetSettings(unit);
 
-        return weapon;
+        return weapon.gameObject;
     }
 
     #endregion
 
 
-    private void WhipAction(Unit unit) 
+    private void WhipAction(Unit unit)
     {
         float normalYAngle = 0f;
         float flipYAngle = 180f;
@@ -100,14 +110,14 @@ public class WeaponStorage : MonoBehaviour
 
         if(unit.level == 1)
         {
-            CreateConfiguredWeapon(flipYAngle, normalYAngle);           
+            CreateConfiguredWeapon(flipYAngle, normalYAngle);
         }
 
         if(unit.level == 2)
         {
             CreateConfiguredWeapon(flipYAngle, normalYAngle);
 
-            CreateConfiguredWeapon(normalYAngle, flipYAngle);            
+            CreateConfiguredWeapon(normalYAngle, flipYAngle);
         }
 
         if(unit.level == 3)
@@ -116,7 +126,7 @@ public class WeaponStorage : MonoBehaviour
             CreateConfiguredWeapon(normalYAngle, flipYAngle, -zAngle);
 
             CreateConfiguredWeapon(flipYAngle, normalYAngle, zAngle);
-            CreateConfiguredWeapon(flipYAngle, normalYAngle, -zAngle);            
+            CreateConfiguredWeapon(flipYAngle, normalYAngle, -zAngle);
         }
 
         void CreateConfiguredWeapon(float normalAngleY, float flipAngleY, float angleZ = 0)
@@ -129,7 +139,7 @@ public class WeaponStorage : MonoBehaviour
     }
 
 
-    private void GarlicAction(Unit unit) 
+    private void GarlicAction(Unit unit)
     {
         GameObject weapon = CreateWeapon(unit);
         if(weapon == null) return;
@@ -144,7 +154,7 @@ public class WeaponStorage : MonoBehaviour
 
         if(unit.level == 1)
         {
-            CreateConfiguredWeapon(1, 0);            
+            CreateConfiguredWeapon(1, 0);
         }
 
         if(unit.level == 2)
@@ -173,7 +183,7 @@ public class WeaponStorage : MonoBehaviour
     }
 
 
-    private void SpearAction(Unit unit) 
+    private void SpearAction(Unit unit)
     {
         StartCoroutine(CreateSpears(unit.level));
 
@@ -186,7 +196,7 @@ public class WeaponStorage : MonoBehaviour
                 itemWeapon.GetComponent<WeaponMovement>().ActivateWeapon(unit);
                 yield return new WaitForSeconds(0.2f);
             }
-        }        
+        }
     }
 
 
@@ -245,9 +255,9 @@ public class WeaponStorage : MonoBehaviour
                 GameObject itemWeapon = CreateWeapon(unit);
                 if(itemWeapon == null) break;
                 Vector2 mouseOnScreen = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                Vector2 weaponPosition = unit.unitController.gameObject.transform.position;                
+                Vector2 weaponPosition = unit.unitController.gameObject.transform.position;
                 float angle = Mathf.Atan2(weaponPosition.y - mouseOnScreen.y, weaponPosition.x - mouseOnScreen.x) * Mathf.Rad2Deg;
-                
+
                 itemWeapon.transform.eulerAngles = new Vector3(0, 0, angle);
                 itemWeapon.GetComponent<WeaponMovement>().ActivateWeapon(unit);
                 yield return new WaitForSeconds(0.2f);
@@ -271,7 +281,7 @@ public class WeaponStorage : MonoBehaviour
                 GameObject itemWeapon = CreateWeapon(unit);
                 if(itemWeapon == null) break;
                 itemWeapon.transform.eulerAngles = new Vector3(0, 0, GetAngleY(itemWeapon) + offsetAngles[i]);
-                itemWeapon.GetComponent<WeaponMovement>().ActivateWeapon(unit);                
+                itemWeapon.GetComponent<WeaponMovement>().ActivateWeapon(unit);
             }
         }
 
@@ -282,7 +292,7 @@ public class WeaponStorage : MonoBehaviour
             float x = Input.GetAxis("Horizontal");
             float y = Input.GetAxis("Vertical");
 
-            if(x == 0 )
+            if(x == 0)
             {
                 if(y == 0) angleZ = unit.unitController.unitSprite.flipX == true ? -180 : 0;
 
@@ -290,11 +300,11 @@ public class WeaponStorage : MonoBehaviour
 
                 if(y > 0) angleZ = -90;
 
-                if(y < 0) angleZ = 90;                                
+                if(y < 0) angleZ = 90;
             }
 
             if(x > 0)
-            {                
+            {
                 if(y == 0) angleZ = 180;
 
                 if(y > 0) angleZ = 225;
@@ -333,5 +343,32 @@ public class WeaponStorage : MonoBehaviour
                 yield return new WaitForSeconds(0.2f);
             }
         }
+    }
+
+    private void DestroyWeapon(Weapon weapon)
+    {
+        if(activeWeaponList.Contains(weapon))
+        {
+            activeWeaponList.Remove(weapon);
+            objectsPool.DiscardByInstance(weapon, this);
+        }
+    }
+
+    private void DestroyAllWeapon()
+    {
+        objectsPool.DiscardAll(this);
+        activeWeaponList.Clear();
+    }
+
+    private void OnEnable()
+    {
+        EventManager.WeaponDestroyed += DestroyWeapon;
+        EventManager.EndOfBattle += DestroyAllWeapon;
+    }
+
+    private void OnDisable()
+    {
+        EventManager.WeaponDestroyed -= DestroyWeapon;
+        EventManager.EndOfBattle -= DestroyAllWeapon;
     }
 }

@@ -1,8 +1,7 @@
+using Enums;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
-using Enums;
 
 public class WeaponMovement : MonoBehaviour
 {
@@ -31,7 +30,7 @@ public class WeaponMovement : MonoBehaviour
 
     private Coroutine coroutine;
     private WeaponStorage weaponStorage;
-    private WeaponDamage weaponDamage;
+    private Weapon weapon;
     private BoostManager boostManager;
     private GameObject effectsContainer;
     private ObjectsPoolManager poolManager;
@@ -39,7 +38,7 @@ public class WeaponMovement : MonoBehaviour
     [Inject]
     public void Construct(
         [Inject(Id = Constants.EFFECTS_CONTAINER)] GameObject effectsContainer,
-        WeaponStorage weaponStorage, 
+        WeaponStorage weaponStorage,
         BoostManager boostManager,
         ObjectsPoolManager poolManager
         )
@@ -47,9 +46,9 @@ public class WeaponMovement : MonoBehaviour
         this.effectsContainer = effectsContainer;
         this.weaponStorage = weaponStorage;
         this.boostManager = boostManager;
-        this.poolManager = poolManager;;
+        this.poolManager = poolManager; ;
 
-        weaponDamage = GetComponent<WeaponDamage>();
+        weapon = GetComponent<Weapon>();
     }
 
     private void Update()
@@ -58,34 +57,39 @@ public class WeaponMovement : MonoBehaviour
         {
             currentLifeTime += Time.deltaTime;
 
-            if(currentLifeTime >= lifeTime) gameObject.SetActive(false);
+            if(currentLifeTime >= lifeTime)
+            {
+                DestroyWeapon();
+            }
         }
 
-        if(isReadyToWork == true) 
+        if(isReadyToWork)
+        {
             WeaponMoving();
+        }
     }
 
     private void WeaponMoving()
     {
-        switch(unit.unitAbility)
+        switch(unit.unitWeapon)
         {
-            case UnitsAbilities.Spear:
+            case UnitsWeapon.Spear:
                 SpearMovement();
                 break;
 
-            case UnitsAbilities.Bible:
+            case UnitsWeapon.Bible:
                 BibleMovement();
                 break;
 
-            case UnitsAbilities.Bow:
+            case UnitsWeapon.Arrow:
                 BowMovement();
                 break;
 
-            case UnitsAbilities.Knife:
+            case UnitsWeapon.Knife:
                 KnifeMovement();
                 break;
 
-            case UnitsAbilities.Bottle:
+            case UnitsWeapon.Bottle:
                 BottleMovement();
                 break;
             default:
@@ -102,34 +106,34 @@ public class WeaponMovement : MonoBehaviour
 
     public void ActivateWeapon(Unit unit, int index = 0)
     {
-        weaponDamage.ClearEnemyList();
+        weapon.ClearEnemyList();
 
-        switch(unit.unitAbility)
+        switch(unit.unitWeapon)
         {
-            case UnitsAbilities.Garlic:
+            case UnitsWeapon.Garlic:
                 ActivateGarlic();
                 break;
 
-            case UnitsAbilities.Axe:
+            case UnitsWeapon.Axe:
                 ActivateAxe(index);
                 break;
 
-            case UnitsAbilities.Spear:
+            case UnitsWeapon.Spear:
                 ActivateSpear();
                 break;
 
-            case UnitsAbilities.Bible:
+            case UnitsWeapon.Bible:
                 ActivateBible(unit);
                 break;
 
-            case UnitsAbilities.Bow:
+            case UnitsWeapon.Arrow:
                 ActivateBow();
                 break;
 
-            case UnitsAbilities.Knife:
+            case UnitsWeapon.Knife:
                 ActivateKnife();
                 break;
-            case UnitsAbilities.Bottle:
+            case UnitsWeapon.Bottle:
                 ActivateBottle();
                 break;
 
@@ -158,7 +162,7 @@ public class WeaponMovement : MonoBehaviour
         //reset EnemyList every cycle
         if(transform.rotation.eulerAngles.z > 0 && transform.rotation.eulerAngles.z < 5f)
         {
-            weaponDamage.ClearEnemyList();
+            weapon.ClearEnemyList();
         }
 
         //control of new level and new position
@@ -181,7 +185,7 @@ public class WeaponMovement : MonoBehaviour
     }
 
     private void BottleMovement()
-    {        
+    {
         verticalVelocity += gravity * Time.deltaTime;
         rbWeapon.transform.position += new Vector3(0, verticalVelocity, 0) * Time.deltaTime;
         rbWeapon.transform.position += groundVelocity * Time.deltaTime;
@@ -203,9 +207,9 @@ public class WeaponMovement : MonoBehaviour
             if(settings != null)
             {
                 settings.SetSettings(
-                sortingLayer: TagManager.T_PLAYER, 
-                sortingOrder: 11, 
-                color: Color.cyan, 
+                sortingLayer: TagManager.T_PLAYER,
+                sortingOrder: 11,
+                color: Color.cyan,
                 size: weaponSize * 2,
                 animationSpeed: 0.07f);
             }
@@ -214,11 +218,11 @@ public class WeaponMovement : MonoBehaviour
             foreach(Collider2D obj in objects)
             {
                 if(obj.CompareTag(TagManager.T_ENEMY) == true)
-                    weaponDamage.Hit(obj.GetComponent<EnemyController>(), transform.position);
+                    weapon.Hit(obj.GetComponent<EnemyController>(), transform.position);
             }
 
             bottleShadow.SetActive(false);
-            gameObject.SetActive(false);
+            DestroyWeapon();
         }
     }
 
@@ -236,7 +240,7 @@ public class WeaponMovement : MonoBehaviour
             float endSize = gameObject.transform.localScale.x;
             float sizeStep = endSize / countOfSteps;
 
-            gameObject.transform.localScale = new Vector3(0, 0, 0);           
+            gameObject.transform.localScale = new Vector3(0, 0, 0);
 
             while(currentSize <= endSize)
             {
@@ -244,7 +248,8 @@ public class WeaponMovement : MonoBehaviour
                 currentSize += sizeStep;
                 gameObject.transform.localScale = new Vector3(currentSize, currentSize, currentSize);
             }
-            gameObject.SetActive(false);
+
+            DestroyWeapon();
         }
     }
 
@@ -258,7 +263,8 @@ public class WeaponMovement : MonoBehaviour
             if(numberOfWeapon == 1) torqueForce = -torqueForce;
         }
 
-        if(unit.level == 3)        {
+        if(unit.level == 3)
+        {
 
             if(numberOfWeapon == 3) torqueForce = -torqueForce;
         }
@@ -287,9 +293,9 @@ public class WeaponMovement : MonoBehaviour
                 if(currentDistance < distance)
                 {
                     distance = currentDistance;
-                    nearestEnemyPosition = obj.transform.position;                 
+                    nearestEnemyPosition = obj.transform.position;
                 }
-            }            
+            }
         }
 
         if(nearestEnemyPosition != Vector2.zero)
@@ -305,7 +311,7 @@ public class WeaponMovement : MonoBehaviour
             float yAngle = unitSprite.flipX == true ? 180 : 0;
             rbWeapon.transform.eulerAngles = new Vector3(rbWeapon.transform.eulerAngles.x, yAngle, rbWeapon.transform.eulerAngles.z);
         }
-        
+
         isReadyToWork = true;
     }
 
@@ -322,13 +328,13 @@ public class WeaponMovement : MonoBehaviour
         isReadyToWork = true;
     }
 
-    private void ActivateKnife() 
+    private void ActivateKnife()
     {
         rbWeapon = GetComponent<Rigidbody2D>();
         isReadyToWork = true;
     }
 
-    private void ActivateBottle() 
+    private void ActivateBottle()
     {
         float minRadiusMovement = 4;
         float maxRadiusMovement = 6;
@@ -351,7 +357,7 @@ public class WeaponMovement : MonoBehaviour
 
         if(gameObject.activeInHierarchy == true)
         {
-            if(coroutine != null) 
+            if(coroutine != null)
                 StopCoroutine(coroutine);
 
             coroutine = StartCoroutine(ScaleShadow());
@@ -378,7 +384,7 @@ public class WeaponMovement : MonoBehaviour
         {
             while(true)
             {
-                if(bottleShadow == null) 
+                if(bottleShadow == null)
                     break;
 
                 if(verticalVelocity > 0)
@@ -398,33 +404,34 @@ public class WeaponMovement : MonoBehaviour
         DestroyWeapon();
     }
 
-    // We don't need this part because we disable weapon when it is invisible
-
-    private void DestroyWeapon(bool mode = false)
+    private void DestroyWeapon()
     {
         if(bottleShadow != null)
         {
-            if(coroutine != null) 
+            if(coroutine != null)
+            {
                 StopCoroutine(coroutine);
+            }
 
             bottleShadow.SetActive(false);
             bottleShadow = null;
         }
-        if(unit != null && unit.unitAbility == UnitsAbilities.Bible)
+        if(unit != null && unit.unitWeapon == UnitsWeapon.Bible)
         {
             weaponStorage.isBibleWork = false;
         }
-        gameObject.SetActive(false);
+
+        EventManager.OnWeaponDestroyedEvent(weapon);
     }
 
     private void OnEnable()
     {
-        EventManager.SwitchPlayer += DestroyWeapon;
+        EventManager.EndOfBattle += DestroyWeapon;
         currentLifeTime = 0;
     }
 
     private void OnDisable()
     {
-        EventManager.SwitchPlayer -= DestroyWeapon;
+        EventManager.EndOfBattle -= DestroyWeapon;
     }
 }

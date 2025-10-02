@@ -150,7 +150,7 @@ public static class EventManager
     public static event UpgradeResourceEvent UpgradeResource;
     public static void OnUpgradeResourceEvent(ResourceType resource, float value) => UpgradeResource?.Invoke(resource, value);
     #endregion
-
+    
 
     #region Battle
     //calls when we finish or crash the battle
@@ -202,9 +202,9 @@ public static class EventManager
     //ACTIVATION:
     // - EnemyController
     //
-    public delegate void KillEnemyByEvent(UnitsAbilities weapon);
+    public delegate void KillEnemyByEvent(UnitsWeapon weapon);
     public static event KillEnemyByEvent KillEnemyBy;
-    public static void OnKillEnemyByEvent(UnitsAbilities weapon) => KillEnemyBy?.Invoke(weapon);
+    public static void OnKillEnemyByEvent(UnitsWeapon weapon) => KillEnemyBy?.Invoke(weapon);
 
 
     //calls when we rich max level in the battle
@@ -244,6 +244,19 @@ public static class EventManager
     public delegate void DefeatEvent();
     public static event DefeatEvent Defeat;
     public static void OnDefeatEvent() => Defeat?.Invoke();
+
+
+    //calls when weapon is destroyed
+    //
+    //SUBSCRIBERS:
+    // - WeaponStorage
+    //
+    //ACTIVATION:
+    // - Weapon
+    //
+    public delegate void WeaponDestroyedEvent(Weapon weapon);
+    public static event WeaponDestroyedEvent WeaponDestroyed;
+    public static void OnWeaponDestroyedEvent(Weapon weapon) => WeaponDestroyed?.Invoke(weapon);
 
     #endregion
 

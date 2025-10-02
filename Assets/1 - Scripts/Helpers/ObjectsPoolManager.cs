@@ -10,7 +10,7 @@ public class ObjectsPoolManager : MonoBehaviour
     public DiContainer diContainer;
     public Transform root;
 
-    private List<MonoBehaviour> instances;
+    private List<MonoBehaviour> instances = new();
 
     public List<ObjectPoolObjects> objectsList;
     private Dictionary<ObjectPool, List<GameObject>> allObjectsDict = new Dictionary<ObjectPool, List<GameObject>>();
@@ -19,7 +19,7 @@ public class ObjectsPoolManager : MonoBehaviour
     private Dictionary<EnemiesTypes, List<GameObject>> enemiesDict = new Dictionary<EnemiesTypes, List<GameObject>>();
 
     public List<ObjectPoolWeapon> weaponList;
-    private Dictionary<UnitsAbilities, List<GameObject>> allWeaponsDict = new Dictionary<UnitsAbilities, List<GameObject>>();
+    private Dictionary<UnitsWeapon, List<GameObject>> allWeaponsDict = new Dictionary<UnitsWeapon, List<GameObject>>();
 
     public List<ObjectPoolBossWeapon> bossWeaponList;
     private Dictionary<BossWeapons, List<GameObject>> allBossWeaponList = new Dictionary<BossWeapons, List<GameObject>>();
@@ -114,7 +114,7 @@ public class ObjectsPoolManager : MonoBehaviour
         return obj;
     }
 
-    public GameObject GetWeapon(UnitsAbilities type)
+    public GameObject GetWeapon(UnitsWeapon type)
     {
         GameObject obj = null;
 
@@ -243,7 +243,7 @@ public class ObjectsPoolManager : MonoBehaviour
         return instance;
     }
 
-    public T GetInstance<T>(MonoBehaviour prefab, MonoBehaviour forSource, Transform parent, bool setItemActive = true) where T : class
+    public T GetInstance<T>(MonoBehaviour prefab, MonoBehaviour forSource, Transform parent, bool setItemActive = true, bool log = false) where T : class
     {
         if(prefab == null)
         {
@@ -267,14 +267,21 @@ public class ObjectsPoolManager : MonoBehaviour
             instance.transform.SetParent(parent, false);
             newInstance = instance as T;
 
-            Debug.Log("Get instance from discarder list");
+            if(log)
+            {           
+                Debug.Log("Get instance from discarder list for " + prefab.name);
+            }
         }
         else
         {
             // В пуле таких нет, так что создаём новый
             newInstance = diContainer.InstantiatePrefab(prefab, parent).GetComponent<T>();
             instance = newInstance as MonoBehaviour;
-            Debug.Log("Get NEW instance");
+
+            if(log)
+            {
+                Debug.Log("Get NEW instance for " + prefab.name);
+            }
         }
 
         //Закрепляем инстанс за родителем
@@ -326,8 +333,13 @@ public class ObjectsPoolManager : MonoBehaviour
         }
     }
 
-    public void DiscardByInstance<T>(T instance, MonoBehaviour forSource) where T : MonoBehaviour
+    public void DiscardByInstance<T>(T instance, MonoBehaviour forSource, bool log = false) where T : MonoBehaviour
     {
+        if(log)
+        {
+            Debug.Log("Discard by instance for " + instance.name);
+        }
+
         if(!usedInstancesPool.ContainsKey(forSource))
         {
             Debug.Log("THERE IS NO INSTANCE " + instance.gameObject.name + " FOR " + forSource.gameObject.name);

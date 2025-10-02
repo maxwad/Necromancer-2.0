@@ -83,7 +83,7 @@ public class ObjectPoolObjects
 [Serializable]
 public class ObjectPoolWeapon
 {
-    public UnitsAbilities type;
+    public UnitsWeapon type;
     public GameObject weapon;
 }
 

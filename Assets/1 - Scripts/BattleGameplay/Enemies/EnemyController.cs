@@ -51,7 +51,7 @@ public class EnemyController : MonoBehaviour
     private float pushForce = 4000f;
 
     public BonusType bonusType;
-    private UnitsAbilities sourceOfDeath = UnitsAbilities.Notning;
+    private UnitsWeapon sourceOfDeath = UnitsWeapon.Notning;
 
     private EnemyMovement movementScript;
     private BoostManager boostManager;
@@ -163,7 +163,7 @@ public class EnemyController : MonoBehaviour
     }
     //TODO: check depending of time
 
-    public void TakeDamage(float physicalDamage, float magicDamage, Vector3 forceDirection, bool isCritical = false, UnitsAbilities killSource = UnitsAbilities.Notning)
+    public void TakeDamage(float physicalDamage, float magicDamage, Vector3 forceDirection, bool isCritical = false, UnitsWeapon killSource = UnitsWeapon.Notning)
     {
         if(currentHealth > 0)
         {
@@ -265,7 +265,10 @@ public class EnemyController : MonoBehaviour
 
         EventManager.OnEnemyDestroyedEvent(this);
 
-        if(sourceOfDeath != UnitsAbilities.Notning) EventManager.OnKillEnemyByEvent(sourceOfDeath);
+        if(sourceOfDeath != UnitsWeapon.Notning)
+        {
+            EventManager.OnKillEnemyByEvent(sourceOfDeath);
+        }
 
         ResetEnemy();
     }
