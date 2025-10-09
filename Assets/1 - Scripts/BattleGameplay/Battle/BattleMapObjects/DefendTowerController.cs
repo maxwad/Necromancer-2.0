@@ -94,7 +94,7 @@ public class DefendTowerController : MonoBehaviour
         dust.transform.SetParent(effectsContainer.transform);
         dust.SetActive(true);
 
-        PrefabSettings settings = dust.GetComponent<PrefabSettings>();
+        SimpleAnimationObject settings = dust.GetComponent<SimpleAnimationObject>();
 
         if(settings != null) 
             settings.SetSettings(color: Color.white, sortingOrder: 11, sortingLayer: TagManager.T_PLAYER, animationSpeed: 0.05f);

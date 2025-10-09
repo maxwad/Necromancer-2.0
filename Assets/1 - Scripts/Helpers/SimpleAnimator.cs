@@ -1,7 +1,8 @@
+using Enums;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Enums;
+using Zenject;
 
 public class SimpleAnimator : MonoBehaviour
 {
@@ -9,26 +10,39 @@ public class SimpleAnimator : MonoBehaviour
     public List<Sprite> spriteListAttack;
     private List<Sprite> currentSpriteList = new List<Sprite>();
 
-    public AfterAnimation actionAfterAnimation;
+    public AfterAnimationAction actionAfterAnimation;
     private SpriteRenderer image;
     private Sprite startImage;
     public float framerate = 0.01f;
     private WaitForSeconds waitTime;
-    private Coroutine animating;
+    private Coroutine animationCor;
     private bool stopAnimation = false;
+    private MonoBehaviour prefabSource;
+    private MonoBehaviour prefabInstance;
+
+    private ObjectsPoolManager poolManager;
+
+    [Inject]
+    public void Construct(ObjectsPoolManager poolManager)
+    {
+        this.poolManager = poolManager;
+    }
 
     private void Awake()
     {
         image = GetComponent<SpriteRenderer>();
-        startImage = image.sprite; 
+        startImage = image.sprite;
     }
 
     private void OnEnable()
     {
         currentSpriteList = spriteList;
-        if (animating != null) StopCoroutine(animating);
+        if(animationCor != null)
+        {
+            StopCoroutine(animationCor);
+        }
 
-        animating = StartCoroutine(Animate());
+        animationCor = StartCoroutine(Animate());
     }
 
     private void OnDisable()
@@ -36,13 +50,30 @@ public class SimpleAnimator : MonoBehaviour
         ResetAnimation();
     }
 
+    private void CallAfterAniation(AfterAnimationAction actionType)
+    {
+        if(prefabSource != null)
+        {
+            poolManager.DiscardByInstance(prefabInstance, prefabSource);
+        }
+
+        EventManager.OnAnimationFinishedEvent(actionAfterAnimation);
+    }
+
+
+    public void SerPrefabSource(MonoBehaviour prefabSource, MonoBehaviour prefabInstance)
+    {
+        this.prefabSource = prefabSource;
+        this.prefabInstance = prefabInstance;
+    }
+
     private IEnumerator Animate()
     {
         waitTime = new WaitForSeconds(framerate);
 
-        while (true)
-        {            
-            foreach (Sprite item in currentSpriteList)
+        while(true)
+        {
+            foreach(Sprite item in currentSpriteList)
             {
                 if(stopAnimation == false)
                 {
@@ -51,22 +82,15 @@ public class SimpleAnimator : MonoBehaviour
                     {
                         image.sortingOrder = -Mathf.RoundToInt(transform.position.y * 100);
                     }
-                }                             
+                }
                 yield return waitTime;
             }
 
-            if (actionAfterAnimation == AfterAnimation.Destroy)
+            if(actionAfterAnimation != AfterAnimationAction.Nothing)
             {
-                DestroyObject();
-                break;
+                CallAfterAniation(actionAfterAnimation);
             }
-
-            if (actionAfterAnimation == AfterAnimation.SetDisable)
-            {
-                DisableObject();
-                break;
-            }
-        }    
+        }
     }
 
     public void StopAnimation(bool mode)
@@ -79,46 +103,57 @@ public class SimpleAnimator : MonoBehaviour
         stopAnimation = false;
         image.sprite = startImage;
         currentSpriteList = spriteList;
+
+        prefabSource = null;
     }
 
     public void ChangeAnimation(Animations animation)
     {
-        if(animating != null) StopCoroutine(animating);
+        if(this.animationCor != null)
+        {
+            StopCoroutine(this.animationCor);
+        }
 
-        if(animation == Animations.Attack && spriteListAttack.Count != 0) currentSpriteList = spriteListAttack;
+        if(animation == Animations.Attack && spriteListAttack.Count != 0)
+        {
+            currentSpriteList = spriteListAttack;
+        }
 
-        if(animation == Animations.Walk && spriteList.Count != 0) currentSpriteList = spriteList;
+        if(animation == Animations.Walk && spriteList.Count != 0)
+        {
+            currentSpriteList = spriteList;
+        }
 
-        if(gameObject.activeInHierarchy == true) animating = StartCoroutine(Animate());
+        if(gameObject.activeInHierarchy)
+        {
+            this.animationCor = StartCoroutine(Animate());
+        }
     }
 
     public void ChangeAnimation(List<Sprite> newSpriteList)
     {
-        if(animating != null) StopCoroutine(animating);
+        if(animationCor != null)
+        {
+            StopCoroutine(animationCor);
+        }
 
         spriteList = newSpriteList;
         currentSpriteList = newSpriteList;
 
-        if(gameObject.activeInHierarchy == true) animating = StartCoroutine(Animate());
-
+        if(gameObject.activeInHierarchy)
+        {
+            animationCor = StartCoroutine(Animate());
+        }
     }
 
     public void SetSpeed(float newSpeed)
     {
-        if(animating != null) StopCoroutine(animating);
+        if(animationCor != null)
+        {
+            StopCoroutine(animationCor);
+        }
 
         framerate = newSpeed;
-        animating = StartCoroutine(Animate());
+        animationCor = StartCoroutine(Animate());
     }
-
-    private void DestroyObject()
-    {
-        Destroy(gameObject);
-    }
-
-    private void DisableObject()
-    {
-        gameObject.SetActive(false);
-    }
-
 }

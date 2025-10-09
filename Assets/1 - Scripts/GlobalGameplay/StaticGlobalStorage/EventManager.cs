@@ -258,6 +258,18 @@ public static class EventManager
     public static event WeaponDestroyedEvent WeaponDestroyed;
     public static void OnWeaponDestroyedEvent(Weapon weapon) => WeaponDestroyed?.Invoke(weapon);
 
+    //calls when Simple Animator finished
+    //
+    //SUBSCRIBERS:
+    // - WeaponMovement
+    //
+    //ACTIVATION:
+    // - SimpleAnimator
+    //
+    public delegate void AnimationFinishedEvent(AfterAnimationAction afterAnimationAction);
+    public static event AnimationFinishedEvent AnimationFinished;
+    public static void OnAnimationFinishedEvent(AfterAnimationAction afterAnimationAction) => AnimationFinished?.Invoke(afterAnimationAction);
+
     #endregion
 
 

@@ -1,6 +1,5 @@
 public static class Constants
 {
-
     // for zenject
     public const string PLAYER = "PLAYER"; 
     public const string FORTRESS = "FORTRESS";

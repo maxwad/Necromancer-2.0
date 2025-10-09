@@ -88,7 +88,7 @@ namespace Enums
         Idle, Walk, Attack
     }
 
-    public enum AfterAnimation
+    public enum AfterAnimationAction
     {
         Nothing, Destroy, SetDisable
     }

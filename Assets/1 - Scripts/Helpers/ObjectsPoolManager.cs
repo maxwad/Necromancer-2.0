@@ -228,14 +228,14 @@ public class ObjectsPoolManager : MonoBehaviour
     private Dictionary<MonoBehaviour, Stack<MonoBehaviour>> discardedPrefabsPools = new();
     private Dictionary<MonoBehaviour, List<(MonoBehaviour instance, MonoBehaviour prefab)>> usedInstancesPool = new Dictionary<MonoBehaviour, List<(MonoBehaviour, MonoBehaviour)>>();
 
-    public T GetOrCreateElement<T>(T proto, MonoBehaviour forSource, Transform parent, bool setActive = true) where T : MonoBehaviour
+    public T GetOrCreateElement<T>(T proto, MonoBehaviour forSource, Transform parent, bool setActive = true, bool log = false) where T : MonoBehaviour
     {
         if(parent == null)
         {
             parent = root;
         }
 
-        T instance = GetInstance<T>(proto, forSource, parent, setActive);
+        T instance = GetInstance<T>(proto, forSource, parent, setActive, log);
 
         instance.gameObject.SetActive(setActive);
         instances.Add(instance);
@@ -280,7 +280,7 @@ public class ObjectsPoolManager : MonoBehaviour
 
             if(log)
             {
-                Debug.Log("Get NEW instance for " + prefab.name);
+                Debug.Log("Get NEW instance " + prefab.name + " for " + forSource.name);
             }
         }
 

@@ -160,7 +160,7 @@ public class CannonballController : MonoBehaviour
         dust.transform.SetParent(effectsContainer.transform);
         dust.SetActive(true);
 
-        PrefabSettings settings = dust.GetComponent<PrefabSettings>();
+        SimpleAnimationObject settings = dust.GetComponent<SimpleAnimationObject>();
         if(settings != null)
             settings.SetSettings(color: Color.gray, sortingOrder: -(int)transform.position.y * 100, sortingLayer: TagManager.T_PLAYER, animationSpeed: 0.1f);
     }

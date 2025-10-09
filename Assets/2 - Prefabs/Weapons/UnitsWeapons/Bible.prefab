@@ -95,11 +95,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22eb562bb5ae9c84b94ee96a49c0a2c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bottleDeath: {fileID: 0}
-  bottleShadowPrefab: {fileID: 0}
-  bottleShadowStartScale: {x: 1, y: 1, z: 1}
+  weapon: {fileID: 1717918677537358185}
+  weaponSprite: {fileID: 5863380598397360376}
+  weaponRB: {fileID: 0}
   speed: 200
   lifeTime: 0
+  deathEffect: {fileID: 0}
+  shadowPrefab: {fileID: 0}
 --- !u!1 &5863380598397360379
 GameObject:
   m_ObjectHideFlags: 0
