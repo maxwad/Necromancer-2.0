@@ -2,54 +2,28 @@ using System.Collections;
 using UnityEngine;
 using Zenject;
 
-public class InvertingWeapon : MonoBehaviour
+public class InvertingWeapon : EnemyWeapon
 {
     BattleArmyController battlePlayer;
-
-    private EnemyWeaponParameters weaponParameters;
-    private Coroutine coroutine;
-    private float attackPeriod;
-    private float attackDelay;
-    private float timeOffset;
-    private float currentTime = 0;
-    private float countOfShoot = 0;
-    private float currentShoot = 0;
-
 
     [Inject]
     public void Construct(BattleArmyController battlePlayer)
     {
         this.battlePlayer = battlePlayer;
-
-        weaponParameters = GetComponent<EnemyWeaponParameters>();
-        attackPeriod = weaponParameters.attackPeriod;
-        attackDelay = weaponParameters.attackDelay;
-        timeOffset = weaponParameters.timeOffset;
-        countOfShoot = Mathf.Floor(attackPeriod / attackDelay);
     }
 
-    private void OnEnable()
-    {
-        EventManager.EndOfBattle += Stop;
-
-        currentTime = 0;
-        currentShoot = 0;
-
-        coroutine = StartCoroutine(Attact());
-    }
-
-    private void Stop()
+    protected override void Stop()
     {
         gameObject.SetActive(false);
     }
 
-    private IEnumerator Attact()
+    protected override IEnumerator Attack()
     {
         while(currentShoot < countOfShoot)
         {
             yield return new WaitForSeconds(attackDelay - timeOffset);
 
-            Shot(true);
+            Shot();
 
             currentShoot++;
             currentTime += (attackDelay - timeOffset);
@@ -61,23 +35,22 @@ public class InvertingWeapon : MonoBehaviour
             currentTime += (attackPeriod - currentTime);
         }
 
-        Shot(false);
+        StopEffect();
         gameObject.SetActive(false);
     }
 
-    private void Shot(bool mode)
+    protected override void Shot()
     {
-        battlePlayer.MovementInverting(mode);
+        battlePlayer.MovementInverting(true);
     }
 
-    private void OnDisable()
+    protected override void SpecialDisableEffect()
     {
-        EventManager.EndOfBattle -= Stop;
+        StopEffect();
+    }
 
-        if(coroutine != null) 
-        {
-            StopCoroutine(coroutine);
-            Shot(false);
-        } 
+    private void StopEffect()
+    {
+        battlePlayer.MovementInverting(false);
     }
 }

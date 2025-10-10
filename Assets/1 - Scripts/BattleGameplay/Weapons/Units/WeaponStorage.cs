@@ -8,7 +8,7 @@ using Zenject;
 public class WeaponStorage : MonoBehaviour
 {
     [SerializeField] private List<Weapon> weaposPrefabs;
-    private List<Weapon> activeWeaponList;
+    private List<Weapon> activeWeaponList = new();
 
     [HideInInspector] public bool isBibleWork = false;
     //this is gross, i need rework it
@@ -74,7 +74,7 @@ public class WeaponStorage : MonoBehaviour
 
     private GameObject CreateWeapon(Unit unit)
     {
-        if(unit.isUnitActive == false)
+        if(!unit.isUnitActive)
         {
             Debug.Log("Unit is unActive in WeaponScript");
             return null;

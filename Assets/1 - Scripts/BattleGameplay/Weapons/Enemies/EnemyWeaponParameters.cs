@@ -3,7 +3,7 @@ using Enums;
 
 public class EnemyWeaponParameters : MonoBehaviour
 {
-    public ObjectPool bullet;
+    public BossWeapons weaponType;
     public float attackPeriod;
     public float attackDelay;
     public float timeOffset;

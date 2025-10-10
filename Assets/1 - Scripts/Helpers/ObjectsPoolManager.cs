@@ -225,6 +225,9 @@ public class ObjectsPoolManager : MonoBehaviour
         return obj;
     }
 
+
+
+
     private Dictionary<MonoBehaviour, Stack<MonoBehaviour>> discardedPrefabsPools = new();
     private Dictionary<MonoBehaviour, List<(MonoBehaviour instance, MonoBehaviour prefab)>> usedInstancesPool = new Dictionary<MonoBehaviour, List<(MonoBehaviour, MonoBehaviour)>>();
 

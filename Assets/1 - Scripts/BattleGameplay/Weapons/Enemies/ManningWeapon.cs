@@ -1,59 +1,21 @@
+using Enums;
 using System.Collections;
 using UnityEngine;
 using Zenject;
-using Enums;
 
-public class ManningWeapon : MonoBehaviour
+public class ManningWeapon : EnemyWeapon
 {
-    private ResourcesManager resourcesManager;
-    private ObjectsPoolManager objectsPoolManager;
-    private HeroController hero;
-
-    private EnemyWeaponParameters weaponParameters;
-    private Coroutine coroutine;
-    private float attackPeriod;
-    private float attackDelay;
-    private float timeOffset;
-    private float currentTime = 0;
-    private float countOfShoot = 0;
-    private float currentShoot = 0;
-
-    [Inject]
-    public void Construct(
-        ResourcesManager resourcesManager,
-        ObjectsPoolManager objectsPoolManager,
-        HeroController hero
-        )
+    protected override void Stop()
     {
-        this.resourcesManager = resourcesManager;
-        this.objectsPoolManager = objectsPoolManager;
-        this.hero = hero;
+        if(coroutine != null)
+        {
+            StopCoroutine(coroutine);
+        }
 
-        weaponParameters = GetComponent<EnemyWeaponParameters>();
-
-        attackPeriod = weaponParameters.attackPeriod;
-        attackDelay = weaponParameters.attackDelay;
-        timeOffset = weaponParameters.timeOffset;
-        countOfShoot = Mathf.Floor(attackPeriod / attackDelay);
-    }
-
-    private void OnEnable()
-    {
-        EventManager.EndOfBattle += Stop;
-
-        currentTime = 0;
-        currentShoot = 0;
-
-        coroutine = StartCoroutine(Attact());
-    }
-
-    private void Stop()
-    {
-        if(coroutine != null) StopCoroutine(coroutine);
         gameObject.SetActive(false);
     }
 
-    private IEnumerator Attact()
+    protected override IEnumerator Attack()
     {
         while(currentShoot < countOfShoot)
         {
@@ -74,23 +36,16 @@ public class ManningWeapon : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    private void Shot()
+    protected override void Shot()
     {
         resourcesManager.ChangeResource(ResourceType.Mana, -1);
 
-        GameObject death = objectsPoolManager.GetObject(ObjectPool.ManaDeath);
+        GameObject death = objectsPool.GetObject(ObjectPool.ManaDeath);
         death.transform.position = hero.transform.position;
         death.SetActive(true);
 
-        GameObject bloodSpot = objectsPoolManager.GetObject(ObjectPool.ManaSpot);
+        GameObject bloodSpot = objectsPool.GetObject(ObjectPool.ManaSpot);
         bloodSpot.transform.position = hero.transform.position;
         bloodSpot.SetActive(true);
-    }
-
-    private void OnDisable()
-    {
-        EventManager.EndOfBattle -= Stop;
-
-        if(coroutine != null) StopCoroutine(coroutine);
     }
 }

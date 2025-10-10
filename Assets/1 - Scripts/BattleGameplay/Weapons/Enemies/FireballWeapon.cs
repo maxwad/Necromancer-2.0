@@ -3,64 +3,26 @@ using System.Collections;
 using UnityEngine;
 using Zenject;
 
-public class FireballWeapon : MonoBehaviour
+public class FireballWeapon : EnemyWeapon
 {
-    private ObjectsPoolManager objectsPool;
     private GameObject player;
-
-    private EnemyWeaponParameters weaponParameters;
-    private Coroutine coroutine;
     private Coroutine appearing;
-    private SpriteRenderer spriteRenderer;
+    [SerializeField] private SpriteRenderer spriteRenderer;
 
     private bool isWatching = false;
-
-    private float attackPeriod;
-    private float attackDelay;
-    private float timeOffset;
-    private float currentTime = 0;
-    private float countOfShoot = 0;
-    private float currentShoot = 0;
-
     private float currentAngle = 0f;
     public int bulletCount = 3;
     public float wideSector = 81;
 
-    private ObjectPool bullet;
-
-    [Inject]
-    public void Construct(ObjectsPoolManager objectsPool, HeroController hero)
+    protected override void SpecialEnableEffect()
     {
-        this.objectsPool = objectsPool;
-        player = hero.gameObject;
-
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        weaponParameters = GetComponent<EnemyWeaponParameters>();
-
-        bullet = weaponParameters.bullet;
-        attackPeriod = weaponParameters.attackPeriod;
-        attackDelay = weaponParameters.attackDelay;
-        timeOffset = weaponParameters.timeOffset;
-        countOfShoot = Mathf.Floor(attackPeriod / attackDelay);
-    }
-
-    private void OnEnable()
-    {
-        EventManager.EndOfBattle += Stop;
-
-        currentTime = 0;
-        currentShoot = 0;
-
         isWatching = true;
-
         appearing = StartCoroutine(Fade(false));
-        coroutine = StartCoroutine(Attact());
-
     }
 
     private void Update()
     {
-        if(isWatching == true)
+        if(isWatching)
         {
             Vector3 targ = player.transform.position;
             targ.z = 0f;
@@ -90,7 +52,7 @@ public class FireballWeapon : MonoBehaviour
 
         Color currentColor = spriteRenderer.color;
 
-        if(fadeMode == false)
+        if(!fadeMode)
         {
             while(currentValue <= endValue)
             {
@@ -112,7 +74,7 @@ public class FireballWeapon : MonoBehaviour
         }
     }
 
-    private IEnumerator Attact()
+    protected override IEnumerator Attack()
     {
         while(currentShoot < countOfShoot)
         {
@@ -133,7 +95,7 @@ public class FireballWeapon : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    private void Shot()
+    protected override void Shot()
     {
         float startAngle = (currentAngle + wideSector / 2) - 180f;
         float angleStep = wideSector / (bulletCount - 1);
@@ -149,20 +111,29 @@ public class FireballWeapon : MonoBehaviour
         }
     }
 
-    private void Stop()
+    protected override void Stop()
     {
         isWatching = false;
-        if(appearing != null) StopCoroutine(appearing);
-        if(coroutine != null) StopCoroutine(coroutine);
+        if(appearing != null)
+        {
+            StopCoroutine(appearing);
+        }
+
+        if(coroutine != null)
+        {
+            StopCoroutine(coroutine);
+        }
+
         gameObject.SetActive(false);
     }
 
-    private void OnDisable()
+    protected override void SpecialDisableEffect()
     {
-        EventManager.EndOfBattle -= Stop;
-
         isWatching = false;
-        if(appearing != null) StopCoroutine(appearing);
-        if(coroutine != null) StopCoroutine(coroutine);
+
+        if(appearing != null)
+        {
+            StopCoroutine(appearing);
+        }
     }
 }
