@@ -1,18 +1,18 @@
-using Enums;
 using System.Collections;
 using UnityEngine;
-using Zenject;
 
 public class FireballWeapon : EnemyWeapon
 {
-    private GameObject player;
-    private Coroutine appearing;
-    [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] protected SpriteRenderer spriteRenderer;
+    [SerializeField] protected MonoBehaviour fireballPrefab;
+    [SerializeField] protected int bulletCount = 3;
+    [SerializeField] protected float wideSector = 81;
 
     private bool isWatching = false;
     private float currentAngle = 0f;
-    public int bulletCount = 3;
-    public float wideSector = 81;
+
+    private GameObject player;
+    private Coroutine appearing;
 
     protected override void SpecialEnableEffect()
     {
@@ -103,11 +103,10 @@ public class FireballWeapon : EnemyWeapon
         for(int i = 0; i < bulletCount; i++)
         {
             float angle = startAngle + angleStep * i;
-            GameObject currentBullet = objectsPool.GetObject(bullet);
+
+            MonoBehaviour currentBullet = objectsPool.GetOrCreateElement(fireballPrefab, this, effectsContainer.transform);
             currentBullet.transform.position = transform.position;
             currentBullet.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
-
-            currentBullet.SetActive(true);
         }
     }
 
@@ -124,6 +123,7 @@ public class FireballWeapon : EnemyWeapon
             StopCoroutine(coroutine);
         }
 
+        objectsPool.DiscardAll(this);
         gameObject.SetActive(false);
     }
 

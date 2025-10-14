@@ -1,6 +1,5 @@
 using Enums;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
@@ -20,19 +19,20 @@ public class EnemyWeapon : MonoBehaviour
     protected ResourcesManager resourcesManager;
     protected ObjectsPoolManager objectsPool;
     protected HeroController hero;
+    protected GameObject effectsContainer;
 
     [Inject]
     public void Construct(
         ResourcesManager resourcesManager,
         ObjectsPoolManager objectsPoolManager,
-        HeroController hero
+        HeroController hero,
+        [Inject(Id = Constants.EFFECTS_CONTAINER)] GameObject effectsContainer
         )
     {
         this.resourcesManager = resourcesManager;
         this.objectsPool = objectsPoolManager;
         this.hero = hero;
-
-        weaponParameters = GetComponent<EnemyWeaponParameters>();
+        this.effectsContainer = effectsContainer;
 
         attackPeriod = weaponParameters.attackPeriod;
         attackDelay = weaponParameters.attackDelay;

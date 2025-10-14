@@ -1,10 +1,10 @@
 using System.Collections;
 using UnityEngine;
-using Zenject;
-using Enums;
 
 public class LigtningWeapon : EnemyWeapon
 {
+    [SerializeField] protected MonoBehaviour ligtningPrefab;
+
     protected override void Stop()
     {
         if(coroutine != null)
@@ -20,8 +20,7 @@ public class LigtningWeapon : EnemyWeapon
         {
             yield return new WaitForSeconds(attackDelay - timeOffset);
 
-            GameObject currentBullet = objectsPool.GetObject(bullet);
-            currentBullet.SetActive(true);
+            MonoBehaviour currentBullet = objectsPool.GetOrCreateElement(ligtningPrefab, this, effectsContainer.transform);
             currentShoot++;
             currentTime += (attackDelay - timeOffset);
         }
@@ -32,6 +31,7 @@ public class LigtningWeapon : EnemyWeapon
             currentTime += (attackPeriod - currentTime);
         }
 
+        objectsPool.DiscardAll(this);
         gameObject.SetActive(false);
     }
 }

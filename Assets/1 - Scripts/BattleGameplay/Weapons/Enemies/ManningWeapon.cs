@@ -1,10 +1,12 @@
 using Enums;
 using System.Collections;
 using UnityEngine;
-using Zenject;
 
 public class ManningWeapon : EnemyWeapon
 {
+    [SerializeField] protected MonoBehaviour manaSpotPrefab;
+    [SerializeField] protected MonoBehaviour manaDeathPrefab;
+
     protected override void Stop()
     {
         if(coroutine != null)
@@ -33,6 +35,7 @@ public class ManningWeapon : EnemyWeapon
             currentTime += (attackPeriod - currentTime);
         }
 
+        objectsPool.DiscardAll(this);
         gameObject.SetActive(false);
     }
 
@@ -40,12 +43,10 @@ public class ManningWeapon : EnemyWeapon
     {
         resourcesManager.ChangeResource(ResourceType.Mana, -1);
 
-        GameObject death = objectsPool.GetObject(ObjectPool.ManaDeath);
+        MonoBehaviour death = objectsPool.GetOrCreateElement(manaDeathPrefab, this, effectsContainer.transform);
         death.transform.position = hero.transform.position;
-        death.SetActive(true);
 
-        GameObject bloodSpot = objectsPool.GetObject(ObjectPool.ManaSpot);
-        bloodSpot.transform.position = hero.transform.position;
-        bloodSpot.SetActive(true);
+        MonoBehaviour manaSpot = objectsPool.GetOrCreateElement(manaSpotPrefab, this, effectsContainer.transform);
+        manaSpot.transform.position = hero.transform.position;
     }
 }
