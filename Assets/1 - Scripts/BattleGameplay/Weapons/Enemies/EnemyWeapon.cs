@@ -5,7 +5,8 @@ using Zenject;
 
 public class EnemyWeapon : MonoBehaviour
 {
-    [SerializeField] protected EnemyWeaponParameters weaponParameters;
+    public float AttackPeriod => attackPeriod;
+
     [SerializeField] protected BossWeapons bullet;
     [SerializeField] protected float attackPeriod;
     [SerializeField] protected float attackDelay;
@@ -34,9 +35,6 @@ public class EnemyWeapon : MonoBehaviour
         this.hero = hero;
         this.effectsContainer = effectsContainer;
 
-        attackPeriod = weaponParameters.attackPeriod;
-        attackDelay = weaponParameters.attackDelay;
-        timeOffset = weaponParameters.timeOffset;
         countOfShoot = Mathf.Floor(attackPeriod / attackDelay);
     }
 

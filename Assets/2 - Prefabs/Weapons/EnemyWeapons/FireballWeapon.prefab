@@ -10,10 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1476980369946371219}
   - component: {fileID: 1476980369946371217}
-  - component: {fileID: 6972064913225919250}
   - component: {fileID: -6141980221875597196}
   m_Layer: 0
-  m_Name: BossFireball
+  m_Name: FireballWeapon
   m_TagString: Untagged
   m_Icon: {fileID: 5721338939258241955, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -26,12 +25,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1476980369946371218}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 60.76, y: 71.18, z: 20}
   m_LocalScale: {x: 6, y: 6, z: 3}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1476980369946371217
 SpriteRenderer:
@@ -85,22 +85,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &6972064913225919250
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1476980369946371218}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aade5fe8a4eb6a745ba78a4639aa537a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bullet: 17
-  attackPeriod: 12
-  attackDelay: 3
-  timeOffset: 0.5
 --- !u!114 &-6141980221875597196
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113,5 +97,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4590c84ceb4d06429a3e579a99ed679, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bullet: 1
+  attackPeriod: 12
+  attackDelay: 3
+  timeOffset: 0.5
+  currentTime: 0
+  countOfShoot: 0
+  currentShoot: 0
+  spriteRenderer: {fileID: 1476980369946371217}
+  fireballPrefab: {fileID: 8336442323267937209, guid: 3db11431c76a4cd46ab35b3a8c2d1826, type: 3}
   bulletCount: 3
   wideSector: 81

@@ -1,29 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using Enums;
 
 public class Fireball : MonoBehaviour
 {
-    private Rigidbody2D rb;
-    private SpriteRenderer spriteRenderer;
-    Vector3 direction;
-    private float movementSpeed = 5;
-    private float rotationSpeed = 3;
+    [SerializeField] private Rigidbody2D rb;
+    [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private float movementSpeed = 5;
+    [SerializeField] private float rotationSpeed = 3;
+    [SerializeField] private float damage = 15;
 
-    private float damage = 15;
+    private Vector3 direction;
 
     private void OnEnable()
     {
-        EventManager.EndOfBattle += Stop;
-
-        if(rb == null)
-        {
-            spriteRenderer = GetComponent<SpriteRenderer>();
-            rb = GetComponent<Rigidbody2D>();
-        }
-
         direction = rb.transform.up * movementSpeed;
+
+        EventManager.EndOfBattle += Stop;
     }
 
     private void Update()
@@ -38,13 +29,15 @@ public class Fireball : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-
-        //Debug.Log("touch");
-        if(collision.gameObject.CompareTag(TagManager.T_PLAYER) == true)
+        if(collision.gameObject.CompareTag(TagManager.T_PLAYER))
+        {
             collision.gameObject.GetComponent<HeroController>().TakeDamage(damage / 2, damage / 2);
+        }
 
-        if(collision.gameObject.CompareTag(TagManager.T_SQUAD) == true)
+        if(collision.gameObject.CompareTag(TagManager.T_SQUAD))
+        {
             collision.gameObject.GetComponent<UnitController>().TakeDamage(damage / 2, damage / 2);
+        }
     }
 
     private void Stop()

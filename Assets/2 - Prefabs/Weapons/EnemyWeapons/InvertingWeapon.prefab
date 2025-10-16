@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6256237596398498369}
   - component: {fileID: 6256237596398498370}
-  - component: {fileID: 4437989734591590540}
   - component: {fileID: -3293015743662477553}
   m_Layer: 0
   m_Name: InvertingWeapon
@@ -26,12 +25,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6256237596398498371}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -31.2235, y: 44.78979, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6256237596398498370
 SpriteRenderer:
@@ -85,22 +85,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &4437989734591590540
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6256237596398498371}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aade5fe8a4eb6a745ba78a4639aa537a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bullet: 18
-  attackPeriod: 5
-  attackDelay: 2
-  timeOffset: 0.1
 --- !u!114 &-3293015743662477553
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113,3 +97,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2095442e7f082b74aae8e600ec760a59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bullet: 3
+  attackPeriod: 5
+  attackDelay: 2
+  timeOffset: 0.1
+  currentTime: 0
+  countOfShoot: 0
+  currentShoot: 0

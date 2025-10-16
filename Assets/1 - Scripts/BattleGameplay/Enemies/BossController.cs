@@ -64,7 +64,7 @@ public class BossController : MonoBehaviour
         ApplyRune(false);
 
         weaponType = (BossWeapons)UnityEngine.Random.Range(0, Enum.GetValues(typeof(BossWeapons)).Length);
-        weaponType = (BossWeapons)0;
+        weaponType = (BossWeapons)3;
 
         waitCoroutine = StartCoroutine(Waiting());
     }
@@ -131,7 +131,7 @@ public class BossController : MonoBehaviour
 
             weapon = poolManager.GetBossWeapon(weaponType);
             weapon.transform.position = transform.position;
-            attackPeriod = weapon.GetComponent<EnemyWeaponParameters>().attackPeriod;
+            attackPeriod = weapon.GetComponent<EnemyWeapon>().AttackPeriod;
             weapon.SetActive(true);
             yield return new WaitForSeconds(attackPeriod);
 

@@ -17,6 +17,7 @@ public class FireballWeapon : EnemyWeapon
     protected override void SpecialEnableEffect()
     {
         isWatching = true;
+        player = hero.gameObject;
         appearing = StartCoroutine(Fade(false));
     }
 
@@ -24,6 +25,11 @@ public class FireballWeapon : EnemyWeapon
     {
         if(isWatching)
         {
+            if(player == null)
+            {
+               return;
+            }
+
             Vector3 targ = player.transform.position;
             targ.z = 0f;
 
@@ -104,9 +110,10 @@ public class FireballWeapon : EnemyWeapon
         {
             float angle = startAngle + angleStep * i;
 
-            MonoBehaviour currentBullet = objectsPool.GetOrCreateElement(fireballPrefab, this, effectsContainer.transform);
+            MonoBehaviour currentBullet = objectsPool.GetOrCreateElement(fireballPrefab, this, effectsContainer.transform, false);
             currentBullet.transform.position = transform.position;
             currentBullet.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+            currentBullet.gameObject.SetActive(true); // включается после поворота, иначе угол всегда будет нулевым
         }
     }
 
